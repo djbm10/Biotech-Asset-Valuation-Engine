@@ -1,0 +1,5081 @@
+[
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "19-28z/IL-18 CAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "20-19 Tan BB06oz CAR T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "4SCAR-CD22/CD123/CD38/CD10/CD20/TSLPR",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "4SCAR19/22 T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "7\u00d719-THEMIS CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Adult differentiated autologous T-cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ALLO-329",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ALLO-501",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ALLO-501A",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "alloCART-19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Allogeneic CD19-STAR T cell",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Allogeneic CD19/BCMA-targeted CAR-\u03b3\u03b4T cell injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "allogeneic cytomegalovirus-specific cytotoxic T lymphocytes",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Allogeneic, off-the-shelf CAR-T cell injection targeting BCMA and GPRC5D",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "allogenic anti-CD19/BCMA CAR-T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Allogenic CD19 CAR-\u03b3\u03b4T cell",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Allogenic CD19-CAR-\u03b3\u03b4T cell",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Anti-B Cell Maturation Antigen (BCMA) chimeric antigen receptors (CARs) T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Anti-B-cell maturation antigen (BCMA) chimeric antigen receptor (CAR) T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Anti-BCMA-CAR-transduced T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19 allo-CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 and anti-CD20 bicistronic CAR T- cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19 anti-CD20 Bispecific CAR-T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 CAR PBL",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 CAR T Cells Preparation",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 CAR-T cells and Anti-CD20 CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 CAR-T Cells Injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19 FasT CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 iCAR NK Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 UCAR-NK cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 Universal CAR-T Cells injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19-CAR CMV-specific T-lymphocytes",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19-CAR transduced T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19-CAR vector-transduced T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19-CAR \u03b3\u03b4T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19-chimeric-antigen-receptor-transduced T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19/20-CAR vector-transduced T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19/22-CAR vector-transduced T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19/BCMA U CAR T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19/BCMA U CAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19/BCMA-UCAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19/CD20/CD22 CAR T-Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19/CD22 Dual-Target Cord Blood CAR-T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-cluster of differentiation 19 (CD19)-CAR PBL",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-cluster of differentiation 19 (CD19)-Chimeric Antigen Receptor (CAR) T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-cluster of differentiation 19 (CD19)-Chimeric Antigen Receptors (CAR) and Anti-cluster of differentiation 20 (CD20)-CAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-PD1 armored CD19 CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ARI-0001",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ARI0003",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ARM011",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ASCT+CAR-T Cell Infusion",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Assigned Interventions CD19/BCMA CAR T-cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AT101",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AUTO3",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AUTO3 (CD19/22 CAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous 3rd generation CD19-targeting CAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous BCMA/CD19 dual-target CAR-T module",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous BCMA/CD38 dual-target CAR-T module",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD19 CAR+ EGFTt + T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD19-CD20-NKG2D-nsBicephali CAR-T Cell Injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD19-Directed CAR-T Cells Manufactured at Ribeir\u00e3o Preto Blood Center",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD19-STAR-T cell",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD19/CD20 dual-target CAR-T module",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD19/CD22 dual-target CAR-T module",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD19/CD22/CD20 Chimeric Antigen Receptor T-cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD33/CD123 dual-target CAR-T module",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD33/CLL1 dual-target CAR-T module",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous CD5/CD7 dual-target CAR-T module",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous hematopoietic stem cell transplantation combined with CD19 CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous hematopoietic stem cell transplantation combined with CD19-CART",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous HuCD19 ( Anti-CD19)CAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ T-lymphocytes",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous humanized anti-CD19 and anti-CD20 dual specific CAR-T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous Humanized CD19-Directed Chimeric Antigen Receptor T-Cells (huCART19)",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous, humanized anti-CD19 CAR T cell therapy (huCART19)",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Azer-cel",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "B-cell maturation antigen (BCMA) directed chimeric antigen receptor (CAR)-T cell",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BAFF-R CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "bb21217",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BCMA-CD19 cCAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "BCMA-specific CAR-expressing T Lymphocytes",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BCMA/CD19 dual-target CAR-T cell immunotherapy",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BCT301",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "bi-4SCAR CD19/70 T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "bi-4SCAR CD19/79b T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BinD19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BRL-201",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BZ019",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "C402-CD19-CAR",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CABA-201",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CAR-T Autologous T cell injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CAR-T-19 cell injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CAR19TIF cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CARCIK-CD19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CART-meso-19 T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "CB-011",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 CAR and PD-1 knock out engineered T-cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 CAR T Arm",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 CAR T-Cell(CAT19T2)",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 CAR-T cells and CD19 positive feeder T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 or CD20 CAR T cells briging HSCT",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 t-haNK- IV Administration",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 UCARTcells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 Universal CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-7\u00d719 CAR-T plus PD1 monoclonal antibody",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-BCMA dual nanobody based CAR-T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-CAR(Mem) T-cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-CAR-T2 Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-CAR_Lenti T cell",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-CD34 CAR transduced T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-CD34t metabolically programmed CAR transduced T-cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-PD1-CART Cell",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-specific chimeric antigen receptor",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-targetd CAR-T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-targeted iNKT Cell Injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19.CAR-CD28Z T Cells - dose escalation 1",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19.CAR-CD28Z T Cells - dose escalation 2",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19.CAR-multiVST for Group A",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19.CAR-multiVST for Group B",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/BAFF-R in vivo CAR-T cell intravenous infusion",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/BCMA Lupus Nephritis Targeted CAR T-cells injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/CD20 Dual-CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/CD20 Tandem Dual CAR-T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/CD20/BCMA CAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/CD22-CAR-transduced T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T-lymphocytes",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem T-lymphocytes",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19t-haNK suspension",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD20-CD19 cCAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD22 CAR-transduced T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD34 Graft/Anti-thymocyte globulin",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Chimeric antigen receptor T cell O&D-001 injection targeting BCMA and GPRC5D",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CLIC-1901",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CNCT19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Continue IS (B cell depletion therapy)",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Corticosteroids & tanCART19/20",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CRC01",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CT120",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CTX110",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CTX112",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "CYAD-211",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE"
+  ],
+  "name": "DLI",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "DT2219ARL",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "EGFRt/19-28z/IL-12 CAR T-lymphocytes",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ET190L1 ARTEMIS\u2122 T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ET190L1-ARTEMIS\u2122 T cells - iv high dose",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ET190L1-ARTEMIS\u2122 T cells -iv low dose",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ET190L1-ARTEMIS\u2122 T cells -iv middle dose",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Fast Dual CAR-T Injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "FCARH143",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "FIT-(BCMA+CD19)-CAR-T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Fully human anti CD19 CAR-T Cell Dose",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GC007F",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GC012F",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GC019F",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GC022",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GC022F",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE"
+  ],
+  "name": "Genetically Engineered Lymphocyte Therapy",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GLPG5101",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GoFast CD19 CAR T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "HBI0101",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Hem101",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "huCART19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "huCART19 Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "huCART19-IL18",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "huCART19-IL18-eDHFR cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "HY004",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "iC9/CAR.19/IL15-Transduced CB-NK Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IL-15-armored CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IL13Ralpha2-specific Hinge-optimized 4-1BB-co-stimulatory CAR/Truncated CD19-expressing Autologous TN/MEM Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IL13Ralpha2-specific Hinge-optimized 41BB-co-stimulatory CAR Truncated CD19-expressing Autologous T-Lymphocytes",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IM19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Infusion of 4SCAR-T specific to CD22/CD123/CD38/ CD10/CD20",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "infusion of GPRC5D-CD19 CAR T injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Interleukin-7 and Chemokine (C-C Motif) Ligand 19-expressing CD19-CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "JCAR014",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "JWCAR029",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "JWCAR201",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "JWCAR239",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KITE-363",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "KITE-585",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "KIV-318",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KN5601",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KUR-502",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "LCAR-B38M CAR-T Cell",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Liso-cel",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Manufactured Anti-BCMA CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "MC-1-50",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "MC-19PD1 CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "mCD19-CAR-CD28-CD3-zeta.(anti-CD19 CAR) retroviral vector-transduced allogeneic peripheral blood lymphocytes (PBL)",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Mixed CAR-T Transfer",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Mixed CD19/CD20 CAR-T Transfer",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Nanobody-Based CD19/CD22 Tandem Dual CAR-T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "NXC-201",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ORN252",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "P-BCMA-ALLO1 CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Patient Derived CD19 specific CAR T cells also expressing an EGFRt",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Patient-derived CD19- and CD22 specific CAR",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "PBCAR19B",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "PBCAR269A",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "pCAR-19B cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "PD1 specific integrated anti-CD19 Chimeric Antigen Receptor T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "PHE885",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "PRG-2311",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "PZ01",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "QH103",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "QT-219CX",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RC19D2 cell injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "regimen with BTK inhibitor +Anti-CD19 CAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RGV004",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RJMty19 (CD19-CAR-DNT cells)",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RNA anti-CD19 CAR T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RPM CD19-mbIL15-CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RXIM002",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "S1904 CD19 CAR-T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SCRI-huCAR19v1",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SCRI-huCAR19v2",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Second generation CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Second generation humanized CAR-T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Second Infusion of Commercial Anti-CD19 CAR-T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Senl-h19 CAR-T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Senl_B19 autologous CAR-T (S1904) treatment",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Sequential Treatment With different CART",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SJCAR19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SNUH-CD19-CAR-T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Specificity CD38 CAR-T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ssCART-19 Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Sup19 CAR-T",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "SYS6020",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "T cell injection targeting CD19 chimeric antigen receptor",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Targeted BCMA Autologous CART Cell Injection",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TBI-1501",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TCR reserved and Power3 (SPPL3) Gene Knock-out Allogeneic CD19-targeting CAR-T cell",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TCR reserved and Power3 (SPPL3) gene knock-out allogeneic CD19-targeting CAR-T cell (ATHENA-2 CAR-T)",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "The Chimeric Antigen Receptor T Cell Immunotherapy (CAR-T)",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TmCD19-IL18",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TranspoCART19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "UCAR T-cell group",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "UCART19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "UF-KURE-BCMA CAR T-cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "universal allogeneic anti-CD19/BCMA CAR T-cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Universal CD19-specific CAR gene-engineered T cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Universal Dual Specificity CD19 and CD20 or CD22 CAR-T Cells",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "UTAA09",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Welgenaleucel",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "WZTL-002",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "XYF19",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "zevor-cel",
+  "route": "CONSTRUCT_CORROBORATED"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ABO2203",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ACT-1014",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BC19",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BH2024",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BLB101",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BR101",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BRL-302",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BZE2204",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "C752",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CAR-011",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CAR-20",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "CAR011",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CAR039",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CAR066",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "CAR088",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CAR2219",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CART20",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CART2019",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "CBG-002",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CC312",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CCL19",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-UCART",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CF33",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CP-195",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CT1182",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CT1190B",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "DISP-10",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "DS-5670a",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "DSCAR01",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "EGFR806",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ET019002",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ET019003",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "FKC876",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "FT576",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "FT839",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GB5005",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GI001",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GNR-084",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GT719",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GT801",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "IASO206",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IASO207",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IC19",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ICAR19",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ICG318",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IMJ995",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IMPT-514",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "JY231",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KCAT19",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KN5501",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KQ-2002",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KQ-2003",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KSV01",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KURE19",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "LV009",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "MWN109",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "NK019",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "NK19",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "OM3436",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "PCAR-019",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "PID23",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "PL001",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "PRG-1801",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "QI-019A",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "QI-019B",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "QT-019B",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "QT-219C",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "QUAIL-100",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RD06",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RM-718",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RN1101",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RN1201",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RN1701",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RN9101",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RP25",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RS001",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SHB-02",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SL1617",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SL19",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SYNCAR-100",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TAC01",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TCE11",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TI-0032",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "UCART019",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "UCD19",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "VV111",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "YTS109",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ZM001",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ZZSW-01",
+  "route": "DEVELOPMENT_CODE_AUTHORITY"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "bivalent",
+  "route": "ENTITY_CORROBORATED_PROSE"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Fludarabine-based",
+  "route": "ENTITY_CORROBORATED_PROSE"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Abecma",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AUCATZYL",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "AZD0486",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Breyanzi",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Carvykti",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Cyclophosphamide Monohydrate",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "ELREXFIO",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IL-15",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "MONJUVI",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Natural Killer Cells",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "natural killer cells",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Uplizna",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "zoledronic",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Zoledronic",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Zynlonta",
+  "route": "ENTITY_CORROBORATED_SYNONYM"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "19(T2)28z1xx CAR T cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "1A46 Drug Substance",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "1A46 Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "[18F]Fluoropropyl-Trimethoprim",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AcNK-Sup003 cell injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AcNK-Sup003 cell injection solution",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Administration of ceralasertib in combination with AZD5305",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Administration of ceralasertib in combination with carboplatin",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ALA-101",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ALETA-001",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "allogeneic cord blood-derived, dual-targeting CD19/BCMA CAR-T cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "alpha beta depletion",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AMG 562",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-BCMA and CD19 CART cells will be injected intravenously on a one-time basis",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "anti-BCMA/CD3 bispecific antibody",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 CART cells will be given IV at split doses.",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 gene injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19 IL-10/IL15 CAR-NK",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "anti-CD19 UCAR-T cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Anti-CD19/BCMA CAR gene vector injection will be injected intravenously on a one-time basis",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ATA3219",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ATG-201",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Autologous Anti-CD19 CAR-expressing T Lymphocytes",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "axi-cel",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AZD0120",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AZD5462",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "AZD7789",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "B4",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BCMA CAR-T or CD19 CAR-T or CD19\u00d7BCMA",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BF4",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Bispecific antibody-based combined with CAR-T cell therapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BiTE (BCMA x CD3 Bispecific Antibody)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BiTE (CD19 x CD3 Bispecific Antibody)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BiTE-EV",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Blinatumomab and Inotuzumab Ozogamicin",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BLINCYTO (Blinatumomab)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BMS-986337",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "BRL-301",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Carfilzomib, Lenalidomide, Dexamethasone, Belantamab Mafodotin",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CB-010",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD 19+22",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 CAR-T cells injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 CAR-T cells were administered to patients with relapsed/refractory autoimmune diseases",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 redirected autologous T cells (CTL019 or CTL119 cells)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19 UCAR-T cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19&CD20 bispecific CAR-T cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19&CD22 bispecific CAR-T cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-BCMA Targeted CAR-T Dose 1",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-BCMA Targeted CAR-T Dose 2",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-CAR-NK Cells Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19-CAR_Lenti_ALLO",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/BCMA in vivo CAR-T",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/BCMA-targeted CAR-T lentiviral vector drug",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/BCMA-Targeted Universal Chimeric Antigen Receptor T Cells (UCAR-T) infusing",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/CD20 CAR-T cell infusion",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19/CD20/BCMA CAR-T",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19CAR-CD3Zeta-4-1BB-Expressing Autologous T-Lymphocyte Cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "CD19CART",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD19x22 CAR T Cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD22/CD19 CAR-T cell immunotherapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CD22CART infusion",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Chemotherapy Agents",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Chemotherapy Regimen",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "chidamide",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Chidamide and Decitabine",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CHT105",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Cilta-cel",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CLN-978",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "CM336",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "CM336 Plus Isatuximab",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Comparator: Placebo",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Conditioning chemotherapy followed by AbTCR (anti-CD19/CD22)-T cell infusion",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Corticosteroids",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CRT-402",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CS0159",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CS060304",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CTA101",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CTA30X",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "CUCART19",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Cyclophosphamide and Fludarabine lymphodepleting chemotherapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Cyclophosphamide or Bendamustine",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE",
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Cyclophosphamide,Fludarabine",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Cyclophosphamide-based chemotherapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "DA-8010",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Donor-derived CD19 CAR Therapy Bridged Allo-HSCT and Sequential Donor-derived CD22 CAR Therapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Drug\uff1aCD19 CAR-T",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Dual Specificity CD19 and CD22 CAR-T Cell Immunotherapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "DuoCAR20.19.22-D95",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Elranatamab (PF-06863135)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Elranatamab + lenalidomide + dexamethasone",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Elranatamab + Nirogacestat",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Epcoritamab, lenalidomide and rituximab",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "ESO-T01",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "ESO-T01 Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ETH47",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ETR028, ETR029, [ETR028 + ETR029] or HCBT",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE"
+  ],
+  "name": "Experimental Intervention",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "F182112 single-agent",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "FKC288",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "FKC289",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Fludarabine + Cyclophosphamide + CAR-NK-CD19 Cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "fludarabine and cyclophosphamide",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Fludarabine, Cyclophosphamide",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "FT819",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "G-CSF",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Group 1: Dara-VRD followed by apheresis and cilta-cel infusion",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Group 2: Apheresis followed by Dara-VRD and cilta-cel infusion",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "GRT-R914, samRNA-Spikebeta-TCE9",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "HB2198",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "HEC585",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Human BCMA targeted CAR-NK cells injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Human BCMA targeted T Cells Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Human CD19 Targeted DASH CAR-T Cells Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Human CD19 targeted T Cells Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Human CD19-CD22 Targeted T Cells Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Human CD19Targeted T Cells Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Human Derived anti-BCMA CAR-T Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE"
+  ],
+  "name": "Hyper-CVAD",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Ibrutinib, Acalabrutinib, Zanubrutinib, or Pirtobrutinib",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IKS03",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "IL-2",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "in vivo CAR-T drug based on LNP-mRNA",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "INCA000585",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Induction Chemotherapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Induction Therapy Regimen",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KITE-753",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KSVCBD injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KT501",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KT502",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KYMRIAH",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "KYV-101",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "L218CAR19",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Leukotriene B4",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "LY2403021",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Lymphodepleting Conditioning",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Lymphodepletion Chemotherapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Metabolically Armed CD19 CAR-T cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Microtracer matching placebo (MAD - ADME)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE"
+  ],
+  "name": "mini-hyperCVD",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Mitoxantrone hydrochloride liposome Injection-based bridging therapy+ Fludarabine-based chemotherapy +CD19 CAR-T Cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "MMF Immunosuppression",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Modified Ponticelli regimen",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "MT-8421",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "mTOR inhibitor with nab-paclitaxel",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "MWN117",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "N-Acetylcysteine",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "N803",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Nanobody-based biepitope BCMA-targeting CAR-T cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Nivolumab Injection [Opdivo]",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "NKTR-255",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "NKX019",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "NXC-201 (formerly HBI0101)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "OJR520",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "Oral Dexamethasone",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "OriV508 Injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Panobinostat (LBH589)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "PF-06863135 + lenalidomide",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "PF-06863135 + pomalidomide",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Placebo (MAD)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Placebo (SAD)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Placebo for ABI-H0731",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Placebo inhalation solution",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Placebo oral capsule",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "polatuzumab",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Polymer-Lipid Nanoparticle-Mediated Delivery of CD19/CD20 Dual-Targeting InViVoCAR1920 mRNA for CAR-T Cell Immunotherapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Post-CR Consolidation Regimens",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Pre-Treatment Regimen",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Prednisone, Olverembatinib, Blinatumomab, Chidamide",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE"
+  ],
+  "name": "Preparative regimen",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "PRG2302",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "QEL-005",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "QT-019C",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE"
+  ],
+  "name": "R-mini-CHOP",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RD133",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Relma-cel",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Retlirafusp alfa / Indole-3-carbinol + Black garlic fermentation extract / Lactobacillus rhamnosus / Placebo + Paclitaxel + Cisplatin (TP regimen) plus PD-1 inhibitor",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Retroviral vector-transduced autologous T cells to express CD22-specific CARs",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "rhDNase I",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Rituximab, Cyclophosphamide, and Corticosteroids",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "RO7248824",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5"
+  ],
+  "expected_veto": [],
+  "name": "S103 cells",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SC291",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SGN-CD19B",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SNC116",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ssCART-19",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "standard corticosteroid treatment",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE"
+  ],
+  "name": "Standard of Care",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Standard of Care Treatment",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "STK-009",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "STR-P004",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SYNCAR-001",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "SynKIR-310",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "T-allo10 cells addback",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE",
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Tafasitamab plus lenalidomide",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TC011",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "TCR\u03b1\u03b2+/CD19+ depleted allogeneic hematopoietic stem cell transplant (HSCT)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Tecartus",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "ThisCART19A",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE",
+   "Q2_COMPOSITE_OF_NAMED_DRUGS"
+  ],
+  "name": "Tislelizumab + Zanubrutinib",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [
+   "Q1_NCIT_NON_PRODUCT_TYPE"
+  ],
+  "name": "Treatment",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Treg CD34+HSPC (Orca-T)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Triple-targeted CAR-T Therapy",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "U96",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "UCAR T-cell",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "umbilical cord blood CD19-BCMA CAR-T cells infusion",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Universal BCMA CAR-T",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Universal BCMA CAR-T; Universal CD19 CAR-T",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Universal CD19 CAR-T",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "WGb-0301 injection",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Withhold IS (B cell depletion therapy)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Withhold IS (MMF or MPA)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "Withhold IS (MTX)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "YESCARTA",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "YK012",
+  "route": "STRUCTURED_THERAPEUTIC"
+ },
+ {
+  "benchmarks": [
+   "mint5",
+   "tac01"
+  ],
+  "expected_veto": [],
+  "name": "zamtocabtagene autoleucel (MB-CART2019.1)",
+  "route": "STRUCTURED_THERAPEUTIC"
+ }
+]
