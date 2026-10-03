@@ -1,0 +1,167 @@
+===== tac01
+TOP20 base | new (target gate)
+ 1 Brexucabtagene Autoleucel          PASS    | Brexucabtagene Autoleucel          PASS
+ 2 Axicabtagene Ciloleucel            PASS    | Axicabtagene Ciloleucel            PASS
+ 3 Lisocabtagene Maraleucel           PASS    | Lisocabtagene Maraleucel           PASS
+ 4 Tisagenlecleucel                   PASS    | Tisagenlecleucel                   PASS
+ 5 CC-97540                           PASS    | CC-97540                           PASS
+ 6 cemacabtagene ansegedleucel        PASS    | cemacabtagene ansegedleucel        PASS
+ 7 Prizloncabtagene Autoleucel        PASS    | Prizloncabtagene Autoleucel        PASS
+ 8 Tabelecleucel                      UNKNOWN | Anbalcabtagene Autoleucel          PASS
+ 9 ALLO-715                           UNKNOWN | Varnimcabtagene autoleucel         PASS
+10 Anbalcabtagene Autoleucel          UNKNOWN | Tabelecleucel                      UNKNOWN
+11 Anitocabtagene autoleucel          UNKNOWN | Lifileucel                         UNKNOWN
+12 CT053                              UNKNOWN | resecabtagene autoleucel           UNKNOWN
+13 equecabtagene autoleucel           UNKNOWN | satricabtagene autoleucel          UNKNOWN
+14 Lifileucel                         UNKNOWN | TAK-007                            UNKNOWN
+15 orvacabtagene autoleucel           UNKNOWN | CNCT19                             PASS
+16 resecabtagene autoleucel           UNKNOWN | KITE-753                           PASS
+17 satricabtagene autoleucel          UNKNOWN | Fludarabine-based                  UNKNOWN
+18 TAK-007                            UNKNOWN | NKTR-255                           UNKNOWN
+19 Varnimcabtagene autoleucel         UNKNOWN | R-mini-CHOP                        UNKNOWN
+20 CNCT19                             UNKNOWN | 7×19-THEMIS CAR-T cells            PASS
+NEW FACTS ON TOP-50 ASSETS (either run):
+  BZ019 base#None new#30 -> [['TARGET:CD19']] gate UNKNOWN->PASS | C190113 via 'BZ019'
+  ALLO-715 base#9 new#None -> [['TARGET:TNFRSF17']] gate UNKNOWN->FAIL | C165779 via 'ALLO-715'
+  Anbalcabtagene Autoleucel base#10 new#8 -> [['TARGET:CD19']] gate UNKNOWN->PASS | C180584 via 'Anbalcabtagene Autoleucel'
+  orvacabtagene autoleucel base#15 new#None -> [['TARGET:TNFRSF17']] gate UNKNOWN->FAIL | C147523 via 'orvacabtagene autoleucel'
+  CT120 base#None new#41 -> [['TARGET:CD19', 'TARGET:CD22']] gate UNKNOWN->PASS | C142834 via 'CT120'
+  equecabtagene autoleucel base#13 new#None -> [['TARGET:TNFRSF17']] gate UNKNOWN->FAIL | C185123 via 'equecabtagene autoleucel'
+  CNCT19 base#20 new#15 -> [['TARGET:CD19']] gate UNKNOWN->PASS | C175465 via 'CNCT19'
+  Anitocabtagene autoleucel base#11 new#None -> [['TARGET:TNFRSF17']] gate UNKNOWN->FAIL | C199003 via 'Anitocabtagene autoleucel'
+  Varnimcabtagene autoleucel base#19 new#9 -> [['TARGET:CD19']] gate UNKNOWN->PASS | C179725 via 'Varnimcabtagene autoleucel'
+  KITE-753 base#22 new#16 -> [['TARGET:CD19', 'TARGET:MS4A1']] gate UNKNOWN->PASS | C227826 via 'KITE-753'
+  CT053 base#12 new#None -> [['TARGET:TNFRSF17']] gate UNKNOWN->FAIL | C165507 via 'CT053'
+TOP-50 movements:
+  Anbalcabtagene Autoleucel 10 -> 8 gate UNKNOWN->PASS
+  Varnimcabtagene autoleucel 19 -> 9 gate UNKNOWN->PASS
+  Tabelecleucel 8 -> 10 gate UNKNOWN->UNKNOWN
+  Lifileucel 14 -> 11 gate UNKNOWN->UNKNOWN
+  resecabtagene autoleucel 16 -> 12 gate UNKNOWN->UNKNOWN
+  satricabtagene autoleucel 17 -> 13 gate UNKNOWN->UNKNOWN
+  TAK-007 18 -> 14 gate UNKNOWN->UNKNOWN
+  CNCT19 20 -> 15 gate UNKNOWN->PASS
+  KITE-753 22 -> 16 gate UNKNOWN->PASS
+  Fludarabine-based 21 -> 17 gate UNKNOWN->UNKNOWN
+  NKTR-255 23 -> 18 gate UNKNOWN->UNKNOWN
+  R-mini-CHOP 24 -> 19 gate UNKNOWN->UNKNOWN
+  7×19-THEMIS CAR-T cells 25 -> 20 gate PASS->PASS
+  ALLO-501A 26 -> 21 gate PASS->PASS
+  Allogeneic CD19-STAR T cell 27 -> 22 gate PASS->PASS
+  Allogenic CD19-CAR-γδT cell 28 -> 23 gate PASS->PASS
+  Anti-CD19 CAR-T cells and Anti-CD20 CAR- 29 -> 24 gate PASS->PASS
+  Anti-CD19 UCAR-NK cells 30 -> 25 gate PASS->PASS
+  Anti-cluster of differentiation 19 (CD19 31 -> 26 gate PASS->PASS
+  ASCT+CAR-T Cell Infusion 32 -> 27 gate PASS->PASS
+  Autologous 3rd generation CD19-targeting 33 -> 28 gate PASS->PASS
+  Autologous CD19-STAR-T cell 34 -> 29 gate PASS->PASS
+  BZ019 None -> 30 gate UNKNOWN->PASS
+  CAR19TIF cells 35 -> 31 gate PASS->PASS
+  CARCIK-CD19 36 -> 32 gate PASS->PASS
+  CD19 or CD20 CAR T cells briging HSCT 37 -> 33 gate PASS->PASS
+  CD19 t-haNK- IV Administration 38 -> 34 gate PASS->PASS
+  CD19&CD20 bispecific CAR-T cells 39 -> 35 gate PASS->PASS
+  CD19&CD22 bispecific CAR-T cells 40 -> 36 gate PASS->PASS
+  CD19-CD34t metabolically programmed CAR  41 -> 37 gate PASS->PASS
+  CD19-PD1-CART Cell 42 -> 38 gate PASS->PASS
+  CD19/CD22-CAR-transduced T cells 43 -> 39 gate PASS->PASS
+  CRC01 44 -> 40 gate PASS->PASS
+  CT120 None -> 41 gate UNKNOWN->PASS
+  CTX112 45 -> 42 gate PASS->PASS
+  Dual Specificity CD19 and CD22 CAR-T Cel 46 -> 43 gate PASS->PASS
+  GC022F 47 -> 44 gate PASS->PASS
+  Genetically Engineered Lymphocyte Therap 48 -> 45 gate PASS->PASS
+  GLPG5101 49 -> 46 gate PASS->PASS
+  Hem101 50 -> 47 gate PASS->PASS
+  Human CD19Targeted T Cells Injection None -> 48 gate PASS->PASS
+  Interleukin-7 and Chemokine (C-C Motif)  None -> 49 gate PASS->PASS
+  Polymer-Lipid Nanoparticle-Mediated Deli None -> 50 gate PASS->PASS
+  LEFT ALLO-715 9 -> out gate UNKNOWN->FAIL
+  LEFT Anitocabtagene autoleucel 11 -> out gate UNKNOWN->FAIL
+  LEFT CT053 12 -> out gate UNKNOWN->FAIL
+  LEFT equecabtagene autoleucel 13 -> out gate UNKNOWN->FAIL
+  LEFT orvacabtagene autoleucel 15 -> out gate UNKNOWN->FAIL
+===== mint5
+TOP20 base | new (target gate)
+ 1 ICG318                             UNKNOWN | ICG318                             UNKNOWN
+ 2 mezigdomide                        UNKNOWN | mezigdomide                        UNKNOWN
+ 3 pomalidomide                       UNKNOWN | pomalidomide                       UNKNOWN
+ 4 vedolizumab                        UNKNOWN | vedolizumab                        UNKNOWN
+ 5 AZD0120                            PASS    | AZD0120                            PASS
+ 6 CABA-201                           UNKNOWN | FKC289                             PASS
+ 7 FKC289                             PASS    | GC012F                             PASS
+ 8 GC012F                             PASS    | umbilical cord blood CD19-BCMA CAR PASS
+ 9 umbilical cord blood CD19-BCMA CAR PASS    | CD19-BCMA dual nanobody based CAR- PASS
+10 CD19-BCMA dual nanobody based CAR- PASS    | BC19                               UNKNOWN
+11 BC19                               UNKNOWN | BH2024                             UNKNOWN
+12 BH2024                             UNKNOWN | budoprutug                         UNKNOWN
+13 budoprutug                         UNKNOWN | CD19CART                           UNKNOWN
+14 CD19CART                           UNKNOWN | Chemotherapy Agents                UNKNOWN
+15 Chemotherapy Agents                UNKNOWN | CM336                              UNKNOWN
+16 CM336                              UNKNOWN | CRT-402                            UNKNOWN
+17 CNCT19                             UNKNOWN | Fludarabine, Cyclophosphamide      UNKNOWN
+18 CRT-402                            UNKNOWN | FT839                              UNKNOWN
+19 Fludarabine, Cyclophosphamide      UNKNOWN | IMPT-514                           UNKNOWN
+20 FT819                              UNKNOWN | Inaticabtagene autoleucel          UNKNOWN
+NEW FACTS ON TOP-50 ASSETS (either run):
+  SYS6020 base#29 new#None -> [['TARGET:TNFRSF17']] gate UNKNOWN->FAIL | C215083 via 'SYS6020'
+  equecabtagene autoleucel base#33 new#None -> [['TARGET:TNFRSF17']] gate UNKNOWN->FAIL | C185123 via 'equecabtagene autoleucel'
+  CNCT19 base#17 new#None -> [['TARGET:CD19']] gate UNKNOWN->FAIL | C175465 via 'CNCT19'
+  CABA-201 base#6 new#None -> [['TARGET:CD19']] gate UNKNOWN->FAIL | C203740 via 'CABA-201'
+  IM19 base#23 new#None -> [['TARGET:CD19']] gate UNKNOWN->FAIL | C155888 via 'IM19'
+  HBI0101 base#22 new#None -> [['TARGET:TNFRSF17']] gate UNKNOWN->FAIL | C205068 via 'HBI0101'
+  FT819 base#20 new#None -> [['TARGET:CD19']] gate UNKNOWN->FAIL | C176850 via 'FT819'
+  BCMA-CD19 cCAR T cells base#None new#38 -> [['TARGET:CD19', 'TARGET:TNFRSF17']] gate None->PASS | C174412 via 'BCMA-CD19 cCAR T cells'
+TOP-50 movements:
+  FKC289 7 -> 6 gate PASS->PASS
+  GC012F 8 -> 7 gate PASS->PASS
+  umbilical cord blood CD19-BCMA CAR-T cel 9 -> 8 gate PASS->PASS
+  CD19-BCMA dual nanobody based CAR-T Cell 10 -> 9 gate PASS->PASS
+  BC19 11 -> 10 gate UNKNOWN->UNKNOWN
+  BH2024 12 -> 11 gate UNKNOWN->UNKNOWN
+  budoprutug 13 -> 12 gate UNKNOWN->UNKNOWN
+  CD19CART 14 -> 13 gate UNKNOWN->UNKNOWN
+  Chemotherapy Agents 15 -> 14 gate UNKNOWN->UNKNOWN
+  CM336 16 -> 15 gate UNKNOWN->UNKNOWN
+  CRT-402 18 -> 16 gate UNKNOWN->UNKNOWN
+  Fludarabine, Cyclophosphamide 19 -> 17 gate UNKNOWN->UNKNOWN
+  FT839 21 -> 18 gate UNKNOWN->UNKNOWN
+  IMPT-514 24 -> 19 gate UNKNOWN->UNKNOWN
+  Inaticabtagene autoleucel 25 -> 20 gate UNKNOWN->UNKNOWN
+  INCA000585 26 -> 21 gate UNKNOWN->UNKNOWN
+  Lymphodepletion Chemotherapy 27 -> 22 gate UNKNOWN->UNKNOWN
+  QEL-005 28 -> 23 gate UNKNOWN->UNKNOWN
+  AT-007 30 -> 24 gate UNKNOWN->UNKNOWN
+  busulfan 31 -> 25 gate UNKNOWN->UNKNOWN
+  Elbasvir 32 -> 26 gate UNKNOWN->UNKNOWN
+  OM3436 34 -> 27 gate UNKNOWN->UNKNOWN
+  Placebo for ABI-H0731 35 -> 28 gate UNKNOWN->UNKNOWN
+  Retlirafusp alfa / Indole-3-carbinol + B 36 -> 29 gate UNKNOWN->UNKNOWN
+  RM-718 37 -> 30 gate UNKNOWN->UNKNOWN
+  TCRαβ+/CD19+ depleted allogeneic hematop 38 -> 31 gate UNKNOWN->UNKNOWN
+  Vonsetamig 39 -> 32 gate UNKNOWN->UNKNOWN
+  Allogeneic CD19/BCMA-targeted CAR-γδT ce 40 -> 33 gate PASS->PASS
+  allogeneic umbilical cord blood-derived  41 -> 34 gate PASS->PASS
+  allogenic anti-CD19/BCMA CAR-T 42 -> 35 gate PASS->PASS
+  anti-CD19/BCMA U CAR T cells 43 -> 36 gate PASS->PASS
+  Assigned Interventions CD19/BCMA CAR T-c 44 -> 37 gate PASS->PASS
+  BCMA-CD19 cCAR T cells None -> 38 gate None->PASS
+  CD19-BCMA Targeted CAR-T Dose 1 45 -> 39 gate PASS->PASS
+  CD19-BCMA Targeted CAR-T Dose 2 46 -> 40 gate PASS->PASS
+  CD19/BCMA in vivo CAR-T 47 -> 41 gate PASS->PASS
+  CD19/BCMA Lupus Nephritis Targeted CAR T 48 -> 42 gate PASS->PASS
+  FIT-(BCMA+CD19)-CAR-T Cells 49 -> 43 gate PASS->PASS
+  KN5601 50 -> 44 gate PASS->PASS
+  KSVCBD injection None -> 45 gate PASS->PASS
+  KT501 None -> 46 gate PASS->PASS
+  PRG-2311 None -> 47 gate PASS->PASS
+  QT-019C None -> 48 gate PASS->PASS
+  QT-219CX None -> 49 gate PASS->PASS
+  UCAR T-cell None -> 50 gate PASS->PASS
+  LEFT CABA-201 6 -> out gate UNKNOWN->FAIL
+  LEFT CNCT19 17 -> out gate UNKNOWN->FAIL
+  LEFT FT819 20 -> out gate UNKNOWN->FAIL
+  LEFT HBI0101 22 -> out gate UNKNOWN->FAIL
+  LEFT IM19 23 -> out gate UNKNOWN->FAIL
+  LEFT SYS6020 29 -> out gate UNKNOWN->FAIL
+  LEFT equecabtagene autoleucel 33 -> out gate UNKNOWN->FAIL

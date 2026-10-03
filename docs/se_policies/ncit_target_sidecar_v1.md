@@ -341,3 +341,109 @@ The Stage H implementation `0c5f847` is restored byte-for-byte.
 
 **Source contract.** The source contract is `docs/se_sources/ncit.md`, and it must exist
 before adoption.
+
+## 10. Result — Stage P, 2026-10-02, code `16b80f1`
+
+**Runs** (sealed replays, sidecar token `ncit_target_sidecar_v1@ncit_26.08e@2cbcd3f4b18d22b6`
+recorded in each manifest):
+- `~/se_runs/tac01_ncit_v1`
+- `~/se_runs/tac01_ncit_v1_det`
+- `~/se_runs/mint5_ncit_v1`
+
+**Scorer outputs:**
+- `scripts/score_ncit_stage_p.py` → `research/se_ncit/stage_p_v1.txt`;
+- top-50 comparison through `build_shortlist(limit=50)` → `research/se_ncit/stage_p_top50_v1.txt`.
+
+The optional sidecar-off run was not executed. Unit tests cover the fail-closed behaviour.
+
+### P0 (determinism): PASS
+
+Between the two TAC01 runs, these are byte-identical:
+- the `construct_target_set` facts;
+- the NCIt dispositions (129);
+- the ranking;
+- the top-50 shortlist.
+
+### P1 (hand audit of every new top-50 fact): PASS, 0 false out of 19
+
+For each fact I checked the NCIt concept, the link name, and the mechanism sentence against
+the product.
+
+| Run | Asset | NCIt concept | Fact |
+|---|---|---|---|
+| TAC01 | ALLO-715 | C165779 | BCMA |
+| TAC01 | anbal-cel | C180584, alias CRC01 | CD19 |
+| TAC01 | anito-cel | C199003 | BCMA |
+| TAC01 | CT053 | C165507 | BCMA |
+| TAC01 | eque-cel | C185123, alias CT103A | BCMA |
+| TAC01 | orva-cel | C147523, alias JCARH125 | BCMA |
+| TAC01 | varnim-cel | C179725, alias ARI-0001 | CD19 |
+| TAC01 | CNCT19 | C175465 | CD19 |
+| TAC01 | KITE-753 | C227826 | CD19 + CD20 |
+| TAC01 | CT120 | C142834 | CD19 + CD22 |
+| TAC01 | BZ019 | C190113 | CD19 |
+| mint5 | CNCT19 | C175465 | CD19 |
+| mint5 | CABA-201 | C203740 | CD19 |
+| mint5 | IM19 | C155888 | CD19 |
+| mint5 | FT819 | C176850 | CD19 |
+| mint5 | eque-cel | C185123 | BCMA |
+| mint5 | HBI0101 | C205068 | BCMA |
+| mint5 | SYS6020 | C215083 | BCMA |
+| mint5 | BCMA-CD19 cCAR | C174412 | CD19 + BCMA |
+
+New facts outside the top 50: 48 in TAC01 and 41 in mint5 in total, including the rows above.
+
+### P2 (existing facts untouched): PASS
+
+0 baseline `construct_target_set` facts changed or were removed, in either benchmark.
+
+### P3 (TAC01 controls): PASS
+
+- ALLO-715, anbal-cel, anito-cel, CT053, eque-cel, orva-cel and varnim-cel each got their
+  NCIt set.
+- CNCT19 → CD19, decided by C175465.
+- Rese-cel → `no_mechanism_sentence`, and TAK-007 → `no_antigen_class`, as Amendment 1
+  expects.
+
+### P4: PASS
+
+- Tabelecleucel: no fact; disposition `no_antigen_class`, C143140.
+- Lifileucel: no fact; disposition `ambiguous_link`, C120552 and C135634.
+
+### P5 (ranking frozen): PASS
+
+The ranking, gates and reporting code is unchanged since `8f8ef93`.
+
+**TAC01 top 20:**
+- Five wrong-target BCMA rows leave on a correct target FAIL: ALLO-715, anito-cel, CT053,
+  eque-cel and orva-cel.
+- Anbal-cel, varnim-cel, CNCT19 and KITE-753 move up on target PASS.
+- Every other movement is the deterministic backfill. That includes the population-junk rows
+  (`Fludarabine-based`, `R-mini-CHOP`, `NKTR-255`) moving up, which were already present below
+  #20.
+
+**mint5 top 20:**
+- These single-target rows leave on FAIL, which is correct for a dual CD19/BCMA question:
+  CABA-201, CNCT19, FT819, plus HBI0101, IM19, SYS6020 and eque-cel from #21–33.
+- BCMA-CD19 cCAR (C174412) enters the top 50 on PASS.
+- The rest is backfill.
+
+### P6: PASS
+
+`tests/se`: 1536 passed, 3 xfailed. `ruff check src/` is clean.
+
+### Status: ADOPTED
+
+### Findings recorded, not acted on
+
+1. **Five pre-existing CT.gov-reader facts disagree with NCIt.** Each is kept by fill-only and
+   logged as `kept_existing_conflict`. In every case the existing fact is the wrong one:
+   - EGFR read from the EGFRt tag, in three EGFRt CAR concepts;
+   - CD4/CD8A on a CD4+/CD8+ product;
+   - CD28/CD8A on a CD19-CD8-CD28-CD3ζ CAR;
+   - AUTO3 recorded as {CD22}, when it is CD19/CD22.
+
+   These are architecture-leak defects in the live intervention reader. Letting NCIt
+   supersede, or retiring that reader for CAR constructs, would be a separate preregistration.
+2. **Population junk remains in the TAC01 top 20:** `Fludarabine-based`, `R-mini-CHOP`,
+   `NKTR-255`. This is a population and qualification defect, not a target defect.

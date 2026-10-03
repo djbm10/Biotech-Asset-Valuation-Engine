@@ -1,0 +1,295 @@
+P0 determinism (construct facts, dispositions, ranking): PASS
+
+===== tac01
+P2 baseline construct facts changed/removed: 0
+new construct facts: 48 total, 0 in a top 50
+         #None ALLO-316 -> [['TARGET:CD70']] | NCIt C177917 via 'ALLO-316'
+         #None ALLO-715 -> [['TARGET:TNFRSF17']] | NCIt C165779 via 'ALLO-715'
+         #None ARI-0001 -> [['TARGET:CD19']] | NCIt C179725 via 'ARI-0001'
+         #None AT101 -> [['TARGET:CD19']] | NCIt C187300 via 'AT101'
+         #None Anbalcabtagene Autoleucel -> [['TARGET:CD19']] | NCIt C180584 via 'Anbalcabtagene Autoleucel'
+         #None Anitocabtagene autoleucel -> [['TARGET:TNFRSF17']] | NCIt C199003 via 'Anitocabtagene autoleucel'
+         #None Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes -> [['TARGET:CD19']] | NCIt C116914 via 'Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes'
+         #None BCMA-CD19 cCAR T cells -> [['TARGET:CD19', 'TARGET:TNFRSF17']] | NCIt C174412 via 'BCMA-CD19 cCAR T cells'
+         #None BRL-201 -> [['TARGET:CD19']] | NCIt C200327 via 'BRL-201'
+         #None BZ019 -> [['TARGET:CD19']] | NCIt C190113 via 'BZ019'
+         #None BinD19 -> [['TARGET:CD19']] | NCIt C150378 via 'BinD19'
+         #None Brexucel -> [['TARGET:CD19']] | NCIt C170439 via 'Brexucel'
+         #None CABA-201 -> [['TARGET:CD19']] | NCIt C203740 via 'CABA-201'
+         #None CD20-CD19 cCAR T cells -> [['TARGET:CD19', 'TARGET:MS4A1']] | NCIt C173960 via 'CD20-CD19 cCAR T cells'
+         #None CNCT19 -> [['TARGET:CD19']] | NCIt C175465 via 'CNCT19'
+         #None CT053 -> [['TARGET:TNFRSF17']] | NCIt C165507 via 'CT053'
+         #None CT103A -> [['TARGET:TNFRSF17']] | NCIt C185123 via 'CT103A'
+         #None CT120 -> [['TARGET:CD19', 'TARGET:CD22']] | NCIt C142834 via 'CT120'
+         #None CTX130 -> [['TARGET:CD70']] | NCIt C203062 via 'CTX130'
+         #None EGFRt/19-28z/IL-12 CAR T-lymphocytes -> [['TARGET:CD19']] | NCIt C204501 via 'EGFRt/19-28z/IL-12 CAR T-lymphocytes'
+         #None FT819 -> [['TARGET:CD19']] | NCIt C176850 via 'FT819'
+         #None IM19 -> [['TARGET:CD19']] | NCIt C155888 via 'IM19'
+         #None JCAR014 -> [['TARGET:CD19']] | NCIt C126639 via 'JCAR014'
+         #None JCAR015 -> [['TARGET:CD19']] | NCIt C133718 via 'JCAR015'
+         #None JWCAR029 -> [['TARGET:CD19']] | NCIt C155878 via 'JWCAR029'
+         #None KITE-363 -> [['TARGET:CD19', 'TARGET:MS4A1']] | NCIt C181943 via 'KITE-363'
+         #None KITE-585 -> [['TARGET:TNFRSF17']] | NCIt C155883 via 'KITE-585'
+         #None KITE-753 -> [['TARGET:CD19', 'TARGET:MS4A1']] | NCIt C227826 via 'KITE-753'
+         #None Liso-cel -> [['TARGET:CD19']] | NCIt C125192 via 'Liso-cel'
+         #None PZ01 -> [['TARGET:CD19']] | NCIt C153118 via 'PZ01'
+         #None QH103 -> [['TARGET:CD19']] | NCIt C202225 via 'QH103'
+         #None SC291 -> [['TARGET:CD19']] | NCIt C211697 via 'SC291'
+         #None SJCAR19 -> [['TARGET:CD19']] | NCIt C142887 via 'SJCAR19'
+         #None TAK-102 -> [['TARGET:GPC3']] | NCIt C173713 via 'TAK-102'
+         #None UCART19 -> [['TARGET:CD19']] | NCIt C137819 via 'UCART19'
+         #None UTAA09 -> [['TARGET:CD19']] | NCIt C202226 via 'UTAA09'
+         #None Varnimcabtagene autoleucel -> [['TARGET:CD19']] | NCIt C179725 via 'Varnimcabtagene autoleucel'
+         #None WZTL-002 -> [['TARGET:CD19']] | NCIt C170905 via 'WZTL-002'
+         #None XYF19 -> [['TARGET:CD19']] | NCIt C170914 via 'XYF19'
+         #None axi-cel -> [['TARGET:CD19']] | NCIt C120309 via 'axi-cel'
+         #None axicel -> [['TARGET:CD19']] | NCIt C120309 via 'axicel'
+         #None bi-4SCAR CD19/70 T cells -> [['TARGET:CD19', 'TARGET:CD70']] | NCIt C189058 via 'bi-4SCAR CD19/70 T cells'
+         #None bi-4SCAR CD19/79b T cells -> [['TARGET:CD19', 'TARGET:CD79B']] | NCIt C189059 via 'bi-4SCAR CD19/79b T cells'
+         #None equecabtagene autoleucel -> [['TARGET:TNFRSF17']] | NCIt C185123 via 'equecabtagene autoleucel'
+         #None orvacabtagene autoleucel -> [['TARGET:TNFRSF17']] | NCIt C147523 via 'orvacabtagene autoleucel'
+         #None pCAR-19B cells -> [['TARGET:CD19']] | NCIt C180824 via 'pCAR-19B cells'
+         #None ssCART-19 Cells -> [['TARGET:CD19']] | NCIt C180570 via 'ssCART-19 Cells'
+         #None tisacel -> [['TARGET:CD19']] | NCIt C102758 via 'tisacel'
+target-gate changes:
+   SJCAR19: UNKNOWN -> PASS
+   BZ019: UNKNOWN -> PASS
+   ALLO-715: UNKNOWN -> FAIL
+   PZ01: UNKNOWN -> PASS
+   SC291: UNKNOWN -> PASS
+   axi-cel: UNKNOWN -> PASS
+   ARI-0001: UNKNOWN -> PASS
+   Anbalcabtagene Autoleucel: UNKNOWN -> PASS
+   JCAR015: UNKNOWN -> PASS
+   UTAA09: UNKNOWN -> PASS
+   orvacabtagene autoleucel: UNKNOWN -> FAIL
+   AT101: UNKNOWN -> PASS
+   JWCAR029: UNKNOWN -> PASS
+   BinD19: UNKNOWN -> PASS
+   BRL-201: UNKNOWN -> PASS
+   CT120: UNKNOWN -> PASS
+   JCAR014: UNKNOWN -> PASS
+   CD20-CD19 cCAR T cells: None -> PASS
+   equecabtagene autoleucel: UNKNOWN -> FAIL
+   EGFRt/19-28z/IL-12 CAR T-lymphocytes: None -> PASS
+   Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes: None -> PASS
+   QH103: UNKNOWN -> PASS
+   CNCT19: UNKNOWN -> PASS
+   CABA-201: UNKNOWN -> PASS
+   Anitocabtagene autoleucel: UNKNOWN -> FAIL
+   ssCART-19 Cells: None -> PASS
+   Varnimcabtagene autoleucel: UNKNOWN -> PASS
+   IM19: UNKNOWN -> PASS
+   KITE-363: UNKNOWN -> PASS
+   bi-4SCAR CD19/70 T cells: None -> PASS
+   KITE-753: UNKNOWN -> PASS
+   UCART19: UNKNOWN -> PASS
+   bi-4SCAR CD19/79b T cells: None -> PASS
+   Liso-cel: None -> PASS
+   FT819: UNKNOWN -> PASS
+   BCMA-CD19 cCAR T cells: None -> PASS
+   CT053: UNKNOWN -> FAIL
+   XYF19: UNKNOWN -> PASS
+   WZTL-002: UNKNOWN -> PASS
+   pCAR-19B cells: None -> PASS
+top-20 base -> new:
+    1 -                                        | -
+    2 -                                        | -
+    3 -                                        | -
+    4 -                                        | -
+    5 -                                        | -
+    6 -                                        | -
+    7 -                                        | -
+    8 -                                        | -
+    9 -                                        | -
+   10 -                                        | -
+   11 -                                        | -
+   12 -                                        | -
+   13 -                                        | -
+   14 -                                        | -
+   15 -                                        | -
+   16 -                                        | -
+   17 -                                        | -
+   18 -                                        | -
+   19 -                                        | -
+   20 -                                        | -
+dispositions by reason/action:
+   ('ambiguous_link', 'none'): 1
+   ('class_mechanism_disagree', 'none'): 3
+   ('emit', 'filled'): 48
+   ('emit', 'kept_existing_agrees'): 50
+   ('emit', 'kept_existing_conflict'): 5
+   ('no_antigen', 'none'): 2
+   ('no_antigen_class', 'none'): 18
+   ('no_mechanism_sentence', 'none'): 2
+   [no_antigen/none] Anti-CD19/CD20/CD22 CAR T-Cells C186728 ncit=[] class=['TARGET:CD19', 'TARGET:CD22', 'TARGET:MS4A1'] mech=[]
+   [emit/kept_existing_conflict] CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T-lymphocytes C133072 ncit=['TARGET:CD19'] class=['TARGET:CD19'] mech=['TARGET:CD19']
+   [no_antigen_class/none] satricabtagene autoleucel C150382 ncit=[] class=[] mech=['NONGENE:C201172']
+   [emit/kept_existing_conflict] AUTO3 C162620 ncit=['TARGET:CD19', 'TARGET:CD22'] class=['TARGET:CD19', 'TARGET:CD22'] mech=['TARGET:CD19', 'TARGET:CD22']
+   [no_antigen_class/none] NKCARCD19 C112179 ncit=[] class=[] mech=['TARGET:CD19']
+   [no_antigen_class/none] Tabelecleucel C143140 ncit=[] class=[] mech=[]
+   [no_antigen_class/none] FT576 C186430 ncit=[] class=[] mech=['TARGET:TNFRSF17']
+   [no_antigen_class/none] IMA203 C215289 ncit=[] class=[] mech=['TARGET:PRAME']
+   [no_antigen_class/none] CLBR001 + SWI019 C179912 ncit=[] class=[] mech=['TARGET:CD19']
+   [no_antigen_class/none] NK-92 C117231 ncit=[] class=[] mech=[]
+   [no_antigen_class/none] iC9/CAR.19/IL15-Transduced CB-NK Cells C203060 ncit=[] class=[] mech=['TARGET:CD19']
+   [no_antigen_class/none] CYAD-101 C121536 ncit=[] class=[] mech=['TARGET:KLRK1']
+   [no_mechanism_sentence/none] Inaticabtagene autoleucel C199061 ncit=[] class=['TARGET:CD19'] mech=[]
+   [no_mechanism_sentence/none] resecabtagene autoleucel C211706 ncit=[] class=['TARGET:CD19'] mech=[]
+   [no_antigen_class/none] Natural Killer Cells C178330 ncit=[] class=[] mech=[]
+   [no_antigen_class/none] TAK-007 C203060 ncit=[] class=[] mech=['TARGET:CD19']
+   [no_antigen_class/none] Anti-CD19 iCAR NK Cells C170903 ncit=[] class=[] mech=['TARGET:CD19']
+   [no_antigen_class/none] afamitresgene autoleucel C175738 ncit=[] class=[] mech=[]
+   [emit/kept_existing_conflict] Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ T-lymphocytes C133191 ncit=['TARGET:CD19'] class=['TARGET:CD19'] mech=['TARGET:CD19']
+   [class_mechanism_disagree/none] CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes C133073 ncit=[] class=['TARGET:CD19'] mech=['TARGET:CD19', 'TARGET:SELL']
+   [class_mechanism_disagree/none] Prizloncabtagene Autoleucel C178452 ncit=[] class=['TARGET:CD19'] mech=['TARGET:CD19', 'TARGET:MS4A1']
+   [emit/kept_existing_conflict] Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t T Cells C150906 ncit=['TARGET:CD19'] class=['TARGET:CD19'] mech=['TARGET:CD19']
+   [ambiguous_link/none] Lifileucel C120552,C135634 ncit=[] class=[] mech=[]
+   [emit/kept_existing_conflict] autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T cells C105614 ncit=['TARGET:CD19'] class=['TARGET:CD19'] mech=['TARGET:CD19']
+   [no_antigen_class/none] OBX-115 C189093 ncit=[] class=[] mech=[]
+   [no_antigen_class/none] NKX019 C206880 ncit=[] class=[] mech=['TARGET:CD19']
+   [no_antigen_class/none] ET019003 C172202 ncit=[] class=[] mech=['TARGET:CD19']
+   [class_mechanism_disagree/none] Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes C124795 ncit=[] class=['TARGET:CD19'] mech=['TARGET:CD19', 'TARGET:SELL']
+   [no_antigen_class/none] IL13Ralpha2-specific Hinge-optimized 41BB-co-stimulatory CAR Truncated CD19-expressing Autologous T-Lymphocytes C117233 ncit=[] class=[] mech=['TARGET:IL13RA2']
+   [no_antigen_class/none] Ebvallo C143140 ncit=[] class=[] mech=[]
+   [no_antigen/none] MC-19PD1 CAR-T cells C172387 ncit=[] class=['TARGET:CD19'] mech=[]
+
+===== mint5
+P2 baseline construct facts changed/removed: 0
+new construct facts: 41 total, 0 in a top 50
+         #None ARI-0001 -> [['TARGET:CD19']] | NCIt C179725 via 'ARI-0001'
+         #None AT101 -> [['TARGET:CD19']] | NCIt C187300 via 'AT101'
+         #None Anbalcabtagene Autoleucel -> [['TARGET:CD19']] | NCIt C180584 via 'Anbalcabtagene Autoleucel'
+         #None Anitocabtagene autoleucel -> [['TARGET:TNFRSF17']] | NCIt C199003 via 'Anitocabtagene autoleucel'
+         #None Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes -> [['TARGET:CD19']] | NCIt C116914 via 'Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes'
+         #None BCMA-CD19 cCAR T cells -> [['TARGET:CD19', 'TARGET:TNFRSF17']] | NCIt C174412 via 'BCMA-CD19 cCAR T cells'
+         #None BZ019 -> [['TARGET:CD19']] | NCIt C190113 via 'BZ019'
+         #None Brexucel -> [['TARGET:CD19']] | NCIt C170439 via 'Brexucel'
+         #None CABA-201 -> [['TARGET:CD19']] | NCIt C203740 via 'CABA-201'
+         #None CNCT19 -> [['TARGET:CD19']] | NCIt C175465 via 'CNCT19'
+         #None CT053 -> [['TARGET:TNFRSF17']] | NCIt C165507 via 'CT053'
+         #None CT120 -> [['TARGET:CD19', 'TARGET:CD22']] | NCIt C142834 via 'CT120'
+         #None Cilta-cel -> [['TARGET:TNFRSF17']] | NCIt C148498 via 'Cilta-cel'
+         #None FCARH143 -> [['TARGET:TNFRSF17']] | NCIt C142807 via 'FCARH143'
+         #None FT819 -> [['TARGET:CD19']] | NCIt C176850 via 'FT819'
+         #None HBI0101 -> [['TARGET:TNFRSF17']] | NCIt C205068 via 'HBI0101'
+         #None IM19 -> [['TARGET:CD19']] | NCIt C155888 via 'IM19'
+         #None JCAR014 -> [['TARGET:CD19']] | NCIt C126639 via 'JCAR014'
+         #None JCAR015 -> [['TARGET:CD19']] | NCIt C133718 via 'JCAR015'
+         #None JWCAR029 -> [['TARGET:CD19']] | NCIt C155878 via 'JWCAR029'
+         #None Liso-cel -> [['TARGET:CD19']] | NCIt C125192 via 'Liso-cel'
+         #None Lisocel -> [['TARGET:CD19']] | NCIt C125192 via 'Lisocel'
+         #None PHE885 -> [['TARGET:TNFRSF17']] | NCIt C174124 via 'PHE885'
+         #None PZ01 -> [['TARGET:CD19']] | NCIt C153118 via 'PZ01'
+         #None QH103 -> [['TARGET:CD19']] | NCIt C202225 via 'QH103'
+         #None SC291 -> [['TARGET:CD19']] | NCIt C211697 via 'SC291'
+         #None SJCAR19 -> [['TARGET:CD19']] | NCIt C142887 via 'SJCAR19'
+         #None SYS6020 -> [['TARGET:TNFRSF17']] | NCIt C215083 via 'SYS6020'
+         #None UCART19 -> [['TARGET:CD19']] | NCIt C137819 via 'UCART19'
+         #None UTAA09 -> [['TARGET:CD19']] | NCIt C202226 via 'UTAA09'
+         #None Varnimcabtagene autoleucel -> [['TARGET:CD19']] | NCIt C179725 via 'Varnimcabtagene autoleucel'
+         #None WZTL-002 -> [['TARGET:CD19']] | NCIt C170905 via 'WZTL-002'
+         #None XYF19 -> [['TARGET:CD19']] | NCIt C170914 via 'XYF19'
+         #None axi-cel -> [['TARGET:CD19']] | NCIt C120309 via 'axi-cel'
+         #None bi-4SCAR CD19/70 T cells -> [['TARGET:CD19', 'TARGET:CD70']] | NCIt C189058 via 'bi-4SCAR CD19/70 T cells'
+         #None bi-4SCAR CD19/79b T cells -> [['TARGET:CD19', 'TARGET:CD79B']] | NCIt C189059 via 'bi-4SCAR CD19/79b T cells'
+         #None cesnicabtagene autoleucel -> [['TARGET:TNFRSF17']] | NCIt C176769 via 'cesnicabtagene autoleucel'
+         #None equecabtagene autoleucel -> [['TARGET:TNFRSF17']] | NCIt C185123 via 'equecabtagene autoleucel'
+         #None orvacabtagene autoleucel -> [['TARGET:TNFRSF17']] | NCIt C147523 via 'orvacabtagene autoleucel'
+         #None pCAR-19B cells -> [['TARGET:CD19']] | NCIt C180824 via 'pCAR-19B cells'
+         #None ssCART-19 Cells -> [['TARGET:CD19']] | NCIt C180570 via 'ssCART-19 Cells'
+target-gate changes:
+   SJCAR19: UNKNOWN -> FAIL
+   SYS6020: UNKNOWN -> FAIL
+   BZ019: UNKNOWN -> FAIL
+   PZ01: UNKNOWN -> FAIL
+   SC291: UNKNOWN -> FAIL
+   axi-cel: UNKNOWN -> FAIL
+   ARI-0001: UNKNOWN -> FAIL
+   Anbalcabtagene Autoleucel: UNKNOWN -> FAIL
+   JCAR015: UNKNOWN -> FAIL
+   UTAA09: UNKNOWN -> FAIL
+   orvacabtagene autoleucel: UNKNOWN -> FAIL
+   JWCAR029: UNKNOWN -> FAIL
+   CT120: UNKNOWN -> FAIL
+   JCAR014: UNKNOWN -> FAIL
+   equecabtagene autoleucel: UNKNOWN -> FAIL
+   Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes: None -> FAIL
+   QH103: UNKNOWN -> FAIL
+   CNCT19: UNKNOWN -> FAIL
+   CABA-201: UNKNOWN -> FAIL
+   Anitocabtagene autoleucel: UNKNOWN -> FAIL
+   ssCART-19 Cells: None -> FAIL
+   Varnimcabtagene autoleucel: UNKNOWN -> FAIL
+   IM19: UNKNOWN -> FAIL
+   bi-4SCAR CD19/70 T cells: None -> FAIL
+   cesnicabtagene autoleucel: UNKNOWN -> FAIL
+   Cilta-cel: UNKNOWN -> FAIL
+   HBI0101: UNKNOWN -> FAIL
+   UCART19: UNKNOWN -> FAIL
+   PHE885: UNKNOWN -> FAIL
+   bi-4SCAR CD19/79b T cells: None -> FAIL
+   Liso-cel: None -> FAIL
+   FT819: UNKNOWN -> FAIL
+   BCMA-CD19 cCAR T cells: None -> PASS
+   CT053: UNKNOWN -> FAIL
+   FCARH143: UNKNOWN -> FAIL
+   XYF19: UNKNOWN -> FAIL
+   WZTL-002: UNKNOWN -> FAIL
+   pCAR-19B cells: None -> FAIL
+top-20 base -> new:
+    1 -                                        | -
+    2 -                                        | -
+    3 -                                        | -
+    4 -                                        | -
+    5 -                                        | -
+    6 -                                        | -
+    7 -                                        | -
+    8 -                                        | -
+    9 -                                        | -
+   10 -                                        | -
+   11 -                                        | -
+   12 -                                        | -
+   13 -                                        | -
+   14 -                                        | -
+   15 -                                        | -
+   16 -                                        | -
+   17 -                                        | -
+   18 -                                        | -
+   19 -                                        | -
+   20 -                                        | -
+dispositions by reason/action:
+   ('ambiguous_link', 'none'): 1
+   ('class_mechanism_disagree', 'none'): 3
+   ('emit', 'filled'): 41
+   ('emit', 'kept_existing_agrees'): 56
+   ('emit', 'kept_existing_conflict'): 5
+   ('no_antigen', 'none'): 2
+   ('no_antigen_class', 'none'): 13
+   ('no_mechanism_sentence', 'none'): 2
+   [no_antigen/none] Anti-CD19/CD20/CD22 CAR T-Cells C186728 ncit=[] class=['TARGET:CD19', 'TARGET:CD22', 'TARGET:MS4A1'] mech=[]
+   [emit/kept_existing_conflict] CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T-lymphocytes C133072 ncit=['TARGET:CD19'] class=['TARGET:CD19'] mech=['TARGET:CD19']
+   [no_antigen_class/none] satricabtagene autoleucel C150382 ncit=[] class=[] mech=['NONGENE:C201172']
+   [emit/kept_existing_conflict] AUTO3 C162620 ncit=['TARGET:CD19', 'TARGET:CD22'] class=['TARGET:CD19', 'TARGET:CD22'] mech=['TARGET:CD19', 'TARGET:CD22']
+   [no_antigen_class/none] NKCARCD19 C112179 ncit=[] class=[] mech=['TARGET:CD19']
+   [no_antigen_class/none] tabelecleucel C143140 ncit=[] class=[] mech=[]
+   [no_antigen_class/none] FT576 C186430 ncit=[] class=[] mech=['TARGET:TNFRSF17']
+   [no_antigen_class/none] IMA203 C215289 ncit=[] class=[] mech=['TARGET:PRAME']
+   [no_antigen_class/none] CLBR001 + SWI019 C179912 ncit=[] class=[] mech=['TARGET:CD19']
+   [no_mechanism_sentence/none] Inaticabtagene autoleucel C199061 ncit=[] class=['TARGET:CD19'] mech=[]
+   [no_mechanism_sentence/none] resecabtagene autoleucel C211706 ncit=[] class=['TARGET:CD19'] mech=[]
+   [no_antigen_class/none] natural killer cells C178330 ncit=[] class=[] mech=[]
+   [no_antigen_class/none] afamitresgene autoleucel C175738 ncit=[] class=[] mech=[]
+   [emit/kept_existing_conflict] Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ T-lymphocytes C133191 ncit=['TARGET:CD19'] class=['TARGET:CD19'] mech=['TARGET:CD19']
+   [class_mechanism_disagree/none] CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes C133073 ncit=[] class=['TARGET:CD19'] mech=['TARGET:CD19', 'TARGET:SELL']
+   [class_mechanism_disagree/none] Prizloncabtagene Autoleucel C178452 ncit=[] class=['TARGET:CD19'] mech=['TARGET:CD19', 'TARGET:MS4A1']
+   [emit/kept_existing_conflict] Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t T Cells C150906 ncit=['TARGET:CD19'] class=['TARGET:CD19'] mech=['TARGET:CD19']
+   [ambiguous_link/none] Lifileucel C120552,C135634 ncit=[] class=[] mech=[]
+   [emit/kept_existing_conflict] autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T cells C105614 ncit=['TARGET:CD19'] class=['TARGET:CD19'] mech=['TARGET:CD19']
+   [no_antigen_class/none] OBX-115 C189093 ncit=[] class=[] mech=[]
+   [no_antigen_class/none] NKX019 C206880 ncit=[] class=[] mech=['TARGET:CD19']
+   [no_antigen_class/none] ET019003 C172202 ncit=[] class=[] mech=['TARGET:CD19']
+   [class_mechanism_disagree/none] Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes C124795 ncit=[] class=['TARGET:CD19'] mech=['TARGET:CD19', 'TARGET:SELL']
+   [no_antigen_class/none] IL13Ralpha2-specific Hinge-optimized 41BB-co-stimulatory CAR Truncated CD19-expressing Autologous T-Lymphocytes C117233 ncit=[] class=[] mech=['TARGET:IL13RA2']
+   [no_antigen_class/none] Ebvallo C143140 ncit=[] class=[] mech=[]
+   [no_antigen/none] MC-19PD1 CAR-T cells C172387 ncit=[] class=['TARGET:CD19'] mech=[]
