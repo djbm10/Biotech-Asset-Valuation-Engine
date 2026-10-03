@@ -151,3 +151,28 @@ Sealed replays go into new directories and are compared against `*_arb_v1`.
 - **Adopt** if C1–C7 all pass.
 - **Otherwise** record the failure and revert. Do not tune the type set, the coordinators or
   the population.
+
+## 6. Result — 2026-10-03, code `d5c5b58`
+
+**Runs:**
+- `~/se_runs/tac01_qual_v6`
+- `~/se_runs/tac01_qual_v6_det`
+- `~/se_runs/mint5_qual_v6`
+
+**Score:** `research/se_qualification/stage_c_v6.txt`.
+
+| Criterion | Result |
+|---|---|
+| **C1** | **PASS.** The newly unqualified names equal the §3 list restricted to each benchmark: TAC01 22/22, mint5 23/23. Nothing is extra and nothing is missing. No name gained qualification, and no surviving reason changed. |
+| **C2** | **PASS**, by C1 plus §3. |
+| **C3** | **PASS.** NKTR-255, AcNK-Sup003, SYNCAR-001, ssCART-19, Tecartus, AZD0120, FKC289 and CLN-978 all keep `STRUCTURED_THERAPEUTIC`. NKTR-255 is unqualified in mint5 in **both** the baseline and v6, so it is unchanged there. "Human CD19 Targeted T Cells Injection" is not a canonical name in either run; its variant "Human CD19Targeted T Cells Injection" is unchanged. Every `DIRECT_APPROVED_NAME` is unchanged. |
+| **C4** | **PASS.** `construct_target_set` facts are identical, and no target-gate *decision* changed on any asset that is still evaluated. The only gate-record differences are the 22/23 vetoed names, which no longer receive a gate evaluation because they left the default path. That is the effect C5 anticipates, not a decision change. I state this reading explicitly rather than claim "gates identical". |
+| **C5** | **PASS.** Ranking code is unchanged. TAC01 top 50: R-mini-CHOP (#19) and Genetically Engineered Lymphocyte Therapy (#46) left, both vetoed. mint5 top 50: `Fludarabine, Cyclophosphamide` (#17) and the Retlirafusp composite (#29) left, both vetoed. The relative order of every retained entry is preserved, and two entries backfill at #49–50 in each. |
+| **C6** | **PASS.** Vetoes, facts, ranking and top 50 are identical across the two TAC01 runs. Both sidecar tokens are sealed in the manifest. |
+| **C7** | **PASS.** `tests/se` 1556 passed, 3 xfailed. Ruff is clean. |
+
+**Disclosure.** `qualification_vetoes` lists every unqualified name a veto matches: 338 in
+TAC01 and 252 in mint5. That includes names that were already unqualified for other reasons.
+It is a report field and does not affect any decision.
+
+**Status: ADOPTED.** The new baselines are `~/se_runs/{tac01,mint5}_qual_v6`.

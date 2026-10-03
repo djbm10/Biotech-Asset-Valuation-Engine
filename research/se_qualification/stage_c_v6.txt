@@ -1,0 +1,77 @@
+C6: True {'ncit_target_sidecar': 'ncit_target_sidecar_v1@ncit_26.08e@2cbcd3f4b18d22b6', 'ncit_entity_types': 'ncit_entity_types_v1@ncit_26.08e@ec498e5694a0e384'}
+===== tac01
+C1 lost==expected: True lost 22 want 22 extra [] missing []
+   gained: [] reason changed: {}
+   vetoes reported: 338
+   C3 NKTR-255 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 AcNK-Sup003 cell injection [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 SYNCAR-001 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 ssCART-19 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 Tecartus [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 AZD0120 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 FKC289 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 CLN-978 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+C4 construct same: True gates same: False
+   assets count 5150 5150
+===== mint5
+C1 lost==expected: True lost 23 want 23 extra [] missing []
+   gained: [] reason changed: {}
+   vetoes reported: 252
+   C3 NKTR-255 [(None, None)]
+   C3 SYNCAR-001 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 ssCART-19 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 Tecartus [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 AZD0120 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 FKC289 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+   C3 CLN-978 [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]
+C4 construct same: True gates same: False
+   assets count 3163 3163
+C6 top50 det equal: True
+===== tac01 left top50: [('R-mini-CHOP', 19, True), ('Genetically Engineered Lymphocyte Therapy', 46, True)]
+  retained relative order preserved: True
+  entered: [('Polymer-Lipid Nanoparticle-Mediated Delivery of CD19/CD20 Dual-Targeting InViVoCAR1920 mRNA for CAR-T Cell Immunotherapy', 49), ('regimen with BTK inhibitor +Anti-CD19 CAR T cells', 50)]
+  TOP20:
+    1 Brexucabtagene Autoleucel                     IRMED_TARGET
+    2 Axicabtagene Ciloleucel                       IRMED_TARGET
+    3 Lisocabtagene Maraleucel                      IRMED_TARGET
+    4 Tisagenlecleucel                              IRMED_TARGET
+    5 CC-97540                                      UNRESOLVED
+    6 cemacabtagene ansegedleucel                   UNRESOLVED
+    7 Prizloncabtagene Autoleucel                   UNRESOLVED
+    8 Anbalcabtagene Autoleucel                     UNRESOLVED
+    9 Varnimcabtagene autoleucel                    UNRESOLVED
+   10 Tabelecleucel                                 UNRESOLVED
+   11 Lifileucel                                    UNRESOLVED
+   12 resecabtagene autoleucel                      UNRESOLVED
+   13 satricabtagene autoleucel                     UNRESOLVED
+   14 TAK-007                                       UNRESOLVED
+   15 CNCT19                                        UNRESOLVED
+   16 KITE-753                                      UNRESOLVED
+   17 Fludarabine-based                             UNRESOLVED
+   18 NKTR-255                                      UNRESOLVED
+   19 7×19-THEMIS CAR-T cells                       UNRESOLVED
+   20 ALLO-501A                                     UNRESOLVED
+===== mint5 left top50: [('Fludarabine, Cyclophosphamide', 17, True), ('Retlirafusp alfa / Indole-3-carbinol + Black garlic fermentation extract / Lactobacillus rhamnosus / Placebo + Paclitaxel + Cisplatin (TP regimen) plus PD-1 inhibitor', 29, True)]
+  retained relative order preserved: True
+  entered: [('UCAR T-cell group', 49), ('universal allogeneic anti-CD19/BCMA CAR T-cells', 50)]
+  TOP20:
+    1 ICG318                                        UNRESOLVED
+    2 mezigdomide                                   UNRESOLVED
+    3 pomalidomide                                  UNRESOLVED
+    4 vedolizumab                                   UNRESOLVED
+    5 AZD0120                                       UNRESOLVED
+    6 FKC289                                        UNRESOLVED
+    7 GC012F                                        UNRESOLVED
+    8 umbilical cord blood CD19-BCMA CAR-T cells in UNRESOLVED
+    9 CD19-BCMA dual nanobody based CAR-T Cells     UNRESOLVED
+   10 BC19                                          UNRESOLVED
+   11 BH2024                                        UNRESOLVED
+   12 budoprutug                                    UNRESOLVED
+   13 CD19CART                                      UNRESOLVED
+   14 Chemotherapy Agents                           UNRESOLVED
+   15 CM336                                         UNRESOLVED
+   16 CRT-402                                       UNRESOLVED
+   17 FT839                                         UNRESOLVED
+   18 IMPT-514                                      UNRESOLVED
+   19 Inaticabtagene autoleucel                     UNRESOLVED
+   20 INCA000585                                    UNRESOLVED
