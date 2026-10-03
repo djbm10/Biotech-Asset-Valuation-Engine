@@ -90,3 +90,24 @@ These are scored on sealed replays of the same corpora, into new directories, ag
 
 - **Adopt** if B1–B7 all pass.
 - **Otherwise** record the failure and revert. Do not tune.
+
+## 5. Result — 2026-10-03, code `15ebd86`
+
+**Runs:**
+- `~/se_runs/tac01_arb_v1`
+- `~/se_runs/tac01_arb_v1_det`
+- `~/se_runs/mint5_arb_v1`
+
+**Scorer output:** `research/se_arbitration/stage_b_v1.txt`, plus a top-50 diff.
+
+| Criterion | Result |
+|---|---|
+| **B1** | **PASS.** Exactly 5 assets were arbitrated per benchmark, all of them §1 APPLICABLE. Every effective set equals the "correct" column: four EGFRt/CD4-CD8/CD28-CD8 rows → {CD19}, and AUTO3 → {CD19, CD22}. No effective target is wrong. |
+| **B2** | **PASS.** Liso-cel and CART19/tisagenlecleucel, which carry DRUG_AUTHORITY facts, are unchanged. |
+| **B3** | **PASS.** No non-applicable population row changed, including the three wrong-but-out-of-scope rows (IL13Rα2 CAR, MC-19PD1, TAK-007). |
+| **B4** | **PASS.** No `construct_target_set` was added or removed outside arbitration. No new ST6GALNAC4 or CARTPT fact appeared. |
+| **B5** | **PASS.** Ranking code is unchanged. The only gate change is TAC01 AUTO3 FAIL→PASS, as predicted. In TAC01, AUTO3 enters the top 50 at #28: rows #28–49 shift down by one, and #50 (Polymer-Lipid Nanoparticle…) drops out. The mint5 top 50 is identical, also as predicted. |
+| **B6** | **PASS.** The two TAC01 runs have identical facts, dispositions and top 50. The sidecar token is recorded in the manifest. |
+| **B7** | **PASS.** `tests/se` gives 1541 passed and 3 xfailed. Ruff is clean. |
+
+**Status: ADOPTED.** The new baselines are `~/se_runs/{tac01,mint5}_arb_v1`.

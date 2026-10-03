@@ -1,0 +1,27 @@
+B6 determinism: True {'ncit_target_sidecar': 'ncit_target_sidecar_v1@ncit_26.08e@2cbcd3f4b18d22b6'}
+===== tac01 arbitrated: 5
+   CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched class: APPLICABLE effective: [['TARGET:CD19']] ncit: ['TARGET:CD19'] gate PASS -> PASS
+   AUTO3 class: APPLICABLE effective: [['TARGET:CD19', 'TARGET:CD22']] ncit: ['TARGET:CD19', 'TARGET:CD22'] gate FAIL -> PASS
+   Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt- class: APPLICABLE effective: [['TARGET:CD19']] ncit: ['TARGET:CD19'] gate PASS -> PASS
+   Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t  class: APPLICABLE effective: [['TARGET:CD19']] ncit: ['TARGET:CD19'] gate PASS -> PASS
+   autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing T class: APPLICABLE effective: [['TARGET:CD19']] ncit: ['TARGET:CD19'] gate PASS -> PASS
+  assets whose target-gate observed facts changed: 5 ; of which not arbitrated: []
+  construct facts added beyond arbitration: {}
+  facts removed: []
+  non-applicable population changed: []
+  gate changes: {'asset:2e20adeeeb0f67744124': ('FAIL', 'PASS')}
+  new ST6GALNAC4/CARTPT facts: 0
+  ranked lists identical: True 0 0
+===== mint5 arbitrated: 5
+   CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched class: APPLICABLE effective: [['TARGET:CD19']] ncit: ['TARGET:CD19'] gate FAIL -> FAIL
+   AUTO3 class: APPLICABLE effective: [['TARGET:CD19', 'TARGET:CD22']] ncit: ['TARGET:CD19', 'TARGET:CD22'] gate FAIL -> FAIL
+   Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt- class: APPLICABLE effective: [['TARGET:CD19']] ncit: ['TARGET:CD19'] gate FAIL -> FAIL
+   Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t  class: APPLICABLE effective: [['TARGET:CD19']] ncit: ['TARGET:CD19'] gate FAIL -> FAIL
+   autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing T class: APPLICABLE effective: [['TARGET:CD19']] ncit: ['TARGET:CD19'] gate FAIL -> FAIL
+  assets whose target-gate observed facts changed: 5 ; of which not arbitrated: []
+  construct facts added beyond arbitration: {}
+  facts removed: []
+  non-applicable population changed: []
+  gate changes: {}
+  new ST6GALNAC4/CARTPT facts: 0
+  ranked lists identical: True 0 0
