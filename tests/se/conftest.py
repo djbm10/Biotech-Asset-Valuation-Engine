@@ -100,3 +100,16 @@ def _no_ncit_sidecar(monkeypatch, tmp_path_factory):
     reset_ncit_cache()
     yield
     reset_ncit_cache()
+
+
+@pytest.fixture(autouse=True)
+def _no_ncit_entity_types(monkeypatch, tmp_path_factory):
+    """Likewise for the NCIt entity-type sidecar (candidate_qualification_v6 Q1)."""
+
+    from bve.se.ontology.ncit_entity_types import reset_entity_types_cache
+
+    missing = tmp_path_factory.mktemp("no_ncit_types") / "absent.json"
+    monkeypatch.setenv("BVE_SE_NCIT_ENTITY_TYPES", str(missing))
+    reset_entity_types_cache()
+    yield
+    reset_entity_types_cache()

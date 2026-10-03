@@ -20,3 +20,15 @@
 | Known limits | Class membership incomplete for duals (handled by agreement); some concepts have no definition; non-gene antigens (GD2, Claudin18.2) yield no gene target by design |
 | Replay | Sidecar token `ncit_target_sidecar_v1@ncit_26.08e@<sha16>` is sealed in `corpus_manifest.extractor_versions`; replay fails closed if the installed sidecar differs or is absent |
 | Versioning | A new NCIt release is a new sidecar file and token; it never alters runs sealed under 26.08e |
+
+## Second derived artifact — entity-type sidecar (candidate_qualification_v6)
+
+| Attribute | Value |
+|---|---|
+| File | `data/se/ontology/ncit/ncit_26.08e_entity_types.json` |
+| Builder | `scripts/build_ncit_entity_types.py` (same frozen zip) |
+| sha256 (2026-10-03 build) | `ec498e5694a0e3842eabeb2afd5689cd8a054e13ac0cbc56a73d7e32566124fd` |
+| Contents | 278,601 normalized names whose **every** NCIt concept has only non-product semantic types (closed UMLS set in the policy) |
+| Fields used | synonyms + display name (key), semantic type |
+| Semantics relied on | NCIt's semantic type classifies what kind of thing a name denotes (procedure, activity, concept) |
+| Replay | `extractor_versions["ncit_entity_types"]`, fail-closed like the target sidecar |

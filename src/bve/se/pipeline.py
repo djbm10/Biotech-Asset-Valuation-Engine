@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field
 from bve.se.discovery.asset_qualification import (
     AssetEvidence,
     qualification_reason,
+    qualification_veto,
     document_frequencies,
     has_pharmacologic_context,
     is_abbreviation_gloss,
@@ -45,6 +46,7 @@ from bve.se.evidence.pubmed import PubMedEvidenceExtractor
 from bve.se.evidence.generic import PublicDocumentEvidenceExtractor
 from bve.se.gates.engine import GateEngine, GateEvaluation
 from bve.se.ontology.drug_modality import modality_authority, modality_match
+from bve.se.ontology.ncit_entity_types import NCIT_ENTITY_TYPES_KEY, ncit_entity_types
 from bve.se.ontology.ncit_targets import (
     NCIT_EXTRACTOR_KEY,
     ncit_authority,
@@ -116,6 +118,8 @@ class SESearchResult(BaseModel):
     processing_errors: list[str] = Field(default_factory=list)
     #: ``ncit_target_sidecar_v1.md``: one record per asset linked to an NCIt concept.
     ncit_target_dispositions: list[dict] = Field(default_factory=list)
+    #: ``candidate_qualification_v6.md``: names held out as regimens, procedures or lists.
+    qualification_vetoes: list[dict] = Field(default_factory=list)
     label: str = DEVELOPMENT_SCREEN_LABEL
 
 
@@ -841,6 +845,22 @@ def run_landscape_search(
         )
         for asset in candidates
     ]
+    # ``candidate_qualification_v6.md``: every unqualified name a v6 veto applies to, with
+    # its reason code and evidence, so a held-out regimen label is explained, not silent.
+    qualification_vetoes = []
+    for asset in candidates:
+        if reasons[asset.asset_id] is not None:
+            continue
+        veto = qualification_veto(asset.canonical_name)
+        if veto is not None:
+            qualification_vetoes.append(
+                {
+                    "asset_id": asset.asset_id,
+                    "canonical_name": asset.canonical_name,
+                    "reason": veto[0],
+                    "evidence": veto[1],
+                }
+            )
     candidates = _with_authority_modality(candidates, problem.strategic_gap.modalities)
     for asset in candidates:
         registry.assets[asset.asset_id] = asset
@@ -947,6 +967,16 @@ def run_landscape_search(
         if entry.asset_id in eligible
     ]
     run_manifest = discovery.manifest
+    entity_types = ncit_entity_types()
+    if entity_types is not None:
+        run_manifest = run_manifest.model_copy(
+            update={
+                "extractor_versions": {
+                    **run_manifest.extractor_versions,
+                    NCIT_ENTITY_TYPES_KEY: entity_types.version_token,
+                }
+            }
+        )
     if ncit is not None:
         # A mandatory replay dependency: ``replay`` refuses a run whose recorded sidecar
         # token the replaying process cannot reproduce.
@@ -996,6 +1026,7 @@ def run_landscape_search(
         ],
         processing_errors=processing_errors,
         ncit_target_dispositions=ncit_dispositions,
+        qualification_vetoes=qualification_vetoes,
         label=(
             DEVELOPMENT_SCREEN_LABEL
             if run_manifest.status.value == "CONVERGED"

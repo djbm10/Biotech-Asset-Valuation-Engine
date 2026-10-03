@@ -402,6 +402,51 @@ def is_comparator_only(evidence: AssetEvidence) -> bool:
     return evidence.comparator_observations > 0 and evidence.therapeutic_observations == 0
 
 
+#: Coordinators a registry writes between separately administered products (v6 Q2).
+_COORDINATOR = re.compile(
+    r"\s*(?:,|;|\+|/|\band\b|\bplus\b|\bor\b|\bwith\b|\bfollowed by\b|\bthen\b"
+    r"|\bin combination(?: with)?\b)\s*",
+    re.IGNORECASE,
+)
+
+
+def composite_drug_segments(name: str) -> list[str]:
+    """The distinct identity-bearing drug names a coordinated name lists, if two or more."""
+
+    segments = [
+        segment.strip(" ()[]")
+        for segment in _COORDINATOR.split(name)
+        if segment and segment.strip(" ()[]")
+    ]
+    if len(segments) < 2:
+        return []
+    named: dict[str, str] = {}
+    for segment in segments:
+        if drug_name_shape.is_identity_bearing_drug_name(segment):
+            named.setdefault(segment.casefold(), segment)
+    return list(named.values()) if len(named) >= 2 else []
+
+
+def qualification_veto(name: str) -> tuple[str, list[str]] | None:
+    """Why a name is not one therapeutic product, with its evidence, or ``None`` (v6).
+
+    Q1 asks NCIt what kind of thing the name denotes; Q2 asks whether it lists two or more
+    products the drug ontology identifies independently. Neither knows any name.
+    """
+
+    from bve.se.ontology.ncit_entity_types import ncit_entity_types
+
+    types = ncit_entity_types()
+    if types is not None:
+        concepts = types.non_product_concepts(name)
+        if concepts:
+            return "NCIT_NON_PRODUCT_TYPE", concepts
+    segments = composite_drug_segments(name)
+    if segments:
+        return "COMPOSITE_OF_NAMED_DRUGS", segments
+    return None
+
+
 def qualification_reason(evidence: AssetEvidence) -> QualificationReason | None:
     """The single authority. Returns *why* the name qualifies, or ``None``.
 
@@ -450,6 +495,13 @@ def qualification_reason(evidence: AssetEvidence) -> QualificationReason | None:
     # already returned -- and above everything else, because `Placebo` carries 35 trials and
     # 30 owners and would otherwise qualify on those.
     if is_comparator_only(evidence):
+        return None
+
+    # v6 (``candidate_qualification_v6.md``). Below the ontology route, so a name the drug
+    # dictionary identifies -- including a real fixed-dose combination -- is never touched;
+    # above every other route, because those are exactly the routes a registry's regimen
+    # labels and care descriptors reach.
+    if qualification_veto(name) is not None:
         return None
 
     # A structured source that says, in a field of its own schema, both that this is a drug

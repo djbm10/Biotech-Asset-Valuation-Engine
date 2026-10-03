@@ -536,5 +536,13 @@ def _sidecar_versions() -> dict[str, str]:
 
     from bve.se.ontology.ncit_targets import NCIT_EXTRACTOR_KEY, ncit_authority
 
+    from bve.se.ontology.ncit_entity_types import NCIT_ENTITY_TYPES_KEY, ncit_entity_types
+
+    versions = {}
     authority = ncit_authority()
-    return {NCIT_EXTRACTOR_KEY: authority.version_token} if authority is not None else {}
+    if authority is not None:
+        versions[NCIT_EXTRACTOR_KEY] = authority.version_token
+    entity_types = ncit_entity_types()
+    if entity_types is not None:
+        versions[NCIT_ENTITY_TYPES_KEY] = entity_types.version_token
+    return versions

@@ -130,19 +130,25 @@ class SealedCorpusReplay:
         installed; the run manifest then records what was used.
         """
 
+        from bve.se.ontology.ncit_entity_types import NCIT_ENTITY_TYPES_KEY, ncit_entity_types
         from bve.se.ontology.ncit_targets import NCIT_EXTRACTOR_KEY, ncit_authority
 
         manifest = json.loads((self.custody_root / "corpus_manifest.json").read_text())
-        sealed = (manifest.get("extractor_versions") or {}).get(NCIT_EXTRACTOR_KEY)
-        if sealed is None:
-            return
-        authority = ncit_authority()
-        running = authority.version_token if authority is not None else None
-        if running != sealed:
-            raise OntologyMismatch(
-                f"NCIt target sidecar mismatch: corpus sealed with {sealed!r}, this process "
-                f"loaded {running!r}; install the pinned sidecar (BVE_SE_NCIT_SIDECAR)"
-            )
+        recorded = manifest.get("extractor_versions") or {}
+        for key, loader, env in (
+            (NCIT_EXTRACTOR_KEY, ncit_authority, "BVE_SE_NCIT_SIDECAR"),
+            (NCIT_ENTITY_TYPES_KEY, ncit_entity_types, "BVE_SE_NCIT_ENTITY_TYPES"),
+        ):
+            sealed = recorded.get(key)
+            if sealed is None:
+                continue
+            loaded = loader()
+            running = loaded.version_token if loaded is not None else None
+            if running != sealed:
+                raise OntologyMismatch(
+                    f"{key} sidecar mismatch: corpus sealed with {sealed!r}, this process "
+                    f"loaded {running!r}; install the pinned sidecar ({env})"
+                )
 
     def _require_matching_ontology(self) -> str:
         """Return the sealed ontology version, or refuse to replay at all.
