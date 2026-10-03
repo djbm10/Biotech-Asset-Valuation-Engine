@@ -1,0 +1,3916 @@
+[
+ {
+  "asset_id": "asset:9579b776ba1c4ad8a7d0",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:THRA",
+    "TARGET:THRB"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Levothyroxine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LEVOTHYROXINE"
+ },
+ {
+  "asset_id": "asset:3b8be74856d66e7b1a6b",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IFNA1",
+    "TARGET:IFNA10",
+    "TARGET:IFNA14",
+    "TARGET:IFNA16",
+    "TARGET:IFNA2",
+    "TARGET:IFNA21",
+    "TARGET:IFNA4",
+    "TARGET:IFNA5",
+    "TARGET:IFNA6",
+    "TARGET:IFNA7",
+    "TARGET:IFNA8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "sifalimumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:SIFALIMUMAB"
+ },
+ {
+  "asset_id": "asset:7f44104fa065f2bd4eeb",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:NTRK2",
+    "TARGET:NTRK3",
+    "TARGET:TPR"
+   ],
+   [
+    "TARGET:NTRK2",
+    "TARGET:NTRK3",
+    "TARGET:TPR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "larotrectinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LAROTRECTINIB"
+ },
+ {
+  "asset_id": "asset:3077ab5897e43254274d",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL10RA",
+    "TARGET:IL10RB"
+   ]
+  ],
+  "kind": "complex",
+  "name": "AM0010",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PEGILODECAKIN"
+ },
+ {
+  "asset_id": "asset:2c6dc0fe9921d8e12d9f",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CYP3A4",
+    "TARGET:CYP3A43",
+    "TARGET:CYP3A5",
+    "TARGET:CYP3A7"
+   ]
+  ],
+  "kind": "complex",
+  "name": "ritonavir",
+  "proposed": "FAIL",
+  "source_id": "DRUG:RITONAVIR"
+ },
+ {
+  "asset_id": "asset:949307b21acb90bbce94",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRM1",
+    "TARGET:PSMA1",
+    "TARGET:PSMA2",
+    "TARGET:PSMA3",
+    "TARGET:PSMA4",
+    "TARGET:PSMA5",
+    "TARGET:PSMA6",
+    "TARGET:PSMA7",
+    "TARGET:PSMA8",
+    "TARGET:PSMB1",
+    "TARGET:PSMB10",
+    "TARGET:PSMB11",
+    "TARGET:PSMB2",
+    "TARGET:PSMB3",
+    "TARGET:PSMB4",
+    "TARGET:PSMB5",
+    "TARGET:PSMB6",
+    "TARGET:PSMB7",
+    "TARGET:PSMB8",
+    "TARGET:PSMB9",
+    "TARGET:PSMC1",
+    "TARGET:PSMC2",
+    "TARGET:PSMC3",
+    "TARGET:PSMC4",
+    "TARGET:PSMC5",
+    "TARGET:PSMC6",
+    "TARGET:PSMD1",
+    "TARGET:PSMD11",
+    "TARGET:PSMD12",
+    "TARGET:PSMD13",
+    "TARGET:PSMD14",
+    "TARGET:PSMD2",
+    "TARGET:PSMD3",
+    "TARGET:PSMD4",
+    "TARGET:PSMD6",
+    "TARGET:PSMD7",
+    "TARGET:PSMD8",
+    "TARGET:SEM1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "carfilzomib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CARFILZOMIB"
+ },
+ {
+  "asset_id": "asset:33a9b22bb3aec5e6b332",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PDE4A",
+    "TARGET:PDE4B",
+    "TARGET:PDE4C",
+    "TARGET:PDE4D"
+   ]
+  ],
+  "kind": "complex",
+  "name": "crisaborole",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CRISABOROLE"
+ },
+ {
+  "asset_id": "asset:7c68448971fd6492ae7d",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "colchicine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:COLCHICINE"
+ },
+ {
+  "asset_id": "asset:4732865f5a3d96ee5d28",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CACNA1C",
+    "TARGET:CACNA1D",
+    "TARGET:CACNA1F",
+    "TARGET:CACNA1S"
+   ]
+  ],
+  "kind": "complex",
+  "name": "verapamil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VERAPAMIL"
+ },
+ {
+  "asset_id": "asset:341447799aed1bddfffe",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ],
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ],
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ],
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "diclofenac",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DICLOFENAC"
+ },
+ {
+  "asset_id": "asset:dc975d85a58ef4a6802b",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:POLA1",
+    "TARGET:POLA2",
+    "TARGET:POLD1",
+    "TARGET:POLD2",
+    "TARGET:POLD3",
+    "TARGET:POLD4",
+    "TARGET:POLE",
+    "TARGET:POLE2",
+    "TARGET:POLE3",
+    "TARGET:PRIM1",
+    "TARGET:PRIM2"
+   ],
+   [
+    "TARGET:RRM1",
+    "TARGET:RRM2",
+    "TARGET:RRM2B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "clofarabine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CLOFARABINE"
+ },
+ {
+  "asset_id": "asset:367be82800bfced2aedc",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PDE3A",
+    "TARGET:PDE3B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "anagrelide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ANAGRELIDE"
+ },
+ {
+  "asset_id": "asset:7a3a891b2f568e4cbc28",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GUCY1A1",
+    "TARGET:GUCY1A2",
+    "TARGET:GUCY1B1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "riociguat",
+  "proposed": "FAIL",
+  "source_id": "DRUG:RIOCIGUAT"
+ },
+ {
+  "asset_id": "asset:23fb03a1b3d1ccb75892",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CRBN",
+    "TARGET:CUL4A",
+    "TARGET:DDB1",
+    "TARGET:RBX1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "pomalidomide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:POMALIDOMIDE"
+ },
+ {
+  "asset_id": "asset:47c1e3bc571ab5a5c3ac",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ],
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Indomethacin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:INDOMETHACIN"
+ },
+ {
+  "asset_id": "asset:d2fdc9608996b2cc0671",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:F10",
+    "TARGET:F9"
+   ]
+  ],
+  "kind": "complex",
+  "name": "emicizumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:EMICIZUMAB"
+ },
+ {
+  "asset_id": "asset:8a27ca57b27c4026de6f",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C"
+   ]
+  ],
+  "kind": "complex",
+  "name": "apraclonidine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:APRACLONIDINE"
+ },
+ {
+  "asset_id": "asset:7e56b49c46442958ab91",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ABCC9",
+    "TARGET:KCNJ11"
+   ]
+  ],
+  "kind": "complex",
+  "name": "minoxidil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:MINOXIDIL"
+ },
+ {
+  "asset_id": "asset:bf9b6d8a7d0c510954e5",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:SCN10A",
+    "TARGET:SCN11A",
+    "TARGET:SCN1A",
+    "TARGET:SCN2A",
+    "TARGET:SCN3A",
+    "TARGET:SCN4A",
+    "TARGET:SCN5A",
+    "TARGET:SCN7A",
+    "TARGET:SCN8A",
+    "TARGET:SCN9A"
+   ],
+   [
+    "TARGET:SCN10A",
+    "TARGET:SCN11A",
+    "TARGET:SCN1A",
+    "TARGET:SCN2A",
+    "TARGET:SCN3A",
+    "TARGET:SCN4A",
+    "TARGET:SCN5A",
+    "TARGET:SCN7A",
+    "TARGET:SCN8A",
+    "TARGET:SCN9A"
+   ]
+  ],
+  "kind": "complex",
+  "name": "lidocaine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LIDOCAINE"
+ },
+ {
+  "asset_id": "asset:1b690ceee58bd5fa5f76",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:HSP90AA1",
+    "TARGET:HSP90AB1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Tanespimycin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:TANESPIMYCIN"
+ },
+ {
+  "asset_id": "asset:a3a970f18cf81e13c86c",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ABL1",
+    "TARGET:BCR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "olverembatinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:OLVEREMBATINIB"
+ },
+ {
+  "asset_id": "asset:f8057043f765fd8b95ad",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:FGFR1",
+    "TARGET:FGFR2",
+    "TARGET:FGFR3",
+    "TARGET:FGFR4"
+   ],
+   [
+    "TARGET:FLT1",
+    "TARGET:FLT4",
+    "TARGET:KDR"
+   ],
+   [
+    "TARGET:PDGFRA",
+    "TARGET:PDGFRB"
+   ]
+  ],
+  "kind": "complex",
+  "name": "nintedanib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:NINTEDANIB"
+ },
+ {
+  "asset_id": "asset:113d9ab3ae272f952637",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "cabazitaxel",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CABAZITAXEL"
+ },
+ {
+  "asset_id": "asset:5d9c4669a03160bfc835",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:HDAC1",
+    "TARGET:HDAC10",
+    "TARGET:HDAC11",
+    "TARGET:HDAC2",
+    "TARGET:HDAC3",
+    "TARGET:HDAC4",
+    "TARGET:HDAC5",
+    "TARGET:HDAC6",
+    "TARGET:HDAC7",
+    "TARGET:HDAC8",
+    "TARGET:HDAC9"
+   ]
+  ],
+  "kind": "complex",
+  "name": "romidepsin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ROMIDEPSIN"
+ },
+ {
+  "asset_id": "asset:6d235a5a7b09258fa8bb",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:HDAC1",
+    "TARGET:HDAC10",
+    "TARGET:HDAC11",
+    "TARGET:HDAC2",
+    "TARGET:HDAC3",
+    "TARGET:HDAC4",
+    "TARGET:HDAC5",
+    "TARGET:HDAC6",
+    "TARGET:HDAC7",
+    "TARGET:HDAC8",
+    "TARGET:HDAC9"
+   ]
+  ],
+  "kind": "complex",
+  "name": "givinostat",
+  "proposed": "FAIL",
+  "source_id": "DRUG:GIVINOSTAT"
+ },
+ {
+  "asset_id": "asset:152c0b28bc4ff04aae52",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CYP3A4",
+    "TARGET:CYP3A43",
+    "TARGET:CYP3A5",
+    "TARGET:CYP3A7"
+   ]
+  ],
+  "kind": "complex",
+  "name": "cobicistat",
+  "proposed": "FAIL",
+  "source_id": "DRUG:COBICISTAT"
+ },
+ {
+  "asset_id": "asset:192d9629d74873a1c189",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRA2",
+    "TARGET:GABRA3",
+    "TARGET:GABRA4",
+    "TARGET:GABRA5",
+    "TARGET:GABRA6",
+    "TARGET:GABRB1",
+    "TARGET:GABRB2",
+    "TARGET:GABRB3",
+    "TARGET:GABRD",
+    "TARGET:GABRE",
+    "TARGET:GABRG1",
+    "TARGET:GABRG2",
+    "TARGET:GABRG3",
+    "TARGET:GABRP",
+    "TARGET:GABRQ"
+   ]
+  ],
+  "kind": "complex",
+  "name": "alprazolam",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ALPRAZOLAM"
+ },
+ {
+  "asset_id": "asset:f9e4fc8d5b52abea2c21",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRB1",
+    "TARGET:GABRG2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "zolpidem",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ZOLPIDEM"
+ },
+ {
+  "asset_id": "asset:f91aea2e5e092aec1818",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CA1",
+    "TARGET:CA12",
+    "TARGET:CA13",
+    "TARGET:CA14",
+    "TARGET:CA2",
+    "TARGET:CA3",
+    "TARGET:CA4",
+    "TARGET:CA5A",
+    "TARGET:CA5B",
+    "TARGET:CA6",
+    "TARGET:CA7",
+    "TARGET:CA9"
+   ]
+  ],
+  "kind": "complex",
+  "name": "sultiame",
+  "proposed": "FAIL",
+  "source_id": "DRUG:SULTHIAME"
+ },
+ {
+  "asset_id": "asset:0a834976e12e3b203ede",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CACNA1A",
+    "TARGET:CACNA1B",
+    "TARGET:CACNA1C",
+    "TARGET:CACNA1D",
+    "TARGET:CACNA1E",
+    "TARGET:CACNA1F",
+    "TARGET:CACNA1G",
+    "TARGET:CACNA1H",
+    "TARGET:CACNA1I",
+    "TARGET:CACNA1S",
+    "TARGET:CACNA2D1",
+    "TARGET:CACNA2D2",
+    "TARGET:CACNA2D3",
+    "TARGET:CACNA2D4",
+    "TARGET:CACNB1",
+    "TARGET:CACNB2",
+    "TARGET:CACNB3",
+    "TARGET:CACNB4",
+    "TARGET:CACNG1",
+    "TARGET:CACNG2",
+    "TARGET:CACNG3",
+    "TARGET:CACNG4",
+    "TARGET:CACNG5",
+    "TARGET:CACNG6",
+    "TARGET:CACNG7",
+    "TARGET:CACNG8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Pregabalin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PREGABALIN"
+ },
+ {
+  "asset_id": "asset:57d8f43c1fcc165328be",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:SSTR1",
+    "TARGET:SSTR2",
+    "TARGET:SSTR3",
+    "TARGET:SSTR4",
+    "TARGET:SSTR5"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Octreotide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:OCTREOTIDE"
+ },
+ {
+  "asset_id": "asset:b2320476935dfbbf6843",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vinblastine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VINBLASTINE"
+ },
+ {
+  "asset_id": "asset:115e8db59a25dc2c0bdf",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRA2",
+    "TARGET:GABRA3",
+    "TARGET:GABRA4",
+    "TARGET:GABRA5",
+    "TARGET:GABRA6",
+    "TARGET:GABRB1",
+    "TARGET:GABRB2",
+    "TARGET:GABRB3",
+    "TARGET:GABRD",
+    "TARGET:GABRE",
+    "TARGET:GABRG1",
+    "TARGET:GABRG2",
+    "TARGET:GABRG3",
+    "TARGET:GABRP",
+    "TARGET:GABRQ"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Propofol",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PROPOFOL"
+ },
+ {
+  "asset_id": "asset:7f4d42ee0cdfa13112ee",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ESR1",
+    "TARGET:ESR2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Bazedoxifene",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BAZEDOXIFENE"
+ },
+ {
+  "asset_id": "asset:23691ef48e60e0eb8df8",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Plinabulin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PLINABULIN"
+ },
+ {
+  "asset_id": "asset:9b0b3d61f27ee89e689f",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:POLA1",
+    "TARGET:POLA2",
+    "TARGET:POLD1",
+    "TARGET:POLD2",
+    "TARGET:POLD3",
+    "TARGET:POLD4",
+    "TARGET:POLE",
+    "TARGET:POLE2",
+    "TARGET:POLE3",
+    "TARGET:PRIM1",
+    "TARGET:PRIM2"
+   ],
+   [
+    "TARGET:RRM1",
+    "TARGET:RRM2",
+    "TARGET:RRM2B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Fludarabine phosphate",
+  "proposed": "FAIL",
+  "source_id": "DRUG:FLUDARABINE PHOSPHATE"
+ },
+ {
+  "asset_id": "asset:f4563b49d2989bea1bbb",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vincristine sulfate",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VINCRISTINE SULFATE"
+ },
+ {
+  "asset_id": "asset:91e2faeda8bbe657d683",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ABL1",
+    "TARGET:BCR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "ponatinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PONATINIB"
+ },
+ {
+  "asset_id": "asset:f4191a4fd1156bfdd12d",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:HDAC1",
+    "TARGET:HDAC10",
+    "TARGET:HDAC11",
+    "TARGET:HDAC2",
+    "TARGET:HDAC3",
+    "TARGET:HDAC4",
+    "TARGET:HDAC5",
+    "TARGET:HDAC6",
+    "TARGET:HDAC7",
+    "TARGET:HDAC8",
+    "TARGET:HDAC9"
+   ]
+  ],
+  "kind": "complex",
+  "name": "entinostat",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ENTINOSTAT"
+ },
+ {
+  "asset_id": "asset:c44c57f5f111b2b9bc20",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:DRD2",
+    "TARGET:DRD3"
+   ],
+   [
+    "TARGET:HTR1A",
+    "TARGET:HTR1B",
+    "TARGET:HTR1D",
+    "TARGET:HTR1E",
+    "TARGET:HTR1F",
+    "TARGET:HTR2A",
+    "TARGET:HTR2B",
+    "TARGET:HTR2C",
+    "TARGET:HTR3A",
+    "TARGET:HTR3B",
+    "TARGET:HTR3C",
+    "TARGET:HTR3D",
+    "TARGET:HTR3E",
+    "TARGET:HTR4",
+    "TARGET:HTR5A",
+    "TARGET:HTR6",
+    "TARGET:HTR7"
+   ]
+  ],
+  "kind": "complex",
+  "name": "amisulpride",
+  "proposed": "FAIL",
+  "source_id": "DRUG:AMISULPRIDE"
+ },
+ {
+  "asset_id": "asset:510f41050d0c9fffcae4",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ATP4A",
+    "TARGET:ATP4B"
+   ],
+   [
+    "TARGET:ATP4A",
+    "TARGET:ATP4B"
+   ],
+   [
+    "TARGET:ATP4A",
+    "TARGET:ATP4B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Esomeprazole",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ESOMEPRAZOLE"
+ },
+ {
+  "asset_id": "asset:e797c6cf49ed0b06cb49",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRA1A",
+    "TARGET:ADRA1B",
+    "TARGET:ADRA1D"
+   ]
+  ],
+  "kind": "complex",
+  "name": "alfuzosin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ALFUZOSIN"
+ },
+ {
+  "asset_id": "asset:432107d2cb805ac7cf57",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:AVPR1A",
+    "TARGET:AVPR1B",
+    "TARGET:AVPR2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "desmopressin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DESMOPRESSIN"
+ },
+ {
+  "asset_id": "asset:2d4d9097dc4f69589228",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "aspirin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ASPIRIN"
+ },
+ {
+  "asset_id": "asset:9fba60cee229dca9af2a",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ],
+   [
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Isoproterenol",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ISOPROTERENOL"
+ },
+ {
+  "asset_id": "asset:846d54ccca8a1cfed23c",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:BIRC2",
+    "TARGET:BIRC3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "birinapant",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BIRINAPANT"
+ },
+ {
+  "asset_id": "asset:d98860f67ca05d6905d7",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ROCK1",
+    "TARGET:ROCK2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "fasudil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:FASUDIL"
+ },
+ {
+  "asset_id": "asset:6591c62b27a2ab8373d6",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PDE3A",
+    "TARGET:PDE3B"
+   ],
+   [
+    "TARGET:TNNC1",
+    "TARGET:TNNI3",
+    "TARGET:TNNT2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "levosimendan",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LEVOSIMENDAN"
+ },
+ {
+  "asset_id": "asset:982951906f1144bba75c",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRA2",
+    "TARGET:GABRA3",
+    "TARGET:GABRA4",
+    "TARGET:GABRA5",
+    "TARGET:GABRA6",
+    "TARGET:GABRB1",
+    "TARGET:GABRB2",
+    "TARGET:GABRB3",
+    "TARGET:GABRD",
+    "TARGET:GABRE",
+    "TARGET:GABRG1",
+    "TARGET:GABRG2",
+    "TARGET:GABRG3",
+    "TARGET:GABRP",
+    "TARGET:GABRQ"
+   ]
+  ],
+  "kind": "complex",
+  "name": "clonazepam",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CLONAZEPAM"
+ },
+ {
+  "asset_id": "asset:4084267302520c435985",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ],
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ],
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "ibuprofen",
+  "proposed": "FAIL",
+  "source_id": "DRUG:IBUPROFEN"
+ },
+ {
+  "asset_id": "asset:657417772e51c506bab7",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:NCBP1",
+    "TARGET:NCBP2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "obefazimod",
+  "proposed": "FAIL",
+  "source_id": "DRUG:OBEFAZIMOD"
+ },
+ {
+  "asset_id": "asset:0c2022542b0f253d95b1",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ITGA4",
+    "TARGET:ITGB7"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vedolizumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VEDOLIZUMAB"
+ },
+ {
+  "asset_id": "asset:75ea0e3dd467e773f964",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL12B",
+    "TARGET:IL23A"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Guselkumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:GUSELKUMAB"
+ },
+ {
+  "asset_id": "asset:24e6d3acc3ed25ca111d",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL12B",
+    "TARGET:IL23A"
+   ]
+  ],
+  "kind": "complex",
+  "name": "mirikizumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:MIRIKIZUMAB"
+ },
+ {
+  "asset_id": "asset:c25b46aad55af11ea830",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL12B",
+    "TARGET:IL23A"
+   ]
+  ],
+  "kind": "complex",
+  "name": "risankizumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:RISANKIZUMAB"
+ },
+ {
+  "asset_id": "asset:d5115e5c01f4a931be60",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL12A",
+    "TARGET:IL12B"
+   ],
+   [
+    "TARGET:IL12B",
+    "TARGET:IL23A"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Ustekinumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:USTEKINUMAB"
+ },
+ {
+  "asset_id": "asset:67562aa2f439016e889c",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ITGA4",
+    "TARGET:ITGB1"
+   ],
+   [
+    "TARGET:ITGA4",
+    "TARGET:ITGB7"
+   ]
+  ],
+  "kind": "complex",
+  "name": "natalizumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:NATALIZUMAB"
+ },
+ {
+  "asset_id": "asset:ef493c2e441186792fc0",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:OPRD1",
+    "TARGET:OPRK1",
+    "TARGET:OPRM1"
+   ],
+   [
+    "TARGET:OPRD1",
+    "TARGET:OPRK1",
+    "TARGET:OPRM1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "naltrexone",
+  "proposed": "FAIL",
+  "source_id": "DRUG:NALTREXONE"
+ },
+ {
+  "asset_id": "asset:43b3cbba0ec5afe304ee",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL6R",
+    "TARGET:IL6ST"
+   ]
+  ],
+  "kind": "complex",
+  "name": "satralizumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:SATRALIZUMAB"
+ },
+ {
+  "asset_id": "asset:ddff1445fa7f838eb267",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:S1PR1",
+    "TARGET:S1PR2",
+    "TARGET:S1PR3",
+    "TARGET:S1PR4",
+    "TARGET:S1PR5"
+   ],
+   [
+    "TARGET:S1PR1",
+    "TARGET:S1PR2",
+    "TARGET:S1PR3",
+    "TARGET:S1PR4",
+    "TARGET:S1PR5"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Fingolimod",
+  "proposed": "FAIL",
+  "source_id": "DRUG:FINGOLIMOD"
+ },
+ {
+  "asset_id": "asset:3a1d8d36fde64c4509e0",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:JAK1",
+    "TARGET:JAK2",
+    "TARGET:JAK3",
+    "TARGET:TYK2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "tofacitinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:TOFACITINIB"
+ },
+ {
+  "asset_id": "asset:c4330aceacc15c8c3e6e",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRA2",
+    "TARGET:GABRA3",
+    "TARGET:GABRA4",
+    "TARGET:GABRA5",
+    "TARGET:GABRA6",
+    "TARGET:GABRB1",
+    "TARGET:GABRB2",
+    "TARGET:GABRB3",
+    "TARGET:GABRD",
+    "TARGET:GABRE",
+    "TARGET:GABRG1",
+    "TARGET:GABRG2",
+    "TARGET:GABRG3",
+    "TARGET:GABRP",
+    "TARGET:GABRQ"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Flumazenil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:FLUMAZENIL"
+ },
+ {
+  "asset_id": "asset:210b24ad27146802901f",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:DRD2",
+    "TARGET:DRD3",
+    "TARGET:DRD4"
+   ]
+  ],
+  "kind": "complex",
+  "name": "pramipexole",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PRAMIPEXOLE"
+ },
+ {
+  "asset_id": "asset:9be9f78a88fbdcb60f98",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:FLT1",
+    "TARGET:FLT4",
+    "TARGET:KDR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "axitinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:AXITINIB"
+ },
+ {
+  "asset_id": "asset:721ee1f8334cf91157c9",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:HDAC1",
+    "TARGET:HDAC10",
+    "TARGET:HDAC11",
+    "TARGET:HDAC2",
+    "TARGET:HDAC3",
+    "TARGET:HDAC4",
+    "TARGET:HDAC5",
+    "TARGET:HDAC6",
+    "TARGET:HDAC7",
+    "TARGET:HDAC8",
+    "TARGET:HDAC9"
+   ]
+  ],
+  "kind": "complex",
+  "name": "belinostat",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BELINOSTAT"
+ },
+ {
+  "asset_id": "asset:ae55095cab2e78a1a82d",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADORA1",
+    "TARGET:ADORA2A",
+    "TARGET:ADORA2B",
+    "TARGET:TMIGD3"
+   ],
+   [
+    "TARGET:ADORA1",
+    "TARGET:ADORA2A",
+    "TARGET:ADORA2B",
+    "TARGET:TMIGD3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Caffeine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CAFFEINE"
+ },
+ {
+  "asset_id": "asset:db616d710944ba79c936",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRA2",
+    "TARGET:GABRA3",
+    "TARGET:GABRA4",
+    "TARGET:GABRA5",
+    "TARGET:GABRA6",
+    "TARGET:GABRB1",
+    "TARGET:GABRB2",
+    "TARGET:GABRB3",
+    "TARGET:GABRD",
+    "TARGET:GABRE",
+    "TARGET:GABRG1",
+    "TARGET:GABRG2",
+    "TARGET:GABRG3",
+    "TARGET:GABRP",
+    "TARGET:GABRQ"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Remimazolam",
+  "proposed": "FAIL",
+  "source_id": "DRUG:REMIMAZOLAM"
+ },
+ {
+  "asset_id": "asset:69aee0633a5dcaa9d3f4",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PDE4A",
+    "TARGET:PDE4B",
+    "TARGET:PDE4C",
+    "TARGET:PDE4D"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Drotaverine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DROTAVERINE"
+ },
+ {
+  "asset_id": "asset:0f6a30b44e51445b3ed6",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CHRNA1",
+    "TARGET:CHRNB1",
+    "TARGET:CHRND",
+    "TARGET:CHRNE",
+    "TARGET:CHRNG"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Rocuronium",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ROCURONIUM"
+ },
+ {
+  "asset_id": "asset:64cd01f7dc474aaffd9e",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRA1A",
+    "TARGET:ADRA1B",
+    "TARGET:ADRA1D",
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C",
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ],
+   [
+    "TARGET:ADRA1A",
+    "TARGET:ADRA1B",
+    "TARGET:ADRA1D",
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C",
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Ephedrine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:EPHEDRINE"
+ },
+ {
+  "asset_id": "asset:39e51a9cc3e32f8db6a6",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GRIN1",
+    "TARGET:GRIN2A",
+    "TARGET:GRIN2B",
+    "TARGET:GRIN2C",
+    "TARGET:GRIN2D",
+    "TARGET:GRIN3A",
+    "TARGET:GRIN3B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "memantine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:MEMANTINE"
+ },
+ {
+  "asset_id": "asset:e72efcef7eac482fb130",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CRBN",
+    "TARGET:CUL4A",
+    "TARGET:DDB1",
+    "TARGET:RBX1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "thalidomide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:THALIDOMIDE"
+ },
+ {
+  "asset_id": "asset:430dec15edc5858e6298",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TOP2A",
+    "TARGET:TOP2B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Berubicin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BERUBICIN"
+ },
+ {
+  "asset_id": "asset:0f2126afbeea4fd64dd6",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PDE3A",
+    "TARGET:PDE3B"
+   ],
+   [
+    "TARGET:PDE4A",
+    "TARGET:PDE4B",
+    "TARGET:PDE4C",
+    "TARGET:PDE4D"
+   ]
+  ],
+  "kind": "complex",
+  "name": "ensifentrine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ENSIFENTRINE"
+ },
+ {
+  "asset_id": "asset:9c4e98d04cf016ceabe8",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C"
+   ]
+  ],
+  "kind": "complex",
+  "name": "dexmedetomidine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DEXMEDETOMIDINE"
+ },
+ {
+  "asset_id": "asset:f8cdc171bd1612a5f999",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRA2",
+    "TARGET:GABRA3",
+    "TARGET:GABRA4",
+    "TARGET:GABRA5",
+    "TARGET:GABRA6",
+    "TARGET:GABRB1",
+    "TARGET:GABRB2",
+    "TARGET:GABRB3",
+    "TARGET:GABRD",
+    "TARGET:GABRE",
+    "TARGET:GABRG1",
+    "TARGET:GABRG2",
+    "TARGET:GABRG3",
+    "TARGET:GABRP",
+    "TARGET:GABRQ"
+   ],
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRA2",
+    "TARGET:GABRA3",
+    "TARGET:GABRA4",
+    "TARGET:GABRA5",
+    "TARGET:GABRA6",
+    "TARGET:GABRB1",
+    "TARGET:GABRB2",
+    "TARGET:GABRB3",
+    "TARGET:GABRD",
+    "TARGET:GABRE",
+    "TARGET:GABRG1",
+    "TARGET:GABRG2",
+    "TARGET:GABRG3",
+    "TARGET:GABRP",
+    "TARGET:GABRQ"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Midazolam",
+  "proposed": "FAIL",
+  "source_id": "DRUG:MIDAZOLAM"
+ },
+ {
+  "asset_id": "asset:ec868e863d8329ac8e35",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GRIN1",
+    "TARGET:GRIN2A",
+    "TARGET:GRIN2B",
+    "TARGET:GRIN2C",
+    "TARGET:GRIN2D",
+    "TARGET:GRIN3A",
+    "TARGET:GRIN3B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "ketamine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:KETAMINE"
+ },
+ {
+  "asset_id": "asset:222ff4f7470e9b25e58c",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRM1",
+    "TARGET:PSMA1",
+    "TARGET:PSMA2",
+    "TARGET:PSMA3",
+    "TARGET:PSMA4",
+    "TARGET:PSMA5",
+    "TARGET:PSMA6",
+    "TARGET:PSMA7",
+    "TARGET:PSMA8",
+    "TARGET:PSMB1",
+    "TARGET:PSMB10",
+    "TARGET:PSMB11",
+    "TARGET:PSMB2",
+    "TARGET:PSMB3",
+    "TARGET:PSMB4",
+    "TARGET:PSMB5",
+    "TARGET:PSMB6",
+    "TARGET:PSMB7",
+    "TARGET:PSMB8",
+    "TARGET:PSMB9",
+    "TARGET:PSMC1",
+    "TARGET:PSMC2",
+    "TARGET:PSMC3",
+    "TARGET:PSMC4",
+    "TARGET:PSMC5",
+    "TARGET:PSMC6",
+    "TARGET:PSMD1",
+    "TARGET:PSMD11",
+    "TARGET:PSMD12",
+    "TARGET:PSMD13",
+    "TARGET:PSMD14",
+    "TARGET:PSMD2",
+    "TARGET:PSMD3",
+    "TARGET:PSMD4",
+    "TARGET:PSMD6",
+    "TARGET:PSMD7",
+    "TARGET:PSMD8",
+    "TARGET:SEM1"
+   ],
+   [
+    "TARGET:ADRM1",
+    "TARGET:PSMA1",
+    "TARGET:PSMA2",
+    "TARGET:PSMA3",
+    "TARGET:PSMA4",
+    "TARGET:PSMA5",
+    "TARGET:PSMA6",
+    "TARGET:PSMA7",
+    "TARGET:PSMA8",
+    "TARGET:PSMB1",
+    "TARGET:PSMB10",
+    "TARGET:PSMB11",
+    "TARGET:PSMB2",
+    "TARGET:PSMB3",
+    "TARGET:PSMB4",
+    "TARGET:PSMB5",
+    "TARGET:PSMB6",
+    "TARGET:PSMB7",
+    "TARGET:PSMB8",
+    "TARGET:PSMB9",
+    "TARGET:PSMC1",
+    "TARGET:PSMC2",
+    "TARGET:PSMC3",
+    "TARGET:PSMC4",
+    "TARGET:PSMC5",
+    "TARGET:PSMC6",
+    "TARGET:PSMD1",
+    "TARGET:PSMD11",
+    "TARGET:PSMD12",
+    "TARGET:PSMD13",
+    "TARGET:PSMD14",
+    "TARGET:PSMD2",
+    "TARGET:PSMD3",
+    "TARGET:PSMD4",
+    "TARGET:PSMD6",
+    "TARGET:PSMD7",
+    "TARGET:PSMD8",
+    "TARGET:SEM1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "bortezomib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BORTEZOMIB"
+ },
+ {
+  "asset_id": "asset:33b1f4abd7a16d526448",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PARP1",
+    "TARGET:PARP2",
+    "TARGET:PARP3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "olaparib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:OLAPARIB"
+ },
+ {
+  "asset_id": "asset:59845b2b3e120e4cce65",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL2RA",
+    "TARGET:IL2RB",
+    "TARGET:IL2RG"
+   ]
+  ],
+  "kind": "complex",
+  "name": "aldesleukin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ALDESLEUKIN"
+ },
+ {
+  "asset_id": "asset:f44ee222cef77615fa5a",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ATP4A",
+    "TARGET:ATP4B"
+   ],
+   [
+    "TARGET:ATP4A",
+    "TARGET:ATP4B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "omeprazole",
+  "proposed": "FAIL",
+  "source_id": "DRUG:OMEPRAZOLE"
+ },
+ {
+  "asset_id": "asset:6dab539798ecabb113e0",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ATP4A",
+    "TARGET:ATP4B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "pantoprazole",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PANTOPRAZOLE"
+ },
+ {
+  "asset_id": "asset:f25cf1592a7705cf1b6c",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRA2",
+    "TARGET:GABRA3",
+    "TARGET:GABRA4",
+    "TARGET:GABRA5",
+    "TARGET:GABRA6",
+    "TARGET:GABRB1",
+    "TARGET:GABRB2",
+    "TARGET:GABRB3",
+    "TARGET:GABRD",
+    "TARGET:GABRE",
+    "TARGET:GABRG1",
+    "TARGET:GABRG2",
+    "TARGET:GABRG3",
+    "TARGET:GABRP",
+    "TARGET:GABRQ"
+   ]
+  ],
+  "kind": "complex",
+  "name": "clobazam",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CLOBAZAM"
+ },
+ {
+  "asset_id": "asset:3d5344472799cd6a78b5",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ABL1",
+    "TARGET:BCR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Dasatinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DASATINIB"
+ },
+ {
+  "asset_id": "asset:86acbfd26f21a5667745",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "docetaxel",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DOCETAXEL"
+ },
+ {
+  "asset_id": "asset:eb085c71ab96168e6dda",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:FAU",
+    "TARGET:RPL10",
+    "TARGET:RPL10A",
+    "TARGET:RPL11",
+    "TARGET:RPL12",
+    "TARGET:RPL13",
+    "TARGET:RPL13A",
+    "TARGET:RPL14",
+    "TARGET:RPL15",
+    "TARGET:RPL17",
+    "TARGET:RPL18",
+    "TARGET:RPL18A",
+    "TARGET:RPL19",
+    "TARGET:RPL21",
+    "TARGET:RPL22",
+    "TARGET:RPL23",
+    "TARGET:RPL23A",
+    "TARGET:RPL24",
+    "TARGET:RPL26",
+    "TARGET:RPL27",
+    "TARGET:RPL27A",
+    "TARGET:RPL28",
+    "TARGET:RPL29",
+    "TARGET:RPL3",
+    "TARGET:RPL30",
+    "TARGET:RPL31",
+    "TARGET:RPL32",
+    "TARGET:RPL34",
+    "TARGET:RPL35",
+    "TARGET:RPL35A",
+    "TARGET:RPL36",
+    "TARGET:RPL36A",
+    "TARGET:RPL37",
+    "TARGET:RPL37A",
+    "TARGET:RPL38",
+    "TARGET:RPL39",
+    "TARGET:RPL4",
+    "TARGET:RPL41",
+    "TARGET:RPL5",
+    "TARGET:RPL6",
+    "TARGET:RPL7",
+    "TARGET:RPL7A",
+    "TARGET:RPL8",
+    "TARGET:RPL9",
+    "TARGET:RPLP0",
+    "TARGET:RPLP1",
+    "TARGET:RPS10",
+    "TARGET:RPS11",
+    "TARGET:RPS12",
+    "TARGET:RPS13",
+    "TARGET:RPS14",
+    "TARGET:RPS15",
+    "TARGET:RPS15A",
+    "TARGET:RPS16",
+    "TARGET:RPS17",
+    "TARGET:RPS18",
+    "TARGET:RPS19",
+    "TARGET:RPS2",
+    "TARGET:RPS20",
+    "TARGET:RPS21",
+    "TARGET:RPS23",
+    "TARGET:RPS24",
+    "TARGET:RPS25",
+    "TARGET:RPS26",
+    "TARGET:RPS27",
+    "TARGET:RPS27A",
+    "TARGET:RPS28",
+    "TARGET:RPS29",
+    "TARGET:RPS3",
+    "TARGET:RPS3A",
+    "TARGET:RPS4X",
+    "TARGET:RPS4Y1",
+    "TARGET:RPS5",
+    "TARGET:RPS6",
+    "TARGET:RPS7",
+    "TARGET:RPS8",
+    "TARGET:RPS9",
+    "TARGET:RPSA"
+   ]
+  ],
+  "kind": "complex",
+  "name": "cycloheximide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CYCLOHEXIMIDE"
+ },
+ {
+  "asset_id": "asset:73407a21b1dc22f10a37",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CACNA1A",
+    "TARGET:CACNA1B",
+    "TARGET:CACNA1C",
+    "TARGET:CACNA1D",
+    "TARGET:CACNA1E",
+    "TARGET:CACNA1F",
+    "TARGET:CACNA1G",
+    "TARGET:CACNA1H",
+    "TARGET:CACNA1I",
+    "TARGET:CACNA1S",
+    "TARGET:CACNA2D1",
+    "TARGET:CACNA2D2",
+    "TARGET:CACNA2D3",
+    "TARGET:CACNA2D4",
+    "TARGET:CACNB1",
+    "TARGET:CACNB2",
+    "TARGET:CACNB3",
+    "TARGET:CACNB4",
+    "TARGET:CACNG1",
+    "TARGET:CACNG2",
+    "TARGET:CACNG3",
+    "TARGET:CACNG4",
+    "TARGET:CACNG5",
+    "TARGET:CACNG6",
+    "TARGET:CACNG7",
+    "TARGET:CACNG8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "gabapentin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:GABAPENTIN"
+ },
+ {
+  "asset_id": "asset:8c09dae511b2f0a29947",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vinorelbine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VINORELBINE"
+ },
+ {
+  "asset_id": "asset:90fabab1549a5900187d",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:FLT1",
+    "TARGET:FLT4",
+    "TARGET:KDR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "lenvatinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LENVATINIB"
+ },
+ {
+  "asset_id": "asset:9112eaf3b526e615b5be",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL2RA",
+    "TARGET:IL2RB",
+    "TARGET:IL2RG"
+   ]
+  ],
+  "kind": "complex",
+  "name": "basiliximab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BASILIXIMAB"
+ },
+ {
+  "asset_id": "asset:8311b5eaffff858bbe38",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:AKT1",
+    "TARGET:AKT2",
+    "TARGET:AKT3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "capivasertib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CAPIVASERTIB"
+ },
+ {
+  "asset_id": "asset:863d9a0d5e080a2a72fd",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CCND1",
+    "TARGET:CDK4"
+   ],
+   [
+    "TARGET:CCND1",
+    "TARGET:CDK6"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Palbociclib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PALBOCICLIB"
+ },
+ {
+  "asset_id": "asset:5aa650bd0c7f362235c1",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ARAF",
+    "TARGET:KIAA1549",
+    "TARGET:RAF1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "tovorafenib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:TOVORAFENIB"
+ },
+ {
+  "asset_id": "asset:c17938f70d57bc25ec59",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IMPDH1",
+    "TARGET:IMPDH2"
+   ],
+   [
+    "TARGET:IMPDH1",
+    "TARGET:IMPDH2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "mycophenolate mofetil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:MYCOPHENOLATE MOFETIL"
+ },
+ {
+  "asset_id": "asset:93ac76449933924acc65",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:FGFR1",
+    "TARGET:FGFR2",
+    "TARGET:FGFR3",
+    "TARGET:FGFR4"
+   ]
+  ],
+  "kind": "complex",
+  "name": "erdafitinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ERDAFITINIB"
+ },
+ {
+  "asset_id": "asset:b90026f78a8b6c2a3872",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vincristine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VINCRISTINE"
+ },
+ {
+  "asset_id": "asset:003b3bf04a54f7a767ba",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GUCY1A1",
+    "TARGET:GUCY1A2",
+    "TARGET:GUCY1B1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "nitric oxide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:NITRIC OXIDE"
+ },
+ {
+  "asset_id": "asset:9469471e90adce029c15",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRA1A",
+    "TARGET:ADRA1B",
+    "TARGET:ADRA1D",
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C",
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ],
+   [
+    "TARGET:ADRA1A",
+    "TARGET:ADRA1B",
+    "TARGET:ADRA1D",
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C",
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "epinephrine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:EPINEPHRINE"
+ },
+ {
+  "asset_id": "asset:b66fc43f710a9c478085",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PARP1",
+    "TARGET:PARP2",
+    "TARGET:PARP3"
+   ],
+   [
+    "TARGET:PARP1",
+    "TARGET:PARP2",
+    "TARGET:PARP3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "rucaparib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:RUCAPARIB"
+ },
+ {
+  "asset_id": "asset:cbd8521935ab0ea9031b",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:RARA",
+    "TARGET:RARB",
+    "TARGET:RARG"
+   ]
+  ],
+  "kind": "complex",
+  "name": "isotretinoin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ISOTRETINOIN"
+ },
+ {
+  "asset_id": "asset:a88040f44047be806c6e",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:SCN10A",
+    "TARGET:SCN11A",
+    "TARGET:SCN1A",
+    "TARGET:SCN2A",
+    "TARGET:SCN3A",
+    "TARGET:SCN4A",
+    "TARGET:SCN5A",
+    "TARGET:SCN7A",
+    "TARGET:SCN8A",
+    "TARGET:SCN9A"
+   ],
+   [
+    "TARGET:SCN10A",
+    "TARGET:SCN11A",
+    "TARGET:SCN1A",
+    "TARGET:SCN2A",
+    "TARGET:SCN3A",
+    "TARGET:SCN4A",
+    "TARGET:SCN5A",
+    "TARGET:SCN7A",
+    "TARGET:SCN8A",
+    "TARGET:SCN9A"
+   ]
+  ],
+  "kind": "complex",
+  "name": "phenytoin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PHENYTOIN"
+ },
+ {
+  "asset_id": "asset:46db01111d8df70c032c",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:OPRD1",
+    "TARGET:OPRK1",
+    "TARGET:OPRM1"
+   ],
+   [
+    "TARGET:OPRD1",
+    "TARGET:OPRK1",
+    "TARGET:OPRM1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "hydrocodone",
+  "proposed": "FAIL",
+  "source_id": "DRUG:HYDROCODONE"
+ },
+ {
+  "asset_id": "asset:4817cf221791f44b729a",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "paclitaxel",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PACLITAXEL"
+ },
+ {
+  "asset_id": "asset:17d835471e9858906128",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:POLA1",
+    "TARGET:POLA2",
+    "TARGET:POLD1",
+    "TARGET:POLD2",
+    "TARGET:POLD3",
+    "TARGET:POLD4",
+    "TARGET:POLE",
+    "TARGET:POLE2",
+    "TARGET:POLE3",
+    "TARGET:PRIM1",
+    "TARGET:PRIM2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Cytarabine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CYTARABINE"
+ },
+ {
+  "asset_id": "asset:b8193950ae12532ed311",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:POLA1",
+    "TARGET:POLA2",
+    "TARGET:POLD1",
+    "TARGET:POLD2",
+    "TARGET:POLD3",
+    "TARGET:POLD4",
+    "TARGET:POLE",
+    "TARGET:POLE2",
+    "TARGET:POLE3",
+    "TARGET:PRIM1",
+    "TARGET:PRIM2"
+   ],
+   [
+    "TARGET:RRM1",
+    "TARGET:RRM2",
+    "TARGET:RRM2B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "gemcitabine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:GEMCITABINE"
+ },
+ {
+  "asset_id": "asset:0f8819b53ea4be14d8fb",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CRBN",
+    "TARGET:CUL4A",
+    "TARGET:DDB1",
+    "TARGET:RBX1"
+   ],
+   [
+    "TARGET:CRBN",
+    "TARGET:CUL4A",
+    "TARGET:DDB1",
+    "TARGET:RBX1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "lenalidomide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LENALIDOMIDE"
+ },
+ {
+  "asset_id": "asset:2ddc212fbc1bd95e3d36",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:BRD2",
+    "TARGET:BRD3",
+    "TARGET:BRD4",
+    "TARGET:BRDT"
+   ]
+  ],
+  "kind": "complex",
+  "name": "birabresib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BIRABRESIB"
+ },
+ {
+  "asset_id": "asset:1013ab8d3db778987189",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:RRM1",
+    "TARGET:RRM2",
+    "TARGET:RRM2B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "hydroxyurea",
+  "proposed": "FAIL",
+  "source_id": "DRUG:HYDROXYUREA"
+ },
+ {
+  "asset_id": "asset:62f91f7a3327d17f240a",
+  "benchmark": "tac01",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:HDAC1",
+    "TARGET:HDAC10",
+    "TARGET:HDAC11",
+    "TARGET:HDAC2",
+    "TARGET:HDAC3",
+    "TARGET:HDAC4",
+    "TARGET:HDAC5",
+    "TARGET:HDAC6",
+    "TARGET:HDAC7",
+    "TARGET:HDAC8",
+    "TARGET:HDAC9"
+   ]
+  ],
+  "kind": "complex",
+  "name": "panobinostat",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PANOBINOSTAT"
+ },
+ {
+  "asset_id": "asset:75ea0e3dd467e773f964",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL12B",
+    "TARGET:IL23A"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Guselkumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:GUSELKUMAB"
+ },
+ {
+  "asset_id": "asset:f8057043f765fd8b95ad",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:FGFR1",
+    "TARGET:FGFR2",
+    "TARGET:FGFR3",
+    "TARGET:FGFR4"
+   ],
+   [
+    "TARGET:FLT1",
+    "TARGET:FLT4",
+    "TARGET:KDR"
+   ],
+   [
+    "TARGET:PDGFRA",
+    "TARGET:PDGFRB"
+   ]
+  ],
+  "kind": "complex",
+  "name": "nintedanib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:NINTEDANIB"
+ },
+ {
+  "asset_id": "asset:3b8be74856d66e7b1a6b",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IFNA1",
+    "TARGET:IFNA10",
+    "TARGET:IFNA14",
+    "TARGET:IFNA16",
+    "TARGET:IFNA2",
+    "TARGET:IFNA21",
+    "TARGET:IFNA4",
+    "TARGET:IFNA5",
+    "TARGET:IFNA6",
+    "TARGET:IFNA7",
+    "TARGET:IFNA8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "sifalimumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:SIFALIMUMAB"
+ },
+ {
+  "asset_id": "asset:cbd8521935ab0ea9031b",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:RARA",
+    "TARGET:RARB",
+    "TARGET:RARG"
+   ]
+  ],
+  "kind": "complex",
+  "name": "isotretinoin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ISOTRETINOIN"
+ },
+ {
+  "asset_id": "asset:67562aa2f439016e889c",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ITGA4",
+    "TARGET:ITGB1"
+   ],
+   [
+    "TARGET:ITGA4",
+    "TARGET:ITGB7"
+   ]
+  ],
+  "kind": "complex",
+  "name": "natalizumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:NATALIZUMAB"
+ },
+ {
+  "asset_id": "asset:6378c6a80ea65f03a33b",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRA1A",
+    "TARGET:ADRA1B",
+    "TARGET:ADRA1D"
+   ]
+  ],
+  "kind": "complex",
+  "name": "midodrine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:MIDODRINE"
+ },
+ {
+  "asset_id": "asset:4732865f5a3d96ee5d28",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CACNA1C",
+    "TARGET:CACNA1D",
+    "TARGET:CACNA1F",
+    "TARGET:CACNA1S"
+   ]
+  ],
+  "kind": "complex",
+  "name": "verapamil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VERAPAMIL"
+ },
+ {
+  "asset_id": "asset:ceddb62d8e808454660b",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CRBN",
+    "TARGET:CUL4A",
+    "TARGET:DDB1",
+    "TARGET:RBX1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "iberdomide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:IBERDOMIDE"
+ },
+ {
+  "asset_id": "asset:d98860f67ca05d6905d7",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ROCK1",
+    "TARGET:ROCK2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "fasudil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:FASUDIL"
+ },
+ {
+  "asset_id": "asset:9c4e98d04cf016ceabe8",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C"
+   ]
+  ],
+  "kind": "complex",
+  "name": "dexmedetomidine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DEXMEDETOMIDINE"
+ },
+ {
+  "asset_id": "asset:6591c62b27a2ab8373d6",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PDE3A",
+    "TARGET:PDE3B"
+   ],
+   [
+    "TARGET:TNNC1",
+    "TARGET:TNNI3",
+    "TARGET:TNNT2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "levosimendan",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LEVOSIMENDAN"
+ },
+ {
+  "asset_id": "asset:a88040f44047be806c6e",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:SCN10A",
+    "TARGET:SCN11A",
+    "TARGET:SCN1A",
+    "TARGET:SCN2A",
+    "TARGET:SCN3A",
+    "TARGET:SCN4A",
+    "TARGET:SCN5A",
+    "TARGET:SCN7A",
+    "TARGET:SCN8A",
+    "TARGET:SCN9A"
+   ],
+   [
+    "TARGET:SCN10A",
+    "TARGET:SCN11A",
+    "TARGET:SCN1A",
+    "TARGET:SCN2A",
+    "TARGET:SCN3A",
+    "TARGET:SCN4A",
+    "TARGET:SCN5A",
+    "TARGET:SCN7A",
+    "TARGET:SCN8A",
+    "TARGET:SCN9A"
+   ]
+  ],
+  "kind": "complex",
+  "name": "phenytoin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PHENYTOIN"
+ },
+ {
+  "asset_id": "asset:f4563b49d2989bea1bbb",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vincristine sulfate",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VINCRISTINE SULFATE"
+ },
+ {
+  "asset_id": "asset:91e2faeda8bbe657d683",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ABL1",
+    "TARGET:BCR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "ponatinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PONATINIB"
+ },
+ {
+  "asset_id": "asset:eb085c71ab96168e6dda",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:FAU",
+    "TARGET:RPL10",
+    "TARGET:RPL10A",
+    "TARGET:RPL11",
+    "TARGET:RPL12",
+    "TARGET:RPL13",
+    "TARGET:RPL13A",
+    "TARGET:RPL14",
+    "TARGET:RPL15",
+    "TARGET:RPL17",
+    "TARGET:RPL18",
+    "TARGET:RPL18A",
+    "TARGET:RPL19",
+    "TARGET:RPL21",
+    "TARGET:RPL22",
+    "TARGET:RPL23",
+    "TARGET:RPL23A",
+    "TARGET:RPL24",
+    "TARGET:RPL26",
+    "TARGET:RPL27",
+    "TARGET:RPL27A",
+    "TARGET:RPL28",
+    "TARGET:RPL29",
+    "TARGET:RPL3",
+    "TARGET:RPL30",
+    "TARGET:RPL31",
+    "TARGET:RPL32",
+    "TARGET:RPL34",
+    "TARGET:RPL35",
+    "TARGET:RPL35A",
+    "TARGET:RPL36",
+    "TARGET:RPL36A",
+    "TARGET:RPL37",
+    "TARGET:RPL37A",
+    "TARGET:RPL38",
+    "TARGET:RPL39",
+    "TARGET:RPL4",
+    "TARGET:RPL41",
+    "TARGET:RPL5",
+    "TARGET:RPL6",
+    "TARGET:RPL7",
+    "TARGET:RPL7A",
+    "TARGET:RPL8",
+    "TARGET:RPL9",
+    "TARGET:RPLP0",
+    "TARGET:RPLP1",
+    "TARGET:RPS10",
+    "TARGET:RPS11",
+    "TARGET:RPS12",
+    "TARGET:RPS13",
+    "TARGET:RPS14",
+    "TARGET:RPS15",
+    "TARGET:RPS15A",
+    "TARGET:RPS16",
+    "TARGET:RPS17",
+    "TARGET:RPS18",
+    "TARGET:RPS19",
+    "TARGET:RPS2",
+    "TARGET:RPS20",
+    "TARGET:RPS21",
+    "TARGET:RPS23",
+    "TARGET:RPS24",
+    "TARGET:RPS25",
+    "TARGET:RPS26",
+    "TARGET:RPS27",
+    "TARGET:RPS27A",
+    "TARGET:RPS28",
+    "TARGET:RPS29",
+    "TARGET:RPS3",
+    "TARGET:RPS3A",
+    "TARGET:RPS4X",
+    "TARGET:RPS4Y1",
+    "TARGET:RPS5",
+    "TARGET:RPS6",
+    "TARGET:RPS7",
+    "TARGET:RPS8",
+    "TARGET:RPS9",
+    "TARGET:RPSA"
+   ]
+  ],
+  "kind": "complex",
+  "name": "cycloheximide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CYCLOHEXIMIDE"
+ },
+ {
+  "asset_id": "asset:73407a21b1dc22f10a37",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CACNA1A",
+    "TARGET:CACNA1B",
+    "TARGET:CACNA1C",
+    "TARGET:CACNA1D",
+    "TARGET:CACNA1E",
+    "TARGET:CACNA1F",
+    "TARGET:CACNA1G",
+    "TARGET:CACNA1H",
+    "TARGET:CACNA1I",
+    "TARGET:CACNA1S",
+    "TARGET:CACNA2D1",
+    "TARGET:CACNA2D2",
+    "TARGET:CACNA2D3",
+    "TARGET:CACNA2D4",
+    "TARGET:CACNB1",
+    "TARGET:CACNB2",
+    "TARGET:CACNB3",
+    "TARGET:CACNB4",
+    "TARGET:CACNG1",
+    "TARGET:CACNG2",
+    "TARGET:CACNG3",
+    "TARGET:CACNG4",
+    "TARGET:CACNG5",
+    "TARGET:CACNG6",
+    "TARGET:CACNG7",
+    "TARGET:CACNG8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "gabapentin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:GABAPENTIN"
+ },
+ {
+  "asset_id": "asset:2c6dc0fe9921d8e12d9f",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CYP3A4",
+    "TARGET:CYP3A43",
+    "TARGET:CYP3A5",
+    "TARGET:CYP3A7"
+   ]
+  ],
+  "kind": "complex",
+  "name": "ritonavir",
+  "proposed": "FAIL",
+  "source_id": "DRUG:RITONAVIR"
+ },
+ {
+  "asset_id": "asset:86acbfd26f21a5667745",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "docetaxel",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DOCETAXEL"
+ },
+ {
+  "asset_id": "asset:8a27ca57b27c4026de6f",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C"
+   ]
+  ],
+  "kind": "complex",
+  "name": "apraclonidine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:APRACLONIDINE"
+ },
+ {
+  "asset_id": "asset:7e56b49c46442958ab91",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ABCC9",
+    "TARGET:KCNJ11"
+   ]
+  ],
+  "kind": "complex",
+  "name": "minoxidil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:MINOXIDIL"
+ },
+ {
+  "asset_id": "asset:003b3bf04a54f7a767ba",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GUCY1A1",
+    "TARGET:GUCY1A2",
+    "TARGET:GUCY1B1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "nitric oxide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:NITRIC OXIDE"
+ },
+ {
+  "asset_id": "asset:b90026f78a8b6c2a3872",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vincristine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VINCRISTINE"
+ },
+ {
+  "asset_id": "asset:06a35857323a4baf8339",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ITGA2B",
+    "TARGET:ITGB3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "tirofiban",
+  "proposed": "FAIL",
+  "source_id": "DRUG:TIROFIBAN"
+ },
+ {
+  "asset_id": "asset:184e4cee971a4a553b9a",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:SLC6A2",
+    "TARGET:SLC6A3",
+    "TARGET:SLC6A4"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Centanafadine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CENTANAFADINE"
+ },
+ {
+  "asset_id": "asset:bd6c45364a0dbdb1c66e",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GRIN1",
+    "TARGET:GRIN2A",
+    "TARGET:GRIN2B",
+    "TARGET:GRIN2C",
+    "TARGET:GRIN2D",
+    "TARGET:GRIN3A",
+    "TARGET:GRIN3B"
+   ],
+   [
+    "TARGET:GRIN1",
+    "TARGET:GRIN2A",
+    "TARGET:GRIN2B",
+    "TARGET:GRIN2C",
+    "TARGET:GRIN2D",
+    "TARGET:GRIN3A",
+    "TARGET:GRIN3B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Esketamine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ESKETAMINE"
+ },
+ {
+  "asset_id": "asset:ec868e863d8329ac8e35",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GRIN1",
+    "TARGET:GRIN2A",
+    "TARGET:GRIN2B",
+    "TARGET:GRIN2C",
+    "TARGET:GRIN2D",
+    "TARGET:GRIN3A",
+    "TARGET:GRIN3B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Ketamine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:KETAMINE"
+ },
+ {
+  "asset_id": "asset:47c1e3bc571ab5a5c3ac",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ],
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "indomethacin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:INDOMETHACIN"
+ },
+ {
+  "asset_id": "asset:3d5344472799cd6a78b5",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ABL1",
+    "TARGET:BCR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "dasatinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DASATINIB"
+ },
+ {
+  "asset_id": "asset:9579b776ba1c4ad8a7d0",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:THRA",
+    "TARGET:THRB"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Levothyroxine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LEVOTHYROXINE"
+ },
+ {
+  "asset_id": "asset:432107d2cb805ac7cf57",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:AVPR1A",
+    "TARGET:AVPR1B",
+    "TARGET:AVPR2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "desmopressin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:DESMOPRESSIN"
+ },
+ {
+  "asset_id": "asset:2d4d9097dc4f69589228",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Aspirin",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ASPIRIN"
+ },
+ {
+  "asset_id": "asset:9fba60cee229dca9af2a",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ],
+   [
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "isoproterenol",
+  "proposed": "FAIL",
+  "source_id": "DRUG:ISOPROTERENOL"
+ },
+ {
+  "asset_id": "asset:846d54ccca8a1cfed23c",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:BIRC2",
+    "TARGET:BIRC3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "birinapant",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BIRINAPANT"
+ },
+ {
+  "asset_id": "asset:c4330aceacc15c8c3e6e",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:GABRA1",
+    "TARGET:GABRA2",
+    "TARGET:GABRA3",
+    "TARGET:GABRA4",
+    "TARGET:GABRA5",
+    "TARGET:GABRA6",
+    "TARGET:GABRB1",
+    "TARGET:GABRB2",
+    "TARGET:GABRB3",
+    "TARGET:GABRD",
+    "TARGET:GABRE",
+    "TARGET:GABRG1",
+    "TARGET:GABRG2",
+    "TARGET:GABRG3",
+    "TARGET:GABRP",
+    "TARGET:GABRQ"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Flumazenil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:FLUMAZENIL"
+ },
+ {
+  "asset_id": "asset:210b24ad27146802901f",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:DRD2",
+    "TARGET:DRD3",
+    "TARGET:DRD4"
+   ]
+  ],
+  "kind": "complex",
+  "name": "pramipexole",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PRAMIPEXOLE"
+ },
+ {
+  "asset_id": "asset:9be9f78a88fbdcb60f98",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:FLT1",
+    "TARGET:FLT4",
+    "TARGET:KDR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "axitinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:AXITINIB"
+ },
+ {
+  "asset_id": "asset:33b1f4abd7a16d526448",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PARP1",
+    "TARGET:PARP2",
+    "TARGET:PARP3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "olaparib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:OLAPARIB"
+ },
+ {
+  "asset_id": "asset:90fabab1549a5900187d",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:FLT1",
+    "TARGET:FLT4",
+    "TARGET:KDR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "lenvatinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LENVATINIB"
+ },
+ {
+  "asset_id": "asset:ddff1445fa7f838eb267",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:S1PR1",
+    "TARGET:S1PR2",
+    "TARGET:S1PR3",
+    "TARGET:S1PR4",
+    "TARGET:S1PR5"
+   ],
+   [
+    "TARGET:S1PR1",
+    "TARGET:S1PR2",
+    "TARGET:S1PR3",
+    "TARGET:S1PR4",
+    "TARGET:S1PR5"
+   ]
+  ],
+  "kind": "complex",
+  "name": "fingolimod",
+  "proposed": "FAIL",
+  "source_id": "DRUG:FINGOLIMOD"
+ },
+ {
+  "asset_id": "asset:4817cf221791f44b729a",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Paclitaxel",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PACLITAXEL"
+ },
+ {
+  "asset_id": "asset:b8193950ae12532ed311",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:POLA1",
+    "TARGET:POLA2",
+    "TARGET:POLD1",
+    "TARGET:POLD2",
+    "TARGET:POLD3",
+    "TARGET:POLD4",
+    "TARGET:POLE",
+    "TARGET:POLE2",
+    "TARGET:POLE3",
+    "TARGET:PRIM1",
+    "TARGET:PRIM2"
+   ],
+   [
+    "TARGET:RRM1",
+    "TARGET:RRM2",
+    "TARGET:RRM2B"
+   ]
+  ],
+  "kind": "complex",
+  "name": "gemcitabine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:GEMCITABINE"
+ },
+ {
+  "asset_id": "asset:8c09dae511b2f0a29947",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vinorelbine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VINORELBINE"
+ },
+ {
+  "asset_id": "asset:721ee1f8334cf91157c9",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:HDAC1",
+    "TARGET:HDAC10",
+    "TARGET:HDAC11",
+    "TARGET:HDAC2",
+    "TARGET:HDAC3",
+    "TARGET:HDAC4",
+    "TARGET:HDAC5",
+    "TARGET:HDAC6",
+    "TARGET:HDAC7",
+    "TARGET:HDAC8",
+    "TARGET:HDAC9"
+   ]
+  ],
+  "kind": "complex",
+  "name": "Belinostat",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BELINOSTAT"
+ },
+ {
+  "asset_id": "asset:b2320476935dfbbf6843",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vinblastine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VINBLASTINE"
+ },
+ {
+  "asset_id": "asset:17d835471e9858906128",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:POLA1",
+    "TARGET:POLA2",
+    "TARGET:POLD1",
+    "TARGET:POLD2",
+    "TARGET:POLD3",
+    "TARGET:POLD4",
+    "TARGET:POLE",
+    "TARGET:POLE2",
+    "TARGET:POLE3",
+    "TARGET:PRIM1",
+    "TARGET:PRIM2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "cytarabine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CYTARABINE"
+ },
+ {
+  "asset_id": "asset:0c2022542b0f253d95b1",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ITGA4",
+    "TARGET:ITGB7"
+   ]
+  ],
+  "kind": "complex",
+  "name": "vedolizumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:VEDOLIZUMAB"
+ },
+ {
+  "asset_id": "asset:222ff4f7470e9b25e58c",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRM1",
+    "TARGET:PSMA1",
+    "TARGET:PSMA2",
+    "TARGET:PSMA3",
+    "TARGET:PSMA4",
+    "TARGET:PSMA5",
+    "TARGET:PSMA6",
+    "TARGET:PSMA7",
+    "TARGET:PSMA8",
+    "TARGET:PSMB1",
+    "TARGET:PSMB10",
+    "TARGET:PSMB11",
+    "TARGET:PSMB2",
+    "TARGET:PSMB3",
+    "TARGET:PSMB4",
+    "TARGET:PSMB5",
+    "TARGET:PSMB6",
+    "TARGET:PSMB7",
+    "TARGET:PSMB8",
+    "TARGET:PSMB9",
+    "TARGET:PSMC1",
+    "TARGET:PSMC2",
+    "TARGET:PSMC3",
+    "TARGET:PSMC4",
+    "TARGET:PSMC5",
+    "TARGET:PSMC6",
+    "TARGET:PSMD1",
+    "TARGET:PSMD11",
+    "TARGET:PSMD12",
+    "TARGET:PSMD13",
+    "TARGET:PSMD14",
+    "TARGET:PSMD2",
+    "TARGET:PSMD3",
+    "TARGET:PSMD4",
+    "TARGET:PSMD6",
+    "TARGET:PSMD7",
+    "TARGET:PSMD8",
+    "TARGET:SEM1"
+   ],
+   [
+    "TARGET:ADRM1",
+    "TARGET:PSMA1",
+    "TARGET:PSMA2",
+    "TARGET:PSMA3",
+    "TARGET:PSMA4",
+    "TARGET:PSMA5",
+    "TARGET:PSMA6",
+    "TARGET:PSMA7",
+    "TARGET:PSMA8",
+    "TARGET:PSMB1",
+    "TARGET:PSMB10",
+    "TARGET:PSMB11",
+    "TARGET:PSMB2",
+    "TARGET:PSMB3",
+    "TARGET:PSMB4",
+    "TARGET:PSMB5",
+    "TARGET:PSMB6",
+    "TARGET:PSMB7",
+    "TARGET:PSMB8",
+    "TARGET:PSMB9",
+    "TARGET:PSMC1",
+    "TARGET:PSMC2",
+    "TARGET:PSMC3",
+    "TARGET:PSMC4",
+    "TARGET:PSMC5",
+    "TARGET:PSMC6",
+    "TARGET:PSMD1",
+    "TARGET:PSMD11",
+    "TARGET:PSMD12",
+    "TARGET:PSMD13",
+    "TARGET:PSMD14",
+    "TARGET:PSMD2",
+    "TARGET:PSMD3",
+    "TARGET:PSMD4",
+    "TARGET:PSMD6",
+    "TARGET:PSMD7",
+    "TARGET:PSMD8",
+    "TARGET:SEM1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "bortezomib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BORTEZOMIB"
+ },
+ {
+  "asset_id": "asset:949307b21acb90bbce94",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRM1",
+    "TARGET:PSMA1",
+    "TARGET:PSMA2",
+    "TARGET:PSMA3",
+    "TARGET:PSMA4",
+    "TARGET:PSMA5",
+    "TARGET:PSMA6",
+    "TARGET:PSMA7",
+    "TARGET:PSMA8",
+    "TARGET:PSMB1",
+    "TARGET:PSMB10",
+    "TARGET:PSMB11",
+    "TARGET:PSMB2",
+    "TARGET:PSMB3",
+    "TARGET:PSMB4",
+    "TARGET:PSMB5",
+    "TARGET:PSMB6",
+    "TARGET:PSMB7",
+    "TARGET:PSMB8",
+    "TARGET:PSMB9",
+    "TARGET:PSMC1",
+    "TARGET:PSMC2",
+    "TARGET:PSMC3",
+    "TARGET:PSMC4",
+    "TARGET:PSMC5",
+    "TARGET:PSMC6",
+    "TARGET:PSMD1",
+    "TARGET:PSMD11",
+    "TARGET:PSMD12",
+    "TARGET:PSMD13",
+    "TARGET:PSMD14",
+    "TARGET:PSMD2",
+    "TARGET:PSMD3",
+    "TARGET:PSMD4",
+    "TARGET:PSMD6",
+    "TARGET:PSMD7",
+    "TARGET:PSMD8",
+    "TARGET:SEM1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "carfilzomib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:CARFILZOMIB"
+ },
+ {
+  "asset_id": "asset:0f8819b53ea4be14d8fb",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CRBN",
+    "TARGET:CUL4A",
+    "TARGET:DDB1",
+    "TARGET:RBX1"
+   ],
+   [
+    "TARGET:CRBN",
+    "TARGET:CUL4A",
+    "TARGET:DDB1",
+    "TARGET:RBX1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "lenalidomide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LENALIDOMIDE"
+ },
+ {
+  "asset_id": "asset:8d0ebe2b70f84765d00a",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CREBBP",
+    "TARGET:CTNNB1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "PRI-724",
+  "proposed": "FAIL",
+  "source_id": "DRUG:PRI-724"
+ },
+ {
+  "asset_id": "asset:570ae1abf92f73774f03",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:APH1A",
+    "TARGET:APH1B",
+    "TARGET:NCSTN",
+    "TARGET:PSEN1",
+    "TARGET:PSEN2",
+    "TARGET:PSENEN"
+   ]
+  ],
+  "kind": "complex",
+  "name": "semagacestat",
+  "proposed": "FAIL",
+  "source_id": "DRUG:SEMAGACESTAT"
+ },
+ {
+  "asset_id": "asset:96da6ae72a9e85cbb800",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:APH1A",
+    "TARGET:APH1B",
+    "TARGET:NCSTN",
+    "TARGET:PSEN1",
+    "TARGET:PSEN2",
+    "TARGET:PSENEN"
+   ]
+  ],
+  "kind": "complex",
+  "name": "avagacestat",
+  "proposed": "FAIL",
+  "source_id": "DRUG:AVAGACESTAT"
+ },
+ {
+  "asset_id": "asset:a41199c2f25b85cbd1a6",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:PTGS1",
+    "TARGET:PTGS2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "sulindac",
+  "proposed": "FAIL",
+  "source_id": "DRUG:SULINDAC"
+ },
+ {
+  "asset_id": "asset:7f44104fa065f2bd4eeb",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:NTRK2",
+    "TARGET:NTRK3",
+    "TARGET:TPR"
+   ],
+   [
+    "TARGET:NTRK2",
+    "TARGET:NTRK3",
+    "TARGET:TPR"
+   ]
+  ],
+  "kind": "complex",
+  "name": "larotrectinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:LAROTRECTINIB"
+ },
+ {
+  "asset_id": "asset:23fb03a1b3d1ccb75892",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:CRBN",
+    "TARGET:CUL4A",
+    "TARGET:DDB1",
+    "TARGET:RBX1"
+   ]
+  ],
+  "kind": "complex",
+  "name": "pomalidomide",
+  "proposed": "FAIL",
+  "source_id": "DRUG:POMALIDOMIDE"
+ },
+ {
+  "asset_id": "asset:9469471e90adce029c15",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:ADRA1A",
+    "TARGET:ADRA1B",
+    "TARGET:ADRA1D",
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C",
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ],
+   [
+    "TARGET:ADRA1A",
+    "TARGET:ADRA1B",
+    "TARGET:ADRA1D",
+    "TARGET:ADRA2A",
+    "TARGET:ADRA2B",
+    "TARGET:ADRA2C",
+    "TARGET:ADRB1",
+    "TARGET:ADRB2",
+    "TARGET:ADRB3"
+   ]
+  ],
+  "kind": "complex",
+  "name": "epinephrine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:EPINEPHRINE"
+ },
+ {
+  "asset_id": "asset:43b3cbba0ec5afe304ee",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL6R",
+    "TARGET:IL6ST"
+   ]
+  ],
+  "kind": "complex",
+  "name": "satralizumab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:SATRALIZUMAB"
+ },
+ {
+  "asset_id": "asset:3a1d8d36fde64c4509e0",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:JAK1",
+    "TARGET:JAK2",
+    "TARGET:JAK3",
+    "TARGET:TYK2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "tofacitinib",
+  "proposed": "FAIL",
+  "source_id": "DRUG:TOFACITINIB"
+ },
+ {
+  "asset_id": "asset:9112eaf3b526e615b5be",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IL2RA",
+    "TARGET:IL2RB",
+    "TARGET:IL2RG"
+   ]
+  ],
+  "kind": "complex",
+  "name": "basiliximab",
+  "proposed": "FAIL",
+  "source_id": "DRUG:BASILIXIMAB"
+ },
+ {
+  "asset_id": "asset:7c68448971fd6492ae7d",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:TUBA1B",
+    "TARGET:TUBA1C",
+    "TARGET:TUBA3D",
+    "TARGET:TUBA3E",
+    "TARGET:TUBA4A",
+    "TARGET:TUBB",
+    "TARGET:TUBB1",
+    "TARGET:TUBB2A",
+    "TARGET:TUBB2B",
+    "TARGET:TUBB3",
+    "TARGET:TUBB4A",
+    "TARGET:TUBB4B",
+    "TARGET:TUBB6",
+    "TARGET:TUBB8"
+   ]
+  ],
+  "kind": "complex",
+  "name": "colchicine",
+  "proposed": "FAIL",
+  "source_id": "DRUG:COLCHICINE"
+ },
+ {
+  "asset_id": "asset:c17938f70d57bc25ec59",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:IMPDH1",
+    "TARGET:IMPDH2"
+   ],
+   [
+    "TARGET:IMPDH1",
+    "TARGET:IMPDH2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "mycophenolate mofetil",
+  "proposed": "FAIL",
+  "source_id": "DRUG:MYCOPHENOLATE MOFETIL"
+ },
+ {
+  "asset_id": "asset:657417772e51c506bab7",
+  "benchmark": "mint5",
+  "contains_query_target": false,
+  "established": [
+   [
+    "TARGET:NCBP1",
+    "TARGET:NCBP2"
+   ]
+  ],
+  "kind": "complex",
+  "name": "obefazimod",
+  "proposed": "FAIL",
+  "source_id": "DRUG:OBEFAZIMOD"
+ }
+]
