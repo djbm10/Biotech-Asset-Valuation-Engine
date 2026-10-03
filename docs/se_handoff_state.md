@@ -8,7 +8,20 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-02 late, NCIt ADOPTED) — START HERE
+## 0. Current directive (last updated 2026-10-03) — START HERE
+
+- **TARGET_AUTHORITY_ARBITRATION v1: ADOPTED.** New baselines: `~/se_runs/{tac01,mint5}_arb_v1`.
+- **CANDIDATE_QUALIFICATION v6: IMPLEMENTED, awaiting Stage C replays.**
+  - Commits: preregistration `candidate_qualification_v6.md`, implementation at HEAD.
+  - Local sidecar required: `data/se/ontology/ncit/ncit_26.08e_entity_types.json`.
+  - Offline result: 27/27 frozen vetoes, 0 extra.
+  - The operator runs `{tac01,mint5}_qual_v6` and `tac01_qual_v6_det` against
+    `*_control_a1`/`mint5_on` custody. Score C1–C7 against `*_arb_v1`.
+- **After qualification:** reassess the shortlist and the unresolved target coverage before
+  deciding on a non-CAR target authority.
+
+### Earlier: NCIt ADOPTED
+
 
 **NCIT_TARGET_SIDECAR v1 is ADOPTED.** It is wired in at `16b80f1`, and the result is in
 `ncit_target_sidecar_v1.md` §10.
