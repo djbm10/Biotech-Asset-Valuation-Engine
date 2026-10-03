@@ -119,6 +119,22 @@ class SESearchResult(BaseModel):
     label: str = DEVELOPMENT_SCREEN_LABEL
 
 
+def _is_ctgov_intervention_text(fact: NormalizedFact, ledger) -> bool:
+    """Whether every claim behind a construct fact is the CT.gov intervention-text reader.
+
+    Provenance only (``target_authority_arbitration_v1.md`` A1): the one producer of a
+    ``construct_target_set`` claim with ``clinicaltrials_structured`` extraction.
+    """
+
+    claims = [ledger.claims.get(claim_id) for claim_id in fact.supporting_claim_ids]
+    return bool(claims) and all(
+        claim is not None
+        and claim.extraction_method == "clinicaltrials_structured"
+        and claim.predicate == "construct_target_set"
+        for claim in claims
+    )
+
+
 def _with_authority_modality(
     candidates: list[CanonicalAsset], query_modalities: Sequence[str]
 ) -> list[CanonicalAsset]:
@@ -511,7 +527,28 @@ def run_landscape_search(
                 )
                 if evidence is not None and existing:
                     agrees = all(sorted(f.value) == evidence.fact.value for f in existing)
-                    disposition["action"] = "kept_existing_agrees" if agrees else "kept_existing_conflict"
+                    if agrees:
+                        disposition["action"] = "kept_existing_agrees"
+                    elif all(
+                        _is_ctgov_intervention_text(fact, ledger) for fact in existing
+                    ):
+                        # ``target_authority_arbitration_v1.md``: a product-specific NCIt
+                        # set outranks the intervention free-text reader, and nothing
+                        # stronger. The superseded facts stay in the ledger.
+                        for document in evidence.documents:
+                            ledger.register_document(document)
+                        for claim in evidence.claims:
+                            ledger.add_claim(claim)
+                        ledger.add_fact(evidence.fact)
+                        facts_by_asset[asset_id] = supersede_construct_targets(
+                            facts_by_asset.get(asset_id, []), evidence.fact
+                        )
+                        disposition["action"] = "arbitrated_ncit_over_ctgov_text"
+                        disposition["superseded_values"] = [
+                            sorted(fact.value) for fact in existing
+                        ]
+                    else:
+                        disposition["action"] = "kept_existing_conflict"
                 elif evidence is not None:
                     for document in evidence.documents:
                         ledger.register_document(document)
