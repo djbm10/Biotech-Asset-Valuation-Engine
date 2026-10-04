@@ -1,0 +1,50 @@
+===== tac01
+G1 visible set equal: True; deferred equal: True; counts 553
+G7 deterministic: True
+G3 same-decision pairs reordered: 0
+top 20 v1 | v2 (target decision)
+   1 Brexucabtagene Autoleucel              PASS    | Brexucabtagene Autoleucel              PASS
+   2 Axicabtagene Ciloleucel                PASS    | Axicabtagene Ciloleucel                PASS
+   3 Lisocabtagene Maraleucel               PASS    | Lisocabtagene Maraleucel               PASS
+   4 Tisagenlecleucel                       PASS    | Tisagenlecleucel                       PASS
+   5 CC-97540                               PASS    | CC-97540                               PASS
+   6 cemacabtagene ansegedleucel            PASS    | cemacabtagene ansegedleucel            PASS
+   7 Prizloncabtagene Autoleucel            PASS    | Prizloncabtagene Autoleucel            PASS
+   8 Anbalcabtagene Autoleucel              PASS    | Anbalcabtagene Autoleucel              PASS
+   9 Varnimcabtagene autoleucel             PASS    | Varnimcabtagene autoleucel             PASS
+  10 Tabelecleucel                          UNKNOWN | Tabelecleucel                          UNKNOWN
+  11 Lifileucel                             UNKNOWN | Lifileucel                             UNKNOWN
+  12 resecabtagene autoleucel               UNKNOWN | resecabtagene autoleucel               UNKNOWN
+  13 satricabtagene autoleucel              UNKNOWN | satricabtagene autoleucel              UNKNOWN
+  14 TAK-007                                UNKNOWN | TAK-007                                UNKNOWN
+  15 CNCT19                                 PASS    | CNCT19                                 PASS
+  16 KITE-753                               PASS    | KITE-753                               PASS
+  17 NKTR-255                               UNKNOWN | 7×19-THEMIS CAR-T cells                PASS
+  18 7×19-THEMIS CAR-T cells                PASS    | ALLO-501A                              PASS
+  19 ALLO-501A                              PASS    | Allogeneic CD19-STAR T cell            PASS
+  20 Allogeneic CD19-STAR T cell            PASS    | Allogenic CD19-CAR-γδT cell            PASS
+===== mint5
+G1 visible set equal: True; deferred equal: True; counts 245
+G7 deterministic: True
+G3 same-decision pairs reordered: 0
+top 20 v1 | v2 (target decision)
+   1 ICG318                                 UNKNOWN | AZD0120                                PASS
+   2 mezigdomide                            UNKNOWN | FKC289                                 PASS
+   3 AZD0120                                PASS    | GC012F                                 PASS
+   4 FKC289                                 PASS    | umbilical cord blood CD19-BCMA CAR-T c PASS
+   5 GC012F                                 PASS    | CD19-BCMA dual nanobody based CAR-T Ce PASS
+   6 umbilical cord blood CD19-BCMA CAR-T c PASS    | Allogeneic CD19/BCMA-targeted CAR-γδT  PASS
+   7 CD19-BCMA dual nanobody based CAR-T Ce PASS    | allogeneic umbilical cord blood-derive PASS
+   8 BC19                                   UNKNOWN | allogenic anti-CD19/BCMA CAR-T         PASS
+   9 BH2024                                 UNKNOWN | anti-CD19/BCMA U CAR T cells           PASS
+  10 budoprutug                             UNKNOWN | Assigned Interventions CD19/BCMA CAR T PASS
+  11 CD19CART                               UNKNOWN | BCMA-CD19 cCAR T cells                 PASS
+  12 CM336                                  UNKNOWN | CD19-BCMA Targeted CAR-T Dose 1        PASS
+  13 CRT-402                                UNKNOWN | CD19-BCMA Targeted CAR-T Dose 2        PASS
+  14 FT839                                  UNKNOWN | CD19/BCMA in vivo CAR-T                PASS
+  15 IMPT-514                               UNKNOWN | CD19/BCMA Lupus Nephritis Targeted CAR PASS
+  16 Inaticabtagene autoleucel              UNKNOWN | FIT-(BCMA+CD19)-CAR-T Cells            PASS
+  17 INCA000585                             UNKNOWN | KN5601                                 PASS
+  18 QEL-005                                UNKNOWN | KSVCBD injection                       PASS
+  19 AT-007                                 UNKNOWN | KT501                                  PASS
+  20 busulfan                               UNKNOWN | PRG-2311                               PASS

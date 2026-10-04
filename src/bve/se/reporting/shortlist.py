@@ -570,8 +570,13 @@ def _rank_key(
     eligible: bool,
     stage: dict[str, int],
     human_poc: set[str],
+    target_declared: bool = False,
 ) -> tuple:
-    """The declared lexicographic key; each element is compared only when all earlier tie."""
+    """The declared lexicographic key; each element is compared only when all earlier tie.
+
+    ``ranking_lexicographic_v2.md``: when the question declares a target, its decision ranks
+    before efficacy and maturity; otherwise the order is exactly v1 with amendment 1.
+    """
 
     statuses = {d.requirement_id: d.status.value for d in gate.decisions} if gate else {}
     # The gate's own human-PoC decision when the question asked for it; otherwise the fact
@@ -581,18 +586,36 @@ def _rank_key(
     else:
         efficacy = asset.asset_id in human_poc
     assertion = asset.target_assertions[0] if asset.target_assertions else None
+    target_decision = _DECISION_PRECEDENCE.get(statuses.get(_TARGET_REQUIREMENT_ID), 2)
+    evidence = (0 if efficacy else 1, -stage.get(asset.asset_id, -1))
+    ordered = (
+        (target_decision, *evidence) if target_declared else (*evidence, target_decision)
+    )
     return (
         0 if eligible else 1,
         # Ranking v1 amendment 1 (authority_modality_v1.md): the question's modality before
         # PoC and maturity, so a stage-3 ADC cannot outrank a CAR-T in a cell-therapy search.
         _MODALITY_PRECEDENCE.get(asset.modality_match, 0),
-        0 if efficacy else 1,
-        -stage.get(asset.asset_id, -1),
-        _DECISION_PRECEDENCE.get(statuses.get(_TARGET_REQUIREMENT_ID), 2),
+        *ordered,
         _TARGET_PRECEDENCE[assertion.status] if assertion else len(_TARGET_PRECEDENCE),
         -sum(1 for status in statuses.values() if status == "PASS"),
         asset.canonical_name.casefold(),
         asset.asset_id,
+    )
+
+
+def _declares_target(result) -> bool:
+    """Whether the run's question named a target (``ranking_lexicographic_v2.md``)."""
+
+    problem = getattr(result, "problem", None)
+    expression = getattr(getattr(problem, "strategic_gap", None), "target_expression", None)
+    if expression is not None:
+        return bool(expression.targets)
+    # Results do not embed the problem; a target decision is only ever minted for one.
+    return any(
+        decision.requirement_id == _TARGET_REQUIREMENT_ID
+        for evaluation in result.gate_evaluations
+        for decision in evaluation.decisions
     )
 
 
@@ -652,6 +675,7 @@ def build_shortlist(result, *, limit: int = DEFAULT_LIMIT) -> Shortlist:
     ranked_by_id = {entry.asset_id: entry for entry in result.ranking.ranked}
     ordering_basis = "pairwise_ranking" if ranked_by_id else LEXICOGRAPHIC_BASIS
     stage, human_poc = _asset_evidence(result)
+    target_declared = _declares_target(result)
 
     shortlisted: list[tuple[tuple, CanonicalAsset, str, OverallDisposition, bool]] = []
     deferred: list[tuple[tuple, CanonicalAsset, str, OverallDisposition, bool]] = []
@@ -674,6 +698,7 @@ def build_shortlist(result, *, limit: int = DEFAULT_LIMIT) -> Shortlist:
                 eligible=section == "eligible",
                 stage=stage,
                 human_poc=human_poc,
+                target_declared=target_declared,
             ),
         )
         (deferred if thin else shortlisted).append((key, asset, section, disposition, thin))

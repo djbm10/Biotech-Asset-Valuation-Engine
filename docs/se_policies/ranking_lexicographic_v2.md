@@ -124,3 +124,43 @@ element the v1 + amendment 1 key.
 No criterion is relaxed. The control simply has no population. The unreachability is
 recorded as a product limitation: target-free search is not supported. I did not add a
 target-free path, because that would change query semantics and is out of scope.
+
+## 8. Result — 2026-10-04 (offline, on frozen `*_qual_v7` results)
+
+**Scorer:** `scripts/score_ranking_v2.py` → `research/se_ranking_v2/score_v2.txt`.
+
+| Criterion | Result |
+|---|---|
+| **G1** | **PASS.** Visible and deferred asset sets are identical under v1 and v2: 553 TAC01, 245 mint5. No fact is touched, because ranking reads `result.json` only. |
+| **G2** | **VACUOUS**, per §7. Unit test `test_undeclared_key_is_v1_element_for_element` passes. |
+| **G3** | **PASS.** No pair of assets with the same target decision changed relative order, in either benchmark. |
+| **G4 (K1)** | **PASS.** All four approved CD19 products are in the TAC01 top 20, and RELEVANT is 17 (baseline 16). Change: NKTR-255 (OFF_TARGET, target UNKNOWN) left, and *Allogenic CD19-CAR-γδT cell* (new, judged RELEVANT) entered at #20. The UNKNOWN cell therapies at #10–14 stay above the PASS rows CNCT19 and KITE-753 (#15–16), because modality MATCH precedes target under the frozen order. That is not a defect of v2. |
+| **G5 (K2)** | **PASS.** See the mint5 tally below. No NON_ASSET is in the top 5. |
+| **G6** | **PASS.** No NON_ASSET is in either top 20; busulfan left. |
+| **G7** | **PASS.** Two builds per benchmark are identical. |
+| **G8** | **PASS.** `tests/se` 1588 passed, 3 xfailed. Ruff is clean. |
+
+**mint5 top 20 under v2:** RELEVANT 16, DUPLICATE 2, UNVERIFIED 2, OFF_TARGET 0, NON_ASSET 0.
+
+- **Rows carried over from §4, labels frozen:**
+  - AZD0120, FKC289, umbilical cord blood CD19-BCMA CAR-T and CD19-BCMA dual nanobody CAR-T
+    (RELEVANT);
+  - GC012F (DUPLICATE).
+- **New rows**, each verified against its construct fact (CD19 + TNFRSF17) and its
+  therapeutic-area gate (PASS, autoimmune arm):
+  - **RELEVANT:** Allogeneic CD19/BCMA CAR-γδT, allogenic anti-CD19/BCMA CAR-T (RD06-05),
+    anti-CD19/BCMA U CAR-T (KN3601 arm), BCMA-CD19 cCAR (C174412), CD19-BCMA Targeted CAR-T
+    Dose 1, CD19/BCMA in vivo CAR-T, CD19/BCMA Lupus Nephritis Targeted CAR-T,
+    FIT-(BCMA+CD19)-CAR-T, KN5601 (CAR-NK), KSVCBD (in vivo CAR-T), KT501, PRG-2311.
+  - **DUPLICATE:** CD19-BCMA Targeted CAR-T Dose 2, the same programme as Dose 1.
+  - **UNVERIFIED, counted as not RELEVANT:**
+    - "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA" may be the
+      same programme as the #4 cord-blood row;
+    - "Assigned Interventions CD19/BCMA CAR T-cells" is an unnamed arm label and may be the
+      same programme as the Lupus Nephritis row.
+
+**Known residuals, recorded but not acted on:** the DUPLICATE and UNVERIFIED rows are
+identity-merge misses for unnamed arm-label constructs. That is a population/identity
+defect, not an ordering one.
+
+**Status: ADOPTED.** No new replays are needed. The next run of any query uses v2.
