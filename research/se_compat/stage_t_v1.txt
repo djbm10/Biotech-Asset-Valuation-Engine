@@ -1,0 +1,30 @@
+T7: True
+===== tac01 transitions {('UNKNOWN', 'FAIL'): 109}
+    pomalidomide [('UNKNOWN', 'FAIL')]
+    vedolizumab [('UNKNOWN', 'FAIL')]
+    satricabtagene autoleucel [('UNKNOWN', 'UNKNOWN')]
+    Tabelecleucel [('UNKNOWN', 'UNKNOWN')]
+    Lifileucel [('UNKNOWN', 'UNKNOWN')]
+    resecabtagene autoleucel [('UNKNOWN', 'UNKNOWN')]
+    TAK-007 [('UNKNOWN', 'UNKNOWN')]
+T5 construct same: True
+T5 entity prefixes: Counter({'COMPLEX': 162})
+T5 assertions same: True
+===== mint5 transitions {('UNKNOWN', 'FAIL'): 62}
+    pomalidomide [('UNKNOWN', 'FAIL')]
+    vedolizumab [('UNKNOWN', 'FAIL')]
+    satricabtagene autoleucel [('UNKNOWN', 'UNKNOWN')]
+    tabelecleucel [('UNKNOWN', 'UNKNOWN')]
+    Lifileucel [('UNKNOWN', 'UNKNOWN')]
+    resecabtagene autoleucel [('UNKNOWN', 'UNKNOWN')]
+T5 construct same: True
+T5 entity prefixes: Counter({'COMPLEX': 89})
+T5 assertions same: True
+T1 equal frozen: True 171 171 extra 0 missing 0
+T7 top50 equal: True
+===== tac01 left: [] order preserved: True
+  entered: []
+  TOP20: ['Brexucabtagene Autoleucel', 'Axicabtagene Ciloleucel', 'Lisocabtagene Maraleucel', 'Tisagenlecleucel', 'CC-97540', 'cemacabtagene ansegedleucel', 'Prizloncabtagene Autoleucel', 'Anbalcabtagene Autoleucel', 'Varnimcabtagene autoleucel', 'Tabelecleucel', 'Lifileucel', 'resecabtagene autoleucel', 'satricabtagene autoleucel', 'TAK-007', 'CNCT19', 'KITE-753', 'Fludarabine-based', 'NKTR-255', '7×19-THEMIS CAR-T cells', 'ALLO-501A']
+===== mint5 left: [('pomalidomide', 3, True), ('vedolizumab', 4, True)] order preserved: True
+  entered: [('anti-CD19/BCMA U CAR T', 49), ('CD19/BCMA-Targeted Universal Chimeric Antigen Rece', 50)]
+  TOP20: ['ICG318', 'mezigdomide', 'AZD0120', 'FKC289', 'GC012F', 'umbilical cord blood CD19-BC', 'CD19-BCMA dual nanobody base', 'BC19', 'BH2024', 'budoprutug', 'CD19CART', 'Chemotherapy Agents', 'CM336', 'CRT-402', 'FT839', 'IMPT-514', 'Inaticabtagene autoleucel', 'INCA000585', 'Lymphodepletion Chemotherapy', 'QEL-005']

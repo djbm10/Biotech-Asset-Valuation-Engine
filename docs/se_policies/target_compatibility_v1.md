@@ -104,3 +104,25 @@ These are scored on sealed replays into new directories, against `*_qual_v6`.
 
 - **Adopt** if T1–T8 all pass.
 - **Otherwise** record the failure and revert. Do not tune.
+
+## 6. Result — 2026-10-04, code `d175dbb`
+
+**Runs:**
+- `~/se_runs/tac01_compat_v1`
+- `~/se_runs/tac01_compat_v1_det`
+- `~/se_runs/mint5_compat_v1`
+
+**Score:** `research/se_compat/stage_t_v1.txt`.
+
+| Criterion | Result |
+|---|---|
+| **T1** | **PASS.** The UNKNOWN→FAIL transitions equal the frozen population exactly: 171/171, with 0 extra and 0 missing. That gives 0 false transitions, by §3. |
+| **T2** | **PASS.** Pomalidomide and vedolizumab go UNKNOWN→FAIL in both benchmarks. Satri-cel stays UNKNOWN; this is recorded and not tuned. |
+| **T3** | **PASS.** Tabelecleucel, lifileucel, rese-cel and TAK-007 stay UNKNOWN. |
+| **T4** | **PASS.** The only transitions are UNKNOWN→FAIL: 109 in TAC01 and 62 in mint5. No PASS changed. |
+| **T5** | **PASS.** `construct_target_set` facts and target assertions are identical. Every compatibility entity is `COMPLEX:`; no E2 entity occurred, and no gene id was emitted. |
+| **T6** | **PASS.** Ranking code is unchanged. The TAC01 top 50 is unchanged, because no frozen row was in it. In mint5, pomalidomide (#3) and vedolizumab (#4) left, retained order is preserved, and two dual CD19/BCMA CAR-T rows backfill at #49–50. |
+| **T7** | **PASS.** The two TAC01 runs are identical in facts, gates, ranking and top 50. |
+| **T8** | **PASS.** `tests/se` 1568 passed, 3 xfailed. Ruff is clean. |
+
+**Status: ADOPTED.** The new baselines are `~/se_runs/{tac01,mint5}_compat_v1`.
