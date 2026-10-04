@@ -1,0 +1,56 @@
+D6: True
+===== tac01
+D1: True 15 15 extra [] missing [] gained [] reason-changed []
+D3 protected: [('Senl_B19 autologous CAR-T (S1904) treatment', [('CONSTRUCT_CORROBORATED', 'CONSTRUCT_CORROBORATED')]), ('Bispecific antibody-based combined with CAR-T cell therapy', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('NKTR-255', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('SYNCAR-001', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('AcNK-Sup003 cell injection', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('Tecartus', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('AZD0120', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('FKC289', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('CLN-978', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')])]
+D4 construct same: True compat same: True gate diffs: {} gate records dropped (vetoed): 15
+===== mint5
+D1: True 11 11 extra [] missing [] gained [] reason-changed []
+D3 protected: [('Senl_B19 autologous CAR-T (S1904) treatment', [('CONSTRUCT_CORROBORATED', 'CONSTRUCT_CORROBORATED')]), ('Bispecific antibody-based combined with CAR-T cell therapy', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('NKTR-255', [(None, None)]), ('SYNCAR-001', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('Tecartus', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('AZD0120', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('FKC289', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')]), ('CLN-978', [('STRUCTURED_THERAPEUTIC', 'STRUCTURED_THERAPEUTIC')])]
+D4 construct same: True compat same: True gate diffs: {} gate records dropped (vetoed): 11
+D6 top50 equal: True
+===== tac01 D5 left: [('Fludarabine-based', 17, True)] order: True
+  entered: [('Second Infusion of Commercial Anti-CD19 CAR-T', 50)]
+  TOP20:
+    1 Brexucabtagene Autoleucel                     IRMED_TARGET
+    2 Axicabtagene Ciloleucel                       IRMED_TARGET
+    3 Lisocabtagene Maraleucel                      IRMED_TARGET
+    4 Tisagenlecleucel                              IRMED_TARGET
+    5 CC-97540                                      UNRESOLVED
+    6 cemacabtagene ansegedleucel                   UNRESOLVED
+    7 Prizloncabtagene Autoleucel                   UNRESOLVED
+    8 Anbalcabtagene Autoleucel                     UNRESOLVED
+    9 Varnimcabtagene autoleucel                    UNRESOLVED
+   10 Tabelecleucel                                 UNRESOLVED
+   11 Lifileucel                                    UNRESOLVED
+   12 resecabtagene autoleucel                      UNRESOLVED
+   13 satricabtagene autoleucel                     UNRESOLVED
+   14 TAK-007                                       UNRESOLVED
+   15 CNCT19                                        UNRESOLVED
+   16 KITE-753                                      UNRESOLVED
+   17 NKTR-255                                      UNRESOLVED
+   18 7×19-THEMIS CAR-T cells                       UNRESOLVED
+   19 ALLO-501A                                     UNRESOLVED
+   20 Allogeneic CD19-STAR T cell                   UNRESOLVED
+===== mint5 D5 left: [('Chemotherapy Agents', 12, True), ('Lymphodepletion Chemotherapy', 19, True)] order: True
+  entered: [('ATG-201', 49), ('bendamustine', 50)]
+  TOP20:
+    1 ICG318                                        UNRESOLVED
+    2 mezigdomide                                   UNRESOLVED
+    3 AZD0120                                       UNRESOLVED
+    4 FKC289                                        UNRESOLVED
+    5 GC012F                                        UNRESOLVED
+    6 umbilical cord blood CD19-BCMA CAR-T cells in UNRESOLVED
+    7 CD19-BCMA dual nanobody based CAR-T Cells     UNRESOLVED
+    8 BC19                                          UNRESOLVED
+    9 BH2024                                        UNRESOLVED
+   10 budoprutug                                    UNRESOLVED
+   11 CD19CART                                      UNRESOLVED
+   12 CM336                                         UNRESOLVED
+   13 CRT-402                                       UNRESOLVED
+   14 FT839                                         UNRESOLVED
+   15 IMPT-514                                      UNRESOLVED
+   16 Inaticabtagene autoleucel                     UNRESOLVED
+   17 INCA000585                                    UNRESOLVED
+   18 QEL-005                                       UNRESOLVED
+   19 AT-007                                        UNRESOLVED
+   20 busulfan                                      UNRESOLVED

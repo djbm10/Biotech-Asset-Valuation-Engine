@@ -114,3 +114,24 @@ These are scored on sealed replays into new directories, against `*_compat_v1`.
 - **Adopt** if D1–D7 all pass.
 - **Otherwise** record the failure and revert. Do not tune the head set, the protection set or
   the population.
+
+## 6. Result — 2026-10-04, code `47ead46`
+
+**Runs:**
+- `~/se_runs/tac01_qual_v7`
+- `~/se_runs/tac01_qual_v7_det`
+- `~/se_runs/mint5_qual_v7`
+
+**Score:** `research/se_qualification_v7/stage_d_v7.txt`.
+
+| Criterion | Result |
+|---|---|
+| **D1** | **PASS.** The newly unqualified names equal the expected set: TAC01 15/15, mint5 11/11. Nothing extra and nothing missing. No name gained qualification and no surviving reason changed. |
+| **D2** | **PASS**, by D1 plus §3. |
+| **D3** | **PASS.** Every protected name keeps its reason. NKTR-255 was already unqualified in mint5 in the baseline and is unchanged. |
+| **D4** | **PASS.** Construct facts, compatibility facts and every still-evaluated target-gate decision are identical. The only gate-record differences are the vetoed rows, which left the default path (15 in TAC01, 11 in mint5). |
+| **D5** | **PASS.** Ranking code is unchanged, and retained order is preserved. TAC01 top 50: `Fludarabine-based` (#17) left and one row backfilled at #50. mint5 top 50: `Chemotherapy Agents` (#12) and `Lymphodepletion Chemotherapy` (#19) left and two rows backfilled. |
+| **D6** | **PASS.** The two TAC01 runs are identical. |
+| **D7** | **PASS.** `tests/se` 1583 passed, 3 xfailed. Ruff is clean. |
+
+**Status: ADOPTED.** The new baselines are `~/se_runs/{tac01,mint5}_qual_v7`.
