@@ -1,0 +1,29 @@
+===== tac01
+ top20 gate: Counter({'PASS': 14, 'UNKNOWN': 6})
+ top50 gate: Counter({'PASS': 44, 'UNKNOWN': 6})
+ PASS rows at #21-50: 30
+   #10 Tabelecleucel                            UNKNOWN mod=CELL_THERAPY qual=DIRECT_APPROVED_NAME
+   #11 Lifileucel                               UNKNOWN mod=CELL_THERAPY qual=DIRECT_APPROVED_NAME
+   #12 resecabtagene autoleucel                 UNKNOWN mod=CELL_THERAPY qual=DIRECT_APPROVED_NAME
+   #13 satricabtagene autoleucel                UNKNOWN mod=CELL_THERAPY qual=DIRECT_APPROVED_NAME
+   #14 TAK-007                                  UNKNOWN mod=CELL_THERAPY qual=DIRECT_APPROVED_NAME
+   #17 NKTR-255                                 UNKNOWN mod=None qual=STRUCTURED_THERAPEUTIC
+===== mint5
+ top20 gate: Counter({'UNKNOWN': 15, 'PASS': 5})
+ top50 gate: Counter({'PASS': 27, 'UNKNOWN': 23})
+ PASS rows at #21-50: 22
+   # 1 ICG318                                   UNKNOWN mod=None qual=DEVELOPMENT_CODE_AUTHORITY
+   # 2 mezigdomide                              UNKNOWN mod=SMALL_MOLECULE qual=DIRECT_APPROVED_NAME
+   # 8 BC19                                     UNKNOWN mod=None qual=DEVELOPMENT_CODE_AUTHORITY
+   # 9 BH2024                                   UNKNOWN mod=None qual=DEVELOPMENT_CODE_AUTHORITY
+   #10 budoprutug                               UNKNOWN mod=ANTIBODY qual=DIRECT_APPROVED_NAME
+   #11 CD19CART                                 UNKNOWN mod=None qual=STRUCTURED_THERAPEUTIC
+   #12 CM336                                    UNKNOWN mod=None qual=STRUCTURED_THERAPEUTIC
+   #13 CRT-402                                  UNKNOWN mod=None qual=STRUCTURED_THERAPEUTIC
+   #14 FT839                                    UNKNOWN mod=None qual=DEVELOPMENT_CODE_AUTHORITY
+   #15 IMPT-514                                 UNKNOWN mod=None qual=DEVELOPMENT_CODE_AUTHORITY
+   #16 Inaticabtagene autoleucel                UNKNOWN mod=CELL_THERAPY qual=DIRECT_APPROVED_NAME
+   #17 INCA000585                               UNKNOWN mod=None qual=STRUCTURED_THERAPEUTIC
+   #18 QEL-005                                  UNKNOWN mod=None qual=STRUCTURED_THERAPEUTIC
+   #19 AT-007                                   UNKNOWN mod=SMALL_MOLECULE qual=DIRECT_APPROVED_NAME
+   #20 busulfan                                 UNKNOWN mod=SMALL_MOLECULE qual=DIRECT_APPROVED_NAME

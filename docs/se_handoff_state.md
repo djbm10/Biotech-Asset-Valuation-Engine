@@ -8,7 +8,36 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-04) — START HERE
+## 0. Current directive (last updated 2026-10-04, after v7) — START HERE
+
+**Adopted:** TARGET_COMPATIBILITY v1 and CANDIDATE_QUALIFICATION v7. Baselines:
+`~/se_runs/{tac01,mint5}_qual_v7`. The reassessment is in
+`research/se_qualification_v7/reassessment_2026-10-04.txt`.
+
+**TAC01 top 20:** 14 PASS, 6 UNKNOWN.
+- The 6 UNKNOWN rows are tabelecleucel, lifileucel, rese-cel, satri-cel, TAK-007 and NKTR-255.
+- Each one is a deliberate UNKNOWN under an adopted precision rule.
+- 30 PASS rows sit at #21–50.
+
+**mint5 top 20:** 5 PASS, 15 UNKNOWN.
+- The UNKNOWN rows are non-CAR or development-code assets with human efficacy, ranked
+  above PASS dual constructs. Frozen ranking puts human efficacy and maturity *before*
+  target confidence.
+- The UNKNOWN rows mix four kinds:
+  - real wrong-target products with no authority edges: mezigdomide, busulfan, AT-007;
+  - single-target products: CM336 (BCMA×CD3), budoprutug (anti-CD19);
+  - development codes of unknown construct: ICG318, BC19, BH2024, FT839, IMPT-514, …;
+  - one product with an NCIt definition gap: inaticabtagene.
+
+**Pending operator fork (ask first):**
+- **A.** A ranking amendment: for target-declared queries, put target status (PASS > UNKNOWN >
+  FAIL) before human efficacy.
+- **B.** A non-CAR target authority for development codes and small molecules.
+
+See the end-of-session message for details.
+
+### Earlier (2026-10-04)
+
 
 - **TARGET_COMPATIBILITY v1: ADOPTED** (T1–T8). Baselines: `~/se_runs/{tac01,mint5}_compat_v1`.
 - **CANDIDATE_QUALIFICATION v7** (treatment-category head-noun veto): preregistered and
