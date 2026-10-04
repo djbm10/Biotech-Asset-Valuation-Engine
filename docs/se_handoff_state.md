@@ -8,7 +8,29 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-04, after v7) — START HERE
+## 0. Current directive (last updated 2026-10-04, ranking v2) — START HERE
+
+**RANKING_LEXICOGRAPHIC v2: ADOPTED** at `eac06a7`. It was scored offline on the `*_qual_v7`
+results.
+
+| Benchmark | Top-20 RELEVANT, before → after | Other changes |
+|---|---|---|
+| TAC01 | 16 → 17 | NKTR-255 left; all four approved CD19 products are kept |
+| mint5 | 8 → 16 | 0 NON_ASSET in the top 20 |
+
+The target-free branch is unreachable, because `target_expression` is mandatory and the
+compiler refuses queries with no target. This is recorded as a product limitation.
+
+**Remaining defects** (none started; each needs its own preregistration):
+1. Identity merges of unnamed arm-label constructs. The mint5 top 20 has 2 DUPLICATE and
+   2 UNVERIFIED rows; the "Dose 1/Dose 2" pattern is the clearest case.
+2. TAC01 #10–14: UNKNOWN cell therapies sit above PASS rows that have unknown modality,
+   because modality precedes target. Those rows have UNKNOWN modality because they have no
+   authority record.
+3. Comparator-layer residuals: `Placebo …` variants and `Withhold/Continue IS`.
+4. Target-free search is unsupported.
+
+### Earlier (2026-10-04, after v7)
 
 **Adopted:** TARGET_COMPATIBILITY v1 and CANDIDATE_QUALIFICATION v7. Baselines:
 `~/se_runs/{tac01,mint5}_qual_v7`. The reassessment is in
