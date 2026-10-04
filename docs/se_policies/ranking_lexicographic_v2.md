@@ -107,3 +107,20 @@ fresh, and UNVERIFIED counts as not RELEVANT.
 - **Adopt** only if G1–G8 all pass.
 - **Otherwise** record the failure and revert. Do not tune the key, and do not change any
   evidence rule.
+
+## 7. Pre-measurement disclosure — 2026-10-04, before any v2 order was computed
+
+The §3 target-free control **cannot be executed**:
+- `compile_intent` refuses the control query with `IntentNotCompilable: no biological target
+  recognized in the query`;
+- `BuyerProblem.strategic_gap.target_expression` is a required field, with
+  `targets` `min_length=1`.
+
+Every query the engine can run therefore declares a target, and the v1 branch of the key is
+unreachable in production today. G2 is consequently **vacuous**. It is re-stated as a unit
+test, `tests/se/test_ranking_v2.py`: under `target_declared=False` the key is element-for-
+element the v1 + amendment 1 key.
+
+No criterion is relaxed. The control simply has no population. The unreachability is
+recorded as a product limitation: target-free search is not supported. I did not add a
+target-free path, because that would change query semantics and is out of scope.
