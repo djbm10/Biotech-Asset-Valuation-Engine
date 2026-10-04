@@ -8,7 +8,17 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-03, after v6) — START HERE
+## 0. Current directive (last updated 2026-10-04) — START HERE
+
+- **TARGET_COMPATIBILITY v1: ADOPTED** (T1–T8). Baselines: `~/se_runs/{tac01,mint5}_compat_v1`.
+- **CANDIDATE_QUALIFICATION v7** (treatment-category head-noun veto): preregistered and
+  implemented at `47ead46`. Awaiting the operator's replays into `{tac01,mint5}_qual_v7`
+  and `tac01_qual_v7_det`. Score D1–D7 against `*_compat_v1`.
+- **Declared v7 residuals:** Withhold/Continue IS, `Corticosteroids`, `Placebo` variants
+  (comparator layer), and sentence-shaped arm descriptions.
+
+### Earlier (2026-10-03)
+
 
 **Adopted on 2026-10-03:**
 - TARGET_AUTHORITY_ARBITRATION v1
