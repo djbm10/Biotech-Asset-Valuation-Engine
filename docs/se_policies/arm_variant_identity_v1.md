@@ -92,3 +92,13 @@ Sealed replays go into new directories and are compared against `*_qual_v7`.
 - **Adopt** if I1–I7 all pass.
 - **Otherwise** record the failure and revert. Do not tune the qualifier grammar or the
   evidence requirement.
+
+## 6. Measurement clarification (operator, 2026-10-04, before any replay existed)
+
+- **Identity, facts and gates** (I1–I4) are compared against the raw `*_qual_v7`
+  `result.json`.
+- **Ranking** (I5): the baseline order is the `*_qual_v7` `result.json` rebuilt with the
+  adopted ranking v2 key, using `build_shortlist` at HEAD. It is **not** the v1 order that was
+  stored with the run. No movement already attributed to ranking v2 may be counted as an
+  effect of this milestone.
+- **Scorer:** `scripts/score_arm_variant_identity.py`.
