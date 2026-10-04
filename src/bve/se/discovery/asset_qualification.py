@@ -444,6 +444,56 @@ def qualification_veto(name: str) -> tuple[str, list[str]] | None:
     segments = composite_drug_segments(name)
     if segments:
         return "COMPOSITE_OF_NAMED_DRUGS", segments
+    head = treatment_category_head(name)
+    if head is not None:
+        return "TREATMENT_CATEGORY_DESCRIPTOR", [head]
+    return None
+
+
+#: Nouns naming a category of treatment rather than one product (v7 Q3, frozen).
+_CATEGORY_HEADS = frozenset(
+    {
+        "chemotherapy", "chemotherapies", "regimen", "regimens", "treatment", "treatments",
+        "therapy", "therapies", "agents", "conditioning", "immunosuppression",
+        "consolidation", "induction", "lymphodepletion", "care",
+    }
+)
+#: Nouns that make a phrase describe a construct, which the construct route owns (v7 P1).
+_CONSTRUCT_NOUNS = frozenset(
+    {
+        "car", "cart", "cell", "cells", "antibody", "antibodies", "nanobody", "vector",
+        "mrna", "vaccine", "virus", "tcr", "nk", "til", "lnp",
+    }
+)
+
+
+def treatment_category_head(name: str) -> str | None:
+    """The category head of a treatment descriptor, or ``None`` (``candidate_qualification_v7``).
+
+    A drug name inside "Cyclophosphamide-based chemotherapy" modifies the head; the phrase
+    refers to a regimen category. A construct noun or a sponsor code anywhere protects the
+    name, because both identify a product.
+    """
+
+    core = re.sub(r"\([^)]*\)|\[[^\]]*\]", "", name)
+    tokens = [token for token in re.split(r"[^A-Za-z0-9]+", core) if token]
+    if not tokens:
+        return None
+    parts = {
+        part.casefold()
+        for word in core.split()
+        for part in re.split(r"[^A-Za-z0-9]+", word)
+        if part
+    }
+    if parts & _CONSTRUCT_NOUNS:
+        return None
+    if any(is_development_code(word) for word in core.split()):
+        return None
+    last = tokens[-1].casefold()
+    if last in _CATEGORY_HEADS:
+        return f"head:{last}"
+    if last == "based" and re.search(r"-based\s*$", core.strip(), re.IGNORECASE):
+        return "elliptical_based"
     return None
 
 
