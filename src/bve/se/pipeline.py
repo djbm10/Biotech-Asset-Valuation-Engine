@@ -46,6 +46,12 @@ from bve.se.evidence.pubmed import PubMedEvidenceExtractor
 from bve.se.evidence.generic import PublicDocumentEvidenceExtractor
 from bve.se.gates.engine import GateEngine, GateEvaluation
 from bve.se.ontology.drug_modality import modality_authority, modality_match
+from bve.se.evidence.target_compatibility import (
+    compatibility_evidence,
+    complex_entities,
+    nongene_entities,
+)
+from bve.se.ontology.targets import get_authority
 from bve.se.ontology.ncit_entity_types import NCIT_ENTITY_TYPES_KEY, ncit_entity_types
 from bve.se.ontology.ncit_targets import (
     NCIT_EXTRACTOR_KEY,
@@ -564,6 +570,51 @@ def run_landscape_search(
                     filled += 1
                 ncit_dispositions.append(disposition)
             stage.count(linked=len(ncit_dispositions), filled=filled)
+
+    # ``target_compatibility_v1.md``: for an asset still without a construct target set,
+    # a positively identified other target entity (a complex/family, or a non-gene NCIt
+    # antigen class). Recorded as its own fact type; never a target id, never a set.
+    ncit_classes_by_asset = {
+        d["asset_id"]: (ncit.products[d["ncit_code"]]["classes"] if ncit is not None else [])
+        for d in ncit_dispositions
+        if d["reason"] != "ambiguous_link"
+    }
+    with telemetry.stage("TARGET_COMPATIBILITY") as stage:
+        recorded = 0
+        drug_authority = get_authority()
+        for asset_id in sorted(registry.assets):
+            if any(
+                fact.fact_type == "construct_target_set"
+                for fact in facts_by_asset.get(asset_id, [])
+            ):
+                continue
+            asset = registry.assets[asset_id]
+            entities = None
+            basis = None
+            drug = (
+                attribution.resolve_asset(asset.canonical_name, list(asset.aliases))
+                if attribution is not None
+                else None
+            )
+            if drug is not None and drug_authority is not None:
+                entities = complex_entities(drug_authority.edges_for(drug))
+                basis = "drug_target_authority"
+            if entities is None and asset_id in ncit_classes_by_asset:
+                entities = nongene_entities(ncit_classes_by_asset[asset_id])
+                basis = "ncit_antigen_class"
+            if not entities:
+                continue
+            evidence = compatibility_evidence(
+                asset_id, entities, basis=basis, as_of_date=problem.buyer.as_of_date
+            )
+            for document in evidence.documents:
+                ledger.register_document(document)
+            for claim in evidence.claims:
+                ledger.add_claim(claim)
+            ledger.add_fact(evidence.fact)
+            facts_by_asset.setdefault(asset_id, []).append(evidence.fact)
+            recorded += 1
+        stage.count(recorded=recorded)
 
     # Human proof of concept, from the two places a reported result can be found: a
     # structured clinical result the source published, and a sentence in a document the

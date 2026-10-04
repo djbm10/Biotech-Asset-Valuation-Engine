@@ -169,6 +169,7 @@ class GateEngine:
                 problem.strategic_gap.target_expression,
                 subject_id=subject_id,
                 target_fact=target_facts[0] if len(target_facts) == 1 else None,
+                compatibility_facts=by_type.get("target_compatibility_evidence", []),
             )
         )
 

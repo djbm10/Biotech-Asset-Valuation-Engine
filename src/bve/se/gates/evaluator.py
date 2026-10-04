@@ -275,9 +275,34 @@ def evaluate_target_expression(
     subject_id: str,
     target_fact: NormalizedFact | None,
     requirement_id: str = "target.expression",
+    compatibility_facts: list[NormalizedFact] | None = None,
 ) -> GateDecision:
     """Evaluate canonical construct targets with explicit ANY/ALL/exact semantics."""
 
+    if target_fact is None and compatibility_facts and len(compatibility_facts) == 1:
+        # ``target_compatibility_v1.md``: a positively established other target entity
+        # with none of the queried targets among its members is incompatible with the
+        # query. A queried target inside an entity is not evidence either way: UNKNOWN.
+        fact = compatibility_facts[0]
+        required = {_target_key(target.canonical_id) for target in expression.targets}
+        members = {
+            _target_key(member)
+            for entity in fact.value
+            for member in entity.get("members", [])
+        }
+        if fact.value and not (members & required):
+            return GateDecision(
+                gate_id="target_logic",
+                requirement_id=requirement_id,
+                subject_id=subject_id,
+                status=GateStatus.FAIL,
+                observed_fact_ids=[fact.fact_id],
+                supporting_or_contradictory_claim_ids=_claim_ids([fact]),
+                rationale=(
+                    "An authority positively establishes a different target entity, "
+                    "and no queried target is part of it."
+                ),
+            )
     if target_fact is None:
         return GateDecision(
             gate_id="target_logic",
