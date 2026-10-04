@@ -1,0 +1,100 @@
+[
+ {
+  "base": "cd19-bcma targeted car-t",
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "members": [
+   "CD19-BCMA Targeted CAR-T Dose 1",
+   "CD19-BCMA Targeted CAR-T Dose 2"
+  ],
+  "shared_trials": [
+   "NCT06371040"
+  ]
+ },
+ {
+  "base": "cd19.car-multivst for",
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "members": [
+   "CD19.CAR-multiVST for Group A",
+   "CD19.CAR-multiVST for Group B"
+  ],
+  "shared_trials": [
+   "NCT03768310"
+  ]
+ },
+ {
+  "base": "et190l1-artemis\u2122 t cells",
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "members": [
+   "ET190L1-ARTEMIS\u2122 T cells - iv high dose",
+   "ET190L1-ARTEMIS\u2122 T cells -iv low dose",
+   "ET190L1-ARTEMIS\u2122 T cells -iv middle dose"
+  ],
+  "shared_trials": [
+   "NCT03895944"
+  ]
+ },
+ {
+  "base": "mb-cart2019.1",
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "members": [
+   "MB-CART2019.1 Dose level 1",
+   "MB-CART2019.1 Dose level 2"
+  ],
+  "shared_trials": [
+   "NCT03870945"
+  ]
+ },
+ {
+  "base": "cd19-bcma targeted car-t",
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "members": [
+   "CD19-BCMA Targeted CAR-T Dose 1",
+   "CD19-BCMA Targeted CAR-T Dose 2"
+  ],
+  "shared_trials": [
+   "NCT06371040"
+  ]
+ },
+ {
+  "base": "cd19.car-multivst for",
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "members": [
+   "CD19.CAR-multiVST for Group A",
+   "CD19.CAR-multiVST for Group B"
+  ],
+  "shared_trials": [
+   "NCT03768310"
+  ]
+ },
+ {
+  "base": "et190l1-artemis\u2122 t cells",
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "members": [
+   "ET190L1-ARTEMIS\u2122 T cells - iv high dose",
+   "ET190L1-ARTEMIS\u2122 T cells -iv low dose",
+   "ET190L1-ARTEMIS\u2122 T cells -iv middle dose"
+  ],
+  "shared_trials": [
+   "NCT03895944"
+  ]
+ },
+ {
+  "base": "mb-cart2019.1",
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "members": [
+   "MB-CART2019.1 Dose level 1",
+   "MB-CART2019.1 Dose level 2"
+  ],
+  "shared_trials": [
+   "NCT03870945"
+  ]
+ }
+]
