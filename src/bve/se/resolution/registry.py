@@ -46,6 +46,29 @@ def normalize_identity_name(value: str | None) -> str | None:
     return normalized or None
 
 
+#: A trailing arm/dose qualifier from a closed grammar (``arm_variant_identity_v1`` V1).
+_ARM_QUALIFIER = re.compile(
+    r"""(?ix)
+    (?:^|[\s\-\u2013:,(]+)
+    (?:
+      (?:dose|dosage)(?:\s*level)?\s*[0-9]{1,2}[a-z]? |
+      dl\s*[0-9]{1,2} |
+      (?:iv\s+)?(?:high|low|middle|mid|medium|intermediate)[\s-]+dose |
+      (?:cohort|arm|group|part)\s+(?:[0-9]{1,2}|[a-h])
+    )\s*\)?\s*$"""
+)
+
+
+def arm_variant_base(name: str) -> str | None:
+    """The product name before a trailing arm/dose qualifier, or ``None``."""
+
+    match = _ARM_QUALIFIER.search(name)
+    if not match:
+        return None
+    base = name[: match.start()].strip(" -\u2013:,(")
+    return base or None
+
+
 def _id(prefix: str, value: str) -> str:
     return f"{prefix}:{hashlib.sha256(value.encode()).hexdigest()[:20]}"
 
@@ -651,6 +674,41 @@ class AssetRegistry:
                 target_asset_id=survivor,
                 confidence=1.0,
                 deterministic_basis=f"authority_drug:{drug}",
+            )
+            self.apply_merge(proposal.merge_id)
+            for member in ordered[1:]:
+                redirects[member] = survivor
+        return redirects
+
+    def consolidate_arm_variants(self) -> dict[str, str]:
+        """Merge dose, arm and cohort variants of one product (``arm_variant_identity_v1``).
+
+        "X Dose 1" and "X Dose 2" are one product only when one registry record lists both:
+        a shared trial id is required, never textual similarity alone, and targets are not
+        consulted. Every member's name stays as an alias of the merged asset.
+        """
+
+        groups: dict[str, list[str]] = {}
+        for asset_id, asset in sorted(self.assets.items()):
+            base = arm_variant_base(asset.canonical_name)
+            if base:
+                groups.setdefault(base.casefold(), []).append(asset_id)
+        redirects: dict[str, str] = {}
+        for base, members in sorted(groups.items()):
+            if len(members) < 2:
+                continue
+            shared = set.intersection(*(set(self.assets[m].trial_ids) for m in members))
+            if not shared:
+                continue
+            ordered = sorted(
+                members, key=lambda m: (self.assets[m].canonical_name.casefold(), m)
+            )
+            survivor = ordered[0]
+            proposal = self.propose_merge(
+                ordered,
+                target_asset_id=survivor,
+                confidence=1.0,
+                deterministic_basis=f"arm_variant:{base}:{','.join(sorted(shared))}",
             )
             self.apply_merge(proposal.merge_id)
             for member in ordered[1:]:

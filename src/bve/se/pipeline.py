@@ -388,6 +388,11 @@ def run_landscape_search(
         # After every hit, because two names can only be seen to identify one drug once
         # both are registered.
         redirects = registry.consolidate_by_authority()
+        # ``arm_variant_identity_v1.md``: dose/arm/cohort variants listed by one record.
+        arm_redirects = registry.consolidate_arm_variants()
+        redirects = {
+            asset_id: arm_redirects.get(target, target) for asset_id, target in redirects.items()
+        } | arm_redirects
         hit_to_asset = {
             hit_id: redirects.get(asset_id, asset_id)
             for hit_id, asset_id in hit_to_asset.items()
