@@ -102,3 +102,28 @@ Sealed replays go into new directories and are compared against `*_qual_v7`.
   stored with the run. No movement already attributed to ranking v2 may be counted as an
   effect of this milestone.
 - **Scorer:** `scripts/score_arm_variant_identity.py`.
+
+## 7. Result — 2026-10-05, code `d045206`
+
+**Runs:**
+- `~/se_runs/tac01_armid_v1`
+- `~/se_runs/tac01_armid_v1_det`
+- `~/se_runs/mint5_armid_v1`
+
+**Scorer output:** `research/se_arm_identity/stage_i_v1.txt`, under the §6 rules.
+
+| Criterion | Result |
+|---|---|
+| **I1** | **PASS.** Exactly the 4 frozen groups merged in each benchmark, each into one asset, and nothing else merged by this route. |
+| **I2** | **PASS**, by I1 plus §3. 0 false merges. |
+| **I3** | **PASS.** Every member name is an alias of its merged asset, and the shared trial ids are kept. |
+| **I4** | **PASS.** For non-merged assets: 0 missing, 0 qualification changes, 0 gate changes, 0 `construct_target_set` changes, in both benchmarks. For the three gated groups, the members agreed and the survivor's gate equals theirs. MB-CART2019.1's members were ungated (unqualified, low-support) in the baseline, and the survivor still is. |
+| **I5** | **PASS.** Both sides are built with ranking v2. TAC01 top 50 is unchanged. mint5: *CD19-BCMA Targeted CAR-T Dose 2* (#13), now absorbed into Dose 1, left; one row backfilled at #50; retained order is preserved. No ranking-v2 movement is attributed here. |
+| **I6** | **PASS, with disclosure.** Construct facts, gates and the v2 top 50 are identical across the two TAC01 runs. The merge records match on every field except `created_at` and `applied_at`, which are wall-clock stamps. The baseline's 31 authority merges carry the same stamps, so this is pre-existing run metadata of the same kind as the run id earlier milestones excluded. It is not a semantic difference. The scorer's raw comparison printed FAIL; the semantic comparison passes. |
+| **I7** | **PASS.** `tests/se` 1604 passed, 3 xfailed. Ruff is clean. |
+
+**Residuals recorded:**
+- An unqualified sibling remains separate, as §2 declared out of scope: `ET190L1 ARTEMIS™ T cells`.
+- The mint5 #50 backfill is a procedure entry: `TCRαβ+/CD19+ depleted allogeneic HSCT`.
+
+**Status: ADOPTED.** The new baselines are `~/se_runs/{tac01,mint5}_armid_v1`.

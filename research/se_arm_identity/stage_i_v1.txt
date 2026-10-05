@@ -1,0 +1,21 @@
+I6 determinism: FAIL
+===== tac01
+I1 arm merges 4 vs frozen 4: PASS
+I3 aliases+trials preserved: PASS  groups=[['CD19-BCMA Targeted CAR-T Dose 1', 'CD19-BCMA Targeted CAR-T Dose 2'], ['CD19.CAR-multiVST for Group A', 'CD19.CAR-multiVST for Group B'], ['ET190L1-ARTEMIS™ T cells - iv high dose', 'ET190L1-ARTEMIS™ T cells -iv low dose', 'ET190L1-ARTEMIS™ T cells -iv middle dose'], ['MB-CART2019.1 Dose level 1', 'MB-CART2019.1 Dose level 2']]
+I4 non-merged assets: missing=0 qual_changed=0 gate_changed=0 construct_changed=0
+   survivor MB-CART2019.1 Dose level 1: members agreed=False equal=[]
+   survivor ET190L1-ARTEMIS™ T cells - iv high dose: members agreed=True equal=True
+   survivor CD19-BCMA Targeted CAR-T Dose 1: members agreed=True equal=True
+   survivor CD19.CAR-multiVST for Group A: members agreed=True equal=True
+I5 (both sides ranking v2) left=[] entered=[] retained order preserved=True
+   top20: ['Brexucabtagene Autoleucel', 'Axicabtagene Ciloleucel', 'Lisocabtagene Maraleucel', 'Tisagenlecleucel', 'CC-97540', 'cemacabtagene ansegedleucel', 'Prizloncabtagene Autoleucel', 'Anbalcabtagene Autoleucel', 'Varnimcabtagene autoleucel', 'Tabelecleucel', 'Lifileucel', 'resecabtagene autoleucel', 'satricabtagene autoleucel', 'TAK-007', 'CNCT19', 'KITE-753', '7×19-THEMIS CAR-T cells', 'ALLO-501A', 'Allogeneic CD19-STAR T cell', 'Allogenic CD19-CAR-γδT cell']
+===== mint5
+I1 arm merges 4 vs frozen 4: PASS
+I3 aliases+trials preserved: PASS  groups=[['CD19-BCMA Targeted CAR-T Dose 1', 'CD19-BCMA Targeted CAR-T Dose 2'], ['CD19.CAR-multiVST for Group A', 'CD19.CAR-multiVST for Group B'], ['ET190L1-ARTEMIS™ T cells - iv high dose', 'ET190L1-ARTEMIS™ T cells -iv low dose', 'ET190L1-ARTEMIS™ T cells -iv middle dose'], ['MB-CART2019.1 Dose level 1', 'MB-CART2019.1 Dose level 2']]
+I4 non-merged assets: missing=0 qual_changed=0 gate_changed=0 construct_changed=0
+   survivor MB-CART2019.1 Dose level 1: members agreed=False equal=[]
+   survivor ET190L1-ARTEMIS™ T cells - iv high dose: members agreed=True equal=True
+   survivor CD19-BCMA Targeted CAR-T Dose 1: members agreed=True equal=True
+   survivor CD19.CAR-multiVST for Group A: members agreed=True equal=True
+I5 (both sides ranking v2) left=[('CD19-BCMA Targeted CAR-T Dose 2', 13, True)] entered=[('TCRαβ+/CD19+ depleted allogeneic hematopoietic stem cell transplant (HSCT)', 50)] retained order preserved=True
+   top20: ['AZD0120', 'FKC289', 'GC012F', 'umbilical cord blood CD19-BCMA', 'CD19-BCMA dual nanobody based ', 'Allogeneic CD19/BCMA-targeted ', 'allogeneic umbilical cord bloo', 'allogenic anti-CD19/BCMA CAR-T', 'anti-CD19/BCMA U CAR T cells', 'Assigned Interventions CD19/BC', 'BCMA-CD19 cCAR T cells', 'CD19-BCMA Targeted CAR-T Dose ', 'CD19/BCMA in vivo CAR-T', 'CD19/BCMA Lupus Nephritis Targ', 'FIT-(BCMA+CD19)-CAR-T Cells', 'KN5601', 'KSVCBD injection', 'KT501', 'PRG-2311', 'QT-019C']
