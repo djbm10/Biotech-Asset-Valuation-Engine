@@ -1,0 +1,1811 @@
+[
+ {
+  "asset_id": "asset:00dbcc9d271dfc7e1cde",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "KYV-101",
+  "ncit_code": "C215283",
+  "ncit_name": "Mivocabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:013518f3af3674ff10f3",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SJCAR19",
+  "ncit_code": "C142887",
+  "ncit_name": "Autologous Anti-CD19 Chimeric Antigen Receptor T-cells SJCAR19"
+ },
+ {
+  "asset_id": "asset:0184c1ecab2ae4b1700d",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "axicel",
+  "ncit_code": "C120309",
+  "ncit_name": "Axicabtagene Ciloleucel"
+ },
+ {
+  "asset_id": "asset:039b17989a0c6265db24",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Anti-CD19/CD20/CD22 CAR T-Cells",
+  "ncit_code": "C186728",
+  "ncit_name": "Anti-CD19/CD20/CD22 CAR T-Cells"
+ },
+ {
+  "asset_id": "asset:06e709198ba79f8f27f5",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CRC01",
+  "ncit_code": "C180584",
+  "ncit_name": "Anbalcabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:0c3bfb202f802a06ec32",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "BZ019",
+  "ncit_code": "C190113",
+  "ncit_name": "CD19-targeted CAR T Cells BZ019"
+ },
+ {
+  "asset_id": "asset:0cf8375305ef61224af2",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CTX112",
+  "ncit_code": "C199293",
+  "ncit_name": "Allogeneic CRISPR-Cas9 Engineered Anti-CD19 CAR T-cells CTX112"
+ },
+ {
+  "asset_id": "asset:0cfaceb5dade418ce3cb",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T-lymphocytes",
+  "ncit_code": "C133072",
+  "ncit_name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:13978f60c2c8cdb7e89e",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "KYMRIAH",
+  "ncit_code": "C102758",
+  "ncit_name": "Tisagenlecleucel"
+ },
+ {
+  "asset_id": "asset:23c8338f340f29ca3ee8",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CD19-CAR-T2 Cells",
+  "ncit_code": "C179281",
+  "ncit_name": "CD19-targeted CAR T2 Cells"
+ },
+ {
+  "asset_id": "asset:252739103ee1387f8997",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "PZ01",
+  "ncit_code": "C153118",
+  "ncit_name": "Autologous Anti-CD19 CAR-CD3zeta-4-1BB-expressing T-cells PZ01"
+ },
+ {
+  "asset_id": "asset:25857312d79a8f7ae9f2",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SC291",
+  "ncit_code": "C211697",
+  "ncit_name": "Persicabtagene Lemgedleucel"
+ },
+ {
+  "asset_id": "asset:26ed0b037de3ecdb26da",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "axi-cel",
+  "ncit_code": "C120309",
+  "ncit_name": "Axicabtagene Ciloleucel"
+ },
+ {
+  "asset_id": "asset:2af94c2da0044f4e8765",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "huCART19-IL18-eDHFR cells",
+  "ncit_code": "C227906",
+  "ncit_name": "Autologous Anti-CD19 CAR-IL-18/eDHFR-expressing T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:2cde67807817fc6a4943",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ARI-0001",
+  "ncit_code": "C179725",
+  "ncit_name": "Varnimcabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:2e20adeeeb0f67744124",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "AUTO3",
+  "ncit_code": "C162620",
+  "ncit_name": "Autologous Anti-CD19/CD22 CAR T-cells AUTO3"
+ },
+ {
+  "asset_id": "asset:301cc847f0e1d17e0f96",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "NKCARCD19",
+  "ncit_code": "C112179",
+  "ncit_name": "Anti-CD19-CAR-CD3zeta-4-1BB-Expressing Allogenic Natural Killer Cells"
+ },
+ {
+  "asset_id": "asset:3f02ed21a242476891dc",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "FT576",
+  "ncit_code": "C186430",
+  "ncit_name": "iPSC-derived Anti-BCMA CAR/CD16/IL-15RF-expressing CD38-eliminated NK Cells FT576"
+ },
+ {
+  "asset_id": "asset:41594d304f60ebce0445",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "UTAA09",
+  "ncit_code": "C202226",
+  "ncit_name": "Allogeneic Anti-CD19 Gamma-delta CAR-T Cells UTAA09"
+ },
+ {
+  "asset_id": "asset:419de99fef56ec443f6f",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ALLO-501",
+  "ncit_code": "C137819",
+  "ncit_name": "Allogeneic CD19-specific Universal CAR19-expressing T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:421542d16cd9117dc153",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "IMA203",
+  "ncit_code": "C215289",
+  "ncit_name": "Anzutresgene Autoleucel"
+ },
+ {
+  "asset_id": "asset:42479b67d44b9dff09e3",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Breyanzi",
+  "ncit_code": "C125192",
+  "ncit_name": "Lisocabtagene Maraleucel"
+ },
+ {
+  "asset_id": "asset:44a49130e3a19371e53e",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ALLO-316",
+  "ncit_code": "C177917",
+  "ncit_name": "Allogeneic Anti-CD70-CAR T-cells ALLO-316"
+ },
+ {
+  "asset_id": "asset:44d6773ed5d3eb274ae7",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CLBR001 + SWI019",
+  "ncit_code": "C179912",
+  "ncit_name": "Autologous Alpha-PNE Switchable CAR-T Cells CLBR001 and CD19-specific Adapter Molecule SWI019"
+ },
+ {
+  "asset_id": "asset:48d4e36283f03bac33f2",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "NK-92",
+  "ncit_code": "C117231",
+  "ncit_name": "Allogeneic Natural Killer Cell Line NK-92"
+ },
+ {
+  "asset_id": "asset:48df963478a3e40ce369",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Tecartus",
+  "ncit_code": "C170439",
+  "ncit_name": "Brexucabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:54cce6642ddf53351f46",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "JWCAR029",
+  "ncit_code": "C155878",
+  "ncit_name": "Relmacabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:56f06993e44836b53f46",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC022F",
+  "ncit_code": "C171093",
+  "ncit_name": "Autologous Bispecific CD19/CD22-targeted CAR-T Cells GC022"
+ },
+ {
+  "asset_id": "asset:5701df8d3d8d7363bd5e",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "AZD0120",
+  "ncit_code": "C175471",
+  "ncit_name": "Autologous Bispecific BCMA/CD19-targeted CAR-T Cells GC012F"
+ },
+ {
+  "asset_id": "asset:578e0b546c94d18efef7",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "iC9/CAR.19/IL15-Transduced CB-NK Cells",
+  "ncit_code": "C203060",
+  "ncit_name": "Sitocabnagene Loxiveleucel"
+ },
+ {
+  "asset_id": "asset:597be3e526c4d86687d3",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "huCART19-IL18",
+  "ncit_code": "C179603",
+  "ncit_name": "Autologous Anti-CD19 CAR-IL-18-expressing T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:59d29dba9b0f5c80da80",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "BinD19",
+  "ncit_code": "C150378",
+  "ncit_name": "Autologous Anti-CD19 CAR TCR-zeta/4-1BB-transduced T Lymphocytes BinD19"
+ },
+ {
+  "asset_id": "asset:5a1f740d9c7ca2ea5a72",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CYAD-101",
+  "ncit_code": "C121536",
+  "ncit_name": "Autologous NKG2D CAR-CD3zeta-DAP10-expressing T-Lymphocytes CYAD-01"
+ },
+ {
+  "asset_id": "asset:5b749b7cc3075e3c8991",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous Anti-CD19 CAR-expressing T Lymphocytes",
+  "ncit_code": "C125691",
+  "ncit_name": "Autologous Anti-CD19 CAR-expressing T Lymphocytes"
+ },
+ {
+  "asset_id": "asset:5bcdda20995187e50f71",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "BRL-201",
+  "ncit_code": "C200327",
+  "ncit_name": "Autologous PD1-knockout CD19-specific CAR T-cells BRL-201"
+ },
+ {
+  "asset_id": "asset:5bfa2fbfb3bc5d33dea5",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CT120",
+  "ncit_code": "C142834",
+  "ncit_name": "Autologous CD19/CD22 Chimeric Antigen Receptor T-cells CT120"
+ },
+ {
+  "asset_id": "asset:6271ef007607b36ac92d",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CLIC-1901",
+  "ncit_code": "C158604",
+  "ncit_name": "Autologous Anti-CD19 CAR-expressing T-lymphocytes CLIC-1901"
+ },
+ {
+  "asset_id": "asset:65fad56ec833389641de",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "JCAR014",
+  "ncit_code": "C126639",
+  "ncit_name": "Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ Central Memory T-lymphocytes JCAR014"
+ },
+ {
+  "asset_id": "asset:6652ff07141a84913143",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "AUCATZYL",
+  "ncit_code": "C172746",
+  "ncit_name": "Obecabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:695e497f87640f424ad4",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SynKIR-310",
+  "ncit_code": "C216197",
+  "ncit_name": "Autologous Anti-CD19 KIR-CAR-transduced T-cells SynKIR-310"
+ },
+ {
+  "asset_id": "asset:6cda1adc9d8e1c903118",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "huCART19 Cells",
+  "ncit_code": "C156271",
+  "ncit_name": "Autologous Anti-CD19 CAR TCR-zeta/4-1BB-transduced T-lymphocytes huCART19"
+ },
+ {
+  "asset_id": "asset:6de2db6e5ec01296531e",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CD20-CD19 cCAR T cells",
+  "ncit_code": "C173960",
+  "ncit_name": "CD20-CD19 Compound CAR T Cells"
+ },
+ {
+  "asset_id": "asset:71a5b34869ad41bed660",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "tisacel",
+  "ncit_code": "C102758",
+  "ncit_name": "Tisagenlecleucel"
+ },
+ {
+  "asset_id": "asset:74e086d09aca9803acab",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "PBCAR19B",
+  "ncit_code": "C179301",
+  "ncit_name": "Allogeneic Anti-CD19 CAR T-cells PBCAR19B"
+ },
+ {
+  "asset_id": "asset:7754346c0780736900f9",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "EGFRt/19-28z/IL-12 CAR T-lymphocytes",
+  "ncit_code": "C204501",
+  "ncit_name": "EGFRt/19-28z/IL-12 CAR T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:79652245201c4c26ef24",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes",
+  "ncit_code": "C116914",
+  "ncit_name": "Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes"
+ },
+ {
+  "asset_id": "asset:7e3a7cbd5451dd7f1a95",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Relma-cel",
+  "ncit_code": "C155878",
+  "ncit_name": "Relmacabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:7ecf6af079c5ad47a286",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "QH103",
+  "ncit_code": "C202225",
+  "ncit_name": "Allogeneic Anti-CD19 CAR-gamma/delta T-cells QH103"
+ },
+ {
+  "asset_id": "asset:7fe1a6bb9ec7bfedc186",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "RNA anti-CD19 CAR T cells",
+  "ncit_code": "C118947",
+  "ncit_name": "RNA Electroporated CD19CAR-CD3zeta-4-1BB-expressing Autologous T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:80f0cfdb3b30d9706df6",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC019F",
+  "ncit_code": "C178588",
+  "ncit_name": "Autologous Anti-CD19 CAR-T Cells GC019F"
+ },
+ {
+  "asset_id": "asset:87e3602a2140b246b091",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Natural Killer Cells",
+  "ncit_code": "C178330",
+  "ncit_name": "Troculeucel"
+ },
+ {
+  "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CNCT19",
+  "ncit_code": "C175465",
+  "ncit_name": "Autologous Anti-CD19 CAR-4-1BB-CD3zeta-expressing T-cells CNCT19"
+ },
+ {
+  "asset_id": "asset:8f59ca8502183d30376e",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Anti-CD19 iCAR NK Cells",
+  "ncit_code": "C170903",
+  "ncit_name": "Anti-CD19 iCAR NK Cells"
+ },
+ {
+  "asset_id": "asset:93e6db328430a1eb708b",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CABA-201",
+  "ncit_code": "C203740",
+  "ncit_name": "Autologous Anti-CD19 CAR-T Cells CABA-201"
+ },
+ {
+  "asset_id": "asset:93e9ef89697d64feaf81",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Anti-CD19-CAR CMV-specific T-lymphocytes",
+  "ncit_code": "C187649",
+  "ncit_name": "Anti-CD19-CAR CMV-specific T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:95622d6d74ae27eeaae3",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CART19",
+  "ncit_code": "C102758",
+  "ncit_name": "Tisagenlecleucel"
+ },
+ {
+  "asset_id": "asset:96030ef6595a5578f3df",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC007F",
+  "ncit_code": "C171092",
+  "ncit_name": "Autologous CD19-targeted CAR-T Cells GC007F"
+ },
+ {
+  "asset_id": "asset:97a456ccc32de18739ea",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC022",
+  "ncit_code": "C171093",
+  "ncit_name": "Autologous Bispecific CD19/CD22-targeted CAR-T Cells GC022"
+ },
+ {
+  "asset_id": "asset:9da9ada4c05b7a74735e",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ssCART-19 Cells",
+  "ncit_code": "C180570",
+  "ncit_name": "Short Hairpin RNA-IL-6 Gene Silencing Anti-CD19 CAR T Cells"
+ },
+ {
+  "asset_id": "asset:9dda7da59144b21787f5",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Abecma",
+  "ncit_code": "C117729",
+  "ncit_name": "Idecabtagene Vicleucel"
+ },
+ {
+  "asset_id": "asset:a8ff117aefecd1996512",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Brexucel",
+  "ncit_code": "C170439",
+  "ncit_name": "Brexucabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:a9cb96e1a6f84d6c8946",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ALLO-501A",
+  "ncit_code": "C172708",
+  "ncit_name": "Cemacabtagene Ansegedleucel"
+ },
+ {
+  "asset_id": "asset:aa8645aec987987cdb1c",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CTA101",
+  "ncit_code": "C173959",
+  "ncit_name": "Allogeneic Anti-CD19 Universal CAR-T Cells CTA101"
+ },
+ {
+  "asset_id": "asset:acc9cf95323a3e18dbd5",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ T-lymphocytes",
+  "ncit_code": "C133191",
+  "ncit_name": "Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:ad1fa3a79bd47e0c3d70",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "IM19",
+  "ncit_code": "C155888",
+  "ncit_name": "Autologous Anti-CD19 CAR T-cells IM19"
+ },
+ {
+  "asset_id": "asset:ad43fd5e8cffddf6ed2c",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes",
+  "ncit_code": "C133073",
+  "ncit_name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:b3bf70918c5748b9bb75",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SCRI-huCAR19v2",
+  "ncit_code": "C174563",
+  "ncit_name": "Autologous Anti-CD19CAR-4-1BB/CD3zeta-HER2tG-expressing CD4+/CD8+ T-lymphocytes SCRI-huCAR19v2"
+ },
+ {
+  "asset_id": "asset:b4a2cbeca68c94e159d5",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "KITE-363",
+  "ncit_code": "C181943",
+  "ncit_name": "Autologous Anti-CD19/CD20 CAR-T Cells KITE-363"
+ },
+ {
+  "asset_id": "asset:b7657a8c6276dc55e82a",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ThisCART19A",
+  "ncit_code": "C199286",
+  "ncit_name": "Allogeneic Anti-CD19 T-cells ThisCART19A"
+ },
+ {
+  "asset_id": "asset:b78297c1bb2cdf8ad38b",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC012F",
+  "ncit_code": "C175471",
+  "ncit_name": "Autologous Bispecific BCMA/CD19-targeted CAR-T Cells GC012F"
+ },
+ {
+  "asset_id": "asset:b985c396134c4d1bb12c",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Carvykti",
+  "ncit_code": "C148498",
+  "ncit_name": "Ciltacabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:b9c16979e2d9b2eb1690",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t T Cells",
+  "ncit_code": "C150906",
+  "ncit_name": "Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t T Cells"
+ },
+ {
+  "asset_id": "asset:bb222f895cfc271e89d7",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CT103A",
+  "ncit_code": "C185123",
+  "ncit_name": "Equecabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:bf65a8dbb74951ee0b9b",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "bi-4SCAR CD19/70 T cells",
+  "ncit_code": "C189058",
+  "ncit_name": "Anti-CD19/Anti-CD70 4SCAR-expressing Bispecific T-cells"
+ },
+ {
+  "asset_id": "asset:c21b983337620506fa5a",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "KITE-753",
+  "ncit_code": "C227826",
+  "ncit_name": "Autologous Anti-CD19/Anti-CD20 CAR-T Cells KITE-753"
+ },
+ {
+  "asset_id": "asset:c26b28ba76c872bc4b5e",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T cells",
+  "ncit_code": "C105614",
+  "ncit_name": "Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T Cells"
+ },
+ {
+  "asset_id": "asset:c3c424c78c4db8e34dd5",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "OBX-115",
+  "ncit_code": "C189093",
+  "ncit_name": "Membrane-bound IL-15-expressing Tumor-infiltrating Lymphocytes OBX-115"
+ },
+ {
+  "asset_id": "asset:c440e4a77675249bc257",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ATA3219",
+  "ncit_code": "C207799",
+  "ncit_name": "Allogeneic Anti-CD19 CAR T-cells ATA3219"
+ },
+ {
+  "asset_id": "asset:c6010a1183d0ad1e87f5",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "YESCARTA",
+  "ncit_code": "C120309",
+  "ncit_name": "Axicabtagene Ciloleucel"
+ },
+ {
+  "asset_id": "asset:ca3a874738643acdea7c",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "NKX019",
+  "ncit_code": "C206880",
+  "ncit_name": "Belacabnagene Franleucel"
+ },
+ {
+  "asset_id": "asset:cec39b911bbef02fc5d5",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GLPG5101",
+  "ncit_code": "C213640",
+  "ncit_name": "Autologous Anti-CD19 CAR T-cells GLPG5101"
+ },
+ {
+  "asset_id": "asset:cee5e442a3809554927b",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SYNCAR-001",
+  "ncit_code": "C192137",
+  "ncit_name": "Autologous Orthogonal IL-2Rbeta-expressing Anti-CD19 CAR T-cells SYNCAR-001"
+ },
+ {
+  "asset_id": "asset:cf4bbcef6df5e093e152",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "UCART19",
+  "ncit_code": "C137819",
+  "ncit_name": "Allogeneic CD19-specific Universal CAR19-expressing T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:cfe0f6203a050fe11f42",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "bi-4SCAR CD19/79b T cells",
+  "ncit_code": "C189059",
+  "ncit_name": "Anti-CD19/Anti-CD79b 4SCAR-expressing Bispecific T-cells"
+ },
+ {
+  "asset_id": "asset:d03f3de452522d1c1ac7",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ET019003",
+  "ncit_code": "C172202",
+  "ncit_name": "Anti-CD19 Antibody-T-cell Receptor-expressing T-cells ET019003"
+ },
+ {
+  "asset_id": "asset:d13854e1119e7c624564",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "KITE-585",
+  "ncit_code": "C155883",
+  "ncit_name": "Autologous Anti-BCMA CAR-transduced T-cells KITE-585"
+ },
+ {
+  "asset_id": "asset:d18b9d7626b577652ac2",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Liso-cel",
+  "ncit_code": "C125192",
+  "ncit_name": "Lisocabtagene Maraleucel"
+ },
+ {
+  "asset_id": "asset:d349dc58488791db3b7d",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "FT819",
+  "ncit_code": "C176850",
+  "ncit_name": "iPSC-derived Allogeneic Anti-CD19 1XX-CAR T-cells FT819"
+ },
+ {
+  "asset_id": "asset:d853c73a54f343457e6d",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CB-010",
+  "ncit_code": "C179255",
+  "ncit_name": "Vispacabtagene Regedleucel"
+ },
+ {
+  "asset_id": "asset:e0086222fc8e5d625707",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CTX110",
+  "ncit_code": "C203124",
+  "ncit_name": "Evoncabtagene Pazurgedleucel"
+ },
+ {
+  "asset_id": "asset:e231b8db8ee4aff93bd2",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "BCMA-CD19 cCAR T cells",
+  "ncit_code": "C174412",
+  "ncit_name": "BCMA-CD19 Compound CAR T Cells"
+ },
+ {
+  "asset_id": "asset:e366acd93a3d02cccdbd",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "RPM CD19-mbIL15-CAR-T cells",
+  "ncit_code": "C180672",
+  "ncit_name": "Autologous CD19-CD8-CD28-CAR-mbIL15-HER1t T Cells"
+ },
+ {
+  "asset_id": "asset:e4912180315081f3a40e",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes",
+  "ncit_code": "C124795",
+  "ncit_name": "Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:e65c144fba16c9e9bc91",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "IL13Ralpha2-specific Hinge-optimized 41BB-co-stimulatory CAR Truncated CD19-expressing Autologous T-Lymphocytes",
+  "ncit_code": "C117233",
+  "ncit_name": "IL13Ralpha2-specific Hinge-optimized 41BB-co-stimulatory CAR Truncated CD19-expressing Autologous T-Lymphocytes"
+ },
+ {
+  "asset_id": "asset:ea4f4c2433b8b8c2ecc5",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "TAK-102",
+  "ncit_code": "C173713",
+  "ncit_name": "Anti-GPC3-CAR T-lymphocytes TAK-102"
+ },
+ {
+  "asset_id": "asset:f565175a991e65b8ecb6",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "TBI-1501",
+  "ncit_code": "C150377",
+  "ncit_name": "Autologous Anti-CD19 CAR-T Cells TBI-1501"
+ },
+ {
+  "asset_id": "asset:f653091a20ac97fd1c8b",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Welgenaleucel",
+  "ncit_code": "C175943",
+  "ncit_name": "Welgenaleucel"
+ },
+ {
+  "asset_id": "asset:f9a182af1b5248a367f1",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Ebvallo",
+  "ncit_code": "C143140",
+  "ncit_name": "Tabelecleucel"
+ },
+ {
+  "asset_id": "asset:fa4af04ca5ad703e51df",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "XYF19",
+  "ncit_code": "C170914",
+  "ncit_name": "Autologous CRISPR-edited Anti-CD19 CAR T Cells XYF19"
+ },
+ {
+  "asset_id": "asset:fade27adc3a37794fe30",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "MC-19PD1 CAR-T cells",
+  "ncit_code": "C172387",
+  "ncit_name": "Autologous CD19/PD-1 Bispecific CAR-T Cells"
+ },
+ {
+  "asset_id": "asset:fdf2dfd62479e5e339b6",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "WZTL-002",
+  "ncit_code": "C170905",
+  "ncit_name": "Atlacabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:fea30322725938659064",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CTX130",
+  "ncit_code": "C203062",
+  "ncit_name": "Volamcabtagene Durzigedleucel"
+ },
+ {
+  "asset_id": "asset:ffb84ecafc2f31f7c334",
+  "baseline_modality_match": "UNKNOWN",
+  "benchmark": "tac01",
+  "expected_modality": "CELL_THERAPY",
+  "name": "pCAR-19B cells",
+  "ncit_code": "C180824",
+  "ncit_name": "Autologous Anti-CD19 CAR Vector-transduced T Cells pCAR-19B"
+ },
+ {
+  "asset_id": "asset:00dbcc9d271dfc7e1cde",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "KYV-101",
+  "ncit_code": "C215283",
+  "ncit_name": "Mivocabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:013518f3af3674ff10f3",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SJCAR19",
+  "ncit_code": "C142887",
+  "ncit_name": "Autologous Anti-CD19 Chimeric Antigen Receptor T-cells SJCAR19"
+ },
+ {
+  "asset_id": "asset:039b17989a0c6265db24",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Anti-CD19/CD20/CD22 CAR T-Cells",
+  "ncit_code": "C186728",
+  "ncit_name": "Anti-CD19/CD20/CD22 CAR T-Cells"
+ },
+ {
+  "asset_id": "asset:06e709198ba79f8f27f5",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CRC01",
+  "ncit_code": "C180584",
+  "ncit_name": "Anbalcabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:07a1ab6dca6bdad1d214",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SYS6020",
+  "ncit_code": "C215083",
+  "ncit_name": "Autologous mRNA-transfected Anti-BCMA-CAR T-lymphocytes SYS6020"
+ },
+ {
+  "asset_id": "asset:0c3bfb202f802a06ec32",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "BZ019",
+  "ncit_code": "C190113",
+  "ncit_name": "CD19-targeted CAR T Cells BZ019"
+ },
+ {
+  "asset_id": "asset:0cf8375305ef61224af2",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CTX112",
+  "ncit_code": "C199293",
+  "ncit_name": "Allogeneic CRISPR-Cas9 Engineered Anti-CD19 CAR T-cells CTX112"
+ },
+ {
+  "asset_id": "asset:0cfaceb5dade418ce3cb",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T-lymphocytes",
+  "ncit_code": "C133072",
+  "ncit_name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:13978f60c2c8cdb7e89e",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "KYMRIAH",
+  "ncit_code": "C102758",
+  "ncit_name": "Tisagenlecleucel"
+ },
+ {
+  "asset_id": "asset:186fe5c4cb47df4bd7b8",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "NXC-201",
+  "ncit_code": "C205068",
+  "ncit_name": "Evarucabgene Autoleucel"
+ },
+ {
+  "asset_id": "asset:1c29b1032df8cd323194",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Lisocel",
+  "ncit_code": "C125192",
+  "ncit_name": "Lisocabtagene Maraleucel"
+ },
+ {
+  "asset_id": "asset:21ac61c34efcc45e43f5",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CYAD-211",
+  "ncit_code": "C176885",
+  "ncit_name": "Allogeneic shRNA-based Anti-BCMA CAR T-cells CYAD-211"
+ },
+ {
+  "asset_id": "asset:23c8338f340f29ca3ee8",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CD19-CAR-T2 Cells",
+  "ncit_code": "C179281",
+  "ncit_name": "CD19-targeted CAR T2 Cells"
+ },
+ {
+  "asset_id": "asset:252739103ee1387f8997",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "PZ01",
+  "ncit_code": "C153118",
+  "ncit_name": "Autologous Anti-CD19 CAR-CD3zeta-4-1BB-expressing T-cells PZ01"
+ },
+ {
+  "asset_id": "asset:25857312d79a8f7ae9f2",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SC291",
+  "ncit_code": "C211697",
+  "ncit_name": "Persicabtagene Lemgedleucel"
+ },
+ {
+  "asset_id": "asset:26ed0b037de3ecdb26da",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "axi-cel",
+  "ncit_code": "C120309",
+  "ncit_name": "Axicabtagene Ciloleucel"
+ },
+ {
+  "asset_id": "asset:2af94c2da0044f4e8765",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "huCART19-IL18-eDHFR cells",
+  "ncit_code": "C227906",
+  "ncit_name": "Autologous Anti-CD19 CAR-IL-18/eDHFR-expressing T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:2cde67807817fc6a4943",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ARI-0001",
+  "ncit_code": "C179725",
+  "ncit_name": "Varnimcabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:2e20adeeeb0f67744124",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "AUTO3",
+  "ncit_code": "C162620",
+  "ncit_name": "Autologous Anti-CD19/CD22 CAR T-cells AUTO3"
+ },
+ {
+  "asset_id": "asset:301cc847f0e1d17e0f96",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "NKCARCD19",
+  "ncit_code": "C112179",
+  "ncit_name": "Anti-CD19-CAR-CD3zeta-4-1BB-Expressing Allogenic Natural Killer Cells"
+ },
+ {
+  "asset_id": "asset:3f02ed21a242476891dc",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "FT576",
+  "ncit_code": "C186430",
+  "ncit_name": "iPSC-derived Anti-BCMA CAR/CD16/IL-15RF-expressing CD38-eliminated NK Cells FT576"
+ },
+ {
+  "asset_id": "asset:41594d304f60ebce0445",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "UTAA09",
+  "ncit_code": "C202226",
+  "ncit_name": "Allogeneic Anti-CD19 Gamma-delta CAR-T Cells UTAA09"
+ },
+ {
+  "asset_id": "asset:419de99fef56ec443f6f",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ALLO-501",
+  "ncit_code": "C137819",
+  "ncit_name": "Allogeneic CD19-specific Universal CAR19-expressing T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:421542d16cd9117dc153",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "IMA203",
+  "ncit_code": "C215289",
+  "ncit_name": "Anzutresgene Autoleucel"
+ },
+ {
+  "asset_id": "asset:42479b67d44b9dff09e3",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Breyanzi",
+  "ncit_code": "C125192",
+  "ncit_name": "Lisocabtagene Maraleucel"
+ },
+ {
+  "asset_id": "asset:44d6773ed5d3eb274ae7",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CLBR001 + SWI019",
+  "ncit_code": "C179912",
+  "ncit_name": "Autologous Alpha-PNE Switchable CAR-T Cells CLBR001 and CD19-specific Adapter Molecule SWI019"
+ },
+ {
+  "asset_id": "asset:46166d2a5ba7fc26a713",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "AT101",
+  "ncit_code": "C187300",
+  "ncit_name": "Anti-CD19 CAR T Cells AT101"
+ },
+ {
+  "asset_id": "asset:48df963478a3e40ce369",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Tecartus",
+  "ncit_code": "C170439",
+  "ncit_name": "Brexucabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:54cce6642ddf53351f46",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "JWCAR029",
+  "ncit_code": "C155878",
+  "ncit_name": "Relmacabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:56f06993e44836b53f46",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC022F",
+  "ncit_code": "C171093",
+  "ncit_name": "Autologous Bispecific CD19/CD22-targeted CAR-T Cells GC022"
+ },
+ {
+  "asset_id": "asset:5701df8d3d8d7363bd5e",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "AZD0120",
+  "ncit_code": "C175471",
+  "ncit_name": "Autologous Bispecific BCMA/CD19-targeted CAR-T Cells GC012F"
+ },
+ {
+  "asset_id": "asset:597be3e526c4d86687d3",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "huCART19-IL18",
+  "ncit_code": "C179603",
+  "ncit_name": "Autologous Anti-CD19 CAR-IL-18-expressing T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:5b749b7cc3075e3c8991",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous Anti-CD19 CAR-expressing T Lymphocytes",
+  "ncit_code": "C125691",
+  "ncit_name": "Autologous Anti-CD19 CAR-expressing T Lymphocytes"
+ },
+ {
+  "asset_id": "asset:5bfa2fbfb3bc5d33dea5",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CT120",
+  "ncit_code": "C142834",
+  "ncit_name": "Autologous CD19/CD22 Chimeric Antigen Receptor T-cells CT120"
+ },
+ {
+  "asset_id": "asset:5eb974bc7b80e3efc5bb",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CB-011",
+  "ncit_code": "C199479",
+  "ncit_name": "Allogeneic CRISPR-edited Anti-BCMA CAR-T Cells CB-011"
+ },
+ {
+  "asset_id": "asset:6271ef007607b36ac92d",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CLIC-1901",
+  "ncit_code": "C158604",
+  "ncit_name": "Autologous Anti-CD19 CAR-expressing T-lymphocytes CLIC-1901"
+ },
+ {
+  "asset_id": "asset:65fad56ec833389641de",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "JCAR014",
+  "ncit_code": "C126639",
+  "ncit_name": "Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ Central Memory T-lymphocytes JCAR014"
+ },
+ {
+  "asset_id": "asset:6652ff07141a84913143",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "AUCATZYL",
+  "ncit_code": "C172746",
+  "ncit_name": "Obecabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:695e497f87640f424ad4",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SynKIR-310",
+  "ncit_code": "C216197",
+  "ncit_name": "Autologous Anti-CD19 KIR-CAR-transduced T-cells SynKIR-310"
+ },
+ {
+  "asset_id": "asset:6cda1adc9d8e1c903118",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "huCART19 Cells",
+  "ncit_code": "C156271",
+  "ncit_name": "Autologous Anti-CD19 CAR TCR-zeta/4-1BB-transduced T-lymphocytes huCART19"
+ },
+ {
+  "asset_id": "asset:74e086d09aca9803acab",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "PBCAR19B",
+  "ncit_code": "C179301",
+  "ncit_name": "Allogeneic Anti-CD19 CAR T-cells PBCAR19B"
+ },
+ {
+  "asset_id": "asset:79652245201c4c26ef24",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes",
+  "ncit_code": "C116914",
+  "ncit_name": "Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing T Lymphocytes"
+ },
+ {
+  "asset_id": "asset:7e3a7cbd5451dd7f1a95",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Relma-cel",
+  "ncit_code": "C155878",
+  "ncit_name": "Relmacabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:7ecf6af079c5ad47a286",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "QH103",
+  "ncit_code": "C202225",
+  "ncit_name": "Allogeneic Anti-CD19 CAR-gamma/delta T-cells QH103"
+ },
+ {
+  "asset_id": "asset:7fe1a6bb9ec7bfedc186",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "RNA anti-CD19 CAR T cells",
+  "ncit_code": "C118947",
+  "ncit_name": "RNA Electroporated CD19CAR-CD3zeta-4-1BB-expressing Autologous T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:80f0cfdb3b30d9706df6",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC019F",
+  "ncit_code": "C178588",
+  "ncit_name": "Autologous Anti-CD19 CAR-T Cells GC019F"
+ },
+ {
+  "asset_id": "asset:87e3602a2140b246b091",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "natural killer cells",
+  "ncit_code": "C178330",
+  "ncit_name": "Troculeucel"
+ },
+ {
+  "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CNCT19",
+  "ncit_code": "C175465",
+  "ncit_name": "Autologous Anti-CD19 CAR-4-1BB-CD3zeta-expressing T-cells CNCT19"
+ },
+ {
+  "asset_id": "asset:93e6db328430a1eb708b",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CABA-201",
+  "ncit_code": "C203740",
+  "ncit_name": "Autologous Anti-CD19 CAR-T Cells CABA-201"
+ },
+ {
+  "asset_id": "asset:93e9ef89697d64feaf81",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Anti-CD19-CAR CMV-specific T-lymphocytes",
+  "ncit_code": "C187649",
+  "ncit_name": "Anti-CD19-CAR CMV-specific T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:95622d6d74ae27eeaae3",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CART19",
+  "ncit_code": "C102758",
+  "ncit_name": "Tisagenlecleucel"
+ },
+ {
+  "asset_id": "asset:96030ef6595a5578f3df",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC007F",
+  "ncit_code": "C171092",
+  "ncit_name": "Autologous CD19-targeted CAR-T Cells GC007F"
+ },
+ {
+  "asset_id": "asset:97a456ccc32de18739ea",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC022",
+  "ncit_code": "C171093",
+  "ncit_name": "Autologous Bispecific CD19/CD22-targeted CAR-T Cells GC022"
+ },
+ {
+  "asset_id": "asset:9da9ada4c05b7a74735e",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ssCART-19 Cells",
+  "ncit_code": "C180570",
+  "ncit_name": "Short Hairpin RNA-IL-6 Gene Silencing Anti-CD19 CAR T Cells"
+ },
+ {
+  "asset_id": "asset:9dda7da59144b21787f5",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Abecma",
+  "ncit_code": "C117729",
+  "ncit_name": "Idecabtagene Vicleucel"
+ },
+ {
+  "asset_id": "asset:a8ff117aefecd1996512",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Brexucel",
+  "ncit_code": "C170439",
+  "ncit_name": "Brexucabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:a9cb96e1a6f84d6c8946",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ALLO-501A",
+  "ncit_code": "C172708",
+  "ncit_name": "Cemacabtagene Ansegedleucel"
+ },
+ {
+  "asset_id": "asset:aa8645aec987987cdb1c",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CTA101",
+  "ncit_code": "C173959",
+  "ncit_name": "Allogeneic Anti-CD19 Universal CAR-T Cells CTA101"
+ },
+ {
+  "asset_id": "asset:acc9cf95323a3e18dbd5",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ T-lymphocytes",
+  "ncit_code": "C133191",
+  "ncit_name": "Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:ad1fa3a79bd47e0c3d70",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "IM19",
+  "ncit_code": "C155888",
+  "ncit_name": "Autologous Anti-CD19 CAR T-cells IM19"
+ },
+ {
+  "asset_id": "asset:ad43fd5e8cffddf6ed2c",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes",
+  "ncit_code": "C133073",
+  "ncit_name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:b3bf70918c5748b9bb75",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SCRI-huCAR19v2",
+  "ncit_code": "C174563",
+  "ncit_name": "Autologous Anti-CD19CAR-4-1BB/CD3zeta-HER2tG-expressing CD4+/CD8+ T-lymphocytes SCRI-huCAR19v2"
+ },
+ {
+  "asset_id": "asset:b7657a8c6276dc55e82a",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ThisCART19A",
+  "ncit_code": "C199286",
+  "ncit_name": "Allogeneic Anti-CD19 T-cells ThisCART19A"
+ },
+ {
+  "asset_id": "asset:b78297c1bb2cdf8ad38b",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GC012F",
+  "ncit_code": "C175471",
+  "ncit_name": "Autologous Bispecific BCMA/CD19-targeted CAR-T Cells GC012F"
+ },
+ {
+  "asset_id": "asset:b985c396134c4d1bb12c",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Carvykti",
+  "ncit_code": "C148498",
+  "ncit_name": "Ciltacabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:b9c16979e2d9b2eb1690",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t T Cells",
+  "ncit_code": "C150906",
+  "ncit_name": "Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t T Cells"
+ },
+ {
+  "asset_id": "asset:b9e0c2088ea406942763",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "bb21217",
+  "ncit_code": "C140310",
+  "ncit_name": "Autologous Anti-BCMA-CAR-4-1BB-CD3zeta-expressing Memory T-lymphocytes bb21217"
+ },
+ {
+  "asset_id": "asset:bf65a8dbb74951ee0b9b",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "bi-4SCAR CD19/70 T cells",
+  "ncit_code": "C189058",
+  "ncit_name": "Anti-CD19/Anti-CD70 4SCAR-expressing Bispecific T-cells"
+ },
+ {
+  "asset_id": "asset:c26b28ba76c872bc4b5e",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T cells",
+  "ncit_code": "C105614",
+  "ncit_name": "Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T Cells"
+ },
+ {
+  "asset_id": "asset:c3c424c78c4db8e34dd5",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "OBX-115",
+  "ncit_code": "C189093",
+  "ncit_name": "Membrane-bound IL-15-expressing Tumor-infiltrating Lymphocytes OBX-115"
+ },
+ {
+  "asset_id": "asset:c440e4a77675249bc257",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ATA3219",
+  "ncit_code": "C207799",
+  "ncit_name": "Allogeneic Anti-CD19 CAR T-cells ATA3219"
+ },
+ {
+  "asset_id": "asset:c6010a1183d0ad1e87f5",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "YESCARTA",
+  "ncit_code": "C120309",
+  "ncit_name": "Axicabtagene Ciloleucel"
+ },
+ {
+  "asset_id": "asset:ca3a874738643acdea7c",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "NKX019",
+  "ncit_code": "C206880",
+  "ncit_name": "Belacabnagene Franleucel"
+ },
+ {
+  "asset_id": "asset:cd851f0cd17ddf551879",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Cilta-cel",
+  "ncit_code": "C148498",
+  "ncit_name": "Ciltacabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:cec39b911bbef02fc5d5",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "GLPG5101",
+  "ncit_code": "C213640",
+  "ncit_name": "Autologous Anti-CD19 CAR T-cells GLPG5101"
+ },
+ {
+  "asset_id": "asset:cecf082bf8a39d18b163",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "HBI0101",
+  "ncit_code": "C205068",
+  "ncit_name": "Evarucabgene Autoleucel"
+ },
+ {
+  "asset_id": "asset:cee5e442a3809554927b",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "SYNCAR-001",
+  "ncit_code": "C192137",
+  "ncit_name": "Autologous Orthogonal IL-2Rbeta-expressing Anti-CD19 CAR T-cells SYNCAR-001"
+ },
+ {
+  "asset_id": "asset:cf4bbcef6df5e093e152",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "UCART19",
+  "ncit_code": "C137819",
+  "ncit_name": "Allogeneic CD19-specific Universal CAR19-expressing T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:cf69893de11e9c71c41b",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "PHE885",
+  "ncit_code": "C174124",
+  "ncit_name": "Autologous Anti-BCMA CAR T-cells PHE885"
+ },
+ {
+  "asset_id": "asset:cfe0f6203a050fe11f42",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "bi-4SCAR CD19/79b T cells",
+  "ncit_code": "C189059",
+  "ncit_name": "Anti-CD19/Anti-CD79b 4SCAR-expressing Bispecific T-cells"
+ },
+ {
+  "asset_id": "asset:d03f3de452522d1c1ac7",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "ET019003",
+  "ncit_code": "C172202",
+  "ncit_name": "Anti-CD19 Antibody-T-cell Receptor-expressing T-cells ET019003"
+ },
+ {
+  "asset_id": "asset:d13854e1119e7c624564",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "KITE-585",
+  "ncit_code": "C155883",
+  "ncit_name": "Autologous Anti-BCMA CAR-transduced T-cells KITE-585"
+ },
+ {
+  "asset_id": "asset:d18b9d7626b577652ac2",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Liso-cel",
+  "ncit_code": "C125192",
+  "ncit_name": "Lisocabtagene Maraleucel"
+ },
+ {
+  "asset_id": "asset:d349dc58488791db3b7d",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "FT819",
+  "ncit_code": "C176850",
+  "ncit_name": "iPSC-derived Allogeneic Anti-CD19 1XX-CAR T-cells FT819"
+ },
+ {
+  "asset_id": "asset:d853c73a54f343457e6d",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CB-010",
+  "ncit_code": "C179255",
+  "ncit_name": "Vispacabtagene Regedleucel"
+ },
+ {
+  "asset_id": "asset:e0086222fc8e5d625707",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "CTX110",
+  "ncit_code": "C203124",
+  "ncit_name": "Evoncabtagene Pazurgedleucel"
+ },
+ {
+  "asset_id": "asset:e231b8db8ee4aff93bd2",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "BCMA-CD19 cCAR T cells",
+  "ncit_code": "C174412",
+  "ncit_name": "BCMA-CD19 Compound CAR T Cells"
+ },
+ {
+  "asset_id": "asset:e366acd93a3d02cccdbd",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "RPM CD19-mbIL15-CAR-T cells",
+  "ncit_code": "C180672",
+  "ncit_name": "Autologous CD19-CD8-CD28-CAR-mbIL15-HER1t T Cells"
+ },
+ {
+  "asset_id": "asset:e4912180315081f3a40e",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes",
+  "ncit_code": "C124795",
+  "ncit_name": "Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes"
+ },
+ {
+  "asset_id": "asset:e65c144fba16c9e9bc91",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "IL13Ralpha2-specific Hinge-optimized 41BB-co-stimulatory CAR Truncated CD19-expressing Autologous T-Lymphocytes",
+  "ncit_code": "C117233",
+  "ncit_name": "IL13Ralpha2-specific Hinge-optimized 41BB-co-stimulatory CAR Truncated CD19-expressing Autologous T-Lymphocytes"
+ },
+ {
+  "asset_id": "asset:f565175a991e65b8ecb6",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "TBI-1501",
+  "ncit_code": "C150377",
+  "ncit_name": "Autologous Anti-CD19 CAR-T Cells TBI-1501"
+ },
+ {
+  "asset_id": "asset:f653091a20ac97fd1c8b",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Welgenaleucel",
+  "ncit_code": "C175943",
+  "ncit_name": "Welgenaleucel"
+ },
+ {
+  "asset_id": "asset:f8a344cd07b1f5794b3b",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "FCARH143",
+  "ncit_code": "C142807",
+  "ncit_name": "Autologous Anti-BCMA-CAR-expressing CD4+/CD8+ T-lymphocytes FCARH143"
+ },
+ {
+  "asset_id": "asset:f9a182af1b5248a367f1",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "Ebvallo",
+  "ncit_code": "C143140",
+  "ncit_name": "Tabelecleucel"
+ },
+ {
+  "asset_id": "asset:fa4af04ca5ad703e51df",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "XYF19",
+  "ncit_code": "C170914",
+  "ncit_name": "Autologous CRISPR-edited Anti-CD19 CAR T Cells XYF19"
+ },
+ {
+  "asset_id": "asset:fade27adc3a37794fe30",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "MC-19PD1 CAR-T cells",
+  "ncit_code": "C172387",
+  "ncit_name": "Autologous CD19/PD-1 Bispecific CAR-T Cells"
+ },
+ {
+  "asset_id": "asset:fdf2dfd62479e5e339b6",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "WZTL-002",
+  "ncit_code": "C170905",
+  "ncit_name": "Atlacabtagene Autoleucel"
+ },
+ {
+  "asset_id": "asset:ffb84ecafc2f31f7c334",
+  "baseline_modality_match": null,
+  "benchmark": "mint5",
+  "expected_modality": "CELL_THERAPY",
+  "name": "pCAR-19B cells",
+  "ncit_code": "C180824",
+  "ncit_name": "Autologous Anti-CD19 CAR Vector-transduced T Cells pCAR-19B"
+ }
+]
