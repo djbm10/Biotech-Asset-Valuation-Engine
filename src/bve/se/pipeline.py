@@ -52,6 +52,7 @@ from bve.se.evidence.target_compatibility import (
     nongene_entities,
 )
 from bve.se.ontology.targets import get_authority
+from bve.se.ontology.ncit_cell_products import NCIT_CELL_PRODUCTS_KEY, ncit_cell_products
 from bve.se.ontology.ncit_entity_types import NCIT_ENTITY_TYPES_KEY, ncit_entity_types
 from bve.se.ontology.ncit_targets import (
     NCIT_EXTRACTOR_KEY,
@@ -146,7 +147,9 @@ def _is_ctgov_intervention_text(fact: NormalizedFact, ledger) -> bool:
 
 
 def _with_authority_modality(
-    candidates: list[CanonicalAsset], query_modalities: Sequence[str]
+    candidates: list[CanonicalAsset],
+    query_modalities: Sequence[str],
+    ncit_links: dict[str, str] | None = None,
 ) -> list[CanonicalAsset]:
     """Each asset's own modality and its match to the question (authority_modality_v1).
 
@@ -155,6 +158,7 @@ def _with_authority_modality(
     """
 
     authority = modality_authority()
+    cell_products = ncit_cell_products()
     annotated = []
     for asset in candidates:
         found = (
@@ -162,12 +166,20 @@ def _with_authority_modality(
             if authority is not None
             else None
         )
-        match = modality_match(found.modality if found else None, query_modalities)
+        modality = found.modality if found else None
+        basis = found.basis if found else None
+        # ``ncit_modality_v1.md``: fill-only. ChEMBL keeps precedence; an asset it cannot
+        # type, whose unambiguous NCIt link is a Cell-typed product, is a cell therapy.
+        code = (ncit_links or {}).get(asset.asset_id)
+        if modality is None and code is not None and cell_products is not None:
+            if code in cell_products.codes:
+                modality, basis = "CELL_THERAPY", f"NCIt:{code} (Cell)"
+        match = modality_match(modality, query_modalities)
         annotated.append(
             asset.model_copy(
                 update={
-                    "authority_modality": found.modality if found else None,
-                    "authority_modality_basis": found.basis if found else None,
+                    "authority_modality": modality,
+                    "authority_modality_basis": basis,
                     "modality_match": match.value if match else None,
                 }
             )
@@ -917,7 +929,14 @@ def run_landscape_search(
                     "evidence": veto[1],
                 }
             )
-    candidates = _with_authority_modality(candidates, problem.strategic_gap.modalities)
+    ncit_links = {
+        d["asset_id"]: d["ncit_code"]
+        for d in ncit_dispositions
+        if d["reason"] != "ambiguous_link"
+    }
+    candidates = _with_authority_modality(
+        candidates, problem.strategic_gap.modalities, ncit_links
+    )
     for asset in candidates:
         registry.assets[asset.asset_id] = asset
 
@@ -1023,6 +1042,16 @@ def run_landscape_search(
         if entry.asset_id in eligible
     ]
     run_manifest = discovery.manifest
+    cell_products_loaded = ncit_cell_products()
+    if cell_products_loaded is not None:
+        run_manifest = run_manifest.model_copy(
+            update={
+                "extractor_versions": {
+                    **run_manifest.extractor_versions,
+                    NCIT_CELL_PRODUCTS_KEY: cell_products_loaded.version_token,
+                }
+            }
+        )
     entity_types = ncit_entity_types()
     if entity_types is not None:
         run_manifest = run_manifest.model_copy(

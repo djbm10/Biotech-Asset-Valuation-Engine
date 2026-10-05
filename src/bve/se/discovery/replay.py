@@ -130,6 +130,7 @@ class SealedCorpusReplay:
         installed; the run manifest then records what was used.
         """
 
+        from bve.se.ontology.ncit_cell_products import NCIT_CELL_PRODUCTS_KEY, ncit_cell_products
         from bve.se.ontology.ncit_entity_types import NCIT_ENTITY_TYPES_KEY, ncit_entity_types
         from bve.se.ontology.ncit_targets import NCIT_EXTRACTOR_KEY, ncit_authority
 
@@ -138,6 +139,7 @@ class SealedCorpusReplay:
         for key, loader, env in (
             (NCIT_EXTRACTOR_KEY, ncit_authority, "BVE_SE_NCIT_SIDECAR"),
             (NCIT_ENTITY_TYPES_KEY, ncit_entity_types, "BVE_SE_NCIT_ENTITY_TYPES"),
+            (NCIT_CELL_PRODUCTS_KEY, ncit_cell_products, "BVE_SE_NCIT_CELL_PRODUCTS"),
         ):
             sealed = recorded.get(key)
             if sealed is None:

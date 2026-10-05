@@ -545,4 +545,9 @@ def _sidecar_versions() -> dict[str, str]:
     entity_types = ncit_entity_types()
     if entity_types is not None:
         versions[NCIT_ENTITY_TYPES_KEY] = entity_types.version_token
+    from bve.se.ontology.ncit_cell_products import NCIT_CELL_PRODUCTS_KEY, ncit_cell_products
+
+    cell_products = ncit_cell_products()
+    if cell_products is not None:
+        versions[NCIT_CELL_PRODUCTS_KEY] = cell_products.version_token
     return versions

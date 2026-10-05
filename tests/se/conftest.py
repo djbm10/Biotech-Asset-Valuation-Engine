@@ -113,3 +113,16 @@ def _no_ncit_entity_types(monkeypatch, tmp_path_factory):
     reset_entity_types_cache()
     yield
     reset_entity_types_cache()
+
+
+@pytest.fixture(autouse=True)
+def _no_ncit_cell_products(monkeypatch, tmp_path_factory):
+    """Likewise for the NCIt Cell-typed product sidecar (ncit_modality_v1)."""
+
+    from bve.se.ontology.ncit_cell_products import reset_cell_products_cache
+
+    missing = tmp_path_factory.mktemp("no_ncit_cells") / "absent.json"
+    monkeypatch.setenv("BVE_SE_NCIT_CELL_PRODUCTS", str(missing))
+    reset_cell_products_cache()
+    yield
+    reset_cell_products_cache()
