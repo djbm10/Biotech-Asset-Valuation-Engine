@@ -1,0 +1,42 @@
+===== tac01
+ 1 Brexucabtagene Autoleucel                      tgt=PASS    poc=None    mod=MATCH    aliases=4
+ 2 Axicabtagene Ciloleucel                        tgt=PASS    poc=None    mod=MATCH    aliases=4
+ 3 Lisocabtagene Maraleucel                       tgt=PASS    poc=None    mod=MATCH    aliases=6
+ 4 Tisagenlecleucel                               tgt=PASS    poc=None    mod=MATCH    aliases=5
+ 5 CC-97540                                       tgt=PASS    poc=None    mod=MATCH    aliases=3
+ 6 cemacabtagene ansegedleucel                    tgt=PASS    poc=None    mod=MATCH    aliases=2
+ 7 Prizloncabtagene Autoleucel                    tgt=PASS    poc=None    mod=MATCH    aliases=3
+ 8 Anbalcabtagene Autoleucel                      tgt=PASS    poc=None    mod=MATCH    aliases=3
+ 9 Varnimcabtagene autoleucel                     tgt=PASS    poc=None    mod=MATCH    aliases=2
+10 Tabelecleucel                                  tgt=UNKNOWN poc=None    mod=MATCH    aliases=2
+11 Lifileucel                                     tgt=UNKNOWN poc=None    mod=MATCH    aliases=1
+12 resecabtagene autoleucel                       tgt=UNKNOWN poc=None    mod=MATCH    aliases=1
+13 satricabtagene autoleucel                      tgt=UNKNOWN poc=None    mod=MATCH    aliases=2
+14 TAK-007                                        tgt=UNKNOWN poc=None    mod=MATCH    aliases=1
+15 CNCT19                                         tgt=PASS    poc=None    mod=UNKNOWN  aliases=1
+16 KITE-753                                       tgt=PASS    poc=None    mod=UNKNOWN  aliases=1
+17 7×19-THEMIS CAR-T cells                        tgt=PASS    poc=None    mod=UNKNOWN  aliases=1
+18 ALLO-501A                                      tgt=PASS    poc=None    mod=UNKNOWN  aliases=1
+19 Allogeneic CD19-STAR T cell                    tgt=PASS    poc=None    mod=UNKNOWN  aliases=1
+20 Allogenic CD19-CAR-γδT cell                    tgt=PASS    poc=None    mod=UNKNOWN  aliases=2
+===== mint5
+ 1 AZD0120                                        tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+ 2 FKC289                                         tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+ 3 GC012F                                         tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+ 4 umbilical cord blood CD19-BCMA CAR-T cells inf tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+ 5 CD19-BCMA dual nanobody based CAR-T Cells      tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+ 6 Allogeneic CD19/BCMA-targeted CAR-γδT cell inj tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+ 7 allogeneic umbilical cord blood-derived CAR-T  tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+ 8 allogenic anti-CD19/BCMA CAR-T                 tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+ 9 anti-CD19/BCMA U CAR T cells                   tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+10 Assigned Interventions CD19/BCMA CAR T-cells   tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+11 BCMA-CD19 cCAR T cells                         tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+12 CD19-BCMA Targeted CAR-T Dose 1                tgt=PASS    poc=UNKNOWN mod=None     aliases=2
+13 CD19/BCMA in vivo CAR-T                        tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+14 CD19/BCMA Lupus Nephritis Targeted CAR T-cells tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+15 FIT-(BCMA+CD19)-CAR-T Cells                    tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+16 KN5601                                         tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+17 KSVCBD injection                               tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+18 KT501                                          tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+19 PRG-2311                                       tgt=PASS    poc=UNKNOWN mod=None     aliases=1
+20 QT-019C                                        tgt=PASS    poc=UNKNOWN mod=None     aliases=1

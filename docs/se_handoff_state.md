@@ -8,7 +8,30 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-04, ranking v2) — START HERE
+## 0. Current directive (last updated 2026-10-05, arm-variant identity) — START HERE
+
+**ARM_VARIANT_IDENTITY v1: ADOPTED.** The record is `arm_variant_identity_v1.md` §7.
+Baselines: `~/se_runs/{tac01,mint5}_armid_v1`. The top-20 reassessment is in
+`research/se_arm_identity/reassessment_2026-10-05.txt`.
+
+**TAC01 top 20:** 14 target PASS. The 5 UNKNOWN cell therapies (#10–14) sit above PASS rows
+(#15–20) only because those PASS rows have modality UNKNOWN: they lack a ChEMBL modality
+record. 103 TAC01 assets with UNKNOWN modality are unambiguously linked to an NCIt
+CAR/immune-cell product concept.
+
+**mint5 top 20:** 20/20 target PASS, but **0/40 target-PASS assets have human-PoC
+evidence**, although the query asks "with human efficacy". The 22 human-PoC PASS assets are
+all target FAIL or UNKNOWN. Duplicates still visible:
+- GC012F and AZD0120 (#3 and #1) stay apart under a standing rule;
+- the two cord-blood rows (#4 and #7) and "Assigned Interventions" are possible duplicates,
+  unverified.
+
+**Pending operator fork** (see the end-of-session message):
+- **A.** Human-PoC coverage for dual-target constructs. This is the binding gap for mint5.
+- **B.** NCIt-derived authority modality for NCIt-linked cell products. This is the TAC01
+  ordering gap.
+
+### Earlier (2026-10-04, ranking v2)
 
 **RANKING_LEXICOGRAPHIC v2: ADOPTED** at `eac06a7`. It was scored offline on the `*_qual_v7`
 results.
