@@ -8,7 +8,22 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-05, arm-variant identity) — START HERE
+## 0. Current directive (last updated 2026-10-05, NCIt modality) — START HERE
+
+**HUMAN_EFFICACY_COVERAGE_DIAGNOSIS v1: FROZEN.** Result: A 20, B 1, C 3, D 16. No
+efficacy-reader fix is justified.
+- **Material finding:** an identity split. ICG318 and "BCMA-CD19 cCAR T cells" are the same
+  iCell programme under two unlinked names. It is open for a separate operator decision.
+- **Tooling note:** WebSearch began refusing these biology queries partway through the
+  diagnosis.
+
+**NCIT_MODALITY v1:** preregistered and implemented at `983e4f9`.
+- Local sidecar required: `data/se/ontology/ncit/ncit_26.08e_cell_products.json`.
+- Awaiting the operator's replays into `{tac01,mint5}_ncitmod_v1` and `tac01_ncitmod_v1_det`.
+- Score N1–N7 against `*_armid_v1`, with ranking compared to `*_armid_v1` rebuilt under
+  ranking v2 and timestamps excluded.
+
+### Earlier (2026-10-05, arm-variant identity)
 
 **ARM_VARIANT_IDENTITY v1: ADOPTED.** The record is `arm_variant_identity_v1.md` §7.
 Baselines: `~/se_runs/{tac01,mint5}_armid_v1`. The top-20 reassessment is in
