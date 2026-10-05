@@ -1,0 +1,919 @@
+[
+ {
+  "asset_id": "asset:63a9eb55422e3fbc6178",
+  "name": "Allogeneic CD19/BCMA-targeted CAR-γδT cell injection",
+  "aliases": [
+   "Allogeneic CD19/BCMA-targeted CAR-γδT cell injection"
+  ],
+  "trial_ids": [
+   "NCT07490275"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07490275"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:b023ea33fef9e3f84c83",
+  "name": "allogeneic cord blood-derived, dual-targeting CD19/BCMA CAR-T cells",
+  "aliases": [
+   "allogeneic cord blood-derived, dual-targeting CD19/BCMA CAR-T cells"
+  ],
+  "trial_ids": [
+   "NCT07139509"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07139509"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:ac551940ff9492dd71f6",
+  "name": "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA",
+  "aliases": [
+   "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA"
+  ],
+  "trial_ids": [
+   "NCT07274059"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07274059"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:7a46f3309cf39ffaab57",
+  "name": "allogenic anti-CD19/BCMA CAR-T",
+  "aliases": [
+   "allogenic anti-CD19/BCMA CAR-T"
+  ],
+  "trial_ids": [
+   "NCT07261345"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07261345"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:89ecacb5d88393ff26ff",
+  "name": "Anti-BCMA and CD19 CART cells will be injected intravenously on a one-time basis",
+  "aliases": [
+   "Anti-BCMA and CD19 CART cells will be injected intravenously on a one-time basis",
+   "Anti-BCMA and CD19 CART cells will be injected intravenously on a one-time basis."
+  ],
+  "trial_ids": [
+   "NCT06503224",
+   "NCT06961669",
+   "NCT07052565"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06961669",
+   "https://clinicaltrials.gov/study/NCT06503224",
+   "https://clinicaltrials.gov/study/NCT07052565"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:a4b30ac3efa981e7f9cf",
+  "name": "Anti-CD19/BCMA CAR gene vector injection will be injected intravenously on a one-time basis",
+  "aliases": [
+   "Anti-CD19/BCMA CAR gene vector injection will be injected intravenously on a one-time basis",
+   "Anti-CD19/BCMA CAR gene vector injection will be injected intravenously on a one-time basis."
+  ],
+  "trial_ids": [
+   "NCT06973356",
+   "NCT07121777"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07121777",
+   "https://clinicaltrials.gov/study/NCT06973356"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:d4bc13b892d80bfa265e",
+  "name": "anti-CD19/BCMA U CAR T",
+  "aliases": [
+   "anti-CD19/BCMA U CAR T"
+  ],
+  "trial_ids": [
+   "NCT07241468"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07241468"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:4b6d3e95eae7377d55a5",
+  "name": "anti-CD19/BCMA U CAR T cells",
+  "aliases": [
+   "anti-CD19/BCMA U CAR T cells"
+  ],
+  "trial_ids": [
+   "NCT07246096"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07246096"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:6bce06e2cb1396b1d7e4",
+  "name": "anti-CD19/BCMA-UCAR-T cells",
+  "aliases": [
+   "anti-CD19/BCMA-UCAR-T cells"
+  ],
+  "trial_ids": [
+   "NCT07558850"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07558850"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:b85b8504c51fc8276e84",
+  "name": "ARI0003",
+  "aliases": [
+   "ARI0003"
+  ],
+  "trial_ids": [
+   "NCT06097455"
+  ],
+  "documents": [
+   "https://pubmed.ncbi.nlm.nih.gov/39708800/",
+   "https://pubmed.ncbi.nlm.nih.gov/39563035/",
+   "https://clinicaltrials.gov/study/NCT06097455"
+  ],
+  "document_types": [
+   "publication_abstract",
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:3789cb6eba0780f32bac",
+  "name": "Assigned Interventions CD19/BCMA CAR T-cells",
+  "aliases": [
+   "Assigned Interventions CD19/BCMA CAR T-cells"
+  ],
+  "trial_ids": [
+   "NCT05030779",
+   "NCT05085418",
+   "NCT05085431",
+   "NCT05085444"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT05030779",
+   "https://clinicaltrials.gov/study/NCT05085418",
+   "https://clinicaltrials.gov/study/NCT05085431",
+   "https://clinicaltrials.gov/study/NCT05085444"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:e6c8423588e50c840c2a",
+  "name": "Autologous BCMA/CD19 dual-target CAR-T module",
+  "aliases": [
+   "Autologous BCMA/CD19 dual-target CAR-T module"
+  ],
+  "trial_ids": [
+   "NCT07523555"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07523555"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:5701df8d3d8d7363bd5e",
+  "name": "AZD0120",
+  "aliases": [
+   "AZD0120"
+  ],
+  "trial_ids": [
+   "NCT05850234",
+   "NCT07073547",
+   "NCT07081646",
+   "NCT07224373",
+   "NCT07295847",
+   "NCT07350837",
+   "NCT07735637",
+   "NCT07764978"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07081646",
+   "https://clinicaltrials.gov/study/NCT07224373",
+   "https://clinicaltrials.gov/study/NCT07350837",
+   "https://clinicaltrials.gov/study/NCT07295847",
+   "https://pubmed.ncbi.nlm.nih.gov/41925575/",
+   "https://clinicaltrials.gov/study/NCT07735637",
+   "https://clinicaltrials.gov/study/NCT07073547",
+   "https://clinicaltrials.gov/study/NCT07764978",
+   "https://clinicaltrials.gov/study/NCT05850234"
+  ],
+  "document_types": [
+   "publication_abstract",
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:e231b8db8ee4aff93bd2",
+  "name": "BCMA-CD19 cCAR T cells",
+  "aliases": [
+   "BCMA-CD19 cCAR T cells"
+  ],
+  "trial_ids": [
+   "NCT04162353",
+   "NCT05474885",
+   "NCT06787989"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT04162353",
+   "https://clinicaltrials.gov/study/NCT05474885",
+   "https://clinicaltrials.gov/study/NCT06787989"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:b373036ed6bcf0953dc4",
+  "name": "BCMA/CD19 dual-target CAR-T cell immunotherapy",
+  "aliases": [
+   "BCMA/CD19 dual-target CAR-T cell immunotherapy"
+  ],
+  "trial_ids": [
+   "NCT04412889"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT04412889"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:0145d662a5acee527414",
+  "name": "CAR-T Autologous T cell injection",
+  "aliases": [
+   "CAR-T Autologous T cell injection"
+  ],
+  "trial_ids": [
+   "NCT05618041"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT05618041"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:8a4ef325c481300e1e1f",
+  "name": "CD19-BCMA dual nanobody based CAR-T Cells",
+  "aliases": [
+   "CD19-BCMA dual nanobody based CAR-T Cells"
+  ],
+  "trial_ids": [
+   "NCT07451236"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07451236"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:9eda96c266e5f5525b98",
+  "name": "CD19-BCMA Targeted CAR-T Dose 1",
+  "aliases": [
+   "CD19-BCMA Targeted CAR-T Dose 1",
+   "CD19-BCMA Targeted CAR-T Dose 2"
+  ],
+  "trial_ids": [
+   "NCT06371040"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06371040"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:db81fdf95a821e7828a4",
+  "name": "CD19/BCMA in vivo CAR-T",
+  "aliases": [
+   "CD19/BCMA in vivo CAR-T"
+  ],
+  "trial_ids": [
+   "NCT07388212"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07388212"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:81b227b1393173413241",
+  "name": "CD19/BCMA Lupus Nephritis Targeted CAR T-cells injection",
+  "aliases": [
+   "CD19/BCMA Lupus Nephritis Targeted CAR T-cells injection"
+  ],
+  "trial_ids": [
+   "NCT06785519"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06785519"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:1384072a681cde8c22cc",
+  "name": "CD19/BCMA-targeted CAR-T lentiviral vector drug",
+  "aliases": [
+   "CD19/BCMA-targeted CAR-T lentiviral vector drug"
+  ],
+  "trial_ids": [
+   "NCT07490951"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07490951"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:e5f8ee1caac095e3ace3",
+  "name": "CD19/BCMA-Targeted Universal Chimeric Antigen Receptor T Cells (UCAR-T) infusing",
+  "aliases": [
+   "CD19/BCMA-Targeted Universal Chimeric Antigen Receptor T Cells (UCAR-T) infusing"
+  ],
+  "trial_ids": [
+   "NCT07423572"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07423572"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:826da8d4f511bcf7cae0",
+  "name": "CD19/CD20/BCMA CAR T cells",
+  "aliases": [
+   "CD19/CD20/BCMA CAR T cells"
+  ],
+  "trial_ids": [
+   "NCT06446128"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06446128"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:cf59b9730846deee5057",
+  "name": "CD19/CD20/BCMA CAR-T",
+  "aliases": [
+   "CD19/CD20/BCMA CAR-T"
+  ],
+  "trial_ids": [
+   "NCT06732232"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06732232"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:ad8b9dfd529a7a8a882f",
+  "name": "Fast Dual CAR-T Injection",
+  "aliases": [
+   "Fast Dual CAR-T Injection"
+  ],
+  "trial_ids": [
+   "NCT04877080"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT04877080"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:8d4fa58cc47bee4c6b45",
+  "name": "FIT-(BCMA+CD19)-CAR-T Cells",
+  "aliases": [
+   "FIT-(BCMA+CD19)-CAR-T Cells"
+  ],
+  "trial_ids": [
+   "NCT07604792"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07604792"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:be2c3fda82741e749f3a",
+  "name": "FKC289",
+  "aliases": [
+   "FKC289"
+  ],
+  "trial_ids": [
+   "NCT06285279",
+   "NCT07765524",
+   "NCT07765537"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06285279",
+   "https://clinicaltrials.gov/study/NCT07765537",
+   "https://clinicaltrials.gov/study/NCT07765524"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:b78297c1bb2cdf8ad38b",
+  "name": "GC012F",
+  "aliases": [
+   "GC012F"
+  ],
+  "trial_ids": [
+   "NCT04236011",
+   "NCT04617704",
+   "NCT04935580",
+   "NCT05412329",
+   "NCT05840107",
+   "NCT05846347",
+   "NCT05858684",
+   "NCT06235229",
+   "NCT06419166",
+   "NCT06530849",
+   "NCT07250269"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06235229",
+   "https://pubmed.ncbi.nlm.nih.gov/35131139/",
+   "https://clinicaltrials.gov/study/NCT05412329",
+   "https://clinicaltrials.gov/study/NCT07250269",
+   "https://clinicaltrials.gov/study/NCT04236011",
+   "https://pubmed.ncbi.nlm.nih.gov/39052306/",
+   "https://pubmed.ncbi.nlm.nih.gov/39670821/",
+   "https://clinicaltrials.gov/study/NCT06530849",
+   "https://pubmed.ncbi.nlm.nih.gov/41925575/",
+   "https://clinicaltrials.gov/study/NCT05840107",
+   "https://clinicaltrials.gov/study/NCT05846347",
+   "https://clinicaltrials.gov/study/NCT04617704",
+   "https://clinicaltrials.gov/study/NCT04935580",
+   "https://clinicaltrials.gov/study/NCT05858684",
+   "https://clinicaltrials.gov/study/NCT06419166"
+  ],
+  "document_types": [
+   "publication_abstract",
+   "trial_registry_record"
+  ],
+  "strict_statements": [
+   ",  measure :  Overall Response Rate(ORR) ,  timeFrame :  Up to 24 weeks after patients infused with GC012F injectiom  ,   description :  Progression-free survival (PFS), overall survival (OS), duration of response (DOR) within 48 weeks after infusion (1/3/6/9/12 months after infusion);",
+   ",  measure :  Progression-free survival (PFS), Overall Survival (OS), Duration Of Response (DOR) ,  timeFrame :  Up to 1/3/6/9/12 months after patients infused with GC012F injectiom  ,   description :  CAR-T cell counts and number of CAR gene copies in the blood, bone marrow and/or tumor tissue within 48 weeks after GC012F infusion."
+  ],
+  "loose_efficacy_sentences": [
+   [
+    "trial_registry_record",
+    ",  measure :  Overall Response Rate(ORR) ,  timeFrame :  Up to 24 weeks after patients infused with GC012F injectiom  ,   description :  Progression-free survival (PFS), overall survival (OS), duration of response (DOR) within 48 weeks after infusion (1/3/6/9/12 months after infusion);"
+   ],
+   [
+    "trial_registry_record",
+    ",  measure :  Progression-free survival (PFS), Overall Survival (OS), Duration Of Response (DOR) ,  timeFrame :  Up to 1/3/6/9/12 months after patients infused with GC012F injectiom  ,   description :  CAR-T cell counts and number of CAR gene copies in the blood, bone marrow and/or tumor tissue with"
+   ],
+   [
+    "trial_registry_record",
+    "armsInterventionsModule :   armGroups :    description :  GC012F Injection ,  interventionNames :   Drug: GC012F Injection  ,  label :  GC012F Injection ,  type :  EXPERIMENTAL   ,  interventions :    armGroupLabels :   GC012F Injection  ,  description :  GC012F Injection is an autologous chimeric a"
+   ],
+   [
+    "trial_registry_record",
+    ",  detailedDescription :  This is a single-arm, open-label, multicenter, phase 1/2 clinical study to assess the safety and efficacy of GC012F Injection in subjects with refractory SLE；The dose-escalation phase 1 study aims to assess the safety of GC012F Injection and determine the Recommended Phase "
+   ],
+   [
+    "trial_registry_record",
+    "CRS and ICANS should be evaluated according to the American Society for Transplantation and Cellular Therapy (ASTCT) consensus grading ,  measure :  Adverse Events (AE) after GC012F infusion ,  timeFrame :  Up to 1 year after patients infused with GC012F injection  ,   description :  ORR defined as "
+   ]
+  ],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:1c713c8eeef9da66c565",
+  "name": "IL-15-armored CAR-T cells",
+  "aliases": [
+   "IL-15-armored CAR-T cells"
+  ],
+  "trial_ids": [
+   "NCT07509086"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07509086"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:90d9ebb13a19d76f6334",
+  "name": "KN5601",
+  "aliases": [
+   "KN5601"
+  ],
+  "trial_ids": [
+   "NCT06792799",
+   "NCT07283315",
+   "NCT07490041"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06792799",
+   "https://clinicaltrials.gov/study/NCT07490041",
+   "https://clinicaltrials.gov/study/NCT07283315"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:2e7c4459543976b6e57b",
+  "name": "KSVCBD injection",
+  "aliases": [
+   "KSVCBD injection"
+  ],
+  "trial_ids": [
+   "NCT07592754",
+   "NCT07613411",
+   "NCT07620275",
+   "NCT07620314"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07613411",
+   "https://clinicaltrials.gov/study/NCT07620314",
+   "https://clinicaltrials.gov/study/NCT07592754",
+   "https://clinicaltrials.gov/study/NCT07620275"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:d3452eca6c9b9e1e4eba",
+  "name": "KT501",
+  "aliases": [
+   "KT501"
+  ],
+  "trial_ids": [
+   "NCT07234773"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07234773"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:0c1b829be6173d0fd5a9",
+  "name": "OriV508 Injection",
+  "aliases": [
+   "OriV508 Injection"
+  ],
+  "trial_ids": [
+   "NCT07101705"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07101705"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:f58ae0a9111c1469c7de",
+  "name": "PRG-2311",
+  "aliases": [
+   "PRG-2311"
+  ],
+  "trial_ids": [
+   "NCT06497361"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06497361"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:1261b361421d8abdb744",
+  "name": "QT-019C",
+  "aliases": [
+   "QT-019C"
+  ],
+  "trial_ids": [
+   "NCT07315087",
+   "NCT07392528",
+   "NCT07416032"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07315087",
+   "https://clinicaltrials.gov/study/NCT07416032",
+   "https://clinicaltrials.gov/study/NCT07392528"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:d12718d7c66724ff2a6a",
+  "name": "QT-219CX",
+  "aliases": [
+   "QT-219CX"
+  ],
+  "trial_ids": [
+   "NCT07586267"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07586267"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:ed7a153d1a2fecd5bd29",
+  "name": "UCAR T-cell",
+  "aliases": [
+   "UCAR T-cell"
+  ],
+  "trial_ids": [
+   "NCT06939166",
+   "NCT06941129",
+   "NCT07305116",
+   "NCT07507201"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT07305116",
+   "https://clinicaltrials.gov/study/NCT06941129",
+   "https://clinicaltrials.gov/study/NCT07507201",
+   "https://clinicaltrials.gov/study/NCT06939166"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:e0606b695de4a669cb09",
+  "name": "UCAR T-cell group",
+  "aliases": [
+   "UCAR T-cell group"
+  ],
+  "trial_ids": [
+   "NCT06920433",
+   "NCT06920446",
+   "NCT06933563"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06920446",
+   "https://clinicaltrials.gov/study/NCT06920433",
+   "https://clinicaltrials.gov/study/NCT06933563"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:620571de7131c8fd4344",
+  "name": "umbilical cord blood CD19-BCMA CAR-T cells infusion",
+  "aliases": [
+   "umbilical cord blood CD19-BCMA CAR-T cells infusion"
+  ],
+  "trial_ids": [
+   "NCT06947473"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06947473"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ },
+ {
+  "asset_id": "asset:665311d66a82a77f3faa",
+  "name": "universal allogeneic anti-CD19/BCMA CAR T-cells",
+  "aliases": [
+   "universal allogeneic anti-CD19/BCMA CAR T-cells"
+  ],
+  "trial_ids": [
+   "NCT06733610",
+   "NCT06978738"
+  ],
+  "documents": [
+   "https://clinicaltrials.gov/study/NCT06733610",
+   "https://clinicaltrials.gov/study/NCT06978738"
+  ],
+  "document_types": [
+   "trial_registry_record"
+  ],
+  "strict_statements": [],
+  "loose_efficacy_sentences": [],
+  "registry_results_posted": [],
+  "human_poc_gate": "UNKNOWN"
+ }
+]

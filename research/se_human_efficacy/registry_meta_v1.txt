@@ -1,0 +1,120 @@
+Allogeneic CD19/BCMA-targeted CAR-γδT cell injecti
+     ('NCT07490275', 'NOT_YET_RECRUITING', '2026-07-01', '2026-03-24', 'Institute of Hematology & Blood Diseases', 'Refractory/Relapsed Systemic Lupus Erythematosus|R')
+allogeneic cord blood-derived, dual-targeting CD19
+     ('NCT07139509', 'RECRUITING', '2024-10-03', '2025-08-24', "Xi'an No.3 Hospital", 'Relapsed/Refractory Multiple Myeloma(MM)')
+allogeneic umbilical cord blood-derived CAR-T targ
+     ('NCT07274059', 'RECRUITING', '2025-03-26', '2025-12-10', 'Chengdu Ucello Biotechnology Co., Ltd.', 'SLE - Systemic Lupus Erythematosus')
+allogenic anti-CD19/BCMA CAR-T
+     ('NCT07261345', 'RECRUITING', '2025-12-19', '2025-12-03', 'Shanghai Zhongshan Hospital', "Graves' Disease")
+Anti-BCMA and CD19 CART cells will be injected int
+     ('NCT06503224', 'RECRUITING', '2024-04-09', '2024-07-16', 'The First Affiliated Hospital of Univers', 'Autoimmune Diseases')
+     ('NCT06961669', 'RECRUITING', '2025-04-16', '2025-05-08', 'Anhui Provincial Hospital', 'Lymphoblastic Leukemia|Relapsed or Refractory Mult')
+     ('NCT07052565', 'RECRUITING', '2025-07-20', '2025-07-04', 'Anhui Provincial Hospital', 'Autoimmune Diseases')
+Anti-CD19/BCMA CAR gene vector injection will be i
+     ('NCT06973356', 'RECRUITING', '2025-08-16', '2025-05-15', 'Anhui Provincial Hospital', 'Immune Thrombocytopenia (ITP)')
+     ('NCT07121777', 'RECRUITING', '2025-08-25', '2025-08-13', 'Anhui Provincial Hospital', 'Autoimmune Diseases')
+anti-CD19/BCMA U CAR T
+     ('NCT07241468', 'RECRUITING', '2025-11-15', '2025-11-21', 'Changhai Hospital', 'Relapsed/Refractory Immune Nephropathy|Relapsed/Re')
+anti-CD19/BCMA U CAR T cells
+     ('NCT07246096', 'RECRUITING', '2026-02-20', '2025-11-24', 'Changhai Hospital', 'Autoimmune Diseases|Systemic Lupus Erythematosus')
+anti-CD19/BCMA-UCAR-T cells
+     ('NCT07558850', 'RECRUITING', '2026-05-10', '2026-04-30', 'The First Affiliated Hospital with Nanji', 'Rheumatoid Arthritis|Dermatomyositis')
+ARI0003
+     ('NCT06097455', 'NOT_YET_RECRUITING', '2024-01-15', '2023-10-24', 'Fundacion Clinic per a la Recerca Bioméd', 'Refractory Non-Hodgkin Lymphoma|Relapsed Non-Hodgk')
+Assigned Interventions CD19/BCMA CAR T-cells
+     ('NCT05030779', 'UNKNOWN', '2021-09-10', '2021-09-01', 'Zhejiang University', 'Systemic Lupus Erythematosus|Autoimmune Diseases')
+     ('NCT05085418', 'UNKNOWN', '2021-11-05', '2021-10-20', 'Zhejiang University', 'Immune Nephritis|Autoimmune Diseases')
+     ('NCT05085431', 'UNKNOWN', '2021-11-05', '2021-10-20', 'Zhejiang University', "Sjogren's Syndrome|Autoimmune Diseases")
+     ('NCT05085444', 'UNKNOWN', '2021-10-08', '2021-10-20', 'Zhejiang University', 'Scleroderma|Autoimmune Diseases')
+Autologous BCMA/CD19 dual-target CAR-T module
+     ('NCT07523555', 'RECRUITING', '2026-03-02', '2026-04-13', 'Beijing Biotech', 'Relapsed/Refractory B-cell Acute Lymphoblastic Leu')
+AZD0120
+     ('NCT05850234', 'RECRUITING', '2023-07-20', '2023-05-09', 'AstraZeneca', 'Relapsed/Refractory Multiple Myeloma')
+     ('NCT07073547', 'RECRUITING', '2025-07-31', '2025-07-18', 'AstraZeneca', 'Multiple Myeloma')
+     ('NCT07081646', 'RECRUITING', '2025-08-18', '2025-07-23', 'Alexion Pharmaceuticals, Inc.', 'Relapsed AL Amyloidosis|Refractory AL Amyloidosis')
+     ('NCT07224373', 'RECRUITING', '2025-12-09', '2025-11-04', 'AstraZeneca', 'Multiple Sclerosis')
+     ('NCT07295847', 'RECRUITING', '2026-01-09', '2025-12-22', 'AstraZeneca', 'Systemic Sclerosis|Idiopathic Inflammatory Myopath')
+     ('NCT07350837', 'RECRUITING', '2026-01-28', '2026-01-20', 'Tongji Hospital', 'Highly Sensitized Patients Awaiting Kidney Transpl')
+     ('NCT07735637', 'NOT_YET_RECRUITING', '2026-08-25', '2026-07-30', 'AstraZeneca', 'Newly Diagnosed Multiple Myeloma (NDMM)')
+     ('NCT07764978', 'RECRUITING', '2026-06-26', '2026-08-14', 'AstraZeneca', 'Newly Diagnosed Multiple Myeloma')
+BCMA-CD19 cCAR T cells
+     ('NCT04162353', 'RECRUITING', '2019-07-01', '2019-11-14', 'iCell Gene Therapeutics', 'Multiple Myeloma in Relapse|Refractory Multiple My')
+     ('NCT05474885', 'UNKNOWN', '2022-04-01', '2022-07-26', 'iCell Gene Therapeutics', 'Relapsed/Refractory, Systemic Lupus Erythematosus ')
+     ('NCT06787989', 'RECRUITING', '2024-08-31', '2025-01-22', 'iCell Gene Therapeutics', 'Refractory Immune Cytopenia')
+BCMA/CD19 dual-target CAR-T cell immunotherapy
+     ('NCT04412889', 'UNKNOWN', '2020-06', '2020-06-02', 'Hebei Yanda Ludaopei Hospital', 'Multiple Myeloma')
+CAR-T Autologous T cell injection
+     ('NCT05618041', 'RECRUITING', '2022-09-07', '2022-11-16', 'Hebei Senlang Biotechnology Inc., Ltd.', 'Acute Lymphoblastic Leukemia|Lymphoma')
+CD19-BCMA dual nanobody based CAR-T Cells
+     ('NCT07451236', 'NOT_YET_RECRUITING', '2026-03-18', '2026-03-05', 'Chang Yingjun', 'Transplantation Candidates With Hematological Dise')
+CD19-BCMA Targeted CAR-T Dose 1
+     ('NCT06371040', 'RECRUITING', '2024-07-12', '2024-04-17', 'Ting Chang, MD', 'Myasthenia Gravis')
+CD19/BCMA in vivo CAR-T
+     ('NCT07388212', 'NOT_YET_RECRUITING', '2026-02-23', '2026-02-05', 'West China Hospital', 'Autoimmune Diseases')
+CD19/BCMA Lupus Nephritis Targeted CAR T-cells inj
+     ('NCT06785519', 'RECRUITING', '2025-01-31', '2025-01-21', 'He Huang', 'Lupus Nephritis')
+CD19/BCMA-targeted CAR-T lentiviral vector drug
+     ('NCT07490951', 'RECRUITING', '2026-03-22', '2026-03-24', 'Liang Zou', 'Autoimmune Diseases')
+CD19/BCMA-Targeted Universal Chimeric Antigen Rece
+     ('NCT07423572', 'NOT_YET_RECRUITING', '2026-02-28', '2026-02-20', 'The First Affiliated Hospital of Zhejian', 'Refractory Idiopathic Membranous Nephropathy')
+CD19/CD20/BCMA CAR T cells
+     ('NCT06446128', 'RECRUITING', '2024-05-07', '2024-06-06', 'Shanghai Cell Therapy Group Co.,Ltd', 'Non-Hodgkin Lymphoma, B-cell')
+CD19/CD20/BCMA CAR-T
+     ('NCT06732232', 'RECRUITING', '2024-12-12', '2024-12-13', 'Shanghai Cell Therapy Group Co.,Ltd', 'Relapsed|Refractory')
+Fast Dual CAR-T Injection
+     ('NCT04877080', 'WITHDRAWN', '2021-05-05', '2021-05-07', '920th Hospital of Joint Logistics Suppor', 'B-cell Lymphoma')
+FIT-(BCMA+CD19)-CAR-T Cells
+     ('NCT07604792', 'SUSPENDED', '2025-09-25', '2026-05-22', 'Beijing Boren Hospital', 'Autoimmune Diseases')
+FKC289
+     ('NCT06285279', 'RECRUITING', '2024-03-04', '2024-02-29', 'Nanjing University School of Medicine', 'Lupus Nephritis|ANCA-associated Vasculitis')
+     ('NCT07765524', 'NOT_YET_RECRUITING', '2026-08', '2026-08-14', 'Shenzhen Fosun Kairos Biotechnology Co.,', 'Primary Light Chain (AL) Amyloidosis')
+     ('NCT07765537', 'NOT_YET_RECRUITING', '2026-08', '2026-08-14', 'Shenzhen Fosun Kairos Biotechnology Co.,', 'Primary Membranous Nephropathy')
+GC012F
+     ('NCT04236011', 'UNKNOWN', '2020-01-16', '2020-01-22', 'Shanghai Changzheng Hospital', 'Multiple Myeloma')
+     ('NCT04617704', 'UNKNOWN', '2021-12-01', '2020-11-05', 'Shanghai Changzheng Hospital', 'Multiple Myeloma')
+     ('NCT04935580', 'UNKNOWN', '2021-06-28', '2021-06-23', 'Shanghai Changzheng Hospital', 'Multiple Myeloma')
+     ('NCT05412329', 'UNKNOWN', '2022-06-13', '2022-06-09', 'Shanghai Changzheng Hospital', 'Multiple Myeloma')
+     ('NCT05840107', 'UNKNOWN', '2023-05-04', '2023-05-03', 'Shanghai Changzheng Hospital', 'Multiple Myeloma')
+     ('NCT05846347', 'UNKNOWN', '2023-05-15', '2023-05-06', 'Zhejiang University', 'CAR-T')
+     ('NCT05858684', 'RECRUITING', '2023-05-11', '2023-05-15', 'RenJi Hospital', 'CAR-T Cell Therapy')
+     ('NCT06235229', 'RECRUITING', '2023-12-26', '2024-01-31', 'Gracell Biotechnologies (Shanghai) Co., ', 'Multiple Myeloma')
+     ('NCT06419166', 'WITHDRAWN', '2024-12-01', '2024-05-17', 'Zhejiang University', 'Refractory Generalized Myasthenia Gravis')
+     ('NCT06530849', 'ACTIVE_NOT_RECRUITING', '2024-08-22', '2024-07-31', 'Gracell Biotechnologies (Shanghai) Co., ', 'Refractory Systemic Lupus Erythematosus')
+     ('NCT07250269', 'RECRUITING', '2025-10-29', '2025-11-26', 'Gracell Biotechnologies (Shanghai) Co., ', 'Relapsed/Refractory AL Amyloidosis')
+IL-15-armored CAR-T cells
+     ('NCT07509086', 'RECRUITING', '2025-12-29', '2026-04-03', 'The First Hospital of Jilin University', 'Relapsed/Refractory Multiple Myeloma|Plasma Cell L')
+KN5601
+     ('NCT06792799', 'RECRUITING', '2025-01-30', '2025-01-27', "The Children's Hospital of Zhejiang Univ", 'Autoimmune Diseases|Systemic Lupus Erthematosus')
+     ('NCT07283315', 'RECRUITING', '2025-12-03', '2025-12-15', "The Children's Hospital of Zhejiang Univ", 'Paediatric B Cell-related Autoimmune Diseases|Auto')
+     ('NCT07490041', 'RECRUITING', '2026-03-19', '2026-03-24', "The Children's Hospital of Zhejiang Univ", 'Rheumatic Diseases|Pediatric Rheumatological Condi')
+KSVCBD injection
+     ('NCT07592754', 'NOT_YET_RECRUITING', '2026-05-15', '2026-05-18', 'Chinese PLA General Hospital', 'Neuromyelitis Optica Spectrum Disease (NMOSD)')
+     ('NCT07613411', 'NOT_YET_RECRUITING', '2026-06-01', '2026-05-29', 'Chinese PLA General Hospital', 'Autoimmune Diseases')
+     ('NCT07620275', 'RECRUITING', '2026-09-03', '2026-06-02', 'Chinese PLA General Hospital', 'Multiple Myeloma')
+     ('NCT07620314', 'RECRUITING', '2026-07-16', '2026-06-02', 'Chinese PLA General Hospital', "Non-Hodgkin's Lymphoma")
+KT501
+     ('NCT07234773', 'RECRUITING', '2026-03-06', '2025-11-18', 'Kali Therapeutics, Inc.', 'Rheumatoid Arthritis (RA)')
+OriV508 Injection
+     ('NCT07101705', 'RECRUITING', '2025-09-08', '2025-08-03', 'Union Hospital, Tongji Medical College, ', 'Multiple Myeloma (MM)|Non-Hodgkin Lymphoma (NHL)')
+PRG-2311
+     ('NCT06497361', 'RECRUITING', '2024-07', '2024-07-11', 'Tongji Hospital', 'Lupus Nephritis|IgG4-related Disease')
+QT-019C
+     ('NCT07315087', 'RECRUITING', '2026-01-01', '2026-01-02', 'Institute of Hematology & Blood Diseases', 'SLE - Systemic Lupus Erythematosus|SSc-Systemic Sc')
+     ('NCT07392528', 'NOT_YET_RECRUITING', '2026-03', '2026-02-06', 'Tianjin Huanhu Hospital', 'Neuromyelitis Optica Spectrum Disorders|Multiple S')
+     ('NCT07416032', 'NOT_YET_RECRUITING', '2026-02-20', '2026-02-17', 'Union Hospital, Tongji Medical College, ', 'Immune Thrombocytopenia (ITP)')
+QT-219CX
+     ('NCT07586267', 'RECRUITING', '2026-05-08', '2026-05-14', "The Children's Hospital of Zhejiang Univ", 'Autoimmune Diseases|Systemic Lupus Erthematosus (S')
+UCAR T-cell
+     ('NCT06939166', 'RECRUITING', '2025-06-17', '2025-04-22', 'Tianjin Huanhu Hospital', 'Neuromyelitis Optica Spectrum Disorders|Myasthenia')
+     ('NCT06941129', 'RECRUITING', '2025-02-11', '2025-04-23', 'Institute of Hematology & Blood Diseases', 'Systemic Lupus Erythematosus|Systemic Sclerosis (S')
+     ('NCT07305116', 'RECRUITING', '2025-12-01', '2025-12-26', "The Children's Hospital of Zhejiang Univ", 'Autoimmune Diseases|Systemic Lupus Erthematosus (S')
+     ('NCT07507201', 'RECRUITING', '2026-04-01', '2026-04-02', "The Children's Hospital of Zhejiang Univ", 'Autoimmune Diseases|Systemic Lupus Erthematosus (S')
+UCAR T-cell group
+     ('NCT06920433', 'RECRUITING', '2025-04-08', '2025-04-09', 'Zhejiang University', 'Systemic Lupus Erythematosus')
+     ('NCT06920446', 'NOT_YET_RECRUITING', '2025-04-03', '2025-04-09', 'Zhejiang University', 'Relapsed / Refractory Autoimmune Hemolytic Anemia')
+     ('NCT06933563', 'NOT_YET_RECRUITING', '2025-04', '2025-04-18', 'Zhejiang University', 'Myasthenia Gravis')
+umbilical cord blood CD19-BCMA CAR-T cells infusio
+     ('NCT06947473', 'RECRUITING', '2026-03-18', '2025-04-27', 'Beijing GoBroad Hospital', 'Refractory Lupus Nephritis|Systemic Sclerosis')
+universal allogeneic anti-CD19/BCMA CAR T-cells
+     ('NCT06733610', 'RECRUITING', '2024-12-05', '2024-12-13', 'Institute of Hematology & Blood Diseases', 'Autoimmune Hemolytic Anemia|CD19/BCMA CAR T-cells')
+     ('NCT06978738', 'NOT_YET_RECRUITING', '2025-05', '2025-05-18', "Changzhou No.2 People's Hospital", 'Systemic Lupus Erythematosus|Autoimmune Hemolytic ')
