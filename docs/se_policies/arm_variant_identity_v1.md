@@ -127,3 +127,8 @@ Sealed replays go into new directories and are compared against `*_qual_v7`.
 - The mint5 #50 backfill is a procedure entry: `TCRαβ+/CD19+ depleted allogeneic HSCT`.
 
 **Status: ADOPTED.** The new baselines are `~/se_runs/{tac01,mint5}_armid_v1`.
+
+**Bookkeeping (operator, 2026-10-05):** I6 is recorded as **semantic determinism PASS; the raw
+records differ only in wall-clock metadata** (`created_at`, `applied_at`). It is not reverted.
+From now on, determinism scorers exclude volatile timestamps explicitly, and that exclusion is
+declared before the scorer is run.
