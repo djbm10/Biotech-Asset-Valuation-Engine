@@ -76,3 +76,35 @@ Sealed replays go into new directories. Facts, identity and gates are compared a
 - **Adopt** if N1–N7 all pass.
 - **Otherwise** record the failure and revert. Do not extend beyond `Cell` and
   CELL_THERAPY.
+
+## 6. Result — 2026-10-05, code `983e4f9`
+
+**Runs:**
+- `~/se_runs/tac01_ncitmod_v1`
+- `~/se_runs/tac01_ncitmod_v1_det`
+- `~/se_runs/mint5_ncitmod_v1`
+
+**Scorer:** `scripts/score_ncit_modality.py` → `research/se_ncit_modality/stage_n_v1.txt`.
+
+| Criterion | Result |
+|---|---|
+| **N1** | **PASS.** Filled assets equal the frozen population exactly: TAC01 103/103, mint5 98/98. |
+| **N2** | **PASS.** No asset outside the population changed its modality or basis. |
+| **N3** | **PASS.** Candidates, facts, gates, merges (timestamps excluded) and qualification reasons are identical. |
+| **N4** | **PASS.** `modality_match` changed only on population rows. TAC01: 103 UNKNOWN→MATCH. mint5: none, because no modality is declared. |
+| **N5** | **PASS.** Ranking code is unchanged; both sides were rebuilt under ranking v2. |
+| **N6** | **PASS.** The two TAC01 runs are identical in facts, gates, merges, modality and top 50. |
+| **N7** | **PASS.** `tests/se` 1609 passed, 3 xfailed. Ruff is clean. |
+
+**N5 detail:**
+- **TAC01.** Every row that entered the top 50 is a population row. Across the full shortlist,
+  the non-population rows keep their exact relative order, so every movement is the frozen
+  key applied to the 103 new MATCH rows.
+  - Population rows that rose: CNCT19 #15→#2, KITE-753 #16→#6, ALLO-501A #18→#8, AUTO3
+    #25→#9 and others.
+  - Displaced rows: the UNKNOWN-target cell therapies tabelecleucel, lifileucel, rese-cel,
+    satri-cel and TAK-007 now sit below every MATCH+PASS row. Anbal-cel and varnim-cel fell
+    #8/#9→#45/#46, below MATCH+PASS rows that carry efficacy or stage evidence they lack.
+- **mint5.** The order is identical.
+
+**Status: ADOPTED.** The new baselines are `~/se_runs/{tac01,mint5}_ncitmod_v1`.

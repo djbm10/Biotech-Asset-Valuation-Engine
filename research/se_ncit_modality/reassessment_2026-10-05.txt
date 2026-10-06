@@ -1,0 +1,57 @@
+===== tac01 top20:
+   1 Brexucabtagene Autoleucel                    tgt=PASS poc=None
+   2 CNCT19                                       tgt=PASS poc=None
+   3 Axicabtagene Ciloleucel                      tgt=PASS poc=None
+   4 Lisocabtagene Maraleucel                     tgt=PASS poc=None
+   5 Tisagenlecleucel                             tgt=PASS poc=None
+   6 KITE-753                                     tgt=PASS poc=None
+   7 CC-97540                                     tgt=PASS poc=None
+   8 ALLO-501A                                    tgt=PASS poc=None
+   9 AUTO3                                        tgt=PASS poc=None
+  10 BZ019                                        tgt=PASS poc=None
+  11 cemacabtagene ansegedleucel                  tgt=PASS poc=None
+  12 CRC01                                        tgt=PASS poc=None
+  13 CT120                                        tgt=PASS poc=None
+  14 CTX112                                       tgt=PASS poc=None
+  15 GC022F                                       tgt=PASS poc=None
+  16 GLPG5101                                     tgt=PASS poc=None
+  17 Prizloncabtagene Autoleucel                  tgt=PASS poc=None
+  18 ThisCART19A                                  tgt=PASS poc=None
+  19 WZTL-002                                     tgt=PASS poc=None
+  20 CTX110                                       tgt=PASS poc=None
+  NCIt concepts shared by >1 asset: 17 | with a member in top 50: 12
+    C102758 [('KYMRIAH', None), ('tisacel', None), ('Tisagenlecleucel', 5), ('CART19', None)]
+    C120309 [('axicel', None), ('axi-cel', None), ('YESCARTA', None), ('Axicabtagene Ciloleucel', 3)]
+    C125192 [('Lisocabtagene Maraleucel', 4), ('Breyanzi', None), ('Liso-cel', None)]
+    C137819 [('ALLO-501', 26), ('UCART19', None)]
+    C143140 [('Tabelecleucel', 47), ('Ebvallo', None)]
+    C155878 [('JWCAR029', 36), ('Relma-cel', 23)]
+    C170439 [('Brexucabtagene Autoleucel', 1), ('Tecartus', None), ('Brexucel', None)]
+    C171093 [('GC022F', 15), ('GC022', None)]
+    C172708 [('cemacabtagene ansegedleucel', 11), ('ALLO-501A', 8)]
+    C172746 [('AUCATZYL', 44), ('Obecabtagene autoleucel', None)]
+    C179725 [('ARI-0001', None), ('Varnimcabtagene autoleucel', 46)]
+    C180584 [('CRC01', 12), ('Anbalcabtagene Autoleucel', 45)]
+===== mint5 top20:
+   1 AZD0120                                      tgt=PASS poc=UNKNOWN
+   2 FKC289                                       tgt=PASS poc=UNKNOWN
+   3 GC012F                                       tgt=PASS poc=UNKNOWN
+   4 umbilical cord blood CD19-BCMA CAR-T cells i tgt=PASS poc=UNKNOWN
+   5 CD19-BCMA dual nanobody based CAR-T Cells    tgt=PASS poc=UNKNOWN
+   6 Allogeneic CD19/BCMA-targeted CAR-γδT cell i tgt=PASS poc=UNKNOWN
+   7 allogeneic umbilical cord blood-derived CAR- tgt=PASS poc=UNKNOWN
+   8 allogenic anti-CD19/BCMA CAR-T               tgt=PASS poc=UNKNOWN
+   9 anti-CD19/BCMA U CAR T cells                 tgt=PASS poc=UNKNOWN
+  10 Assigned Interventions CD19/BCMA CAR T-cells tgt=PASS poc=UNKNOWN
+  11 BCMA-CD19 cCAR T cells                       tgt=PASS poc=UNKNOWN
+  12 CD19-BCMA Targeted CAR-T Dose 1              tgt=PASS poc=UNKNOWN
+  13 CD19/BCMA in vivo CAR-T                      tgt=PASS poc=UNKNOWN
+  14 CD19/BCMA Lupus Nephritis Targeted CAR T-cel tgt=PASS poc=UNKNOWN
+  15 FIT-(BCMA+CD19)-CAR-T Cells                  tgt=PASS poc=UNKNOWN
+  16 KN5601                                       tgt=PASS poc=UNKNOWN
+  17 KSVCBD injection                             tgt=PASS poc=UNKNOWN
+  18 KT501                                        tgt=PASS poc=UNKNOWN
+  19 PRG-2311                                     tgt=PASS poc=UNKNOWN
+  20 QT-019C                                      tgt=PASS poc=UNKNOWN
+  NCIt concepts shared by >1 asset: 16 | with a member in top 50: 1
+    C175471 [('AZD0120', 1), ('GC012F', 3)]
