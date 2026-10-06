@@ -6,7 +6,7 @@ import hashlib
 import re
 from copy import deepcopy
 from datetime import datetime, timezone
-from typing import Protocol
+from typing import Callable, Protocol
 
 from bve.se.schemas.contracts import (
     IDENTITY_BEARING_EVIDENCE,
@@ -67,6 +67,17 @@ def arm_variant_base(name: str) -> str | None:
         return None
     base = name[: match.start()].strip(" -\u2013:,(")
     return base or None
+
+
+#: A modality token and an antigen designator, nothing else (``ncit_product_identity_v1``
+#: P3). No leading zero, so zero-padded sponsor serials (``CAR039``) are not designators.
+_GENERIC_DESIGNATOR = re.compile(r"^CAR(?:[\s-]?T)?[\s-]?[1-9]\d{0,2}$", re.IGNORECASE)
+
+
+def is_generic_designator(name: str) -> bool:
+    """Whether a name is a generic construct label such as ``CART19``, not a product."""
+
+    return bool(_GENERIC_DESIGNATOR.match(name.strip()))
 
 
 def _id(prefix: str, value: str) -> str:
@@ -709,6 +720,44 @@ class AssetRegistry:
                 target_asset_id=survivor,
                 confidence=1.0,
                 deterministic_basis=f"arm_variant:{base}:{','.join(sorted(shared))}",
+            )
+            self.apply_merge(proposal.merge_id)
+            for member in ordered[1:]:
+                redirects[member] = survivor
+        return redirects
+
+    def consolidate_by_ncit_product(
+        self, ncit_code_of: Callable[[CanonicalAsset], str | None]
+    ) -> dict[str, str]:
+        """Merge assets unambiguously linked to one NCIt product concept.
+
+        ``ncit_product_identity_v1.md``. ``ncit_code_of`` is the adopted unambiguous link;
+        an asset whose own names are all generic designators (``CART19``) takes no part,
+        because NCIt filing a construct label under one product does not make every
+        registry entry so named that product. It keeps its link and its own trials.
+        """
+
+        groups: dict[str, list[str]] = {}
+        for asset_id, asset in sorted(self.assets.items()):
+            names = [asset.canonical_name, *asset.aliases]
+            if all(is_generic_designator(name) for name in names if name):
+                continue
+            code = ncit_code_of(asset)
+            if code:
+                groups.setdefault(code, []).append(asset_id)
+        redirects: dict[str, str] = {}
+        for code, members in sorted(groups.items()):
+            if len(members) < 2:
+                continue
+            ordered = sorted(
+                members, key=lambda m: (self.assets[m].canonical_name.casefold(), m)
+            )
+            survivor = ordered[0]
+            proposal = self.propose_merge(
+                ordered,
+                target_asset_id=survivor,
+                confidence=1.0,
+                deterministic_basis=f"ncit_product:{code}",
             )
             self.apply_merge(proposal.merge_id)
             for member in ordered[1:]:

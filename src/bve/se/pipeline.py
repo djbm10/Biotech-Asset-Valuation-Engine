@@ -405,6 +405,27 @@ def run_landscape_search(
         redirects = {
             asset_id: arm_redirects.get(target, target) for asset_id, target in redirects.items()
         } | arm_redirects
+        # ``ncit_product_identity_v1.md``: one unambiguously linked NCIt product concept is
+        # one product. The link reads the same names as the NCIt target stage below.
+        ncit_identity = ncit_authority()
+        if ncit_identity is not None:
+
+            def _ncit_code(asset: CanonicalAsset) -> str | None:
+                names = [asset.canonical_name, *asset.aliases]
+                if attribution is not None:
+                    names.extend(
+                        attribution.authority_names(asset.canonical_name, list(asset.aliases))
+                    )
+                link = ncit_identity.link(list(dict.fromkeys(names)))
+                if link is None or link.reason == "ambiguous_link":
+                    return None
+                return link.code
+
+            ncit_redirects = registry.consolidate_by_ncit_product(_ncit_code)
+            redirects = {
+                asset_id: ncit_redirects.get(target, target)
+                for asset_id, target in redirects.items()
+            } | ncit_redirects
         hit_to_asset = {
             hit_id: redirects.get(asset_id, asset_id)
             for hit_id, asset_id in hit_to_asset.items()
