@@ -1,0 +1,33 @@
+tac01 C102758 | Tisagenlecleucel | CART19 ; KYMRIAH ; Tisagenlecleucel ; tisacel
+tac01 C117729 | Idecabtagene Vicleucel | Abecma ; idecabtagene vicleucel
+tac01 C120309 | Axicabtagene Ciloleucel | Axicabtagene Ciloleucel ; YESCARTA ; axi-cel ; axicel
+tac01 C125192 | Lisocabtagene Maraleucel | Breyanzi ; Liso-cel ; Lisocabtagene Maraleucel
+tac01 C137819 | Allogeneic CD19-specific Universal CAR19-expressin | ALLO-501 ; UCART19
+tac01 C143140 | Tabelecleucel | Ebvallo ; Tabelecleucel
+tac01 C148498 | Ciltacabtagene Autoleucel | Carvykti ; ciltacabtagene autoleucel
+tac01 C155878 | Relmacabtagene Autoleucel | JWCAR029 ; Relma-cel
+tac01 C170439 | Brexucabtagene Autoleucel | Brexucabtagene Autoleucel ; Brexucel ; Tecartus
+tac01 C171093 | Autologous Bispecific CD19/CD22-targeted CAR-T Cel | GC022 ; GC022F
+tac01 C172708 | Cemacabtagene Ansegedleucel | ALLO-501A ; cemacabtagene ansegedleucel
+tac01 C172746 | Obecabtagene Autoleucel | AUCATZYL ; Obecabtagene autoleucel
+tac01 C175471 | Autologous Bispecific BCMA/CD19-targeted CAR-T Cel | AZD0120 ; GC012F
+tac01 C179725 | Varnimcabtagene Autoleucel | ARI-0001 ; Varnimcabtagene autoleucel
+tac01 C180584 | Anbalcabtagene Autoleucel | Anbalcabtagene Autoleucel ; CRC01
+tac01 C185123 | Equecabtagene Autoleucel | CT103A ; equecabtagene autoleucel
+tac01 C203060 | Sitocabnagene Loxiveleucel | TAK-007 ; iC9/CAR.19/IL15-Transduced CB-NK Cells
+mint5 C102758 | Tisagenlecleucel | CART19 ; KYMRIAH ; tisagenlecleucel
+mint5 C117729 | Idecabtagene Vicleucel | Abecma ; Idecabtagene Vicleucel
+mint5 C120309 | Axicabtagene Ciloleucel | YESCARTA ; axi-cel ; axicabtagene ciloleucel
+mint5 C125192 | Lisocabtagene Maraleucel | Breyanzi ; Liso-cel ; Lisocel ; lisocabtagene maraleucel
+mint5 C137819 | Allogeneic CD19-specific Universal CAR19-expressin | ALLO-501 ; UCART19
+mint5 C143140 | Tabelecleucel | Ebvallo ; tabelecleucel
+mint5 C148498 | Ciltacabtagene Autoleucel | Carvykti ; Cilta-cel ; ciltacabtagene autoleucel
+mint5 C155878 | Relmacabtagene Autoleucel | JWCAR029 ; Relma-cel
+mint5 C170439 | Brexucabtagene Autoleucel | Brexucel ; Tecartus ; brexucabtagene autoleucel
+mint5 C171093 | Autologous Bispecific CD19/CD22-targeted CAR-T Cel | GC022 ; GC022F
+mint5 C172708 | Cemacabtagene Ansegedleucel | ALLO-501A ; cemacabtagene ansegedleucel
+mint5 C172746 | Obecabtagene Autoleucel | AUCATZYL ; obecabtagene autoleucel
+mint5 C175471 | Autologous Bispecific BCMA/CD19-targeted CAR-T Cel | AZD0120 ; GC012F
+mint5 C179725 | Varnimcabtagene Autoleucel | ARI-0001 ; Varnimcabtagene autoleucel
+mint5 C180584 | Anbalcabtagene Autoleucel | Anbalcabtagene Autoleucel ; CRC01
+mint5 C205068 | Evarucabgene Autoleucel | HBI0101 ; NXC-201

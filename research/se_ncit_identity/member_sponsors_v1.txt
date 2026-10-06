@@ -1,0 +1,113 @@
+===== tac01
+C102758
+    KYMRIAH | trials 1 | {'Masonic Cancer Center, University of Min': 1}
+    tisacel | trials 0 | {}
+    Tisagenlecleucel | trials 8 | {'Novartis Pharmaceuticals': 2, 'Memorial Sloan Kettering Cancer Center': 1, 'Matthew J. Frigault, M.D.': 1, 'SWOG Cancer Research Network': 1, 'M.D. Anderson Cancer Center': 1, 'NeoImmuneTech': 1, 'Stanford University': 1}
+    CART19 | trials 33 | {'Miltenyi Biomedicine GmbH': 3, 'University of Sao Paulo': 1, 'University of Pennsylvania': 13, 'King Hussein Cancer Center': 2, "Shanghai Children's Medical Center": 1, 'The Affiliated Hospital of the Chinese A': 2, 'Shanghai Unicar-Therapy Bio-medicine Tec': 2, "Shenzhen Second People's Hospital": 1, 'Memorial Sloan Kettering Cancer Center': 1, "Children's Hospital of Philadelphia": 1, 'Fujian Medical University': 1, 'Stephan Grupp MD PhD': 1, 'Henan Cancer Hospital': 3, 'First Affiliated Hospital of Wenzhou Med': 1}
+C117729
+    idecabtagene vicleucel | trials 0 | {}
+    Abecma | trials 0 | {}
+C120309
+    axicel | trials 0 | {}
+    axi-cel | trials 1 | {'Ruijin Hospital': 1}
+    YESCARTA | trials 1 | {'Masonic Cancer Center, University of Min': 1}
+    Axicabtagene Ciloleucel | trials 21 | {'Zhejiang Cancer Hospital': 1, 'Kite, A Gilead Company': 10, 'The First Affiliated Hospital of Xiamen ': 1, 'Weill Medical College of Cornell Univers': 1, 'Zhujiang Hospital': 1, 'The Lymphoma Academic Research Organisat': 1, 'Lyell Immunopharma, Inc.': 1, 'Dana-Farber Cancer Institute': 1, 'M.D. Anderson Cancer Center': 1, 'SWOG Cancer Research Network': 1, 'University of Washington': 1, 'NeoImmuneTech': 1}
+C125192
+    Lisocabtagene Maraleucel | trials 10 | {'Aseel Alsouqi': 1, 'SWOG Cancer Research Network': 1, 'Fred Hutchinson Cancer Center': 3, 'Weill Medical College of Cornell Univers': 1, 'Lyell Immunopharma, Inc.': 1, 'City of Hope Medical Center': 1, 'Celgene': 1, 'NeoImmuneTech': 1}
+    Breyanzi | trials 1 | {'Masonic Cancer Center, University of Min': 1}
+    Liso-cel | trials 1 | {'Juno Therapeutics, Inc., a Bristol-Myers': 1}
+C137819
+    ALLO-501 | trials 1 | {'Allogene Therapeutics': 1}
+    UCART19 | trials 1 | {'Institut de Recherches Internationales S': 1}
+C143140
+    Tabelecleucel | trials 0 | {}
+    Ebvallo | trials 0 | {}
+C148498
+    Carvykti | trials 0 | {}
+    ciltacabtagene autoleucel | trials 1 | {'Weill Medical College of Cornell Univers': 1}
+C155878
+    JWCAR029 | trials 3 | {'Peking University': 1, 'Shanghai Ming Ju Biotechnology Co., Ltd.': 1, 'Zhao Weili': 1}
+    Relma-cel | trials 3 | {'Shanghai Ming Ju Biotechnology Co., Ltd.': 3}
+C170439
+    Brexucabtagene Autoleucel | trials 8 | {'H. Lee Moffitt Cancer Center and Researc': 1, 'Kite, A Gilead Company': 7}
+    Tecartus | trials 1 | {'Masonic Cancer Center, University of Min': 1}
+    Brexucel | trials 0 | {}
+C171093
+    GC022F | trials 3 | {'He Huang': 1, 'Hebei Yanda Ludaopei Hospital': 2}
+    GC022 | trials 1 | {'Hebei Yanda Ludaopei Hospital': 1}
+C172708
+    cemacabtagene ansegedleucel | trials 1 | {'Allogene Therapeutics': 1}
+    ALLO-501A | trials 2 | {'Allogene Therapeutics': 2}
+C172746
+    AUCATZYL | trials 0 | {}
+    Obecabtagene autoleucel | trials 3 | {'Autolus Limited': 3}
+C175471
+    AZD0120 | trials 10 | {'Tongji Hospital': 1, 'AstraZeneca': 7, 'Alexion Pharmaceuticals, Inc.': 1, 'Saurabh Dahiya': 1}
+    GC012F | trials 11 | {'Shanghai Changzheng Hospital': 5, 'Gracell Biotechnologies (Shanghai) Co., ': 3, 'Zhejiang University': 2, 'RenJi Hospital': 1}
+C179725
+    ARI-0001 | trials 2 | {'Sara V. Latorre': 1, 'GUSTAVO SALGUERO': 1}
+    Varnimcabtagene autoleucel | trials 0 | {}
+C180584
+    CRC01 | trials 2 | {'Curocell Inc.': 2}
+    Anbalcabtagene Autoleucel | trials 0 | {}
+C185123
+    equecabtagene autoleucel | trials 0 | {}
+    CT103A | trials 0 | {}
+C203060
+    iC9/CAR.19/IL15-Transduced CB-NK Cells | trials 1 | {'M.D. Anderson Cancer Center': 1}
+    TAK-007 | trials 0 | {}
+===== mint5
+C102758
+    KYMRIAH | trials 1 | {'Masonic Cancer Center, University of Min': 1}
+    tisagenlecleucel | trials 8 | {'NeoImmuneTech': 1, 'Novartis Pharmaceuticals': 2, 'Memorial Sloan Kettering Cancer Center': 1, 'Stanford University': 1, 'M.D. Anderson Cancer Center': 1, 'SWOG Cancer Research Network': 1, 'Matthew J. Frigault, M.D.': 1}
+    CART19 | trials 33 | {'University of Sao Paulo': 1, 'Miltenyi Biomedicine GmbH': 3, 'King Hussein Cancer Center': 2, 'University of Pennsylvania': 13, 'Henan Cancer Hospital': 3, 'Memorial Sloan Kettering Cancer Center': 1, "Shenzhen Second People's Hospital": 1, 'Stephan Grupp MD PhD': 1, 'Shanghai Unicar-Therapy Bio-medicine Tec': 2, 'The Affiliated Hospital of the Chinese A': 2, 'Fujian Medical University': 1, 'First Affiliated Hospital of Wenzhou Med': 1, "Shanghai Children's Medical Center": 1, "Children's Hospital of Philadelphia": 1}
+C117729
+    Idecabtagene Vicleucel | trials 5 | {'Celgene': 4, 'Medical College of Wisconsin': 1}
+    Abecma | trials 0 | {}
+C120309
+    axi-cel | trials 1 | {'Ruijin Hospital': 1}
+    YESCARTA | trials 1 | {'Masonic Cancer Center, University of Min': 1}
+    axicabtagene ciloleucel | trials 21 | {'Zhejiang Cancer Hospital': 1, 'Dana-Farber Cancer Institute': 1, 'Kite, A Gilead Company': 10, 'NeoImmuneTech': 1, 'Lyell Immunopharma, Inc.': 1, 'Zhujiang Hospital': 1, 'The First Affiliated Hospital of Xiamen ': 1, 'Weill Medical College of Cornell Univers': 1, 'University of Washington': 1, 'The Lymphoma Academic Research Organisat': 1, 'SWOG Cancer Research Network': 1, 'M.D. Anderson Cancer Center': 1}
+C125192
+    Lisocel | trials 0 | {}
+    lisocabtagene maraleucel | trials 10 | {'NeoImmuneTech': 1, 'City of Hope Medical Center': 1, 'Lyell Immunopharma, Inc.': 1, 'Fred Hutchinson Cancer Center': 3, 'Weill Medical College of Cornell Univers': 1, 'Celgene': 1, 'SWOG Cancer Research Network': 1, 'Aseel Alsouqi': 1}
+    Breyanzi | trials 1 | {'Masonic Cancer Center, University of Min': 1}
+    Liso-cel | trials 1 | {'Juno Therapeutics, Inc., a Bristol-Myers': 1}
+C137819
+    ALLO-501 | trials 1 | {'Allogene Therapeutics': 1}
+    UCART19 | trials 1 | {'Institut de Recherches Internationales S': 1}
+C143140
+    tabelecleucel | trials 0 | {}
+    Ebvallo | trials 0 | {}
+C148498
+    Carvykti | trials 0 | {}
+    Cilta-cel | trials 3 | {'Stichting European Myeloma Network': 1, 'Janssen Research & Development, LLC': 2}
+    ciltacabtagene autoleucel | trials 6 | {'Dana-Farber Cancer Institute': 1, 'Mayo Clinic': 1, 'Weill Medical College of Cornell Univers': 1, 'Peter MacCallum Cancer Centre, Australia': 1, 'Janssen Research & Development, LLC': 2}
+C155878
+    JWCAR029 | trials 3 | {'Zhao Weili': 1, 'Peking University': 1, 'Shanghai Ming Ju Biotechnology Co., Ltd.': 1}
+    Relma-cel | trials 3 | {'Shanghai Ming Ju Biotechnology Co., Ltd.': 3}
+C170439
+    brexucabtagene autoleucel | trials 8 | {'Kite, A Gilead Company': 7, 'H. Lee Moffitt Cancer Center and Researc': 1}
+    Tecartus | trials 2 | {'H. Lee Moffitt Cancer Center and Researc': 1, 'Masonic Cancer Center, University of Min': 1}
+    Brexucel | trials 0 | {}
+C171093
+    GC022F | trials 3 | {'He Huang': 1, 'Hebei Yanda Ludaopei Hospital': 2}
+    GC022 | trials 1 | {'Hebei Yanda Ludaopei Hospital': 1}
+C172708
+    cemacabtagene ansegedleucel | trials 1 | {'Allogene Therapeutics': 1}
+    ALLO-501A | trials 2 | {'Allogene Therapeutics': 2}
+C172746
+    AUCATZYL | trials 0 | {}
+    obecabtagene autoleucel | trials 3 | {'Autolus Limited': 3}
+C175471
+    AZD0120 | trials 8 | {'Tongji Hospital': 1, 'AstraZeneca': 6, 'Alexion Pharmaceuticals, Inc.': 1}
+    GC012F | trials 11 | {'Shanghai Changzheng Hospital': 5, 'RenJi Hospital': 1, 'Gracell Biotechnologies (Shanghai) Co., ': 3, 'Zhejiang University': 2}
+C179725
+    ARI-0001 | trials 2 | {'GUSTAVO SALGUERO': 1, 'Sara V. Latorre': 1}
+    Varnimcabtagene autoleucel | trials 0 | {}
+C180584
+    CRC01 | trials 2 | {'Curocell Inc.': 2}
+    Anbalcabtagene Autoleucel | trials 0 | {}
+C205068
+    NXC-201 | trials 2 | {'Nexcella Inc.': 2}
+    HBI0101 | trials 3 | {'Polina Stepensky': 2, 'Hadassah Medical Organization': 1}

@@ -1,0 +1,802 @@
+[
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:71a5b34869ad41bed660",
+   "asset:75311bb28ff6f0251d83"
+  ],
+  "expected_separate": [
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "members": [
+   {
+    "asset_id": "asset:13978f60c2c8cdb7e89e",
+    "canonical_name": "KYMRIAH",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:71a5b34869ad41bed660",
+    "canonical_name": "tisacel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:75311bb28ff6f0251d83",
+    "canonical_name": "Tisagenlecleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:95622d6d74ae27eeaae3",
+    "canonical_name": "CART19",
+    "generic_designator": true
+   }
+  ],
+  "ncit_code": "C102758"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:484a4b35e9b43332e862",
+   "asset:9dda7da59144b21787f5"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:484a4b35e9b43332e862",
+    "canonical_name": "idecabtagene vicleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:9dda7da59144b21787f5",
+    "canonical_name": "Abecma",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C117729"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:0184c1ecab2ae4b1700d",
+   "asset:26ed0b037de3ecdb26da",
+   "asset:c6010a1183d0ad1e87f5",
+   "asset:cd573a68380a108dcb7e"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:0184c1ecab2ae4b1700d",
+    "canonical_name": "axicel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:26ed0b037de3ecdb26da",
+    "canonical_name": "axi-cel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:c6010a1183d0ad1e87f5",
+    "canonical_name": "YESCARTA",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:cd573a68380a108dcb7e",
+    "canonical_name": "Axicabtagene Ciloleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C120309"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:2d11aa9d638de9549ae4",
+   "asset:42479b67d44b9dff09e3",
+   "asset:d18b9d7626b577652ac2"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:2d11aa9d638de9549ae4",
+    "canonical_name": "Lisocabtagene Maraleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:42479b67d44b9dff09e3",
+    "canonical_name": "Breyanzi",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:d18b9d7626b577652ac2",
+    "canonical_name": "Liso-cel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C125192"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:419de99fef56ec443f6f",
+   "asset:cf4bbcef6df5e093e152"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:419de99fef56ec443f6f",
+    "canonical_name": "ALLO-501",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:cf4bbcef6df5e093e152",
+    "canonical_name": "UCART19",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C137819"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:3814eb6cf598fc0fa1e3",
+   "asset:f9a182af1b5248a367f1"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:3814eb6cf598fc0fa1e3",
+    "canonical_name": "Tabelecleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:f9a182af1b5248a367f1",
+    "canonical_name": "Ebvallo",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C143140"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:b985c396134c4d1bb12c",
+   "asset:d9cc7c67dacdf3c2465f"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:b985c396134c4d1bb12c",
+    "canonical_name": "Carvykti",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:d9cc7c67dacdf3c2465f",
+    "canonical_name": "ciltacabtagene autoleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C148498"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:54cce6642ddf53351f46",
+   "asset:7e3a7cbd5451dd7f1a95"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:54cce6642ddf53351f46",
+    "canonical_name": "JWCAR029",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:7e3a7cbd5451dd7f1a95",
+    "canonical_name": "Relma-cel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C155878"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:344a173f3d78d2fc6a72",
+   "asset:48df963478a3e40ce369",
+   "asset:a8ff117aefecd1996512"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:344a173f3d78d2fc6a72",
+    "canonical_name": "Brexucabtagene Autoleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:48df963478a3e40ce369",
+    "canonical_name": "Tecartus",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:a8ff117aefecd1996512",
+    "canonical_name": "Brexucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C170439"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:56f06993e44836b53f46",
+   "asset:97a456ccc32de18739ea"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:56f06993e44836b53f46",
+    "canonical_name": "GC022F",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:97a456ccc32de18739ea",
+    "canonical_name": "GC022",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C171093"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:9d46806314a4f8110a7d",
+   "asset:a9cb96e1a6f84d6c8946"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:9d46806314a4f8110a7d",
+    "canonical_name": "cemacabtagene ansegedleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:a9cb96e1a6f84d6c8946",
+    "canonical_name": "ALLO-501A",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C172708"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:6652ff07141a84913143",
+   "asset:e69712ca9928542fa191"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:6652ff07141a84913143",
+    "canonical_name": "AUCATZYL",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:e69712ca9928542fa191",
+    "canonical_name": "Obecabtagene autoleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C172746"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:5701df8d3d8d7363bd5e",
+   "asset:b78297c1bb2cdf8ad38b"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:5701df8d3d8d7363bd5e",
+    "canonical_name": "AZD0120",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:b78297c1bb2cdf8ad38b",
+    "canonical_name": "GC012F",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C175471"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:2cde67807817fc6a4943",
+   "asset:9fd58439199bdf00613a"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:2cde67807817fc6a4943",
+    "canonical_name": "ARI-0001",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:9fd58439199bdf00613a",
+    "canonical_name": "Varnimcabtagene autoleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C179725"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:06e709198ba79f8f27f5",
+   "asset:3149a97f2f44839d405c"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:06e709198ba79f8f27f5",
+    "canonical_name": "CRC01",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:3149a97f2f44839d405c",
+    "canonical_name": "Anbalcabtagene Autoleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C180584"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:7075abfe32ac5a08f7ed",
+   "asset:bb222f895cfc271e89d7"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:7075abfe32ac5a08f7ed",
+    "canonical_name": "equecabtagene autoleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:bb222f895cfc271e89d7",
+    "canonical_name": "CT103A",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C185123"
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:578e0b546c94d18efef7",
+   "asset:885eeb392a5c82eeead1"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:578e0b546c94d18efef7",
+    "canonical_name": "iC9/CAR.19/IL15-Transduced CB-NK Cells",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:885eeb392a5c82eeead1",
+    "canonical_name": "TAK-007",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C203060"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:75311bb28ff6f0251d83"
+  ],
+  "expected_separate": [
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "members": [
+   {
+    "asset_id": "asset:13978f60c2c8cdb7e89e",
+    "canonical_name": "KYMRIAH",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:75311bb28ff6f0251d83",
+    "canonical_name": "tisagenlecleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:95622d6d74ae27eeaae3",
+    "canonical_name": "CART19",
+    "generic_designator": true
+   }
+  ],
+  "ncit_code": "C102758"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:484a4b35e9b43332e862",
+   "asset:9dda7da59144b21787f5"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:484a4b35e9b43332e862",
+    "canonical_name": "Idecabtagene Vicleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:9dda7da59144b21787f5",
+    "canonical_name": "Abecma",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C117729"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:26ed0b037de3ecdb26da",
+   "asset:c6010a1183d0ad1e87f5",
+   "asset:cd573a68380a108dcb7e"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:26ed0b037de3ecdb26da",
+    "canonical_name": "axi-cel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:c6010a1183d0ad1e87f5",
+    "canonical_name": "YESCARTA",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:cd573a68380a108dcb7e",
+    "canonical_name": "axicabtagene ciloleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C120309"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:1c29b1032df8cd323194",
+   "asset:2d11aa9d638de9549ae4",
+   "asset:42479b67d44b9dff09e3",
+   "asset:d18b9d7626b577652ac2"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:1c29b1032df8cd323194",
+    "canonical_name": "Lisocel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:2d11aa9d638de9549ae4",
+    "canonical_name": "lisocabtagene maraleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:42479b67d44b9dff09e3",
+    "canonical_name": "Breyanzi",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:d18b9d7626b577652ac2",
+    "canonical_name": "Liso-cel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C125192"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:419de99fef56ec443f6f",
+   "asset:cf4bbcef6df5e093e152"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:419de99fef56ec443f6f",
+    "canonical_name": "ALLO-501",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:cf4bbcef6df5e093e152",
+    "canonical_name": "UCART19",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C137819"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:3814eb6cf598fc0fa1e3",
+   "asset:f9a182af1b5248a367f1"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:3814eb6cf598fc0fa1e3",
+    "canonical_name": "tabelecleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:f9a182af1b5248a367f1",
+    "canonical_name": "Ebvallo",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C143140"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:b985c396134c4d1bb12c",
+   "asset:cd851f0cd17ddf551879",
+   "asset:d9cc7c67dacdf3c2465f"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:b985c396134c4d1bb12c",
+    "canonical_name": "Carvykti",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:cd851f0cd17ddf551879",
+    "canonical_name": "Cilta-cel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:d9cc7c67dacdf3c2465f",
+    "canonical_name": "ciltacabtagene autoleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C148498"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:54cce6642ddf53351f46",
+   "asset:7e3a7cbd5451dd7f1a95"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:54cce6642ddf53351f46",
+    "canonical_name": "JWCAR029",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:7e3a7cbd5451dd7f1a95",
+    "canonical_name": "Relma-cel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C155878"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:344a173f3d78d2fc6a72",
+   "asset:48df963478a3e40ce369",
+   "asset:a8ff117aefecd1996512"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:344a173f3d78d2fc6a72",
+    "canonical_name": "brexucabtagene autoleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:48df963478a3e40ce369",
+    "canonical_name": "Tecartus",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:a8ff117aefecd1996512",
+    "canonical_name": "Brexucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C170439"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:56f06993e44836b53f46",
+   "asset:97a456ccc32de18739ea"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:56f06993e44836b53f46",
+    "canonical_name": "GC022F",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:97a456ccc32de18739ea",
+    "canonical_name": "GC022",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C171093"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:9d46806314a4f8110a7d",
+   "asset:a9cb96e1a6f84d6c8946"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:9d46806314a4f8110a7d",
+    "canonical_name": "cemacabtagene ansegedleucel",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:a9cb96e1a6f84d6c8946",
+    "canonical_name": "ALLO-501A",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C172708"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:6652ff07141a84913143",
+   "asset:e69712ca9928542fa191"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:6652ff07141a84913143",
+    "canonical_name": "AUCATZYL",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:e69712ca9928542fa191",
+    "canonical_name": "obecabtagene autoleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C172746"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:5701df8d3d8d7363bd5e",
+   "asset:b78297c1bb2cdf8ad38b"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:5701df8d3d8d7363bd5e",
+    "canonical_name": "AZD0120",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:b78297c1bb2cdf8ad38b",
+    "canonical_name": "GC012F",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C175471"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:2cde67807817fc6a4943",
+   "asset:9fd58439199bdf00613a"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:2cde67807817fc6a4943",
+    "canonical_name": "ARI-0001",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:9fd58439199bdf00613a",
+    "canonical_name": "Varnimcabtagene autoleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C179725"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:06e709198ba79f8f27f5",
+   "asset:3149a97f2f44839d405c"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:06e709198ba79f8f27f5",
+    "canonical_name": "CRC01",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:3149a97f2f44839d405c",
+    "canonical_name": "Anbalcabtagene Autoleucel",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C180584"
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "expected_merged": [
+   "asset:186fe5c4cb47df4bd7b8",
+   "asset:cecf082bf8a39d18b163"
+  ],
+  "expected_separate": [],
+  "members": [
+   {
+    "asset_id": "asset:186fe5c4cb47df4bd7b8",
+    "canonical_name": "NXC-201",
+    "generic_designator": false
+   },
+   {
+    "asset_id": "asset:cecf082bf8a39d18b163",
+    "canonical_name": "HBI0101",
+    "generic_designator": false
+   }
+  ],
+  "ncit_code": "C205068"
+ }
+]

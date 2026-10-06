@@ -1,0 +1,890 @@
+[
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "KYMRIAH",
+   "TISAGENLECLEUCEL",
+   "Tisagenlecleucel",
+   "tisacel"
+  ],
+  "members": [
+   "CART19",
+   "KYMRIAH",
+   "Tisagenlecleucel",
+   "tisacel"
+  ],
+  "ncit_code": "C102758",
+  "ncit_name": "Tisagenlecleucel",
+  "ncit_synonyms": [
+   "CART-19",
+   "CART19",
+   "CTL 019",
+   "CTL-019",
+   "CTL019",
+   "CTL019 T-cells",
+   "Kymriah",
+   "TISAGENLECLEUCEL",
+   "Tisa-cel",
+   "Tisagenlecleucel",
+   "Tisagenlecleucel-T"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "Abecma",
+   "idecabtagene vicleucel"
+  ],
+  "members": [
+   "Abecma",
+   "idecabtagene vicleucel"
+  ],
+  "ncit_code": "C117729",
+  "ncit_name": "Idecabtagene Vicleucel",
+  "ncit_synonyms": [
+   "Abecma",
+   "Anti-BCMA CAR T Cells BB2121",
+   "Anti-BCMA-CAR-transduced T Cells BB2121",
+   "BB2121",
+   "BCMA-specific CAR-expressing T Lymphocytes BB2121",
+   "IDECABTAGENE VICLEUCEL",
+   "Ide-cel",
+   "Idecabtagene Vicleucel",
+   "Idecabtagene vicleucel"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "Axicabtagene Ciloleucel",
+   "YESCARTA",
+   "axi-cel",
+   "axicel"
+  ],
+  "members": [
+   "Axicabtagene Ciloleucel",
+   "YESCARTA",
+   "axi-cel",
+   "axicel"
+  ],
+  "ncit_code": "C120309",
+  "ncit_name": "Axicabtagene Ciloleucel",
+  "ncit_synonyms": [
+   "AXICABTAGENE CILOLEUCEL",
+   "Axi-cel",
+   "Axicabtagene Ciloleucel",
+   "Axicabtagene ciloleucel",
+   "Axicel",
+   "KTE C19",
+   "KTE-C19",
+   "KTE-C19 CAR",
+   "KTEC19",
+   "Yescarta"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "Breyanzi",
+   "Liso-cel",
+   "Lisocabtagene Maraleucel"
+  ],
+  "members": [
+   "Breyanzi",
+   "Liso-cel",
+   "Lisocabtagene Maraleucel"
+  ],
+  "ncit_code": "C125192",
+  "ncit_name": "Lisocabtagene Maraleucel",
+  "ncit_synonyms": [
+   "Anti-CD19-CAR Genetically Engineered Autologous T Lymphocytes JCAR017",
+   "Anti-CD19-CAR Genetically Engineered Autologous T-lymphocytes JCAR017",
+   "Autologous Anti-CD19-EGFRt-4-1BB-zeta-modified CAR CD8+ and CD4+ T-lymphocytes JCAR017",
+   "Breyanzi",
+   "JCAR 017",
+   "JCAR-017",
+   "JCAR017",
+   "LISOCABTAGENE MARALEUCEL",
+   "Liso-cel",
+   "Lisocabtagene Maraleucel",
+   "Lisocabtagene maraleucel"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "ALLO-501",
+   "UCART19"
+  ],
+  "members": [
+   "ALLO-501",
+   "UCART19"
+  ],
+  "ncit_code": "C137819",
+  "ncit_name": "Allogeneic CD19-specific Universal CAR19-expressing T-lymphocytes",
+  "ncit_synonyms": [
+   "ALLO-501",
+   "Allogeneic CD19-specific Universal CAR19-expressing T-lymphocytes",
+   "S68587",
+   "TCR/CD52-deficient RQR8+ CD19-CAR+ T-cells",
+   "UCART 19",
+   "UCART19 Cells",
+   "Universal Chimeric Antigen Receptor T-cell 19",
+   "Universal TALEN Gene-edited CART19 Cells"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "Ebvallo",
+   "Tabelecleucel"
+  ],
+  "members": [
+   "Ebvallo",
+   "Tabelecleucel"
+  ],
+  "ncit_code": "C143140",
+  "ncit_name": "Tabelecleucel",
+  "ncit_synonyms": [
+   "ATA 129",
+   "ATA-129",
+   "ATA129",
+   "Allogeneic EBV-specific CTLs ATA129",
+   "Allogeneic EBV-specific Cytotoxic T-lymphocytes",
+   "CTLs ATA129",
+   "EBV-CTLs",
+   "Ebvallo",
+   "TABELECLEUCEL",
+   "Tab-cel",
+   "Tabelecleucel",
+   "Teb-cel"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "Carvykti",
+   "ciltacabtagene autoleucel"
+  ],
+  "members": [
+   "Carvykti",
+   "ciltacabtagene autoleucel"
+  ],
+  "ncit_code": "C148498",
+  "ncit_name": "Ciltacabtagene Autoleucel",
+  "ncit_synonyms": [
+   "Autologous Anti-BCMA CAR-T Cells JNJ-68284528",
+   "Autologous Bi-epitope BCMA-targeted CAR T-cells JNJ-68284528",
+   "Autologous Bi-epitope CAR T-cells JNJ-68284528",
+   "CARVYKTI",
+   "CILTACABTAGENE AUTOLEUCEL",
+   "Cilta-cel",
+   "Ciltacabtagene Autoleucel",
+   "Ciltacabtagene autoleucel",
+   "JNJ 68284528",
+   "JNJ-68284528",
+   "JNJ68284528",
+   "LCAR B38M",
+   "LCAR-B38M",
+   "LCAR-B38M-transduced CAR-T Cells JNJ-68284528",
+   "LCAR-B38M-transduced Car-T Cells JNJ-68284528",
+   "LCARB38M"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "JWCAR029",
+   "Relma-cel"
+  ],
+  "members": [
+   "JWCAR029",
+   "Relma-cel"
+  ],
+  "ncit_code": "C155878",
+  "ncit_name": "Relmacabtagene Autoleucel",
+  "ncit_synonyms": [
+   "Autologous Anti-CD19 CAR T-cells JWCAR029",
+   "Autologous CD19-targeted CAR T Cells JWCAR029",
+   "Carteyva",
+   "JWCAR 029",
+   "JWCAR-029",
+   "JWCAR029",
+   "RELMACABTAGENE AUTOLEUCEL",
+   "Relma-cel",
+   "Relmacabtagene Autoleucel",
+   "Relmacabtagene autoleucel"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "Brexucabtagene Autoleucel",
+   "Brexucel",
+   "Tecartus"
+  ],
+  "members": [
+   "Brexucabtagene Autoleucel",
+   "Brexucel",
+   "Tecartus"
+  ],
+  "ncit_code": "C170439",
+  "ncit_name": "Brexucabtagene Autoleucel",
+  "ncit_synonyms": [
+   "Anti-CD19 Autologous CAR-CD28 T-cells KTE-X19",
+   "BREXUCABTAGENE AUTOLEUCEL",
+   "Brexu-cel",
+   "Brexucabtagene Autoleucel",
+   "Brexucabtagene autoleucel",
+   "KTE X19",
+   "KTE-X19",
+   "KTEX19",
+   "Tecartus"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "GC022",
+   "GC022F"
+  ],
+  "members": [
+   "GC022",
+   "GC022F"
+  ],
+  "ncit_code": "C171093",
+  "ncit_name": "Autologous Bispecific CD19/CD22-targeted CAR-T Cells GC022",
+  "ncit_synonyms": [
+   "Autologous Bispecific CD19/CD22-targeted CAR-T Cells GC022",
+   "Bispecific CAR T Cells GC022",
+   "Dual CAR-T Cells GC022",
+   "GC 022",
+   "GC-022",
+   "GC022",
+   "GC022F"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "ALLO-501A",
+   "cemacabtagene ansegedleucel"
+  ],
+  "members": [
+   "ALLO-501A",
+   "cemacabtagene ansegedleucel"
+  ],
+  "ncit_code": "C172708",
+  "ncit_name": "Cemacabtagene Ansegedleucel",
+  "ncit_synonyms": [
+   "ALLO 501A",
+   "ALLO-501A",
+   "ALLO501A",
+   "Allogeneic Anti-CD19 CAR T-cells ALLO-501A",
+   "Allogeneic Anti-CD19 CAR T-lymphocytes ALLO-501A",
+   "Allogeneic Anti-CD19 CAR-T Cells ALLO-501A",
+   "Allogeneic CD19-specific CAR T-cells ALLO-501A",
+   "CEMACABTAGENE ANSEGEDLEUCEL",
+   "Cemacabtagene Ansegedleucel"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "AUCATZYL",
+   "Obecabtagene autoleucel"
+  ],
+  "members": [
+   "AUCATZYL",
+   "Obecabtagene autoleucel"
+  ],
+  "ncit_code": "C172746",
+  "ncit_name": "Obecabtagene Autoleucel",
+  "ncit_synonyms": [
+   "AUTO 1",
+   "AUTO-1",
+   "AUTO1",
+   "AUTO1 CAR-T Cells",
+   "Aucatzyl",
+   "Autologous Anti-CD19 CAR T-cells AUTO1",
+   "Autologous Anti-CD19 Chimeric Antigen Receptor T-cells AUTO1",
+   "Autologous Anti-CD19 Chimeric Antigen Receptor T-lymphocytes AUTO1",
+   "Autologous CD19-targeted CAR T-cells AUTO1",
+   "CD19CAR T-cells AUTO1",
+   "CD19CAT-41BBZ CAR T-cells AUTO1",
+   "OBECABTAGENE AUTOLEUCEL",
+   "Obe-cel",
+   "Obecabtagene Autoleucel",
+   "Obecabtagene autoleucel"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "AZD0120",
+   "GC012F"
+  ],
+  "members": [
+   "AZD0120",
+   "GC012F"
+  ],
+  "ncit_code": "C175471",
+  "ncit_name": "Autologous Bispecific BCMA/CD19-targeted CAR-T Cells GC012F",
+  "ncit_synonyms": [
+   "AZD 0120",
+   "AZD-0120",
+   "AZD0120",
+   "Autologous Anti-BCMA/CD19 Dual CAR T Cells GC012F",
+   "Autologous Bispecific BCMA/CD19-targeted CAR-T Cells GC012F",
+   "Autologous GC012F CAR-T Cells",
+   "GC 012F",
+   "GC-012F",
+   "GC012F"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "ARI-0001",
+   "Varnimcabtagene autoleucel"
+  ],
+  "members": [
+   "ARI-0001",
+   "Varnimcabtagene autoleucel"
+  ],
+  "ncit_code": "C179725",
+  "ncit_name": "Varnimcabtagene Autoleucel",
+  "ncit_synonyms": [
+   "ARI 0001",
+   "ARI-0001",
+   "ARI0001",
+   "Autologous Anti-CD19 CAR T Cells ARI-0001",
+   "Autologous Anti-CD19 CAR-4-1BB-CD3zeta-expressing T-cells ARI-0001",
+   "CD19 CAR-T Cells ARI-0001",
+   "PEI 19-187",
+   "VARNIMCABTAGENE AUTOLEUCEL",
+   "Varnimcabtagene Autoleucel"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "Anbalcabtagene Autoleucel",
+   "CRC01"
+  ],
+  "members": [
+   "Anbalcabtagene Autoleucel",
+   "CRC01"
+  ],
+  "ncit_code": "C180584",
+  "ncit_name": "Anbalcabtagene Autoleucel",
+  "ncit_synonyms": [
+   "ANBALCABTAGENE AUTOLEUCEL",
+   "Anbalcabtagene Autoleucel",
+   "Autologous Anti-CD19 CAR T Cells CRC01",
+   "Autologous Anti-CD19 CAR-T Cells CRC01",
+   "CRC 01",
+   "CRC-01",
+   "CRC01"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "CT103A",
+   "equecabtagene autoleucel"
+  ],
+  "members": [
+   "CT103A",
+   "equecabtagene autoleucel"
+  ],
+  "ncit_code": "C185123",
+  "ncit_name": "Equecabtagene Autoleucel",
+  "ncit_synonyms": [
+   "Autologous Anti-BCMA CAR T Cells CT103A",
+   "Autologous Anti-BCMA CAR-T Cells CT103A",
+   "Autologous Anti-BCMA CAR-transduced T-cells CT103A",
+   "CT 103A",
+   "CT-103A",
+   "CT103A",
+   "EQUECABTAGENE AUTOLEUCEL",
+   "Equecabtagene Autoleucel"
+  ]
+ },
+ {
+  "benchmark": "tac01",
+  "expected": "MERGE",
+  "matched_names": [
+   "TAK-007",
+   "iC9/CAR.19/IL15-Transduced CB-NK Cells"
+  ],
+  "members": [
+   "TAK-007",
+   "iC9/CAR.19/IL15-Transduced CB-NK Cells"
+  ],
+  "ncit_code": "C203060",
+  "ncit_name": "Sitocabnagene Loxiveleucel",
+  "ncit_synonyms": [
+   "Allogeneic iC9/CAR19/IL15-transduced CB-NK Cells",
+   "Allogeneic iC9/CD19-CAR-CD28-zeta-2A-IL15-transduced Cord Blood-derived Natural Killer Cells TAK-007",
+   "CAR-CD19-CD28-zeta-2A-iCasp9-IL15-transduced CB-NK Cells",
+   "SITOCABNAGENE LOXIVELEUCEL",
+   "Sitocabnagene Loxiveleucel",
+   "TAK 007",
+   "TAK-007",
+   "TAK007",
+   "UCB-derived CAR-CD19-CD28-zeta-2A-iCasp9-IL15 Engineered NK Cells",
+   "iC9/CAR-CD19-CD28-zeta-2A/IL-15 CB-NK Cells",
+   "iC9/CAR.19/IL15-transduced CB-NK Cells",
+   "iC9/CAR19/IL15-transduced CB-NKs"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "KYMRIAH",
+   "TISAGENLECLEUCEL",
+   "tisagenlecleucel"
+  ],
+  "members": [
+   "CART19",
+   "KYMRIAH",
+   "tisagenlecleucel"
+  ],
+  "ncit_code": "C102758",
+  "ncit_name": "Tisagenlecleucel",
+  "ncit_synonyms": [
+   "CART-19",
+   "CART19",
+   "CTL 019",
+   "CTL-019",
+   "CTL019",
+   "CTL019 T-cells",
+   "Kymriah",
+   "TISAGENLECLEUCEL",
+   "Tisa-cel",
+   "Tisagenlecleucel",
+   "Tisagenlecleucel-T"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "Abecma",
+   "Idecabtagene Vicleucel"
+  ],
+  "members": [
+   "Abecma",
+   "Idecabtagene Vicleucel"
+  ],
+  "ncit_code": "C117729",
+  "ncit_name": "Idecabtagene Vicleucel",
+  "ncit_synonyms": [
+   "Abecma",
+   "Anti-BCMA CAR T Cells BB2121",
+   "Anti-BCMA-CAR-transduced T Cells BB2121",
+   "BB2121",
+   "BCMA-specific CAR-expressing T Lymphocytes BB2121",
+   "IDECABTAGENE VICLEUCEL",
+   "Ide-cel",
+   "Idecabtagene Vicleucel",
+   "Idecabtagene vicleucel"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "YESCARTA",
+   "axi-cel",
+   "axicabtagene ciloleucel"
+  ],
+  "members": [
+   "YESCARTA",
+   "axi-cel",
+   "axicabtagene ciloleucel"
+  ],
+  "ncit_code": "C120309",
+  "ncit_name": "Axicabtagene Ciloleucel",
+  "ncit_synonyms": [
+   "AXICABTAGENE CILOLEUCEL",
+   "Axi-cel",
+   "Axicabtagene Ciloleucel",
+   "Axicabtagene ciloleucel",
+   "Axicel",
+   "KTE C19",
+   "KTE-C19",
+   "KTE-C19 CAR",
+   "KTEC19",
+   "Yescarta"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "Breyanzi",
+   "Liso-cel",
+   "Lisocel",
+   "lisocabtagene maraleucel"
+  ],
+  "members": [
+   "Breyanzi",
+   "Liso-cel",
+   "Lisocel",
+   "lisocabtagene maraleucel"
+  ],
+  "ncit_code": "C125192",
+  "ncit_name": "Lisocabtagene Maraleucel",
+  "ncit_synonyms": [
+   "Anti-CD19-CAR Genetically Engineered Autologous T Lymphocytes JCAR017",
+   "Anti-CD19-CAR Genetically Engineered Autologous T-lymphocytes JCAR017",
+   "Autologous Anti-CD19-EGFRt-4-1BB-zeta-modified CAR CD8+ and CD4+ T-lymphocytes JCAR017",
+   "Breyanzi",
+   "JCAR 017",
+   "JCAR-017",
+   "JCAR017",
+   "LISOCABTAGENE MARALEUCEL",
+   "Liso-cel",
+   "Lisocabtagene Maraleucel",
+   "Lisocabtagene maraleucel"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "ALLO-501",
+   "UCART19"
+  ],
+  "members": [
+   "ALLO-501",
+   "UCART19"
+  ],
+  "ncit_code": "C137819",
+  "ncit_name": "Allogeneic CD19-specific Universal CAR19-expressing T-lymphocytes",
+  "ncit_synonyms": [
+   "ALLO-501",
+   "Allogeneic CD19-specific Universal CAR19-expressing T-lymphocytes",
+   "S68587",
+   "TCR/CD52-deficient RQR8+ CD19-CAR+ T-cells",
+   "UCART 19",
+   "UCART19 Cells",
+   "Universal Chimeric Antigen Receptor T-cell 19",
+   "Universal TALEN Gene-edited CART19 Cells"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "Ebvallo",
+   "tabelecleucel"
+  ],
+  "members": [
+   "Ebvallo",
+   "tabelecleucel"
+  ],
+  "ncit_code": "C143140",
+  "ncit_name": "Tabelecleucel",
+  "ncit_synonyms": [
+   "ATA 129",
+   "ATA-129",
+   "ATA129",
+   "Allogeneic EBV-specific CTLs ATA129",
+   "Allogeneic EBV-specific Cytotoxic T-lymphocytes",
+   "CTLs ATA129",
+   "EBV-CTLs",
+   "Ebvallo",
+   "TABELECLEUCEL",
+   "Tab-cel",
+   "Tabelecleucel",
+   "Teb-cel"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "Carvykti",
+   "Cilta-cel",
+   "ciltacabtagene autoleucel"
+  ],
+  "members": [
+   "Carvykti",
+   "Cilta-cel",
+   "ciltacabtagene autoleucel"
+  ],
+  "ncit_code": "C148498",
+  "ncit_name": "Ciltacabtagene Autoleucel",
+  "ncit_synonyms": [
+   "Autologous Anti-BCMA CAR-T Cells JNJ-68284528",
+   "Autologous Bi-epitope BCMA-targeted CAR T-cells JNJ-68284528",
+   "Autologous Bi-epitope CAR T-cells JNJ-68284528",
+   "CARVYKTI",
+   "CILTACABTAGENE AUTOLEUCEL",
+   "Cilta-cel",
+   "Ciltacabtagene Autoleucel",
+   "Ciltacabtagene autoleucel",
+   "JNJ 68284528",
+   "JNJ-68284528",
+   "JNJ68284528",
+   "LCAR B38M",
+   "LCAR-B38M",
+   "LCAR-B38M-transduced CAR-T Cells JNJ-68284528",
+   "LCAR-B38M-transduced Car-T Cells JNJ-68284528",
+   "LCARB38M"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "JWCAR029",
+   "Relma-cel"
+  ],
+  "members": [
+   "JWCAR029",
+   "Relma-cel"
+  ],
+  "ncit_code": "C155878",
+  "ncit_name": "Relmacabtagene Autoleucel",
+  "ncit_synonyms": [
+   "Autologous Anti-CD19 CAR T-cells JWCAR029",
+   "Autologous CD19-targeted CAR T Cells JWCAR029",
+   "Carteyva",
+   "JWCAR 029",
+   "JWCAR-029",
+   "JWCAR029",
+   "RELMACABTAGENE AUTOLEUCEL",
+   "Relma-cel",
+   "Relmacabtagene Autoleucel",
+   "Relmacabtagene autoleucel"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "Brexucel",
+   "Tecartus",
+   "brexucabtagene autoleucel"
+  ],
+  "members": [
+   "Brexucel",
+   "Tecartus",
+   "brexucabtagene autoleucel"
+  ],
+  "ncit_code": "C170439",
+  "ncit_name": "Brexucabtagene Autoleucel",
+  "ncit_synonyms": [
+   "Anti-CD19 Autologous CAR-CD28 T-cells KTE-X19",
+   "BREXUCABTAGENE AUTOLEUCEL",
+   "Brexu-cel",
+   "Brexucabtagene Autoleucel",
+   "Brexucabtagene autoleucel",
+   "KTE X19",
+   "KTE-X19",
+   "KTEX19",
+   "Tecartus"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "GC022",
+   "GC022F"
+  ],
+  "members": [
+   "GC022",
+   "GC022F"
+  ],
+  "ncit_code": "C171093",
+  "ncit_name": "Autologous Bispecific CD19/CD22-targeted CAR-T Cells GC022",
+  "ncit_synonyms": [
+   "Autologous Bispecific CD19/CD22-targeted CAR-T Cells GC022",
+   "Bispecific CAR T Cells GC022",
+   "Dual CAR-T Cells GC022",
+   "GC 022",
+   "GC-022",
+   "GC022",
+   "GC022F"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "ALLO-501A",
+   "cemacabtagene ansegedleucel"
+  ],
+  "members": [
+   "ALLO-501A",
+   "cemacabtagene ansegedleucel"
+  ],
+  "ncit_code": "C172708",
+  "ncit_name": "Cemacabtagene Ansegedleucel",
+  "ncit_synonyms": [
+   "ALLO 501A",
+   "ALLO-501A",
+   "ALLO501A",
+   "Allogeneic Anti-CD19 CAR T-cells ALLO-501A",
+   "Allogeneic Anti-CD19 CAR T-lymphocytes ALLO-501A",
+   "Allogeneic Anti-CD19 CAR-T Cells ALLO-501A",
+   "Allogeneic CD19-specific CAR T-cells ALLO-501A",
+   "CEMACABTAGENE ANSEGEDLEUCEL",
+   "Cemacabtagene Ansegedleucel"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "AUCATZYL",
+   "obecabtagene autoleucel"
+  ],
+  "members": [
+   "AUCATZYL",
+   "obecabtagene autoleucel"
+  ],
+  "ncit_code": "C172746",
+  "ncit_name": "Obecabtagene Autoleucel",
+  "ncit_synonyms": [
+   "AUTO 1",
+   "AUTO-1",
+   "AUTO1",
+   "AUTO1 CAR-T Cells",
+   "Aucatzyl",
+   "Autologous Anti-CD19 CAR T-cells AUTO1",
+   "Autologous Anti-CD19 Chimeric Antigen Receptor T-cells AUTO1",
+   "Autologous Anti-CD19 Chimeric Antigen Receptor T-lymphocytes AUTO1",
+   "Autologous CD19-targeted CAR T-cells AUTO1",
+   "CD19CAR T-cells AUTO1",
+   "CD19CAT-41BBZ CAR T-cells AUTO1",
+   "OBECABTAGENE AUTOLEUCEL",
+   "Obe-cel",
+   "Obecabtagene Autoleucel",
+   "Obecabtagene autoleucel"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "AZD0120",
+   "GC012F"
+  ],
+  "members": [
+   "AZD0120",
+   "GC012F"
+  ],
+  "ncit_code": "C175471",
+  "ncit_name": "Autologous Bispecific BCMA/CD19-targeted CAR-T Cells GC012F",
+  "ncit_synonyms": [
+   "AZD 0120",
+   "AZD-0120",
+   "AZD0120",
+   "Autologous Anti-BCMA/CD19 Dual CAR T Cells GC012F",
+   "Autologous Bispecific BCMA/CD19-targeted CAR-T Cells GC012F",
+   "Autologous GC012F CAR-T Cells",
+   "GC 012F",
+   "GC-012F",
+   "GC012F"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "ARI-0001",
+   "Varnimcabtagene autoleucel"
+  ],
+  "members": [
+   "ARI-0001",
+   "Varnimcabtagene autoleucel"
+  ],
+  "ncit_code": "C179725",
+  "ncit_name": "Varnimcabtagene Autoleucel",
+  "ncit_synonyms": [
+   "ARI 0001",
+   "ARI-0001",
+   "ARI0001",
+   "Autologous Anti-CD19 CAR T Cells ARI-0001",
+   "Autologous Anti-CD19 CAR-4-1BB-CD3zeta-expressing T-cells ARI-0001",
+   "CD19 CAR-T Cells ARI-0001",
+   "PEI 19-187",
+   "VARNIMCABTAGENE AUTOLEUCEL",
+   "Varnimcabtagene Autoleucel"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "Anbalcabtagene Autoleucel",
+   "CRC01"
+  ],
+  "members": [
+   "Anbalcabtagene Autoleucel",
+   "CRC01"
+  ],
+  "ncit_code": "C180584",
+  "ncit_name": "Anbalcabtagene Autoleucel",
+  "ncit_synonyms": [
+   "ANBALCABTAGENE AUTOLEUCEL",
+   "Anbalcabtagene Autoleucel",
+   "Autologous Anti-CD19 CAR T Cells CRC01",
+   "Autologous Anti-CD19 CAR-T Cells CRC01",
+   "CRC 01",
+   "CRC-01",
+   "CRC01"
+  ]
+ },
+ {
+  "benchmark": "mint5",
+  "expected": "MERGE",
+  "matched_names": [
+   "HBI0101",
+   "NXC-201"
+  ],
+  "members": [
+   "HBI0101",
+   "NXC-201"
+  ],
+  "ncit_code": "C205068",
+  "ncit_name": "Evarucabgene Autoleucel",
+  "ncit_synonyms": [
+   "Autologous Anti-BCMA CAR T-cells NXC-201",
+   "Autologous Anti-BCMA CAR-T Cells HBI0101",
+   "Autologous Anti-BCMA CAR-T Cells NXC-201",
+   "Autologous Anti-BCMA-CAR-4-1BB-expressing T-cells NXC-201",
+   "EVARUCABGENE AUTOLEUCEL",
+   "Evarucabgene Autoleucel",
+   "HBI 0101",
+   "HBI-0101",
+   "HBI0101",
+   "NXC 201",
+   "NXC-201",
+   "NXC201"
+  ]
+ }
+]
