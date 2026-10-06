@@ -8,7 +8,30 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-05, NCIt modality) — START HERE
+## 0. Current directive (last updated 2026-10-05, after NCIt modality) — START HERE
+
+**NCIT_MODALITY v1: ADOPTED.** New baselines: `~/se_runs/{tac01,mint5}_ncitmod_v1`.
+
+**TAC01 top 20.** All 20 rows are target-PASS CD19-directed cell therapies, and the four
+approved products are at #1 and #3–5. The remaining defect is identity: assets linked to the
+**same NCIt product concept** stay separate rows. Examples:
+- ALLO-501A #8 and cemacabtagene ansegedleucel #11;
+- CRC01 #12 and anbalcabtagene #45;
+- GC022F and GC022;
+- relma-cel and JWCAR029;
+- ARI-0001 and varnim-cel.
+
+17 shared concepts in TAC01, 12 of them with a top-50 member.
+
+**mint5 top 20.** Unchanged. Its defects:
+- AZD0120 and GC012F share NCIt C175471. They stay apart under a **standing operator rule**.
+- ICG318 and the BCMA-CD19 cCAR split, from the efficacy diagnosis.
+- 0 human-PoC on target-PASS rows; per the diagnosis that is mostly truthful.
+
+**Pending operator decision:** an NCIt-concept identity merge. It conflicts with the
+standing GC012F/AZD0120 rule, so the operator must decide first.
+
+### Earlier (2026-10-05)
 
 **HUMAN_EFFICACY_COVERAGE_DIAGNOSIS v1: FROZEN.** Result: A 20, B 1, C 3, D 16. No
 efficacy-reader fix is justified.
