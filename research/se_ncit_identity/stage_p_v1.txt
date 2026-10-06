@@ -1,0 +1,17 @@
+P-6 determinism: True
+===== tac01
+P-1 merged groups == frozen: True (17 vs 17) extra=[] missing=[]
+P-2 guarded assets still present: True
+P-3 provenance bad=[] guarded trials unchanged=True
+P-4 outside missing=0 changed=0 gates changed=0 facts same=True
+P-5 identical=False left=[('Axicabtagene Ciloleucel', 3, True), ('Lisocabtagene Maraleucel', 4, True), ('Tisagenlecleucel', 5, True), ('cemacabtagene ansegedleucel', 11, True), ('CRC01', 12, True), ('GC022F', 15, True), ('Relma-cel', 23, True), ('AUCATZYL', 44, True), ('Varnimcabtagene autoleucel', 46, True), ('Tabelecleucel', 47, True)] entered=[('Breyanzi', 3), ('KYMRIAH', 4), ('axi-cel', 5), ('GC022', 14), ('7×19-THEMIS CAR-T cells', 45), ('Allogeneic CD19-STAR T cell', 46), ('Allogenic CD19-CAR-γδT cell', 47), ('Anti-CD19 CAR-T cells and Anti-CD20 CAR-T cells', 48), ('Anti-CD19 UCAR-NK cells', 49), ('Anti-cluster of differentiation 19 (CD19)-CAR PBL', 50)]
+   retained non-merged relative order preserved: True
+   top20: ['Brexucabtagene Autoleucel', 'CNCT19', 'Breyanzi', 'KYMRIAH', 'axi-cel', 'KITE-753', 'CC-97540', 'ALLO-501A', 'Anbalcabtagene Autoleucel', 'AUTO3', 'BZ019', 'CT120', 'CTX112', 'GC022', 'GLPG5101', 'JWCAR029', 'Prizloncabtagene Autoleucel', 'ThisCART19A', 'WZTL-002', 'CTX110']
+===== mint5
+P-1 merged groups == frozen: True (16 vs 16) extra=[] missing=[]
+P-2 guarded assets still present: True
+P-3 provenance bad=[] guarded trials unchanged=True
+P-4 outside missing=0 changed=0 gates changed=0 facts same=True
+P-5 identical=False left=[('GC012F', 3, True)] entered=[('Vonsetamig', 50)]
+   retained non-merged relative order preserved: True
+   top20: ['AZD0120', 'FKC289', 'umbilical cord blood CD19-BC', 'CD19-BCMA dual nanobody base', 'Allogeneic CD19/BCMA-targete', 'allogeneic umbilical cord bl', 'allogenic anti-CD19/BCMA CAR', 'anti-CD19/BCMA U CAR T cells', 'Assigned Interventions CD19/', 'BCMA-CD19 cCAR T cells', 'CD19-BCMA Targeted CAR-T Dos', 'CD19/BCMA in vivo CAR-T', 'CD19/BCMA Lupus Nephritis Ta', 'FIT-(BCMA+CD19)-CAR-T Cells', 'KN5601', 'KSVCBD injection', 'KT501', 'PRG-2311', 'QT-019C', 'QT-219CX']

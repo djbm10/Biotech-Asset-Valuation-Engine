@@ -113,3 +113,24 @@ Determinism comparisons exclude `created_at` and `applied_at`, declared now.
 
 - **Adopt** if P-1 to P-7 all pass.
 - **Otherwise** record the failure and revert. Do not tune the grammar or the link rule.
+
+## 6. Result — 2026-10-06, code `affe17d`
+
+**Runs:** `~/se_runs/tac01_ncitid_v1`, `~/se_runs/tac01_ncitid_v1_det`, `~/se_runs/mint5_ncitid_v1`.
+**Scorer:** `scripts/score_ncit_product_identity.py` → `research/se_ncit_identity/stage_p_v1.txt`.
+
+| Criterion | Result |
+|---|---|
+| **P-1** | **PASS.** Exactly the frozen groups merged, with exactly the frozen members: TAC01 17/17, mint5 16/16. No extra merges by this route. |
+| **P-2** | **PASS.** 0 false merges. `CART19` stays separate in both benchmarks; no product-specific member was excluded. |
+| **P-3** | **PASS.** Every survivor holds all member names and exactly the union of member trials. `CART19` kept exactly its own trials. |
+| **P-4** | **PASS.** Outside the merged groups: 0 missing, 0 identity/modality/qualification changes, 0 gate changes, facts identical. No survivor's gate differs from agreeing members. |
+| **P-5** | **PASS.** Every row that left the top 50 is an absorbed member. Every row that entered is a merge survivor (TAC01 #3 Breyanzi, #4 KYMRIAH, #5 axi-cel, #14 GC022) or a backfill (TAC01 #45–50, mint5 #50 Vonsetamig). Retained non-merged order is preserved in both. |
+| **P-6** | **PASS.** The two TAC01 runs are identical, timestamps excluded. |
+| **P-7** | **PASS.** `tests/se` 1631 passed, 3 xfailed, at `affe17d`; ruff clean. |
+
+**Status: ADOPTED.** New baselines: `~/se_runs/{tac01,mint5}_ncitid_v1`.
+
+**Residual (display only):** a survivor is named by its alphabetically first member, so rows
+show `Breyanzi`, `KYMRIAH`, `axi-cel` rather than the INN. Identity is correct; naming is not
+in scope here.

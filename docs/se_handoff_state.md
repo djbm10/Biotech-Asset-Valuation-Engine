@@ -8,17 +8,22 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-05, NCIt product identity) — START HERE
+## 0. Current directive (last updated 2026-10-06, after NCIt product identity) — START HERE
 
-**NCIT_PRODUCT_IDENTITY v1: PREREGISTERED** (`ncit_product_identity_v1.md`) and implemented
-at `affe17d`. The standing GC012F/AZD0120 keep-separate rule is **withdrawn**; NCIt C175471
-files both as one product. A generic-designator guard (`CART19`-shaped names) keeps such
-assets out of identity merges only. Frozen expectation: 33 groups, all merge; `CART19` stays
-separate in C102758.
-- Awaiting the operator's replays into `~/se_runs/{tac01,mint5}_ncitid_v1` and
-  `tac01_ncitid_v1_det`.
-- Score: `PYTHONPATH=src python scripts/score_ncit_product_identity.py ~/se_runs`.
-- After adoption, reassess both top 20s before choosing a milestone.
+**NCIT_PRODUCT_IDENTITY v1: ADOPTED** (P-1–P-7 PASS, `ncit_product_identity_v1.md` §6).
+Baselines: `~/se_runs/{tac01,mint5}_ncitid_v1`. GC012F/AZD0120 rule withdrawn; they are one
+asset (AZD0120, 19 trials). `CART19` stays separate under the generic-designator guard.
+
+**TAC01 top 20:** 20/20 CD19 cell therapies, modality MATCH; the four approved products are
+#1 and #3–5; no same-NCIt-concept duplicate remains. Residual: survivors display the
+alphabetically first member name (Breyanzi, KYMRIAH, axi-cel) rather than the INN.
+
+**mint5 top 20:** only change is GC012F absorbed into AZD0120 (#1). Remaining defects are
+the known ones: possible cord-blood duplicates (#3, #6), the "Assigned Interventions …" label
+(#9), ICG318 vs BCMA-CD19 cCAR (#10) identity split, 0 human-PoC on target-PASS rows (mostly
+truthful per the diagnosis), and 18/20 with UNKNOWN modality (no NCIt/ChEMBL link).
+
+**Next:** operator choice; no milestone started.
 
 ### Earlier (2026-10-05, after NCIt modality)
 
