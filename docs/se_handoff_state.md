@@ -8,7 +8,19 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-05, after NCIt modality) — START HERE
+## 0. Current directive (last updated 2026-10-05, NCIt product identity) — START HERE
+
+**NCIT_PRODUCT_IDENTITY v1: PREREGISTERED** (`ncit_product_identity_v1.md`) and implemented
+at `affe17d`. The standing GC012F/AZD0120 keep-separate rule is **withdrawn**; NCIt C175471
+files both as one product. A generic-designator guard (`CART19`-shaped names) keeps such
+assets out of identity merges only. Frozen expectation: 33 groups, all merge; `CART19` stays
+separate in C102758.
+- Awaiting the operator's replays into `~/se_runs/{tac01,mint5}_ncitid_v1` and
+  `tac01_ncitid_v1_det`.
+- Score: `PYTHONPATH=src python scripts/score_ncit_product_identity.py ~/se_runs`.
+- After adoption, reassess both top 20s before choosing a milestone.
+
+### Earlier (2026-10-05, after NCIt modality)
 
 **NCIT_MODALITY v1: ADOPTED.** New baselines: `~/se_runs/{tac01,mint5}_ncitmod_v1`.
 
