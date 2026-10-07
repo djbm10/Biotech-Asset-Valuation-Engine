@@ -1,0 +1,3452 @@
+[
+ {
+  "aliases": [
+   "CAR-T Autologous T cell injection"
+  ],
+  "asset_id": "asset:0145d662a5acee527414",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T Autologous T cell injection",
+  "trial_ids": [
+   "NCT05618041"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA CAR T-cells"
+  ],
+  "asset_id": "asset:026193b4d65fd472bae9",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/BCMA CAR T-cells",
+  "trial_ids": [
+   "NCT07266337",
+   "NCT05263817"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19/CD20/CD22 CAR T-Cells"
+  ],
+  "asset_id": "asset:039b17989a0c6265db24",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19/CD20/CD22 CAR T-Cells",
+  "trial_ids": [
+   "NCT05418088"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CAR-T cells"
+  ],
+  "asset_id": "asset:0448742504d905fe7585",
+  "benchmark": "tac01",
+  "canonical_name": "Autologous CAR-T cells",
+  "trial_ids": [
+   "NCT05513612",
+   "NCT05528887"
+  ]
+ },
+ {
+  "aliases": [
+   "CART-BCMA"
+  ],
+  "asset_id": "asset:06960a1fc5aa72530f1f",
+  "benchmark": "tac01",
+  "canonical_name": "CART-BCMA",
+  "trial_ids": [
+   "NCT06056102"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T-19 cell injection"
+  ],
+  "asset_id": "asset:08077cf6a17a1427192a",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T-19 cell injection",
+  "trial_ids": [
+   "NCT06179524"
+  ]
+ },
+ {
+  "aliases": [
+   "NK cells",
+   "NK Cells"
+  ],
+  "asset_id": "asset:0a8967f523c207e6f9ac",
+  "benchmark": "tac01",
+  "canonical_name": "NK cells",
+  "trial_ids": [
+   "NCT02118285",
+   "NCT01370213"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous BCMA CAR-T cells and CD19 CAR-T cells"
+  ],
+  "asset_id": "asset:0bb56a23bf82dd9c6ec6",
+  "benchmark": "tac01",
+  "canonical_name": "Autologous BCMA CAR-T cells and CD19 CAR-T cells",
+  "trial_ids": [
+   "NCT04194931"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19/CD22 CAR NK Cells"
+  ],
+  "asset_id": "asset:0cdec484821f6f6f8aaa",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19/CD22 CAR NK Cells",
+  "trial_ids": [
+   "NCT03824964"
+  ]
+ },
+ {
+  "aliases": [
+   "Universal BCMA CAR-T; Universal CD19 CAR-T"
+  ],
+  "asset_id": "asset:13222b6d61b88407a25f",
+  "benchmark": "tac01",
+  "canonical_name": "Universal BCMA CAR-T; Universal CD19 CAR-T",
+  "trial_ids": [
+   "NCT06485232"
+  ]
+ },
+ {
+  "aliases": [
+   "autologous anti-CD19 CAR T cells"
+  ],
+  "asset_id": "asset:16b8073de773ec923d4c",
+  "benchmark": "tac01",
+  "canonical_name": "autologous anti-CD19 CAR T cells",
+  "trial_ids": [
+   "NCT02842138"
+  ]
+ },
+ {
+  "aliases": [
+   "Chimeric Antigen Receptor (CAR) T-Cell Product (Autologous)"
+  ],
+  "asset_id": "asset:19e31388c3f27f42689a",
+  "benchmark": "tac01",
+  "canonical_name": "Chimeric Antigen Receptor (CAR) T-Cell Product (Autologous)",
+  "trial_ids": [
+   "NCT05281809"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-CAR T cell",
+   "CD19 CAR T-cell",
+   "CD19 CAR-\u03b3\u03b4 T cell"
+  ],
+  "asset_id": "asset:1a5421a8e7de2faa7acf",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-CAR T cell",
+  "trial_ids": [
+   "NCT03373071",
+   "NCT06343090",
+   "NCT07535138"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA CAR T cells"
+  ],
+  "asset_id": "asset:1b2ab33b7a95b104e833",
+  "benchmark": "tac01",
+  "canonical_name": "BCMA CAR T cells",
+  "trial_ids": [
+   "NCT04795882"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR-T Cell Therapy"
+  ],
+  "asset_id": "asset:1ddfa719f177a697eebd",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 CAR-T Cell Therapy",
+  "trial_ids": [
+   "NCT07613788"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-20",
+   "CAR20"
+  ],
+  "asset_id": "asset:1e9dd974b10021f84357",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-20",
+  "trial_ids": [
+   "NCT03019055",
+   "NCT04049383",
+   "NCT05094206"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20 CAR-T cell infusion"
+  ],
+  "asset_id": "asset:1fbe3922b8abf0b3bff7",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/CD20 CAR-T cell infusion",
+  "trial_ids": [
+   "NCT04700319"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 Universal CAR-T cells",
+   "CD19 Universal CAR-\u03b3\u03b4 T Cells"
+  ],
+  "asset_id": "asset:204c9ef01b342dd9462f",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 Universal CAR-T cells",
+  "trial_ids": [
+   "NCT06691152",
+   "NCT06106893"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19-CD3E-CAR-T cells"
+  ],
+  "asset_id": "asset:20dd7fa47c5eadd7d466",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19-CD3E-CAR-T cells",
+  "trial_ids": [
+   "NCT06373081"
+  ]
+ },
+ {
+  "aliases": [
+   "Dual-targeting BCMA-CD19 CAR-T cell infusion"
+  ],
+  "asset_id": "asset:24ed18bb8f79e624295a",
+  "benchmark": "tac01",
+  "canonical_name": "Dual-targeting BCMA-CD19 CAR-T cell infusion",
+  "trial_ids": [
+   "NCT07003555"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR-T cells injection"
+  ],
+  "asset_id": "asset:2618dc2a0e1586aab9ce",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 CAR-T cells injection",
+  "trial_ids": [
+   "NCT07072494",
+   "NCT05828225"
+  ]
+ },
+ {
+  "aliases": [
+   "allogenic CD19-CAR-NK cells"
+  ],
+  "asset_id": "asset:2961416cb09e1916a693",
+  "benchmark": "tac01",
+  "canonical_name": "allogenic CD19-CAR-NK cells",
+  "trial_ids": [
+   "NCT05739227"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 and CD22 targeted CAR-T cells"
+  ],
+  "asset_id": "asset:2a12d8cace61f11f21d0",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 and CD22 targeted CAR-T cells",
+  "trial_ids": [
+   "NCT04648475",
+   "NCT05651100",
+   "NCT04303247",
+   "NCT04649983"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/22 CART"
+  ],
+  "asset_id": "asset:2bed9bb9773e0367fd53",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/22 CART",
+  "trial_ids": [
+   "NCT04539444"
+  ]
+ },
+ {
+  "aliases": [
+   "CD22/CD19 Dual-Target CAR-T Cells"
+  ],
+  "asset_id": "asset:2e652b2da736575ef59d",
+  "benchmark": "tac01",
+  "canonical_name": "CD22/CD19 Dual-Target CAR-T Cells",
+  "trial_ids": [
+   "NCT07575971",
+   "NCT07575919"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cell therapy",
+   "Car-T Cell Therapy",
+   "CAR T-cell therapy",
+   "CAR-T Cell Therapy"
+  ],
+  "asset_id": "asset:33a14bc68913dccc1766",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T cell therapy",
+  "trial_ids": [
+   "NCT06649227",
+   "NCT07564453",
+   "NCT04206943",
+   "NCT03919240",
+   "NCT07524816",
+   "NCT07344818",
+   "NCT07052305",
+   "NCT05260957",
+   "NCT07454226"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cell infusion",
+   "CAR T-Cell Infusion"
+  ],
+  "asset_id": "asset:34db76368b180a7d3e04",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T cell infusion",
+  "trial_ids": [
+   "NCT07695012",
+   "NCT04556266"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19 CAR NK cells",
+   "anti CD19 CAR NK cells",
+   "anti-CD19 CAR-NK cells",
+   "Anti-CD19 CAR NK Cells"
+  ],
+  "asset_id": "asset:35525cef83889e08269c",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19 CAR NK cells",
+  "trial_ids": [
+   "NCT05673447",
+   "NCT06464679",
+   "NCT06613490",
+   "NCT06421701",
+   "NCT06827782",
+   "NCT03690310",
+   "NCT06469190",
+   "NCT06631040",
+   "NCT02892695"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR-T cell infusion",
+   "CD19-CAR T cell Infusion"
+  ],
+  "asset_id": "asset:357b426d9c0dbad7e351",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 CAR-T cell infusion",
+  "trial_ids": [
+   "NCT06106906",
+   "NCT06847269"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19 CAR-T cells"
+  ],
+  "asset_id": "asset:364b4c00b10127a95299",
+  "benchmark": "tac01",
+  "canonical_name": "Autologous CD19 CAR-T cells",
+  "trial_ids": [
+   "NCT07681388"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T-19 Cells"
+  ],
+  "asset_id": "asset:38296119898df4616dd9",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T-19 Cells",
+  "trial_ids": [
+   "NCT05270772"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19-CAR T-cells, or anti-CD30-CAR T-cells, or anti-CD20/CD30-CAR T-cells"
+  ],
+  "asset_id": "asset:39107e11e52529fd03fd",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19-CAR T-cells, or anti-CD30-CAR T-cells, or anti-CD20/CD30-CAR T-cells",
+  "trial_ids": [
+   "NCT06756321"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19 Autologous CAR-T Cell Infusion"
+  ],
+  "asset_id": "asset:3956997bebf7d9b8cbfb",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19 Autologous CAR-T Cell Infusion",
+  "trial_ids": [
+   "NCT05932173"
+  ]
+ },
+ {
+  "aliases": [
+   "CART-138"
+  ],
+  "asset_id": "asset:395f251a65b228f4d9ac",
+  "benchmark": "tac01",
+  "canonical_name": "CART-138",
+  "trial_ids": [
+   "NCT03196414"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 targeted CAR T Cell Therapy"
+  ],
+  "asset_id": "asset:3a294cbfd3ca86f4305e",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 targeted CAR T Cell Therapy",
+  "trial_ids": [
+   "NCT04745559"
+  ]
+ },
+ {
+  "aliases": [
+   "CART22",
+   "CART-22"
+  ],
+  "asset_id": "asset:3abf8dcd53bd4b8c3f01",
+  "benchmark": "tac01",
+  "canonical_name": "CART22",
+  "trial_ids": [
+   "NCT05674175"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19+CD22 CAR-T",
+   "CD19/CD22 CAR-T"
+  ],
+  "asset_id": "asset:3bd2ee1f1f81c77cf7d1",
+  "benchmark": "tac01",
+  "canonical_name": "CD19+CD22 CAR-T",
+  "trial_ids": [
+   "NCT04626739",
+   "NCT04626726",
+   "NCT05797948",
+   "NCT04499573"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-directed CAR-T cells"
+  ],
+  "asset_id": "asset:3e0c1303af30042a5f21",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-directed CAR-T cells",
+  "trial_ids": [
+   "NCT02537977"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-NK-CD19 Cells"
+  ],
+  "asset_id": "asset:40aac6c8128aa1eb3ecf",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-NK-CD19 Cells",
+  "trial_ids": [
+   "NCT05410041",
+   "NCT05563545"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-40"
+  ],
+  "asset_id": "asset:41595983cf6b557a201b",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-40",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "CD19-CAR-NK"
+  ],
+  "asset_id": "asset:415ade7516cc7e4f0fe3",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-CAR-NK",
+  "trial_ids": [
+   "NCT05645601"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-targeted CART cells"
+  ],
+  "asset_id": "asset:41d9e32792e241b7eb4c",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-targeted CART cells",
+  "trial_ids": [
+   "NCT03599375"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR T cells",
+   "CAR-T cells"
+  ],
+  "asset_id": "asset:4297755ec61b8376e8bd",
+  "benchmark": "tac01",
+  "canonical_name": "CAR T cells",
+  "trial_ids": [
+   "NCT03068416",
+   "NCT04287309",
+   "NCT05420493",
+   "NCT02186860",
+   "NCT06698484"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T",
+   "CAR-\u03b3\u03b4T"
+  ],
+  "asset_id": "asset:436cfcc578461590083d",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T",
+  "trial_ids": [
+   "NCT07478848",
+   "NCT07441291",
+   "NCT02782351",
+   "NCT03196830",
+   "NCT07236203",
+   "NCT04796441",
+   "NCT06758713",
+   "NCT06866873",
+   "NCT07152223"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 Chimeric Antigen Receptor (CAR) T Cells"
+  ],
+  "asset_id": "asset:46b7948a5508d742c627",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 Chimeric Antigen Receptor (CAR) T Cells",
+  "trial_ids": [
+   "NCT04943016"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-BCMA CAR-T cells infusion"
+  ],
+  "asset_id": "asset:4b0e4754095443be0f2b",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-BCMA CAR-T cells infusion",
+  "trial_ids": [
+   "NCT06947460"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/BCMA U CAR T cells"
+  ],
+  "asset_id": "asset:4b6d3e95eae7377d55a5",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19/BCMA U CAR T cells",
+  "trial_ids": [
+   "NCT07246096"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/BCMA CAR-T cells"
+  ],
+  "asset_id": "asset:4dd49ec0c8fcf47c42eb",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19/BCMA CAR-T cells",
+  "trial_ids": [
+   "NCT03706547",
+   "NCT03879382"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/22 CAR-T cells",
+   "CD19+22 CAR-T cells"
+  ],
+  "asset_id": "asset:54431e4711aeb72f8376",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/22 CAR-T cells",
+  "trial_ids": [
+   "NCT07162571",
+   "NCT05206071"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-CD19 T cell"
+  ],
+  "asset_id": "asset:572e1bc0cb279b25b822",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-CD19 T cell",
+  "trial_ids": [
+   "NCT03302403"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-CD22 CAR-T cells",
+   "CD19/CD22 CAR T-Cells",
+   "CD19+CD22 CAR T-cells"
+  ],
+  "asset_id": "asset:57ce459cc521a22fe2e7",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-CD22 CAR-T cells",
+  "trial_ids": [
+   "NCT04034446",
+   "NCT04714593",
+   "NCT03448393",
+   "NCT02443831",
+   "NCT04715217"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19-Targeted CAR-T Cells"
+  ],
+  "asset_id": "asset:58a0126a925cb2985fb9",
+  "benchmark": "tac01",
+  "canonical_name": "Autologous CD19-Targeted CAR-T Cells",
+  "trial_ids": [
+   "NCT07432334"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA/CD19 CAR T cells",
+   "BCMA/CD19 CAR-T cells"
+  ],
+  "asset_id": "asset:58bb59720b9c8ce2ee69",
+  "benchmark": "tac01",
+  "canonical_name": "BCMA/CD19 CAR T cells",
+  "trial_ids": [
+   "NCT04795882",
+   "NCT06428188"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR engineered autologous T-cells"
+  ],
+  "asset_id": "asset:5b23f6c4110d16d2db09",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 CAR engineered autologous T-cells",
+  "trial_ids": [
+   "NCT04653493"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous Anti-CD19 CAR-expressing T Lymphocytes"
+  ],
+  "asset_id": "asset:5b749b7cc3075e3c8991",
+  "benchmark": "tac01",
+  "canonical_name": "Autologous Anti-CD19 CAR-expressing T Lymphocytes",
+  "trial_ids": [
+   "NCT05707273"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA/CD19-targeted allogeneic CAR-T"
+  ],
+  "asset_id": "asset:605151e6c17e4052b29f",
+  "benchmark": "tac01",
+  "canonical_name": "BCMA/CD19-targeted allogeneic CAR-T",
+  "trial_ids": [
+   "NCT07652138"
+  ]
+ },
+ {
+  "aliases": [
+   "umbilical cord blood CD19-BCMA CAR-T cells infusion"
+  ],
+  "asset_id": "asset:620571de7131c8fd4344",
+  "benchmark": "tac01",
+  "canonical_name": "umbilical cord blood CD19-BCMA CAR-T cells infusion",
+  "trial_ids": [
+   "NCT06947473"
+  ]
+ },
+ {
+  "aliases": [
+   "Universal CD19 CAR-T"
+  ],
+  "asset_id": "asset:624a53abb828e9c6a79a",
+  "benchmark": "tac01",
+  "canonical_name": "Universal CD19 CAR-T",
+  "trial_ids": [
+   "NCT06485232"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19 CAR T cell therapy"
+  ],
+  "asset_id": "asset:63a036c6031960598fd0",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19 CAR T cell therapy",
+  "trial_ids": [
+   "NCT06347718",
+   "NCT06828042",
+   "NCT06635330"
+  ]
+ },
+ {
+  "aliases": [
+   "Allogeneic CD19/BCMA-targeted CAR-\u03b3\u03b4T cell injection"
+  ],
+  "asset_id": "asset:63a9eb55422e3fbc6178",
+  "benchmark": "tac01",
+  "canonical_name": "Allogeneic CD19/BCMA-targeted CAR-\u03b3\u03b4T cell injection",
+  "trial_ids": [
+   "NCT07490275"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20 Tandem Dual CAR-T"
+  ],
+  "asset_id": "asset:6551c4034dd86c67a79f",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/CD20 Tandem Dual CAR-T",
+  "trial_ids": [
+   "NCT07546630"
+  ]
+ },
+ {
+  "aliases": [
+   "universal allogeneic anti-CD19/BCMA CAR T-cells"
+  ],
+  "asset_id": "asset:665311d66a82a77f3faa",
+  "benchmark": "tac01",
+  "canonical_name": "universal allogeneic anti-CD19/BCMA CAR T-cells",
+  "trial_ids": [
+   "NCT06733610",
+   "NCT06978738"
+  ]
+ },
+ {
+  "aliases": [
+   "Chimeric Antigen Receptor T-cells (CAR-T) therapy"
+  ],
+  "asset_id": "asset:6ac6e75e435a4d56fabb",
+  "benchmark": "tac01",
+  "canonical_name": "Chimeric Antigen Receptor T-cells (CAR-T) therapy",
+  "trial_ids": [
+   "NCT07463781"
+  ]
+ },
+ {
+  "aliases": [
+   "Universal CD19-specific CAR gene-engineered T cells"
+  ],
+  "asset_id": "asset:6ae1d71fa377d0bee8c4",
+  "benchmark": "tac01",
+  "canonical_name": "Universal CD19-specific CAR gene-engineered T cells",
+  "trial_ids": [
+   "NCT05995015"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19-BCMA Dual-Target CAR T-Cell Therapy"
+  ],
+  "asset_id": "asset:6b7beadd4b6ca1fc716c",
+  "benchmark": "tac01",
+  "canonical_name": "Autologous CD19-BCMA Dual-Target CAR T-Cell Therapy",
+  "trial_ids": [
+   "NCT07361094"
+  ]
+ },
+ {
+  "aliases": [
+   "Dual CD19/BCMA CAR-T"
+  ],
+  "asset_id": "asset:6b8b0de50aa54c5afbfb",
+  "benchmark": "tac01",
+  "canonical_name": "Dual CD19/BCMA CAR-T",
+  "trial_ids": [
+   "NCT07359014"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous anti-CD19 CAR-T cell injection"
+  ],
+  "asset_id": "asset:6b975ebb87cba2c2f245",
+  "benchmark": "tac01",
+  "canonical_name": "Autologous anti-CD19 CAR-T cell injection",
+  "trial_ids": [
+   "NCT05269914"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR T-cell product"
+  ],
+  "asset_id": "asset:6d8f119a3f021b9e98f0",
+  "benchmark": "tac01",
+  "canonical_name": "CAR T-cell product",
+  "trial_ids": [
+   "NCT05574114"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-NK"
+  ],
+  "asset_id": "asset:6e8fc446eafba2f736a0",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-NK",
+  "trial_ids": [
+   "NCT07504289"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19 Universal CAR-T Cells injection"
+  ],
+  "asset_id": "asset:6f3824f8f919ccba7e41",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19 Universal CAR-T Cells injection",
+  "trial_ids": [
+   "NCT05105867"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19 CAR NK"
+  ],
+  "asset_id": "asset:6fe25095fa4a6531773a",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19 CAR NK",
+  "trial_ids": [
+   "NCT04639739"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR-T cells infusion"
+  ],
+  "asset_id": "asset:71a46730bc73079a8e8c",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 CAR-T cells infusion",
+  "trial_ids": [
+   "NCT04237428"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR33"
+  ],
+  "asset_id": "asset:7673f2fb940767e9582b",
+  "benchmark": "tac01",
+  "canonical_name": "CAR33",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "allogenic anti-CD19/BCMA CAR-T"
+  ],
+  "asset_id": "asset:7a46f3309cf39ffaab57",
+  "benchmark": "tac01",
+  "canonical_name": "allogenic anti-CD19/BCMA CAR-T",
+  "trial_ids": [
+   "NCT07261345"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR T Arm"
+  ],
+  "asset_id": "asset:7cb2159fd3d6ec00eff4",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 CAR T Arm",
+  "trial_ids": [
+   "NCT07493395"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20/BCMA CAR T cells"
+  ],
+  "asset_id": "asset:826da8d4f511bcf7cae0",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/CD20/BCMA CAR T cells",
+  "trial_ids": [
+   "NCT06446128"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T CD19"
+  ],
+  "asset_id": "asset:835ae2030e5ed379a4a8",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T CD19",
+  "trial_ids": [
+   "NCT04257175"
+  ]
+ },
+ {
+  "aliases": [
+   "CART20"
+  ],
+  "asset_id": "asset:839cfb7cefce5dbc8f06",
+  "benchmark": "tac01",
+  "canonical_name": "CART20",
+  "trial_ids": [
+   "NCT06508775"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR T cell injection"
+  ],
+  "asset_id": "asset:84f90525e408805a2a0a",
+  "benchmark": "tac01",
+  "canonical_name": "CAR T cell injection",
+  "trial_ids": [
+   "NCT06355739"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cells targeting CD19 and CD22"
+  ],
+  "asset_id": "asset:87a170ec7a35947e1e00",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T cells targeting CD19 and CD22",
+  "trial_ids": [
+   "NCT04788472",
+   "NCT04740203",
+   "NCT07108868"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR T cells chimeric antigen receptor cells"
+  ],
+  "asset_id": "asset:87b78a0c0adb01ba80d8",
+  "benchmark": "tac01",
+  "canonical_name": "CAR T cells chimeric antigen receptor cells",
+  "trial_ids": [
+   "NCT07361029",
+   "NCT07720310"
+  ]
+ },
+ {
+  "aliases": [
+   "dual target CAR-T cell therapy",
+   "Dual target CAR-T cell therapy"
+  ],
+  "asset_id": "asset:88112f03b6a938deb9d2",
+  "benchmark": "tac01",
+  "canonical_name": "dual target CAR-T cell therapy",
+  "trial_ids": [
+   "NCT04723914",
+   "NCT04723901"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-BCMA dual nanobody based CAR-T Cells"
+  ],
+  "asset_id": "asset:8a4ef325c481300e1e1f",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-BCMA dual nanobody based CAR-T Cells",
+  "trial_ids": [
+   "NCT07451236"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA CAR-T cell therapy"
+  ],
+  "asset_id": "asset:8b4d4d5e715e9fe975a1",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/BCMA CAR-T cell therapy",
+  "trial_ids": [
+   "NCT06349343"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR123"
+  ],
+  "asset_id": "asset:8dd94e412288b76441eb",
+  "benchmark": "tac01",
+  "canonical_name": "CAR123",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "Anti-CD19 CAR-T cells",
+   "Anti-CD19-CAR-T cells",
+   "anti-CD19 CAR-T cells",
+   "anti-CD19-CAR-T cells",
+   "Anti-CD19 CAR T cells",
+   "anti-CD19 CAR T-cells",
+   "Anti-CD19 CAR T-cells"
+  ],
+  "asset_id": "asset:8ea23a3ef88047e871cc",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19 CAR-T cells",
+  "trial_ids": [
+   "NCT06227026",
+   "NCT06532630",
+   "NCT04545762",
+   "NCT06821659",
+   "NCT06222853",
+   "NCT06508346",
+   "NCT02247609",
+   "NCT06842589",
+   "NCT06375161",
+   "NCT06420154",
+   "NCT03030976",
+   "NCT06792344",
+   "NCT05370547",
+   "NCT06027957",
+   "NCT07544225",
+   "NCT02672501",
+   "NCT05648019"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/CD22 CAR-T cells"
+  ],
+  "asset_id": "asset:8ede3864f37b4e26cb5a",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19/CD22 CAR-T cells",
+  "trial_ids": [
+   "NCT04303520",
+   "NCT03919526"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA-CD19 CAR-T therapy"
+  ],
+  "asset_id": "asset:933fb3f5469d8597e98b",
+  "benchmark": "tac01",
+  "canonical_name": "BCMA-CD19 CAR-T therapy",
+  "trial_ids": [
+   "NCT06794008"
+  ]
+ },
+ {
+  "aliases": [
+   "CART19",
+   "CART-19",
+   "CART 19"
+  ],
+  "asset_id": "asset:95622d6d74ae27eeaae3",
+  "benchmark": "tac01",
+  "canonical_name": "CART19",
+  "trial_ids": [
+   "NCT06508775",
+   "NCT06101381",
+   "NCT05037669",
+   "NCT07271121",
+   "NCT01747486",
+   "NCT03321123",
+   "NCT02935543",
+   "NCT03544021",
+   "NCT02030847",
+   "NCT03896854",
+   "NCT03685786",
+   "NCT07137494",
+   "NCT06839976",
+   "NCT01626495",
+   "NCT02135406",
+   "NCT07371403",
+   "NCT03614858",
+   "NCT03853616",
+   "NCT01551043",
+   "NCT03027739",
+   "NCT06189157",
+   "NCT02624258",
+   "NCT04276870",
+   "NCT01029366",
+   "NCT02030834",
+   "NCT02924753",
+   "NCT02794246",
+   "NCT02799550",
+   "NCT02640209",
+   "NCT02906371",
+   "NCT03497819",
+   "NCT03101709",
+   "NCT06160362"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR19",
+   "CAR 19",
+   "CAR-19"
+  ],
+  "asset_id": "asset:95fa25efe92eff54d849",
+  "benchmark": "tac01",
+  "canonical_name": "CAR19",
+  "trial_ids": [
+   "NCT05054257",
+   "NCT03016377",
+   "NCT02431988",
+   "NCT02893189",
+   "NCT03594162",
+   "NCT07166419",
+   "NCT03696784",
+   "NCT05114837"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA CAR NK"
+  ],
+  "asset_id": "asset:96819f3619951d05e823",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/BCMA CAR NK",
+  "trial_ids": [
+   "NCT07298590"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-CAR-NK/T"
+  ],
+  "asset_id": "asset:9e5cd25c38bd410540dc",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-CAR-NK/T",
+  "trial_ids": [
+   "NCT06464861"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-CD22 CAR T cell infusion"
+  ],
+  "asset_id": "asset:9fd8545098f705172c47",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-CD22 CAR T cell infusion",
+  "trial_ids": [
+   "NCT06777979"
+  ]
+ },
+ {
+  "aliases": [
+   "CART Infusion"
+  ],
+  "asset_id": "asset:a2bb2d60f51715a381a9",
+  "benchmark": "tac01",
+  "canonical_name": "CART Infusion",
+  "trial_ids": [
+   "NCT07441525",
+   "NCT07713459"
+  ]
+ },
+ {
+  "aliases": [
+   "Chimeric antigen receptor (CAR) T-cell therapy"
+  ],
+  "asset_id": "asset:a33e691ab4aa8829db63",
+  "benchmark": "tac01",
+  "canonical_name": "Chimeric antigen receptor (CAR) T-cell therapy",
+  "trial_ids": [
+   "NCT05757219"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+   "CD19-targeted Chimeric Antigen Receptor(CAR) T Cells"
+  ],
+  "asset_id": "asset:a49377474f39c3f4a2d4",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+  "trial_ids": [
+   "NCT04718883",
+   "NCT04089215",
+   "NCT06149169"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA/CD19 Dual-Target CAR-T"
+  ],
+  "asset_id": "asset:a662b176f68619d82ebd",
+  "benchmark": "tac01",
+  "canonical_name": "BCMA/CD19 Dual-Target CAR-T",
+  "trial_ids": [
+   "NCT04182581"
+  ]
+ },
+ {
+  "aliases": [
+   "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA"
+  ],
+  "asset_id": "asset:ac551940ff9492dd71f6",
+  "benchmark": "tac01",
+  "canonical_name": "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA",
+  "trial_ids": [
+   "NCT07274059"
+  ]
+ },
+ {
+  "aliases": [
+   "CD22 CAR-T"
+  ],
+  "asset_id": "asset:aeeab0d34520aeca6589",
+  "benchmark": "tac01",
+  "canonical_name": "CD22 CAR-T",
+  "trial_ids": [
+   "NCT04626739",
+   "NCT04626765",
+   "NCT04626726"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-CD19 T cells",
+   "CAR-CD19 T Cells"
+  ],
+  "asset_id": "asset:b01a23aab5aa76498fa7",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-CD19 T cells",
+  "trial_ids": [
+   "NCT02933775",
+   "NCT03994913"
+  ]
+ },
+ {
+  "aliases": [
+   "allogeneic cord blood-derived, dual-targeting CD19/BCMA CAR-T cells"
+  ],
+  "asset_id": "asset:b023ea33fef9e3f84c83",
+  "benchmark": "tac01",
+  "canonical_name": "allogeneic cord blood-derived, dual-targeting CD19/BCMA CAR-T cells",
+  "trial_ids": [
+   "NCT07139509"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19/CD22 CAR T cells"
+  ],
+  "asset_id": "asset:b08013472a9a9f72e497",
+  "benchmark": "tac01",
+  "canonical_name": "Autologous CD19/CD22 CAR T cells",
+  "trial_ids": [
+   "NCT06709469"
+  ]
+ },
+ {
+  "aliases": [
+   "Chimeric Antigen Receptor T Cells (CAR-T)"
+  ],
+  "asset_id": "asset:b2823dda6cd28674564f",
+  "benchmark": "tac01",
+  "canonical_name": "Chimeric Antigen Receptor T Cells (CAR-T)",
+  "trial_ids": [
+   "NCT07043218",
+   "NCT06996132"
+  ]
+ },
+ {
+  "aliases": [
+   "Allogenic CD19-CAR-\u03b3\u03b4T cell",
+   "Allogenic CD19 CAR-\u03b3\u03b4T cell"
+  ],
+  "asset_id": "asset:b3367a4410eb603b7a01",
+  "benchmark": "tac01",
+  "canonical_name": "Allogenic CD19-CAR-\u03b3\u03b4T cell",
+  "trial_ids": [
+   "NCT06838832",
+   "NCT05554939"
+  ]
+ },
+ {
+  "aliases": [
+   "Allogeneic CAR-T"
+  ],
+  "asset_id": "asset:b490c42f3bfebc4f25db",
+  "benchmark": "tac01",
+  "canonical_name": "Allogeneic CAR-T",
+  "trial_ids": [
+   "NCT07113496",
+   "NCT07129642"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA Targeted CAR T-cells"
+  ],
+  "asset_id": "asset:b81c36858bdf4f7dd44c",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/BCMA Targeted CAR T-cells",
+  "trial_ids": [
+   "NCT04603872"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19-targeting CAR T cells"
+  ],
+  "asset_id": "asset:bf6b616721669f87d86e",
+  "benchmark": "tac01",
+  "canonical_name": "Autologous CD19-targeting CAR T cells",
+  "trial_ids": [
+   "NCT03840317",
+   "NCT02963038"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-targeting CAR T Cells infusion"
+  ],
+  "asset_id": "asset:c2f5db573919b7bc9c48",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-targeting CAR T Cells infusion",
+  "trial_ids": [
+   "NCT02547948"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T Therapy"
+  ],
+  "asset_id": "asset:c5af8c9db714066f71d1",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T Therapy",
+  "trial_ids": [
+   "NCT07033299",
+   "NCT07051850",
+   "NCT06796517",
+   "NCT06752785",
+   "NCT07031713",
+   "NCT07339332"
+  ]
+ },
+ {
+  "aliases": [
+   "CART84"
+  ],
+  "asset_id": "asset:c5d8dd6b26ead7328f91",
+  "benchmark": "tac01",
+  "canonical_name": "CART84",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "Nanobody-Based CD19/CD22 Tandem Dual CAR-T"
+  ],
+  "asset_id": "asset:c68380ef8d17a3b69a54",
+  "benchmark": "tac01",
+  "canonical_name": "Nanobody-Based CD19/CD22 Tandem Dual CAR-T",
+  "trial_ids": [
+   "NCT06880913"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T/CAR-NK cells"
+  ],
+  "asset_id": "asset:ccb399475a26ef7ba263",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T/CAR-NK cells",
+  "trial_ids": [
+   "NCT06596057"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA CART + CD19 CART"
+  ],
+  "asset_id": "asset:cd454042c0a6347e8de3",
+  "benchmark": "tac01",
+  "canonical_name": "BCMA CART + CD19 CART",
+  "trial_ids": [
+   "NCT06681337"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20/BCMA CAR-T"
+  ],
+  "asset_id": "asset:cf59b9730846deee5057",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/CD20/BCMA CAR-T",
+  "trial_ids": [
+   "NCT06732232"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T infusion"
+  ],
+  "asset_id": "asset:d1149e4aa825527f4d23",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T infusion",
+  "trial_ids": [
+   "NCT04846439"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR22"
+  ],
+  "asset_id": "asset:d13db460fb780f15dfaa",
+  "benchmark": "tac01",
+  "canonical_name": "CAR22",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "anti-CD19 and anti-BCMA CAR"
+  ],
+  "asset_id": "asset:d2e8e012260a0f85d5e3",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19 and anti-BCMA CAR",
+  "trial_ids": [
+   "NCT03455972"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19 anti-CD20 Bispecific CAR-T"
+  ],
+  "asset_id": "asset:d3155522dfb103bab4e7",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19 anti-CD20 Bispecific CAR-T",
+  "trial_ids": [
+   "NCT03271515"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/BCMA U CAR T"
+  ],
+  "asset_id": "asset:d4bc13b892d80bfa265e",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19/BCMA U CAR T",
+  "trial_ids": [
+   "NCT07241468"
+  ]
+ },
+ {
+  "aliases": [
+   "autologous CD19-directed chimeric antigen receptor (CAR) T-cells"
+  ],
+  "asset_id": "asset:d5789d221e6a9bc2f883",
+  "benchmark": "tac01",
+  "canonical_name": "autologous CD19-directed chimeric antigen receptor (CAR) T-cells",
+  "trial_ids": [
+   "NCT03938987"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19-CAR \u03b3\u03b4T",
+   "anti-CD19 CAR-T",
+   "Anti-CD19 CAR-T"
+  ],
+  "asset_id": "asset:d870d794000296952168",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19-CAR \u03b3\u03b4T",
+  "trial_ids": [
+   "NCT02656147",
+   "NCT02685670",
+   "NCT04196205",
+   "NCT06676982",
+   "NCT03110640"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20 Dual-CAR-T cells"
+  ],
+  "asset_id": "asset:d876d591420e1aa44952",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/CD20 Dual-CAR-T cells",
+  "trial_ids": [
+   "NCT04697290",
+   "NCT04260945",
+   "NCT04260932"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19-CAR",
+   "anti-CD19 CAR"
+  ],
+  "asset_id": "asset:d92295698c8a4af43429",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19-CAR",
+  "trial_ids": [
+   "NCT02546739",
+   "NCT02315599",
+   "NCT04100187"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA in vivo CAR-T"
+  ],
+  "asset_id": "asset:db81fdf95a821e7828a4",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/BCMA in vivo CAR-T",
+  "trial_ids": [
+   "NCT07388212"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-12"
+  ],
+  "asset_id": "asset:dcaa5bf9b0d3e950ffb6",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-12",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "Modified anti-CD19 CAR T cells"
+  ],
+  "asset_id": "asset:e62c817f325474c9bd98",
+  "benchmark": "tac01",
+  "canonical_name": "Modified anti-CD19 CAR T cells",
+  "trial_ids": [
+   "NCT04684472"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cells therapy"
+  ],
+  "asset_id": "asset:e81e96862b496cf02d29",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T cells therapy",
+  "trial_ids": [
+   "NCT06378190"
+  ]
+ },
+ {
+  "aliases": [
+   "Universal BCMA CAR-T"
+  ],
+  "asset_id": "asset:e86f194564ce669cbda6",
+  "benchmark": "tac01",
+  "canonical_name": "Universal BCMA CAR-T",
+  "trial_ids": [
+   "NCT06485232"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 or CD19-BCMA CAR-T"
+  ],
+  "asset_id": "asset:e9383cb14012ffb0ffef",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 or CD19-BCMA CAR-T",
+  "trial_ids": [
+   "NCT06548607"
+  ]
+ },
+ {
+  "aliases": [
+   "CD79b-19 CAR T cells"
+  ],
+  "asset_id": "asset:e958f71243d3df4ae178",
+  "benchmark": "tac01",
+  "canonical_name": "CD79b-19 CAR T cells",
+  "trial_ids": [
+   "NCT06026319"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cell",
+   "CAR T cell",
+   "CAR T-cell"
+  ],
+  "asset_id": "asset:ea4d59a0b5a222efca8e",
+  "benchmark": "tac01",
+  "canonical_name": "CAR-T cell",
+  "trial_ids": [
+   "NCT07097207",
+   "NCT06685042",
+   "NCT07584889",
+   "NCT04512716",
+   "NCT06768905"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19 CAR-T Cells Injection"
+  ],
+  "asset_id": "asset:eb5b3a4936fc9f625fc5",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19 CAR-T Cells Injection",
+  "trial_ids": [
+   "NCT04289220"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-targeted CAR-T cells",
+   "CD19 targeted CAR-T cells"
+  ],
+  "asset_id": "asset:f379032393c1584b700c",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-targeted CAR-T cells",
+  "trial_ids": [
+   "NCT02735291",
+   "NCT03564977",
+   "NCT06056921",
+   "NCT02728882",
+   "NCT03488160"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-directed chimeric antigen receptor (CAR-T) T cells"
+  ],
+  "asset_id": "asset:f755052230f9530d571c",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-directed chimeric antigen receptor (CAR-T) T cells",
+  "trial_ids": [
+   "NCT07643103"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/BCMA CAR NK cells"
+  ],
+  "asset_id": "asset:faedd2eb02114c1fc3f4",
+  "benchmark": "tac01",
+  "canonical_name": "anti-CD19/BCMA CAR NK cells",
+  "trial_ids": [
+   "NCT06926985"
+  ]
+ },
+ {
+  "aliases": [
+   "Allogeneic CD19 CAR-T cells"
+  ],
+  "asset_id": "asset:fb2a2e685fb7036436f6",
+  "benchmark": "tac01",
+  "canonical_name": "Allogeneic CD19 CAR-T cells",
+  "trial_ids": [
+   "NCT05164042"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-CAR-NK Cells Injection"
+  ],
+  "asset_id": "asset:fba85f27458594367350",
+  "benchmark": "tac01",
+  "canonical_name": "CD19-CAR-NK Cells Injection",
+  "trial_ids": [
+   "NCT07243366"
+  ]
+ },
+ {
+  "aliases": [
+   "CD22 CAR T cells"
+  ],
+  "asset_id": "asset:fcf87cf80193f186f975",
+  "benchmark": "tac01",
+  "canonical_name": "CD22 CAR T cells",
+  "trial_ids": [
+   "NCT06343090"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR-T",
+   "CD19 CAR T"
+  ],
+  "asset_id": "asset:fd3afb40c33c495c04cd",
+  "benchmark": "tac01",
+  "canonical_name": "CD19 CAR-T",
+  "trial_ids": [
+   "NCT04626739",
+   "NCT04626765",
+   "NCT04626726",
+   "NCT04546893",
+   "NCT03263208",
+   "NCT03559439",
+   "NCT04447547"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA CAR-T"
+  ],
+  "asset_id": "asset:fee42b322533162a442b",
+  "benchmark": "tac01",
+  "canonical_name": "CD19/BCMA CAR-T",
+  "trial_ids": [
+   "NCT07324889"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19 CAR-T cells and Anti-CD20 CAR-T cells"
+  ],
+  "asset_id": "asset:ff18c14dc0caab47646a",
+  "benchmark": "tac01",
+  "canonical_name": "Anti-CD19 CAR-T cells and Anti-CD20 CAR-T cells",
+  "trial_ids": [
+   "NCT02737085"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T Autologous T cell injection"
+  ],
+  "asset_id": "asset:0145d662a5acee527414",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T Autologous T cell injection",
+  "trial_ids": [
+   "NCT05618041"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA CAR T-cells"
+  ],
+  "asset_id": "asset:026193b4d65fd472bae9",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/BCMA CAR T-cells",
+  "trial_ids": [
+   "NCT05263817",
+   "NCT07266337"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19/CD20/CD22 CAR T-Cells"
+  ],
+  "asset_id": "asset:039b17989a0c6265db24",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-CD19/CD20/CD22 CAR T-Cells",
+  "trial_ids": [
+   "NCT05418088"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T-19 cell injection"
+  ],
+  "asset_id": "asset:08077cf6a17a1427192a",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T-19 cell injection",
+  "trial_ids": [
+   "NCT06179524"
+  ]
+ },
+ {
+  "aliases": [
+   "NK cells",
+   "NK Cells"
+  ],
+  "asset_id": "asset:0a8967f523c207e6f9ac",
+  "benchmark": "mint5",
+  "canonical_name": "NK cells",
+  "trial_ids": [
+   "NCT02118285",
+   "NCT01370213"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous BCMA CAR-T cells and CD19 CAR-T cells"
+  ],
+  "asset_id": "asset:0bb56a23bf82dd9c6ec6",
+  "benchmark": "mint5",
+  "canonical_name": "Autologous BCMA CAR-T cells and CD19 CAR-T cells",
+  "trial_ids": [
+   "NCT04194931"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-BCMA CAR T cells",
+   "Anti-BCMA CAR-T cells",
+   "anti BCMA CAR-T cells"
+  ],
+  "asset_id": "asset:1249a900dd83e6fc445a",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-BCMA CAR T cells",
+  "trial_ids": [
+   "NCT03559764",
+   "NCT03943472",
+   "NCT07477912",
+   "NCT03093168"
+  ]
+ },
+ {
+  "aliases": [
+   "Universal BCMA CAR-T; Universal CD19 CAR-T"
+  ],
+  "asset_id": "asset:13222b6d61b88407a25f",
+  "benchmark": "mint5",
+  "canonical_name": "Universal BCMA CAR-T; Universal CD19 CAR-T",
+  "trial_ids": [
+   "NCT06485232"
+  ]
+ },
+ {
+  "aliases": [
+   "autologous anti-CD19 CAR T cells"
+  ],
+  "asset_id": "asset:16b8073de773ec923d4c",
+  "benchmark": "mint5",
+  "canonical_name": "autologous anti-CD19 CAR T cells",
+  "trial_ids": [
+   "NCT02842138"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA Targeted CAR T-cells"
+  ],
+  "asset_id": "asset:189778139171e192f23f",
+  "benchmark": "mint5",
+  "canonical_name": "BCMA Targeted CAR T-cells",
+  "trial_ids": [
+   "NCT04670055",
+   "NCT05430945"
+  ]
+ },
+ {
+  "aliases": [
+   "Chimeric Antigen Receptor (CAR) T-Cell Product (Autologous)"
+  ],
+  "asset_id": "asset:19e31388c3f27f42689a",
+  "benchmark": "mint5",
+  "canonical_name": "Chimeric Antigen Receptor (CAR) T-Cell Product (Autologous)",
+  "trial_ids": [
+   "NCT05281809"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-CAR T cell",
+   "CD19 CAR-\u03b3\u03b4 T cell",
+   "CD19 CAR T-cell"
+  ],
+  "asset_id": "asset:1a5421a8e7de2faa7acf",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-CAR T cell",
+  "trial_ids": [
+   "NCT03373071",
+   "NCT07535138",
+   "NCT06343090"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR-T Cell Therapy"
+  ],
+  "asset_id": "asset:1ddfa719f177a697eebd",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 CAR-T Cell Therapy",
+  "trial_ids": [
+   "NCT07613788"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-20",
+   "CAR20"
+  ],
+  "asset_id": "asset:1e9dd974b10021f84357",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-20",
+  "trial_ids": [
+   "NCT04049383",
+   "NCT03019055",
+   "NCT05094206"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20 CAR-T cell infusion"
+  ],
+  "asset_id": "asset:1fbe3922b8abf0b3bff7",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/CD20 CAR-T cell infusion",
+  "trial_ids": [
+   "NCT04700319"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 Universal CAR-T cells",
+   "CD19 Universal CAR-\u03b3\u03b4 T Cells"
+  ],
+  "asset_id": "asset:204c9ef01b342dd9462f",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 Universal CAR-T cells",
+  "trial_ids": [
+   "NCT06691152",
+   "NCT06106893"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19-CD3E-CAR-T cells"
+  ],
+  "asset_id": "asset:20dd7fa47c5eadd7d466",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-CD19-CD3E-CAR-T cells",
+  "trial_ids": [
+   "NCT06373081"
+  ]
+ },
+ {
+  "aliases": [
+   "Dual-targeting BCMA-CD19 CAR-T cell infusion"
+  ],
+  "asset_id": "asset:24ed18bb8f79e624295a",
+  "benchmark": "mint5",
+  "canonical_name": "Dual-targeting BCMA-CD19 CAR-T cell infusion",
+  "trial_ids": [
+   "NCT07003555"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR-T cells injection"
+  ],
+  "asset_id": "asset:2618dc2a0e1586aab9ce",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 CAR-T cells injection",
+  "trial_ids": [
+   "NCT07072494",
+   "NCT05828225"
+  ]
+ },
+ {
+  "aliases": [
+   "allogenic CD19-CAR-NK cells"
+  ],
+  "asset_id": "asset:2961416cb09e1916a693",
+  "benchmark": "mint5",
+  "canonical_name": "allogenic CD19-CAR-NK cells",
+  "trial_ids": [
+   "NCT05739227"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 and CD22 targeted CAR-T cells"
+  ],
+  "asset_id": "asset:2a12d8cace61f11f21d0",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 and CD22 targeted CAR-T cells",
+  "trial_ids": [
+   "NCT05651100",
+   "NCT04303247",
+   "NCT04649983",
+   "NCT04648475"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/22 CART"
+  ],
+  "asset_id": "asset:2bed9bb9773e0367fd53",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/22 CART",
+  "trial_ids": [
+   "NCT04539444"
+  ]
+ },
+ {
+  "aliases": [
+   "CD22/CD19 Dual-Target CAR-T Cells"
+  ],
+  "asset_id": "asset:2e652b2da736575ef59d",
+  "benchmark": "mint5",
+  "canonical_name": "CD22/CD19 Dual-Target CAR-T Cells",
+  "trial_ids": [
+   "NCT07575971",
+   "NCT07575919"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR T-cell therapy",
+   "CAR-T cell therapy",
+   "CAR-T Cell Therapy",
+   "Car-T Cell Therapy"
+  ],
+  "asset_id": "asset:33a14bc68913dccc1766",
+  "benchmark": "mint5",
+  "canonical_name": "CAR T-cell therapy",
+  "trial_ids": [
+   "NCT07052305",
+   "NCT07564453",
+   "NCT03919240",
+   "NCT07524816",
+   "NCT05260957",
+   "NCT07344818",
+   "NCT04206943",
+   "NCT07454226",
+   "NCT06649227"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cell infusion",
+   "CAR T-Cell Infusion"
+  ],
+  "asset_id": "asset:34db76368b180a7d3e04",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T cell infusion",
+  "trial_ids": [
+   "NCT07695012",
+   "NCT04556266"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19 CAR-NK cells",
+   "anti-CD19 CAR NK cells",
+   "anti CD19 CAR NK cells"
+  ],
+  "asset_id": "asset:35525cef83889e08269c",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19 CAR-NK cells",
+  "trial_ids": [
+   "NCT02892695",
+   "NCT06827782",
+   "NCT06464679",
+   "NCT05673447",
+   "NCT06469190",
+   "NCT06631040",
+   "NCT06421701",
+   "NCT06613490"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR-T cell infusion",
+   "CD19-CAR T cell Infusion"
+  ],
+  "asset_id": "asset:357b426d9c0dbad7e351",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 CAR-T cell infusion",
+  "trial_ids": [
+   "NCT06106906",
+   "NCT06847269"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19 CAR-T cells"
+  ],
+  "asset_id": "asset:364b4c00b10127a95299",
+  "benchmark": "mint5",
+  "canonical_name": "Autologous CD19 CAR-T cells",
+  "trial_ids": [
+   "NCT07681388"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T-19 Cells"
+  ],
+  "asset_id": "asset:38296119898df4616dd9",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T-19 Cells",
+  "trial_ids": [
+   "NCT05270772"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19-CAR T-cells, or anti-CD30-CAR T-cells, or anti-CD20/CD30-CAR T-cells"
+  ],
+  "asset_id": "asset:39107e11e52529fd03fd",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19-CAR T-cells, or anti-CD30-CAR T-cells, or anti-CD20/CD30-CAR T-cells",
+  "trial_ids": [
+   "NCT06756321"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19 Autologous CAR-T Cell Infusion"
+  ],
+  "asset_id": "asset:3956997bebf7d9b8cbfb",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-CD19 Autologous CAR-T Cell Infusion",
+  "trial_ids": [
+   "NCT05932173"
+  ]
+ },
+ {
+  "aliases": [
+   "CART-138"
+  ],
+  "asset_id": "asset:395f251a65b228f4d9ac",
+  "benchmark": "mint5",
+  "canonical_name": "CART-138",
+  "trial_ids": [
+   "NCT03196414"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 targeted CAR T Cell Therapy"
+  ],
+  "asset_id": "asset:3a294cbfd3ca86f4305e",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 targeted CAR T Cell Therapy",
+  "trial_ids": [
+   "NCT04745559"
+  ]
+ },
+ {
+  "aliases": [
+   "CART22",
+   "CART-22"
+  ],
+  "asset_id": "asset:3abf8dcd53bd4b8c3f01",
+  "benchmark": "mint5",
+  "canonical_name": "CART22",
+  "trial_ids": [
+   "NCT05674175"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD22 CAR-T",
+   "CD19+CD22 CAR-T"
+  ],
+  "asset_id": "asset:3bd2ee1f1f81c77cf7d1",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/CD22 CAR-T",
+  "trial_ids": [
+   "NCT04499573",
+   "NCT05797948",
+   "NCT04626726",
+   "NCT04626739"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-directed CAR-T cells"
+  ],
+  "asset_id": "asset:3e0c1303af30042a5f21",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-directed CAR-T cells",
+  "trial_ids": [
+   "NCT02537977"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-NK-CD19 Cells"
+  ],
+  "asset_id": "asset:40aac6c8128aa1eb3ecf",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-NK-CD19 Cells",
+  "trial_ids": [
+   "NCT05410041",
+   "NCT05563545"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-40"
+  ],
+  "asset_id": "asset:41595983cf6b557a201b",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-40",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "CD19-CAR-NK"
+  ],
+  "asset_id": "asset:415ade7516cc7e4f0fe3",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-CAR-NK",
+  "trial_ids": [
+   "NCT05645601"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-targeted CART cells"
+  ],
+  "asset_id": "asset:41d9e32792e241b7eb4c",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-targeted CART cells",
+  "trial_ids": [
+   "NCT03599375"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cells",
+   "CAR T cells"
+  ],
+  "asset_id": "asset:4297755ec61b8376e8bd",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T cells",
+  "trial_ids": [
+   "NCT06429150",
+   "NCT07612787",
+   "NCT05420493",
+   "NCT06698484",
+   "NCT04287309",
+   "NCT02186860",
+   "NCT03068416"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T",
+   "CAR-\u03b3\u03b4T"
+  ],
+  "asset_id": "asset:436cfcc578461590083d",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T",
+  "trial_ids": [
+   "NCT07689058",
+   "NCT07152223",
+   "NCT06758713",
+   "NCT03196830",
+   "NCT06913192",
+   "NCT07070960",
+   "NCT07478848",
+   "NCT02782351",
+   "NCT06866873",
+   "NCT07441291",
+   "NCT04796441",
+   "NCT07236203",
+   "NCT07070934",
+   "NCT06963866"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 Chimeric Antigen Receptor (CAR) T Cells"
+  ],
+  "asset_id": "asset:46b7948a5508d742c627",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 Chimeric Antigen Receptor (CAR) T Cells",
+  "trial_ids": [
+   "NCT04943016"
+  ]
+ },
+ {
+  "aliases": [
+   "NK-92"
+  ],
+  "asset_id": "asset:48d4e36283f03bac33f2",
+  "benchmark": "mint5",
+  "canonical_name": "NK-92",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "Targeted BCMA Autologous CART Cell Injection"
+  ],
+  "asset_id": "asset:4aac2a5565407ebae283",
+  "benchmark": "mint5",
+  "canonical_name": "Targeted BCMA Autologous CART Cell Injection",
+  "trial_ids": [
+   "NCT07626476"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-BCMA CAR-T cells infusion"
+  ],
+  "asset_id": "asset:4b0e4754095443be0f2b",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-BCMA CAR-T cells infusion",
+  "trial_ids": [
+   "NCT06947460"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/BCMA U CAR T cells"
+  ],
+  "asset_id": "asset:4b6d3e95eae7377d55a5",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19/BCMA U CAR T cells",
+  "trial_ids": [
+   "NCT07246096"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/BCMA CAR-T cells"
+  ],
+  "asset_id": "asset:4dd49ec0c8fcf47c42eb",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19/BCMA CAR-T cells",
+  "trial_ids": [
+   "NCT03706547",
+   "NCT03879382"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19+22 CAR-T cells",
+   "CD19/22 CAR-T cells"
+  ],
+  "asset_id": "asset:54431e4711aeb72f8376",
+  "benchmark": "mint5",
+  "canonical_name": "CD19+22 CAR-T cells",
+  "trial_ids": [
+   "NCT05206071",
+   "NCT07162571"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-CD19 T cell"
+  ],
+  "asset_id": "asset:572e1bc0cb279b25b822",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-CD19 T cell",
+  "trial_ids": [
+   "NCT03302403"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19+CD22 CAR T-cells",
+   "CD19-CD22 CAR-T cells",
+   "CD19/CD22 CAR T-Cells"
+  ],
+  "asset_id": "asset:57ce459cc521a22fe2e7",
+  "benchmark": "mint5",
+  "canonical_name": "CD19+CD22 CAR T-cells",
+  "trial_ids": [
+   "NCT02443831",
+   "NCT04034446",
+   "NCT04715217",
+   "NCT04714593",
+   "NCT03448393"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19-Targeted CAR-T Cells"
+  ],
+  "asset_id": "asset:58a0126a925cb2985fb9",
+  "benchmark": "mint5",
+  "canonical_name": "Autologous CD19-Targeted CAR-T Cells",
+  "trial_ids": [
+   "NCT07432334"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA/CD19 CAR-T cells",
+   "BCMA/CD19 CAR T cells"
+  ],
+  "asset_id": "asset:58bb59720b9c8ce2ee69",
+  "benchmark": "mint5",
+  "canonical_name": "BCMA/CD19 CAR-T cells",
+  "trial_ids": [
+   "NCT06428188",
+   "NCT04795882"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR engineered autologous T-cells"
+  ],
+  "asset_id": "asset:5b23f6c4110d16d2db09",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 CAR engineered autologous T-cells",
+  "trial_ids": [
+   "NCT04653493"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous Anti-CD19 CAR-expressing T Lymphocytes"
+  ],
+  "asset_id": "asset:5b749b7cc3075e3c8991",
+  "benchmark": "mint5",
+  "canonical_name": "Autologous Anti-CD19 CAR-expressing T Lymphocytes",
+  "trial_ids": [
+   "NCT05707273"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA/CD19-targeted allogeneic CAR-T"
+  ],
+  "asset_id": "asset:605151e6c17e4052b29f",
+  "benchmark": "mint5",
+  "canonical_name": "BCMA/CD19-targeted allogeneic CAR-T",
+  "trial_ids": [
+   "NCT07652138"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-BCMA CAR-T",
+   "anti-BCMA-CAR-T"
+  ],
+  "asset_id": "asset:61f10fbbce8ab73c6f9b",
+  "benchmark": "mint5",
+  "canonical_name": "anti-BCMA CAR-T",
+  "trial_ids": [
+   "NCT04637269",
+   "NCT06880393",
+   "NCT05860036",
+   "NCT05850286",
+   "NCT05846737",
+   "NCT06793449",
+   "NCT05979363"
+  ]
+ },
+ {
+  "aliases": [
+   "umbilical cord blood CD19-BCMA CAR-T cells infusion"
+  ],
+  "asset_id": "asset:620571de7131c8fd4344",
+  "benchmark": "mint5",
+  "canonical_name": "umbilical cord blood CD19-BCMA CAR-T cells infusion",
+  "trial_ids": [
+   "NCT06947473"
+  ]
+ },
+ {
+  "aliases": [
+   "Universal CD19 CAR-T"
+  ],
+  "asset_id": "asset:624a53abb828e9c6a79a",
+  "benchmark": "mint5",
+  "canonical_name": "Universal CD19 CAR-T",
+  "trial_ids": [
+   "NCT06485232"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19 CAR T cell therapy"
+  ],
+  "asset_id": "asset:63a036c6031960598fd0",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19 CAR T cell therapy",
+  "trial_ids": [
+   "NCT06635330",
+   "NCT06347718",
+   "NCT06828042"
+  ]
+ },
+ {
+  "aliases": [
+   "Allogeneic CD19/BCMA-targeted CAR-\u03b3\u03b4T cell injection"
+  ],
+  "asset_id": "asset:63a9eb55422e3fbc6178",
+  "benchmark": "mint5",
+  "canonical_name": "Allogeneic CD19/BCMA-targeted CAR-\u03b3\u03b4T cell injection",
+  "trial_ids": [
+   "NCT07490275"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20 Tandem Dual CAR-T"
+  ],
+  "asset_id": "asset:6551c4034dd86c67a79f",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/CD20 Tandem Dual CAR-T",
+  "trial_ids": [
+   "NCT07546630"
+  ]
+ },
+ {
+  "aliases": [
+   "universal allogeneic anti-CD19/BCMA CAR T-cells"
+  ],
+  "asset_id": "asset:665311d66a82a77f3faa",
+  "benchmark": "mint5",
+  "canonical_name": "universal allogeneic anti-CD19/BCMA CAR T-cells",
+  "trial_ids": [
+   "NCT06733610",
+   "NCT06978738"
+  ]
+ },
+ {
+  "aliases": [
+   "Chimeric Antigen Receptor T-cells (CAR-T) therapy"
+  ],
+  "asset_id": "asset:6ac6e75e435a4d56fabb",
+  "benchmark": "mint5",
+  "canonical_name": "Chimeric Antigen Receptor T-cells (CAR-T) therapy",
+  "trial_ids": [
+   "NCT07463781"
+  ]
+ },
+ {
+  "aliases": [
+   "Universal CD19-specific CAR gene-engineered T cells"
+  ],
+  "asset_id": "asset:6ae1d71fa377d0bee8c4",
+  "benchmark": "mint5",
+  "canonical_name": "Universal CD19-specific CAR gene-engineered T cells",
+  "trial_ids": [
+   "NCT05995015"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19-BCMA Dual-Target CAR T-Cell Therapy"
+  ],
+  "asset_id": "asset:6b7beadd4b6ca1fc716c",
+  "benchmark": "mint5",
+  "canonical_name": "Autologous CD19-BCMA Dual-Target CAR T-Cell Therapy",
+  "trial_ids": [
+   "NCT07361094"
+  ]
+ },
+ {
+  "aliases": [
+   "Dual CD19/BCMA CAR-T"
+  ],
+  "asset_id": "asset:6b8b0de50aa54c5afbfb",
+  "benchmark": "mint5",
+  "canonical_name": "Dual CD19/BCMA CAR-T",
+  "trial_ids": [
+   "NCT07359014"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous anti-CD19 CAR-T cell injection"
+  ],
+  "asset_id": "asset:6b975ebb87cba2c2f245",
+  "benchmark": "mint5",
+  "canonical_name": "Autologous anti-CD19 CAR-T cell injection",
+  "trial_ids": [
+   "NCT05269914"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-NK"
+  ],
+  "asset_id": "asset:6e8fc446eafba2f736a0",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-NK",
+  "trial_ids": [
+   "NCT07504289"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19 Universal CAR-T Cells injection"
+  ],
+  "asset_id": "asset:6f3824f8f919ccba7e41",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-CD19 Universal CAR-T Cells injection",
+  "trial_ids": [
+   "NCT05105867"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19 CAR NK"
+  ],
+  "asset_id": "asset:6fe25095fa4a6531773a",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19 CAR NK",
+  "trial_ids": [
+   "NCT04639739"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR-T cells infusion"
+  ],
+  "asset_id": "asset:71a46730bc73079a8e8c",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 CAR-T cells infusion",
+  "trial_ids": [
+   "NCT04237428"
+  ]
+ },
+ {
+  "aliases": [
+   "allogenic anti-CD19/BCMA CAR-T"
+  ],
+  "asset_id": "asset:7a46f3309cf39ffaab57",
+  "benchmark": "mint5",
+  "canonical_name": "allogenic anti-CD19/BCMA CAR-T",
+  "trial_ids": [
+   "NCT07261345"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR T Arm"
+  ],
+  "asset_id": "asset:7cb2159fd3d6ec00eff4",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 CAR T Arm",
+  "trial_ids": [
+   "NCT07493395"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20/BCMA CAR T cells"
+  ],
+  "asset_id": "asset:826da8d4f511bcf7cae0",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/CD20/BCMA CAR T cells",
+  "trial_ids": [
+   "NCT06446128"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T CD19"
+  ],
+  "asset_id": "asset:835ae2030e5ed379a4a8",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T CD19",
+  "trial_ids": [
+   "NCT04257175"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR T cell injection"
+  ],
+  "asset_id": "asset:84f90525e408805a2a0a",
+  "benchmark": "mint5",
+  "canonical_name": "CAR T cell injection",
+  "trial_ids": [
+   "NCT06355739"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cells targeting CD19 and CD22"
+  ],
+  "asset_id": "asset:87a170ec7a35947e1e00",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T cells targeting CD19 and CD22",
+  "trial_ids": [
+   "NCT04740203",
+   "NCT04788472",
+   "NCT07108868"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR T cells chimeric antigen receptor cells"
+  ],
+  "asset_id": "asset:87b78a0c0adb01ba80d8",
+  "benchmark": "mint5",
+  "canonical_name": "CAR T cells chimeric antigen receptor cells",
+  "trial_ids": [
+   "NCT07361029",
+   "NCT07720310"
+  ]
+ },
+ {
+  "aliases": [
+   "dual target CAR-T cell therapy",
+   "Dual target CAR-T cell therapy"
+  ],
+  "asset_id": "asset:88112f03b6a938deb9d2",
+  "benchmark": "mint5",
+  "canonical_name": "dual target CAR-T cell therapy",
+  "trial_ids": [
+   "NCT04723914",
+   "NCT04723901"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-BCMA dual nanobody based CAR-T Cells"
+  ],
+  "asset_id": "asset:8a4ef325c481300e1e1f",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-BCMA dual nanobody based CAR-T Cells",
+  "trial_ids": [
+   "NCT07451236"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA CAR-T cell therapy"
+  ],
+  "asset_id": "asset:8b4d4d5e715e9fe975a1",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/BCMA CAR-T cell therapy",
+  "trial_ids": [
+   "NCT06349343"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA-Targeting CAR-T Cell Therapy"
+  ],
+  "asset_id": "asset:8c5b5519a75fb1b6de3d",
+  "benchmark": "mint5",
+  "canonical_name": "BCMA-Targeting CAR-T Cell Therapy",
+  "trial_ids": [
+   "NCT07280793"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR123"
+  ],
+  "asset_id": "asset:8dd94e412288b76441eb",
+  "benchmark": "mint5",
+  "canonical_name": "CAR123",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "Anti-CD19 CAR-T cells",
+   "anti-CD19 CAR-T cells",
+   "Anti-CD19 CAR T-cells",
+   "anti-CD19-CAR-T cells",
+   "Anti-CD19-CAR-T cells",
+   "anti-CD19 CAR T-cells",
+   "Anti-CD19 CAR T cells"
+  ],
+  "asset_id": "asset:8ea23a3ef88047e871cc",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-CD19 CAR-T cells",
+  "trial_ids": [
+   "NCT06227026",
+   "NCT06842589",
+   "NCT05648019",
+   "NCT06792344",
+   "NCT05370547",
+   "NCT06375161",
+   "NCT06532630",
+   "NCT06027957",
+   "NCT06222853",
+   "NCT06508346",
+   "NCT04545762",
+   "NCT07544225",
+   "NCT06821659",
+   "NCT02247609",
+   "NCT02672501",
+   "NCT06420154",
+   "NCT03030976"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/CD22 CAR-T cells"
+  ],
+  "asset_id": "asset:8ede3864f37b4e26cb5a",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19/CD22 CAR-T cells",
+  "trial_ids": [
+   "NCT04303520",
+   "NCT03919526"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA-CD19 CAR-T therapy"
+  ],
+  "asset_id": "asset:933fb3f5469d8597e98b",
+  "benchmark": "mint5",
+  "canonical_name": "BCMA-CD19 CAR-T therapy",
+  "trial_ids": [
+   "NCT06794008"
+  ]
+ },
+ {
+  "aliases": [
+   "CART19",
+   "CART-19",
+   "CART 19"
+  ],
+  "asset_id": "asset:95622d6d74ae27eeaae3",
+  "benchmark": "mint5",
+  "canonical_name": "CART19",
+  "trial_ids": [
+   "NCT06101381",
+   "NCT03853616",
+   "NCT07371403",
+   "NCT05037669",
+   "NCT01551043",
+   "NCT06189157",
+   "NCT03101709",
+   "NCT07271121",
+   "NCT02906371",
+   "NCT02624258",
+   "NCT01747486",
+   "NCT07137494",
+   "NCT03685786",
+   "NCT02924753",
+   "NCT04276870",
+   "NCT03614858",
+   "NCT02799550",
+   "NCT02030834",
+   "NCT02640209",
+   "NCT02135406",
+   "NCT03027739",
+   "NCT03544021",
+   "NCT03497819",
+   "NCT02794246",
+   "NCT03321123",
+   "NCT06160362",
+   "NCT02935543",
+   "NCT02030847",
+   "NCT01029366",
+   "NCT01626495",
+   "NCT06839976",
+   "NCT03896854",
+   "NCT06508775"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR19",
+   "CAR-19",
+   "CAR 19"
+  ],
+  "asset_id": "asset:95fa25efe92eff54d849",
+  "benchmark": "mint5",
+  "canonical_name": "CAR19",
+  "trial_ids": [
+   "NCT02893189",
+   "NCT05054257",
+   "NCT02431988",
+   "NCT07166419",
+   "NCT03016377",
+   "NCT05114837",
+   "NCT03696784",
+   "NCT03594162"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA CAR NK"
+  ],
+  "asset_id": "asset:96819f3619951d05e823",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/BCMA CAR NK",
+  "trial_ids": [
+   "NCT07298590"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-CAR-NK/T"
+  ],
+  "asset_id": "asset:9e5cd25c38bd410540dc",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-CAR-NK/T",
+  "trial_ids": [
+   "NCT06464861"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-CD22 CAR T cell infusion"
+  ],
+  "asset_id": "asset:9fd8545098f705172c47",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-CD22 CAR T cell infusion",
+  "trial_ids": [
+   "NCT06777979"
+  ]
+ },
+ {
+  "aliases": [
+   "CART Infusion"
+  ],
+  "asset_id": "asset:a2bb2d60f51715a381a9",
+  "benchmark": "mint5",
+  "canonical_name": "CART Infusion",
+  "trial_ids": [
+   "NCT07441525",
+   "NCT07713459"
+  ]
+ },
+ {
+  "aliases": [
+   "Chimeric antigen receptor (CAR) T-cell therapy"
+  ],
+  "asset_id": "asset:a33e691ab4aa8829db63",
+  "benchmark": "mint5",
+  "canonical_name": "Chimeric antigen receptor (CAR) T-cell therapy",
+  "trial_ids": [
+   "NCT05757219"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+   "CD19-targeted Chimeric Antigen Receptor(CAR) T Cells"
+  ],
+  "asset_id": "asset:a49377474f39c3f4a2d4",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+  "trial_ids": [
+   "NCT04089215",
+   "NCT04718883",
+   "NCT06149169"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA/CD19 Dual-Target CAR-T"
+  ],
+  "asset_id": "asset:a662b176f68619d82ebd",
+  "benchmark": "mint5",
+  "canonical_name": "BCMA/CD19 Dual-Target CAR-T",
+  "trial_ids": [
+   "NCT04182581"
+  ]
+ },
+ {
+  "aliases": [
+   "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA"
+  ],
+  "asset_id": "asset:ac551940ff9492dd71f6",
+  "benchmark": "mint5",
+  "canonical_name": "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA",
+  "trial_ids": [
+   "NCT07274059"
+  ]
+ },
+ {
+  "aliases": [
+   "Chimeric Antigen Receptor T cells (CAR-T) Targeting BCMA"
+  ],
+  "asset_id": "asset:afde88d2a1384c6d31b6",
+  "benchmark": "mint5",
+  "canonical_name": "Chimeric Antigen Receptor T cells (CAR-T) Targeting BCMA",
+  "trial_ids": [
+   "NCT07340853"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-CD19 T cells",
+   "CAR-CD19 T Cells"
+  ],
+  "asset_id": "asset:b01a23aab5aa76498fa7",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-CD19 T cells",
+  "trial_ids": [
+   "NCT02933775",
+   "NCT03994913"
+  ]
+ },
+ {
+  "aliases": [
+   "allogeneic cord blood-derived, dual-targeting CD19/BCMA CAR-T cells"
+  ],
+  "asset_id": "asset:b023ea33fef9e3f84c83",
+  "benchmark": "mint5",
+  "canonical_name": "allogeneic cord blood-derived, dual-targeting CD19/BCMA CAR-T cells",
+  "trial_ids": [
+   "NCT07139509"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19/CD22 CAR T cells"
+  ],
+  "asset_id": "asset:b08013472a9a9f72e497",
+  "benchmark": "mint5",
+  "canonical_name": "Autologous CD19/CD22 CAR T cells",
+  "trial_ids": [
+   "NCT06709469"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19/CD22 Dual-Target Cord Blood CAR-T Cells"
+  ],
+  "asset_id": "asset:b1c1c294359a901fa828",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-CD19/CD22 Dual-Target Cord Blood CAR-T Cells",
+  "trial_ids": [
+   "NCT07838714"
+  ]
+ },
+ {
+  "aliases": [
+   "Chimeric Antigen Receptor T Cells (CAR-T)"
+  ],
+  "asset_id": "asset:b2823dda6cd28674564f",
+  "benchmark": "mint5",
+  "canonical_name": "Chimeric Antigen Receptor T Cells (CAR-T)",
+  "trial_ids": [
+   "NCT06996132",
+   "NCT07043218",
+   "NCT07458659"
+  ]
+ },
+ {
+  "aliases": [
+   "Allogenic CD19 CAR-\u03b3\u03b4T cell",
+   "Allogenic CD19-CAR-\u03b3\u03b4T cell"
+  ],
+  "asset_id": "asset:b3367a4410eb603b7a01",
+  "benchmark": "mint5",
+  "canonical_name": "Allogenic CD19 CAR-\u03b3\u03b4T cell",
+  "trial_ids": [
+   "NCT05554939",
+   "NCT06838832"
+  ]
+ },
+ {
+  "aliases": [
+   "Allogeneic CAR-T"
+  ],
+  "asset_id": "asset:b490c42f3bfebc4f25db",
+  "benchmark": "mint5",
+  "canonical_name": "Allogeneic CAR-T",
+  "trial_ids": [
+   "NCT07113496",
+   "NCT07129642"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA Targeted CAR T-cells"
+  ],
+  "asset_id": "asset:b81c36858bdf4f7dd44c",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/BCMA Targeted CAR T-cells",
+  "trial_ids": [
+   "NCT04603872"
+  ]
+ },
+ {
+  "aliases": [
+   "Autologous CD19-targeting CAR T cells"
+  ],
+  "asset_id": "asset:bf6b616721669f87d86e",
+  "benchmark": "mint5",
+  "canonical_name": "Autologous CD19-targeting CAR T cells",
+  "trial_ids": [
+   "NCT03840317",
+   "NCT02963038"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-targeting CAR T Cells infusion"
+  ],
+  "asset_id": "asset:c2f5db573919b7bc9c48",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-targeting CAR T Cells infusion",
+  "trial_ids": [
+   "NCT02547948"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T Therapy"
+  ],
+  "asset_id": "asset:c5af8c9db714066f71d1",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T Therapy",
+  "trial_ids": [
+   "NCT06752785",
+   "NCT07339332",
+   "NCT07031713",
+   "NCT07033299"
+  ]
+ },
+ {
+  "aliases": [
+   "Nanobody-Based CD19/CD22 Tandem Dual CAR-T"
+  ],
+  "asset_id": "asset:c68380ef8d17a3b69a54",
+  "benchmark": "mint5",
+  "canonical_name": "Nanobody-Based CD19/CD22 Tandem Dual CAR-T",
+  "trial_ids": [
+   "NCT06880913"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA-specific CAR-expressing T Lymphocytes"
+  ],
+  "asset_id": "asset:cb5910488bd280578ab5",
+  "benchmark": "mint5",
+  "canonical_name": "BCMA-specific CAR-expressing T Lymphocytes",
+  "trial_ids": [
+   "NCT03502577"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T/CAR-NK cells"
+  ],
+  "asset_id": "asset:ccb399475a26ef7ba263",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T/CAR-NK cells",
+  "trial_ids": [
+   "NCT06596057"
+  ]
+ },
+ {
+  "aliases": [
+   "BCMA CART + CD19 CART"
+  ],
+  "asset_id": "asset:cd454042c0a6347e8de3",
+  "benchmark": "mint5",
+  "canonical_name": "BCMA CART + CD19 CART",
+  "trial_ids": [
+   "NCT06681337"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20/BCMA CAR-T"
+  ],
+  "asset_id": "asset:cf59b9730846deee5057",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/CD20/BCMA CAR-T",
+  "trial_ids": [
+   "NCT06732232"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T infusion"
+  ],
+  "asset_id": "asset:d1149e4aa825527f4d23",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T infusion",
+  "trial_ids": [
+   "NCT04846439"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR22"
+  ],
+  "asset_id": "asset:d13db460fb780f15dfaa",
+  "benchmark": "mint5",
+  "canonical_name": "CAR22",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "anti-CD19 and anti-BCMA CAR"
+  ],
+  "asset_id": "asset:d2e8e012260a0f85d5e3",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19 and anti-BCMA CAR",
+  "trial_ids": [
+   "NCT03455972"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19 anti-CD20 Bispecific CAR-T"
+  ],
+  "asset_id": "asset:d3155522dfb103bab4e7",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19 anti-CD20 Bispecific CAR-T",
+  "trial_ids": [
+   "NCT03271515"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/BCMA U CAR T"
+  ],
+  "asset_id": "asset:d4bc13b892d80bfa265e",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19/BCMA U CAR T",
+  "trial_ids": [
+   "NCT07241468"
+  ]
+ },
+ {
+  "aliases": [
+   "autologous CD19-directed chimeric antigen receptor (CAR) T-cells"
+  ],
+  "asset_id": "asset:d5789d221e6a9bc2f883",
+  "benchmark": "mint5",
+  "canonical_name": "autologous CD19-directed chimeric antigen receptor (CAR) T-cells",
+  "trial_ids": [
+   "NCT03938987"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19 CAR-T",
+   "Anti-CD19-CAR \u03b3\u03b4T",
+   "Anti-CD19 CAR-T"
+  ],
+  "asset_id": "asset:d870d794000296952168",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19 CAR-T",
+  "trial_ids": [
+   "NCT06676982",
+   "NCT03110640",
+   "NCT02685670",
+   "NCT02656147",
+   "NCT04196205"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/CD20 Dual-CAR-T cells"
+  ],
+  "asset_id": "asset:d876d591420e1aa44952",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/CD20 Dual-CAR-T cells",
+  "trial_ids": [
+   "NCT04697290",
+   "NCT04260945",
+   "NCT04260932"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19-CAR",
+   "anti-CD19 CAR"
+  ],
+  "asset_id": "asset:d92295698c8a4af43429",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-CD19-CAR",
+  "trial_ids": [
+   "NCT04100187",
+   "NCT02546739",
+   "NCT02315599"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA in vivo CAR-T"
+  ],
+  "asset_id": "asset:db81fdf95a821e7828a4",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/BCMA in vivo CAR-T",
+  "trial_ids": [
+   "NCT07388212"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-12"
+  ],
+  "asset_id": "asset:dcaa5bf9b0d3e950ffb6",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-12",
+  "trial_ids": []
+ },
+ {
+  "aliases": [
+   "Modified anti-CD19 CAR T cells"
+  ],
+  "asset_id": "asset:e62c817f325474c9bd98",
+  "benchmark": "mint5",
+  "canonical_name": "Modified anti-CD19 CAR T cells",
+  "trial_ids": [
+   "NCT04684472"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cells therapy"
+  ],
+  "asset_id": "asset:e81e96862b496cf02d29",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T cells therapy",
+  "trial_ids": [
+   "NCT06378190"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 or CD19-BCMA CAR-T"
+  ],
+  "asset_id": "asset:e9383cb14012ffb0ffef",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 or CD19-BCMA CAR-T",
+  "trial_ids": [
+   "NCT06548607"
+  ]
+ },
+ {
+  "aliases": [
+   "CAR-T cell",
+   "CAR T cell"
+  ],
+  "asset_id": "asset:ea4d59a0b5a222efca8e",
+  "benchmark": "mint5",
+  "canonical_name": "CAR-T cell",
+  "trial_ids": [
+   "NCT06768905",
+   "NCT07097207",
+   "NCT07584889",
+   "NCT06685042"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19 CAR-T Cells Injection"
+  ],
+  "asset_id": "asset:eb5b3a4936fc9f625fc5",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-CD19 CAR-T Cells Injection",
+  "trial_ids": [
+   "NCT04289220"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-targeted CAR-T cells",
+   "CD19 targeted CAR-T cells"
+  ],
+  "asset_id": "asset:f379032393c1584b700c",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-targeted CAR-T cells",
+  "trial_ids": [
+   "NCT03564977",
+   "NCT06056921",
+   "NCT03488160",
+   "NCT02728882"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-directed chimeric antigen receptor (CAR-T) T cells"
+  ],
+  "asset_id": "asset:f755052230f9530d571c",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-directed chimeric antigen receptor (CAR-T) T cells",
+  "trial_ids": [
+   "NCT07643103"
+  ]
+ },
+ {
+  "aliases": [
+   "anti-CD19/BCMA CAR NK cells"
+  ],
+  "asset_id": "asset:faedd2eb02114c1fc3f4",
+  "benchmark": "mint5",
+  "canonical_name": "anti-CD19/BCMA CAR NK cells",
+  "trial_ids": [
+   "NCT06926985"
+  ]
+ },
+ {
+  "aliases": [
+   "Allogeneic CD19 CAR-T cells"
+  ],
+  "asset_id": "asset:fb2a2e685fb7036436f6",
+  "benchmark": "mint5",
+  "canonical_name": "Allogeneic CD19 CAR-T cells",
+  "trial_ids": [
+   "NCT05164042"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19-CAR-NK Cells Injection"
+  ],
+  "asset_id": "asset:fba85f27458594367350",
+  "benchmark": "mint5",
+  "canonical_name": "CD19-CAR-NK Cells Injection",
+  "trial_ids": [
+   "NCT07243366"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19 CAR T",
+   "CD19 CAR-T"
+  ],
+  "asset_id": "asset:fd3afb40c33c495c04cd",
+  "benchmark": "mint5",
+  "canonical_name": "CD19 CAR T",
+  "trial_ids": [
+   "NCT03559439",
+   "NCT04546893",
+   "NCT04447547",
+   "NCT03263208",
+   "NCT04626726",
+   "NCT04626765",
+   "NCT04626739"
+  ]
+ },
+ {
+  "aliases": [
+   "CD19/BCMA CAR-T"
+  ],
+  "asset_id": "asset:fee42b322533162a442b",
+  "benchmark": "mint5",
+  "canonical_name": "CD19/BCMA CAR-T",
+  "trial_ids": [
+   "NCT07324889"
+  ]
+ },
+ {
+  "aliases": [
+   "Anti-CD19 CAR-T cells and Anti-CD20 CAR-T cells"
+  ],
+  "asset_id": "asset:ff18c14dc0caab47646a",
+  "benchmark": "mint5",
+  "canonical_name": "Anti-CD19 CAR-T cells and Anti-CD20 CAR-T cells",
+  "trial_ids": [
+   "NCT02737085"
+  ]
+ }
+]

@@ -31,6 +31,12 @@ generic *CD19/BCMA CAR T-cells* asset that also pools a Ucello trial. No merge/r
 justified. Candidate milestones (operator to pick): field-label name cleanup (pop. 1) or a
 generic-descriptor SPLIT diagnosis. Then ICG318, then display names.
 
+**GENERIC_DESCRIPTOR_SPLIT_DIAGNOSIS v1: FROZEN 2026-10-06** (`generic_descriptor_split_diagnosis_v1.md`).
+279 generic assets; 5 B (pooled, coded) per benchmark incl. CART19/CAR19 — none in either
+top 50 (qualification holds generic pools out). Split NOT preregistered. ICG318 is NOT this
+mechanism: cCAR trial NCT06787989 has org study id `ICG318-ITP-01`, but the cCAR asset also
+holds 2019 NCT04162353 with no ICG318 reference. Next: ICG318 milestone, then field labels.
+
 
 ### Earlier (2026-10-05, after NCIt modality)
 

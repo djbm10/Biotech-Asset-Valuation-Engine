@@ -1,0 +1,515 @@
+===== tac01
+C  rank=- ncit=- 'CD19/BCMA CAR T-cells' trials=2 sponsors=2
+      NCT07266337 | Chengdu Ucello Biotechnology Co., Ltd. | []
+      NCT05263817 | Zhejiang University | []
+C  rank=- ncit=- 'Autologous CAR-T cells' trials=2 sponsors=2
+      NCT05513612 | Shanghai Pudong Hospital | []
+      NCT05528887 | The Affiliated People's Hospital of Ningbo Un | []
+C1 rank=- ncit=- 'NK cells' trials=2 sponsors=1
+      NCT02118285 | Masonic Cancer Center, University of Minnesot | []
+      NCT01370213 | Masonic Cancer Center, University of Minnesot | []
+C  rank=- ncit=- 'CD19-CAR T cell' trials=3 sponsors=3
+      NCT03373071 | Bambino Gesù Hospital and Research Institute | []
+      NCT06343090 | Beijing GoBroad Hospital | []
+      NCT07535138 | Air Force Military Medical University, China | []
+B  rank=159 ncit=- 'CAR-20' trials=3 sponsors=1
+      NCT03019055 | Medical College of Wisconsin | ['CAR-20']
+      NCT04049383 | Medical College of Wisconsin | ['CAR-20']
+      NCT05094206 | Medical College of Wisconsin | ['CAR20.19']
+C  rank=- ncit=- 'CD19 Universal CAR-T cells' trials=2 sponsors=2
+      NCT06691152 | The Children's Hospital of Zhejiang Universit | []
+      NCT06106893 | Union Hospital, Tongji Medical College, Huazh | []
+C  rank=- ncit=- 'CD19 CAR-T cells injection' trials=2 sponsors=2
+      NCT07072494 | Zhujiang Hospital | []
+      NCT05828225 | Zhejiang University | []
+C  rank=- ncit=- 'CD19 and CD22 targeted CAR-T cells' trials=4 sponsors=3
+      NCT04648475 | Chongqing Precision Biotech Co., Ltd | []
+      NCT05651100 | Kecellitics Biotech Company Ltd | []
+      NCT04303247 | Xinqiao Hospital of Chongqing | []
+      NCT04649983 | Chongqing Precision Biotech Co., Ltd | []
+C1 rank=- ncit=- 'CD22/CD19 Dual-Target CAR-T Cells' trials=2 sponsors=1
+      NCT07575971 | Liping Dou | []
+      NCT07575919 | Liping Dou | []
+C  rank=- ncit=- 'CAR-T cell therapy' trials=9 sponsors=8
+      NCT06649227 | University Hospital, Lille | []
+      NCT07564453 | The First Affiliated Hospital of Soochow Univ | []
+      NCT04206943 | Acibadem University | []
+      NCT03919240 | The First Affiliated Hospital of Soochow Univ | []
+      NCT07524816 | N.N. Alexandrov National Cancer Centre | ['FMC63']
+      NCT07344818 | Peking University People's Hospital | []
+      NCT07052305 | Washington University School of Medicine | []
+      NCT05260957 | Lazaros Lekakis | []
+      NCT07454226 | Institute of Hematology & Blood Diseases Hosp | []
+C  rank=- ncit=- 'CAR-T cell infusion' trials=2 sponsors=2
+      NCT07695012 | Dr. Zaineb Akram | []
+      NCT04556266 | Memorial Sloan Kettering Cancer Center | []
+B  rank=- ncit=- 'anti-CD19 CAR NK cells' trials=9 sponsors=6
+      NCT05673447 | Changhai Hospital | []
+      NCT06464679 | Changhai Hospital | []
+      NCT06613490 | The First Affiliated Hospital with Nanjing Me | []
+      NCT06421701 | Second Affiliated Hospital, Zhejiang Universi | []
+      NCT06827782 | Second Affiliated Hospital, Zhejiang Universi | []
+      NCT03690310 | Allife Medical Science and Technology Co., Lt | []
+      NCT06469190 | Changhai Hospital | ['KN5501']
+      NCT06631040 | Shahid Beheshti University of Medical Science | []
+      NCT02892695 | PersonGen BioTherapeutics (Suzhou) Co., Ltd. | ['NK-92']
+C  rank=- ncit=- 'CD19 CAR-T cell infusion' trials=2 sponsors=2
+      NCT06106906 | Union Hospital, Tongji Medical College, Huazh | []
+      NCT06847269 | St. Jude Children's Research Hospital | []
+C  rank=- ncit=- 'CD19+CD22 CAR-T' trials=4 sponsors=3
+      NCT04626739 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04626726 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT05797948 | The First Affiliated Hospital of Soochow Univ | []
+      NCT04499573 | Federal Research Institute of Pediatric Hemat | []
+C  rank=- ncit=- 'CAR-NK-CD19 Cells' trials=2 sponsors=2
+      NCT05410041 | Beijing Boren Hospital | []
+      NCT05563545 | Shanghai Simnova Biotechnology Co.,Ltd. | []
+C  rank=- ncit=- 'CAR-40' trials=0 sponsors=0
+C  rank=- ncit=- 'CAR T cells' trials=5 sponsors=5
+      NCT03068416 | Uppsala University | []
+      NCT04287309 | Zhejiang University | []
+      NCT05420493 | Chongqing Precision Biotech Co., Ltd | []
+      NCT02186860 | Affiliated Hospital to Academy of Military Me | []
+      NCT06698484 | National University of Malaysia | []
+C  rank=- ncit=- 'CAR-T' trials=9 sponsors=9
+      NCT07478848 | Abramson Cancer Center at Penn Medicine | []
+      NCT07441291 | Peking University People's Hospital | []
+      NCT02782351 | Kai Lin Xu; Jun Nian Zheng | []
+      NCT03196830 | The First Affiliated Hospital of Soochow Univ | []
+      NCT07236203 | Fudan University | []
+      NCT04796441 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT06758713 | The Third Affiliated Hospital of Southern Med | []
+      NCT06866873 | Hong Kong Children's Hospital | []
+      NCT07152223 | Guangzhou Bio-gene Technology Co., Ltd | []
+C  rank=- ncit=- 'anti-CD19/BCMA CAR-T cells' trials=2 sponsors=2
+      NCT03706547 | Peng Liu | []
+      NCT03879382 | Hrain Biotechnology Co., Ltd. | []
+C  rank=- ncit=- 'CD19/22 CAR-T cells' trials=2 sponsors=2
+      NCT07162571 | Minsk Scientific-Practical Center for Surgery | []
+      NCT05206071 | Hebei Senlang Biotechnology Inc., Ltd. | []
+C  rank=- ncit=- 'CD19-CD22 CAR-T cells' trials=5 sponsors=4
+      NCT04034446 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT04714593 | Shanxi Province Cancer Hospital | []
+      NCT03448393 | National Cancer Institute (NCI) | []
+      NCT02443831 | University College, London | []
+      NCT04715217 | Shanxi Province Cancer Hospital | []
+C  rank=- ncit=- 'BCMA/CD19 CAR T cells' trials=2 sponsors=2
+      NCT04795882 | University College, London | []
+      NCT06428188 | Essen Biotech | []
+C  rank=- ncit=- 'anti-CD19 CAR T cell therapy' trials=3 sponsors=3
+      NCT06347718 | Miltenyi Biomedicine GmbH | []
+      NCT06828042 | Peking University Third Hospital | []
+      NCT06635330 | Kara Yakhteh Tajhiz Azma Company | []
+C  rank=- ncit=- 'universal allogeneic anti-CD19/BCMA CAR T-cells' trials=2 sponsors=2
+      NCT06733610 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT06978738 | Changzhou No.2 People's Hospital | []
+C  rank=- ncit=- 'CAR33' trials=0 sponsors=0
+C  rank=- ncit=- 'CAR-T cells targeting CD19 and CD22' trials=3 sponsors=2
+      NCT04788472 | Zhejiang University | []
+      NCT04740203 | Zhejiang University | []
+      NCT07108868 | University Hospital Tuebingen | []
+C  rank=- ncit=- 'CAR T cells chimeric antigen receptor cells' trials=2 sponsors=2
+      NCT07361029 | King Faisal Specialist Hospital & Research Ce | []
+      NCT07720310 | N.N. Alexandrov National Cancer Centre | []
+C  rank=- ncit=- 'dual target CAR-T cell therapy' trials=2 sponsors=2
+      NCT04723914 | YuLi | []
+      NCT04723901 | Shenzhen University General Hospital | []
+C  rank=- ncit=- 'CAR123' trials=0 sponsors=0
+C  rank=- ncit=- 'Anti-CD19 CAR-T cells' trials=17 sponsors=13
+      NCT06227026 | University of Utah | ['FMC63', 'TNFRSF19']
+      NCT06532630 | Shanghai First Song Biotechnology Co., LTD | []
+      NCT04545762 | C. Babis Andreadis | []
+      NCT06821659 | Peking University Third Hospital | []
+      NCT06222853 | The Children's Hospital of Zhejiang Universit | []
+      NCT06508346 | The Children's Hospital of Zhejiang Universit | []
+      NCT02247609 | Peking University | []
+      NCT06842589 | The Children's Hospital of Zhejiang Universit | []
+      NCT06375161 | Shanghai Tongji Hospital, Tongji University S | []
+      NCT06420154 | First Affiliated Hospital of Wenzhou Medical  | []
+      NCT03030976 | Shanghai GeneChem Co., Ltd. | []
+      NCT06792344 | The Children's Hospital of Zhejiang Universit | []
+      NCT05370547 | Chinese PLA General Hospital | []
+      NCT06027957 | Vinmec Research Institute of Stem Cell and Ge | []
+      NCT07544225 | Gustave Roussy, Cancer Campus, Grand Paris | []
+      NCT02672501 | Shanghai GeneChem Co., Ltd. | []
+      NCT05648019 | KK Women's and Children's Hospital | []
+C  rank=- ncit=- 'anti-CD19/CD22 CAR-T cells' trials=2 sponsors=2
+      NCT04303520 | The Second Affiliated Hospital of Henan Unive | []
+      NCT03919526 | Shanghai General Hospital, Shanghai Jiao Tong | []
+B  rank=- ncit=C102758 'CART19' trials=33 sponsors=14
+      NCT06508775 | Miltenyi Biomedicine GmbH | ['CART19.1', 'CART20.1', 'CART2019.1']
+      NCT06101381 | University of Sao Paulo | ['CART-19']
+      NCT05037669 | University of Pennsylvania | ['CART19']
+      NCT07271121 | King Hussein Cancer Center | ['CART-19.1', 'CART19.1']
+      NCT01747486 | University of Pennsylvania | ['CART-19']
+      NCT03321123 | Shanghai Children's Medical Center | ['CART19.1']
+      NCT02935543 | University of Pennsylvania | ['CART-19', 'CART19']
+      NCT03544021 | The Affiliated Hospital of the Chinese Academ | ['CART-19']
+      NCT02030847 | University of Pennsylvania | ['CART-19']
+      NCT03896854 | Shanghai Unicar-Therapy Bio-medicine Technolo | ['CART-19']
+      NCT03685786 | Shenzhen Second People's Hospital | ['CART19']
+      NCT07137494 | Memorial Sloan Kettering Cancer Center | ['CART19.1']
+      NCT06839976 | Children's Hospital of Philadelphia | ['CART19']
+      NCT01626495 | University of Pennsylvania | ['CART-19']
+      NCT02135406 | University of Pennsylvania | ['CART-19']
+      NCT07371403 | King Hussein Cancer Center | ['CART19.1']
+      NCT03614858 | Shanghai Unicar-Therapy Bio-medicine Technolo | ['CART-19']
+      NCT03853616 | Miltenyi Biomedicine GmbH | ['CART19.1']
+      NCT01551043 | University of Pennsylvania | ['CART-19']
+      NCT03027739 | Fujian Medical University | ['CART-19']
+      NCT06189157 | Miltenyi Biomedicine GmbH | ['CART19.1']
+      NCT02624258 | University of Pennsylvania | ['CART19']
+      NCT04276870 | Stephan Grupp MD PhD | ['CART19']
+      NCT01029366 | University of Pennsylvania | ['CART-19']
+      NCT02030834 | University of Pennsylvania | ['CART-19']
+      NCT02924753 | Henan Cancer Hospital | ['CART-19']
+      NCT02794246 | University of Pennsylvania | ['CART-19']
+      NCT02799550 | The Affiliated Hospital of the Chinese Academ | ['CART-19']
+      NCT02640209 | University of Pennsylvania | ['CART-19', 'CART19']
+      NCT02906371 | University of Pennsylvania | ['CART-19']
+      NCT03497819 | First Affiliated Hospital of Wenzhou Medical  | ['CART19']
+      NCT03101709 | Henan Cancer Hospital | ['CART-19']
+      NCT06160362 | Henan Cancer Hospital | ['CART-19']
+B  rank=- ncit=- 'CAR19' trials=8 sponsors=5
+      NCT05054257 | Institute of Hematology and Blood Transfusion | ['CAR19', 'CART19']
+      NCT03016377 | UNC Lineberger Comprehensive Cancer Center | ['AP1903', 'CAR19']
+      NCT02431988 | University College, London | ['CAR19']
+      NCT02893189 | University College, London | ['CAR19']
+      NCT03594162 | UNC Lineberger Comprehensive Cancer Center | ['AP1903', 'CAR19']
+      NCT07166419 | Ohio State University Comprehensive Cancer Ce | ['B-518', 'B518', 'CAR19.20']
+      NCT03696784 | UNC Lineberger Comprehensive Cancer Center | ['AP1903', 'CAR19']
+      NCT05114837 | Masonic Cancer Center, University of Minnesot | ['CAR19']
+C  rank=- ncit=- 'CART Infusion' trials=2 sponsors=2
+      NCT07441525 | Union Hospital, Tongji Medical College, Huazh | []
+      NCT07713459 | Kure Cells, INC | ['KURE19']
+C1 rank=- ncit=- 'CD19-targeted Chimeric Antigen Receptor (CAR) T Cells' trials=3 sponsors=1
+      NCT04718883 | Shanghai Ming Ju Biotechnology Co., Ltd. | ['JWCAR029']
+      NCT04089215 | Shanghai Ming Ju Biotechnology Co., Ltd. | ['JWCAR029']
+      NCT06149169 | Shanghai Ming Ju Biotechnology Co., Ltd. | []
+C1 rank=- ncit=- 'CD22 CAR-T' trials=3 sponsors=1
+      NCT04626739 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04626765 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04626726 | Hebei Senlang Biotechnology Inc., Ltd. | []
+C  rank=- ncit=- 'CAR-CD19 T cells' trials=2 sponsors=2
+      NCT02933775 | RenJi Hospital | []
+      NCT03994913 | CARsgen Therapeutics Co., Ltd. | []
+C  rank=- ncit=- 'Chimeric Antigen Receptor T Cells (CAR-T)' trials=2 sponsors=2
+      NCT07043218 | Shanghai Tongji Hospital, Tongji University S | []
+      NCT06996132 | Institute of Hematology & Blood Diseases Hosp | []
+C1 rank=47 ncit=- 'Allogenic CD19-CAR-γδT cell' trials=2 sponsors=1
+      NCT06838832 | Chinese PLA General Hospital | []
+      NCT05554939 | Chinese PLA General Hospital | []
+C  rank=- ncit=- 'Allogeneic CAR-T' trials=2 sponsors=2
+      NCT07113496 | The First Affiliated Hospital with Nanjing Me | []
+      NCT07129642 | Shanghai Zhongshan Hospital | []
+C1 rank=- ncit=- 'Autologous CD19-targeting CAR T cells' trials=2 sponsors=1
+      NCT03840317 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT02963038 | Hebei Senlang Biotechnology Inc., Ltd. | []
+B  rank=- ncit=- 'CAR-T Therapy' trials=6 sponsors=3
+      NCT07033299 | Union Hospital, Tongji Medical College, Huazh | ['CT1192']
+      NCT07051850 | Sung-Soo Park | []
+      NCT06796517 | Sung-Soo Park | []
+      NCT06752785 | Guangzhou Women and Children's Medical Center | []
+      NCT07031713 | Union Hospital, Tongji Medical College, Huazh | ['CT1192']
+      NCT07339332 | Union Hospital, Tongji Medical College, Huazh | ['CT1195E']
+C  rank=- ncit=- 'CART84' trials=0 sponsors=0
+C  rank=- ncit=- 'CAR22' trials=0 sponsors=0
+C  rank=- ncit=- 'Anti-CD19-CAR γδT' trials=5 sponsors=5
+      NCT02656147 | Beijing Doing Biomedical Co., Ltd. | []
+      NCT02685670 | The Second Affiliated Hospital of Henan Unive | []
+      NCT04196205 | The First Affiliated Hospital of Nanchang Uni | []
+      NCT06676982 | Zhejiang University | ['CNCT19']
+      NCT03110640 | First Affiliated Hospital of Wenzhou Medical  | []
+C  rank=89 ncit=- 'CD19/CD20 Dual-CAR-T cells' trials=3 sponsors=2
+      NCT04697290 | Beijing Tsinghua Chang Gung Hospital | []
+      NCT04260945 | Hebei Yanda Ludaopei Hospital | []
+      NCT04260932 | Hebei Yanda Ludaopei Hospital | []
+C  rank=- ncit=- 'Anti-CD19-CAR' trials=3 sponsors=3
+      NCT02546739 | Beijing Doing Biomedical Co., Ltd. | []
+      NCT02315599 | National Cancer Institute (NCI) | []
+      NCT04100187 | Kecellitics Biotech Company Ltd | []
+C  rank=- ncit=- 'CAR-12' trials=0 sponsors=0
+C  rank=- ncit=- 'CAR-T cell' trials=5 sponsors=4
+      NCT07097207 | Shenzhen University General Hospital | []
+      NCT06685042 | Fondazione Policlinico Universitario Agostino | []
+      NCT07584889 | Shenzhen University General Hospital | []
+      NCT04512716 | Memorial Sloan Kettering Cancer Center | []
+      NCT06768905 | University of Texas Southwestern Medical Cent | []
+C  rank=- ncit=- 'CD19-targeted CAR-T cells' trials=5 sponsors=3
+      NCT02735291 | Sinobioway Cell Therapy Co., Ltd. | []
+      NCT03564977 | Qingdao Central Hospital | []
+      NCT06056921 | Chongqing Precision Biotech Co., Ltd | []
+      NCT02728882 | Sinobioway Cell Therapy Co., Ltd. | []
+      NCT03488160 | Sinobioway Cell Therapy Co., Ltd. | []
+C  rank=- ncit=- 'CD19 CAR-T' trials=7 sponsors=3
+      NCT04626739 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04626765 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04626726 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04546893 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT03263208 | Henan Cancer Hospital | []
+      NCT03559439 | Shanghai Tong Ren Hospital | []
+      NCT04447547 | Hebei Senlang Biotechnology Inc., Ltd. | []
+tally {'A1': 90, 'C': 40, 'C1': 6, 'B': 5}
+===== mint5
+C  rank=- ncit=- 'CD19/BCMA CAR T-cells' trials=2 sponsors=2
+      NCT05263817 | Zhejiang University | []
+      NCT07266337 | Chengdu Ucello Biotechnology Co., Ltd. | []
+C1 rank=- ncit=- 'NK cells' trials=2 sponsors=1
+      NCT02118285 | Masonic Cancer Center, University of Minnesot | []
+      NCT01370213 | Masonic Cancer Center, University of Minnesot | []
+C  rank=- ncit=- 'Anti-BCMA CAR T cells' trials=4 sponsors=4
+      NCT03559764 | Allife Medical Science and Technology Co., Lt | []
+      NCT03943472 | Hrain Biotechnology Co., Ltd. | []
+      NCT07477912 | Minsk Scientific-Practical Center for Surgery | []
+      NCT03093168 | The Second Affiliated Hospital of Henan Unive | []
+C1 rank=- ncit=- 'BCMA Targeted CAR T-cells' trials=2 sponsors=1
+      NCT04670055 | Zhejiang University | []
+      NCT05430945 | Zhejiang University | []
+C  rank=- ncit=- 'CD19-CAR T cell' trials=3 sponsors=3
+      NCT03373071 | Bambino Gesù Hospital and Research Institute | []
+      NCT07535138 | Air Force Military Medical University, China | []
+      NCT06343090 | Beijing GoBroad Hospital | []
+B  rank=- ncit=- 'CAR-20' trials=3 sponsors=1
+      NCT04049383 | Medical College of Wisconsin | ['CAR-20']
+      NCT03019055 | Medical College of Wisconsin | ['CAR-20']
+      NCT05094206 | Medical College of Wisconsin | ['CAR20.19']
+C  rank=- ncit=- 'CD19 Universal CAR-T cells' trials=2 sponsors=2
+      NCT06691152 | The Children's Hospital of Zhejiang Universit | []
+      NCT06106893 | Union Hospital, Tongji Medical College, Huazh | []
+C  rank=- ncit=- 'CD19 CAR-T cells injection' trials=2 sponsors=2
+      NCT07072494 | Zhujiang Hospital | []
+      NCT05828225 | Zhejiang University | []
+C  rank=- ncit=- 'CD19 and CD22 targeted CAR-T cells' trials=4 sponsors=3
+      NCT05651100 | Kecellitics Biotech Company Ltd | []
+      NCT04303247 | Xinqiao Hospital of Chongqing | []
+      NCT04649983 | Chongqing Precision Biotech Co., Ltd | []
+      NCT04648475 | Chongqing Precision Biotech Co., Ltd | []
+C1 rank=- ncit=- 'CD22/CD19 Dual-Target CAR-T Cells' trials=2 sponsors=1
+      NCT07575971 | Liping Dou | []
+      NCT07575919 | Liping Dou | []
+C  rank=- ncit=- 'CAR T-cell therapy' trials=9 sponsors=8
+      NCT07052305 | Washington University School of Medicine | []
+      NCT07564453 | The First Affiliated Hospital of Soochow Univ | []
+      NCT03919240 | The First Affiliated Hospital of Soochow Univ | []
+      NCT07524816 | N.N. Alexandrov National Cancer Centre | ['FMC63']
+      NCT05260957 | Lazaros Lekakis | []
+      NCT07344818 | Peking University People's Hospital | []
+      NCT04206943 | Acibadem University | []
+      NCT07454226 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT06649227 | University Hospital, Lille | []
+C  rank=- ncit=- 'CAR-T cell infusion' trials=2 sponsors=2
+      NCT07695012 | Dr. Zaineb Akram | []
+      NCT04556266 | Memorial Sloan Kettering Cancer Center | []
+B  rank=- ncit=- 'anti-CD19 CAR-NK cells' trials=8 sponsors=5
+      NCT02892695 | PersonGen BioTherapeutics (Suzhou) Co., Ltd. | ['NK-92']
+      NCT06827782 | Second Affiliated Hospital, Zhejiang Universi | []
+      NCT06464679 | Changhai Hospital | []
+      NCT05673447 | Changhai Hospital | []
+      NCT06469190 | Changhai Hospital | ['KN5501']
+      NCT06631040 | Shahid Beheshti University of Medical Science | []
+      NCT06421701 | Second Affiliated Hospital, Zhejiang Universi | []
+      NCT06613490 | The First Affiliated Hospital with Nanjing Me | []
+C  rank=- ncit=- 'CD19 CAR-T cell infusion' trials=2 sponsors=2
+      NCT06106906 | Union Hospital, Tongji Medical College, Huazh | []
+      NCT06847269 | St. Jude Children's Research Hospital | []
+C  rank=- ncit=- 'CD19/CD22 CAR-T' trials=4 sponsors=3
+      NCT04499573 | Federal Research Institute of Pediatric Hemat | []
+      NCT05797948 | The First Affiliated Hospital of Soochow Univ | []
+      NCT04626726 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04626739 | Hebei Senlang Biotechnology Inc., Ltd. | []
+C  rank=- ncit=- 'CAR-NK-CD19 Cells' trials=2 sponsors=2
+      NCT05410041 | Beijing Boren Hospital | []
+      NCT05563545 | Shanghai Simnova Biotechnology Co.,Ltd. | []
+C  rank=- ncit=- 'CAR-40' trials=0 sponsors=0
+C  rank=- ncit=- 'CAR-T cells' trials=7 sponsors=7
+      NCT06429150 | Shenzhen Geno-Immune Medical Institute | []
+      NCT07612787 | Centre Hospitalier Universitaire de Saint Eti | []
+      NCT05420493 | Chongqing Precision Biotech Co., Ltd | []
+      NCT06698484 | National University of Malaysia | []
+      NCT04287309 | Zhejiang University | []
+      NCT02186860 | Affiliated Hospital to Academy of Military Me | []
+      NCT03068416 | Uppsala University | []
+C  rank=- ncit=- 'CAR-T' trials=14 sponsors=11
+      NCT07689058 | Dr. Zaineb Akram | []
+      NCT07152223 | Guangzhou Bio-gene Technology Co., Ltd | []
+      NCT06758713 | The Third Affiliated Hospital of Southern Med | []
+      NCT03196830 | The First Affiliated Hospital of Soochow Univ | []
+      NCT06913192 | Xuzhou Medical University | []
+      NCT07070960 | Xuzhou Medical University | []
+      NCT07478848 | Abramson Cancer Center at Penn Medicine | []
+      NCT02782351 | Kai Lin Xu; Jun Nian Zheng | []
+      NCT06866873 | Hong Kong Children's Hospital | []
+      NCT07441291 | Peking University People's Hospital | []
+      NCT04796441 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT07236203 | Fudan University | []
+      NCT07070934 | Xuzhou Medical University | []
+      NCT06963866 | Xuzhou Medical University | []
+C  rank=- ncit=- 'NK-92' trials=0 sponsors=0
+C  rank=- ncit=- 'anti-CD19/BCMA CAR-T cells' trials=2 sponsors=2
+      NCT03706547 | Peng Liu | []
+      NCT03879382 | Hrain Biotechnology Co., Ltd. | []
+C  rank=- ncit=- 'CD19+22 CAR-T cells' trials=2 sponsors=2
+      NCT05206071 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT07162571 | Minsk Scientific-Practical Center for Surgery | []
+C  rank=- ncit=- 'CD19+CD22 CAR T-cells' trials=5 sponsors=4
+      NCT02443831 | University College, London | []
+      NCT04034446 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT04715217 | Shanxi Province Cancer Hospital | []
+      NCT04714593 | Shanxi Province Cancer Hospital | []
+      NCT03448393 | National Cancer Institute (NCI) | []
+C  rank=- ncit=- 'BCMA/CD19 CAR-T cells' trials=2 sponsors=2
+      NCT06428188 | Essen Biotech | []
+      NCT04795882 | University College, London | []
+C  rank=- ncit=- 'anti-BCMA CAR-T' trials=7 sponsors=2
+      NCT04637269 | Xinqiao Hospital of Chongqing | ['KG-15', 'KG-45']
+      NCT06880393 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT05860036 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT05850286 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT05846737 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT06793449 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT05979363 | Institute of Hematology & Blood Diseases Hosp | []
+C  rank=- ncit=- 'anti-CD19 CAR T cell therapy' trials=3 sponsors=3
+      NCT06635330 | Kara Yakhteh Tajhiz Azma Company | []
+      NCT06347718 | Miltenyi Biomedicine GmbH | []
+      NCT06828042 | Peking University Third Hospital | []
+C  rank=23 ncit=- 'universal allogeneic anti-CD19/BCMA CAR T-cells' trials=2 sponsors=2
+      NCT06733610 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT06978738 | Changzhou No.2 People's Hospital | []
+C  rank=- ncit=- 'CAR-T cells targeting CD19 and CD22' trials=3 sponsors=2
+      NCT04740203 | Zhejiang University | []
+      NCT04788472 | Zhejiang University | []
+      NCT07108868 | University Hospital Tuebingen | []
+C  rank=- ncit=- 'CAR T cells chimeric antigen receptor cells' trials=2 sponsors=2
+      NCT07361029 | King Faisal Specialist Hospital & Research Ce | []
+      NCT07720310 | N.N. Alexandrov National Cancer Centre | []
+C  rank=- ncit=- 'dual target CAR-T cell therapy' trials=2 sponsors=2
+      NCT04723914 | YuLi | []
+      NCT04723901 | Shenzhen University General Hospital | []
+C  rank=- ncit=- 'CAR123' trials=0 sponsors=0
+C  rank=- ncit=- 'Anti-CD19 CAR-T cells' trials=17 sponsors=13
+      NCT06227026 | University of Utah | ['FMC63', 'TNFRSF19']
+      NCT06842589 | The Children's Hospital of Zhejiang Universit | []
+      NCT05648019 | KK Women's and Children's Hospital | []
+      NCT06792344 | The Children's Hospital of Zhejiang Universit | []
+      NCT05370547 | Chinese PLA General Hospital | []
+      NCT06375161 | Shanghai Tongji Hospital, Tongji University S | []
+      NCT06532630 | Shanghai First Song Biotechnology Co., LTD | []
+      NCT06027957 | Vinmec Research Institute of Stem Cell and Ge | []
+      NCT06222853 | The Children's Hospital of Zhejiang Universit | []
+      NCT06508346 | The Children's Hospital of Zhejiang Universit | []
+      NCT04545762 | C. Babis Andreadis | []
+      NCT07544225 | Gustave Roussy, Cancer Campus, Grand Paris | []
+      NCT06821659 | Peking University Third Hospital | []
+      NCT02247609 | Peking University | []
+      NCT02672501 | Shanghai GeneChem Co., Ltd. | []
+      NCT06420154 | First Affiliated Hospital of Wenzhou Medical  | []
+      NCT03030976 | Shanghai GeneChem Co., Ltd. | []
+C  rank=- ncit=- 'anti-CD19/CD22 CAR-T cells' trials=2 sponsors=2
+      NCT04303520 | The Second Affiliated Hospital of Henan Unive | []
+      NCT03919526 | Shanghai General Hospital, Shanghai Jiao Tong | []
+B  rank=- ncit=C102758 'CART19' trials=33 sponsors=14
+      NCT06101381 | University of Sao Paulo | ['CART-19']
+      NCT03853616 | Miltenyi Biomedicine GmbH | ['CART19.1']
+      NCT07371403 | King Hussein Cancer Center | ['CART19.1']
+      NCT05037669 | University of Pennsylvania | ['CART19']
+      NCT01551043 | University of Pennsylvania | ['CART-19']
+      NCT06189157 | Miltenyi Biomedicine GmbH | ['CART19.1']
+      NCT03101709 | Henan Cancer Hospital | ['CART-19']
+      NCT07271121 | King Hussein Cancer Center | ['CART-19.1', 'CART19.1']
+      NCT02906371 | University of Pennsylvania | ['CART-19']
+      NCT02624258 | University of Pennsylvania | ['CART19']
+      NCT01747486 | University of Pennsylvania | ['CART-19']
+      NCT07137494 | Memorial Sloan Kettering Cancer Center | ['CART19.1']
+      NCT03685786 | Shenzhen Second People's Hospital | ['CART19']
+      NCT02924753 | Henan Cancer Hospital | ['CART-19']
+      NCT04276870 | Stephan Grupp MD PhD | ['CART19']
+      NCT03614858 | Shanghai Unicar-Therapy Bio-medicine Technolo | ['CART-19']
+      NCT02799550 | The Affiliated Hospital of the Chinese Academ | ['CART-19']
+      NCT02030834 | University of Pennsylvania | ['CART-19']
+      NCT02640209 | University of Pennsylvania | ['CART-19', 'CART19']
+      NCT02135406 | University of Pennsylvania | ['CART-19']
+      NCT03027739 | Fujian Medical University | ['CART-19']
+      NCT03544021 | The Affiliated Hospital of the Chinese Academ | ['CART-19']
+      NCT03497819 | First Affiliated Hospital of Wenzhou Medical  | ['CART19']
+      NCT02794246 | University of Pennsylvania | ['CART-19']
+      NCT03321123 | Shanghai Children's Medical Center | ['CART19.1']
+      NCT06160362 | Henan Cancer Hospital | ['CART-19']
+      NCT02935543 | University of Pennsylvania | ['CART-19', 'CART19']
+      NCT02030847 | University of Pennsylvania | ['CART-19']
+      NCT01029366 | University of Pennsylvania | ['CART-19']
+      NCT01626495 | University of Pennsylvania | ['CART-19']
+      NCT06839976 | Children's Hospital of Philadelphia | ['CART19']
+      NCT03896854 | Shanghai Unicar-Therapy Bio-medicine Technolo | ['CART-19']
+      NCT06508775 | Miltenyi Biomedicine GmbH | ['CART19.1', 'CART20.1', 'CART2019.1']
+B  rank=- ncit=- 'CAR19' trials=8 sponsors=5
+      NCT02893189 | University College, London | ['CAR19']
+      NCT05054257 | Institute of Hematology and Blood Transfusion | ['CAR19', 'CART19']
+      NCT02431988 | University College, London | ['CAR19']
+      NCT07166419 | Ohio State University Comprehensive Cancer Ce | ['B-518', 'B518', 'CAR19.20']
+      NCT03016377 | UNC Lineberger Comprehensive Cancer Center | ['AP1903', 'CAR19']
+      NCT05114837 | Masonic Cancer Center, University of Minnesot | ['CAR19']
+      NCT03696784 | UNC Lineberger Comprehensive Cancer Center | ['AP1903', 'CAR19']
+      NCT03594162 | UNC Lineberger Comprehensive Cancer Center | ['AP1903', 'CAR19']
+C  rank=- ncit=- 'CART Infusion' trials=2 sponsors=2
+      NCT07441525 | Union Hospital, Tongji Medical College, Huazh | []
+      NCT07713459 | Kure Cells, INC | ['KURE19']
+C1 rank=- ncit=- 'CD19-targeted Chimeric Antigen Receptor (CAR) T Cells' trials=3 sponsors=1
+      NCT04089215 | Shanghai Ming Ju Biotechnology Co., Ltd. | ['JWCAR029']
+      NCT04718883 | Shanghai Ming Ju Biotechnology Co., Ltd. | ['JWCAR029']
+      NCT06149169 | Shanghai Ming Ju Biotechnology Co., Ltd. | []
+C  rank=- ncit=- 'CAR-CD19 T cells' trials=2 sponsors=2
+      NCT02933775 | RenJi Hospital | []
+      NCT03994913 | CARsgen Therapeutics Co., Ltd. | []
+C  rank=- ncit=- 'Chimeric Antigen Receptor T Cells (CAR-T)' trials=3 sponsors=3
+      NCT06996132 | Institute of Hematology & Blood Diseases Hosp | []
+      NCT07043218 | Shanghai Tongji Hospital, Tongji University S | []
+      NCT07458659 | Chulalongkorn University | []
+C1 rank=- ncit=- 'Allogenic CD19 CAR-γδT cell' trials=2 sponsors=1
+      NCT05554939 | Chinese PLA General Hospital | []
+      NCT06838832 | Chinese PLA General Hospital | []
+C  rank=- ncit=- 'Allogeneic CAR-T' trials=2 sponsors=2
+      NCT07113496 | The First Affiliated Hospital with Nanjing Me | []
+      NCT07129642 | Shanghai Zhongshan Hospital | []
+C1 rank=- ncit=- 'Autologous CD19-targeting CAR T cells' trials=2 sponsors=1
+      NCT03840317 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT02963038 | Hebei Senlang Biotechnology Inc., Ltd. | []
+B  rank=- ncit=- 'CAR-T Therapy' trials=4 sponsors=2
+      NCT06752785 | Guangzhou Women and Children's Medical Center | []
+      NCT07339332 | Union Hospital, Tongji Medical College, Huazh | ['CT1195E']
+      NCT07031713 | Union Hospital, Tongji Medical College, Huazh | ['CT1192']
+      NCT07033299 | Union Hospital, Tongji Medical College, Huazh | ['CT1192']
+C  rank=- ncit=- 'CAR22' trials=0 sponsors=0
+C  rank=- ncit=- 'anti-CD19 CAR-T' trials=5 sponsors=5
+      NCT06676982 | Zhejiang University | ['CNCT19']
+      NCT03110640 | First Affiliated Hospital of Wenzhou Medical  | []
+      NCT02685670 | The Second Affiliated Hospital of Henan Unive | []
+      NCT02656147 | Beijing Doing Biomedical Co., Ltd. | []
+      NCT04196205 | The First Affiliated Hospital of Nanchang Uni | []
+C  rank=- ncit=- 'CD19/CD20 Dual-CAR-T cells' trials=3 sponsors=2
+      NCT04697290 | Beijing Tsinghua Chang Gung Hospital | []
+      NCT04260945 | Hebei Yanda Ludaopei Hospital | []
+      NCT04260932 | Hebei Yanda Ludaopei Hospital | []
+C  rank=- ncit=- 'Anti-CD19-CAR' trials=3 sponsors=3
+      NCT04100187 | Kecellitics Biotech Company Ltd | []
+      NCT02546739 | Beijing Doing Biomedical Co., Ltd. | []
+      NCT02315599 | National Cancer Institute (NCI) | []
+C  rank=- ncit=- 'CAR-12' trials=0 sponsors=0
+C  rank=- ncit=- 'CAR-T cell' trials=4 sponsors=3
+      NCT06768905 | University of Texas Southwestern Medical Cent | []
+      NCT07097207 | Shenzhen University General Hospital | []
+      NCT07584889 | Shenzhen University General Hospital | []
+      NCT06685042 | Fondazione Policlinico Universitario Agostino | []
+C  rank=- ncit=- 'CD19-targeted CAR-T cells' trials=4 sponsors=3
+      NCT03564977 | Qingdao Central Hospital | []
+      NCT06056921 | Chongqing Precision Biotech Co., Ltd | []
+      NCT03488160 | Sinobioway Cell Therapy Co., Ltd. | []
+      NCT02728882 | Sinobioway Cell Therapy Co., Ltd. | []
+C  rank=- ncit=- 'CD19 CAR T' trials=7 sponsors=3
+      NCT03559439 | Shanghai Tong Ren Hospital | []
+      NCT04546893 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04447547 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT03263208 | Henan Cancer Hospital | []
+      NCT04626726 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04626765 | Hebei Senlang Biotechnology Inc., Ltd. | []
+      NCT04626739 | Hebei Senlang Biotechnology Inc., Ltd. | []
+tally {'A1': 87, 'C': 40, 'C1': 6, 'B': 5}
