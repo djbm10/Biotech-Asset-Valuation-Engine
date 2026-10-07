@@ -117,11 +117,28 @@ class DisplayedFact(BaseModel):
     note: str | None = None
 
 
+#: ``display_name_normalization_v1.md``: a CT.gov field header a sponsor pasted into the
+#: intervention name. Stripped from the shown name only, never from identity.
+_FIELD_HEADER = re.compile(
+    r"^(?:Assigned Interventions?|Interventions?|Intervention Names?|Intervention/Treatment"
+    r"|Arm Intervention/Treatment)\s*[:\-\u2013]?\s+(?=\S)",
+    re.IGNORECASE,
+)
+
+
+def display_name(canonical_name: str) -> str:
+    """The name shown to a reader; identity keeps ``canonical_name`` unchanged."""
+
+    return _FIELD_HEADER.sub("", canonical_name, count=1)
+
+
 class ShortlistEntry(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     asset_id: str
     name: str
+    #: The unmodified canonical name, whenever ``name`` is a display form.
+    raw_name: str = ""
     position: int
     section: str
     disposition: str
@@ -528,7 +545,8 @@ def _entry(
     assertion = asset.target_assertions[0] if asset.target_assertions else None
     return ShortlistEntry(
         asset_id=asset.asset_id,
-        name=asset.canonical_name,
+        name=display_name(asset.canonical_name),
+        raw_name=asset.canonical_name,
         position=position,
         section=section,
         disposition=disposition.value,

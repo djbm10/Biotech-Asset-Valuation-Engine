@@ -3,12 +3,17 @@
 from __future__ import annotations
 
 from bve.se.pipeline import SESearchResult
+from bve.se.reporting.shortlist import display_name
 from bve.se.schemas.contracts import GateStatus
 
 
 def _asset_name(result: SESearchResult, asset_id: str) -> str:
     return next(
-        (asset.canonical_name for asset in result.candidates if asset.asset_id == asset_id),
+        (
+            display_name(asset.canonical_name)
+            for asset in result.candidates
+            if asset.asset_id == asset_id
+        ),
         asset_id,
     )
 
