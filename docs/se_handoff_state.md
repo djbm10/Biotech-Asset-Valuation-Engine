@@ -23,7 +23,14 @@ the known ones: possible cord-blood duplicates (#3, #6), the "Assigned Intervent
 (#9), ICG318 vs BCMA-CD19 cCAR (#10) identity split, 0 human-PoC on target-PASS rows (mostly
 truthful per the diagnosis), and 18/20 with UNKNOWN modality (no NCIt/ChEMBL link).
 
-**Next:** operator choice; no milestone started.
+**MINT5_RESIDUAL_CANDIDATE_DIAGNOSIS v1: FROZEN 2026-10-06** (diagnosis only,
+`mint5_residual_candidate_diagnosis_v1.md`). #3 D, #6 D (probable Ucello sibling outside top
+20, sponsor-only evidence, not mergeable), #9 C — real Zhejiang/Yake product whose registry
+name contains the pasted field header "Assigned Interventions"; its 5th study sits in a
+generic *CD19/BCMA CAR T-cells* asset that also pools a Ucello trial. No merge/removal
+justified. Candidate milestones (operator to pick): field-label name cleanup (pop. 1) or a
+generic-descriptor SPLIT diagnosis. Then ICG318, then display names.
+
 
 ### Earlier (2026-10-05, after NCIt modality)
 
