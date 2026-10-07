@@ -1,0 +1,2643 @@
+[
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:01bf01d2627dd62ec0fa",
+  "from_name": "ICAR19",
+  "prefix": "CD19",
+  "protocol_id": "CD19 Targeted CAR-T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03383952"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-004",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06277011"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-002",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT05747157"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-006",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06716164"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-003",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06120166"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-007",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06711146"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-001",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT05715606"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-005",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06393335"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:1a5421a8e7de2faa7acf",
+  "from_name": "CD19-CAR T cell",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CAR01",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03373071"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:20dd7fa47c5eadd7d466",
+  "from_name": "Anti-CD19-CD3E-CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CD3E-CN-A1",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06373081"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:26ed0b037de3ecdb26da",
+  "from_name": "axi-cel",
+  "prefix": "FKC876",
+  "protocol_id": "FKC876-LBCL-001",
+  "to": [
+   "asset:683ea3657f778b3c62ef"
+  ],
+  "to_names": [
+   "FKC876"
+  ],
+  "trial_id": "NCT05800067"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:293f974bbf92c5c33fb9",
+  "from_name": "Pilot Study of Redirected Haploidentical Natural Killer Cell Infusions for B-Lineage Acute Lymphoblastic Leukemia",
+  "prefix": "NKCARCD19",
+  "protocol_id": "NKCARCD19",
+  "to": [
+   "asset:301cc847f0e1d17e0f96"
+  ],
+  "to_names": [
+   "NKCARCD19"
+  ],
+  "trial_id": "NCT01974479"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:2cde67807817fc6a4943",
+  "from_name": "ARI-0001",
+  "prefix": "CART19",
+  "protocol_id": "CART19-BE-02",
+  "to": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "to_names": [
+   "CART19",
+   "KYMRIAH"
+  ],
+  "trial_id": "NCT04778579"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:33a14bc68913dccc1766",
+  "from_name": "CAR-T cell therapy",
+  "prefix": "CD19",
+  "protocol_id": "CD19-SP-CAR-T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04206943"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:35525cef83889e08269c",
+  "from_name": "anti-CD19 CAR NK cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR NK-BJZL-01",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03690310"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:373a86126eb2d675cdd6",
+  "from_name": "CD19&CD22 bispecific CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19 & CD22 bispecific CAR T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06735495"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:3a824131d1769f405727",
+  "from_name": "Phase I",
+  "prefix": "CART2219",
+  "protocol_id": "CART2219-1.0",
+  "to": [
+   "asset:12e74e8782ffd6cadc70"
+  ],
+  "to_names": [
+   "CART2219"
+  ],
+  "trial_id": "NCT05429905"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:4007b901799384347a4d",
+  "from_name": "in vivo CAR-T drug based on LNP-mRNA",
+  "prefix": "CD19",
+  "protocol_id": "CD19 for Autoimmune diseases",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT07362758"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:41594d304f60ebce0445",
+  "from_name": "UTAA09",
+  "prefix": "UCART-19",
+  "protocol_id": "UCART-19-002",
+  "to": [
+   "asset:419de99fef56ec443f6f"
+  ],
+  "to_names": [
+   "ALLO-501"
+  ],
+  "trial_id": "NCT06503211"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:436cfcc578461590083d",
+  "from_name": "CAR-T",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR-T vs DLI for MRD",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT07441291"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:436cfcc578461590083d",
+  "from_name": "CAR-T",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR-T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT07236203"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:48259db6d1cbf044de9a",
+  "from_name": "DLI",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR-T vs DLI for MRD",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT07441291"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:5a6ea9f792e795ffeaf6",
+  "from_name": "haplo-HSCT",
+  "prefix": "BPX501",
+  "protocol_id": "BPX501-301A",
+  "to": [
+   "asset:2d9b0023df50563bff27"
+  ],
+  "to_names": [
+   "rivogenlecleucel"
+  ],
+  "trial_id": "NCT03699475"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:5b23f6c4110d16d2db09",
+  "from_name": "CD19 CAR engineered autologous T-cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR T Cells for R/R ALL",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04653493"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:6271ef007607b36ac92d",
+  "from_name": "CLIC-1901",
+  "prefix": "CLIC-01",
+  "protocol_id": "CLIC-01 Study",
+  "to": [
+   "asset:c556ddb5a061f41be5c2"
+  ],
+  "to_names": [
+   "CLIC-01"
+  ],
+  "trial_id": "NCT03765177"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:62f1649c254388bc8eb2",
+  "from_name": "CD19 targeted chimeric antigen receptor T cells",
+  "prefix": "CART19",
+  "protocol_id": "CART19-001",
+  "to": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "to_names": [
+   "CART19",
+   "KYMRIAH"
+  ],
+  "trial_id": "NCT03118180"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:68d4e0c0e1b7b52e40be",
+  "from_name": "Placebo",
+  "prefix": "DA8010",
+  "protocol_id": "DA8010_OAB_I",
+  "to": [
+   "asset:45bee717b88a10cfdbe1"
+  ],
+  "to_names": [
+   "DA-8010"
+  ],
+  "trial_id": "NCT02821312"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:68d4e0c0e1b7b52e40be",
+  "from_name": "Placebo",
+  "prefix": "MWN117",
+  "protocol_id": "MWN117-101",
+  "to": [
+   "asset:1c8f48ae41abc0c5a7af"
+  ],
+  "to_names": [
+   "MWN117"
+  ],
+  "trial_id": "NCT07824804"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:68d4e0c0e1b7b52e40be",
+  "from_name": "Placebo",
+  "prefix": "MWN109",
+  "protocol_id": "MWN109 Oral-I",
+  "to": [
+   "asset:a6d8b7f8f67404a5c9d3"
+  ],
+  "to_names": [
+   "MWN109"
+  ],
+  "trial_id": "NCT07787611"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:68d4e0c0e1b7b52e40be",
+  "from_name": "Placebo",
+  "prefix": "AT-007",
+  "protocol_id": "AT-007-1001",
+  "to": [
+   "asset:6ec25f56adc1b5b0bfe4"
+  ],
+  "to_names": [
+   "AT-007"
+  ],
+  "trial_id": "NCT04117711"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:696a39d3bee1a5b7edb1",
+  "from_name": "Fludarabine, Cyclophosphamide",
+  "prefix": "NKX019",
+  "protocol_id": "NKX019-102",
+  "to": [
+   "asset:ca3a874738643acdea7c"
+  ],
+  "to_names": [
+   "NKX019"
+  ],
+  "trial_id": "NCT06557265"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:7f78cb68d94ed791fb45",
+  "from_name": "Foresight CLARITY\u2122 IUO MRD test, powered by PhasED-Seq\u2122",
+  "prefix": "ALLO-501A",
+  "protocol_id": "ALLO-501A-202",
+  "to": [
+   "asset:a9cb96e1a6f84d6c8946"
+  ],
+  "to_names": [
+   "ALLO-501A"
+  ],
+  "trial_id": "NCT06500273"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:806585ea4369e93fbf1e",
+  "from_name": "Clinical Study of Targeting CD19 and CD22 Chimeric Antigen Receptor T Lymphocytes in the Treatment of Recurrent or Refractory B Cell Non-Hodgkin Lymphoma",
+  "prefix": "GC022F",
+  "protocol_id": "GC022F-ZhejiangU",
+  "to": [
+   "asset:97a456ccc32de18739ea"
+  ],
+  "to_names": [
+   "GC022"
+  ],
+  "trial_id": "NCT04626908"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:86f057fc1497a7ebec0f",
+  "from_name": "Cyclophosphamide and Fludarabine lymphodepleting chemotherapy",
+  "prefix": "WZTL002",
+  "protocol_id": "WZTL002-1",
+  "to": [
+   "asset:fdf2dfd62479e5e339b6"
+  ],
+  "to_names": [
+   "WZTL-002"
+  ],
+  "trial_id": "NCT04049513"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:87a170ec7a35947e1e00",
+  "from_name": "CAR-T cells targeting CD19 and CD22",
+  "prefix": "CD19",
+  "protocol_id": "CD19-006",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04788472"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:87a170ec7a35947e1e00",
+  "from_name": "CAR-T cells targeting CD19 and CD22",
+  "prefix": "CD19",
+  "protocol_id": "CD19-005",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04740203"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:8a3358d301b04977398d",
+  "from_name": "bendamustine",
+  "prefix": "FT819",
+  "protocol_id": "FT819-102",
+  "to": [
+   "asset:d349dc58488791db3b7d"
+  ],
+  "to_names": [
+   "FT819"
+  ],
+  "trial_id": "NCT06308978"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:8e25a8d90e41ddb6cf92",
+  "from_name": "T-cell Antigen Presenting Cells expressing truncated CD19 (T-APC)",
+  "prefix": "PLAT-03",
+  "protocol_id": "PLAT-03",
+  "to": [
+   "asset:fde7c6a29624f61dfa49"
+  ],
+  "to_names": [
+   "PLAT-03"
+  ],
+  "trial_id": "NCT03186118"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:8ea23a3ef88047e871cc",
+  "from_name": "Anti-CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A5",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06532630"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:8ea23a3ef88047e871cc",
+  "from_name": "Anti-CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A6",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06375161"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:8ea23a3ef88047e871cc",
+  "from_name": "Anti-CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A4",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06420154"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:8ea23a3ef88047e871cc",
+  "from_name": "Anti-CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CART for SLE",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03030976"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:8f59ca8502183d30376e",
+  "from_name": "Anti-CD19 iCAR NK Cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19 iCAR NK-BJZL-01",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03824951"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:9b6f6cbf3dbf3d56d7cc",
+  "from_name": "Blinatumomab (MT103)",
+  "prefix": "MT103",
+  "protocol_id": "MT103-202",
+  "to": [
+   "asset:9c5b68a7884ad316fa6e"
+  ],
+  "to_names": [
+   "Blinatumomab"
+  ],
+  "trial_id": "NCT00560794"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:9b6f6cbf3dbf3d56d7cc",
+  "from_name": "Blinatumomab (MT103)",
+  "prefix": "MT103",
+  "protocol_id": "MT103-104",
+  "to": [
+   "asset:9c5b68a7884ad316fa6e"
+  ],
+  "to_names": [
+   "Blinatumomab"
+  ],
+  "trial_id": "NCT00274742"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:9c5b68a7884ad316fa6e",
+  "from_name": "Blinatumomab",
+  "prefix": "CF33",
+  "protocol_id": "CF33-CD19-101",
+  "to": [
+   "asset:1b5f631314780f29db53"
+  ],
+  "to_names": [
+   "CF33"
+  ],
+  "trial_id": "NCT06063317"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:9da9ada4c05b7a74735e",
+  "from_name": "ssCART-19 Cells",
+  "prefix": "ssCART-19",
+  "protocol_id": "ssCART-19",
+  "to": [
+   "asset:e6561f262a6b521357a0"
+  ],
+  "to_names": [
+   "ssCART-19"
+  ],
+  "trial_id": "NCT04825496"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:a9cb96e1a6f84d6c8946",
+  "from_name": "ALLO-501A",
+  "prefix": "ALLO-647",
+  "protocol_id": "ALLO-647-201",
+  "to": [
+   "asset:1007416a1d63b79b01ed"
+  ],
+  "to_names": [
+   "ALLO-647"
+  ],
+  "trial_id": "NCT05714345"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:ae517281f6d24a80e16e",
+  "from_name": "CD19-CAR_Lenti T cell",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CAR_Lenti",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04787263"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:b2ca7f14a95104628b15",
+  "from_name": "Autologous humanized anti-CD19 and anti-CD20 dual specific CAR-T Cells",
+  "prefix": "CART-19",
+  "protocol_id": "CART-19-05",
+  "to": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "to_names": [
+   "CART19",
+   "KYMRIAH"
+  ],
+  "trial_id": "NCT04215016"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:c2f5db573919b7bc9c48",
+  "from_name": "CD19-targeting CAR T Cells infusion",
+  "prefix": "CD19",
+  "protocol_id": "CD19-targeting CAR T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT02547948"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:cedfd104b9f03b9a9da1",
+  "from_name": "CD19 Targeted CAR T Cell Therapy in Patients With Relapsed/ Refractory B Cell Acute Lymphoblastic Leukaemia (ALL)",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR T Cells for R/R ALL",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04653493"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:cee5e442a3809554927b",
+  "from_name": "SYNCAR-001",
+  "prefix": "STK-009",
+  "protocol_id": "STK-009-101",
+  "to": [
+   "asset:d5f86321258ac4cf99e9"
+  ],
+  "to_names": [
+   "STK-009"
+  ],
+  "trial_id": "NCT05665062"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:cee5e442a3809554927b",
+  "from_name": "SYNCAR-001",
+  "prefix": "STK-009",
+  "protocol_id": "STK-009-201",
+  "to": [
+   "asset:d5f86321258ac4cf99e9"
+  ],
+  "to_names": [
+   "STK-009"
+  ],
+  "trial_id": "NCT06544330"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:d980893b08e88db0bd9e",
+  "from_name": "CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-003",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04661020"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:da5bd4c08d21f442990c",
+  "from_name": "HB2198, a Tetravalent Bispecific Anti-CD19/CD20 Antibody with Dual Fc Domains",
+  "prefix": "HB2198",
+  "protocol_id": "HB2198-002",
+  "to": [
+   "asset:a59318c251468691e6a5"
+  ],
+  "to_names": [
+   "HB2198"
+  ],
+  "trial_id": "NCT07439263"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:db9a5cf95f454150843a",
+  "from_name": "CD19&CD20 bispecific CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19 & CD20 bispecific CAR T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06503094"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A5",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06532630"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-006",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT05727683"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "ALLO-501",
+  "protocol_id": "ALLO-501-201",
+  "to": [
+   "asset:419de99fef56ec443f6f"
+  ],
+  "to_names": [
+   "ALLO-501"
+  ],
+  "trial_id": "NCT03939026"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "WZTL002",
+  "protocol_id": "WZTL002-2",
+  "to": [
+   "asset:fdf2dfd62479e5e339b6"
+  ],
+  "to_names": [
+   "WZTL-002"
+  ],
+  "trial_id": "NCT06486051"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "CRC01",
+  "protocol_id": "CRC01-01",
+  "to": [
+   "asset:3149a97f2f44839d405c"
+  ],
+  "to_names": [
+   "Anbalcabtagene Autoleucel"
+  ],
+  "trial_id": "NCT04836507"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "JCAR017",
+  "protocol_id": "JCAR017-BCM-004",
+  "to": [
+   "asset:42479b67d44b9dff09e3"
+  ],
+  "to_names": [
+   "Breyanzi"
+  ],
+  "trial_id": "NCT03743246"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "STK-009",
+  "protocol_id": "STK-009-101",
+  "to": [
+   "asset:d5f86321258ac4cf99e9"
+  ],
+  "to_names": [
+   "STK-009"
+  ],
+  "trial_id": "NCT05665062"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "ALLO-501A",
+  "protocol_id": "ALLO-501A-202",
+  "to": [
+   "asset:a9cb96e1a6f84d6c8946"
+  ],
+  "to_names": [
+   "ALLO-501A"
+  ],
+  "trial_id": "NCT06500273"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "ThisCART19A",
+  "protocol_id": "ThisCART19A Ph+ALL",
+  "to": [
+   "asset:b7657a8c6276dc55e82a"
+  ],
+  "to_names": [
+   "ThisCART19A"
+  ],
+  "trial_id": "NCT07074496"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "FT576",
+  "protocol_id": "FT576-101",
+  "to": [
+   "asset:3f02ed21a242476891dc"
+  ],
+  "to_names": [
+   "FT576"
+  ],
+  "trial_id": "NCT05182073"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "ssCART-19",
+  "protocol_id": "ssCART-19-II-1",
+  "to": [
+   "asset:e6561f262a6b521357a0"
+  ],
+  "to_names": [
+   "ssCART-19"
+  ],
+  "trial_id": "NCT06367114"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "FT819",
+  "protocol_id": "FT819-102",
+  "to": [
+   "asset:d349dc58488791db3b7d"
+  ],
+  "to_names": [
+   "FT819"
+  ],
+  "trial_id": "NCT06308978"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "ssCART-19",
+  "protocol_id": "ssCART-19",
+  "to": [
+   "asset:e6561f262a6b521357a0"
+  ],
+  "to_names": [
+   "ssCART-19"
+  ],
+  "trial_id": "NCT04825496"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR T Cells for R/R ALL",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04653493"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "ALLO-501A",
+  "protocol_id": "ALLO-501A-201",
+  "to": [
+   "asset:a9cb96e1a6f84d6c8946"
+  ],
+  "to_names": [
+   "ALLO-501A"
+  ],
+  "trial_id": "NCT04416984"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "ALLO-647",
+  "protocol_id": "ALLO-647-201",
+  "to": [
+   "asset:1007416a1d63b79b01ed"
+  ],
+  "to_names": [
+   "ALLO-647"
+  ],
+  "trial_id": "NCT05714345"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "ALLO-329",
+  "protocol_id": "ALLO-329-101",
+  "to": [
+   "asset:e20ae2de18bf3cfc5a05"
+  ],
+  "to_names": [
+   "ALLO-329"
+  ],
+  "trial_id": "NCT07085104"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "SJCAR19",
+  "protocol_id": "SJCAR19",
+  "to": [
+   "asset:013518f3af3674ff10f3"
+  ],
+  "to_names": [
+   "SJCAR19"
+  ],
+  "trial_id": "NCT03573700"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "Fludarabine",
+  "prefix": "ThisCART19A",
+  "protocol_id": "ThisCART19A \uff08FT400-011\uff09",
+  "to": [
+   "asset:b7657a8c6276dc55e82a"
+  ],
+  "to_names": [
+   "ThisCART19A"
+  ],
+  "trial_id": "NCT05640713"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:e107b4d53aef592c3c79",
+  "from_name": "Adult differentiated autologous T-cells",
+  "prefix": "CART19",
+  "protocol_id": "CART19-BE-01",
+  "to": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "to_names": [
+   "CART19",
+   "KYMRIAH"
+  ],
+  "trial_id": "NCT03144583"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A5",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06532630"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "ALLO-501",
+  "protocol_id": "ALLO-501-201",
+  "to": [
+   "asset:419de99fef56ec443f6f"
+  ],
+  "to_names": [
+   "ALLO-501"
+  ],
+  "trial_id": "NCT03939026"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "WZTL002",
+  "protocol_id": "WZTL002-2",
+  "to": [
+   "asset:fdf2dfd62479e5e339b6"
+  ],
+  "to_names": [
+   "WZTL-002"
+  ],
+  "trial_id": "NCT06486051"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "CRC01",
+  "protocol_id": "CRC01-01",
+  "to": [
+   "asset:3149a97f2f44839d405c"
+  ],
+  "to_names": [
+   "Anbalcabtagene Autoleucel"
+  ],
+  "trial_id": "NCT04836507"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "JCAR017",
+  "protocol_id": "JCAR017-BCM-004",
+  "to": [
+   "asset:42479b67d44b9dff09e3"
+  ],
+  "to_names": [
+   "Breyanzi"
+  ],
+  "trial_id": "NCT03743246"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "STK-009",
+  "protocol_id": "STK-009-101",
+  "to": [
+   "asset:d5f86321258ac4cf99e9"
+  ],
+  "to_names": [
+   "STK-009"
+  ],
+  "trial_id": "NCT05665062"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "ALLO-501A",
+  "protocol_id": "ALLO-501A-202",
+  "to": [
+   "asset:a9cb96e1a6f84d6c8946"
+  ],
+  "to_names": [
+   "ALLO-501A"
+  ],
+  "trial_id": "NCT06500273"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "ThisCART19A",
+  "protocol_id": "ThisCART19A Ph+ALL",
+  "to": [
+   "asset:b7657a8c6276dc55e82a"
+  ],
+  "to_names": [
+   "ThisCART19A"
+  ],
+  "trial_id": "NCT07074496"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "FT576",
+  "protocol_id": "FT576-101",
+  "to": [
+   "asset:3f02ed21a242476891dc"
+  ],
+  "to_names": [
+   "FT576"
+  ],
+  "trial_id": "NCT05182073"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "ssCART-19",
+  "protocol_id": "ssCART-19-II-1",
+  "to": [
+   "asset:e6561f262a6b521357a0"
+  ],
+  "to_names": [
+   "ssCART-19"
+  ],
+  "trial_id": "NCT06367114"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "FT819",
+  "protocol_id": "FT819-102",
+  "to": [
+   "asset:d349dc58488791db3b7d"
+  ],
+  "to_names": [
+   "FT819"
+  ],
+  "trial_id": "NCT06308978"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "BPX501",
+  "protocol_id": "BPX501-301A",
+  "to": [
+   "asset:2d9b0023df50563bff27"
+  ],
+  "to_names": [
+   "rivogenlecleucel"
+  ],
+  "trial_id": "NCT03699475"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "ssCART-19",
+  "protocol_id": "ssCART-19",
+  "to": [
+   "asset:e6561f262a6b521357a0"
+  ],
+  "to_names": [
+   "ssCART-19"
+  ],
+  "trial_id": "NCT04825496"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR T Cells for R/R ALL",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04653493"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "ALLO-501A",
+  "protocol_id": "ALLO-501A-201",
+  "to": [
+   "asset:a9cb96e1a6f84d6c8946"
+  ],
+  "to_names": [
+   "ALLO-501A"
+  ],
+  "trial_id": "NCT04416984"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "ALLO-647",
+  "protocol_id": "ALLO-647-201",
+  "to": [
+   "asset:1007416a1d63b79b01ed"
+  ],
+  "to_names": [
+   "ALLO-647"
+  ],
+  "trial_id": "NCT05714345"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "ALLO-329",
+  "protocol_id": "ALLO-329-101",
+  "to": [
+   "asset:e20ae2de18bf3cfc5a05"
+  ],
+  "to_names": [
+   "ALLO-329"
+  ],
+  "trial_id": "NCT07085104"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CART for SLE",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03030976"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "SJCAR19",
+  "protocol_id": "SJCAR19",
+  "to": [
+   "asset:013518f3af3674ff10f3"
+  ],
+  "to_names": [
+   "SJCAR19"
+  ],
+  "trial_id": "NCT03573700"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "Cyclophosphamide",
+  "prefix": "ThisCART19A",
+  "protocol_id": "ThisCART19A \uff08FT400-011\uff09",
+  "to": [
+   "asset:b7657a8c6276dc55e82a"
+  ],
+  "to_names": [
+   "ThisCART19A"
+  ],
+  "trial_id": "NCT05640713"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:ee1430a73b9846b5b88e",
+  "from_name": "JWCAR029 (Relmacabtagene Autoleucel)",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-007",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT05259813"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:f1c6e77c4c16211e6fad",
+  "from_name": "Chemotherapy Agents",
+  "prefix": "TAK-007",
+  "protocol_id": "TAK-007-1001",
+  "to": [
+   "asset:578e0b546c94d18efef7"
+  ],
+  "to_names": [
+   "iC9/CAR.19/IL15-Transduced CB-NK Cells"
+  ],
+  "trial_id": "NCT06377228"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:f1c6e77c4c16211e6fad",
+  "from_name": "Chemotherapy Agents",
+  "prefix": "TAK-007",
+  "protocol_id": "TAK-007-2001",
+  "to": [
+   "asset:578e0b546c94d18efef7"
+  ],
+  "to_names": [
+   "iC9/CAR.19/IL15-Transduced CB-NK Cells"
+  ],
+  "trial_id": "NCT05020015"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:f36c8f417816e716bab1",
+  "from_name": "Patient Derived CD19 specific CAR T cells also expressing an EGFRt",
+  "prefix": "PLAT-02",
+  "protocol_id": "PLAT-02",
+  "to": [
+   "asset:c78563815aac94f24fc4"
+  ],
+  "to_names": [
+   "PLAT-02"
+  ],
+  "trial_id": "NCT02028455"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:f5a0d3c82a7ad02d948d",
+  "from_name": "CliniMACS",
+  "prefix": "SJCAR19",
+  "protocol_id": "SJCAR19",
+  "to": [
+   "asset:013518f3af3674ff10f3"
+  ],
+  "to_names": [
+   "SJCAR19"
+  ],
+  "trial_id": "NCT03573700"
+ },
+ {
+  "benchmark": "tac01",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:fb5c870d621386ac244c",
+  "from_name": "Dual Anti-CD22/CD19 Chimeric Antigen Receptor-directed T Cells (CART2219.1) for Relapsed Refractory B-Lineage Leukaemia",
+  "prefix": "CART2219",
+  "protocol_id": "CART2219-1.0",
+  "to": [
+   "asset:12e74e8782ffd6cadc70"
+  ],
+  "to_names": [
+   "CART2219"
+  ],
+  "trial_id": "NCT05429905"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:01bf01d2627dd62ec0fa",
+  "from_name": "ICAR19",
+  "prefix": "CD19",
+  "protocol_id": "CD19 Targeted CAR-T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03383952"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-006",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06716164"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-002",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT05747157"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-001",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT05715606"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-004",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06277011"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-005",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06393335"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-003",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06120166"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:02c556ae1728b19cfee2",
+  "from_name": "Metabolically Armed CD19 CAR-T cells",
+  "prefix": "Meta10",
+  "protocol_id": "Meta10-19-007",
+  "to": [
+   "asset:de81cf746161795ea7cc"
+  ],
+  "to_names": [
+   "META 10"
+  ],
+  "trial_id": "NCT06711146"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:0ff1d62036a6a24255b6",
+  "from_name": "Nirogacestat",
+  "prefix": "PBCAR269A",
+  "protocol_id": "PBCAR269A-01",
+  "to": [
+   "asset:6ed7c30091cad238030a"
+  ],
+  "to_names": [
+   "PBCAR269A"
+  ],
+  "trial_id": "NCT04171843"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:0ff1d62036a6a24255b6",
+  "from_name": "Nirogacestat",
+  "prefix": "ALLO-715",
+  "protocol_id": "ALLO-715-101",
+  "to": [
+   "asset:11e690f53ddf24d8a834"
+  ],
+  "to_names": [
+   "ALLO-715"
+  ],
+  "trial_id": "NCT04093596"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:1a5421a8e7de2faa7acf",
+  "from_name": "CD19-CAR T cell",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CAR01",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03373071"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:20dd7fa47c5eadd7d466",
+  "from_name": "Anti-CD19-CD3E-CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CD3E-CN-A1",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06373081"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:249cfea2041d7d4440c5",
+  "from_name": "zevor-cel",
+  "prefix": "CT053",
+  "protocol_id": "CT053-MM-02 (LUMMICAR STUDY 2)",
+  "to": [
+   "asset:f527eabd2e210bd46923"
+  ],
+  "to_names": [
+   "CT053"
+  ],
+  "trial_id": "NCT03915184"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:26ed0b037de3ecdb26da",
+  "from_name": "axi-cel",
+  "prefix": "FKC876",
+  "protocol_id": "FKC876-LBCL-001",
+  "to": [
+   "asset:683ea3657f778b3c62ef"
+  ],
+  "to_names": [
+   "FKC876"
+  ],
+  "trial_id": "NCT05800067"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:2cde67807817fc6a4943",
+  "from_name": "ARI-0001",
+  "prefix": "CART19",
+  "protocol_id": "CART19-BE-02",
+  "to": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "to_names": [
+   "CART19",
+   "KYMRIAH"
+  ],
+  "trial_id": "NCT04778579"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:33a14bc68913dccc1766",
+  "from_name": "CAR T-cell therapy",
+  "prefix": "CD19",
+  "protocol_id": "CD19-SP-CAR-T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04206943"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:373a86126eb2d675cdd6",
+  "from_name": "CD19/CD22-bispecific CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19 & CD22 bispecific CAR T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06735495"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:3a824131d1769f405727",
+  "from_name": "Phase I",
+  "prefix": "CART2219",
+  "protocol_id": "CART2219-1.0",
+  "to": [
+   "asset:12e74e8782ffd6cadc70"
+  ],
+  "to_names": [
+   "CART2219"
+  ],
+  "trial_id": "NCT05429905"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:41594d304f60ebce0445",
+  "from_name": "UTAA09",
+  "prefix": "UCART-19",
+  "protocol_id": "UCART-19-002",
+  "to": [
+   "asset:419de99fef56ec443f6f"
+  ],
+  "to_names": [
+   "ALLO-501"
+  ],
+  "trial_id": "NCT06503211"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:436cfcc578461590083d",
+  "from_name": "CAR-T",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR-T vs DLI for MRD",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT07441291"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:436cfcc578461590083d",
+  "from_name": "CAR-T",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR-T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT07236203"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:5b23f6c4110d16d2db09",
+  "from_name": "CD19 CAR engineered autologous T-cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR T Cells for R/R ALL",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04653493"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:62f1649c254388bc8eb2",
+  "from_name": "CD19 targeted chimeric antigen receptor T cells",
+  "prefix": "CART19",
+  "protocol_id": "CART19-001",
+  "to": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "to_names": [
+   "CART19",
+   "KYMRIAH"
+  ],
+  "trial_id": "NCT03118180"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:68d4e0c0e1b7b52e40be",
+  "from_name": "Placebo",
+  "prefix": "AT-007",
+  "protocol_id": "AT-007-1001",
+  "to": [
+   "asset:6ec25f56adc1b5b0bfe4"
+  ],
+  "to_names": [
+   "AT-007"
+  ],
+  "trial_id": "NCT04117711"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:696a39d3bee1a5b7edb1",
+  "from_name": "Fludarabine, Cyclophosphamide",
+  "prefix": "NKX019",
+  "protocol_id": "NKX019-102",
+  "to": [
+   "asset:ca3a874738643acdea7c"
+  ],
+  "to_names": [
+   "NKX019"
+  ],
+  "trial_id": "NCT06557265"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "destination_already_holds_trial",
+  "from_asset": "asset:86f057fc1497a7ebec0f",
+  "from_name": "Cyclophosphamide and Fludarabine lymphodepleting chemotherapy",
+  "prefix": "WZTL002",
+  "protocol_id": "WZTL002-1",
+  "to": [
+   "asset:fdf2dfd62479e5e339b6"
+  ],
+  "to_names": [
+   "WZTL-002"
+  ],
+  "trial_id": "NCT04049513"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:87a170ec7a35947e1e00",
+  "from_name": "CAR-T cells targeting CD19 and CD22",
+  "prefix": "CD19",
+  "protocol_id": "CD19-005",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04740203"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:87a170ec7a35947e1e00",
+  "from_name": "CAR-T cells targeting CD19 and CD22",
+  "prefix": "CD19",
+  "protocol_id": "CD19-006",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04788472"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:8a3358d301b04977398d",
+  "from_name": "bendamustine",
+  "prefix": "FT819",
+  "protocol_id": "FT819-102",
+  "to": [
+   "asset:d349dc58488791db3b7d"
+  ],
+  "to_names": [
+   "FT819"
+  ],
+  "trial_id": "NCT06308978"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:8a3358d301b04977398d",
+  "from_name": "bendamustine",
+  "prefix": "FT576",
+  "protocol_id": "FT576-101",
+  "to": [
+   "asset:3f02ed21a242476891dc"
+  ],
+  "to_names": [
+   "FT576"
+  ],
+  "trial_id": "NCT05182073"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:8e25a8d90e41ddb6cf92",
+  "from_name": "T-cell Antigen Presenting Cells expressing truncated CD19 (T-APC)",
+  "prefix": "PLAT-03",
+  "protocol_id": "PLAT-03",
+  "to": [
+   "asset:fde7c6a29624f61dfa49"
+  ],
+  "to_names": [
+   "PLAT-03"
+  ],
+  "trial_id": "NCT03186118"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:8ea23a3ef88047e871cc",
+  "from_name": "Anti-CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A6",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06375161"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:8ea23a3ef88047e871cc",
+  "from_name": "Anti-CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A5",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06532630"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:8ea23a3ef88047e871cc",
+  "from_name": "Anti-CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A4",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06420154"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:8ea23a3ef88047e871cc",
+  "from_name": "Anti-CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CART for SLE",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03030976"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:9b6f6cbf3dbf3d56d7cc",
+  "from_name": "Blinatumomab (MT103)",
+  "prefix": "MT103",
+  "protocol_id": "MT103-104",
+  "to": [
+   "asset:9c5b68a7884ad316fa6e"
+  ],
+  "to_names": [
+   "Blinatumomab"
+  ],
+  "trial_id": "NCT00274742"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:9b6f6cbf3dbf3d56d7cc",
+  "from_name": "Blinatumomab (MT103)",
+  "prefix": "MT103",
+  "protocol_id": "MT103-202",
+  "to": [
+   "asset:9c5b68a7884ad316fa6e"
+  ],
+  "to_names": [
+   "Blinatumomab"
+  ],
+  "trial_id": "NCT00560794"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:9c5b68a7884ad316fa6e",
+  "from_name": "Blinatumomab",
+  "prefix": "CF33",
+  "protocol_id": "CF33-CD19-101",
+  "to": [
+   "asset:1b5f631314780f29db53"
+  ],
+  "to_names": [
+   "CF33"
+  ],
+  "trial_id": "NCT06063317"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:9da9ada4c05b7a74735e",
+  "from_name": "ssCART-19 Cells",
+  "prefix": "ssCART-19",
+  "protocol_id": "ssCART-19",
+  "to": [
+   "asset:e6561f262a6b521357a0"
+  ],
+  "to_names": [
+   "ssCART-19"
+  ],
+  "trial_id": "NCT04825496"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:ae517281f6d24a80e16e",
+  "from_name": "CD19-CAR_Lenti T cell",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CAR_Lenti",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04787263"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:b2ca7f14a95104628b15",
+  "from_name": "Autologous humanized anti-CD19 and anti-CD20 dual specific CAR-T Cells",
+  "prefix": "CART-19",
+  "protocol_id": "CART-19-05",
+  "to": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "to_names": [
+   "CART19",
+   "KYMRIAH"
+  ],
+  "trial_id": "NCT04215016"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:c2f5db573919b7bc9c48",
+  "from_name": "CD19-targeting CAR T Cells infusion",
+  "prefix": "CD19",
+  "protocol_id": "CD19-targeting CAR T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT02547948"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:cee5e442a3809554927b",
+  "from_name": "SYNCAR-001",
+  "prefix": "STK-009",
+  "protocol_id": "STK-009-101",
+  "to": [
+   "asset:d5f86321258ac4cf99e9"
+  ],
+  "to_names": [
+   "STK-009"
+  ],
+  "trial_id": "NCT05665062"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:cee5e442a3809554927b",
+  "from_name": "SYNCAR-001",
+  "prefix": "STK-009",
+  "protocol_id": "STK-009-201",
+  "to": [
+   "asset:d5f86321258ac4cf99e9"
+  ],
+  "to_names": [
+   "STK-009"
+  ],
+  "trial_id": "NCT06544330"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:d980893b08e88db0bd9e",
+  "from_name": "CD19 CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19-003",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04661020"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:da5bd4c08d21f442990c",
+  "from_name": "HB2198, a Tetravalent Bispecific Anti-CD19/CD20 Antibody with Dual Fc Domains",
+  "prefix": "HB2198",
+  "protocol_id": "HB2198-002",
+  "to": [
+   "asset:a59318c251468691e6a5"
+  ],
+  "to_names": [
+   "HB2198"
+  ],
+  "trial_id": "NCT07439263"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:db9a5cf95f454150843a",
+  "from_name": "CD19&CD20 bispecific CAR-T cells",
+  "prefix": "CD19",
+  "protocol_id": "CD19 & CD20 bispecific CAR T",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06503094"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "fludarabine",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A5",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06532630"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "fludarabine",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-006",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT05727683"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:db9dd7043f9008f17d5d",
+  "from_name": "fludarabine",
+  "prefix": "FT819",
+  "protocol_id": "FT819-102",
+  "to": [
+   "asset:d349dc58488791db3b7d"
+  ],
+  "to_names": [
+   "FT819"
+  ],
+  "trial_id": "NCT06308978"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "antigen_or_designator_prefix",
+  "from_asset": "asset:e107b4d53aef592c3c79",
+  "from_name": "Adult differentiated autologous T-cells",
+  "prefix": "CART19",
+  "protocol_id": "CART19-BE-01",
+  "to": [
+   "asset:13978f60c2c8cdb7e89e",
+   "asset:95622d6d74ae27eeaae3"
+  ],
+  "to_names": [
+   "CART19",
+   "KYMRIAH"
+  ],
+  "trial_id": "NCT03144583"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CN-A5",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT06532630"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "SJCAR19",
+  "protocol_id": "SJCAR19",
+  "to": [
+   "asset:013518f3af3674ff10f3"
+  ],
+  "to_names": [
+   "SJCAR19"
+  ],
+  "trial_id": "NCT03573700"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "ALLO-501",
+  "protocol_id": "ALLO-501-201",
+  "to": [
+   "asset:419de99fef56ec443f6f"
+  ],
+  "to_names": [
+   "ALLO-501"
+  ],
+  "trial_id": "NCT03939026"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "WZTL002",
+  "protocol_id": "WZTL002-2",
+  "to": [
+   "asset:fdf2dfd62479e5e339b6"
+  ],
+  "to_names": [
+   "WZTL-002"
+  ],
+  "trial_id": "NCT06486051"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "ssCART-19",
+  "protocol_id": "ssCART-19-II-1",
+  "to": [
+   "asset:e6561f262a6b521357a0"
+  ],
+  "to_names": [
+   "ssCART-19"
+  ],
+  "trial_id": "NCT06367114"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "ThisCART19A",
+  "protocol_id": "ThisCART19A \uff08FT400-011\uff09",
+  "to": [
+   "asset:b7657a8c6276dc55e82a"
+  ],
+  "to_names": [
+   "ThisCART19A"
+  ],
+  "trial_id": "NCT05640713"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "CRC01",
+  "protocol_id": "CRC01-01",
+  "to": [
+   "asset:3149a97f2f44839d405c"
+  ],
+  "to_names": [
+   "Anbalcabtagene Autoleucel"
+  ],
+  "trial_id": "NCT04836507"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "FT819",
+  "protocol_id": "FT819-102",
+  "to": [
+   "asset:d349dc58488791db3b7d"
+  ],
+  "to_names": [
+   "FT819"
+  ],
+  "trial_id": "NCT06308978"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "CD19",
+  "protocol_id": "CD19 CAR T Cells for R/R ALL",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT04653493"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "FT576",
+  "protocol_id": "FT576-101",
+  "to": [
+   "asset:3f02ed21a242476891dc"
+  ],
+  "to_names": [
+   "FT576"
+  ],
+  "trial_id": "NCT05182073"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "ALLO-329",
+  "protocol_id": "ALLO-329-101",
+  "to": [
+   "asset:e20ae2de18bf3cfc5a05"
+  ],
+  "to_names": [
+   "ALLO-329"
+  ],
+  "trial_id": "NCT07085104"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "STK-009",
+  "protocol_id": "STK-009-101",
+  "to": [
+   "asset:d5f86321258ac4cf99e9"
+  ],
+  "to_names": [
+   "STK-009"
+  ],
+  "trial_id": "NCT05665062"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "ALLO-501A",
+  "protocol_id": "ALLO-501A-201",
+  "to": [
+   "asset:a9cb96e1a6f84d6c8946"
+  ],
+  "to_names": [
+   "ALLO-501A"
+  ],
+  "trial_id": "NCT04416984"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "ThisCART19A",
+  "protocol_id": "ThisCART19A Ph+ALL",
+  "to": [
+   "asset:b7657a8c6276dc55e82a"
+  ],
+  "to_names": [
+   "ThisCART19A"
+  ],
+  "trial_id": "NCT07074496"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "CD19",
+  "protocol_id": "CD19-CART for SLE",
+  "to": [
+   "asset:7d0dc1b781870f1fa862"
+  ],
+  "to_names": [
+   "CD19+"
+  ],
+  "trial_id": "NCT03030976"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "ssCART-19",
+  "protocol_id": "ssCART-19",
+  "to": [
+   "asset:e6561f262a6b521357a0"
+  ],
+  "to_names": [
+   "ssCART-19"
+  ],
+  "trial_id": "NCT04825496"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "JCAR017",
+  "protocol_id": "JCAR017-BCM-004",
+  "to": [
+   "asset:42479b67d44b9dff09e3"
+  ],
+  "to_names": [
+   "Breyanzi"
+  ],
+  "trial_id": "NCT03743246"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:e28592c2bc2b5c66f43e",
+  "from_name": "cyclophosphamide",
+  "prefix": "ALLO-501A",
+  "protocol_id": "ALLO-501A-202",
+  "to": [
+   "asset:a9cb96e1a6f84d6c8946"
+  ],
+  "to_names": [
+   "ALLO-501A"
+  ],
+  "trial_id": "NCT06500273"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:ee1430a73b9846b5b88e",
+  "from_name": "JWCAR029 (Relmacabtagene Autoleucel)",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-007",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT05259813"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "source_is_product_specific",
+  "from_asset": "asset:f03a99e642b537ecd908",
+  "from_name": "Talquetamab",
+  "prefix": "BB2121",
+  "protocol_id": "BB2121-MM-002",
+  "to": [
+   "asset:9dda7da59144b21787f5"
+  ],
+  "to_names": [
+   "Abecma"
+  ],
+  "trial_id": "NCT03601078"
+ },
+ {
+  "benchmark": "mint5",
+  "excluded": "prefix_not_demonstrated_as_intervention",
+  "from_asset": "asset:f36c8f417816e716bab1",
+  "from_name": "Patient Derived CD19 specific CAR T cells also expressing an EGFRt",
+  "prefix": "PLAT-02",
+  "protocol_id": "PLAT-02",
+  "to": [
+   "asset:c78563815aac94f24fc4"
+  ],
+  "to_names": [
+   "PLAT-02"
+  ],
+  "trial_id": "NCT02028455"
+ }
+]

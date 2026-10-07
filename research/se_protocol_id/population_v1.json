@@ -1,0 +1,254 @@
+[
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:7e6e8f362d1173be9fdd",
+  "from_name": "A Dose Escalating Study of CD19/CD22/BCMA CAR-T Therapy in Relapsed or Refractory B Cell Non-Hodgkin Lymphoma(NHL)",
+  "prefix": "BZE2204",
+  "protocol_id": "BZE2204-A-01",
+  "to": [
+   "asset:9b80fb74334e7365d2be"
+  ],
+  "to_names": [
+   "BZE2204"
+  ],
+  "trial_id": "NCT06446128"
+ },
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:826da8d4f511bcf7cae0",
+  "from_name": "CD19/CD20/BCMA CAR T cells",
+  "prefix": "BZE2204",
+  "protocol_id": "BZE2204-A-01",
+  "to": [
+   "asset:9b80fb74334e7365d2be"
+  ],
+  "to_names": [
+   "BZE2204"
+  ],
+  "trial_id": "NCT06446128"
+ },
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:933fb3f5469d8597e98b",
+  "from_name": "BCMA-CD19 CAR-T therapy",
+  "prefix": "ICG318",
+  "protocol_id": "ICG318-AAV-02",
+  "to": [
+   "asset:d0ace5d86850ba755d2b"
+  ],
+  "to_names": [
+   "ICG318"
+  ],
+  "trial_id": "NCT06794008"
+ },
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:a49377474f39c3f4a2d4",
+  "from_name": "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-005",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT04718883"
+ },
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:a49377474f39c3f4a2d4",
+  "from_name": "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-002",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT04089215"
+ },
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:a49377474f39c3f4a2d4",
+  "from_name": "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-017",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT06149169"
+ },
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:b45534f2456eaafbd31a",
+  "from_name": "A Dose Escalating Study of CD19/CD22/BCMA CAR-T Therapy in Relapsed/ Refractory Multiple Myeloma",
+  "prefix": "BZE2204",
+  "protocol_id": "BZE2204-B-01",
+  "to": [
+   "asset:9b80fb74334e7365d2be"
+  ],
+  "to_names": [
+   "BZE2204"
+  ],
+  "trial_id": "NCT06732232"
+ },
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:b490c42f3bfebc4f25db",
+  "from_name": "Allogeneic CAR-T",
+  "prefix": "RN1201",
+  "protocol_id": "RN1201-Onc",
+  "to": [
+   "asset:e8c87dfe0634c414f0d5"
+  ],
+  "to_names": [
+   "RN1201"
+  ],
+  "trial_id": "NCT07113496"
+ },
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:cf59b9730846deee5057",
+  "from_name": "CD19/CD20/BCMA CAR-T",
+  "prefix": "BZE2204",
+  "protocol_id": "BZE2204-B-01",
+  "to": [
+   "asset:9b80fb74334e7365d2be"
+  ],
+  "to_names": [
+   "BZE2204"
+  ],
+  "trial_id": "NCT06732232"
+ },
+ {
+  "benchmark": "tac01",
+  "from_asset": "asset:e231b8db8ee4aff93bd2",
+  "from_name": "BCMA-CD19 cCAR T cells",
+  "prefix": "ICG318",
+  "protocol_id": "ICG318-ITP-01",
+  "to": [
+   "asset:d0ace5d86850ba755d2b"
+  ],
+  "to_names": [
+   "ICG318"
+  ],
+  "trial_id": "NCT06787989"
+ },
+ {
+  "benchmark": "mint5",
+  "from_asset": "asset:826da8d4f511bcf7cae0",
+  "from_name": "CD19/CD20/BCMA CAR T cells",
+  "prefix": "BZE2204",
+  "protocol_id": "BZE2204-A-01",
+  "to": [
+   "asset:9b80fb74334e7365d2be"
+  ],
+  "to_names": [
+   "BZE2204"
+  ],
+  "trial_id": "NCT06446128"
+ },
+ {
+  "benchmark": "mint5",
+  "from_asset": "asset:933fb3f5469d8597e98b",
+  "from_name": "BCMA-CD19 CAR-T therapy",
+  "prefix": "ICG318",
+  "protocol_id": "ICG318-AAV-02",
+  "to": [
+   "asset:d0ace5d86850ba755d2b"
+  ],
+  "to_names": [
+   "ICG318"
+  ],
+  "trial_id": "NCT06794008"
+ },
+ {
+  "benchmark": "mint5",
+  "from_asset": "asset:a49377474f39c3f4a2d4",
+  "from_name": "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-002",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT04089215"
+ },
+ {
+  "benchmark": "mint5",
+  "from_asset": "asset:a49377474f39c3f4a2d4",
+  "from_name": "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-005",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT04718883"
+ },
+ {
+  "benchmark": "mint5",
+  "from_asset": "asset:a49377474f39c3f4a2d4",
+  "from_name": "CD19-targeted Chimeric Antigen Receptor (CAR) T Cells",
+  "prefix": "JWCAR029",
+  "protocol_id": "JWCAR029-017",
+  "to": [
+   "asset:54cce6642ddf53351f46"
+  ],
+  "to_names": [
+   "JWCAR029"
+  ],
+  "trial_id": "NCT06149169"
+ },
+ {
+  "benchmark": "mint5",
+  "from_asset": "asset:b490c42f3bfebc4f25db",
+  "from_name": "Allogeneic CAR-T",
+  "prefix": "RN1201",
+  "protocol_id": "RN1201-Onc",
+  "to": [
+   "asset:e8c87dfe0634c414f0d5"
+  ],
+  "to_names": [
+   "RN1201"
+  ],
+  "trial_id": "NCT07113496"
+ },
+ {
+  "benchmark": "mint5",
+  "from_asset": "asset:cf59b9730846deee5057",
+  "from_name": "CD19/CD20/BCMA CAR-T",
+  "prefix": "BZE2204",
+  "protocol_id": "BZE2204-B-01",
+  "to": [
+   "asset:9b80fb74334e7365d2be"
+  ],
+  "to_names": [
+   "BZE2204"
+  ],
+  "trial_id": "NCT06732232"
+ },
+ {
+  "benchmark": "mint5",
+  "from_asset": "asset:e231b8db8ee4aff93bd2",
+  "from_name": "BCMA-CD19 cCAR T cells",
+  "prefix": "ICG318",
+  "protocol_id": "ICG318-ITP-01",
+  "to": [
+   "asset:d0ace5d86850ba755d2b"
+  ],
+  "to_names": [
+   "ICG318"
+  ],
+  "trial_id": "NCT06787989"
+ }
+]
