@@ -13,7 +13,15 @@ index and the operating manual. **Update it after every run.**
 **PROTOCOL_ID_TRIAL_ATTRIBUTION v1: PREREGISTERED** (`protocol_id_trial_attribution_v1.md`,
 18 frozen moves) and implemented (`plan_protocol_moves`, `AssetRegistry.reattribute_trial`;
 result field `trial_reattributions`). Planner reproduces the frozen 18 on `*_ncitid_v1`.
-- Awaiting replays into `~/se_runs/{tac01,mint5}_protoid_v1` and `tac01_protoid_v1_det`.
+- **First TAC01 replays crashed in IDENTITY** (both BZE2204 trials sit on two source assets;
+  the second move raised). Fixed in `reattribute_trial` @`af07fc7`; rule and frozen population
+  unchanged. Failed dirs kept as `tac01_protoid_v1{,_det}_FAILED_identity_crash`.
+- `mint5_protoid_v1` is valid (no double-held trial in mint5; the fix only changes the raise path).
+- A TAC01 re-run from a Claude background shell was memory-reaped
+  (`tac01_protoid_v1_INCOMPLETE_reaped`). **Operator must re-run `tac01_protoid_v1` and
+  `tac01_protoid_v1_det` in their own terminal at >= `af07fc7`.** Not scored, not adopted.
+- DISPLAY_NAME_NORMALIZATION v1 preregistered (`315c013`) and implemented (`840340a`,
+  render-only, tests/se 1655 passed); D1-D3 to be scored by re-rendering after T adoption.
 - Score: `PYTHONPATH=src python scripts/score_protocol_id_trial_attribution.py ~/se_runs`.
 - Then DISPLAY_NAME_NORMALIZATION v1 (display-only; never an alias or identity key).
 
