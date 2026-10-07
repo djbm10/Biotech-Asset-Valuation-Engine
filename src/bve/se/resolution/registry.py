@@ -764,6 +764,22 @@ class AssetRegistry:
                 redirects[member] = survivor
         return redirects
 
+    def reattribute_trial(self, trial_id: str, from_asset_id: str, to_asset_id: str) -> None:
+        """Move one trial between two assets (``protocol_id_trial_attribution_v1``).
+
+        Neither asset is merged, created or deleted; a source left with no trials stays.
+        """
+
+        source, destination = self.assets[from_asset_id], self.assets[to_asset_id]
+        if trial_id not in source.trial_ids or trial_id in destination.trial_ids:
+            raise ValueError(f"cannot move {trial_id} from {from_asset_id} to {to_asset_id}")
+        self._index_asset(
+            source.model_copy(update={"trial_ids": [t for t in source.trial_ids if t != trial_id]})
+        )
+        self._index_asset(
+            destination.model_copy(update={"trial_ids": [*destination.trial_ids, trial_id]})
+        )
+
     def reverse_merge(self, merge_id: str) -> None:
         merge = self.merges[merge_id]
         if merge.status != MergeStatus.APPLIED:

@@ -61,6 +61,7 @@ from bve.se.ontology.ncit_targets import (
 )
 from bve.se.clinical.cohorts import assign_cohort
 from bve.se.clinical.meaningfulness import assess_meaningfulness
+from bve.se.resolution.protocol_attribution import TrialMove, plan_protocol_moves
 from bve.se.resolution.registry import AssetRegistry
 from bve.se.resolution.target_attribution import attribution_for
 from bve.se.telemetry import StageTelemetry, summarize_attempts
@@ -127,6 +128,8 @@ class SESearchResult(BaseModel):
     ncit_target_dispositions: list[dict] = Field(default_factory=list)
     #: ``candidate_qualification_v6.md``: names held out as regimens, procedures or lists.
     qualification_vetoes: list[dict] = Field(default_factory=list)
+    #: ``protocol_id_trial_attribution_v1.md``: one reversible record per trial moved.
+    trial_reattributions: list[dict] = Field(default_factory=list)
     label: str = DEVELOPMENT_SCREEN_LABEL
 
 
@@ -185,6 +188,34 @@ def _with_authority_modality(
             )
         )
     return annotated
+
+
+def _protocol_id_moves(registry: AssetRegistry, discovery) -> list[TrialMove]:
+    """Plan ``protocol_id_trial_attribution_v1`` moves from the sealed CT.gov records."""
+
+    documents = {document.document_id: document for document in discovery.source_documents}
+    records: dict[str, dict] = {}
+    for hit in discovery.hits:
+        document = documents.get(hit.source_document_id)
+        if (
+            hit.trial_id is None
+            or hit.trial_id in records
+            or document is None
+            or document.publisher != "ClinicalTrials.gov"
+            or not document.snapshot_path
+        ):
+            continue
+        try:
+            records[hit.trial_id] = json.loads(Path(document.snapshot_path).read_text())
+        except (OSError, ValueError):
+            continue
+    authority = modality_authority()
+
+    def has_drug_authority(names: list[str]) -> bool:
+        found = authority.modality_of_names(names) if authority is not None else None
+        return found is not None and (found.basis or "").startswith("DRUG:")
+
+    return plan_protocol_moves(registry.assets.values(), records, has_drug_authority)
 
 
 def _dedupe_gate_facts(facts: Sequence[NormalizedFact]) -> list[NormalizedFact]:
@@ -428,6 +459,17 @@ def run_landscape_search(
             } | ncit_redirects
         hit_to_asset = {
             hit_id: redirects.get(asset_id, asset_id)
+            for hit_id, asset_id in hit_to_asset.items()
+        }
+        # ``protocol_id_trial_attribution_v1.md``: a trial whose own sponsor protocol id
+        # names an existing coded product moves to it; hits follow the trial.
+        trial_moves = _protocol_id_moves(registry, discovery)
+        for move in trial_moves:
+            registry.reattribute_trial(move.trial_id, move.from_asset_id, move.to_asset_id)
+        hits_by_id = {hit.hit_id: hit for hit in discovery.hits}
+        moved = {(move.trial_id, move.from_asset_id): move.to_asset_id for move in trial_moves}
+        hit_to_asset = {
+            hit_id: moved.get((hits_by_id[hit_id].trial_id, asset_id), asset_id)
             for hit_id, asset_id in hit_to_asset.items()
         }
         stage.count(hits=len(discovery.hits), assets=len(registry.assets))
@@ -1133,6 +1175,7 @@ def run_landscape_search(
         processing_errors=processing_errors,
         ncit_target_dispositions=ncit_dispositions,
         qualification_vetoes=qualification_vetoes,
+        trial_reattributions=[move.as_record() for move in trial_moves],
         label=(
             DEVELOPMENT_SCREEN_LABEL
             if run_manifest.status.value == "CONVERGED"
