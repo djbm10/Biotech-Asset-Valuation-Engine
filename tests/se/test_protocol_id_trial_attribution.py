@@ -100,3 +100,14 @@ def test_reattribution_moves_one_trial_and_keeps_an_emptied_source() -> None:
     assert registry.assets["s"].trial_ids == []
     with pytest.raises(ValueError):
         registry.reattribute_trial("NCT2", "s", "d")
+
+
+def test_one_trial_held_by_two_sources_moves_from_both_once() -> None:
+    registry = AssetRegistry()
+    registry._index_asset(_asset("d", "XYZ123", ["NCT1"]))
+    registry._index_asset(_asset("s1", "CAR-T cells", ["NCT2"]))
+    registry._index_asset(_asset("s2", "A Dose Escalating Study of CAR-T", ["NCT2"]))
+    registry.reattribute_trial("NCT2", "s1", "d")
+    registry.reattribute_trial("NCT2", "s2", "d")
+    assert registry.assets["d"].trial_ids == ["NCT1", "NCT2"]
+    assert registry.assets["s1"].trial_ids == registry.assets["s2"].trial_ids == []

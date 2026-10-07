@@ -768,17 +768,20 @@ class AssetRegistry:
         """Move one trial between two assets (``protocol_id_trial_attribution_v1``).
 
         Neither asset is merged, created or deleted; a source left with no trials stays.
+        One trial can sit on several source assets (an intervention name and a title-minted
+        name), so a destination that already received it from another source keeps one copy.
         """
 
         source, destination = self.assets[from_asset_id], self.assets[to_asset_id]
-        if trial_id not in source.trial_ids or trial_id in destination.trial_ids:
+        if trial_id not in source.trial_ids or from_asset_id == to_asset_id:
             raise ValueError(f"cannot move {trial_id} from {from_asset_id} to {to_asset_id}")
         self._index_asset(
             source.model_copy(update={"trial_ids": [t for t in source.trial_ids if t != trial_id]})
         )
-        self._index_asset(
-            destination.model_copy(update={"trial_ids": [*destination.trial_ids, trial_id]})
-        )
+        if trial_id not in destination.trial_ids:
+            self._index_asset(
+                destination.model_copy(update={"trial_ids": [*destination.trial_ids, trial_id]})
+            )
 
     def reverse_merge(self, merge_id: str) -> None:
         merge = self.merges[merge_id]
