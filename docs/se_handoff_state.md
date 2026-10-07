@@ -8,7 +8,16 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-06, after NCIt product identity) — START HERE
+## 0. Current directive (last updated 2026-10-06, protocol-id trial attribution) — START HERE
+
+**PROTOCOL_ID_TRIAL_ATTRIBUTION v1: PREREGISTERED** (`protocol_id_trial_attribution_v1.md`,
+18 frozen moves) and implemented (`plan_protocol_moves`, `AssetRegistry.reattribute_trial`;
+result field `trial_reattributions`). Planner reproduces the frozen 18 on `*_ncitid_v1`.
+- Awaiting replays into `~/se_runs/{tac01,mint5}_protoid_v1` and `tac01_protoid_v1_det`.
+- Score: `PYTHONPATH=src python scripts/score_protocol_id_trial_attribution.py ~/se_runs`.
+- Then DISPLAY_NAME_NORMALIZATION v1 (display-only; never an alias or identity key).
+
+### Earlier (2026-10-06)
 
 **NCIT_PRODUCT_IDENTITY v1: ADOPTED** (P-1–P-7 PASS, `ncit_product_identity_v1.md` §6).
 Baselines: `~/se_runs/{tac01,mint5}_ncitid_v1`. GC012F/AZD0120 rule withdrawn; they are one
