@@ -1,0 +1,42 @@
+######## tac01
+orphan abstracts: 1458
+M1 assets with PASS sentences only in orphan docs: 9; of which currently lacking human_poc: 7
+  'Inotuzumab' n=4 has_hpoc=False
+      document:e6bdaa086f93c1f39fff | Inotuzumab ozogamicin, an anti-CD22 immunotoxin, yields complete remission (CR) rates of 80% in R/R patients and in elderly newly diagnosed patients.
+      document:6d4bc9441c5dcf7499d7 | In younger patients with pre-B Philadelphia chromosome-negative ALL, the integration of blinatumomab and inotuzumab into the frontline therapy has improved the estimated 3-year survival rate to 85% across all risk catego
+  'axi-cel' n=3 has_hpoc=False
+      document:1bc6209170d732cbfbff | In the previous analysis of the ZUMA-1 registrational study, with a median follow-up of 15\u00b74 months (IQR 13\u00b77-17\u00b73), 89 (82%) of 108 assessable patients with refractory large B-cell lymphoma treated with a
+      document:07ba141627aefdb28cc4 | The ZUMA-1 study, multicenter, single-arm, registrational Phase 1/2 study of axi-cel demonstrated high objective response rate in patients with relapsed/refractory large B-cell lymphoma.
+  'Blinatumomab' n=2 has_hpoc=True
+      document:e6bdaa086f93c1f39fff | Blinatumomab, a bispecific anti-CD19 and anti-CD3 agent redirects effector T cells towards B leukemic cells, is approved in R/R patients (40% CR, duration 6\u00a0months) and under investigation in MRD+ CR patients (80% n
+      document:6d4bc9441c5dcf7499d7 | In older patients, using less intensive chemotherapy (mini-Hyper-CVD) in combination with inotuzumab and blinatumomab has improved the 5-year survival rate to 50%.
+  'KYMRIAH' n=2 has_hpoc=False
+      document:4be1049b37207c3de139 | In a phase 2, single-arm, multicenter, global study, tisagenlecleucel resulted in a remission rate of 81% in pediatric and adolescent patients with r/r B cell ALL.
+      document:2fe538081ef68e4ba59c | Among the 15 patients, 13/14 (92.9%) evaluable patients achieved complete remission (CR) or CR with incomplete recovery of blood cells (CRi) on day 30 after hCART19s infusion.
+  'ozogamicin' n=1 has_hpoc=False
+      document:e6bdaa086f93c1f39fff | Inotuzumab ozogamicin, an anti-CD22 immunotoxin, yields complete remission (CR) rates of 80% in R/R patients and in elderly newly diagnosed patients.
+  'IL-2' n=1 has_hpoc=False
+      document:d8fdbc98c2978415c400 | We observed that received lymphodepletion (72% vs 44%, P\u00a0=\u20090.0405) and high peak serum IL-2 level (85% vs 31%, P\u2009=\u20090.04) were positively associated with patients' response to CAR T cells.
+  'Fludarabine' n=1 has_hpoc=False
+      document:f56ace8b773a9b9689d8 | We report efficacy and long-term follow-up of 21 patients with relapsed/refractory (R/R) FL (n = 8) and tFL (n = 13) treated on a phase 1/2 clinical trial with cyclophosphamide and fludarabine lymphodepletion followed by
+  'Rituximab' n=1 has_hpoc=True
+      document:1768bdaa470add60df29 | Rituximab (RTX), an anti-CD20 monoclonal antibody, is a first-line treatment for moderate-to-high-risk pMN, inducing partial or complete remission in about 60% of patients within 24 months.
+  'inotuzumab ozogamicin' n=1 has_hpoc=False
+      document:e6bdaa086f93c1f39fff | Inotuzumab ozogamicin, an anti-CD22 immunotoxin, yields complete remission (CR) rates of 80% in R/R patients and in elderly newly diagnosed patients.
+M2 assets with clause-'and' regimen rejections: 2
+  'lenalidomide' document:9bf09648a7eb978d3dac | Best overall response occurred in 4 patients (44.4%) receiving HMA plus lenalidomide and 3 patients (33.3%) receiving HMA plus venetoclax (P\u202f=\u202f1.000).
+  'Breyanzi' document:89712a2f413504ab4397 | A total of 107 patients received liso-cel and 103 were efficacy evaluable, with overall and complete response rates (95% CI) per independent review committee of 97% (92\u201299) and 94% (88\u201298), respectively.
+######## mint5
+orphan abstracts: 440
+M1 assets with PASS sentences only in orphan docs: 4; of which currently lacking human_poc: 1
+  'pomalidomide' n=1 has_hpoc=True
+      document:43bcc7ae5785262cbe34 | Our retrospective review of 12 patients between January 2024 and December 2025 who received a combination of talquetamab, elranatamab, or teclistamab with pomalidomide found that 11 of 12 had an overall response, of whom
+  'Talquetamab' n=1 has_hpoc=True
+      document:43bcc7ae5785262cbe34 | Our retrospective review of 12 patients between January 2024 and December 2025 who received a combination of talquetamab, elranatamab, or teclistamab with pomalidomide found that 11 of 12 had an overall response, of whom
+  'rituximab' n=1 has_hpoc=True
+      document:1768bdaa470add60df29 | Rituximab (RTX), an anti-CD20 monoclonal antibody, is a first-line treatment for moderate-to-high-risk pMN, inducing partial or complete remission in about 60% of patients within 24 months.
+  'axi-cel' n=1 has_hpoc=False
+      document:07ba141627aefdb28cc4 | The ZUMA-1 study, multicenter, single-arm, registrational Phase 1/2 study of axi-cel demonstrated high objective response rate in patients with relapsed/refractory large B-cell lymphoma.
+M2 assets with clause-'and' regimen rejections: 2
+  'lenalidomide' document:9bf09648a7eb978d3dac | Best overall response occurred in 4 patients (44.4%) receiving HMA plus lenalidomide and 3 patients (33.3%) receiving HMA plus venetoclax (P\u202f=\u202f1.000).
+  'Breyanzi' document:89712a2f413504ab4397 | A total of 107 patients received liso-cel and 103 were efficacy evaluable, with overall and complete response rates (95% CI) per independent review committee of 97% (92\u201299) and 94% (88\u201298), respectively.
