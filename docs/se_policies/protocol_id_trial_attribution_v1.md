@@ -124,3 +124,32 @@ Determinism comparisons exclude `created_at` and `applied_at`.
 
 - **Adopt** if T1–T8 all pass.
 - **Otherwise** record the failure and revert. Do not tune R1–R7.
+
+## 6. Result — 2026-10-08, code `af07fc7`
+
+**Runs:** `~/se_runs/tac01_protoid_v1`, `~/se_runs/tac01_protoid_v1_det`, `~/se_runs/mint5_protoid_v1`.
+**Scorer:** `scripts/score_protocol_id_trial_attribution.py` → `research/se_protocol_id/stage_t_v1.txt`.
+
+**Implementation defect before scoring.** The first TAC01 replays at `34985ae` crashed in
+IDENTITY. Both BZE2204 trials sit on two source assets, and `reattribute_trial` raised on the
+second move into the same destination. The fix at `af07fc7` keeps one copy in the
+destination. R1–R7 and the frozen population are unchanged. The failed directories are kept
+as `*_FAILED_identity_crash`. The mint5 run (8 moves, none of them a doubly held trial) runs
+the same code path, so it was kept.
+
+| Criterion | Result |
+|---|---|
+| **T1** | **PASS.** Moves equal the frozen population: TAC01 10/10, mint5 8/8, nothing extra. |
+| **T2** | **PASS.** 0 false moves. The merge records are identical to the baseline. |
+| **T3** | **PASS.** Every move has a complete audit record. Moved trials sit in their destination and not their source. Every other trial set is as expected. No asset was deleted; the emptied sources are kept. |
+| **T4** | **PASS.** Untouched assets: 0 identity, modality or qualification changes, 0 gate changes, facts identical. Every fact gained by a destination is supported by a moved trial: TAC01 18/18, mint5 14/14. Qualification changes are on touched assets only: BZE2204 and ICG318 went DEVELOPMENT_CODE_AUTHORITY → CONSTRUCT_CORROBORATED, gaining CD19+BCMA construct facts from their own moved trials; the emptied *CD19/CD20/BCMA CAR T cells* lost its qualification. |
+| **T5** | **PASS.** No `human_poc_present` changed in either benchmark. |
+| **T6** | **PASS.** TAC01 top 50 identical. mint5: BZE2204 (a destination) entered at #12; ICG318 (a destination) rose #30→#1 on its construct corroboration; Vonsetamig left from #50 as backfill; untouched relative order preserved. |
+| **T7** | **PASS.** The two TAC01 runs are identical, timestamps excluded. |
+| **T8** | **PASS.** `tests/se` 1655 passed, 3 xfailed, at `840340a` (includes `af07fc7`); ruff clean. |
+
+**Status: ADOPTED.** New baselines: `~/se_runs/{tac01,mint5}_protoid_v1`.
+
+Scorer note: its printed top-20 names were rendered at HEAD, so they already show the display
+form of one name. The display rule is render-only and was scored separately in
+`display_name_normalization_v1.md` §5. Order and membership are unaffected.

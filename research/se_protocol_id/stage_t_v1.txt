@@ -1,0 +1,41 @@
+T7 determinism: True
+===== tac01
+T1 moves == frozen: True (10 vs 10) extra=[] missing=[]
+T2 merges unchanged: True
+T3 audit complete=True placed=True all trial sets as expected=True deleted=[]
+T4 outside changed=0 gates changed=0 facts same=True
+   touched 'JWCAR029': -facts 0 +facts 3 gate_changed=False qual STRUCTURED_THERAPEUTIC -> STRUCTURED_THERAPEUTIC
+   touched 'A Dose Escalating Study of CD19/CD22/BCMA CAR': -facts 5 +facts 0 gate_changed=False qual None -> None
+   touched 'CD19/CD20/BCMA CAR T cells': -facts 6 +facts 0 gate_changed=True qual CONSTRUCT_CORROBORATED -> None
+   touched 'BCMA-CD19 CAR-T therapy': -facts 6 +facts 0 gate_changed=False qual None -> None
+   touched 'BZE2204': -facts 0 +facts 4 gate_changed=True qual DEVELOPMENT_CODE_AUTHORITY -> CONSTRUCT_CORROBORATED
+   touched 'CD19-targeted Chimeric Antigen Receptor (CAR)': -facts 8 +facts 0 gate_changed=False qual None -> None
+   touched 'A Dose Escalating Study of CD19/CD22/BCMA CAR': -facts 5 +facts 0 gate_changed=False qual None -> None
+   touched 'Allogeneic CAR-T': -facts 3 +facts 0 gate_changed=False qual None -> None
+   touched 'CD19/CD20/BCMA CAR-T': -facts 6 +facts 0 gate_changed=True qual STRUCTURED_THERAPEUTIC -> STRUCTURED_THERAPEUTIC
+   touched 'ICG318': -facts 0 +facts 3 gate_changed=True qual DEVELOPMENT_CODE_AUTHORITY -> CONSTRUCT_CORROBORATED
+   touched 'BCMA-CD19 cCAR T cells': -facts 1 +facts 0 gate_changed=False qual CONSTRUCT_CORROBORATED -> CONSTRUCT_CORROBORATED
+   touched 'RN1201': -facts 0 +facts 1 gate_changed=True qual DEVELOPMENT_CODE_AUTHORITY -> DEVELOPMENT_CODE_AUTHORITY
+T5 human-PoC changes=[] only on destinations=True supported by moved trials=True
+T6 identical=True left=[] entered=[]
+   retained untouched relative order preserved: True
+   top20: ['Brexucabtagene Autoleucel', 'CNCT19', 'Breyanzi', 'KYMRIAH', 'axi-cel', 'KITE-753', 'CC-97540', 'ALLO-501A', 'Anbalcabtagene Autoleucel', 'AUTO3', 'BZ019', 'CT120', 'CTX112', 'GC022', 'GLPG5101', 'JWCAR029', 'Prizloncabtagene Autoleucel', 'ThisCART19A', 'WZTL-002', 'CTX110']
+===== mint5
+T1 moves == frozen: True (8 vs 8) extra=[] missing=[]
+T2 merges unchanged: True
+T3 audit complete=True placed=True all trial sets as expected=True deleted=[]
+T4 outside changed=0 gates changed=0 facts same=True
+   touched 'JWCAR029': -facts 0 +facts 3 gate_changed=False qual STRUCTURED_THERAPEUTIC -> STRUCTURED_THERAPEUTIC
+   touched 'CD19/CD20/BCMA CAR T cells': -facts 6 +facts 0 gate_changed=True qual CONSTRUCT_CORROBORATED -> None
+   touched 'BCMA-CD19 CAR-T therapy': -facts 6 +facts 0 gate_changed=False qual None -> None
+   touched 'BZE2204': -facts 0 +facts 4 gate_changed=True qual DEVELOPMENT_CODE_AUTHORITY -> CONSTRUCT_CORROBORATED
+   touched 'CD19-targeted Chimeric Antigen Receptor (CAR)': -facts 8 +facts 0 gate_changed=False qual None -> None
+   touched 'Allogeneic CAR-T': -facts 3 +facts 0 gate_changed=False qual None -> None
+   touched 'CD19/CD20/BCMA CAR-T': -facts 6 +facts 0 gate_changed=True qual STRUCTURED_THERAPEUTIC -> STRUCTURED_THERAPEUTIC
+   touched 'ICG318': -facts 0 +facts 3 gate_changed=True qual DEVELOPMENT_CODE_AUTHORITY -> CONSTRUCT_CORROBORATED
+   touched 'BCMA-CD19 cCAR T cells': -facts 1 +facts 0 gate_changed=False qual CONSTRUCT_CORROBORATED -> CONSTRUCT_CORROBORATED
+   touched 'RN1201': -facts 0 +facts 1 gate_changed=False qual DEVELOPMENT_CODE_AUTHORITY -> DEVELOPMENT_CODE_AUTHORITY
+T5 human-PoC changes=[] only on destinations=True supported by moved trials=True
+T6 identical=False left=[('Vonsetamig', 50, False)] entered=[('BZE2204', 12, True)]
+   retained untouched relative order preserved: True
+   top20: ['ICG318', 'AZD0120', 'FKC289', 'umbilical cord blood CD19-BC', 'CD19-BCMA dual nanobody base', 'Allogeneic CD19/BCMA-targete', 'allogeneic umbilical cord bl', 'allogenic anti-CD19/BCMA CAR', 'anti-CD19/BCMA U CAR T cells', 'CD19/BCMA CAR T-cells', 'BCMA-CD19 cCAR T cells', 'BZE2204', 'CD19-BCMA Targeted CAR-T Dos', 'CD19/BCMA in vivo CAR-T', 'CD19/BCMA Lupus Nephritis Ta', 'FIT-(BCMA+CD19)-CAR-T Cells', 'KN5601', 'KSVCBD injection', 'KT501', 'PRG-2311']

@@ -1,0 +1,10 @@
+===== tac01
+D1 changed shown names: [] | raw_name preserved: True
+D2 order identical by asset id: True | result.json untouched (render-only, same input object)
+D3 cleaned string registered as alias/name anywhere: [] | (an existing generic asset legitimately named so is listed separately: [] )
+memo lines changed: 11
+===== mint5
+D1 changed shown names: [('Assigned Interventions CD19/BCMA CAR T-cells', 'CD19/BCMA CAR T-cells')] | raw_name preserved: True
+D2 order identical by asset id: True | result.json untouched (render-only, same input object)
+D3 cleaned string registered as alias/name anywhere: ['asset:026193b4d65fd472bae9'] | (an existing generic asset legitimately named so is listed separately: ['CD19/BCMA CAR T-cells'] )
+memo lines changed: 11
