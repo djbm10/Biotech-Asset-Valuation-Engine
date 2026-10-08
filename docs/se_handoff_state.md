@@ -18,10 +18,13 @@ render-only, `840340a`). Reassessment: `research/se_protocol_id/reassessment_202
 - mint5 top 20: ICG318 #1 (5 trials, construct-corroborated), BZE2204 entered #12, the
   Assigned-Interventions row shows as "CD19/BCMA CAR T-cells".
 
-**Open before broader validation** (none started; see end-of-session report 2026-10-08):
-held-out query validation; human-PoC misses on approved products (Breyanzi, KYMRIAH, axi-cel
-show no hPoC in TAC01); survivor display names; generic pools held out only by
-qualification; target-free search unsupported.
+**APPROVED_PRODUCT_HUMAN_EFFICACY_DIAGNOSIS v1: CLOSED, no change** — Breyanzi A
+(clause-"and" regimen false positive, population 1), KYMRIAH/axi-cel D (orphaned PubMed
+abstracts: follow-up gate keeps the document, emits no hits). Narrowest routing fix would add
+>=3 false human-PoC facts (lymphodepletion agents) -> rejected. **TAC01 and mint5 FROZEN.**
+
+**Next: HELDOUT_VALIDATION_SUITE v1** (`heldout_validation_suite_v1.md`, H1-H5). Operator runs
+live into `~/se_runs/heldout_h<N>_v1`; no code change between runs.
 
 ### Earlier (2026-10-06)
 
