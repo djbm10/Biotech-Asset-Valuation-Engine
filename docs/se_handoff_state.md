@@ -8,22 +8,20 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-06, protocol-id trial attribution) — START HERE
+## 0. Current directive (last updated 2026-10-08) — START HERE
 
-**PROTOCOL_ID_TRIAL_ATTRIBUTION v1: PREREGISTERED** (`protocol_id_trial_attribution_v1.md`,
-18 frozen moves) and implemented (`plan_protocol_moves`, `AssetRegistry.reattribute_trial`;
-result field `trial_reattributions`). Planner reproduces the frozen 18 on `*_ncitid_v1`.
-- **First TAC01 replays crashed in IDENTITY** (both BZE2204 trials sit on two source assets;
-  the second move raised). Fixed in `reattribute_trial` @`af07fc7`; rule and frozen population
-  unchanged. Failed dirs kept as `tac01_protoid_v1{,_det}_FAILED_identity_crash`.
-- `mint5_protoid_v1` is valid (no double-held trial in mint5; the fix only changes the raise path).
-- A TAC01 re-run from a Claude background shell was memory-reaped
-  (`tac01_protoid_v1_INCOMPLETE_reaped`). **Operator must re-run `tac01_protoid_v1` and
-  `tac01_protoid_v1_det` in their own terminal at >= `af07fc7`.** Not scored, not adopted.
-- DISPLAY_NAME_NORMALIZATION v1 preregistered (`315c013`) and implemented (`840340a`,
-  render-only, tests/se 1655 passed); D1-D3 to be scored by re-rendering after T adoption.
-- Score: `PYTHONPATH=src python scripts/score_protocol_id_trial_attribution.py ~/se_runs`.
-- Then DISPLAY_NAME_NORMALIZATION v1 (display-only; never an alias or identity key).
+**PROTOCOL_ID_TRIAL_ATTRIBUTION v1: ADOPTED** (T1–T8, code `af07fc7`). Baselines:
+`~/se_runs/{tac01,mint5}_protoid_v1`. **DISPLAY_NAME_NORMALIZATION v1: ADOPTED** (D1–D4,
+render-only, `840340a`). Reassessment: `research/se_protocol_id/reassessment_2026-10-08.txt`.
+
+- TAC01 top 20: identical to `*_ncitid_v1`; 20/20 CD19 cell therapies, modality MATCH.
+- mint5 top 20: ICG318 #1 (5 trials, construct-corroborated), BZE2204 entered #12, the
+  Assigned-Interventions row shows as "CD19/BCMA CAR T-cells".
+
+**Open before broader validation** (none started; see end-of-session report 2026-10-08):
+held-out query validation; human-PoC misses on approved products (Breyanzi, KYMRIAH, axi-cel
+show no hPoC in TAC01); survivor display names; generic pools held out only by
+qualification; target-free search unsupported.
 
 ### Earlier (2026-10-06)
 

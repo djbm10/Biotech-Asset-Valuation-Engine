@@ -1,0 +1,42 @@
+===== tac01
+#1  Brexucabtagene Autoleucel                    tgt=CONFIRMED_TARGET mod=MATCH        hPoC=Y trials=9 q=DIRECT_APPROVED_NAME
+#2  CNCT19                                       tgt=UNRESOLVED mod=MATCH        hPoC=Y trials=7 q=CONSTRUCT_CORROBORATED
+#3  Breyanzi                                     tgt=CONFIRMED_TARGET mod=MATCH        hPoC=- trials=12 q=STRUCTURED_THERAPEUTIC
+#4  KYMRIAH                                      tgt=CONFIRMED_TARGET mod=MATCH        hPoC=- trials=9 q=STRUCTURED_THERAPEUTIC
+#5  axi-cel                                      tgt=UNRESOLVED mod=MATCH        hPoC=- trials=23 q=STRUCTURED_THERAPEUTIC
+#6  KITE-753                                     tgt=UNRESOLVED mod=MATCH        hPoC=- trials=1 q=STRUCTURED_THERAPEUTIC
+#7  CC-97540                                     tgt=UNRESOLVED mod=MATCH        hPoC=- trials=7 q=DIRECT_APPROVED_NAME
+#8  ALLO-501A                                    tgt=UNRESOLVED mod=MATCH        hPoC=- trials=3 q=CONSTRUCT_CORROBORATED
+#9  Anbalcabtagene Autoleucel                    tgt=UNRESOLVED mod=MATCH        hPoC=- trials=2 q=DIRECT_APPROVED_NAME
+#10 AUTO3                                        tgt=UNRESOLVED mod=MATCH        hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+#11 BZ019                                        tgt=UNRESOLVED mod=MATCH        hPoC=- trials=3 q=CONSTRUCT_CORROBORATED
+#12 CT120                                        tgt=UNRESOLVED mod=MATCH        hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+#13 CTX112                                       tgt=UNRESOLVED mod=MATCH        hPoC=- trials=4 q=CONSTRUCT_CORROBORATED
+#14 GC022                                        tgt=UNRESOLVED mod=MATCH        hPoC=- trials=4 q=CONSTRUCT_CORROBORATED
+#15 GLPG5101                                     tgt=UNRESOLVED mod=MATCH        hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+#16 JWCAR029                                     tgt=UNRESOLVED mod=MATCH        hPoC=- trials=9 q=STRUCTURED_THERAPEUTIC
+#17 Prizloncabtagene Autoleucel                  tgt=UNRESOLVED mod=MATCH        hPoC=- trials=5 q=DIRECT_APPROVED_NAME
+#18 ThisCART19A                                  tgt=UNRESOLVED mod=MATCH        hPoC=- trials=6 q=STRUCTURED_THERAPEUTIC
+#19 WZTL-002                                     tgt=UNRESOLVED mod=MATCH        hPoC=- trials=2 q=CONSTRUCT_CORROBORATED
+#20 CTX110                                       tgt=UNRESOLVED mod=MATCH        hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+===== mint5
+#1  ICG318                                       tgt=UNRESOLVED mod=-            hPoC=Y trials=5 q=CONSTRUCT_CORROBORATED
+#2  AZD0120                                      tgt=UNRESOLVED mod=CELL_THERAPY hPoC=- trials=19 q=STRUCTURED_THERAPEUTIC
+#3  FKC289                                       tgt=UNRESOLVED mod=-            hPoC=- trials=3 q=STRUCTURED_THERAPEUTIC
+#4  umbilical cord blood CD19-BCMA CAR-T cells i tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=STRUCTURED_THERAPEUTIC
+#5  CD19-BCMA dual nanobody based CAR-T Cells    tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+#6  Allogeneic CD19/BCMA-targeted CAR-γδT cell i tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+#7  allogeneic umbilical cord blood-derived CAR- tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=STRUCTURED_THERAPEUTIC
+#8  allogenic anti-CD19/BCMA CAR-T               tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+#9  anti-CD19/BCMA U CAR T cells                 tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+#10 CD19/BCMA CAR T-cells                        tgt=UNRESOLVED mod=-            hPoC=- trials=4 q=CONSTRUCT_CORROBORATED
+#11 BCMA-CD19 cCAR T cells                       tgt=UNRESOLVED mod=CELL_THERAPY hPoC=- trials=2 q=CONSTRUCT_CORROBORATED
+#12 BZE2204                                      tgt=UNRESOLVED mod=-            hPoC=- trials=3 q=CONSTRUCT_CORROBORATED
+#13 CD19-BCMA Targeted CAR-T Dose 1              tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=STRUCTURED_THERAPEUTIC
+#14 CD19/BCMA in vivo CAR-T                      tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=STRUCTURED_THERAPEUTIC
+#15 CD19/BCMA Lupus Nephritis Targeted CAR T-cel tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+#16 FIT-(BCMA+CD19)-CAR-T Cells                  tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
+#17 KN5601                                       tgt=UNRESOLVED mod=-            hPoC=- trials=3 q=CONSTRUCT_CORROBORATED
+#18 KSVCBD injection                             tgt=UNRESOLVED mod=-            hPoC=- trials=4 q=STRUCTURED_THERAPEUTIC
+#19 KT501                                        tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=STRUCTURED_THERAPEUTIC
+#20 PRG-2311                                     tgt=UNRESOLVED mod=-            hPoC=- trials=1 q=CONSTRUCT_CORROBORATED
