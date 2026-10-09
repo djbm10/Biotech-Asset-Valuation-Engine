@@ -76,3 +76,35 @@ query, with the refusal reason recorded. It is not re-phrased.
 4. Only then are failures diagnosed. Any fix is preregistered on its own, then validated on
    the held-out runs it was **not** derived from where possible, and on frozen TAC01/mint5
    for regression only.
+
+## 6. Result — 2026-10-09, engine `40b7ec9`
+
+**Order of work.** Blind labels were committed at `c0e1c67` before any scoring. The scorer is
+`scripts/score_heldout_suite_v1.py` → `research/se_heldout/score_v1.json`. No code,
+threshold, query, reference or label was changed.
+
+**Deviation, disclosed.** The operator ran every query with `--as-of 2026-09-24`, not the run
+date. It is not material to any verdict below.
+
+| Query | P@20 | Recall@all | Recall@20 | NON_ASSET | DUP | False hPoC | Verdict |
+|---|---|---|---|---|---|---|---|
+| H1 GPRC5D | — | — | — | — | — | — | **FAIL**: refused, "no biological target recognized in the query" |
+| H2 KRAS G12C | 0.053 (1/19) | 0.111 (1/9: elironrasib) | 0.0 | 11 | 0 | 0 | **FAIL**: P@20, recall and NON_ASSET |
+| H3 FcRn | — | — | — | — | — | — | **FAIL**: refused, same reason |
+| H4 TL1A | 0.15 (3/20) | 1.0 (3/3) | 1.0 | 10 | 0 | 0 | **FAIL**: P@20 and NON_ASSET |
+| H5 Claudin 18.2 | — | — | — | — | — | — | **FAIL**: refused, same reason |
+
+**Suite verdict: FAIL (0 of 5 queries pass).**
+
+**Scoring notes:**
+- **False human-PoC.** Two H2 top-20 rows carry `human_poc_present`: aficamten (ΔpVO₂ responder
+  analysis) and Trimix (dose-stratified responders). Each cited sentence is numerical human
+  efficacy for that same product, so neither is a false human-PoC under §4. Both rows are
+  WRONG_TARGET or NON_ASSET by label.
+- **H2 matching.** Rank #1, "Krazati", is adagrasib's trade name. §2 lists only "adagrasib"
+  and the row carries no alias for it, so it counts as not found. Under the frozen matching
+  rule it does not count toward recall.
+- **H4.** All three references sit at #1–3. Every row below them is a reagent, solvent, ion
+  or unrelated drug.
+
+Diagnosis has not started. It follows only after this result is committed.

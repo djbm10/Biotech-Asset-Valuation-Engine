@@ -1,0 +1,114 @@
+[
+ {
+  "query": "H1",
+  "verdict": "FAIL",
+  "refused": "blocked: no biological target recognized in the query"
+ },
+ {
+  "query": "H2",
+  "shortlist": 1078,
+  "labels": {
+   "Krazati": "RELEVANT",
+   "aficamten": "WRONG_TARGET",
+   "Trimix": "NON_ASSET",
+   "AFM11": "WRONG_TARGET",
+   "bendamustine": "WRONG_TARGET",
+   "bromide": "NON_ASSET",
+   "butanone": "NON_ASSET",
+   "chromium": "NON_ASSET",
+   "creatinine": "NON_ASSET",
+   "Curcumin": "WRONG_TARGET",
+   "duvortuxizumab": "WRONG_TARGET",
+   "Emfizatamab": "UNVERIFIABLE",
+   "eosin": "NON_ASSET",
+   "fluorescein": "NON_ASSET",
+   "hematoxylin": "NON_ASSET",
+   "isothiocyanate": "NON_ASSET",
+   "Loncastuximab": "WRONG_TARGET",
+   "Maleimide": "NON_ASSET",
+   "methane": "NON_ASSET",
+   "mitomycin": "WRONG_TARGET"
+  },
+  "P@20": 0.053,
+  "recall_all": 0.111,
+  "found_all": [
+   "elironrasib"
+  ],
+  "recall_20": 0.0,
+  "NON_ASSET": 11,
+  "DUPLICATE": 0,
+  "human_poc_rows_top20": [
+   [
+    "aficamten",
+    [
+     "In a responder analysis using the new threshold, 60% of aficamten-treated vs 31% of placebo- or metoprolol-treated patients achieved \\u0394pVO 2  \\u22650.35 (odds ratio [OR], 3.4 [95% CI: 2.3, 4.9];"
+    ]
+   ],
+   [
+    "Trimix",
+    [
+     "Thirty-four patients were stratified by their EHS scores and Trimix dosages: low-dose full responders (n=12), intermediate-dose full responders (n=10), high-dose partial responders (n=7), and high-dose failures (n=5)."
+    ]
+   ]
+  ],
+  "thresholds": {
+   "P@20>=0.70": false,
+   "recall_all>=0.60": false,
+   "NON_ASSET<=1": false,
+   "DUPLICATE<=2": true
+  }
+ },
+ {
+  "query": "H3",
+  "verdict": "FAIL",
+  "refused": "blocked: no biological target recognized in the query"
+ },
+ {
+  "query": "H4",
+  "shortlist": 40,
+  "labels": {
+   "afimkibart": "RELEVANT",
+   "duvakitug": "RELEVANT",
+   "tulisokibart": "RELEVANT",
+   "papain": "NON_ASSET",
+   "sesquiterpene": "NON_ASSET",
+   "alloxan": "NON_ASSET",
+   "Bavachin": "NON_ASSET",
+   "Berberine": "WRONG_TARGET",
+   "carboplatin": "WRONG_TARGET",
+   "ceftazidime": "WRONG_TARGET",
+   "ciprofloxacin": "WRONG_TARGET",
+   "creatinine": "NON_ASSET",
+   "danegaptide": "WRONG_TARGET",
+   "digitoxigenin": "NON_ASSET",
+   "dihydroergocristine mesylate": "WRONG_TARGET",
+   "ethylene": "NON_ASSET",
+   "fluoride": "NON_ASSET",
+   "hydroxyapatite": "NON_ASSET",
+   "Indocyanine green": "NON_ASSET",
+   "lomustine": "WRONG_TARGET"
+  },
+  "P@20": 0.15,
+  "recall_all": 1.0,
+  "found_all": [
+   "tulisokibart",
+   "duvakitug",
+   "afimkibart"
+  ],
+  "recall_20": 1.0,
+  "NON_ASSET": 10,
+  "DUPLICATE": 0,
+  "human_poc_rows_top20": [],
+  "thresholds": {
+   "P@20>=0.70": false,
+   "recall_all>=0.60": true,
+   "NON_ASSET<=1": false,
+   "DUPLICATE<=2": true
+  }
+ },
+ {
+  "query": "H5",
+  "verdict": "FAIL",
+  "refused": "blocked: no biological target recognized in the query"
+ }
+]
