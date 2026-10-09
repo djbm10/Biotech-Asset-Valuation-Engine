@@ -1,0 +1,814 @@
+{
+ "AMB1": {
+  "ambiguous_terms": [
+   "CD20"
+  ],
+  "compiler_version": "intent_v1",
+  "conjunction_stated": false,
+  "human_poc_required": false,
+  "minimum_stage": "PHASE_1",
+  "modalities": [
+   "MONOCLONAL_ANTIBODY"
+  ],
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "original_query": "Find clinical-stage anti-CD20 antibodies for lymphoma.",
+  "phase_operator": "EXACT",
+  "phases": [],
+  "residual_terms": [
+   "lymphoma"
+  ],
+  "spans": [
+   {
+    "candidates": [],
+    "end": 19,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "minimum_stage",
+    "rule": "evidence_clinical_stage_vocabulary",
+    "start": 5,
+    "text": "clinical-stage"
+   },
+   {
+    "candidates": [
+     "TARGET:KRT20",
+     "TARGET:MS4A1"
+    ],
+    "end": 29,
+    "explanation": null,
+    "kind": "AMBIGUOUS_TARGET",
+    "resolved_to": null,
+    "rule": "homonym_requires_escalation",
+    "start": 25,
+    "text": "CD20"
+   },
+   {
+    "candidates": [],
+    "end": 40,
+    "explanation": null,
+    "kind": "MODALITY",
+    "resolved_to": "MONOCLONAL_ANTIBODY",
+    "rule": "modality_vocabulary",
+    "start": 30,
+    "text": "antibodies"
+   },
+   {
+    "candidates": [],
+    "end": 54,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 45,
+    "text": "lymphoma"
+   }
+  ],
+  "statuses": [],
+  "target_operator": "ANY",
+  "targets": [],
+  "unresolved_scientific_terms": [],
+  "warnings": [
+   "ambiguous terms left unresolved (escalate rather than guess): CD20",
+   "unrecognized terms carried as free text, not as resolved criteria: lymphoma"
+  ]
+ },
+ "AMB2": {
+  "ambiguous_terms": [
+   "PD-1"
+  ],
+  "compiler_version": "intent_v1",
+  "conjunction_stated": false,
+  "human_poc_required": false,
+  "minimum_stage": "PHASE_1",
+  "modalities": [
+   "MONOCLONAL_ANTIBODY"
+  ],
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "original_query": "Find clinical-stage PD-1-directed antibodies for melanoma.",
+  "phase_operator": "EXACT",
+  "phases": [],
+  "residual_terms": [
+   "melanoma"
+  ],
+  "spans": [
+   {
+    "candidates": [],
+    "end": 19,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "minimum_stage",
+    "rule": "evidence_clinical_stage_vocabulary",
+    "start": 5,
+    "text": "clinical-stage"
+   },
+   {
+    "candidates": [
+     "TARGET:PDCD1",
+     "TARGET:RPL17",
+     "TARGET:RPL17-C18ORF32"
+    ],
+    "end": 24,
+    "explanation": null,
+    "kind": "AMBIGUOUS_TARGET",
+    "resolved_to": null,
+    "rule": "homonym_requires_escalation",
+    "start": 20,
+    "text": "PD-1"
+   },
+   {
+    "candidates": [],
+    "end": 44,
+    "explanation": null,
+    "kind": "MODALITY",
+    "resolved_to": "MONOCLONAL_ANTIBODY",
+    "rule": "modality_vocabulary",
+    "start": 34,
+    "text": "antibodies"
+   },
+   {
+    "candidates": [],
+    "end": 58,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 49,
+    "text": "melanoma"
+   }
+  ],
+  "statuses": [],
+  "target_operator": "ANY",
+  "targets": [],
+  "unresolved_scientific_terms": [],
+  "warnings": [
+   "ambiguous terms left unresolved (escalate rather than guess): PD-1",
+   "unrecognized terms carried as free text, not as resolved criteria: melanoma"
+  ]
+ },
+ "H1": {
+  "ambiguous_terms": [],
+  "compiler_version": "intent_v1",
+  "conjunction_stated": false,
+  "human_poc_required": false,
+  "minimum_stage": "PHASE_1",
+  "modalities": [],
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "original_query": "Find clinical-stage GPRC5D-directed therapies for relapsed or refractory multiple myeloma.",
+  "phase_operator": "EXACT",
+  "phases": [],
+  "residual_terms": [
+   "relapsed",
+   "refractory",
+   "multiple",
+   "myeloma"
+  ],
+  "spans": [
+   {
+    "candidates": [],
+    "end": 19,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "minimum_stage",
+    "rule": "evidence_clinical_stage_vocabulary",
+    "start": 5,
+    "text": "clinical-stage"
+   },
+   {
+    "candidates": [],
+    "end": 26,
+    "explanation": "'GPRC5D' -> symbol alias 'GPRC5D' asserted by chembl, open_targets -> GPRC5D -> merged on uniprot:Q9NZD1",
+    "kind": "TARGET",
+    "resolved_to": "GPRC5D",
+    "rule": "unique_alias_match",
+    "start": 20,
+    "text": "GPRC5D"
+   },
+   {
+    "candidates": [],
+    "end": 58,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 50,
+    "text": "relapsed"
+   },
+   {
+    "candidates": [],
+    "end": 72,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 62,
+    "text": "refractory"
+   },
+   {
+    "candidates": [],
+    "end": 81,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 73,
+    "text": "multiple"
+   },
+   {
+    "candidates": [],
+    "end": 90,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 82,
+    "text": "myeloma"
+   }
+  ],
+  "statuses": [],
+  "target_operator": "ANY",
+  "targets": [
+   {
+    "aliases": [],
+    "canonical_id": "GPRC5D",
+    "label": "GPRC5D"
+   }
+  ],
+  "unresolved_scientific_terms": [],
+  "warnings": [
+   "unrecognized terms carried as free text, not as resolved criteria: relapsed, refractory, multiple, myeloma"
+  ]
+ },
+ "H2": {
+  "ambiguous_terms": [
+   "cell"
+  ],
+  "compiler_version": "intent_v1",
+  "conjunction_stated": false,
+  "human_poc_required": false,
+  "minimum_stage": "PHASE_1",
+  "modalities": [],
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "original_query": "Find clinical-stage KRAS G12C inhibitors for non-small cell lung cancer.",
+  "phase_operator": "EXACT",
+  "phases": [],
+  "residual_terms": [
+   "G12C",
+   "inhibitors",
+   "non-small",
+   "lung",
+   "cancer"
+  ],
+  "spans": [
+   {
+    "candidates": [],
+    "end": 19,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "minimum_stage",
+    "rule": "evidence_clinical_stage_vocabulary",
+    "start": 5,
+    "text": "clinical-stage"
+   },
+   {
+    "candidates": [],
+    "end": 24,
+    "explanation": "'KRAS' -> symbol alias 'KRAS' asserted by chembl, open_targets -> KRAS -> merged on uniprot:P01116",
+    "kind": "TARGET",
+    "resolved_to": "KRAS",
+    "rule": "unique_alias_match",
+    "start": 20,
+    "text": "KRAS"
+   },
+   {
+    "candidates": [],
+    "end": 29,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 25,
+    "text": "G12C"
+   },
+   {
+    "candidates": [],
+    "end": 40,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 30,
+    "text": "inhibitors"
+   },
+   {
+    "candidates": [],
+    "end": 54,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 45,
+    "text": "non-small"
+   },
+   {
+    "candidates": [
+     "TARGET:CEL",
+     "TARGET:CELP"
+    ],
+    "end": 59,
+    "explanation": null,
+    "kind": "AMBIGUOUS_TARGET",
+    "resolved_to": null,
+    "rule": "homonym_requires_escalation",
+    "start": 55,
+    "text": "cell"
+   },
+   {
+    "candidates": [],
+    "end": 64,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 60,
+    "text": "lung"
+   },
+   {
+    "candidates": [],
+    "end": 72,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 65,
+    "text": "cancer"
+   }
+  ],
+  "statuses": [],
+  "target_operator": "ANY",
+  "targets": [
+   {
+    "aliases": [],
+    "canonical_id": "KRAS",
+    "label": "KRAS"
+   }
+  ],
+  "unresolved_scientific_terms": [],
+  "warnings": [
+   "ambiguous terms left unresolved (escalate rather than guess): cell",
+   "unrecognized terms carried as free text, not as resolved criteria: G12C, inhibitors, non-small, lung, cancer"
+  ]
+ },
+ "H3": {
+  "ambiguous_terms": [],
+  "compiler_version": "intent_v1",
+  "conjunction_stated": false,
+  "human_poc_required": false,
+  "minimum_stage": "PHASE_1",
+  "modalities": [
+   "MONOCLONAL_ANTIBODY"
+  ],
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "original_query": "Find clinical-stage FcRn-blocking antibodies for generalized myasthenia gravis.",
+  "phase_operator": "EXACT",
+  "phases": [],
+  "residual_terms": [
+   "generalized",
+   "myasthenia",
+   "gravis"
+  ],
+  "spans": [
+   {
+    "candidates": [],
+    "end": 19,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "minimum_stage",
+    "rule": "evidence_clinical_stage_vocabulary",
+    "start": 5,
+    "text": "clinical-stage"
+   },
+   {
+    "candidates": [],
+    "end": 24,
+    "explanation": "'FcRn' -> symbol alias 'FcRn' asserted by open_targets -> FCGRT -> merged on uniprot:P55899",
+    "kind": "TARGET",
+    "resolved_to": "FCGRT",
+    "rule": "unique_alias_match",
+    "start": 20,
+    "text": "FcRn"
+   },
+   {
+    "candidates": [],
+    "end": 44,
+    "explanation": null,
+    "kind": "MODALITY",
+    "resolved_to": "MONOCLONAL_ANTIBODY",
+    "rule": "modality_vocabulary",
+    "start": 34,
+    "text": "antibodies"
+   },
+   {
+    "candidates": [],
+    "end": 60,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 49,
+    "text": "generalized"
+   },
+   {
+    "candidates": [],
+    "end": 71,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 61,
+    "text": "myasthenia"
+   },
+   {
+    "candidates": [],
+    "end": 79,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 72,
+    "text": "gravis"
+   }
+  ],
+  "statuses": [],
+  "target_operator": "ANY",
+  "targets": [
+   {
+    "aliases": [],
+    "canonical_id": "FCGRT",
+    "label": "FCGRT"
+   }
+  ],
+  "unresolved_scientific_terms": [],
+  "warnings": [
+   "unrecognized terms carried as free text, not as resolved criteria: generalized, myasthenia, gravis"
+  ]
+ },
+ "H4": {
+  "ambiguous_terms": [],
+  "compiler_version": "intent_v1",
+  "conjunction_stated": false,
+  "human_poc_required": false,
+  "minimum_stage": "PHASE_1",
+  "modalities": [
+   "MONOCLONAL_ANTIBODY"
+  ],
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "original_query": "Find clinical-stage TL1A antibodies for ulcerative colitis.",
+  "phase_operator": "EXACT",
+  "phases": [],
+  "residual_terms": [
+   "ulcerative",
+   "colitis"
+  ],
+  "spans": [
+   {
+    "candidates": [],
+    "end": 19,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "minimum_stage",
+    "rule": "evidence_clinical_stage_vocabulary",
+    "start": 5,
+    "text": "clinical-stage"
+   },
+   {
+    "candidates": [],
+    "end": 24,
+    "explanation": "'TL1A' -> symbol alias 'TL1A' asserted by open_targets -> TNFSF15",
+    "kind": "TARGET",
+    "resolved_to": "TNFSF15",
+    "rule": "unique_alias_match",
+    "start": 20,
+    "text": "TL1A"
+   },
+   {
+    "candidates": [],
+    "end": 35,
+    "explanation": null,
+    "kind": "MODALITY",
+    "resolved_to": "MONOCLONAL_ANTIBODY",
+    "rule": "modality_vocabulary",
+    "start": 25,
+    "text": "antibodies"
+   },
+   {
+    "candidates": [],
+    "end": 50,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 40,
+    "text": "ulcerative"
+   },
+   {
+    "candidates": [],
+    "end": 59,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 51,
+    "text": "colitis"
+   }
+  ],
+  "statuses": [],
+  "target_operator": "ANY",
+  "targets": [
+   {
+    "aliases": [],
+    "canonical_id": "TNFSF15",
+    "label": "TNFSF15"
+   }
+  ],
+  "unresolved_scientific_terms": [],
+  "warnings": [
+   "unrecognized terms carried as free text, not as resolved criteria: ulcerative, colitis"
+  ]
+ },
+ "H5": {
+  "ambiguous_terms": [],
+  "compiler_version": "intent_v1",
+  "conjunction_stated": false,
+  "human_poc_required": false,
+  "minimum_stage": "PHASE_1",
+  "modalities": [],
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "original_query": "Find clinical-stage Claudin 18.2-directed therapies for gastric cancer.",
+  "phase_operator": "EXACT",
+  "phases": [],
+  "residual_terms": [
+   "Claudin",
+   "18.2",
+   "gastric",
+   "cancer"
+  ],
+  "spans": [
+   {
+    "candidates": [],
+    "end": 19,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "minimum_stage",
+    "rule": "evidence_clinical_stage_vocabulary",
+    "start": 5,
+    "text": "clinical-stage"
+   },
+   {
+    "candidates": [],
+    "end": 27,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 20,
+    "text": "Claudin"
+   },
+   {
+    "candidates": [],
+    "end": 32,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 28,
+    "text": "18.2"
+   },
+   {
+    "candidates": [],
+    "end": 63,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 56,
+    "text": "gastric"
+   },
+   {
+    "candidates": [],
+    "end": 71,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 64,
+    "text": "cancer"
+   }
+  ],
+  "statuses": [],
+  "target_operator": "ANY",
+  "targets": [],
+  "unresolved_scientific_terms": [],
+  "warnings": [
+   "unrecognized terms carried as free text, not as resolved criteria: Claudin, 18.2, gastric, cancer"
+  ]
+ },
+ "TAC01": {
+  "ambiguous_terms": [],
+  "compiler_version": "intent_v1",
+  "conjunction_stated": false,
+  "human_poc_required": false,
+  "minimum_stage": "PHASE_1",
+  "modalities": [
+   "CELL_THERAPY"
+  ],
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "original_query": "Find clinical-stage CD19 cell therapies for relapsed or refractory B-cell lymphoma.",
+  "phase_operator": "EXACT",
+  "phases": [],
+  "residual_terms": [
+   "relapsed",
+   "refractory",
+   "B-cell",
+   "lymphoma"
+  ],
+  "spans": [
+   {
+    "candidates": [],
+    "end": 19,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "minimum_stage",
+    "rule": "evidence_clinical_stage_vocabulary",
+    "start": 5,
+    "text": "clinical-stage"
+   },
+   {
+    "candidates": [],
+    "end": 24,
+    "explanation": "'CD19' -> symbol alias 'CD19' asserted by chembl, open_targets -> CD19 -> merged on uniprot:P15391",
+    "kind": "TARGET",
+    "resolved_to": "CD19",
+    "rule": "unique_alias_match",
+    "start": 20,
+    "text": "CD19"
+   },
+   {
+    "candidates": [],
+    "end": 39,
+    "explanation": null,
+    "kind": "MODALITY",
+    "resolved_to": "CELL_THERAPY",
+    "rule": "modality_vocabulary",
+    "start": 25,
+    "text": "cell therapies"
+   },
+   {
+    "candidates": [],
+    "end": 52,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 44,
+    "text": "relapsed"
+   },
+   {
+    "candidates": [],
+    "end": 66,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 56,
+    "text": "refractory"
+   },
+   {
+    "candidates": [],
+    "end": 73,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 67,
+    "text": "B-cell"
+   },
+   {
+    "candidates": [],
+    "end": 83,
+    "explanation": null,
+    "kind": "RESIDUAL",
+    "resolved_to": null,
+    "rule": "no_vocabulary_match",
+    "start": 74,
+    "text": "lymphoma"
+   }
+  ],
+  "statuses": [],
+  "target_operator": "ANY",
+  "targets": [
+   {
+    "aliases": [],
+    "canonical_id": "CD19",
+    "label": "CD19"
+   }
+  ],
+  "unresolved_scientific_terms": [],
+  "warnings": [
+   "unrecognized terms carried as free text, not as resolved criteria: relapsed, refractory, B-cell, lymphoma"
+  ]
+ },
+ "mint5": {
+  "ambiguous_terms": [],
+  "compiler_version": "intent_v1",
+  "conjunction_stated": true,
+  "human_poc_required": true,
+  "minimum_stage": "PHASE_1",
+  "modalities": [],
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "original_query": "Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with human efficacy.",
+  "phase_operator": "EXACT",
+  "phases": [],
+  "residual_terms": [],
+  "spans": [
+   {
+    "candidates": [],
+    "end": 19,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "minimum_stage",
+    "rule": "evidence_clinical_stage_vocabulary",
+    "start": 5,
+    "text": "clinical-stage"
+   },
+   {
+    "candidates": [],
+    "end": 24,
+    "explanation": null,
+    "kind": "TARGET_LOGIC",
+    "resolved_to": "ALL",
+    "rule": "conjunction_vocabulary",
+    "start": 20,
+    "text": "dual"
+   },
+   {
+    "candidates": [],
+    "end": 29,
+    "explanation": "'CD19' -> symbol alias 'CD19' asserted by chembl, open_targets -> CD19 -> merged on uniprot:P15391",
+    "kind": "TARGET",
+    "resolved_to": "CD19",
+    "rule": "unique_alias_match",
+    "start": 25,
+    "text": "CD19"
+   },
+   {
+    "candidates": [],
+    "end": 34,
+    "explanation": "'BCMA' -> symbol alias 'BCMA' asserted by open_targets -> TNFRSF17 -> merged on uniprot:Q02223",
+    "kind": "TARGET",
+    "resolved_to": "TNFRSF17",
+    "rule": "unique_alias_match",
+    "start": 30,
+    "text": "BCMA"
+   },
+   {
+    "candidates": [],
+    "end": 67,
+    "explanation": null,
+    "kind": "UNRESOLVED_SCIENTIFIC",
+    "resolved_to": null,
+    "rule": "disease_class_not_enforceable",
+    "start": 49,
+    "text": "autoimmune disease"
+   },
+   {
+    "candidates": [],
+    "end": 88,
+    "explanation": null,
+    "kind": "EVIDENCE",
+    "resolved_to": "human_poc_required",
+    "rule": "evidence_human_poc_vocabulary",
+    "start": 73,
+    "text": "human efficacy"
+   }
+  ],
+  "statuses": [],
+  "target_operator": "ALL",
+  "targets": [
+   {
+    "aliases": [],
+    "canonical_id": "CD19",
+    "label": "CD19"
+   },
+   {
+    "aliases": [],
+    "canonical_id": "TNFRSF17",
+    "label": "TNFRSF17"
+   }
+  ],
+  "unresolved_scientific_terms": [
+   "autoimmune disease"
+  ],
+  "warnings": [
+   "target operator ALL stated by conjunction_stated"
+  ]
+ }
+}

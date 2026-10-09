@@ -374,3 +374,25 @@ saved v4 copy, sha256 `c4ce8d99509be2438de9abee087cead5a2abfd4838356b7f6eeb459f1
   the full `tests/se` plus ruff; none of the earlier v4 measurements is reused.
 
 Adopt or revert strictly. If adopted, run H11–H15 untouched.
+
+## 14. Result — TARGET_AFFIX_RECOGNITION v5, 2026-10-09: ADOPTED
+
+**Code:** `src/bve/se/intent/parser.py`, sha256 `c4ce8d99…`, byte-identical to v4.
+**Scorer:** `scripts/score_target_affix_recognition_v5.py` → `research/se_heldout/affix_stage_av_v5.txt`
+(AV1–AV5) and `affix_stage_av_v5_av6.txt` (AV6). All six criteria were run together in one
+pass.
+
+| Criterion | Result |
+|---|---|
+| **AV1** | **PASS.** Strict parity holds for 29,316 of 29,316, with 0 add, substitute or lose. |
+| **AV2** | **PASS.** 0 of 134 negative controls produce a target. |
+| **AV3** | **PASS.** H1 → [GPRC5D], H3 → [FCGRT] only, H5 refused, H2 unchanged. |
+| **AV4** | **PASS.** TAC01, mint5, H2 and H4 identical. |
+| **AV5** | **PASS.** `anti-CD20` and `PD-1-directed` stay ambiguous. |
+| **AV6** | **PASS.** ruff clean; `tests/se` 1,663 passed, 3 xfailed. |
+
+**Status: ADOPTED.** TAC01 and mint5 parse identically (AV4), so no benchmark replay is needed.
+
+**Next:** run H11–H15 (`heldout_validation_suite_v3.md`) untouched, at this commit, then H6–H10
+as secondary confirmation. Still open, as separate milestones: D-iso (Claudin 18.2), D-var
+(KRAS G12C), and the shortlist non-product/off-target diagnosis.

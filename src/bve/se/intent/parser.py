@@ -332,12 +332,59 @@ def _apply_separator_safety(query: str, spans: list[IntentSpan]) -> list[IntentS
     return kept + added
 
 
+#: ``target_recognition_generalization_diagnosis_v1.md`` §11: the modifier forms literature
+#: writes a target in. Closed on purpose; only the outer affix of a whole token is removed.
+_TARGET_AFFIX = re.compile(
+    r"^(?:anti-(?P<prefixed>.+)|(?P<suffixed>.+?)-(?:directed|targeted|targeting|blocking"
+    r"|binding|specific))$",
+    re.IGNORECASE,
+)
+
+
+def _strip_target_affixes(query: str) -> str:
+    """The query with each token's outer target affix blanked out, at the same length.
+
+    ``GPRC5D-directed`` is then read by the ordinary bare-name path exactly as ``GPRC5D``
+    is -- separator handling included -- so an affixed form can never mean more, less or
+    other than its bare form. A token that resolves as written is left alone.
+    """
+
+    working = list(query)
+    for match in re.finditer(r"[^\s]+", query):
+        token = match.group(0)
+        core = _clean(token)
+        if not core:
+            continue
+        affix = _TARGET_AFFIX.match(core)
+        if affix is None:
+            continue
+        remainder = affix.group("prefixed") or affix.group("suffixed") or ""
+        if not remainder or remainder.casefold() in _STOPWORDS:
+            continue
+        whole = resolve_target(core)
+        if whole is not None and whole.status in (
+            ResolutionStatus.RESOLVED,
+            ResolutionStatus.AMBIGUOUS,
+        ):
+            continue
+        core_start = match.start() + token.find(core)
+        keep_start = core_start + affix.start("prefixed" if affix.group("prefixed") else "suffixed")
+        keep_end = keep_start + len(remainder)
+        for position in range(core_start, core_start + len(core)):
+            if not keep_start <= position < keep_end:
+                working[position] = " "
+    return "".join(working)
+
+
 def parse_query(query: str) -> SearchIntent:
     """Parse a question into an audited :class:`SearchIntent`.
 
     Matching is longest-phrase-first and non-overlapping, so ``bispecific t cell engager``
     resolves as one modality rather than as ``bispecific`` plus a separate engager term.
     """
+
+    original_query = query
+    query = _strip_target_affixes(query)
 
     spans: list[IntentSpan] = []
     consumed: list[tuple[int, int]] = []
@@ -607,7 +654,7 @@ def parse_query(query: str) -> SearchIntent:
         )
 
     return SearchIntent(
-        original_query=query,
+        original_query=original_query,
         compiler_version=INTENT_COMPILER_VERSION,
         ontology_version=version,
         spans=spans,
