@@ -214,3 +214,22 @@ copy.
 
 **Acceptance.** DV1–DV7 as in §7, unchanged, with **DV3 still an exact match**, scored against
 `labels_v3.json`. DV7 includes the full `tests/se` run and ruff. Adopt or revert strictly.
+
+## 10. Result — DUAL_TARGET_SEPARATOR_SAFETY v3, 2026-10-09: ADOPTED
+
+**Scorer:** `scripts/score_dual_target_separator_safety_v3.py` → `research/se_separator/stage_dv_v3.txt`.
+
+| Criterion | Result |
+|---|---|
+| **DV1** | **PASS.** 0 wrong targets in 7,150 cases. Before: 1,170 (1,165 affixed, 5 bare). |
+| **DV2** | **PASS.** All 1,412 WHOLE cases resolve to the whole-name target, including the 13 previously missed. |
+| **DV3** | **PASS.** The DUAL case is exact. |
+| **DV4** | **PASS.** The 11 controls are identical; TAC01, mint5 and H1–H5 are identical in full intent. |
+| **DV5** | **PASS.** |
+| **DV6** | **PASS.** 0 of the non-separator names changed. |
+| **DV7** | **PASS.** `tests/se` 1655 passed, 3 xfailed; ruff clean. A regression test was added: `tests/se/test_dual_target_separator_safety.py`. |
+
+**Status: ADOPTED.** No benchmark parse changed, so no replay is needed (DV4).
+
+**Next:** TARGET_AFFIX_RECOGNITION v3 under the same strict parity concept. H11–H15 stay
+untouched until it is adopted or reverted.

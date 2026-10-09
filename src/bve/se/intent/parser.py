@@ -261,6 +261,77 @@ def _match_modality(phrase: str) -> str | None:
     return None
 
 
+def _apply_separator_safety(query: str, spans: list[IntentSpan]) -> list[IntentSpan]:
+    """``dual_target_separator_safety_v1.md`` §7: never assert a target from a name fragment.
+
+    For a token joined by a dual-target separator: a whole name the authority resolves is
+    one target; a split every piece of which names a target is a dual-target expression;
+    anything else returns its resolved fragments to free text.
+    """
+
+    target_kinds = (SpanKind.TARGET, SpanKind.AMBIGUOUS_TARGET)
+    demoted: set[int] = set()
+    replaced: set[int] = set()
+    added: list[IntentSpan] = []
+    for match in re.finditer(r"[^\s]+", query):
+        token = match.group(0)
+        if not _TARGET_JOIN.search(token):
+            continue
+        t_start, t_end = match.start(), match.end()
+        inside = [
+            index
+            for index, span in enumerate(spans)
+            if span.kind in target_kinds and t_start <= span.start and span.end <= t_end
+        ]
+        cleaned = _clean(token)
+        whole = resolve_target(cleaned) if cleaned else None
+        if (
+            whole is not None
+            and whole.status is ResolutionStatus.RESOLVED
+            and whole.entity is not None
+        ):
+            replaced.update(inside)
+            offset = token.find(cleaned)
+            added.append(
+                IntentSpan(
+                    text=cleaned,
+                    start=t_start + offset,
+                    end=t_start + offset + len(cleaned),
+                    kind=SpanKind.TARGET,
+                    resolved_to=whole.entity.canonical_symbol,
+                    rule="separator_whole_name",
+                    explanation=(
+                        whole.basis.explain(whole.entity.canonical_symbol)
+                        if whole.basis
+                        else None
+                    ),
+                )
+            )
+            continue
+        pieces = [(t_start + start, t_start + end) for _, start, end in _tokenize(token)]
+        covered = all(
+            any(spans[i].start <= p_start and p_end <= spans[i].end for i in inside)
+            for p_start, p_end in pieces
+        )
+        if not covered:
+            demoted.update(i for i in inside if spans[i].kind is SpanKind.TARGET)
+    kept = []
+    for index, span in enumerate(spans):
+        if index in replaced:
+            continue
+        if index in demoted:
+            span = span.model_copy(
+                update={
+                    "kind": SpanKind.RESIDUAL,
+                    "resolved_to": None,
+                    "rule": "separator_fragment_unconfirmed",
+                    "explanation": None,
+                }
+            )
+        kept.append(span)
+    return kept + added
+
+
 def parse_query(query: str) -> SearchIntent:
     """Parse a question into an audited :class:`SearchIntent`.
 
@@ -438,6 +509,7 @@ def parse_query(query: str) -> SearchIntent:
             )
         )
 
+    spans = _apply_separator_safety(query, spans)
     spans.sort(key=lambda span: (span.start, span.end))
 
     targets: list[TargetTerm] = []

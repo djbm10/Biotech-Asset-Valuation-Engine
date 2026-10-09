@@ -1,0 +1,7 @@
+DV1 zero wrong targets: True violations=0 []
+DV2 WHOLE kept: True violations=0 []
+DV3 DUAL exact: True []
+   classes after: {('bare', 'WHOLE', 'correct'): 1412, ('bare', 'NONE', 'correct'): 17, ('bare', 'DUAL', 'correct'): 1, ('affixed', 'NONE', 'correct'): 5720}
+DV4 controls identical: True control diffs=[] full-intent diffs=[]
+DV5 ambiguous never gains: True []
+DV6 non-separator names unchanged: True changed=0 []
