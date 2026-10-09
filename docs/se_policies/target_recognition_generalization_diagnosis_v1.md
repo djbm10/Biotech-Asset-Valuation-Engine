@@ -106,3 +106,42 @@ anti-drug, liver-targeted.
 - **Adopt** if AR1–AR6 all pass.
 - **Otherwise** revert. Do not extend the affix grammar.
 - Generalization is judged only on H6–H10.
+
+## 6. Result — TARGET_AFFIX_RECOGNITION v1, 2026-10-09: FAILED_ACCEPTANCE, reverted
+
+**Scorer:** `scripts/score_target_affix_recognition_v1.py` → `research/se_heldout/affix_stage_ar_v1.txt`.
+**Implementation:** applied to the working tree only, never committed, and reverted. The
+revert restores the baseline parses byte for byte.
+
+| Criterion | Result |
+|---|---|
+| **AR1** | **FAIL.** 10,881 of 10,888 affixed parses equal the bare parse. 7 mismatches, from 2 names. |
+| **AR2** | PASS. 0 of 134 negative controls produce a target. |
+| **AR3** | PASS. H1 → `[GPRC5D]`, H3 → `[FCGRT]`, H5 still refused. |
+| **AR4** | PASS. TAC01, mint5, H2 and H4 parse identically. |
+| **AR5** | PASS. `anti-CD20` and `PD-1-directed` produce AMBIGUOUS spans. |
+| **AR6** | Not run, because AR1 had already failed. |
+
+**The 7 AR1 mismatches** both come from tokenization that runs before the affix retry:
+
+1. **`IGKV1/OR1-1` + affix, ×4.** The dual-target tokenizer splits on `/`. The second piece,
+   `OR1-1-directed`, loses its affix and resolves `OR1-1`, an alias of **OR4F3**. That is a
+   **wrong target**, so the rule can manufacture false targets from slash-containing names.
+2. **`14q(II-21)` + suffix, ×3.** The bare frame is not recognized: the parenthesis cleaning
+   in `_clean` breaks the name. The affixed token survives cleaning and resolves to
+   SNORD114-21. This is a recall difference, not a wrong target, but it breaks the frozen
+   "if and only if" rule.
+
+Following §5's stop condition, **v1 is reverted, and the affix grammar is not extended or
+tuned.**
+
+**Diagnosis stands.** Affixed target language is refused for every target. H1 and H3 remain
+refused at HEAD.
+
+**What a v2 would have to settle before preregistration (operator decision):**
+- the affix retry has to run **before** dual-target splitting, or skip tokens containing a
+  join separator;
+- whether AR1 should require "affixed ⊆ bare-or-equal" (no new or different target), rather
+  than strict equality, given that case 2 is a pre-existing bare-frame tokenization defect.
+
+**Benchmarks touched:** none. Nothing was replayed. H6–H10 are untouched.

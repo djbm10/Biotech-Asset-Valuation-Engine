@@ -1,0 +1,12 @@
+AR1 affixed == bare: False (10881/10888); mismatches=7
+    ('IGKV1/OR1-1', 'directed', ['IGKV1OR1-1'], ['OR4F3'])
+    ('IGKV1/OR1-1', 'targeting', ['IGKV1OR1-1'], ['OR4F3'])
+    ('IGKV1/OR1-1', 'blocking', ['IGKV1OR1-1'], ['OR4F3'])
+    ('IGKV1/OR1-1', 'anti', ['IGKV1OR1-1'], ['OR4F3'])
+    ('14q(II-21)', 'directed', [], ['SNORD114-21'])
+    ('14q(II-21)', 'targeting', [], ['SNORD114-21'])
+    ('14q(II-21)', 'blocking', [], ['SNORD114-21'])
+AR2 negative controls producing a target: 0 of 134 []
+AR3 H1=['GPRC5D'] H3=['FCGRT'] H5 refused=True
+AR4 identical parse for controls: {'TAC01': True, 'mint5': True, 'H2': True, 'H4': True}
+AR5 ambiguous affixed forms fail closed: True {'AMB1': ([], [['TARGET:KRT20', 'TARGET:MS4A1']]), 'AMB2': ([], [['TARGET:PDCD1', 'TARGET:RPL17', 'TARGET:RPL17-C18ORF32']])}
