@@ -145,3 +145,49 @@ refused at HEAD.
   than strict equality, given that case 2 is a pre-existing bare-frame tokenization defect.
 
 **Benchmarks touched:** none. Nothing was replayed. H6–H10 are untouched.
+
+## 7. TARGET_AFFIX_RECOGNITION v2 — preregistration (2026-10-09)
+
+The v1 result and its population (§2, §6) are preserved unchanged.
+
+**Rule.** The rule is v1 §5 (same closed affix grammar, one affix, one retry, only when the
+whole token does not resolve), plus two path constraints:
+
+- **S1. Separator exclusion.** No affix retry when the **original whitespace token** contains
+  a dual-target separator (`_TARGET_JOIN`: `/`, `×`, or `x` before a capital letter). Such
+  tokens go through the existing multi-target logic unchanged. The retry is never run before
+  the splitter.
+- **S2. Path equivalence.** The affix remainder goes through the same `_clean` normalization
+  as a bare token before `resolve_target`. An affixed expression can therefore never get past
+  a bare-path limitation: `14q(II-21)-directed` cleans to the same string as bare
+  `14q(II-21)`, and so stays unresolved.
+
+**Frozen population.** `research/se_heldout/affix_population_v2.json`, built by
+`affix_population_v2.py` before any v2 code (sha256
+`28cb3aabb544589a5a4050b90169bb60a38190e1a05fc9d0951a2b907c5e9e38`), with 7,329 names:
+- a new sample: every 40th target at offset 20, which is disjoint from v1;
+- every v1 sample name;
+- every snapshot alias of 24 characters or fewer that contains a dual-target separator (1,430)
+  or a parenthesis (467).
+
+It also stores each name's bare-frame parse (targets and ambiguous candidate sets) at
+`ab7ace9`.
+
+**Acceptance (strict, no weakening):**
+- **AV1. Metamorphic parity.** For every population name B and each wrapper W ∈ {`B-directed`,
+  `B-targeting`, `B-blocking`, `anti-B`}, `parse(W(B))` equals the frozen `parse(B)` exactly:
+  the same target ids and the same ambiguous candidate sets. Resolved stays identical,
+  ambiguous stays ambiguous, unresolved stays unresolved. **Zero** mismatches are allowed.
+- **AV2.** 0 of the 134 negative controls (v1 §2 plus §5's 14) produce a target.
+- **AV3.** H1 → exactly `[GPRC5D]`; H3 → exactly `[FCGRT]`, never B2M; H5 refused; H2 parse
+  unchanged (KRAS G12C defect untouched).
+- **AV4.** TAC01, mint5, H2 and H4 parses are identical to `affix_controls_before_v1.json`.
+- **AV5.** `anti-CD20` and `PD-1-directed` stay AMBIGUOUS.
+- **AV6.** `tests/se` and ruff pass.
+
+**Decision.**
+- **If any of AV1–AV6 fails:** revert with no patching after the results.
+- **If all pass:** adopt, then run H11–H15 (primary), then H6–H10 (secondary).
+
+**Out of scope:** KRAS G12C variant semantics, Claudin 18.2 isoform semantics, and shortlist
+pollution.
