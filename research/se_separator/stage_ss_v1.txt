@@ -1,0 +1,6 @@
+SS1 affixed targets subset of bare: True violations=0 []
+   classes after fix: {'lost': 5596, 'equal': 71, 'ambiguity_changed': 53}
+SS2 bare parses unchanged: False (7322/7329) ['TaxREB107', 'TaxREB302', 'TaxREB67', 'TaxREB803', 'UNQ2421/PRO4979/PRO34274']
+SS3 previously-equal cases unchanged: False changed=708 [('1A6/DRIM', 'anti-{}'), ('24b2/STAC2', '{}-directed'), ('24b2/STAC2', '{}-targeting'), ('24b2/STAC2', '{}-blocking'), ('24b2/STAC2', 'anti-{}')]
+SS4 controls identical: True [] | full-intent identical: {'TAC01': True, 'mint5': True, 'H1': True, 'H2': True, 'H3': True, 'H4': True, 'H5': True}
+SS5 ambiguous sets never gain a member: True []

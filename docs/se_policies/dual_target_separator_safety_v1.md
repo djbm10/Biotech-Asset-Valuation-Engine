@@ -74,3 +74,42 @@ is about **zero wrong targets**.
 
 - **Adopt** if SS1–SS6 all pass.
 - **Otherwise** revert, with no patching after the results.
+
+## 6. Result — 2026-10-09: FAILED_ACCEPTANCE, reverted
+
+**Scorer:** `scripts/score_dual_target_separator_safety_v1.py` → `research/se_separator/stage_ss_v1.txt`;
+failure samples in `stage_ss_v1_failures.txt`. The code was applied to the working tree only
+and is reverted with no patching. The `tests/se` run was stopped once SS2 and SS3 had failed.
+
+| Criterion | Result |
+|---|---|
+| **SS1** | PASS. 0 wrong targets. "different" and "gained" go from 430 + 26 to **0**. |
+| **SS2** | **FAIL.** 7 of 7,329 bare parses changed. |
+| **SS3** | **FAIL.** 708 of 779 previously-equal cases changed: their target was lost. |
+| SS4 | PASS. All 11 controls, plus TAC01, mint5 and H1–H5, are identical. |
+| SS5 | PASS. No ambiguous set gained a member. |
+| SS6 | Not completed. |
+
+**What the failures show.** SS2 and SS3 measured against a baseline that **itself contains
+fragment-derived targets**. The rule removed exactly those:
+
+| Name | Frozen target | How the baseline got it |
+|---|---|---|
+| `TaxREB107` | TOR1A | The tokenizer splits on `x` before a capital (`Ta` + `REB107`), and the fragment `Ta` resolves to TOR1A. **A wrong target in a bare name.** |
+| `UNQ2421/PRO4979/PRO34274` | FNDC3B | Only the middle piece resolves. Here the fragment is coincidentally correct. |
+| `24b2/STAC2-directed`, `anti-1A6/DRIM` (the 708 SS3 cases) | STAC2, UTP20 | Fragments that are aliases of the same gene, so the target is coincidentally correct. |
+
+The preregistered SS2 and SS3 required preserving baseline behaviour that is partly the
+defect, so SS1 and SS2/SS3 cannot be satisfied together by any fragment rule. This is a
+**preregistration design error**: SS2 and SS3 were written assuming every baseline target was
+legitimate. As frozen, the milestone fails.
+
+**Also learned:**
+- **Bare names are affected too, not only affixed ones.** For example, `TaxREB107` → TOR1A comes
+  from the `x`-before-capital separator.
+- Some fragment resolutions are correct only by coincidence: the fragment is an alias of the
+  same gene as the whole name.
+
+**Decision needed before v2:** how to tell a coincidentally correct fragment target (fragment
+alias of the same gene as the whole name) from a wrong one. The frozen baseline needs labels
+for which of its fragment-derived targets are correct.
