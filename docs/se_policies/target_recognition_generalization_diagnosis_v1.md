@@ -191,3 +191,42 @@ It also stores each name's bare-frame parse (targets and ambiguous candidate set
 
 **Out of scope:** KRAS G12C variant semantics, Claudin 18.2 isoform semantics, and shortlist
 pollution.
+
+## 8. Result — TARGET_AFFIX_RECOGNITION v2, 2026-10-09: FAILED_ACCEPTANCE, reverted
+
+**Scorer:** `scripts/score_target_affix_recognition_v2.py` → `research/se_heldout/affix_stage_av_v2.txt`;
+breakdown in `affix_stage_av_v2_breakdown.txt`. The v2 code was applied to the working tree
+only and is reverted. A copy is kept outside the repository.
+
+| Criterion | Result |
+|---|---|
+| **AV1** | **FAIL.** 24,375 of 29,316 parses match. **All 4,941 mismatches are names containing a dual-target separator.** Plain names and parenthesis names: **0 mismatches** (S2 closed the `14q(II-21)` class). Separator-name mismatches: 4,457 target lost, 430 different target, 26 target gained, 28 ambiguity changed. |
+| AV2 | PASS. 0 of 134 negative controls produce a target. |
+| AV3 | PASS. H1 → `[GPRC5D]`, H3 → `[FCGRT]`, H5 refused, H2 unchanged. |
+| AV4 | PASS. TAC01, mint5, H2 and H4 are identical. |
+| AV5 | PASS. `anti-CD20` and `PD-1-directed` stay ambiguous. |
+| AV6 | Not run, because AV1 had already failed. |
+
+**Attribution of the AV1 failure (measured after the revert, on the unmodified parser at
+`69f00e7`).** The same 4,941 mismatches, with the identical class counts, occur **without v2**
+(`affix_v2_baseline_check.txt`). They are produced by the existing dual-target splitter, which
+S1 deliberately leaves untouched. For example, `anti-ABP/ZF` splits into `anti-ABP` + `ZF`,
+and `ZF` → CREBZF. v2 added **zero** mismatches of its own. The strict parity criterion
+nevertheless measures the parser's end-to-end behaviour on affixed forms, and that behaviour
+fails for separator names whether or not v2 is present.
+
+**Decision.** Reverted, as preregistered, with no patching after the results. H11–H15 are
+**not** run, and H1/H3 remain refused at HEAD.
+
+**New finding, recorded as a separate pre-existing defect (D-sep).** Any affixed
+slash-containing target name (430 different-target cases) makes the current splitter assert a
+**wrong target**. This happens today on the production parser, independent of any affix work.
+It is a correctness bug in its own right.
+
+**Operator decision needed before any v3.** The AV1 population includes 1,430 separator names
+whose affixed forms the parser cannot handle without changing the dual-target splitter, which
+was ruled out of scope. Either:
+- fix D-sep first, as its own milestone (the splitter must not mint a target from a fragment of
+  an affixed token), then re-run the affix work; or
+- re-scope affix parity to a population that excludes separator names. That would weaken what
+  "parity" covers, so it needs an explicit operator decision.

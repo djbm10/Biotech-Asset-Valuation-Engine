@@ -1,0 +1,4 @@
+('separator', 'ambiguity_changed') 28 e.g. ('H2A/q', 'anti-{}', {'ambiguous': ['TARGET:H2AC18,TARGET:H2AC20'], 'targets': []}, {'targets': [], 'ambiguous': []})
+('separator', 'different') 430 e.g. ('ABP/ZF', 'anti-{}', {'ambiguous': [], 'targets': ['TRPV6']}, {'targets': ['CREBZF'], 'ambiguous': []})
+('separator', 'gained') 26 e.g. ('H2B/S', '{}-directed', {'ambiguous': ['TARGET:H2BC12,TARGET:H2BC12L,TARGET:H2BC19P,TARGET:H2BW2'], 'targets': []}, {'targets': ['H2BC21'], 'ambiguous': []})
+('separator', 'lost') 4457 e.g. ('1/2-SBSRNA4', '{}-directed', {'ambiguous': [], 'targets': ['SEC24B-AS1']}, {'targets': [], 'ambiguous': []})
