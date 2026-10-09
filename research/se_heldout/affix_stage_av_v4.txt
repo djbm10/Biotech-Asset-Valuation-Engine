@@ -1,0 +1,5 @@
+AV1 parity: True (29316/29316) mismatches=0
+AV2 negative controls with a target: 0 of 134 []
+AV3 H1=['GPRC5D'] H3=['FCGRT'] H5 refused=True H2 unchanged=True
+AV4 identical: {'TAC01': True, 'mint5': True, 'H2': True, 'H4': True}
+AV5 ambiguous stay ambiguous: True {'AMB1': ([], [['TARGET:KRT20', 'TARGET:MS4A1']]), 'AMB2': ([], [['TARGET:PDCD1', 'TARGET:RPL17', 'TARGET:RPL17-C18ORF32']])}

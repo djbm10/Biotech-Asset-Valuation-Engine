@@ -321,3 +321,36 @@ been made since, so its bare parses are still current. Same controls.
 **Acceptance.** AV1–AV6 are unchanged, **with AV1 strict** (zero add, substitute **or lose**),
 scored by `scripts/score_target_affix_recognition_v3.py`. Adopt or revert strictly. H11–H15
 stay untouched until then.
+
+## 12. Result — TARGET_AFFIX_RECOGNITION v4, 2026-10-09: FAILED_ACCEPTANCE (AV6), reverted
+
+**Scorer:** `scripts/score_target_affix_recognition_v4.py` → `research/se_heldout/affix_stage_av_v4.txt`.
+The code was applied to the working tree only and is reverted. A copy is kept outside the
+repository. H11–H15 were **not** run.
+
+| Criterion | Result |
+|---|---|
+| **AV1** | **PASS.** Strict parity holds for **29,316 of 29,316**, with 0 mismatches. |
+| AV2 | PASS. 0 of 134. |
+| AV3 | PASS. H1 → [GPRC5D], H3 → [FCGRT] only, H5 refused, H2 unchanged. |
+| AV4 | PASS. TAC01, mint5, H2 and H4 identical. |
+| AV5 | PASS. `anti-CD20` and `PD-1-directed` stay ambiguous. |
+| **AV6** | **FAIL.** ruff is clean. `tests/se`: **1 failed**, 1,659 passed, 3 xfailed. |
+
+**The one failing test** is `test_dual_target_separator_safety.py::test_a_fragment_of_an_unresolved_name_is_not_a_target`.
+It asserts `anti-ABP/ZF` → ∅. Under v4, `anti-ABP/ZF` parses exactly as bare `ABP/ZF`, which
+the authority resolves as a whole name to **TRPV6** (DUAL_TARGET_SEPARATOR_SAFETY's WHOLE
+label). That is the parity the operator specified for v4, and TRPV6 is not a fragment
+target.
+
+I added that test after scoring DUAL_TARGET_SEPARATOR_SAFETY v3, and it was **not**
+preregistered. It encoded the pre-affix behaviour (affixed separator names unrecognized), not
+a correctness property, so its expectation conflicts with v4's specified semantics. AV6 was
+frozen as "`tests/se` passes", so v4 fails as preregistered. Editing the test after the
+results would be post-hoc, so I did not.
+
+**Operator decision needed:**
+- replace that test's example with a genuine fragment case that v4 leaves unchanged (for
+  example `AK/ATPase` → never ADK); then
+- re-run AV6 alone on the byte-identical v4 code. AV1–AV5 are already measured and would not
+  be re-run.
