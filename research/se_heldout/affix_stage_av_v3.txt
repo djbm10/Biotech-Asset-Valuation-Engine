@@ -1,0 +1,25 @@
+AV1 parity: False (23615/29316) mismatches=5701
+    ('1/2-SBSRNA4', 'directed', {'ambiguous': [], 'targets': ['SEC24B-AS1']}, {'targets': [], 'ambiguous': []})
+    ('1/2-SBSRNA4', 'targeting', {'ambiguous': [], 'targets': ['SEC24B-AS1']}, {'targets': [], 'ambiguous': []})
+    ('1/2-SBSRNA4', 'blocking', {'ambiguous': [], 'targets': ['SEC24B-AS1']}, {'targets': [], 'ambiguous': []})
+    ('1/2-SBSRNA4', 'anti', {'ambiguous': [], 'targets': ['SEC24B-AS1']}, {'targets': [], 'ambiguous': []})
+    ('12/15-lipoxygenase', 'directed', {'ambiguous': [], 'targets': ['ALOX15']}, {'targets': [], 'ambiguous': []})
+    ('12/15-lipoxygenase', 'targeting', {'ambiguous': [], 'targets': ['ALOX15']}, {'targets': [], 'ambiguous': []})
+    ('12/15-lipoxygenase', 'blocking', {'ambiguous': [], 'targets': ['ALOX15']}, {'targets': [], 'ambiguous': []})
+    ('12/15-lipoxygenase', 'anti', {'ambiguous': [], 'targets': ['ALOX15']}, {'targets': [], 'ambiguous': []})
+    ('1A6/DRIM', 'directed', {'ambiguous': [], 'targets': ['UTP20']}, {'targets': [], 'ambiguous': []})
+    ('1A6/DRIM', 'targeting', {'ambiguous': [], 'targets': ['UTP20']}, {'targets': [], 'ambiguous': []})
+    ('1A6/DRIM', 'blocking', {'ambiguous': [], 'targets': ['UTP20']}, {'targets': [], 'ambiguous': []})
+    ('1A6/DRIM', 'anti', {'ambiguous': [], 'targets': ['UTP20']}, {'targets': [], 'ambiguous': []})
+    ('24b2/STAC2', 'directed', {'ambiguous': [], 'targets': ['STAC2']}, {'targets': [], 'ambiguous': []})
+    ('24b2/STAC2', 'targeting', {'ambiguous': [], 'targets': ['STAC2']}, {'targets': [], 'ambiguous': []})
+    ('24b2/STAC2', 'blocking', {'ambiguous': [], 'targets': ['STAC2']}, {'targets': [], 'ambiguous': []})
+    ('24b2/STAC2', 'anti', {'ambiguous': [], 'targets': ['STAC2']}, {'targets': [], 'ambiguous': []})
+    ('323/A3', 'directed', {'ambiguous': [], 'targets': ['EPCAM']}, {'targets': [], 'ambiguous': []})
+    ('323/A3', 'targeting', {'ambiguous': [], 'targets': ['EPCAM']}, {'targets': [], 'ambiguous': []})
+    ('323/A3', 'blocking', {'ambiguous': [], 'targets': ['EPCAM']}, {'targets': [], 'ambiguous': []})
+    ('323/A3', 'anti', {'ambiguous': [], 'targets': ['EPCAM']}, {'targets': [], 'ambiguous': ['TARGET:IGKV2D-28,TARGET:TCIRG1']})
+AV2 negative controls with a target: 0 of 134 []
+AV3 H1=['GPRC5D'] H3=['FCGRT'] H5 refused=True H2 unchanged=True
+AV4 identical: {'TAC01': True, 'mint5': True, 'H2': True, 'H4': True}
+AV5 ambiguous stay ambiguous: True {'AMB1': ([], [['TARGET:KRT20', 'TARGET:MS4A1']]), 'AMB2': ([], [['TARGET:PDCD1', 'TARGET:RPL17', 'TARGET:RPL17-C18ORF32']])}

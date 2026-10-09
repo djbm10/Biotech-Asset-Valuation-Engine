@@ -255,3 +255,33 @@ path equivalence), re-applied byte for byte from the reverted copy.
 - **AV6:** full `tests/se` and ruff.
 
 Adopt or revert strictly. If adopted, run H11–H15 untouched.
+
+## 10. Result — TARGET_AFFIX_RECOGNITION v3, 2026-10-09: FAILED_ACCEPTANCE, reverted
+
+**Scorer:** `scripts/score_target_affix_recognition_v3.py` → `research/se_heldout/affix_stage_av_v3.txt`;
+breakdown in `affix_stage_av_v3_breakdown.txt`. The identical v2 hunks were re-applied
+(verified byte-identical) and then reverted. H11–H15 were **not** run.
+
+| Criterion | Result |
+|---|---|
+| **AV1** | **FAIL.** 23,615 of 29,316 parses match. All 5,701 mismatches are separator names: 5,648 target **lost**, 53 ambiguity changed. **0 different, 0 gained.** Plain and parenthesis names: 0 mismatches. |
+| AV2 | PASS. 0 of 134. |
+| AV3 | PASS. H1 → [GPRC5D], H3 → [FCGRT], H5 refused, H2 unchanged. |
+| AV4 | PASS. TAC01, mint5, H2 and H4 identical. |
+| AV5 | PASS. |
+| AV6 | Not run, because AV1 had already failed. |
+
+**Why.** After D-sep, wrong targets are gone. But strict parity also forbids **losing** a
+target, and S1 (no affix retry on separator tokens), set by the operator in v2, makes every
+affixed separator name unresolved. For example, `12/15-lipoxygenase` gives ALOX15, while
+`12/15-lipoxygenase-directed` gives ∅. So S1 and strict parity are jointly unsatisfiable for
+the 1,430 separator names. That was predictable from v2 §8 and should have been caught before
+preregistering v3.
+
+**Operator decision needed for v4:**
+- (a) **Allow the affix retry on a separator token only for the whole-name path:** strip the
+  affix, then resolve the **whole** remainder by the authority (the D-sep WHOLE rule). It never
+  splits. A miss stays unresolved. This keeps the S1 intent (no affix handling inside the
+  splitter), but S1 as worded forbids it.
+- (b) Keep S1 and **scope parity to non-separator names**, reporting separator names as
+  "may lose, never add or substitute".
