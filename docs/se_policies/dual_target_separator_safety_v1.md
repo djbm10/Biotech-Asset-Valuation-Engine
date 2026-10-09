@@ -197,3 +197,20 @@ repository. `tests/se` was not run.
 it resolves **and is not a single character or a stopword**, and/or relax DV3 to "⊆ E". With
 either change, the measured v2 behaviour would pass every criterion it was scored on. Note that
 DV7 has not been run.
+
+## 9. DUAL_TARGET_SEPARATOR_SAFETY v3 — preregistration (2026-10-09)
+
+**Operator decision.** This corrects how the label builder defines a valid fragment. It is not
+parser tuning. A DUAL component must resolve **and** be at least 2 characters long **and** not
+be a parser stopword.
+
+**Labels (frozen before code).** `research/se_separator/labels_v3.json` (sha256
+`5ce8570faa28084c09455e9e0b39605e2b26632d380b2f6566483e4a56197984`), built by
+`freeze_labels_v3.py`. It differs from v2 only in that `valid()` predicate. Exactly one case
+changed label: `H2B/h` DUAL → NONE. The other 7,149 labels are identical.
+
+**Rule.** The **identical** v2 production rule (§7), re-applied byte for byte from the reverted
+copy.
+
+**Acceptance.** DV1–DV7 as in §7, unchanged, with **DV3 still an exact match**, scored against
+`labels_v3.json`. DV7 includes the full `tests/se` run and ruff. Adopt or revert strictly.
