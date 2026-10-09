@@ -285,3 +285,39 @@ preregistering v3.
   splitter), but S1 as worded forbids it.
 - (b) Keep S1 and **scope parity to non-separator names**, reporting separator names as
   "may lose, never add or substitute".
+
+## 11. TARGET_AFFIX_RECOGNITION v4 — preregistration (2026-10-09)
+
+**Operator decision.** Strip the **outer** affix first, then pass the resulting expression
+through the **existing bare-name parser** unchanged. An affix is never stripped from an
+individual separator fragment. This makes parity hold by construction:
+`parse(W(B)) = parse(B)`.
+
+**Rule (frozen).** Before any span matching:
+1. for each whitespace token, take its cleaned core (`_clean`);
+2. if the core fully matches the closed affix grammar (`anti-X` |
+   `X-{directed,targeted,targeting,blocking,binding,specific}`), **and** the core as a whole
+   does not resolve (RESOLVED or AMBIGUOUS), **and** the remainder is non-empty and not a
+   stopword,
+3. then the affix characters, including their hyphen, are replaced by spaces in a working copy
+   of the query. The copy keeps the same length, so every span offset still indexes the
+   original query, and `original_query` is unchanged.
+
+The working copy is then parsed by the existing pipeline: separator safety, dual-target
+reading, n-grams, everything. There is no other change: no S1/S2 special cases, no retry
+inside the splitter, and no new vocabulary.
+
+Examples:
+
+| Input | After stripping | Bare parser result |
+|---|---|---|
+| `12/15-lipoxygenase-directed` | `12/15-lipoxygenase` | ALOX15 |
+| `CD19/BCMA-directed` | `CD19/BCMA` | CD19 + BCMA |
+| `anti-CD20` | `CD20` | AMBIGUOUS |
+
+**Population.** `affix_population_v3.json` (frozen at `d830ae0`). No `src/` change has
+been made since, so its bare parses are still current. Same controls.
+
+**Acceptance.** AV1–AV6 are unchanged, **with AV1 strict** (zero add, substitute **or lose**),
+scored by `scripts/score_target_affix_recognition_v3.py`. Adopt or revert strictly. H11–H15
+stay untouched until then.
