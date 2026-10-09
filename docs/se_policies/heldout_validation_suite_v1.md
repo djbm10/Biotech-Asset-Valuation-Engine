@@ -108,3 +108,9 @@ date. It is not material to any verdict below.
   or unrelated drug.
 
 Diagnosis has not started. It follows only after this result is committed.
+
+## 7. Status change (operator, 2026-10-09)
+
+The 0/5 FAIL above is preserved permanently. **H1–H5 are no longer held out.** They are a
+frozen diagnostic set, and improved H1–H5 scores are never evidence of generalization. The
+untouched validation suite is now `heldout_validation_suite_v2.md` (H6–H10).
