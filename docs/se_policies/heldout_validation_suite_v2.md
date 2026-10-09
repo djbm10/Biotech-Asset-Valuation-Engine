@@ -1,6 +1,6 @@
 # HELDOUT_VALIDATION_SUITE v2 (H6–H10) — untouched validation suite (preregistration)
 
-**Status:** PREREGISTERED 2026-10-09. **Not run.** No engine output for these queries has been
+**Status:** PREREGISTERED 2026-10-09. **Not run.** **Partially exposed (2026-10-09):** HER2, PCSK9, IL-23, DLL3 and LRRK2 were probed in the resolver during the target-recognition diagnosis. This suite is secondary confirmation only for target recognition; the primary suite is heldout_validation_suite_v3.md. No engine output for these queries has been
 generated or inspected.
 
 **Standing rule.** H1–H5 (`heldout_validation_suite_v1.md`) failed at 0/5. They are now a
