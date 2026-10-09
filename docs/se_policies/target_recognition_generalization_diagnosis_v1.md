@@ -230,3 +230,28 @@ was ruled out of scope. Either:
   an affixed token), then re-run the affix work; or
 - re-scope affix parity to a population that excludes separator names. That would weaken what
   "parity" covers, so it needs an explicit operator decision.
+
+## 9. TARGET_AFFIX_RECOGNITION v3 — preregistration (2026-10-09)
+
+**What changed since v2.** The dual-target separator defect (D-sep) is fixed and adopted
+(`dual_target_separator_safety_v1.md` §10, `d830ae0`). Nothing else changed.
+
+**Population (re-frozen, identical construction).** `research/se_heldout/affix_population_v3.json`
+(sha256 `48d2999d95ec700acaeceafa3c997b4fb6f22981c03c8b7d8273ebb627b97f84`), built by
+`affix_population_v3.py` at `d830ae0` with the same 7,329 names and bare parses at that commit.
+The control baseline `affix_controls_before_v3.json` is identical to
+`affix_controls_before_v1.json`.
+
+**Rule.** The **identical** v2 rule (§7: closed affix grammar, S1 separator exclusion, S2
+path equivalence), re-applied byte for byte from the reverted copy.
+
+**Acceptance.** AV1–AV6 are **unchanged** from §7, scored by
+`scripts/score_target_affix_recognition_v3.py`:
+- **AV1:** strict parity, with zero add, substitute or lose;
+- **AV2:** 0 of 134 negative controls produce a target;
+- **AV3:** H1 → [GPRC5D], H3 → [FCGRT] only, H5 refused, H2 unchanged;
+- **AV4:** TAC01, mint5, H2 and H4 identical;
+- **AV5:** ambiguous names stay ambiguous;
+- **AV6:** full `tests/se` and ruff.
+
+Adopt or revert strictly. If adopted, run H11–H15 untouched.
