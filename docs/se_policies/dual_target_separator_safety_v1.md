@@ -113,3 +113,56 @@ legitimate. As frozen, the milestone fails.
 **Decision needed before v2:** how to tell a coincidentally correct fragment target (fragment
 alias of the same gene as the whole name) from a wrong one. The frozen baseline needs labels
 for which of its fragment-derived targets are correct.
+
+## 7. DUAL_TARGET_SEPARATOR_SAFETY v2 — preregistration (2026-10-09)
+
+**Operator decision.**
+- A wrong fragment target must disappear.
+- A target is kept only when the **unsplit whole name** independently resolves to it, and it is
+  then derived from the whole name.
+- A target that only a fragment provides may drop to unresolved.
+- No case may resolve to a different target.
+
+**Labels (frozen before code).** `research/se_separator/labels_v2.json` (sha256
+`2e419cca0f3ffd8213c963bd52722832d4b162f206d5182ff263fa6164a135b1`), built by
+`freeze_labels_v2.py` from the authority alone, without the parser. For each
+separator-bearing token T, the expected set E is:
+
+| Label | Condition | Expected set E |
+|---|---|---|
+| **WHOLE** | `resolve_target(clean(T))` is RESOLVED | {that target} |
+| **DUAL** | otherwise, every separator piece resolves (RESOLVED or AMBIGUOUS) | the RESOLVED pieces' targets |
+| **NONE** | otherwise | ∅ |
+
+There are 7,150 cases: 1,430 bare separator names and 5,720 affixed cases.
+
+| Kind | Label | Correct before | Wrong before | Missing before |
+|---|---|---|---|---|
+| bare | WHOLE | 1,394 | **5** | 13 |
+| bare | DUAL | 1 | — | 1 |
+| bare | NONE | 16 | — | — |
+| affixed | NONE | 4,555 | **1,165** | — |
+
+**Rule.** For each whitespace token containing a dual-target separator:
+1. if the whole cleaned token resolves (RESOLVED), the token's target spans are replaced by
+   one span over the whole token → that target (`rule="separator_whole_name"`);
+2. else, if every piece is covered by a TARGET or AMBIGUOUS_TARGET span, they are kept (the
+   existing dual-target reading);
+3. else, every RESOLVED target span inside the token becomes RESIDUAL
+   (`separator_fragment_unconfirmed`).
+
+AMBIGUOUS spans are never promoted.
+
+**Acceptance (strict):**
+- **DV1.** For every case, the parsed targets ⊆ E. **Zero** wrong targets.
+- **DV2.** For every WHOLE case, the parsed targets = E.
+- **DV3.** For every DUAL case, the parsed targets = E.
+- **DV4.** The 11 frozen controls, plus TAC01, mint5 and H1–H5, are identical to the frozen
+  parses.
+- **DV5.** No case's ambiguous set gains a member.
+- **DV6.** Every population name **without** a separator parses identically in the bare frame.
+- **DV7.** `tests/se` and ruff pass.
+
+**Stop condition.**
+- **Adopt** if DV1–DV7 all pass.
+- **Otherwise** revert, with no patching after the results.
