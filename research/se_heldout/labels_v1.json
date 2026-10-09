@@ -1,0 +1,18 @@
+{
+ "_note": "Blind top-20 labels per heldout_validation_suite_v1 §3, from public product knowledge only, written before any scoring or diagnosis. Engine commit 40b7ec9. H1/H3/H5 were refused by the compiler (no shortlist), so they have no labels.",
+ "H2": {
+  "Krazati": "RELEVANT", "aficamten": "WRONG_TARGET", "Trimix": "NON_ASSET", "AFM11": "WRONG_TARGET",
+  "bendamustine": "WRONG_TARGET", "bromide": "NON_ASSET", "butanone": "NON_ASSET", "chromium": "NON_ASSET",
+  "creatinine": "NON_ASSET", "Curcumin": "WRONG_TARGET", "duvortuxizumab": "WRONG_TARGET", "Emfizatamab": "UNVERIFIABLE",
+  "eosin": "NON_ASSET", "fluorescein": "NON_ASSET", "hematoxylin": "NON_ASSET", "isothiocyanate": "NON_ASSET",
+  "Loncastuximab": "WRONG_TARGET", "Maleimide": "NON_ASSET", "methane": "NON_ASSET", "mitomycin": "WRONG_TARGET"
+ },
+ "H4": {
+  "afimkibart": "RELEVANT", "duvakitug": "RELEVANT", "tulisokibart": "RELEVANT", "papain": "NON_ASSET",
+  "sesquiterpene": "NON_ASSET", "alloxan": "NON_ASSET", "Bavachin": "NON_ASSET", "Berberine": "WRONG_TARGET",
+  "carboplatin": "WRONG_TARGET", "ceftazidime": "WRONG_TARGET", "ciprofloxacin": "WRONG_TARGET", "creatinine": "NON_ASSET",
+  "danegaptide": "WRONG_TARGET", "digitoxigenin": "NON_ASSET", "dihydroergocristine mesylate": "WRONG_TARGET",
+  "ethylene": "NON_ASSET", "fluoride": "NON_ASSET", "hydroxyapatite": "NON_ASSET", "Indocyanine green": "NON_ASSET",
+  "lomustine": "WRONG_TARGET"
+ }
+}
