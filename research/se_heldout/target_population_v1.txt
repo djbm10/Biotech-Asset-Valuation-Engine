@@ -1,0 +1,15 @@
+ontology chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2 | sample targets 1960
+  alias  anti       recognized 0/784 = 0.00
+  alias  bare       recognized 711/784 = 0.91
+  alias  blocking   recognized 0/784 = 0.00
+  alias  directed   recognized 0/784 = 0.00
+  alias  inhibitors recognized 711/784 = 0.91
+  alias  targeting  recognized 0/784 = 0.00
+  symbol anti       recognized 0/1960 = 0.00
+  symbol bare       recognized 1937/1960 = 0.99
+  symbol blocking   recognized 0/1960 = 0.00
+  symbol directed   recognized 0/1960 = 0.00
+  symbol inhibitors recognized 1937/1960 = 0.99
+  symbol targeting  recognized 0/1960 = 0.00
+negative controls producing a target: 0 of 120
+sha256 5d48552868a8b3c6d57f33a5e1e792aacd507c43b01e9f1d26f751eaf865cf49
