@@ -354,3 +354,23 @@ results would be post-hoc, so I did not.
   example `AK/ATPase` → never ADK); then
 - re-run AV6 alone on the byte-identical v4 code. AV1–AV5 are already measured and would not
   be re-run.
+
+## 13. TARGET_AFFIX_RECOGNITION v5 — preregistration (2026-10-09)
+
+**This is a clean new cycle, not a retroactive adoption of v4.**
+
+**What changed since v4.** Only the invalid post-hoc regression test was corrected, in its own
+commit (`6ca30f5`):
+- `anti-ABP/ZF → ∅` was replaced by a genuine fragment-safety case: `AK/ATPase` and its
+  affixed forms must never give ADK, and bare `AK/ATPase` gives AK6;
+- the commit message explains why the old test was invalid.
+
+**Production code.** Byte-identical to v4. `src/bve/se/intent/parser.py` is restored from the
+saved v4 copy, sha256 `c4ce8d99509be2438de9abee087cead5a2abfd4838356b7f6eeb459f1ed95fad`. No other `src/` change has been made since `d830ae0`.
+
+**Population and criteria.** Unchanged:
+- population: `affix_population_v3.json`, with the same controls;
+- **AV1–AV6 are all re-run together** with `scripts/score_target_affix_recognition_v4.py` and
+  the full `tests/se` plus ruff; none of the earlier v4 measurements is reused.
+
+Adopt or revert strictly. If adopted, run H11–H15 untouched.
