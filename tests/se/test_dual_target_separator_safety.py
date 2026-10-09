@@ -17,8 +17,14 @@ def _targets(query: str) -> list[str]:
     return sorted(t.canonical_id for t in parse_query(query).targets)
 
 
-def test_a_fragment_of_an_unresolved_name_is_not_a_target() -> None:
-    assert _targets("Find clinical-stage anti-ABP/ZF therapies for cancer.") == []
+@pytest.mark.parametrize("name", ["AK/ATPase", "AK/ATPase-directed", "anti-AK/ATPase"])
+def test_a_name_fragment_never_becomes_a_target(name) -> None:
+    # The fragment ``AK`` alone resolves to ADK; the whole name is an authority alias of AK6.
+    assert "ADK" not in _targets(f"Find clinical-stage {name} therapies for cancer.")
+
+
+def test_the_whole_name_target_is_kept() -> None:
+    assert _targets("Find clinical-stage AK/ATPase therapies for cancer.") == ["AK6"]
 
 
 def test_a_whole_name_the_authority_resolves_wins_over_its_fragments() -> None:
