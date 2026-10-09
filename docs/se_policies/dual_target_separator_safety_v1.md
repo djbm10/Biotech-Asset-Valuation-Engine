@@ -166,3 +166,34 @@ AMBIGUOUS spans are never promoted.
 **Stop condition.**
 - **Adopt** if DV1–DV7 all pass.
 - **Otherwise** revert, with no patching after the results.
+
+## 8. Result — DUAL_TARGET_SEPARATOR_SAFETY v2, 2026-10-09: FAILED_ACCEPTANCE (1 case), reverted
+
+**Scorer:** `scripts/score_dual_target_separator_safety_v2.py` → `research/se_separator/stage_dv_v2.txt`.
+The code was applied to the working tree only and is reverted. A copy is kept outside the
+repository. `tests/se` was not run.
+
+| Criterion | Result |
+|---|---|
+| **DV1** | **PASS.** 0 wrong targets in 7,150 cases. All 1,165 affixed and 5 bare wrong targets are gone. |
+| **DV2** | **PASS.** All 1,412 WHOLE cases resolve to their whole-name target. That includes the 13 previously missing, and `TaxREB107` → RPL6 instead of the fragment's TOR1A. |
+| **DV3** | **FAIL: 1 of 2.** `H2B/h` (expected DUAL {FUT1, H2BC21}) parses to ∅. |
+| DV4 | PASS. The 11 controls, TAC01, mint5 and H1–H5 are identical. |
+| DV5 | PASS. |
+| DV6 | PASS. 0 non-separator names changed. |
+| DV7 | Not run. |
+
+**The single failure.**
+- At HEAD, `H2B/h` is also ∅. The parser's 2-gram `H2B h` resolves AMBIGUOUS, so neither piece is
+  asserted. v2 did not cause this: it was "missing" before and is "missing" after.
+- The label, derived from the authority alone, reads the pieces as two separate targets, `H2B`
+  and `h` (`h` → FUT1). Reading the lone letter `h` as a gene is exactly the kind of fragment
+  target this milestone exists to prevent, so the preregistered expected set for this case is
+  arguably itself wrong.
+- But DV3 was frozen as equality, so the milestone fails as preregistered. No patching after
+  the results.
+
+**Operator decision needed for v3.** Re-freeze the DUAL label so that a piece counts only if
+it resolves **and is not a single character or a stopword**, and/or relax DV3 to "⊆ E". With
+either change, the measured v2 behaviour would pass every criterion it was scored on. Note that
+DV7 has not been run.
