@@ -29,3 +29,29 @@ Coverage limits: authority-absent aliases, ambiguous concepts, broad-only eviden
 narrow requests and incomplete disease typing remain UNKNOWN. Full negative-query
 semantics and reviewed negative evidence are deferred. Development gains are not
 generalization evidence. H16–H20 untouched; H6–H10 unrun; no live acquisition/replay.
+
+## Post-adoption frozen projection
+
+38/38 reference assets now visible/rankable, previously 5/38; all 33 unsupported
+indication exclusions recovered. Indication decisions: 18 PASS / 20 UNKNOWN / 0 FAIL.
+655 diagnostic indication-only exclusions -> 0. No non-indication decision changed.
+
+Across six diagnostic top-20 lists, confirmed remaining counts: 30 TARGET_UNKNOWN_FILL,
+10 NON_PRODUCT, 2 frozen DUPLICATE labels and 35 RELEVANT. There are 41 UNLABELED
+new rows; these counts are confirmed subsets, not a complete pollution census.
+Aggregate diagnostic precision bounds 35/120–76/120 (29.2%–63.3%). Per-query bounds
+and exact rows are in diagnostic_readout.json. Do not tune ranking or label uncertain
+assets by guesswork. Full new blind labels are needed before claiming a dominant
+shortlist root cause; known target-unknown rows and nonproducts remain unresolved.
+
+TAC01 membership 545 -> 747 (+202), top-20 order changed; all prior indication PASS
+preserved. mint5 membership 244 -> 244 and top-20 order unchanged (indication absent,
+all input decisions remain identical). No ranking policy or membership tuning.
+Expanded manual review covers all 27 distinct new PASS witness pairs across 128 new
+diagnostic PASS assets; zero unsupported positive indication relationships found.
+
+The indication compiler/gate stack is finalized enough to justify a separately
+authorized untouched validation stage. H16–H20 have not been read, resolved or run;
+H6–H10 remain unrun. Stop here: no live runs, no later qualification/routing milestone.
+Next action is separate holdout validation planning; do not treat development gains
+as generalization. Additional labels are needed for exact new top-20 pollution counts.

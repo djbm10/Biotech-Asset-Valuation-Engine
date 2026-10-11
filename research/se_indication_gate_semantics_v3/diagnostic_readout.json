@@ -1,0 +1,2228 @@
+{
+  "runs": {
+    "H11": {
+      "all_target_unknown_rows": 6,
+      "identity_key_duplicates": 0,
+      "known_NON_PRODUCT": 0,
+      "known_TARGET_UNKNOWN_FILL": 6,
+      "known_duplicates": 0,
+      "known_label_counts": {
+        "RELEVANT": 6,
+        "UNLABELED": 8,
+        "WRONG_TARGET": 6
+      },
+      "limitation": "New rows without frozen labels remain UNLABELED; pollution counts are confirmed counts, not invented complete labels.",
+      "membership_added": 27,
+      "membership_removed": 0,
+      "precision_at20": null,
+      "precision_bounds": {
+        "lower": 0.3,
+        "upper": 0.7
+      },
+      "reference_recovery": 6,
+      "references": [
+        {
+          "asset_id": "asset:4e8c6c7dea1dc8423955",
+          "historical_only_indication_excluded": true,
+          "name": "Ociperlimab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:54acb6258bce96ca3dae",
+          "historical_only_indication_excluded": true,
+          "name": "Domvanalimab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:914d55f4c015d8d7607d",
+          "historical_only_indication_excluded": true,
+          "name": "Tiragolumab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:9821e6dcf8c5fe29f562",
+          "historical_only_indication_excluded": true,
+          "name": "vibostolimab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:c4beaa7df37591cd72c3",
+          "historical_only_indication_excluded": true,
+          "name": "belrestotug",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:efdd476e78d139672346",
+          "historical_only_indication_excluded": true,
+          "name": "Rilvegostomig",
+          "visible_after": true,
+          "visible_before": false
+        }
+      ],
+      "shortlist_counts_after": {
+        "eligible": 0,
+        "excluded": 95,
+        "low_support": 453,
+        "review": 54,
+        "shown": 20,
+        "total_candidates": 602
+      },
+      "shortlist_counts_before": {
+        "eligible": 0,
+        "excluded": 122,
+        "low_support": 453,
+        "review": 27,
+        "shown": 20,
+        "total_candidates": 602
+      },
+      "top20_after": [
+        {
+          "asset_id": "asset:9821e6dcf8c5fe29f562",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "vibostolimab",
+          "position": 1,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:4e8c6c7dea1dc8423955",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Ociperlimab",
+          "position": 2,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:914d55f4c015d8d7607d",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Tiragolumab",
+          "position": 3,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:efdd476e78d139672346",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Rilvegostomig",
+          "position": 4,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:54acb6258bce96ca3dae",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Domvanalimab",
+          "position": 5,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:8a097f0284fe9e2fc37d",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Etigilimab",
+          "position": 6,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:c4beaa7df37591cd72c3",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "belrestotug",
+          "position": 7,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:6c30246a4fe70d394d69",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "benmelstobart",
+          "position": 8,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:d6f7e2a6d90ffa4f4cfd",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "gremubamab",
+          "position": 9,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:68b26578e303bd8ee758",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "Nelistotug",
+          "position": 10,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:db822fae2c2b6704736d",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "peresolimab",
+          "position": 11,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:f2c5eda8a758b20956e5",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "tobemstomig",
+          "position": 12,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:3bfa2e9b1416aff4c04f",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "Volrustomig",
+          "position": 13,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:82e56867e1582f837fd6",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Anti-TIGIT",
+          "position": 14,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:db265cd428fbd3946a44",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "HB0036",
+          "position": 15,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:bb47a3b3ac9755652387",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "HLX301",
+          "position": 16,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:6d6298bbc9760161bc27",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "GP+PD-1+Tight",
+          "position": 17,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:e9eadcd1aff767e58dd0",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "IBI939",
+          "position": 18,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:e92ad71c707048247e0a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "BAT6021",
+          "position": 19,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:3f60bbd2a50d2fafc6f2",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "D3L-002",
+          "position": 20,
+          "target": "PASS"
+        }
+      ],
+      "top20_before": [
+        "benmelstobart",
+        "gremubamab",
+        "Nelistotug",
+        "peresolimab",
+        "tobemstomig",
+        "Volrustomig",
+        "DSTA4637S",
+        "gebasaxturev",
+        "sodium alginate",
+        "carboplatin",
+        "cabotegravir",
+        "carbon monoxide",
+        "deucrictibant",
+        "dolutegravir",
+        "gadolinium",
+        "icosapent ethyl",
+        "leucovorin",
+        "levofloxacin",
+        "methicillin",
+        "oxaliplatin"
+      ],
+      "top20_order_unchanged": false,
+      "unlabeled_rows": 8
+    },
+    "H12": {
+      "all_target_unknown_rows": 0,
+      "identity_key_duplicates": 0,
+      "known_NON_PRODUCT": 1,
+      "known_TARGET_UNKNOWN_FILL": 0,
+      "known_duplicates": 2,
+      "known_label_counts": {
+        "DUPLICATE": 2,
+        "NON_ASSET": 1,
+        "RELEVANT": 11,
+        "UNLABELED": 6
+      },
+      "limitation": "New rows without frozen labels remain UNLABELED; pollution counts are confirmed counts, not invented complete labels.",
+      "membership_added": 62,
+      "membership_removed": 0,
+      "precision_at20": null,
+      "precision_bounds": {
+        "lower": 0.55,
+        "upper": 0.85
+      },
+      "reference_recovery": 7,
+      "references": [
+        {
+          "asset_id": "asset:0d86782567f80f1443e2",
+          "historical_only_indication_excluded": true,
+          "name": "Crovalimab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:495736f3aa0f663b8c96",
+          "historical_only_indication_excluded": true,
+          "name": "zilucoplan",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:714a0ebfffe7a2d24c9f",
+          "historical_only_indication_excluded": true,
+          "name": "Ravulizumab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:7d9fbf4bccb645d52b86",
+          "historical_only_indication_excluded": true,
+          "name": "pozelimab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:9aad383fc402532572b2",
+          "historical_only_indication_excluded": true,
+          "name": "Soliris",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:c4467a2fdc090d7a7c1a",
+          "historical_only_indication_excluded": true,
+          "name": "Cemdisiran",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:f1c1ab7c9bbd1e92d479",
+          "historical_only_indication_excluded": true,
+          "name": "tesidolumab",
+          "visible_after": true,
+          "visible_before": false
+        }
+      ],
+      "shortlist_counts_after": {
+        "eligible": 6,
+        "excluded": 485,
+        "low_support": 2650,
+        "review": 340,
+        "shown": 20,
+        "total_candidates": 3481
+      },
+      "shortlist_counts_before": {
+        "eligible": 0,
+        "excluded": 547,
+        "low_support": 2650,
+        "review": 284,
+        "shown": 20,
+        "total_candidates": 3481
+      },
+      "top20_after": [
+        {
+          "asset_id": "asset:9aad383fc402532572b2",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Soliris",
+          "position": 1,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:714a0ebfffe7a2d24c9f",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Ravulizumab",
+          "position": 2,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:7d9fbf4bccb645d52b86",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "pozelimab",
+          "position": 3,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:17e976d1eb6ee9dd3f87",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "BCD-148",
+          "position": 4,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:f23478192f5559561365",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "C5 Inhibitor",
+          "position": 5,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:f1c1ab7c9bbd1e92d479",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "tesidolumab",
+          "position": 6,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:0d86782567f80f1443e2",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Crovalimab",
+          "position": 7,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:9e2d540cc5eca2bea8a0",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "nomacopan",
+          "position": 8,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:a693fa5f6016f7a3b29a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "ALXN1007",
+          "position": 9,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:61640e1312e3a5a2a753",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Coversin",
+          "position": 10,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:a18e4021746296897a5f",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Vilobelimab",
+          "position": 11,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:495736f3aa0f663b8c96",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "zilucoplan",
+          "position": 12,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:1f58c04a3f6724b1ca38",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "Alexion",
+          "position": 13,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:6988f71b7fcae9751c42",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "ARC1905",
+          "position": 14,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:6703d402dae49443d6c1",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "crovalimab-akkz",
+          "position": 15,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:9d41f4ad6bfc7acc19f0",
+          "duplicate_identity_key_set": false,
+          "historical_class": "H",
+          "label": "DUPLICATE",
+          "name": "Izervay",
+          "position": 16,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:c7e451b44b6907ba5f48",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "pexelizumab",
+          "position": 17,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:ed176f0b43c519f1bfa3",
+          "duplicate_identity_key_set": false,
+          "historical_class": "H",
+          "label": "DUPLICATE",
+          "name": "PiaSky",
+          "position": 18,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:61946f19c33c308999e2",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "pozelimab-bbfg",
+          "position": 19,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:636f525c11cb44ae5ce8",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Ultomiris",
+          "position": 20,
+          "target": "PASS"
+        }
+      ],
+      "top20_before": [
+        "Alexion",
+        "ARC1905",
+        "crovalimab-akkz",
+        "Izervay",
+        "pexelizumab",
+        "PiaSky",
+        "pozelimab-bbfg",
+        "Ultomiris",
+        "Veopoz",
+        "Tamuzimod",
+        "AFM11",
+        "bendamustine",
+        "butanone",
+        "chromium",
+        "creatinine",
+        "cyclophosphamide",
+        "duvortuxizumab",
+        "eosin",
+        "fludarabine",
+        "hematoxylin"
+      ],
+      "top20_order_unchanged": false,
+      "unlabeled_rows": 6
+    },
+    "H13": {
+      "all_target_unknown_rows": 12,
+      "identity_key_duplicates": 0,
+      "known_NON_PRODUCT": 0,
+      "known_TARGET_UNKNOWN_FILL": 8,
+      "known_duplicates": 0,
+      "known_label_counts": {
+        "RELEVANT": 8,
+        "UNLABELED": 3,
+        "UNVERIFIABLE": 1,
+        "WRONG_TARGET": 8
+      },
+      "limitation": "New rows without frozen labels remain UNLABELED; pollution counts are confirmed counts, not invented complete labels.",
+      "membership_added": 33,
+      "membership_removed": 0,
+      "precision_at20": null,
+      "precision_bounds": {
+        "lower": 0.4,
+        "upper": 0.55
+      },
+      "reference_recovery": 7,
+      "references": [
+        {
+          "asset_id": "asset:149e6127b37515be027a",
+          "historical_only_indication_excluded": true,
+          "name": "Bimekizumab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:21f14c367e6a6b66bb3e",
+          "historical_only_indication_excluded": true,
+          "name": "Vunakizumab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:43c6b4e3d20826fddb59",
+          "historical_only_indication_excluded": true,
+          "name": "Secukinumab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:56a1932f86a3a993e03a",
+          "historical_only_indication_excluded": false,
+          "name": "netakimab",
+          "visible_after": true,
+          "visible_before": true
+        },
+        {
+          "asset_id": "asset:62badf026c5e77ecc666",
+          "historical_only_indication_excluded": true,
+          "name": "Izokibep",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:9563ee9f47dbd1a47ac2",
+          "historical_only_indication_excluded": true,
+          "name": "Xeligekimab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:ac25cb1472b6d944df56",
+          "historical_only_indication_excluded": true,
+          "name": "Sonelokimab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:c0910083c476c364891f",
+          "historical_only_indication_excluded": true,
+          "name": "Ixekizumab",
+          "visible_after": true,
+          "visible_before": false
+        }
+      ],
+      "shortlist_counts_after": {
+        "eligible": 0,
+        "excluded": 230,
+        "low_support": 2018,
+        "review": 266,
+        "shown": 20,
+        "total_candidates": 2514
+      },
+      "shortlist_counts_before": {
+        "eligible": 0,
+        "excluded": 263,
+        "low_support": 2018,
+        "review": 233,
+        "shown": 20,
+        "total_candidates": 2514
+      },
+      "top20_after": [
+        {
+          "asset_id": "asset:43c6b4e3d20826fddb59",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Secukinumab",
+          "position": 1,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:21f14c367e6a6b66bb3e",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Vunakizumab",
+          "position": 2,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:8ba8b9edcc033f4b916a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "ABT-122",
+          "position": 3,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:149e6127b37515be027a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Bimekizumab",
+          "position": 4,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:c0910083c476c364891f",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Ixekizumab",
+          "position": 5,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:7eb928187389c72896f4",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Tibulizumab",
+          "position": 6,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:16f63ba924ee76444a28",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Afasevikumab",
+          "position": 7,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:a86a591b160a12d63c37",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Picankibart",
+          "position": 8,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:983229d455e7d3fe414c",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "afimkibart",
+          "position": 9,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:803ae461c007e6cceb82",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNVERIFIABLE",
+          "name": "Avizakimab",
+          "position": 10,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:3a0e2bf17a3e528703ff",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "certolizumab",
+          "position": 11,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:47d9956a57431541e4d4",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "denecimig",
+          "position": 12,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:0eab2fc8f1f238800602",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "duvakitug",
+          "position": 13,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:d6f7e2a6d90ffa4f4cfd",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "gremubamab",
+          "position": 14,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:9715a132c581ba392cf9",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "gumokimab",
+          "position": 15,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:519b1d97611dd80d2d1b",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "ivonescimab",
+          "position": 16,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:56a1932f86a3a993e03a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "netakimab",
+          "position": 17,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:31cf8b9bcab48f947301",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "Stapokibart",
+          "position": 18,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:192917aaaafcfe2600db",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "tulisokibart",
+          "position": 19,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:717054b2fa15f9b3add2",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Cosentyx",
+          "position": 20,
+          "target": "PASS"
+        }
+      ],
+      "top20_before": [
+        "ABT-122",
+        "Afasevikumab",
+        "afimkibart",
+        "Avizakimab",
+        "certolizumab",
+        "denecimig",
+        "duvakitug",
+        "gremubamab",
+        "gumokimab",
+        "ivonescimab",
+        "netakimab",
+        "Stapokibart",
+        "tulisokibart",
+        "Bimzelx",
+        "amino acids",
+        "Carrageenan",
+        "colistin",
+        "ginger",
+        "ginkgo",
+        "honey"
+      ],
+      "top20_order_unchanged": false,
+      "unlabeled_rows": 3
+    },
+    "H14": {
+      "all_target_unknown_rows": 11,
+      "identity_key_duplicates": 0,
+      "known_NON_PRODUCT": 0,
+      "known_TARGET_UNKNOWN_FILL": 10,
+      "known_duplicates": 0,
+      "known_label_counts": {
+        "RELEVANT": 4,
+        "UNLABELED": 5,
+        "UNVERIFIABLE": 1,
+        "WRONG_TARGET": 10
+      },
+      "limitation": "New rows without frozen labels remain UNLABELED; pollution counts are confirmed counts, not invented complete labels.",
+      "membership_added": 87,
+      "membership_removed": 0,
+      "precision_at20": null,
+      "precision_bounds": {
+        "lower": 0.2,
+        "upper": 0.45
+      },
+      "reference_recovery": 5,
+      "references": [
+        {
+          "asset_id": "asset:527be7aa10bdf25ef299",
+          "historical_only_indication_excluded": true,
+          "name": "Daratumumab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:69ed59c986add190f384",
+          "historical_only_indication_excluded": true,
+          "name": "Isatuximab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:8872e3946add80963cf7",
+          "historical_only_indication_excluded": true,
+          "name": "Felzartamab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:943d9066ea540b427cc1",
+          "historical_only_indication_excluded": true,
+          "name": "mezagitamab",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:ea8a0b57247b00e41a25",
+          "historical_only_indication_excluded": true,
+          "name": "CID-103",
+          "visible_after": true,
+          "visible_before": false
+        }
+      ],
+      "shortlist_counts_after": {
+        "eligible": 0,
+        "excluded": 371,
+        "low_support": 2738,
+        "review": 360,
+        "shown": 20,
+        "total_candidates": 3469
+      },
+      "shortlist_counts_before": {
+        "eligible": 0,
+        "excluded": 458,
+        "low_support": 2738,
+        "review": 273,
+        "shown": 20,
+        "total_candidates": 3469
+      },
+      "top20_after": [
+        {
+          "asset_id": "asset:527be7aa10bdf25ef299",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Daratumumab",
+          "position": 1,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:8872e3946add80963cf7",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Felzartamab",
+          "position": 2,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:943d9066ea540b427cc1",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "mezagitamab",
+          "position": 3,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:69ed59c986add190f384",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Isatuximab",
+          "position": 4,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:7974e4605656ff99033b",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNVERIFIABLE",
+          "name": "Emfizatamab",
+          "position": 5,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:983229d455e7d3fe414c",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "afimkibart",
+          "position": 6,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:617f8e9deec6423a92d4",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "anselamimab",
+          "position": 7,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:4ebe99c4f7920f934aea",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "belantamab",
+          "position": 8,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:7fc8fe7c635ef7de685e",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "BIVV020",
+          "position": 9,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:43668977360f1c627d16",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "Cevostamab",
+          "position": 10,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:0eab2fc8f1f238800602",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "duvakitug",
+          "position": 11,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:d6f7e2a6d90ffa4f4cfd",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "gremubamab",
+          "position": 12,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:1d99c282f25a4947427b",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "linvoseltamab",
+          "position": 13,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:a16205a00f8be501e503",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "loncastuximab",
+          "position": 14,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:192917aaaafcfe2600db",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "tulisokibart",
+          "position": 15,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:5d99fc118bdc7627c998",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Darzalex",
+          "position": 16,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:d7e80399c7bd03e70a06",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "HLX15",
+          "position": 17,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:cf0285222d5951a5bee7",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Dual Specificity CD38 and bcma CAR-T Cells",
+          "position": 18,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:5e472fe5c062a20e1378",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "STI-6129",
+          "position": 19,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:d42c97a0880ccd66bce4",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Autologous BCMA/CD38 dual-target CAR-T module",
+          "position": 20,
+          "target": "PASS"
+        }
+      ],
+      "top20_before": [
+        "Emfizatamab",
+        "afimkibart",
+        "anselamimab",
+        "belantamab",
+        "BIVV020",
+        "Cevostamab",
+        "duvakitug",
+        "gremubamab",
+        "linvoseltamab",
+        "loncastuximab",
+        "tulisokibart",
+        "isatuximab-irfc",
+        "SARCLISA",
+        "AFM11",
+        "paraffin",
+        "vehicle",
+        "amino acids",
+        "avidin",
+        "carboxymethyl cellulose",
+        "cinnamon"
+      ],
+      "top20_order_unchanged": false,
+      "unlabeled_rows": 5
+    },
+    "H2": {
+      "all_target_unknown_rows": 0,
+      "identity_key_duplicates": 0,
+      "known_NON_PRODUCT": 0,
+      "known_TARGET_UNKNOWN_FILL": 0,
+      "known_duplicates": 0,
+      "known_label_counts": {
+        "RELEVANT": 3,
+        "UNLABELED": 17
+      },
+      "limitation": "New rows without frozen labels remain UNLABELED; pollution counts are confirmed counts, not invented complete labels.",
+      "membership_added": 444,
+      "membership_removed": 0,
+      "precision_at20": null,
+      "precision_bounds": {
+        "lower": 0.15,
+        "upper": 1.0
+      },
+      "reference_recovery": 8,
+      "references": [
+        {
+          "asset_id": "asset:3099003666f56942a6d1",
+          "historical_only_indication_excluded": true,
+          "name": "opnurasib",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:43244a687d45a5beabf1",
+          "historical_only_indication_excluded": true,
+          "name": "Garsorasib",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:4874da22101d03944ca7",
+          "historical_only_indication_excluded": true,
+          "name": "Divarasib",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:5424de82fbd893db71a0",
+          "historical_only_indication_excluded": true,
+          "name": "Adagrasib",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:59f21cf39051c6d67ad1",
+          "historical_only_indication_excluded": false,
+          "name": "elironrasib",
+          "visible_after": true,
+          "visible_before": true
+        },
+        {
+          "asset_id": "asset:9c5381b40258f20c8396",
+          "historical_only_indication_excluded": true,
+          "name": "olomorasib",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:c07c07535ddbe6df8cae",
+          "historical_only_indication_excluded": true,
+          "name": "fulzerasib",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:ced227bb307da4b299be",
+          "historical_only_indication_excluded": true,
+          "name": "Sotorasib",
+          "visible_after": true,
+          "visible_before": false
+        },
+        {
+          "asset_id": "asset:e92d0de3e9b1ba813ad3",
+          "historical_only_indication_excluded": true,
+          "name": "glecirasib",
+          "visible_after": true,
+          "visible_before": false
+        }
+      ],
+      "shortlist_counts_after": {
+        "eligible": 5,
+        "excluded": 1291,
+        "low_support": 9949,
+        "review": 1517,
+        "shown": 20,
+        "total_candidates": 12762
+      },
+      "shortlist_counts_before": {
+        "eligible": 0,
+        "excluded": 1735,
+        "low_support": 9949,
+        "review": 1078,
+        "shown": 20,
+        "total_candidates": 12762
+      },
+      "top20_after": [
+        {
+          "asset_id": "asset:5424de82fbd893db71a0",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Adagrasib",
+          "position": 1,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:ced227bb307da4b299be",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "Sotorasib",
+          "position": 2,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:f7511b87a36a49135dd6",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "D-1553 Tablet",
+          "position": 3,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:bd90c2c5dc49c329dd1c",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "JAB-21822",
+          "position": 4,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:dc2ff31083ffd9a389c4",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "QLC1101",
+          "position": 5,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:78204fa34ee314f558f0",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "HRS-4642",
+          "position": 6,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:230fe85f2efd3a681788",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Zepatier Oral Product",
+          "position": 7,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:d0ca2c8b85d2f52ab55a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Anti-KRAS G12V mTCR PBL",
+          "position": 8,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:cd1d729b885c7a8b5fd6",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Mutant KRAS G12V-specific TCR transduced autologous T cells",
+          "position": 9,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:3099003666f56942a6d1",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "opnurasib",
+          "position": 10,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:b4fc0b500d2d2aa210f8",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "SY-5933",
+          "position": 11,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:89c414fc6d433e7d7208",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "VS-7375",
+          "position": 12,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:b4641da7159e98e2b8e1",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "KRAS mutation inhibitor",
+          "position": 13,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:b503aff54fcffb7ccc20",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "RNK08954",
+          "position": 14,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:d27cc76f6612bad554d9",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Simeprevir",
+          "position": 15,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:afc6703fcf54a91f3237",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "HBI-2438",
+          "position": 16,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:3c438615d657aeb6df0e",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "KRAS-EphA-2-CAR-DC",
+          "position": 17,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:e7aa7cbcd50d18669e3c",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "MRTX1133",
+          "position": 18,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:a27e1cf0bb71d0fba68a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "NW-301D",
+          "position": 19,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:efa0866fb96b27e9e193",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "NW-301V",
+          "position": 20,
+          "target": "PASS"
+        }
+      ],
+      "top20_before": [
+        "Krazati",
+        "aficamten",
+        "Trimix",
+        "AFM11",
+        "bendamustine",
+        "bromide",
+        "butanone",
+        "chromium",
+        "creatinine",
+        "Curcumin",
+        "duvortuxizumab",
+        "Emfizatamab",
+        "eosin",
+        "fluorescein",
+        "hematoxylin",
+        "isothiocyanate",
+        "Loncastuximab",
+        "Maleimide",
+        "methane",
+        "mitomycin"
+      ],
+      "top20_order_unchanged": false,
+      "unlabeled_rows": 17
+    },
+    "H4": {
+      "all_target_unknown_rows": 19,
+      "identity_key_duplicates": 0,
+      "known_NON_PRODUCT": 9,
+      "known_TARGET_UNKNOWN_FILL": 6,
+      "known_duplicates": 0,
+      "known_label_counts": {
+        "NON_ASSET": 9,
+        "RELEVANT": 3,
+        "UNLABELED": 2,
+        "WRONG_TARGET": 6
+      },
+      "limitation": "New rows without frozen labels remain UNLABELED; pollution counts are confirmed counts, not invented complete labels.",
+      "membership_added": 2,
+      "membership_removed": 0,
+      "precision_at20": null,
+      "precision_bounds": {
+        "lower": 0.15,
+        "upper": 0.25
+      },
+      "reference_recovery": 0,
+      "references": [
+        {
+          "asset_id": "asset:0eab2fc8f1f238800602",
+          "historical_only_indication_excluded": false,
+          "name": "duvakitug",
+          "visible_after": true,
+          "visible_before": true
+        },
+        {
+          "asset_id": "asset:192917aaaafcfe2600db",
+          "historical_only_indication_excluded": false,
+          "name": "tulisokibart",
+          "visible_after": true,
+          "visible_before": true
+        },
+        {
+          "asset_id": "asset:983229d455e7d3fe414c",
+          "historical_only_indication_excluded": false,
+          "name": "afimkibart",
+          "visible_after": true,
+          "visible_before": true
+        }
+      ],
+      "shortlist_counts_after": {
+        "eligible": 0,
+        "excluded": 79,
+        "low_support": 396,
+        "review": 42,
+        "shown": 20,
+        "total_candidates": 517
+      },
+      "shortlist_counts_before": {
+        "eligible": 0,
+        "excluded": 81,
+        "low_support": 396,
+        "review": 40,
+        "shown": 20,
+        "total_candidates": 517
+      },
+      "top20_after": [
+        {
+          "asset_id": "asset:983229d455e7d3fe414c",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "afimkibart",
+          "position": 1,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:0eab2fc8f1f238800602",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "duvakitug",
+          "position": 2,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:192917aaaafcfe2600db",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "RELEVANT",
+          "name": "tulisokibart",
+          "position": 3,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:ba091b6d68fe609feeca",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "BB-TL1A-VIAL-HLE",
+          "position": 4,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:d0c48ee4d8046babed6a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "BCD-261",
+          "position": 5,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:0f98398227cee2dfba39",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "papain",
+          "position": 6,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:676ce7395ca973726392",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "sesquiterpene",
+          "position": 7,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:0ecc2b0c3475214cae8c",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "alloxan",
+          "position": 8,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:d2137b13292415588775",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "Bavachin",
+          "position": 9,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:c4a1924e2b7fa29f32f8",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "Berberine",
+          "position": 10,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:1af158be8a5d9809bbf0",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "carboplatin",
+          "position": 11,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:08ca0be3ef391d0d26b3",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "ceftazidime",
+          "position": 12,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:093b41319cb763d50fc7",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "ciprofloxacin",
+          "position": 13,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:2ee7dcd1f258492fe2bd",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "creatinine",
+          "position": 14,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:2a27271374763f6f0fa7",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "danegaptide",
+          "position": 15,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:3c0762d54536ebad70d6",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "digitoxigenin",
+          "position": 16,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:0197fa8f942dac8d5455",
+          "duplicate_identity_key_set": false,
+          "historical_class": "D",
+          "label": "WRONG_TARGET",
+          "name": "dihydroergocristine mesylate",
+          "position": 17,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:3f6a20446fa41072bc4d",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "ethylene",
+          "position": 18,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:5cc1e02717c5ad4b7d53",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "fluoride",
+          "position": 19,
+          "target": "UNKNOWN"
+        },
+        {
+          "asset_id": "asset:528ea45c232865b5041e",
+          "duplicate_identity_key_set": false,
+          "historical_class": "A",
+          "label": "NON_ASSET",
+          "name": "hydroxyapatite",
+          "position": 20,
+          "target": "UNKNOWN"
+        }
+      ],
+      "top20_before": [
+        "afimkibart",
+        "duvakitug",
+        "tulisokibart",
+        "papain",
+        "sesquiterpene",
+        "alloxan",
+        "Bavachin",
+        "Berberine",
+        "carboplatin",
+        "ceftazidime",
+        "ciprofloxacin",
+        "creatinine",
+        "danegaptide",
+        "digitoxigenin",
+        "dihydroergocristine mesylate",
+        "ethylene",
+        "fluoride",
+        "hydroxyapatite",
+        "Indocyanine green",
+        "lomustine"
+      ],
+      "top20_order_unchanged": false,
+      "unlabeled_rows": 2
+    },
+    "TAC01": {
+      "all_target_unknown_rows": 0,
+      "identity_key_duplicates": 0,
+      "known_NON_PRODUCT": 0,
+      "known_TARGET_UNKNOWN_FILL": 0,
+      "known_duplicates": 0,
+      "known_label_counts": {
+        "UNLABELED": 20
+      },
+      "limitation": "New rows without frozen labels remain UNLABELED; pollution counts are confirmed counts, not invented complete labels.",
+      "membership_added": 202,
+      "membership_removed": 0,
+      "precision_at20": null,
+      "precision_bounds": {
+        "lower": 0.0,
+        "upper": 1.0
+      },
+      "reference_recovery": 0,
+      "references": [],
+      "shortlist_counts_after": {
+        "eligible": 0,
+        "excluded": 608,
+        "low_support": 3768,
+        "review": 747,
+        "shown": 20,
+        "total_candidates": 5123
+      },
+      "shortlist_counts_before": {
+        "eligible": 0,
+        "excluded": 810,
+        "low_support": 3768,
+        "review": 545,
+        "shown": 20,
+        "total_candidates": 5123
+      },
+      "top20_after": [
+        {
+          "asset_id": "asset:344a173f3d78d2fc6a72",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Brexucabtagene Autoleucel",
+          "position": 1,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "CNCT19",
+          "position": 2,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:42479b67d44b9dff09e3",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Breyanzi",
+          "position": 3,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:13978f60c2c8cdb7e89e",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "KYMRIAH",
+          "position": 4,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:26ed0b037de3ecdb26da",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "axi-cel",
+          "position": 5,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:c21b983337620506fa5a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "KITE-753",
+          "position": 6,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:5701df8d3d8d7363bd5e",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "AZD0120",
+          "position": 7,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:25ff2e301fc980e91b54",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "CC-97540",
+          "position": 8,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:6652ff07141a84913143",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "AUCATZYL",
+          "position": 9,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:a9cb96e1a6f84d6c8946",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "ALLO-501A",
+          "position": 10,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:3149a97f2f44839d405c",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Anbalcabtagene Autoleucel",
+          "position": 11,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:2e20adeeeb0f67744124",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "AUTO3",
+          "position": 12,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:0c3bfb202f802a06ec32",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "BZ019",
+          "position": 13,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:5bfa2fbfb3bc5d33dea5",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "CT120",
+          "position": 14,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:0cf8375305ef61224af2",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "CTX112",
+          "position": 15,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:97a456ccc32de18739ea",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "GC022",
+          "position": 16,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:cec39b911bbef02fc5d5",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "GLPG5101",
+          "position": 17,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:54cce6642ddf53351f46",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "JWCAR029",
+          "position": 18,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:b843c6fdc6d801dcea39",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Prizloncabtagene Autoleucel",
+          "position": 19,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:b7657a8c6276dc55e82a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "ThisCART19A",
+          "position": 20,
+          "target": "PASS"
+        }
+      ],
+      "top20_before": [
+        "Brexucabtagene Autoleucel",
+        "CNCT19",
+        "Breyanzi",
+        "KYMRIAH",
+        "axi-cel",
+        "KITE-753",
+        "CC-97540",
+        "ALLO-501A",
+        "Anbalcabtagene Autoleucel",
+        "AUTO3",
+        "BZ019",
+        "CT120",
+        "CTX112",
+        "GC022",
+        "GLPG5101",
+        "JWCAR029",
+        "Prizloncabtagene Autoleucel",
+        "ThisCART19A",
+        "WZTL-002",
+        "CTX110"
+      ],
+      "top20_order_unchanged": false,
+      "unlabeled_rows": 20
+    },
+    "mint5": {
+      "all_target_unknown_rows": 0,
+      "identity_key_duplicates": 0,
+      "known_NON_PRODUCT": 0,
+      "known_TARGET_UNKNOWN_FILL": 0,
+      "known_duplicates": 0,
+      "known_label_counts": {
+        "UNLABELED": 20
+      },
+      "limitation": "New rows without frozen labels remain UNLABELED; pollution counts are confirmed counts, not invented complete labels.",
+      "membership_added": 0,
+      "membership_removed": 0,
+      "precision_at20": null,
+      "precision_bounds": {
+        "lower": 0.0,
+        "upper": 1.0
+      },
+      "reference_recovery": 0,
+      "references": [],
+      "shortlist_counts_after": {
+        "eligible": 1,
+        "excluded": 708,
+        "low_support": 2185,
+        "review": 243,
+        "shown": 20,
+        "total_candidates": 3137
+      },
+      "shortlist_counts_before": {
+        "eligible": 1,
+        "excluded": 708,
+        "low_support": 2185,
+        "review": 243,
+        "shown": 20,
+        "total_candidates": 3137
+      },
+      "top20_after": [
+        {
+          "asset_id": "asset:d0ace5d86850ba755d2b",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "ICG318",
+          "position": 1,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:5701df8d3d8d7363bd5e",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "AZD0120",
+          "position": 2,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:be2c3fda82741e749f3a",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "FKC289",
+          "position": 3,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:620571de7131c8fd4344",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "umbilical cord blood CD19-BCMA CAR-T cells infusion",
+          "position": 4,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:8a4ef325c481300e1e1f",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "CD19-BCMA dual nanobody based CAR-T Cells",
+          "position": 5,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:63a9eb55422e3fbc6178",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "Allogeneic CD19/BCMA-targeted CAR-\u03b3\u03b4T cell injection",
+          "position": 6,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:ac551940ff9492dd71f6",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA",
+          "position": 7,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:7a46f3309cf39ffaab57",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "allogenic anti-CD19/BCMA CAR-T",
+          "position": 8,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:4b6d3e95eae7377d55a5",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "anti-CD19/BCMA U CAR T cells",
+          "position": 9,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:3789cb6eba0780f32bac",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "CD19/BCMA CAR T-cells",
+          "position": 10,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:e231b8db8ee4aff93bd2",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "BCMA-CD19 cCAR T cells",
+          "position": 11,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:9b80fb74334e7365d2be",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "BZE2204",
+          "position": 12,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:9eda96c266e5f5525b98",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "CD19-BCMA Targeted CAR-T Dose 1",
+          "position": 13,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:db81fdf95a821e7828a4",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "CD19/BCMA in vivo CAR-T",
+          "position": 14,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:81b227b1393173413241",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "CD19/BCMA Lupus Nephritis Targeted CAR T-cells injection",
+          "position": 15,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:8d4fa58cc47bee4c6b45",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "FIT-(BCMA+CD19)-CAR-T Cells",
+          "position": 16,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:90d9ebb13a19d76f6334",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "KN5601",
+          "position": 17,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:2e7c4459543976b6e57b",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "KSVCBD injection",
+          "position": 18,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:d3452eca6c9b9e1e4eba",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "KT501",
+          "position": 19,
+          "target": "PASS"
+        },
+        {
+          "asset_id": "asset:f58ae0a9111c1469c7de",
+          "duplicate_identity_key_set": false,
+          "historical_class": null,
+          "label": "UNLABELED",
+          "name": "PRG-2311",
+          "position": 20,
+          "target": "PASS"
+        }
+      ],
+      "top20_before": [
+        "ICG318",
+        "AZD0120",
+        "FKC289",
+        "umbilical cord blood CD19-BCMA CAR-T cells infusion",
+        "CD19-BCMA dual nanobody based CAR-T Cells",
+        "Allogeneic CD19/BCMA-targeted CAR-\u03b3\u03b4T cell injection",
+        "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA",
+        "allogenic anti-CD19/BCMA CAR-T",
+        "anti-CD19/BCMA U CAR T cells",
+        "CD19/BCMA CAR T-cells",
+        "BCMA-CD19 cCAR T cells",
+        "BZE2204",
+        "CD19-BCMA Targeted CAR-T Dose 1",
+        "CD19/BCMA in vivo CAR-T",
+        "CD19/BCMA Lupus Nephritis Targeted CAR T-cells injection",
+        "FIT-(BCMA+CD19)-CAR-T Cells",
+        "KN5601",
+        "KSVCBD injection",
+        "KT501",
+        "PRG-2311"
+      ],
+      "top20_order_unchanged": true,
+      "unlabeled_rows": 20
+    }
+  },
+  "scope": "Post-adoption development readout only; no generalization evidence"
+}

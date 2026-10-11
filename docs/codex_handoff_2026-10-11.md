@@ -1,5 +1,60 @@
 # Codex handoff — S&E engine, 2026-10-11
 
+## Current outcome — INDICATION_GATE_SEMANTICS v3 ADOPTED (2026-10-11)
+
+Audit **ff2a69b**, preregistration **6b82d42**, implementation **625db7a**,
+adoption **dc16bdb**. Clean baseline 8da5e61. **V3-G1–V3-G10 all PASS.**
+Production gate bytes exactly match the v2 attempt 148b71e; only the new validation
+oracle differs. Psoriasis Vulgaris is UNKNOWN because the pinned NCIt authority has
+no disease alias. No special alias, threshold, scientific exception or post-score patch.
+Failed v2 and all earlier experiments are permanently preserved below and in history.
+
+Policy: docs/se_policies/indication_gate_semantics_v3.md (sealed preregistration);
+result: docs/se_policies/indication_gate_semantics_v3_result.md. Frozen artifacts,
+authority proofs, fresh score, review, quality and post-adoption projections:
+research/se_indication_gate_semantics_v3/. Scorers:
+scripts/score_indication_gate_semantics_v3.py and readout_indication_gate_semantics_v3.py.
+
+Frozen population: 38 references, 655 historical diagnostic indication-only exclusions,
+eight original result hashes including TAC01/mint5, all 28 controls (9 authority-proved
+PASS / 19 UNKNOWN), JCAR014, and all 103 compilation-v3 controls. Direct preimplementation
+authority audit proves each positive identity/synonym/path or accepted B-cell rule.
+Every control correct; all 103 compiled outputs exact; all historical artifact hashes
+and compiler hashes unchanged. No non-indication source/facts/decision/policy changed.
+
+Rules: PASS from unique frozen disease ID/synonym, observed-descendant/requested-parent
+authority path, or accepted B-cell positive rule. Reverse direction unsupported -> UNKNOWN.
+One compatible record suffices after existing conflict/staleness guards. Missing,
+ambiguous, incomplete, unrelated or unresolved evidence -> UNKNOWN. Registry evidence
+never establishes indication FAIL. Negative-query semantics remain limited/deferred.
+INDICATION_NEGATIVE_EVIDENCE_CONTRACT v1 is deferred, not implemented.
+
+Fresh targeted **86 passed**. Full tests/se **1,701 passed / 3 expected xfails**,
+1,704 total, zero failures. **ruff check src/ clean.** Fresh sample review: 124 witnesses,
+20 distinct pairs, zero unsupported; expanded post-adoption review: all 27 distinct new
+PASS pairs across 128 diagnostic new PASS assets, zero unsupported.
+
+References **0 PASS / 5 UNKNOWN / 33 FAIL -> 18 PASS / 20 UNKNOWN / 0 FAIL**;
+visible/rankable **5/38 -> 38/38**, all 33 recovered. Diagnostic indication-only
+exclusions **655 -> 0**. TAC01 all 157 prior PASS preserved; 324 unsupported FAIL -> UNKNOWN,
+membership **545 -> 747**, top-20 order changed; JCAR014 PASS. mint5 unchanged:
+membership **244 -> 244**, top-20 order unchanged. Ranking policy unchanged.
+
+Six development top-20 lists: confirmed 30 TARGET_UNKNOWN_FILL, 10 NON_PRODUCT,
+2 DUPLICATE, 35 RELEVANT; **41 new rows UNLABELED**. Precision bounds 29.2%–63.3%,
+not a point estimate. Exact per-query bounds/rows in diagnostic_readout.json. Full
+new blind labels are needed to determine the dominant remaining shortlist root cause;
+do not infer junk/off-target status from unknown evidence or start later milestones.
+These are development data, not generalization evidence.
+
+**The indication stack is sufficiently finalized for a separate untouched validation
+stage. H16–H20 remain completely untouched; H6–H10 unrun.** No targets, reference
+products or outputs from those suites were inspected; no live acquisition/replay run.
+Stop before holdout execution. Next: separately authorize/plan primary validation,
+with terminal commands only when requested; do not automatically run or inspect it.
+
+## Preserved failed outcomes
+
 ## Current outcome — INDICATION_GATE_SEMANTICS v2 REVERTED (2026-10-11)
 
 User resolved diagnosis 4cf8485: no negative-evidence contract now; current registry

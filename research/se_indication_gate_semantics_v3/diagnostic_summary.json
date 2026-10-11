@@ -1,0 +1,17 @@
+{
+  "all_target_unknown_rows": 48,
+  "identity_key_duplicates": 0,
+  "known_NON_PRODUCT": 10,
+  "known_TARGET_UNKNOWN_FILL": 30,
+  "known_duplicates": 2,
+  "known_relevant": 35,
+  "precision_bounds": {
+    "lower": 0.2916666666666667,
+    "upper": 0.6333333333333333
+  },
+  "reference_recovery": 33,
+  "reference_visible_after": 38,
+  "reference_visible_before": 5,
+  "scope": "Confirmed counts from frozen labels/reference identities; 41 new rows lack labels. No complete new pollution census or point precision asserted.",
+  "unlabeled_rows": 41
+}

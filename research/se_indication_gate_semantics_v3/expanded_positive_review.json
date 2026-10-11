@@ -1,0 +1,435 @@
+{
+  "distinct_pairs": 27,
+  "judgment": "All 27 pairs inspected. Additional seven surfaces are NCIt C2926 aliases, stage IIIA directed descendants, or recurrent NSCLC descendants. Every other pair was in the freshly reviewed sample. No missing-path inference or ordinary-word overlap used. Existing trial-to-asset attribution remains frozen.",
+  "new_pass_assets": 128,
+  "pairs": [
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:ef8594291b6301e20bf4"
+      ],
+      "fact_id": "fact:2c6b48ba369ac3b4742e",
+      "observed": "Non Small Cell Lung Cancer",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:a54201695e1d11693832"
+      ],
+      "fact_id": "fact:95e4eae83fe62bfaa7a1",
+      "observed": "Non-small Cell Lung Cancer",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:369e47cf0921839eceb1"
+      ],
+      "fact_id": "fact:839a2e18133dd38bc58f",
+      "observed": "Non-Small Cell Lung Cancer",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:d08c08eda131343b9c44"
+      ],
+      "fact_id": "fact:b3b883f057237b62fd17",
+      "observed": "NSCLC",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:76b1514337799a2e29d3"
+      ],
+      "fact_id": "fact:94eb304a28112ae62b5f",
+      "observed": "Non-Small-Cell Lung Carcinoma",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:9b29176cf552341d46fc"
+      ],
+      "fact_id": "fact:d190158d58a7c8c5e256",
+      "observed": "Non-squamous Non-small Cell Lung Cancer",
+      "observed_id": "C135017",
+      "path": [
+        "C135017",
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:d472a90b4eb23298512b"
+      ],
+      "fact_id": "fact:cc04237862398ce10687",
+      "observed": "Paroxysmal Nocturnal Hemoglobinuria",
+      "observed_id": "C61233",
+      "path": [
+        "C61233"
+      ],
+      "requested": "paroxysmal nocturnal hemoglobinuria",
+      "requested_id": "C61233",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:9b7ac3ad4d90c40eaf55"
+      ],
+      "fact_id": "fact:c71c102fad3fd5487978",
+      "observed": "Multiple Myeloma",
+      "observed_id": "C3242",
+      "path": [
+        "C3242"
+      ],
+      "requested": "multiple myeloma",
+      "requested_id": "C3242",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:614bf13fccf7f5621665"
+      ],
+      "fact_id": "fact:929e905e025f4977132f",
+      "observed": "Recurrent Plasma Cell Myeloma",
+      "observed_id": "C7025",
+      "path": [
+        "C7025",
+        "C3242"
+      ],
+      "requested": "multiple myeloma",
+      "requested_id": "C3242",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:43efd2498b303849f605"
+      ],
+      "fact_id": "fact:31d7654453523c9d07e8",
+      "observed": "Plasma Cell Myeloma",
+      "observed_id": "C3242",
+      "path": [
+        "C3242"
+      ],
+      "requested": "multiple myeloma",
+      "requested_id": "C3242",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:a4b77a60d2796ee0d4e6"
+      ],
+      "fact_id": "fact:b41cc742ecf9b80e6e16",
+      "observed": "Recurrent Multiple Myeloma",
+      "observed_id": "C7025",
+      "path": [
+        "C7025",
+        "C3242"
+      ],
+      "requested": "multiple myeloma",
+      "requested_id": "C3242",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:1f9510dc7a3cbd444c68"
+      ],
+      "fact_id": "fact:7f0dffd45f173a69a6b5",
+      "observed": "ISS Stage III Plasma Cell Myeloma",
+      "observed_id": "C70660",
+      "path": [
+        "C70660",
+        "C139009",
+        "C3242"
+      ],
+      "requested": "multiple myeloma",
+      "requested_id": "C3242",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:2ea3a562a21545f604e7"
+      ],
+      "fact_id": "fact:e32710cf34b1ba2f2586",
+      "observed": "Multiple Myeloma in Relapse",
+      "observed_id": "C7025",
+      "path": [
+        "C7025",
+        "C3242"
+      ],
+      "requested": "multiple myeloma",
+      "requested_id": "C3242",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:e2bbaf1ceb80bb8bec72"
+      ],
+      "fact_id": "fact:437b11e08ee66e6b9fc7",
+      "observed": "Smoldering Plasma Cell Myeloma",
+      "observed_id": "C7149",
+      "path": [
+        "C7149",
+        "C3242"
+      ],
+      "requested": "multiple myeloma",
+      "requested_id": "C3242",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:23ab68800508accc087b"
+      ],
+      "fact_id": "fact:ba4a8677ad49df8d145e",
+      "observed": "Non-small-cell Lung Cancer",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:2a69603c5f6da4ff77d9"
+      ],
+      "fact_id": "fact:665b1d34fd899c729e34",
+      "observed": "Advanced Non-squamous Non-small-cell Lung Cancer",
+      "observed_id": "C147924",
+      "path": [
+        "C147924",
+        "C128798",
+        "C135017",
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:0a89fe147ddd9a397a80"
+      ],
+      "fact_id": "fact:c509e69d50b9e7640041",
+      "observed": "Lung Adenocarcinoma",
+      "observed_id": "C3512",
+      "path": [
+        "C3512",
+        "C135017",
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:81d05e020a1554ab0f88"
+      ],
+      "fact_id": "fact:a534f75b28c2e2b43140",
+      "observed": "Advanced Lung Non-Small Cell Carcinoma",
+      "observed_id": "C162158",
+      "path": [
+        "C162158",
+        "C156094",
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:ff7c8049dfcd12379907"
+      ],
+      "fact_id": "fact:aabaebe478efdf35700b",
+      "observed": "Lung Non-Small Cell Carcinoma",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:8e3f24c68c295921f756"
+      ],
+      "fact_id": "fact:d2ff6ee3abc4855f4623",
+      "observed": "Non-Small-Cell Lung Cancer",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:ed6140f3971aa2fca287"
+      ],
+      "fact_id": "fact:8aea819a60a5a690273a",
+      "observed": "Nsclc",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:e7a8c5eaeefeadb2800c"
+      ],
+      "fact_id": "fact:8ba128a97d20f631b122",
+      "observed": "Non Small Cell Lung Carcinoma",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:6e8cfbd9b5d503b5ad05"
+      ],
+      "fact_id": "fact:05772db2bc2e43f6a94a",
+      "observed": "Non-small Cell Lung Cancer Stage IIIA",
+      "observed_id": "C9102",
+      "path": [
+        "C9102",
+        "C7778",
+        "C136491",
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:e9f271a2c08250a24dc7"
+      ],
+      "fact_id": "fact:4022db873003eb1bf652",
+      "observed": "Non Small-cell Lung Cancer",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:89fc056a3e2f9934e40b"
+      ],
+      "fact_id": "fact:a48bf098bf1e7cc09e0e",
+      "observed": "Locally Advanced Lung Non-Small Cell Carcinoma",
+      "observed_id": "C160783",
+      "path": [
+        "C160783",
+        "C156094",
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:5de210ffabc3bffac501"
+      ],
+      "fact_id": "fact:5a5014e13b4f142b4216",
+      "observed": "Recurrent Lung Non-Small Cell Carcinoma",
+      "observed_id": "C7783",
+      "path": [
+        "C7783",
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_descendant"
+    },
+    {
+      "authority_release": "26.08e",
+      "claims": [
+        "claim:71aa25934cb6f49bbba8"
+      ],
+      "fact_id": "fact:0a0add2de059aa6f24bd",
+      "observed": "Non-small Cell Lung Carcinoma",
+      "observed_id": "C2926",
+      "path": [
+        "C2926"
+      ],
+      "requested": "non-small cell lung cancer",
+      "requested_id": "C2926",
+      "rule": "authority_identity"
+    }
+  ],
+  "reviewer": "Codex",
+  "scope": "Post-adoption review of every distinct new PASS witness condition, additional to preregistered sample",
+  "unsupported_positive_claims": 0
+}
