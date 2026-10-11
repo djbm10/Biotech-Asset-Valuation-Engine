@@ -15,7 +15,7 @@ import re
 from datetime import date
 
 from bve.se.intent.intent import IntentSpan, SearchIntent, SpanKind
-from bve.se.ontology.indications import indication_concepts_in_phrase
+from bve.se.ontology.indications import resolve_indication_phrase
 from bve.se.ontology.targets import target_aliases
 from bve.se.schemas.contracts import (
     BuyerIdentity,
@@ -116,7 +116,7 @@ def residual_indications(intent: SearchIntent) -> list[str]:
 
     Adjacent residual words form one phrase. A phrase that names a known indication concept
     compiles to that concept ("relapsed or refractory B-cell lymphoma" is one requirement,
-    not four); only authoritative disease aliases in other phrases become requirements.
+    not four); any other phrase keeps its words as literals, exactly as before.
     ``intent.residual_terms`` is not touched: it also drives trial retrieval.
     """
 
@@ -135,9 +135,8 @@ def residual_indications(intent: SearchIntent) -> list[str]:
 
     indications: list[str] = []
     for phrase in phrases:
-        indications.extend(
-            indication_concepts_in_phrase(query[phrase[0].start : phrase[-1].end])
-        )
+        concept = resolve_indication_phrase(query[phrase[0].start : phrase[-1].end])
+        indications.extend([concept] if concept else [span.text for span in phrase])
     return list(dict.fromkeys(indications))
 
 

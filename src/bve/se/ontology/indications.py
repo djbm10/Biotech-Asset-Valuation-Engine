@@ -17,9 +17,6 @@ declared change.
 from __future__ import annotations
 
 import re
-import json
-from functools import lru_cache
-from pathlib import Path
 from enum import Enum
 
 B_CELL_LYMPHOMA = "INDICATION:B_CELL_LYMPHOMA"
@@ -89,9 +86,7 @@ def _has_any(normalized: str, terms: tuple[str, ...]) -> bool:
 
 
 def is_indication_concept(value: object) -> bool:
-    return isinstance(value, str) and (
-        value in _REQUEST_SURFACES or value.startswith("INDICATION:NCIT:")
-    )
+    return isinstance(value, str) and value in _REQUEST_SURFACES
 
 
 def resolve_indication_phrase(phrase: str) -> str | None:
@@ -104,121 +99,17 @@ def resolve_indication_phrase(phrase: str) -> str | None:
     for concept, surfaces in _REQUEST_SURFACES.items():
         if remainder in surfaces:
             return concept
-    codes = _diseases()["names"].get(normalize(phrase), [])
-    return f"INDICATION:NCIT:{codes[0]}" if len(codes) == 1 else None
-
-
-@lru_cache(maxsize=1)
-def _diseases() -> dict:
-    """Frozen NCIt 26.08e disease-typed view, including source digest and parent edges."""
-    path = Path(__file__).resolve().parents[4] / "research/se_indication_semantics_v1/ncit_diseases.json"
-    return json.loads(path.read_text(encoding="utf-8"))
-
-
-@lru_cache(maxsize=65536)
-def _ancestors(code: str) -> frozenset[str]:
-    nodes = _diseases()["nodes"]
-    seen: set[str] = set()
-    pending = [code]
-    while pending:
-        current = pending.pop()
-        if current not in seen:
-            seen.add(current)
-            pending.extend(p for p in nodes.get(current, {}).get("parents", []) if p in nodes)
-    return frozenset(seen)
-
-
-@lru_cache(maxsize=1)
-def _children() -> dict[str, set[str]]:
-    children: dict[str, set[str]] = {}
-    for code, node in _diseases()["nodes"].items():
-        for parent in node["parents"]:
-            children.setdefault(parent, set()).add(code)
-    return children
-
-
-@lru_cache(maxsize=65536)
-def _descendants(code: str) -> frozenset[str]:
-    seen: set[str] = set()
-    pending = [code]
-    while pending:
-        current = pending.pop()
-        if current not in seen:
-            seen.add(current)
-            pending.extend(_children().get(current, ()))
-    return frozenset(seen)
-
-
-def _disease_mentions(phrase: str) -> list[list[str]]:
-    """Maximal non-overlapping whole-word aliases; ambiguous aliases stay ambiguous."""
-    words = normalize(phrase).split()
-    names = _diseases()["names"]
-    found: list[list[str]] = []
-    start = 0
-    while start < len(words):
-        for end in range(len(words), start, -1):
-            codes = names.get(" ".join(words[start:end]))
-            if codes:
-                found.append(codes)
-                start = end
-                break
-        else:
-            start += 1
-    return found
-
-
-def indication_concepts_in_phrase(phrase: str) -> list[str]:
-    """Compile disease concepts only; ordinary residual terms never become requirements."""
-    concept = resolve_indication_phrase(phrase)
-    if concept:
-        return [concept]
-    return list(dict.fromkeys(
-        f"INDICATION:NCIT:{codes[0]}" for codes in _disease_mentions(phrase) if len(codes) == 1
-    ))
-
-
-def _compare_codes(observed: str, requested: str) -> ConditionMatch:
-    if requested in _ancestors(observed):
-        return ConditionMatch.MATCH
-    if observed in _ancestors(requested) or _descendants(observed) & _descendants(requested):
-        return ConditionMatch.UNDETERMINED
-    return ConditionMatch.NO
+    return None
 
 
 def classify_condition(condition: str, concept: str) -> ConditionMatch:
-    """Authority same/subtype evidence confirms; only explicit incompatibility excludes.
+    """Whether one condition string names ``concept``; the first applicable rule wins."""
 
-    Unknown names, ambiguous names and unexplained surrounding text cannot refute a
-    requested disease. Whole-condition diagnoses can refute only a comparable concept.
-    """
     normalized = normalize(condition)
-    if set(normalized.split()) & {"not", "without", "excluding", "negative"}:
-        return ConditionMatch.UNDETERMINED
-    if concept == B_CELL_LYMPHOMA:
-        if _has_any(normalized, _MATCH_TERMS[concept]):
-            return ConditionMatch.MATCH
-        if _has_any(normalized, _DISJOINT_TERMS[concept]):
-            return ConditionMatch.NO
-        if _has_any(normalized, _BROADER_TERMS[concept]):
-            return ConditionMatch.UNDETERMINED
-        concept = resolve_indication_phrase("B-cell lymphoma")
-        # The legacy request resolver returns its legacy ID; use the typed NCIt name.
-        codes = _diseases()["names"].get("b cell lymphoma", [])
-        concept = f"INDICATION:NCIT:{codes[0]}" if len(codes) == 1 else None
-    elif not is_indication_concept(concept):
-        concept = resolve_indication_phrase(concept)
-    if not concept or not concept.startswith("INDICATION:NCIT:"):
-        return ConditionMatch.UNDETERMINED
-    requested = concept.removeprefix("INDICATION:NCIT:")
-    if requested not in _diseases()["nodes"]:
-        return ConditionMatch.UNDETERMINED
-    names = _diseases()["names"]
-    whole = names.get(normalized, [])
-    if len(whole) == 1:
-        return _compare_codes(whole[0], requested)
-    if whole:
-        return ConditionMatch.UNDETERMINED
-    mentions = _disease_mentions(condition)
-    if any(len(codes) == 1 and requested in _ancestors(codes[0]) for codes in mentions):
+    if _has_any(normalized, _MATCH_TERMS[concept]):
         return ConditionMatch.MATCH
-    return ConditionMatch.UNDETERMINED
+    if _has_any(normalized, _DISJOINT_TERMS[concept]):
+        return ConditionMatch.NO
+    if _has_any(normalized, _BROADER_TERMS[concept]):
+        return ConditionMatch.UNDETERMINED
+    return ConditionMatch.NO
