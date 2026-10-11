@@ -1,0 +1,16 @@
+{
+  "H16_H20": "untouched",
+  "H6_H10": "unrun",
+  "attempt_full_suite": {
+    "collected": 1704,
+    "expected_xfails": 3,
+    "failed": 1,
+    "passed": 1700
+  },
+  "baseline": "4cf8485",
+  "compiler_v3": "frozen; unchanged before, during and after attempt",
+  "full_suite_after_revert": "not rerun; source/tests verified identical to baseline",
+  "production_source_and_tests_byte_identical": true,
+  "revert": "518185c",
+  "ruff": "PASS after restoration (cache access required escalated rerun)"
+}

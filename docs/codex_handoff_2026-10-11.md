@@ -1,5 +1,61 @@
 # Codex handoff — S&E engine, 2026-10-11
 
+## Current outcome — INDICATION_GATE_SEMANTICS v2 REVERTED (2026-10-11)
+
+User resolved diagnosis 4cf8485: no negative-evidence contract now; current registry
+indications may establish positive PASS or UNKNOWN only. That decision remains valid.
+Preregistration **43c7cc5**, implementation **148b71e**, failure record **5a4940e**,
+normal revert **518185c**. Source and tests are byte-identical to 4cf8485; adopted
+compilation v3 stayed frozen throughout. No post-result behavior/test/control patch.
+
+Policy: docs/se_policies/indication_gate_semantics_v2.md. Population, authority manifest,
+score, manual review, quality logs, failure and restoration:
+research/se_indication_gate_semantics_v2/. Scorer preserved at
+scripts/score_indication_gate_semantics_v2.py (requires the failed implementation to
+reproduce; checkout its commit plus the preserved scorer, not restored production).
+
+Frozen: 38 references, all 655 historical diagnostic indication-only exclusions,
+eight original run hashes including TAC01/mint5, original 16 controls plus 12 new
+controls, JCAR014 NOS and compilation-v3 source/query preservation.
+**V2-G1 PASS; G2 PASS; G3 FAIL; G4 PASS; G5 PASS; G6 PASS; G7 PASS;
+G8 PASS; G9 PASS; G10 FAIL.** 27/28 semantic controls correct.
+Failure: psoriasis_synonym expected PASS for Psoriasis Vulgaris, but no alias exists
+in the selected frozen NCIt disease names (nor disease/finding query roles). The
+implementation correctly preserved insufficient normalization as UNKNOWN; however,
+the frozen PASS criterion failed. The positive-control authority premise was not
+verified before preregistration. Do not amend, retroactively rescue or adopt v2.
+
+Targeted **85 passed / 1 failed**. Full tests/se **1,700 passed / 1 failed /
+3 expected xfails** (1,704 collected), sole failure psoriasis_synonym. Attempt and
+restored-source Ruff clean. Full suite not rerun after normal reversion; exact source/
+tests restoration independently verified. Test logs retain harmless cache-write warnings.
+
+Failed-development readout: references **18 PASS / 20 UNKNOWN / 0 FAIL**, all 33 former
+indication-only excluded references free of other FAIL gates (gate-rankable; shortlist
+membership/order not recomputed). Diagnostic indication-only exclusions **655 -> 0**;
+128 newly PASS diagnostic assets. Manual sample: 124 witness records, 20 distinct
+disease pairs, zero unsupported positive claims. TAC01 preserves 157 old PASS,
+324 unsupported FAIL -> UNKNOWN, no new PASS; JCAR014 control PASS. mint5 unchanged.
+These are failed-attempt observations, not adoption or generalization evidence.
+
+After revert, durable counts remain **0 PASS / 5 UNKNOWN / 33 FAIL** references and
+**655** diagnostic indication-only exclusions. Historical visible references 5/38;
+top-20 diagnostic pollution remains 57 TARGET_UNKNOWN_FILL, 40 NON_PRODUCT_GENERATION
+plus one QUALIFICATION_MISS, four duplicates. No post-adoption precision/membership/
+order readout applies. Ranking and all other policy layers stayed unchanged.
+
+**Next:** independently verify authority coverage for every positive control before
+a NEW gate preregistration. No invented synonym or post-result expectation change.
+Keep insufficient normalization UNKNOWN. INDICATION_NEGATIVE_EVIDENCE_CONTRACT v1
+is deferred: claim type, identity, indication, negative relation, authority/provenance,
+review/confidence and contradictions must be designed separately; nothing added here.
+
+The indication stack is **NOT finalized** for primary validation. **H16–H20 remain
+completely untouched; H6–H10 unrun.** No live acquisitions/replays launched. No user
+terminal run is justified now. All prior failures and diagnosis remain preserved below.
+
+## Preserved diagnosis and previous outcomes
+
 ## Current gate milestone — DIAGNOSIS ONLY, evidence contract unresolved (2026-10-11)
 
 Production remains adopted compilation v3 at **ebbb554**. No gate code or query
