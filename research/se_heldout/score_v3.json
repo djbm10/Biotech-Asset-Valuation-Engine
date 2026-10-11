@@ -1,0 +1,274 @@
+[
+ {
+  "query": "H11",
+  "shortlist": 27,
+  "labels": {
+   "benmelstobart": "WRONG_TARGET",
+   "gremubamab": "WRONG_TARGET",
+   "Nelistotug": "WRONG_TARGET",
+   "peresolimab": "WRONG_TARGET",
+   "tobemstomig": "WRONG_TARGET",
+   "Volrustomig": "WRONG_TARGET",
+   "DSTA4637S": "WRONG_TARGET",
+   "gebasaxturev": "WRONG_TARGET",
+   "sodium alginate": "NON_ASSET",
+   "carboplatin": "WRONG_TARGET",
+   "cabotegravir": "WRONG_TARGET",
+   "carbon monoxide": "NON_ASSET",
+   "deucrictibant": "WRONG_TARGET",
+   "dolutegravir": "WRONG_TARGET",
+   "gadolinium": "NON_ASSET",
+   "icosapent ethyl": "WRONG_TARGET",
+   "leucovorin": "WRONG_TARGET",
+   "levofloxacin": "WRONG_TARGET",
+   "methicillin": "WRONG_TARGET",
+   "oxaliplatin": "WRONG_TARGET"
+  },
+  "P@20": 0.0,
+  "recall_all": 0.0,
+  "found_all": [],
+  "recall_20": 0.0,
+  "NON_ASSET": 3,
+  "DUPLICATE": 0,
+  "human_poc_rows_top20": [
+   [
+    "carboplatin",
+    [
+     "In cohort B (n = 42), carboplatin was associated with more haematological effects but no increase in pathologic complete response rate [arm A: 46% (95% CI 24% to 68%);"
+    ]
+   ]
+  ],
+  "thresholds": {
+   "P@20>=0.70": false,
+   "recall_all>=0.60": false,
+   "NON_ASSET<=1": false,
+   "DUPLICATE<=2": true
+  },
+  "target_recognition": {
+   "compiled": [
+    "TIGIT"
+   ],
+   "intended": [
+    "TIGIT"
+   ],
+   "exact": true
+  }
+ },
+ {
+  "query": "H12",
+  "shortlist": 284,
+  "labels": {
+   "Alexion": "NON_ASSET",
+   "ARC1905": "RELEVANT",
+   "crovalimab-akkz": "RELEVANT",
+   "Izervay": "DUPLICATE",
+   "pexelizumab": "RELEVANT",
+   "PiaSky": "DUPLICATE",
+   "pozelimab-bbfg": "RELEVANT",
+   "Ultomiris": "RELEVANT",
+   "Veopoz": "DUPLICATE",
+   "Tamuzimod": "WRONG_TARGET",
+   "AFM11": "WRONG_TARGET",
+   "bendamustine": "WRONG_TARGET",
+   "butanone": "NON_ASSET",
+   "chromium": "NON_ASSET",
+   "creatinine": "NON_ASSET",
+   "cyclophosphamide": "WRONG_TARGET",
+   "duvortuxizumab": "WRONG_TARGET",
+   "eosin": "NON_ASSET",
+   "fludarabine": "WRONG_TARGET",
+   "hematoxylin": "NON_ASSET"
+  },
+  "P@20": 0.25,
+  "recall_all": 0.286,
+  "found_all": [
+   "ravulizumab",
+   "crovalimab"
+  ],
+  "recall_20": 0.286,
+  "NON_ASSET": 6,
+  "DUPLICATE": 3,
+  "human_poc_rows_top20": [
+   [
+    "Tamuzimod",
+    [
+     "At week 13, clinical remission was reached by 19 (28%) of 68 patients receiving tamuzimod 60 mg, 17 (24%) of 71 patients receiving tamuzimod 30 mg, and eight (11%) of 70 patients receiving placebo (risk difference 16\\u00b75% [95% CI 3\\u00b72 to 29\\u00b74], p=0"
+    ]
+   ]
+  ],
+  "thresholds": {
+   "P@20>=0.70": false,
+   "recall_all>=0.60": false,
+   "NON_ASSET<=1": false,
+   "DUPLICATE<=2": false
+  },
+  "target_recognition": {
+   "compiled": [
+    "C5"
+   ],
+   "intended": [
+    "C5"
+   ],
+   "exact": true
+  }
+ },
+ {
+  "query": "H13",
+  "shortlist": 233,
+  "labels": {
+   "ABT-122": "RELEVANT",
+   "Afasevikumab": "RELEVANT",
+   "afimkibart": "WRONG_TARGET",
+   "Avizakimab": "UNVERIFIABLE",
+   "certolizumab": "WRONG_TARGET",
+   "denecimig": "WRONG_TARGET",
+   "duvakitug": "WRONG_TARGET",
+   "gremubamab": "WRONG_TARGET",
+   "gumokimab": "RELEVANT",
+   "ivonescimab": "WRONG_TARGET",
+   "netakimab": "RELEVANT",
+   "Stapokibart": "WRONG_TARGET",
+   "tulisokibart": "WRONG_TARGET",
+   "Bimzelx": "RELEVANT",
+   "amino acids": "NON_ASSET",
+   "Carrageenan": "NON_ASSET",
+   "colistin": "WRONG_TARGET",
+   "ginger": "NON_ASSET",
+   "ginkgo": "NON_ASSET",
+   "honey": "NON_ASSET"
+  },
+  "P@20": 0.263,
+  "recall_all": 0.25,
+  "found_all": [
+   "bimekizumab",
+   "netakimab"
+  ],
+  "recall_20": 0.25,
+  "NON_ASSET": 5,
+  "DUPLICATE": 0,
+  "human_poc_rows_top20": [
+   [
+    "ABT-122",
+    [
+     "In both ABT-122 dose groups, ACR20 response rates at week 12 (64.8-75.3%) were superior to that in patients receiving placebo (25.0%) (P < 0.001) but similar to that in patients receiving adalimumab (68.1%)."
+    ]
+   ]
+  ],
+  "thresholds": {
+   "P@20>=0.70": false,
+   "recall_all>=0.60": false,
+   "NON_ASSET<=1": false,
+   "DUPLICATE<=2": true
+  },
+  "target_recognition": {
+   "compiled": [
+    "IL17A"
+   ],
+   "intended": [
+    "IL17A"
+   ],
+   "exact": true
+  }
+ },
+ {
+  "query": "H14",
+  "shortlist": 273,
+  "labels": {
+   "Emfizatamab": "UNVERIFIABLE",
+   "afimkibart": "WRONG_TARGET",
+   "anselamimab": "WRONG_TARGET",
+   "belantamab": "WRONG_TARGET",
+   "BIVV020": "WRONG_TARGET",
+   "Cevostamab": "WRONG_TARGET",
+   "duvakitug": "WRONG_TARGET",
+   "gremubamab": "WRONG_TARGET",
+   "linvoseltamab": "WRONG_TARGET",
+   "loncastuximab": "WRONG_TARGET",
+   "tulisokibart": "WRONG_TARGET",
+   "isatuximab-irfc": "RELEVANT",
+   "SARCLISA": "DUPLICATE",
+   "AFM11": "WRONG_TARGET",
+   "paraffin": "NON_ASSET",
+   "vehicle": "NON_ASSET",
+   "amino acids": "NON_ASSET",
+   "avidin": "NON_ASSET",
+   "carboxymethyl cellulose": "NON_ASSET",
+   "cinnamon": "NON_ASSET"
+  },
+  "P@20": 0.053,
+  "recall_all": 0.2,
+  "found_all": [
+   "isatuximab"
+  ],
+  "recall_20": 0.2,
+  "NON_ASSET": 6,
+  "DUPLICATE": 1,
+  "human_poc_rows_top20": [],
+  "thresholds": {
+   "P@20>=0.70": false,
+   "recall_all>=0.60": false,
+   "NON_ASSET<=1": false,
+   "DUPLICATE<=2": true
+  },
+  "target_recognition": {
+   "compiled": [
+    "CD38"
+   ],
+   "intended": [
+    "CD38"
+   ],
+   "exact": true
+  }
+ },
+ {
+  "query": "H15",
+  "shortlist": 193,
+  "labels": {
+   "AFM11": "WRONG_TARGET",
+   "bromide": "NON_ASSET",
+   "chromium": "NON_ASSET",
+   "cyclophosphamide": "WRONG_TARGET",
+   "fludarabine": "WRONG_TARGET",
+   "mitomycin": "WRONG_TARGET",
+   "rimiducid": "WRONG_TARGET",
+   "Tabelecleucel": "WRONG_TARGET",
+   "vehicle": "NON_ASSET",
+   "Abacavir": "WRONG_TARGET",
+   "Abacavir sulfate": "DUPLICATE",
+   "abetimus sodium": "WRONG_TARGET",
+   "acetone": "NON_ASSET",
+   "acipimox": "WRONG_TARGET",
+   "acoltremon": "WRONG_TARGET",
+   "admilparant": "WRONG_TARGET",
+   "AEM-28": "WRONG_TARGET",
+   "aficamten": "WRONG_TARGET",
+   "amino acids": "NON_ASSET",
+   "amoxicillin": "WRONG_TARGET"
+  },
+  "P@20": 0.0,
+  "recall_all": 0.2,
+  "found_all": [
+   "solbinsiran"
+  ],
+  "recall_20": 0.0,
+  "NON_ASSET": 5,
+  "DUPLICATE": 1,
+  "human_poc_rows_top20": [],
+  "thresholds": {
+   "P@20>=0.70": false,
+   "recall_all>=0.60": false,
+   "NON_ASSET<=1": false,
+   "DUPLICATE<=2": true
+  },
+  "target_recognition": {
+   "compiled": [
+    "ANGPTL3",
+    "LDLR"
+   ],
+   "intended": [
+    "ANGPTL3"
+   ],
+   "exact": false
+  }
+ }
+]
