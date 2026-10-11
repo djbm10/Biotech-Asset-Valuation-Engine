@@ -1,0 +1,56 @@
+{
+  "audit": "ff2a69b",
+  "baseline": "8da5e61",
+  "compilation_controls": {
+    "exact": 103,
+    "total": 103
+  },
+  "criteria": {
+    "V3-G1": true,
+    "V3-G10": true,
+    "V3-G2": true,
+    "V3-G3": true,
+    "V3-G4": true,
+    "V3-G5": true,
+    "V3-G6": true,
+    "V3-G7": true,
+    "V3-G8": true,
+    "V3-G9": true
+  },
+  "gate_controls": {
+    "exact": 28,
+    "positive": 9,
+    "total": 28,
+    "unknown": 19
+  },
+  "holdouts": "H16-H20 untouched; H6-H10 unrun",
+  "implementation": "625db7a",
+  "indication_only_exclusions": {
+    "after": 0,
+    "before": 655
+  },
+  "manual_review": {
+    "distinct_pairs": 20,
+    "unsupported": 0,
+    "witness_records": 124
+  },
+  "negative_evidence_contract": "DEFERRED; no indication FAIL under current evidence contract",
+  "new_pass_assets": 128,
+  "preregistration": "6b82d42",
+  "reference_statuses": {
+    "PASS": 18,
+    "UNKNOWN": 20
+  },
+  "ruff": "PASS",
+  "status": "ADOPTED",
+  "targeted": {
+    "failed": 0,
+    "passed": 86
+  },
+  "tests_se": {
+    "collected": 1704,
+    "expected_xfails": 3,
+    "failed": 0,
+    "passed": 1701
+  }
+}
