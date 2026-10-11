@@ -1,0 +1,627 @@
+{
+  "authority_sha256": "49f7246447d58171228da4f0ad5c74a46adefd0f053222f3d02db64e3cff73d2",
+  "baseline": "8da5e61",
+  "changed_oracle": [
+    "psoriasis_synonym"
+  ],
+  "controls": [
+    {
+      "authority_expected": "PASS",
+      "id": "same",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Non Small Cell Lung Cancer",
+          "observed_ids": [
+            "C2926"
+          ],
+          "path": [
+            {
+              "id": "C2926",
+              "label": "Lung Non-Small Cell Carcinoma",
+              "parents": [
+                "C65151",
+                "C4878"
+              ]
+            }
+          ],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": true
+        }
+      ]
+    },
+    {
+      "authority_expected": "PASS",
+      "id": "synonym",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "NSCLC",
+          "observed_ids": [
+            "C2926"
+          ],
+          "path": [
+            {
+              "id": "C2926",
+              "label": "Lung Non-Small Cell Carcinoma",
+              "parents": [
+                "C65151",
+                "C4878"
+              ]
+            }
+          ],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": true
+        }
+      ]
+    },
+    {
+      "authority_expected": "PASS",
+      "id": "subtype",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Lung Adenocarcinoma",
+          "observed_ids": [
+            "C3512"
+          ],
+          "path": [
+            {
+              "id": "C3512",
+              "label": "Lung Adenocarcinoma",
+              "parents": [
+                "C27745",
+                "C135017"
+              ]
+            },
+            {
+              "id": "C135017",
+              "label": "Lung Non-Squamous Non-Small Cell Carcinoma",
+              "parents": [
+                "C2926"
+              ]
+            },
+            {
+              "id": "C2926",
+              "label": "Lung Non-Small Cell Carcinoma",
+              "parents": [
+                "C65151",
+                "C4878"
+              ]
+            }
+          ],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": true
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "incompatible",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Ulcerative Colitis",
+          "observed_ids": [
+            "C2952"
+          ],
+          "path": [],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "incompatible_reverse",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Non Small Cell Lung Cancer",
+          "observed_ids": [
+            "C2926"
+          ],
+          "path": [],
+          "requested": "ulcerative colitis",
+          "requested_ids": [
+            "C2952"
+          ],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "incomparable",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Investigational syndrome ZZ9",
+          "observed_ids": [],
+          "path": [],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "broader",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Malignant Lung Neoplasm",
+          "observed_ids": [
+            "C7377"
+          ],
+          "path": [],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "unrecognized_request",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "NSCLC",
+          "observed_ids": [
+            "C2926"
+          ],
+          "path": [],
+          "requested": "Investigational syndrome ZZ9",
+          "requested_ids": [],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "negation",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Not NSCLC",
+          "observed_ids": [],
+          "path": [],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "PASS",
+      "id": "bcell_same",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "adopted B-cell vocabulary",
+          "matched_terms": [
+            "b cell lymphoma"
+          ],
+          "observed": "B-cell lymphoma",
+          "requested": "INDICATION:B_CELL_LYMPHOMA",
+          "source": "docs/se_policies/indication_gate_semantics.md",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "authority_expected": "PASS",
+      "id": "bcell_subtype",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "adopted B-cell vocabulary",
+          "matched_terms": [
+            "follicular lymphoma"
+          ],
+          "observed": "Follicular Lymphoma",
+          "requested": "INDICATION:B_CELL_LYMPHOMA",
+          "source": "docs/se_policies/indication_gate_semantics.md",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "bcell_disjoint",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "adopted B-cell vocabulary",
+          "matched_terms": [],
+          "observed": "Hodgkin Lymphoma",
+          "requested": "INDICATION:B_CELL_LYMPHOMA",
+          "source": "docs/se_policies/indication_gate_semantics.md",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "bcell_tcell",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "adopted B-cell vocabulary",
+          "matched_terms": [],
+          "observed": "Peripheral T-cell Lymphoma",
+          "requested": "INDICATION:B_CELL_LYMPHOMA",
+          "source": "docs/se_policies/indication_gate_semantics.md",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "bcell_broader",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "adopted B-cell vocabulary",
+          "matched_terms": [],
+          "observed": "Lymphoma",
+          "requested": "INDICATION:B_CELL_LYMPHOMA",
+          "source": "docs/se_policies/indication_gate_semantics.md",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "bcell_unrecognized",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "adopted B-cell vocabulary",
+          "matched_terms": [],
+          "observed": "Investigational syndrome ZZ9",
+          "requested": "INDICATION:B_CELL_LYMPHOMA",
+          "source": "docs/se_policies/indication_gate_semantics.md",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "unrecognized_identical",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Investigational syndrome ZZ9",
+          "observed_ids": [],
+          "path": [],
+          "requested": "Investigational syndrome ZZ9",
+          "requested_ids": [],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "PASS",
+      "id": "subtype_exact",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Lung Adenocarcinoma",
+          "observed_ids": [
+            "C3512"
+          ],
+          "path": [
+            {
+              "id": "C3512",
+              "label": "Lung Adenocarcinoma",
+              "parents": [
+                "C27745",
+                "C135017"
+              ]
+            }
+          ],
+          "requested": "Lung Adenocarcinoma",
+          "requested_ids": [
+            "C3512"
+          ],
+          "supported": true
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "parent_direction",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Non Small Cell Lung Cancer",
+          "observed_ids": [
+            "C2926"
+          ],
+          "path": [],
+          "requested": "Lung Adenocarcinoma",
+          "requested_ids": [
+            "C3512"
+          ],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "PASS",
+      "id": "multi_match",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Ulcerative Colitis",
+          "observed_ids": [
+            "C2952"
+          ],
+          "path": [],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": false
+        },
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "NSCLC",
+          "observed_ids": [
+            "C2926"
+          ],
+          "path": [
+            {
+              "id": "C2926",
+              "label": "Lung Non-Small Cell Carcinoma",
+              "parents": [
+                "C65151",
+                "C4878"
+              ]
+            }
+          ],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": true
+        }
+      ]
+    },
+    {
+      "authority_expected": "PASS",
+      "id": "multi_reverse",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "NSCLC",
+          "observed_ids": [
+            "C2926"
+          ],
+          "path": [
+            {
+              "id": "C2926",
+              "label": "Lung Non-Small Cell Carcinoma",
+              "parents": [
+                "C65151",
+                "C4878"
+              ]
+            }
+          ],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": true
+        },
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Ulcerative Colitis",
+          "observed_ids": [
+            "C2952"
+          ],
+          "path": [],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "finding_incomplete",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Hidradenitis Suppurativa",
+          "observed_ids": [],
+          "path": [],
+          "requested": "hidradenitis suppurativa",
+          "requested_ids": [],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "missing",
+      "missing_evidence": true,
+      "previous_expected": "UNKNOWN",
+      "proofs": []
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "negated_request",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "NSCLC",
+          "observed_ids": [
+            "C2926"
+          ],
+          "path": [],
+          "requested": "not NSCLC",
+          "requested_ids": [],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "negated_same",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "not NSCLC",
+          "observed_ids": [],
+          "path": [],
+          "requested": "not NSCLC",
+          "requested_ids": [],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "non_disease",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "inhibitor",
+          "observed_ids": [],
+          "path": [],
+          "requested": "inhibitor",
+          "requested_ids": [],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "word_overlap",
+      "missing_evidence": false,
+      "previous_expected": "UNKNOWN",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Small Cell Lung Cancer",
+          "observed_ids": [
+            "C4917"
+          ],
+          "path": [],
+          "requested": "non-small cell lung cancer",
+          "requested_ids": [
+            "C2926"
+          ],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "UNKNOWN",
+      "id": "psoriasis_synonym",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "NCIt 26.08e",
+          "observed": "Psoriasis Vulgaris",
+          "observed_ids": [],
+          "path": [],
+          "requested": "psoriasis",
+          "requested_ids": [
+            "C3346"
+          ],
+          "supported": false
+        }
+      ]
+    },
+    {
+      "authority_expected": "PASS",
+      "id": "jcar",
+      "missing_evidence": false,
+      "previous_expected": "PASS",
+      "proofs": [
+        {
+          "authority": "adopted B-cell vocabulary",
+          "matched_terms": [
+            "b cell non hodgkin"
+          ],
+          "observed": "B-Cell Non-Hodgkin Lymphoma, Not Otherwise Specified",
+          "requested": "INDICATION:B_CELL_LYMPHOMA",
+          "source": "docs/se_policies/indication_gate_semantics.md",
+          "supported": true
+        }
+      ]
+    }
+  ],
+  "positive_supported": 9,
+  "release": "26.08e",
+  "status": "AUTHORITY_COVERAGE_ONLY; production unchanged",
+  "unknown": 19
+}
