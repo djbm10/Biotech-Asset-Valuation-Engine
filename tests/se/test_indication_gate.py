@@ -70,9 +70,9 @@ class TestCompiler:
         query = intent_to_trial_query(intent, as_of_date=date(2026, 9, 24))
         assert query.conditions == ["relapsed", "refractory", "B-cell", "lymphoma"]
 
-    def test_unresolved_phrase_keeps_todays_literals(self) -> None:
+    def test_unresolved_phrase_preserves_coherent_indication(self) -> None:
         intent = parse_query("CD19 CAR-T for lupus nephritis")
-        assert residual_indications(intent) == intent.residual_terms
+        assert residual_indications(intent) == ["lupus nephritis"]
 
     def test_words_separated_by_a_stopword_are_not_one_phrase(self) -> None:
         # "for" is not phrase glue, so "B-cell ... lymphoma" never spans it.
