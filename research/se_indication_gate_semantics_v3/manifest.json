@@ -1,0 +1,7 @@
+{
+  "docs/se_policies/indication_gate_semantics_v3.md": "fffd99a12f2e67ef4a99b8fa5581f05a98cd9cd6875fe58d83513ca6c795e185",
+  "docs/se_policies/indication_gate_semantics_v3_authority_audit.md": "49118acd06d630a58cbb2974868687e6dc6b6f5f537b3ee80555d72e1eaa7357",
+  "research/se_indication_gate_semantics_v3/authority_audit.json": "bfefe6659075961e53dd28c08f408a872173ba4cef92cd6dd91e873c84bfb1af",
+  "research/se_indication_gate_semantics_v3/population.json": "4afc1212254505125a3d9e7e5fcc88840814c6fbdda2bcbd718c5d48d6dd703e",
+  "research/se_indication_semantics_v1/ncit_diseases.json": "49f7246447d58171228da4f0ad5c74a46adefd0f053222f3d02db64e3cff73d2"
+}
