@@ -1,0 +1,2247 @@
+{
+ "H2": {
+  "class_counts": {
+   "D": 7,
+   "A": 10,
+   "B": 1
+  },
+  "reference_location": {
+   "excluded": 8,
+   "shortlist": 1
+  },
+  "references": {
+   "sotorasib": [
+    "excluded",
+    null,
+    "Sotorasib"
+   ],
+   "adagrasib": [
+    "excluded",
+    null,
+    "Adagrasib"
+   ],
+   "divarasib": [
+    "excluded",
+    null,
+    "Divarasib"
+   ],
+   "olomorasib": [
+    "excluded",
+    null,
+    "olomorasib"
+   ],
+   "garsorasib": [
+    "excluded",
+    null,
+    "Garsorasib"
+   ],
+   "fulzerasib": [
+    "excluded",
+    null,
+    "fulzerasib"
+   ],
+   "glecirasib": [
+    "excluded",
+    null,
+    "glecirasib"
+   ],
+   "opnurasib": [
+    "excluded",
+    null,
+    "opnurasib"
+   ],
+   "elironrasib": [
+    "shortlist",
+    362,
+    "elironrasib"
+   ]
+  },
+  "rows": [
+   {
+    "pos": 1,
+    "name": "Krazati",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:ADAGRASIB",
+    "auth": [
+     "TARGET:KRAS"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "aficamten",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AFICAMTEN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "Trimix",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:TRIMIX",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "AFM11",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AFM-11",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "bendamustine",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:BENDAMUSTINE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "bromide",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:BROMIDE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "butanone",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:BUTANONE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "chromium",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CHROMIUM",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "creatinine",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CREATININE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "Curcumin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CURCUMIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "duvortuxizumab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DUVORTUXIZUMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "Emfizatamab",
+    "label": "UNVERIFIABLE",
+    "class": null,
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:EMFIZATAMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "eosin",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:EOSIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "fluorescein",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:FLUORESCEIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "hematoxylin",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:HEMATOXYLIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "isothiocyanate",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:ISOTHIOCYANATE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "Loncastuximab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:LONCASTUXIMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "Maleimide",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:MALEIMIDE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "methane",
+    "label": "NON_ASSET",
+    "class": "B",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:METHANE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "mitomycin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:MITOMYCIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   }
+  ]
+ },
+ "H4": {
+  "class_counts": {
+   "A": 10,
+   "D": 7
+  },
+  "reference_location": {
+   "shortlist": 3
+  },
+  "references": {
+   "tulisokibart": [
+    "shortlist",
+    3,
+    "tulisokibart"
+   ],
+   "duvakitug": [
+    "shortlist",
+    2,
+    "duvakitug"
+   ],
+   "afimkibart": [
+    "shortlist",
+    1,
+    "afimkibart"
+   ]
+  },
+  "rows": [
+   {
+    "pos": 1,
+    "name": "afimkibart",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AFIMKIBART",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "duvakitug",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DUVAKITUG",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "tulisokibart",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:TULISOKIBART",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "papain",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:PAPAIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "sesquiterpene",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:SESQUITERPENE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "alloxan",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:ALLOXAN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "Bavachin",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:BAVACHIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "Berberine",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:BERBERINE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "carboplatin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CARBOPLATIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "ceftazidime",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CEFTAZIDIME",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "ciprofloxacin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CIPROFLOXACIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "creatinine",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CREATININE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "danegaptide",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DANEGAPTIDE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "digitoxigenin",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DIGITOXIGENIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "dihydroergocristine mesylate",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DIHYDROERGOCRISTINE MESYLATE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "ethylene",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:ETHYLENE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "fluoride",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:FLUORIDE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "hydroxyapatite",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DURAPATITE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "Indocyanine green",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:INDOCYANINE GREEN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "lomustine",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:LOMUSTINE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   }
+  ]
+ },
+ "H11": {
+  "class_counts": {
+   "D": 17,
+   "A": 3
+  },
+  "reference_location": {
+   "excluded": 6
+  },
+  "references": {
+   "tiragolumab": [
+    "excluded",
+    null,
+    "Tiragolumab"
+   ],
+   "domvanalimab": [
+    "excluded",
+    null,
+    "Domvanalimab"
+   ],
+   "vibostolimab": [
+    "excluded",
+    null,
+    "vibostolimab"
+   ],
+   "ociperlimab": [
+    "excluded",
+    null,
+    "Ociperlimab"
+   ],
+   "belrestotug": [
+    "excluded",
+    null,
+    "belrestotug"
+   ],
+   "rilvegostomig": [
+    "excluded",
+    null,
+    "Rilvegostomig"
+   ]
+  },
+  "rows": [
+   {
+    "pos": 1,
+    "name": "benmelstobart",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:BENMELSTOBART",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "gremubamab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:GREMUBAMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "Nelistotug",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:NELISTOTUG",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "peresolimab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:PERESOLIMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "tobemstomig",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:TOBEMSTOMIG",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "Volrustomig",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:VOLRUSTOMIG",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "DSTA4637S",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DSTA-4637S",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "gebasaxturev",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:GEBASAXTUREV",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "sodium alginate",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:SODIUM ALGINATE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "carboplatin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CARBOPLATIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "cabotegravir",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CABOTEGRAVIR",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "carbon monoxide",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CARBON MONOXIDE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "deucrictibant",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DEUCRICTIBANT",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "dolutegravir",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DOLUTEGRAVIR",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "gadolinium",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:GADOLINIUM",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "icosapent ethyl",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:ICOSAPENT ETHYL",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "leucovorin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:LEUCOVORIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "levofloxacin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:LEVOFLOXACIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "methicillin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:METHICILLIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "oxaliplatin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MISMATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:OXALIPLATIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   }
+  ]
+ },
+ "H12": {
+  "class_counts": {
+   "A": 6,
+   "H": 3,
+   "D": 6
+  },
+  "reference_location": {
+   "excluded": 7
+  },
+  "references": {
+   "eculizumab": [
+    "excluded",
+    null,
+    "Soliris"
+   ],
+   "ravulizumab": [
+    "excluded",
+    null,
+    "Ravulizumab"
+   ],
+   "crovalimab": [
+    "excluded",
+    null,
+    "Crovalimab"
+   ],
+   "pozelimab": [
+    "excluded",
+    null,
+    "pozelimab"
+   ],
+   "zilucoplan": [
+    "excluded",
+    null,
+    "zilucoplan"
+   ],
+   "cemdisiran": [
+    "excluded",
+    null,
+    "Cemdisiran"
+   ],
+   "tesidolumab": [
+    "excluded",
+    null,
+    "tesidolumab"
+   ]
+  },
+  "rows": [
+   {
+    "pos": 1,
+    "name": "Alexion",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:ECULIZUMAB",
+    "auth": [
+     "TARGET:C5"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "ARC1905",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AVACINCAPTAD PEGOL SODIUM",
+    "auth": [
+     "TARGET:C5"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "crovalimab-akkz",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:CROVALIMAB",
+    "auth": [
+     "TARGET:C5"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "Izervay",
+    "label": "DUPLICATE",
+    "class": "H",
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:AVACINCAPTAD PEGOL SODIUM",
+    "auth": [
+     "TARGET:C5"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "pexelizumab",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:PEXELIZUMAB",
+    "auth": [
+     "TARGET:C5"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "PiaSky",
+    "label": "DUPLICATE",
+    "class": "H",
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:CROVALIMAB",
+    "auth": [
+     "TARGET:C5"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "pozelimab-bbfg",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:POZELIMAB",
+    "auth": [
+     "TARGET:C5"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "Ultomiris",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:RAVULIZUMAB",
+    "auth": [
+     "TARGET:C5"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "Veopoz",
+    "label": "DUPLICATE",
+    "class": "H",
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:POZELIMAB",
+    "auth": [
+     "TARGET:C5"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "Tamuzimod",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:TAMUZIMOD",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "AFM11",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AFM-11",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "bendamustine",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:BENDAMUSTINE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "butanone",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:BUTANONE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "chromium",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CHROMIUM",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "creatinine",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CREATININE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "cyclophosphamide",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CYCLOPHOSPHAMIDE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "duvortuxizumab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DUVORTUXIZUMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "eosin",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:EOSIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "fludarabine",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:FLUDARABINE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "hematoxylin",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": null,
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:HEMATOXYLIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   }
+  ]
+ },
+ "H13": {
+  "class_counts": {
+   "D": 9,
+   "A": 5
+  },
+  "reference_location": {
+   "excluded": 7,
+   "shortlist": 1
+  },
+  "references": {
+   "secukinumab": [
+    "excluded",
+    null,
+    "Secukinumab"
+   ],
+   "ixekizumab": [
+    "excluded",
+    null,
+    "Ixekizumab"
+   ],
+   "bimekizumab": [
+    "excluded",
+    null,
+    "Bimekizumab"
+   ],
+   "izokibep": [
+    "excluded",
+    null,
+    "Izokibep"
+   ],
+   "sonelokimab": [
+    "excluded",
+    null,
+    "Sonelokimab"
+   ],
+   "netakimab": [
+    "shortlist",
+    11,
+    "netakimab"
+   ],
+   "vunakizumab": [
+    "excluded",
+    null,
+    "Vunakizumab"
+   ],
+   "xeligekimab": [
+    "excluded",
+    null,
+    "Xeligekimab"
+   ]
+  },
+  "rows": [
+   {
+    "pos": 1,
+    "name": "ABT-122",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:REMTOLUMAB",
+    "auth": [
+     "TARGET:IL17A",
+     "TARGET:TNF"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "Afasevikumab",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AFASEVIKUMAB",
+    "auth": [
+     "TARGET:IL17A"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "afimkibart",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AFIMKIBART",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "Avizakimab",
+    "label": "UNVERIFIABLE",
+    "class": null,
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AVIZAKIMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "certolizumab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CERTOLIZUMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "denecimig",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DENECIMIG",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "duvakitug",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DUVAKITUG",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "gremubamab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:GREMUBAMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "gumokimab",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:GUMOKIMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "ivonescimab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:IVONESCIMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "netakimab",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:NETAKIMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "Stapokibart",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:STAPOKIBART",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "tulisokibart",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:TULISOKIBART",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "Bimzelx",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:BIMEKIZUMAB",
+    "auth": [
+     "TARGET:IL17A",
+     "TARGET:IL17F"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "amino acids",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AMINO ACIDS",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "Carrageenan",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CARRAGEENAN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "colistin",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:COLISTIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "ginger",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:GINGER",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "ginkgo",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:GINKGO",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "honey",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:HONEY",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   }
+  ]
+ },
+ "H14": {
+  "class_counts": {
+   "D": 11,
+   "H": 1,
+   "A": 6
+  },
+  "reference_location": {
+   "excluded": 5
+  },
+  "references": {
+   "daratumumab": [
+    "excluded",
+    null,
+    "Daratumumab"
+   ],
+   "isatuximab": [
+    "excluded",
+    null,
+    "Isatuximab"
+   ],
+   "felzartamab": [
+    "excluded",
+    null,
+    "Felzartamab"
+   ],
+   "mezagitamab": [
+    "excluded",
+    null,
+    "mezagitamab"
+   ],
+   "CID-103": [
+    "excluded",
+    null,
+    "CID-103"
+   ]
+  },
+  "rows": [
+   {
+    "pos": 1,
+    "name": "Emfizatamab",
+    "label": "UNVERIFIABLE",
+    "class": null,
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:EMFIZATAMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "afimkibart",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AFIMKIBART",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "anselamimab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:ANSELAMIMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "belantamab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:BELANTAMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "BIVV020",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:RILIPRUBART",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "Cevostamab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CEVOSTAMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "duvakitug",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:DUVAKITUG",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "gremubamab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:GREMUBAMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "linvoseltamab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:LINVOSELTAMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "loncastuximab",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:LONCASTUXIMAB",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "tulisokibart",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "MATCH",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:TULISOKIBART",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "isatuximab-irfc",
+    "label": "RELEVANT",
+    "class": null,
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:ISATUXIMAB",
+    "auth": [
+     "TARGET:CD38"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "SARCLISA",
+    "label": "DUPLICATE",
+    "class": "H",
+    "T": "PASS",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "ENTITY_CORROBORATED_SYNONYM",
+    "drug": "DRUG:ISATUXIMAB",
+    "auth": [
+     "TARGET:CD38"
+    ],
+    "entity_link": true,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "AFM11",
+    "label": "WRONG_TARGET",
+    "class": "D",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AFM-11",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "paraffin",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:PARAFFIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "vehicle",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:VEHICLE",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "AACR|conference_abstract",
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "amino acids",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AMINO ACIDS",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "avidin",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:AVIDIN",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "carboxymethyl cellulose",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CARBOXYMETHYLCELLULOSE CALCIUM",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "cinnamon",
+    "label": "NON_ASSET",
+    "class": "A",
+    "T": "UNKNOWN",
+    "IND": "UNKNOWN",
+    "modality_match": "UNKNOWN",
+    "q": "DIRECT_APPROVED_NAME",
+    "drug": "DRUG:CINNAMON",
+    "auth": [],
+    "entity_link": false,
+    "origin": [
+     "PubMed|publication_abstract"
+    ]
+   }
+  ]
+ }
+}

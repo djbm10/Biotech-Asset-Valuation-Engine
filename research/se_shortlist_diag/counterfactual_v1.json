@@ -1,0 +1,151 @@
+{
+ "H2": {
+  "indication_requirement": [
+   "G12C",
+   "inhibitors",
+   "non-small",
+   "lung",
+   "cancer"
+  ],
+  "M1_A_D_vs_authority": {
+   "D:resolved_no_edges": 7,
+   "A:resolved_no_edges": 10
+  },
+  "excluded_total": 1735,
+  "excluded_with_indication_FAIL": 714,
+  "excluded_ONLY_indication_by_target_gate": {
+   "UNKNOWN": 419,
+   "PASS": 25
+  },
+  "of_which_condition_contains_query_disease_words": {
+   "UNKNOWN": 51,
+   "PASS": 7
+  },
+  "M3_target_PASS_ranked_below_UNKNOWN": []
+ },
+ "H4": {
+  "indication_requirement": [
+   "ulcerative",
+   "colitis"
+  ],
+  "M1_A_D_vs_authority": {
+   "A:resolved_no_edges": 10,
+   "D:resolved_no_edges": 7
+  },
+  "excluded_total": 81,
+  "excluded_with_indication_FAIL": 3,
+  "excluded_ONLY_indication_by_target_gate": {
+   "UNKNOWN": 1,
+   "PASS": 1
+  },
+  "of_which_condition_contains_query_disease_words": {
+   "UNKNOWN": 1,
+   "PASS": 1
+  },
+  "M3_target_PASS_ranked_below_UNKNOWN": []
+ },
+ "H11": {
+  "indication_requirement": [
+   "non-small",
+   "lung",
+   "cancer"
+  ],
+  "M1_A_D_vs_authority": {
+   "D:resolved_no_edges": 17,
+   "A:resolved_no_edges": 3
+  },
+  "excluded_total": 122,
+  "excluded_with_indication_FAIL": 31,
+  "excluded_ONLY_indication_by_target_gate": {
+   "PASS": 14,
+   "UNKNOWN": 13
+  },
+  "of_which_condition_contains_query_disease_words": {
+   "PASS": 4
+  },
+  "M3_target_PASS_ranked_below_UNKNOWN": []
+ },
+ "H12": {
+  "indication_requirement": [
+   "complement",
+   "inhibitors",
+   "paroxysmal",
+   "nocturnal",
+   "hemoglobinuria"
+  ],
+  "M1_A_D_vs_authority": {
+   "A:resolved+edges": 1,
+   "D:resolved_no_edges": 6,
+   "A:resolved_no_edges": 5
+  },
+  "excluded_total": 547,
+  "excluded_with_indication_FAIL": 89,
+  "excluded_ONLY_indication_by_target_gate": {
+   "PASS": 13,
+   "UNKNOWN": 49
+  },
+  "of_which_condition_contains_query_disease_words": {
+   "PASS": 7,
+   "UNKNOWN": 8
+  },
+  "M3_target_PASS_ranked_below_UNKNOWN": []
+ },
+ "H13": {
+  "indication_requirement": [
+   "hidradenitis",
+   "suppurativa"
+  ],
+  "M1_A_D_vs_authority": {
+   "D:resolved_no_edges": 9,
+   "A:resolved_no_edges": 5
+  },
+  "excluded_total": 263,
+  "excluded_with_indication_FAIL": 42,
+  "excluded_ONLY_indication_by_target_gate": {
+   "PASS": 19,
+   "UNKNOWN": 14
+  },
+  "of_which_condition_contains_query_disease_words": {
+   "PASS": 4
+  },
+  "M3_target_PASS_ranked_below_UNKNOWN": [
+   [
+    14,
+    "Bimzelx",
+    "UNKNOWN"
+   ]
+  ]
+ },
+ "H14": {
+  "indication_requirement": [
+   "multiple",
+   "myeloma"
+  ],
+  "M1_A_D_vs_authority": {
+   "D:resolved_no_edges": 11,
+   "A:resolved_no_edges": 6
+  },
+  "excluded_total": 458,
+  "excluded_with_indication_FAIL": 117,
+  "excluded_ONLY_indication_by_target_gate": {
+   "UNKNOWN": 60,
+   "PASS": 27
+  },
+  "of_which_condition_contains_query_disease_words": {
+   "UNKNOWN": 20,
+   "PASS": 14
+  },
+  "M3_target_PASS_ranked_below_UNKNOWN": [
+   [
+    12,
+    "isatuximab-irfc",
+    "UNKNOWN"
+   ],
+   [
+    13,
+    "SARCLISA",
+    "UNKNOWN"
+   ]
+  ]
+ }
+}

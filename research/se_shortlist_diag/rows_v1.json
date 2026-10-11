@@ -1,0 +1,7023 @@
+{
+ "H2": {
+  "intended": "KRAS",
+  "shortlist": 1078,
+  "candidates": 12762,
+  "low_support": 9949,
+  "excluded": 1735,
+  "eligible": 0,
+  "rows": [
+   {
+    "pos": 1,
+    "name": "Krazati",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:KRAS"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:KRAS"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:KRAS"
+    ],
+    "authority_drug": "DRUG:ADAGRASIB",
+    "authority_targets": [
+     "TARGET:KRAS"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "SMALL_MOLECULE",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "aficamten",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AFICAMTEN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     4
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 4
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "human_poc_present",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "Trimix",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:TRIMIX",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     3
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 3
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "human_poc_present",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "AFM11",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AFM-11",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "AACR|conference_abstract": 2
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "BISPECIFIC_ANTIBODY",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "bendamustine",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:BENDAMUSTINE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     12
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 11
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "bromide",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:BROMIDE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     24
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 23,
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "butanone",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:BUTANONE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     3
+    ],
+    "origin": {
+     "AACR|conference_abstract": 2,
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "chromium",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CHROMIUM",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     10
+    ],
+    "origin": {
+     "AACR|conference_abstract": 2,
+     "PubMed|publication_abstract": 8
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "creatinine",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CREATININE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     126
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 125
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "Curcumin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CURCUMIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     37
+    ],
+    "origin": {
+     "AACR|conference_abstract": 2,
+     "PubMed|publication_abstract": 35
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "duvortuxizumab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DUVORTUXIZUMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     4
+    ],
+    "origin": {
+     "AACR|conference_abstract": 4
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     "ANTIBODY",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "Emfizatamab",
+    "label": "UNVERIFIABLE",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:EMFIZATAMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "eosin",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:EOSIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     22
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 21
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "fluorescein",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:FLUORESCEIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     21
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 20
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "hematoxylin",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:HEMATOXYLIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     22
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 21
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "isothiocyanate",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:ISOTHIOCYANATE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "CAR_T",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "Loncastuximab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:LONCASTUXIMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "ANTIBODY_DRUG_CONJUGATE",
+     "ANTIBODY",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "Maleimide",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:MALEIMIDE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "ANTIBODY_DRUG_CONJUGATE",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "methane",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:METHANE",
+    "authority_targets": [],
+    "ncit_non_product": [
+     "C186080"
+    ],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     8
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 7
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "mitomycin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:KRAS",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:MITOMYCIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     45
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 44
+    },
+    "discovery_context": [
+     "KRAS"
+    ],
+    "modality": [
+     "FUSION_PROTEIN",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   }
+  ],
+  "references": {
+   "sotorasib": [
+    "excluded",
+    null,
+    "Sotorasib"
+   ],
+   "adagrasib": [
+    "excluded",
+    null,
+    "Adagrasib"
+   ],
+   "divarasib": [
+    "excluded",
+    null,
+    "Divarasib"
+   ],
+   "olomorasib": [
+    "excluded",
+    null,
+    "olomorasib"
+   ],
+   "garsorasib": [
+    "excluded",
+    null,
+    "Garsorasib"
+   ],
+   "fulzerasib": [
+    "excluded",
+    null,
+    "fulzerasib"
+   ],
+   "glecirasib": [
+    "excluded",
+    null,
+    "glecirasib"
+   ],
+   "opnurasib": [
+    "excluded",
+    null,
+    "opnurasib"
+   ],
+   "elironrasib": [
+    "shortlist",
+    362,
+    "elironrasib"
+   ]
+  }
+ },
+ "H4": {
+  "intended": "TNFSF15",
+  "shortlist": 40,
+  "candidates": 517,
+  "low_support": 396,
+  "excluded": 81,
+  "eligible": 0,
+  "rows": [
+   {
+    "pos": 1,
+    "name": "afimkibart",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AFIMKIBART",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "BISPECIFIC_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "duvakitug",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DUVAKITUG",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "BISPECIFIC_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "tulisokibart",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:TULISOKIBART",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "BISPECIFIC_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "papain",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:PAPAIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     null,
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "sesquiterpene",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:SESQUITERPENE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     4
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 4
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "alloxan",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:ALLOXAN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "Bavachin",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:BAVACHIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "Berberine",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:BERBERINE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     3
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 3
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "carboplatin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CARBOPLATIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     3
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 3
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "ceftazidime",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CEFTAZIDIME",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "FUSION_PROTEIN",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "ciprofloxacin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CIPROFLOXACIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "creatinine",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CREATININE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "danegaptide",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DANEGAPTIDE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "digitoxigenin",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DIGITOXIGENIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "dihydroergocristine mesylate",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DIHYDROERGOCRISTINE MESYLATE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "ethylene",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:ETHYLENE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "fluoride",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:FLUORIDE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "hydroxyapatite",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DURAPATITE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "Indocyanine green",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:INDOCYANINE GREEN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "lomustine",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TNFSF15",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:LOMUSTINE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TNFSF15"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   }
+  ],
+  "references": {
+   "tulisokibart": [
+    "shortlist",
+    3,
+    "tulisokibart"
+   ],
+   "duvakitug": [
+    "shortlist",
+    2,
+    "duvakitug"
+   ],
+   "afimkibart": [
+    "shortlist",
+    1,
+    "afimkibart"
+   ]
+  }
+ },
+ "H11": {
+  "intended": "TIGIT",
+  "shortlist": 27,
+  "candidates": 602,
+  "low_support": 453,
+  "excluded": 122,
+  "eligible": 0,
+  "rows": [
+   {
+    "pos": 1,
+    "name": "benmelstobart",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:BENMELSTOBART",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     5
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 5
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "gremubamab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:GREMUBAMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "Nelistotug",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:NELISTOTUG",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "peresolimab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:PERESOLIMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "CAR_T",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "tobemstomig",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:TOBEMSTOMIG",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     3
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 3
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "Volrustomig",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:VOLRUSTOMIG",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     null,
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "DSTA4637S",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DSTA-4637S",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "gebasaxturev",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:GEBASAXTUREV",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     null,
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "sodium alginate",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:SODIUM ALGINATE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     null,
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "carboplatin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CARBOPLATIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     4
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 4
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "human_poc_present",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "cabotegravir",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CABOTEGRAVIR",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "carbon monoxide",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CARBON MONOXIDE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "deucrictibant",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DEUCRICTIBANT",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "dolutegravir",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DOLUTEGRAVIR",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "gadolinium",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:GADOLINIUM",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "icosapent ethyl",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:ICOSAPENT ETHYL",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "leucovorin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:LEUCOVORIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "levofloxacin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:LEVOFLOXACIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "RNA_THERAPEUTIC",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "methicillin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:METHICILLIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "oxaliplatin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:TIGIT",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:OXALIPLATIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "TIGIT"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     "MISMATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   }
+  ],
+  "references": {
+   "tiragolumab": [
+    "excluded",
+    null,
+    "Tiragolumab"
+   ],
+   "domvanalimab": [
+    "excluded",
+    null,
+    "Domvanalimab"
+   ],
+   "vibostolimab": [
+    "excluded",
+    null,
+    "vibostolimab"
+   ],
+   "ociperlimab": [
+    "excluded",
+    null,
+    "Ociperlimab"
+   ],
+   "belrestotug": [
+    "excluded",
+    null,
+    "belrestotug"
+   ],
+   "rilvegostomig": [
+    "excluded",
+    null,
+    "Rilvegostomig"
+   ]
+  }
+ },
+ "H12": {
+  "intended": "C5",
+  "shortlist": 284,
+  "candidates": 3481,
+  "low_support": 2650,
+  "excluded": 547,
+  "eligible": 0,
+  "rows": [
+   {
+    "pos": 1,
+    "name": "Alexion",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:C5"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:C5"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:C5"
+    ],
+    "authority_drug": "DRUG:ECULIZUMAB",
+    "authority_targets": [
+     "TARGET:C5"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "ARC1905",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:C5"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:C5"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:C5"
+    ],
+    "authority_drug": "DRUG:AVACINCAPTAD PEGOL SODIUM",
+    "authority_targets": [
+     "TARGET:C5"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     null,
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "crovalimab-akkz",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:C5"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:C5"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:C5"
+    ],
+    "authority_drug": "DRUG:CROVALIMAB",
+    "authority_targets": [
+     "TARGET:C5"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "Izervay",
+    "label": "DUPLICATE",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:C5"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:C5"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:C5"
+    ],
+    "authority_drug": "DRUG:AVACINCAPTAD PEGOL SODIUM",
+    "authority_targets": [
+     "TARGET:C5"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     13
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 13
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     null,
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "pexelizumab",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:C5"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:C5"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:C5"
+    ],
+    "authority_drug": "DRUG:PEXELIZUMAB",
+    "authority_targets": [
+     "TARGET:C5"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     53
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 53
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "PiaSky",
+    "label": "DUPLICATE",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:C5"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:C5"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:C5"
+    ],
+    "authority_drug": "DRUG:CROVALIMAB",
+    "authority_targets": [
+     "TARGET:C5"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     5
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 5
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "pozelimab-bbfg",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:C5"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:C5"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:C5"
+    ],
+    "authority_drug": "DRUG:POZELIMAB",
+    "authority_targets": [
+     "TARGET:C5"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "Ultomiris",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:C5"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:C5"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:C5"
+    ],
+    "authority_drug": "DRUG:RAVULIZUMAB",
+    "authority_targets": [
+     "TARGET:C5"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "Veopoz",
+    "label": "DUPLICATE",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:C5"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:C5"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:C5"
+    ],
+    "authority_drug": "DRUG:POZELIMAB",
+    "authority_targets": [
+     "TARGET:C5"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     3
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 3
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "Tamuzimod",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:TAMUZIMOD",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     3
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 3
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "human_poc_present",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "AFM11",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AFM-11",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "AACR|conference_abstract": 2
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "BISPECIFIC_ANTIBODY",
+     null,
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "bendamustine",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:BENDAMUSTINE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "butanone",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:BUTANONE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "chromium",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CHROMIUM",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1,
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     null,
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "creatinine",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CREATININE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     23
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 22,
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "cyclophosphamide",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CYCLOPHOSPHAMIDE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     41
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 37,
+     "AACR|conference_abstract": 4
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "duvortuxizumab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DUVORTUXIZUMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     4
+    ],
+    "origin": {
+     "AACR|conference_abstract": 4
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     "ANTIBODY",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "eosin",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:EOSIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "fludarabine",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:FLUDARABINE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     5
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2,
+     "AACR|conference_abstract": 3
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "CAR_T",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "hematoxylin",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:C5",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:HEMATOXYLIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "C5"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     "SMALL_MOLECULE",
+     null
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   }
+  ],
+  "references": {
+   "eculizumab": [
+    "excluded",
+    null,
+    "Soliris"
+   ],
+   "ravulizumab": [
+    "excluded",
+    null,
+    "Ravulizumab"
+   ],
+   "crovalimab": [
+    "excluded",
+    null,
+    "Crovalimab"
+   ],
+   "pozelimab": [
+    "excluded",
+    null,
+    "pozelimab"
+   ],
+   "zilucoplan": [
+    "excluded",
+    null,
+    "zilucoplan"
+   ],
+   "cemdisiran": [
+    "excluded",
+    null,
+    "Cemdisiran"
+   ],
+   "tesidolumab": [
+    "excluded",
+    null,
+    "tesidolumab"
+   ]
+  }
+ },
+ "H13": {
+  "intended": "IL17A",
+  "shortlist": 233,
+  "candidates": 2514,
+  "low_support": 2018,
+  "excluded": 263,
+  "eligible": 0,
+  "rows": [
+   {
+    "pos": 1,
+    "name": "ABT-122",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:IL17A",
+       "TARGET:TNF"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:IL17A",
+       "TARGET:TNF"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:IL17A"
+    ],
+    "authority_drug": "DRUG:REMTOLUMAB",
+    "authority_targets": [
+     "TARGET:IL17A",
+     "TARGET:TNF"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     13
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 13
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "SMALL_MOLECULE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "human_poc_present",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "Afasevikumab",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:IL17A"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:IL17A"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:IL17A"
+    ],
+    "authority_drug": "DRUG:AFASEVIKUMAB",
+    "authority_targets": [
+     "TARGET:IL17A"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "afimkibart",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AFIMKIBART",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "SMALL_MOLECULE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "Avizakimab",
+    "label": "UNVERIFIABLE",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AVIZAKIMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "certolizumab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CERTOLIZUMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     null,
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "denecimig",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DENECIMIG",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "ANTIBODY_DRUG_CONJUGATE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "duvakitug",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DUVAKITUG",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "SMALL_MOLECULE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "gremubamab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:GREMUBAMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "gumokimab",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:GUMOKIMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "ivonescimab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:IVONESCIMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "ANTIBODY_DRUG_CONJUGATE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "netakimab",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:NETAKIMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     5
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 5
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     null,
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "Stapokibart",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:STAPOKIBART",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "tulisokibart",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:TULISOKIBART",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "SMALL_MOLECULE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "Bimzelx",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:IL17A",
+       "TARGET:IL17F"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:IL17A",
+       "TARGET:IL17F"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:IL17A"
+    ],
+    "authority_drug": "DRUG:BIMEKIZUMAB",
+    "authority_targets": [
+     "TARGET:IL17A",
+     "TARGET:IL17F"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "amino acids",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AMINO ACIDS",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     6
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 6
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "Carrageenan",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CARRAGEENAN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "colistin",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:COLISTIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     null,
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "ginger",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:GINGER",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     null,
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "ginkgo",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:GINKGO",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "honey",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:IL17A",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:HONEY",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "IL17A"
+    ],
+    "modality": [
+     null,
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   }
+  ],
+  "references": {
+   "secukinumab": [
+    "excluded",
+    null,
+    "Secukinumab"
+   ],
+   "ixekizumab": [
+    "excluded",
+    null,
+    "Ixekizumab"
+   ],
+   "bimekizumab": [
+    "excluded",
+    null,
+    "Bimekizumab"
+   ],
+   "izokibep": [
+    "excluded",
+    null,
+    "Izokibep"
+   ],
+   "sonelokimab": [
+    "excluded",
+    null,
+    "Sonelokimab"
+   ],
+   "netakimab": [
+    "shortlist",
+    11,
+    "netakimab"
+   ],
+   "vunakizumab": [
+    "excluded",
+    null,
+    "Vunakizumab"
+   ],
+   "xeligekimab": [
+    "excluded",
+    null,
+    "Xeligekimab"
+   ]
+  }
+ },
+ "H14": {
+  "intended": "CD38",
+  "shortlist": 273,
+  "candidates": 3469,
+  "low_support": 2738,
+  "excluded": 458,
+  "eligible": 0,
+  "rows": [
+   {
+    "pos": 1,
+    "name": "Emfizatamab",
+    "label": "UNVERIFIABLE",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:EMFIZATAMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 2,
+    "name": "afimkibart",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AFIMKIBART",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "SMALL_MOLECULE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 3,
+    "name": "anselamimab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:ANSELAMIMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     3
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 3
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 4,
+    "name": "belantamab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:BELANTAMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     14
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 14
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 5,
+    "name": "BIVV020",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:RILIPRUBART",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "SMALL_MOLECULE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 6,
+    "name": "Cevostamab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CEVOSTAMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     2
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     null,
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 7,
+    "name": "duvakitug",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:DUVAKITUG",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "SMALL_MOLECULE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 8,
+    "name": "gremubamab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:GREMUBAMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 9,
+    "name": "linvoseltamab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:LINVOSELTAMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     16
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 16
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 10,
+    "name": "loncastuximab",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:LONCASTUXIMAB",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "ANTIBODY_DRUG_CONJUGATE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 11,
+    "name": "tulisokibart",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:TULISOKIBART",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "SMALL_MOLECULE",
+     "ANTIBODY",
+     "MATCH"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 12,
+    "name": "isatuximab-irfc",
+    "label": "RELEVANT",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:CD38"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:CD38"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:CD38"
+    ],
+    "authority_drug": "DRUG:ISATUXIMAB",
+    "authority_targets": [
+     "TARGET:CD38"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 13,
+    "name": "SARCLISA",
+    "label": "DUPLICATE",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "PASS",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "Canonical construct targets satisfy the configured expression.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "CONFIRMED_TARGET",
+      "documented": [
+       "TARGET:CD38"
+      ],
+      "sources": [
+       "chembl",
+       "open_targets"
+      ]
+     }
+    ],
+    "target_facts": [
+     [
+      "construct_target_set",
+      [
+       "TARGET:CD38"
+      ]
+     ]
+    ],
+    "target_ids": [
+     "TARGET:CD38"
+    ],
+    "authority_drug": "DRUG:ISATUXIMAB",
+    "authority_targets": [
+     "TARGET:CD38"
+    ],
+    "ncit_non_product": [],
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM",
+    "provisional": true,
+    "entity_link": true,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "construct_target_set",
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 14,
+    "name": "AFM11",
+    "label": "WRONG_TARGET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AFM-11",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "BISPECIFIC_ANTIBODY",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 15,
+    "name": "paraffin",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:PARAFFIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     3
+    ],
+    "origin": {
+     "AACR|conference_abstract": 1,
+     "PubMed|publication_abstract": 2
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     null,
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 16,
+    "name": "vehicle",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "PASS",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "PASS",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:VEHICLE",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     22
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 17,
+     "AACR|conference_abstract": 5
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "CELL_THERAPY",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "identity_valid",
+     "publication_relevance",
+     "therapeutic_area"
+    ]
+   },
+   {
+    "pos": 17,
+    "name": "amino acids",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AMINO ACIDS",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     12
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 12
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     null,
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 18,
+    "name": "avidin",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:AVIDIN",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "MONOCLONAL_ANTIBODY",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 19,
+    "name": "carboxymethyl cellulose",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CARBOXYMETHYLCELLULOSE CALCIUM",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     1
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 1
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "T_CELL_ENGAGER",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   },
+   {
+    "pos": 20,
+    "name": "cinnamon",
+    "label": "NON_ASSET",
+    "disposition": "UNRESOLVED",
+    "gates": {
+     "identity.distinct_asset": "UNKNOWN",
+     "target.expression": "UNKNOWN",
+     "modality.required": "UNKNOWN",
+     "strategy.therapeutic_area": "UNKNOWN",
+     "strategy.indication": "UNKNOWN",
+     "evidence.minimum_stage": "UNKNOWN"
+    },
+    "target_gate_rationale": "No canonical construct-level target fact is available.",
+    "target_assertions": [
+     {
+      "t": "TARGET:CD38",
+      "status": "UNRESOLVED",
+      "documented": [],
+      "sources": []
+     }
+    ],
+    "target_facts": [],
+    "target_ids": [],
+    "authority_drug": "DRUG:CINNAMON",
+    "authority_targets": [],
+    "ncit_non_product": [],
+    "qualification_reason": "DIRECT_APPROVED_NAME",
+    "provisional": true,
+    "entity_link": false,
+    "n_trials": 0,
+    "n_companies": 0,
+    "structurally_typed_drug": false,
+    "obs": [
+     0,
+     0,
+     8
+    ],
+    "origin": {
+     "PubMed|publication_abstract": 8
+    },
+    "discovery_context": [
+     "CD38"
+    ],
+    "modality": [
+     "RNA_THERAPEUTIC",
+     null,
+     "UNKNOWN"
+    ],
+    "stage": null,
+    "fact_types": [
+     "publication_relevance"
+    ]
+   }
+  ],
+  "references": {
+   "daratumumab": [
+    "excluded",
+    null,
+    "Daratumumab"
+   ],
+   "isatuximab": [
+    "excluded",
+    null,
+    "Isatuximab"
+   ],
+   "felzartamab": [
+    "excluded",
+    null,
+    "Felzartamab"
+   ],
+   "mezagitamab": [
+    "excluded",
+    null,
+    "mezagitamab"
+   ],
+   "CID-103": [
+    "excluded",
+    null,
+    "CID-103"
+   ]
+  }
+ }
+}
