@@ -1,0 +1,120 @@
+{
+  "cases": [
+    [
+      "same",
+      "non-small cell lung cancer",
+      "Non Small Cell Lung Cancer",
+      "PASS"
+    ],
+    [
+      "synonym",
+      "non-small cell lung cancer",
+      "NSCLC",
+      "PASS"
+    ],
+    [
+      "subtype",
+      "non-small cell lung cancer",
+      "Lung Adenocarcinoma",
+      "PASS"
+    ],
+    [
+      "incompatible",
+      "non-small cell lung cancer",
+      "Ulcerative Colitis",
+      "FAIL"
+    ],
+    [
+      "incompatible_reverse",
+      "ulcerative colitis",
+      "Non Small Cell Lung Cancer",
+      "FAIL"
+    ],
+    [
+      "incomparable",
+      "non-small cell lung cancer",
+      "Investigational syndrome ZZ9",
+      "UNKNOWN"
+    ],
+    [
+      "broader",
+      "non-small cell lung cancer",
+      "Malignant Lung Neoplasm",
+      "UNKNOWN"
+    ],
+    [
+      "unrecognized_request",
+      "Investigational syndrome ZZ9",
+      "NSCLC",
+      "UNKNOWN"
+    ],
+    [
+      "negation",
+      "non-small cell lung cancer",
+      "Not NSCLC",
+      "UNKNOWN"
+    ],
+    [
+      "bcell_same",
+      "INDICATION:B_CELL_LYMPHOMA",
+      "B-cell lymphoma",
+      "PASS"
+    ],
+    [
+      "bcell_subtype",
+      "INDICATION:B_CELL_LYMPHOMA",
+      "Follicular Lymphoma",
+      "PASS"
+    ],
+    [
+      "bcell_disjoint",
+      "INDICATION:B_CELL_LYMPHOMA",
+      "Hodgkin Lymphoma",
+      "FAIL"
+    ],
+    [
+      "bcell_tcell",
+      "INDICATION:B_CELL_LYMPHOMA",
+      "Peripheral T-cell Lymphoma",
+      "FAIL"
+    ],
+    [
+      "bcell_broader",
+      "INDICATION:B_CELL_LYMPHOMA",
+      "Lymphoma",
+      "UNKNOWN"
+    ],
+    [
+      "bcell_unrecognized",
+      "INDICATION:B_CELL_LYMPHOMA",
+      "Investigational syndrome ZZ9",
+      "UNKNOWN"
+    ],
+    [
+      "unrecognized_identical",
+      "Investigational syndrome ZZ9",
+      "Investigational syndrome ZZ9",
+      "UNKNOWN"
+    ]
+  ],
+  "non_disease_terms": [
+    "inhibitor",
+    "inhibitors",
+    "antibody",
+    "antibodies",
+    "complement",
+    "G12C",
+    "KRAS",
+    "CD19",
+    "TIGIT",
+    "C5",
+    "IL17A",
+    "CD38",
+    "CAR-T",
+    "bispecific",
+    "small molecule",
+    "clinical",
+    "research",
+    "human efficacy"
+  ]
+}
