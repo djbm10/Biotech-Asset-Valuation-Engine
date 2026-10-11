@@ -1,6 +1,6 @@
 # INDICATION_REQUIREMENT_COMPILATION v2
 
-Status: FAILED_ACCEPTANCE; implementation scheduled for normal reversion, 2026-10-11. Baseline 7f09c26. Compilation ONLY.
+Status: FAILED_ACCEPTANCE / REVERTED, 2026-10-11. Baseline 7f09c26. Compilation ONLY.
 INDICATION_REQUIREMENT_SEMANTICS v1 remains FAILED_ACCEPTANCE / REVERTED and authoritative.
 
 ## Diagnosis, hypothesis and representation
@@ -143,3 +143,7 @@ No gate milestone is preregistered or implemented because compilation has not be
 Next option requires a NEW compilation-only preregistration giving query grammatical
 operators precedence over molecular alias roles and conservatively retaining overlap.
 H16–H20 remain untouched; no live acquisition/replay or outcome inspection.
+
+Normal git revert 2e297c6 preserves implementation and failure record 2b0a80e.
+Source/tests/scripts equal baseline 7f09c26 byte-for-byte; restored 108 indication/intent
+tests pass and ruff check src/ is clean. No revised implementation was attempted.

@@ -1,5 +1,48 @@
 # Codex handoff — S&E engine, 2026-10-11
 
+## Current outcome — INDICATION_REQUIREMENT_COMPILATION v2 REVERTED (2026-10-11)
+
+Preregistration **30bfdbe**, implementation **f46dd76**, failure record **2b0a80e**,
+normal git revert **2e297c6**. The failed indication-semantics v1 history below remains
+authoritative and preserved. Worktree source/tests/scripts equal clean baseline 7f09c26.
+
+Frozen population: 76 exact queries (six diagnostic queries H2/H4/H11–H14, TAC01,
+mint5, every v1 semantic/leakage control and failure, JCAR014, and general constructions),
+35 positive and 41 negative compilation controls, 16 unchanged gate controls, all protected
+source hashes. Frozen NCIt roles locate query spans only; no new disease gate semantics.
+See docs/se_policies/indication_requirement_compilation_v2.md and
+research/se_indication_compilation_v2/ (manifest, population, scorer output, failure and
+restoration records). Acceptance: C1 FAIL, C2 PASS, C3 PASS, C4 FAIL, C5 PASS,
+C6 PASS, C7 PASS, C8 FAIL. Exact query controls: 75/76.
+
+The attempt coherently compiled all six diagnostic disease phrases and removed their
+nonclinical residual leakage; TAC01, mint5 and JCAR014 PASS remained equivalent. All
+parser/retrieval/non-indication fields, 16 gate decisions and protected source were fixed.
+However, frozen `not NSCLC` produced `NSCLC`. Existing parser marks `not` ambiguous
+between TARGET:ALG3/TARGET:NR4A2; NCIt also lists NOT as a molecular alias. Independent
+component trimming overrode grammatical negation and the intended soft boundary. This
+can replace a negative disease request with a positive assertion. No post-result patch.
+
+Attempt targeted tests: 114 passed / 2 failed. Full tests/se: 1,669 passed / 2 failed /
+3 expected xfails (1,674 collected). Ruff failed with 3 E741 violations. After normal
+reversion: 108 indication/intent tests pass, ruff check src/ clean, exact byte restoration
+verified. Full suite was not rerun after reversion; the failed-attempt suite is retained.
+
+No durable diagnostic improvement: all requirements/results return to baseline. Reference
+visibility remains the frozen 5/38, with 33 indication-only exclusions; 57 TARGET_UNKNOWN_FILL
+and 40 NON_PRODUCT_GENERATION plus one QUALIFICATION_MISS top-20 rows remain recorded.
+No post-adoption remeasurement applies because this milestone was reverted.
+
+Next principled option: NEW compilation-only preregistration with query grammatical
+operator/span binding preceding molecular-role trimming and conservative retention of
+overlapping lexical roles. Do not retry v1's broad compilation+gate implementation.
+INDICATION_GATE_SEMANTICS v1 is deferred and has NOT been preregistered/implemented:
+compilation must first be adopted. Qualification/routing/target milestones remain deferred.
+H16–H20 remain completely untouched. No live acquisition/replay launched; no user
+terminal run is required at this point.
+
+## Preserved previous outcome
+
 ## Current outcome — INDICATION_REQUIREMENT_SEMANTICS v1 REVERTED (2026-10-11)
 
 The operator authorized v1. It was preregistered at `0aefe85`, implemented at `93c1f83`,

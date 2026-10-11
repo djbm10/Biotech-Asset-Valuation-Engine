@@ -1,0 +1,15 @@
+{
+  "H16_H20": "untouched",
+  "baseline": "7f09c26",
+  "full_suite_after_reversion": "not rerun; exact source/test restoration verified",
+  "live_acquisitions_or_replays": 0,
+  "record_commit": "2b0a80e",
+  "restored_ruff": "PASS",
+  "restored_targeted_tests": {
+    "failed": 0,
+    "passed": 108
+  },
+  "revert_commit": "2e297c6",
+  "src_tests_scripts_byte_identical_to_baseline": true,
+  "status": "REVERTED"
+}

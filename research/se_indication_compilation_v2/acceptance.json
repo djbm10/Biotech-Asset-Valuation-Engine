@@ -41,5 +41,7 @@
       "passed": 1669
     }
   },
-  "status": "FAILED_ACCEPTANCE"
+  "record_commit": "2b0a80e",
+  "revert_commit": "2e297c6",
+  "status": "FAILED_ACCEPTANCE / REVERTED"
 }
