@@ -13,6 +13,7 @@ from bve.se.gates.evaluator import (
     evaluate_target_expression,
     evaluate_therapeutic_area,
 )
+from bve.se.ontology.indications import is_indication_concept
 from bve.se.ontology.therapeutic_areas import UNSPECIFIED, canonical_therapeutic_area
 from bve.se.schemas.contracts import (
     AnalystReviewItem,
@@ -223,8 +224,14 @@ class GateEngine:
                 )
             )
         if problem.strategic_gap.indications:
+            # A concept is matched against its subtypes; an all-literal request keeps exact IN.
+            indication_evaluator = (
+                evaluate_indication
+                if any(is_indication_concept(value) for value in problem.strategic_gap.indications)
+                else evaluate_requirement
+            )
             decisions.append(
-                evaluate_indication(
+                indication_evaluator(
                     _requirement(
                         "strategy.indication",
                         "indication",

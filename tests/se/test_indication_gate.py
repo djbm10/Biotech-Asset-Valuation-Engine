@@ -195,9 +195,9 @@ class TestGate:
     def test_only_an_ancestor_is_unknown(self) -> None:
         assert _status([B_CELL_LYMPHOMA], [_indication("a", "Lymphoma")]) == GateStatus.UNKNOWN
 
-    def test_unrelated_indications_are_unknown(self) -> None:
+    def test_unrelated_indications_fail(self) -> None:
         facts = [_indication("a", "Multiple Myeloma"), _indication("b", "Hodgkin Lymphoma")]
-        assert _status([B_CELL_LYMPHOMA], facts) == GateStatus.UNKNOWN
+        assert _status([B_CELL_LYMPHOMA], facts) == GateStatus.FAIL
 
     def test_no_fact_is_unknown(self) -> None:
         assert _status([B_CELL_LYMPHOMA], []) == GateStatus.UNKNOWN
@@ -206,10 +206,10 @@ class TestGate:
         facts = [_indication("a", "DLBCL", contradicted=True)]
         assert _status([B_CELL_LYMPHOMA], facts) == GateStatus.UNKNOWN
 
-    def test_literal_request_uses_authority_hierarchy(self) -> None:
-        # A known broader disease can be positively supported by a subtype.
+    def test_all_literal_request_keeps_exact_membership(self) -> None:
+        # Unchanged path: a literal request is the old per-fact IN.
         facts = [_indication("a", "Relapsed/Refractory Diffuse Large B-cell Lymphoma")]
-        assert _status(["lymphoma"], facts) == GateStatus.UNKNOWN
+        assert _status(["lymphoma"], facts) == GateStatus.FAIL
         assert _status(["DLBCL"], [_indication("a", "DLBCL")]) == GateStatus.PASS
 
     def test_literal_beside_a_concept_matches_exactly(self) -> None:

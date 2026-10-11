@@ -1,6 +1,5 @@
 """Grammatical role precedence and frozen compilation/preservation contracts."""
 import importlib.util
-import json
 from pathlib import Path
 
 import pytest
@@ -16,20 +15,7 @@ def acceptance():
     spec = importlib.util.spec_from_file_location("compilation_v3_score", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
-    result = module.score()
-    # Historical gate/source-isolation checks belong to the adopted compilation commit.
-    # Gate v2 separately enforces live compilation hashes and every compiled query.
-    recorded = json.loads((path.parents[1] / "research/se_indication_compilation_v3/score.json").read_text())
-    result["criteria"]["C3.6"] = recorded["criteria"]["C3.6"] and all(
-        row["exact"] and row["parser_unchanged"] and row["problem_isolation"]
-        and row["retrieval_unchanged"] for row in result["records"]
-        if row["id"] in {"TAC01", "mint5"}
-    )
-    result["criteria"]["C3.7"] = recorded["criteria"]["C3.7"] and all(
-        row["parser_isolation"] and row["problem_isolation"] and row["retrieval_unchanged"]
-        for row in result["records"]
-    )
-    return result
+    return module.score()
 
 
 @pytest.mark.parametrize("criterion", [f"C3.{number}" for number in range(1, 8)])
