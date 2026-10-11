@@ -28,9 +28,12 @@
   },
   "disposition": "REVERT normally; no implementation patch; retained history",
   "implementation_commit": "93c1f83",
+  "milestone_status": "REVERTED",
   "n_frozen_indication_only_exclusions": 655,
   "n_frozen_references": 38,
   "preregistration_commit": "0aefe85",
   "previously_excluded_references": 33,
+  "result_commit": "8f466b4",
+  "revert_commit": "d8f5023",
   "status": "FAILED_ACCEPTANCE"
 }

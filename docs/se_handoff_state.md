@@ -1,5 +1,7 @@
 # S&E engine — handoff state
 
+Current 2026-10-11 outcome: **INDICATION_REQUIREMENT_SEMANTICS v1 REVERTED**. Read `docs/codex_handoff_2026-10-11.md` and `docs/se_policies/indication_requirement_semantics_v1.md` first. Source/tests restored at `d8f5023`; H16–H20 entirely untouched. A new v2 preregistration is needed before any revised implementation.
+
 **As of 2026-09-17, engine tagged `se-v1.0.0` at `8b49000`, merged to `master` (`1f880f4`)
 and pushed. Work continues on `m11-identity-graph`.**
 

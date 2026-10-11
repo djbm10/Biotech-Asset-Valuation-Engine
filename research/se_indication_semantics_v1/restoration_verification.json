@@ -1,0 +1,14 @@
+{
+  "H16_H20": "UNTOUCHED",
+  "full_suite_after_revert": "Not rerun: src and tests byte-identical to the accepted baseline; failed attempt full suite retained.",
+  "live_acquisitions_or_replays_launched": 0,
+  "restored_source_reference": "c70461e",
+  "revert_commit": "d8f5023",
+  "ruff_command": "ruff check src/",
+  "ruff_exit_code": 0,
+  "source_and_tests_diff_command": "git diff c70461e -- src tests",
+  "source_and_tests_identical": true,
+  "targeted_command": "PYTHONPATH=src python3 -m pytest tests/se/test_indication_gate.py tests/se/test_search_intent.py -q",
+  "targeted_exit_code": 0,
+  "targeted_passed": 108
+}

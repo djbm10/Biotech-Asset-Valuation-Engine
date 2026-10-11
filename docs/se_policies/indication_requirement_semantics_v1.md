@@ -155,3 +155,14 @@ testing incomplete histories, ambiguous legacy mapping and diagnostic qualifiers
 implementation. Do not silently modify v1 or start non-product/routing/target milestones.
 H16–H20 remain entirely untouched. No H16–H20 commands are issued: validation is premature
 while the indication milestone has not been adopted.
+
+
+### Normal reversion and restoration verification
+
+Failed evidence committed at `8f466b4`; implementation reverted at `d8f5023`.
+`git diff c70461e -- src tests` is empty: the accepted source and tests are restored
+byte-for-byte. Restored indication and intent regression tests: **108 passed**.
+`ruff check src/`: **clean**. The full suite was not rerun after reversion; the failed
+attempt's complete full-suite outcome is retained, and source/test identity establishes
+restoration. See `restoration_verification.json`. Milestone status: **REVERTED**.
+No live acquisition/replay, ranking change or H16–H20 exposure occurred.

@@ -1,5 +1,48 @@
 # Codex handoff — S&E engine, 2026-10-11
 
+## Current outcome — INDICATION_REQUIREMENT_SEMANTICS v1 REVERTED (2026-10-11)
+
+The operator authorized v1. It was preregistered at `0aefe85`, implemented at `93c1f83`,
+scored/recorded FAILED_ACCEPTANCE at `8f466b4`, and reverted normally at `d8f5023`.
+Engine source and tests are byte-identical to `c70461e` (engine `f0e90e6`).
+Worktree remains `/home/djmann/projects/bve-b8`, branch `m11-identity-graph`.
+
+Authoritative record: `docs/se_policies/indication_requirement_semantics_v1.md`.
+Frozen artifacts: `research/se_indication_semantics_v1/`. 38 reference products, 33
+indication-only reference exclusions, 655 indication-only excluded assets, 16 semantic
+controls, 18 non-disease terms, and TAC01/mint5 accepted artifacts were frozen before code.
+
+Criteria: I1 FAIL; I2 PASS; I3 PASS; I4 PASS; I5 FAIL; I6 FAIL; I7 PASS; I8 FAIL.
+Attempt tests/se: 1,653 passed, 10 failed, 3 expected xfails. Attempt and restored ruff
+check src/ are clean. After reversion, 108 indication/intent tests passed. The full suite
+was not rerun after reversion; source/tests restoration is verified byte-for-byte.
+
+The attempt made 31/33 excluded references visible, but 21 through absent requirements,
+only 10 through proper PASS decisions; Crovalimab and zilucoplan still FAIL. TAC01 lost
+JCAR014's accepted PASS (Not Otherwise Specified treated as negation), with 14/20 order
+positions changed; mint5 stayed invariant. All non-indication data/decisions stayed fixed;
+23 positive condition strings reviewed, no false positive indication assertion found.
+
+Failures to diagnose BEFORE a newly preregistered v2:
+- NSCLC crosses the parser's AMBIGUOUS_TARGET `cell` span; residual-only grouping erases
+  the disease requirement. Recover full disease spans without changing target parsing.
+- NCIt C128429 Hidradenitis Suppurativa is typed Finding; the disease-type filter omits it.
+  Use an authority taxonomy with explicit indication semantics, not all Findings.
+- Different observed diseases do not establish an exhaustive drug indication history:
+  Crovalimab has only aHUS facts, zilucoplan only COVID-19 in the frozen rows. Preregister
+  the positive incompatibility evidence needed under incomplete/open-world coverage.
+- Legacy B-cell lymphoma has a broad/subtype name ambiguity (C188021/C3457), and disease
+  qualifiers cannot be handled by an unrestricted negation-token veto.
+
+No behavior patch after results. Failed attempt remains in history. No durable diagnostic
+improvement: frozen baseline remains 5/38 visible references, 33 indication-excluded,
+57 TARGET_UNKNOWN_FILL, 40 NON_PRODUCT_GENERATION plus 1 QUALIFICATION_MISS top-20 rows.
+No post-adoption remeasurement applies. Do not start qualification/routing/target milestones.
+**H16–H20 remain entirely untouched. Do not run or inspect them.** No long live acquisition
+or benchmark replay was launched. Next action: a NEW v2 preregistration resolving these
+indication semantics failures; untouched validation is premature until adoption.
+
+
 Start here, then read `docs/se_handoff_state.md` for the older context. That file predates
 the target-recognition work, so this file wins wherever the two disagree.
 
@@ -102,11 +145,10 @@ Key findings:
   - the LDLR alias "familial hypercholesterolemia" turned the disease phrase into a target;
   - the H15 indication became `["inhibitors","homozygous"]`.
 
-## 5. Your next step: wait for the operator's go-ahead, then INDICATION_REQUIREMENT_SEMANTICS v1
+## 5. Historical v1 recommendation (superseded by the outcome above)
 
 The diagnosis recommends this milestone as having the highest precision benefit and the
-lowest false-negative risk. **The operator has not yet approved it.** Present it and get
-approval before writing the preregistration.
+lowest false-negative risk. The operator subsequently authorized it; v1 was attempted and reverted as recorded above.
 
 Proposed shape:
 - Disease phrases compile to concepts, matched against registry conditions by
