@@ -199,32 +199,17 @@ def evaluate_indication(
     facts: Iterable[NormalizedFact],
     gate_id: str,
 ) -> GateDecision:
-    """Decide an indication request that names a concept, over the union of the evidence.
+    """Positive compatibility or UNKNOWN under partial, open-world indication evidence.
 
-    A condition satisfies a concept when it names the concept or a subtype of it
-    ("Relapsed/Refractory DLBCL" for B-cell lymphoma). An asset developed in several
-    indications addresses the request if any of them does. A condition naming only an
-    ancestor ("Lymphoma") cannot confirm or rule out the subtype, so it is UNKNOWN, never
-    PASS. Literal entries in the same request keep the exact comparison.
+    FAIL is reserved for a future reviewed asset-level negative evidence contract.
+    Registry condition differences cannot establish that negative assertion.
     """
-
-    from bve.se.ontology.indications import ConditionMatch, classify_condition, is_indication_concept
+    from bve.se.ontology.indication_compatibility import compatibility
 
     matching = [fact for fact in facts if fact.fact_type == requirement.fact_type]
     undecidable = _undecidable(requirement, subject_id=subject_id, matching=matching, gate_id=gate_id)
     if undecidable is not None:
         return undecidable
-
-    concepts = [value for value in requirement.expected_value if is_indication_concept(value)]
-    literals = [value for value in requirement.expected_value if not is_indication_concept(value)]
-    outcomes: set[ConditionMatch] = set()
-    for fact in matching:
-        for condition in fact.value if isinstance(fact.value, list) else [fact.value]:
-            if condition in literals:
-                outcomes.add(ConditionMatch.MATCH)
-            elif isinstance(condition, str):
-                outcomes.update(classify_condition(condition, concept) for concept in concepts)
-
     decided = {
         "gate_id": gate_id,
         "requirement_id": requirement.requirement_id,
@@ -232,19 +217,21 @@ def evaluate_indication(
         "observed_fact_ids": [fact.fact_id for fact in matching],
         "supporting_or_contradictory_claim_ids": _claim_ids(matching),
     }
-    if ConditionMatch.MATCH in outcomes:
-        return GateDecision(**decided, status=GateStatus.PASS, rationale=requirement.pass_condition)
-    if ConditionMatch.UNDETERMINED in outcomes:
-        return GateDecision(
-            **decided,
-            status=GateStatus.UNKNOWN,
-            rationale=(
-                f"Observed indications name only a broader disease than {concepts}, which "
-                "neither confirms nor rules out the requested indication."
-            ),
-            next_action="Confirm the specific indication the asset is developed in.",
-        )
-    return GateDecision(**decided, status=GateStatus.FAIL, rationale=requirement.fail_condition)
+    for fact in matching:
+        for condition in fact.value if isinstance(fact.value, list) else [fact.value]:
+            for requested in requirement.expected_value:
+                witness = compatibility(requested, condition)
+                if witness is not None:
+                    return GateDecision(
+                        **decided, status=GateStatus.PASS,
+                        rationale=f"Positive indication compatibility: {witness}; fact {fact.fact_id}.",
+                    )
+    return GateDecision(
+        **decided, status=GateStatus.UNKNOWN,
+        rationale=("Positive compatibility with the requested indication is not established. "
+                   "Partial indication evidence cannot establish asset-level incompatibility."),
+        next_action="Obtain specific, authority-comparable indication evidence.",
+    )
 
 
 def _target_key(value: object) -> str:
