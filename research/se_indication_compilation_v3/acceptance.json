@@ -1,0 +1,52 @@
+{
+  "H16_H20": "untouched",
+  "H6_H10": "unrun",
+  "JCAR014": "PASS",
+  "baseline": "2633539",
+  "criteria": {
+    "C3.1": true,
+    "C3.2": true,
+    "C3.3": true,
+    "C3.4": true,
+    "C3.5": true,
+    "C3.6": true,
+    "C3.7": true,
+    "C3.8": true
+  },
+  "failed_tests": [],
+  "gate_controls_unchanged": true,
+  "implementation": "4cdfa8a",
+  "live_acquisition_or_replays": 0,
+  "preregistration": "5e972d5",
+  "quality": {
+    "ruff": {
+      "command": "ruff check src/",
+      "exit_code": 0,
+      "result": "PASS"
+    },
+    "targeted": {
+      "collected": 117,
+      "exit_code": 0,
+      "passed": 117
+    },
+    "tests_se": {
+      "collected": 1675,
+      "command": "PYTHONPATH=src python3 -m pytest tests/se -q",
+      "exit_code": 0,
+      "expected_xfailed": 3,
+      "failed": 0,
+      "passed": 1672
+    }
+  },
+  "queries": {
+    "ambiguous_refusals": 3,
+    "entity_contexts": 6,
+    "exact": 103,
+    "grammatical_negation": 19,
+    "original_v2": "76/76",
+    "total": 103
+  },
+  "source_isolation": true,
+  "status": "ADOPTED",
+  "v2_preserved": true
+}

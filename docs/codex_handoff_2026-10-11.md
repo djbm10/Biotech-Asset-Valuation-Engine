@@ -1,5 +1,53 @@
 # Codex handoff — S&E engine, 2026-10-11
 
+## Current outcome — INDICATION_REQUIREMENT_COMPILATION v3 ADOPTED (2026-10-11)
+
+Clean baseline **2633539**, preregistration **5e972d5**, implementation **4cdfa8a**.
+All frozen criteria C3.1–C3.8 PASS. Entire v2 population 76/76; expanded population
+103/103. All 19 grammatical-negation controls retain the negator in one coherent
+UNRESOLVED disease span. Parser consumes that grammatical operator before entity
+lookup. Compiler preserves it against molecular component trimming and positive concept
+normalization. No global NOT suppression: six biological contexts and actual resolver
+NOT ambiguity (ALG3/NR4A2) are unchanged; explicit ALG3/NR4A2 remain uniquely resolved.
+Three syntax-insufficient controls retain ambiguity and existing refusal.
+
+Scope: compilation only. Production changes are the five preregistered intent files:
+parser.py prepass, intent.py GRAMMATICAL_OPERATOR, compiler.py coherent construction,
+indication_compilation.py (v2 algorithm plus operator protection), grammar.py (shared
+frozen query-role loader and syntactic rule). No downstream gate/compatibility/identity/
+qualification/modality/efficacy/ranking/routing/attribution changes. All protected source
+hashes and every v2 research/policy hash remain fixed. No patch after acceptance results.
+
+Targeted tests **117 passed**. Full tests/se **1,672 passed, 3 expected xfails** (1,675
+collected); `ruff check src/` clean. TAC01 and mint5 retain semantic equivalence;
+JCAR014's accepted PASS and all 16 gate controls are byte-identical. Failed v2/v1 history
+below is permanently preserved; v3 does not amend or retroactively adopt either attempt.
+
+Policy: docs/se_policies/indication_requirement_compilation_v3.md. Frozen population,
+manifest, authority diagnosis, exact scorer output, combined acceptance, quality logs and
+offline diagnostic readout: research/se_indication_compilation_v3/. Offline scorer:
+scripts/score_indication_compilation_v3.py. Correct compilation for H2/H4/H11–H14:
+non-small cell lung cancer, ulcerative colitis, non-small cell lung cancer, paroxysmal
+nocturnal hemoglobinuria, hidradenitis suppurativa, multiple myeloma, respectively.
+Each is one coherent requirement, with no target/mutation/format residual requirements.
+H13 source Finding remains unresolved normalization, rather than erased or declared disease.
+
+Limits: the unchanged gate still compares most literal disease requests exactly; synonym,
+case/spacing, subtype and incomplete indication evidence remain downstream defects.
+Negation is represented correctly but the gate does not enforce exclusion semantics.
+No claim of recovering the 33 indication-excluded references or improving shortlist
+precision/recall; no development result is generalization evidence. The readout measures
+compilation only and does not recompute product/ranking outcomes.
+
+**Next separate milestone: INDICATION_GATE_SEMANTICS v1.** Diagnose/preregister its
+population and criteria before implementing same-disease/synonym/subtype PASS, positive
+incompatibility FAIL, sparse/incomparable evidence UNKNOWN, and incomplete NCIt typing.
+That milestone is NOT implemented here. Qualification/routing/target milestones remain
+deferred. **H16–H20 remain completely untouched; H6–H10 remain unrun.** No live acquisition
+or long replay launched. No terminal run is needed now; stop before gate implementation.
+
+## Preserved prior outcomes
+
 ## Current outcome — INDICATION_REQUIREMENT_COMPILATION v2 REVERTED (2026-10-11)
 
 Preregistration **30bfdbe**, implementation **f46dd76**, failure record **2b0a80e**,

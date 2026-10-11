@@ -1,0 +1,5162 @@
+{
+  "JCAR014": {
+    "analyst_override": null,
+    "gate_id": "strategic_sandbox",
+    "next_action": null,
+    "observed_fact_ids": [
+      "jcar"
+    ],
+    "override_rationale": null,
+    "rationale": "Observed indication satisfies buyer requirement strategy.indication.",
+    "requirement_id": "strategy.indication",
+    "status": "PASS",
+    "subject_id": "JCAR014",
+    "supporting_or_contradictory_claim_ids": [
+      "jcar_claim"
+    ]
+  },
+  "alias_results": {
+    "ALG3": {
+      "candidates": [],
+      "entity": "TARGET:ALG3",
+      "rule": "unique_alias_match",
+      "status": "RESOLVED"
+    },
+    "NOT": {
+      "candidates": [
+        "TARGET:ALG3",
+        "TARGET:NR4A2"
+      ],
+      "entity": null,
+      "rule": "homonym_requires_escalation",
+      "status": "AMBIGUOUS"
+    },
+    "NR4A2": {
+      "candidates": [],
+      "entity": "TARGET:NR4A2",
+      "rule": "unique_alias_match",
+      "status": "RESOLVED"
+    }
+  },
+  "criteria": {
+    "C3.1": true,
+    "C3.2": true,
+    "C3.3": true,
+    "C3.4": true,
+    "C3.5": true,
+    "C3.6": true,
+    "C3.7": true
+  },
+  "exact_count": 103,
+  "gate_controls_unchanged": true,
+  "production_changes": [
+    "src/bve/se/intent/compiler.py",
+    "src/bve/se/intent/grammar.py",
+    "src/bve/se/intent/indication_compilation.py",
+    "src/bve/se/intent/intent.py",
+    "src/bve/se/intent/parser.py"
+  ],
+  "protected_source": true,
+  "records": [
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "TIGIT",
+          "label": "TIGIT"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "group": "v2",
+      "id": "H11",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage TIGIT antibodies for non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 67,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 41,
+          "text": "non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "TIGIT",
+          "label": "TIGIT"
+        }
+      ]
+    },
+    {
+      "after": [
+        "paroxysmal nocturnal hemoglobinuria"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "C5",
+          "label": "C5"
+        }
+      ],
+      "before": [
+        "complement",
+        "inhibitors",
+        "paroxysmal",
+        "nocturnal",
+        "hemoglobinuria"
+      ],
+      "exact": true,
+      "expected": [
+        "paroxysmal nocturnal hemoglobinuria"
+      ],
+      "group": "v2",
+      "id": "H12",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage C5 complement inhibitors for paroxysmal nocturnal hemoglobinuria.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "paroxysmal nocturnal hemoglobinuria"
+          ],
+          "codes": [
+            "C61233"
+          ],
+          "end": 84,
+          "normalization": "RECOGNIZED",
+          "requirement": "paroxysmal nocturnal hemoglobinuria",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 49,
+          "text": "paroxysmal nocturnal hemoglobinuria"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "C5",
+          "label": "C5"
+        }
+      ]
+    },
+    {
+      "after": [
+        "hidradenitis suppurativa"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "IL17A",
+          "label": "IL17A"
+        }
+      ],
+      "before": [
+        "hidradenitis",
+        "suppurativa"
+      ],
+      "exact": true,
+      "expected": [
+        "hidradenitis suppurativa"
+      ],
+      "group": "v2",
+      "id": "H13",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage anti-IL-17A antibodies for hidradenitis suppurativa.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "hidradenitis",
+            "hidradenitis suppurativa"
+          ],
+          "codes": [
+            "C112190",
+            "C128429"
+          ],
+          "end": 71,
+          "normalization": "UNRESOLVED",
+          "requirement": "hidradenitis suppurativa",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 47,
+          "text": "hidradenitis suppurativa"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "IL17A",
+          "label": "IL17A"
+        }
+      ]
+    },
+    {
+      "after": [
+        "multiple myeloma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD38",
+          "label": "CD38"
+        }
+      ],
+      "before": [
+        "multiple",
+        "myeloma"
+      ],
+      "exact": true,
+      "expected": [
+        "multiple myeloma"
+      ],
+      "group": "v2",
+      "id": "H14",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD38-directed antibodies for multiple myeloma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "multiple myeloma",
+            "myeloma"
+          ],
+          "codes": [
+            "C3242"
+          ],
+          "end": 65,
+          "normalization": "RECOGNIZED",
+          "requirement": "multiple myeloma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 49,
+          "text": "multiple myeloma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD38",
+          "label": "CD38"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "KRAS",
+          "label": "KRAS"
+        }
+      ],
+      "before": [
+        "G12C",
+        "inhibitors",
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "group": "v2",
+      "id": "H2",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage KRAS G12C inhibitors for non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 71,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 45,
+          "text": "non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "KRAS",
+          "label": "KRAS"
+        }
+      ]
+    },
+    {
+      "after": [
+        "ulcerative colitis"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "TNFSF15",
+          "label": "TNFSF15"
+        }
+      ],
+      "before": [
+        "ulcerative",
+        "colitis"
+      ],
+      "exact": true,
+      "expected": [
+        "ulcerative colitis"
+      ],
+      "group": "v2",
+      "id": "H4",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage TL1A antibodies for ulcerative colitis.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "colitis",
+            "ulcerative",
+            "ulcerative colitis"
+          ],
+          "codes": [
+            "C26723",
+            "C2952",
+            "C3426"
+          ],
+          "end": 58,
+          "normalization": "RECOGNIZED",
+          "requirement": "ulcerative colitis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 40,
+          "text": "ulcerative colitis"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "TNFSF15",
+          "label": "TNFSF15"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "group": "v2",
+      "id": "TAC01",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD19 cell therapies for relapsed or refractory B-cell lymphoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma",
+            "refractory b cell lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587",
+            "C8842"
+          ],
+          "end": 82,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 44,
+          "text": "relapsed or refractory B-cell lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "TNFRSF17",
+          "label": "TNFRSF17"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "mint5",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with human efficacy.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "autoimmune disease",
+            "disease"
+          ],
+          "codes": [
+            "C2889",
+            "C2991"
+          ],
+          "end": 67,
+          "normalization": "DELEGATED_CLASS",
+          "requirement": null,
+          "rule": "existing_scientific_class",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 49,
+          "text": "autoimmune disease"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "TNFRSF17",
+          "label": "TNFRSF17"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "group": "v2",
+      "id": "v1_same",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "group": "v2",
+      "id": "v1_synonym",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "group": "v2",
+      "id": "v1_subtype",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "group": "v2",
+      "id": "v1_incompatible",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "ulcerative colitis"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "ulcerative",
+        "colitis"
+      ],
+      "exact": true,
+      "expected": [
+        "ulcerative colitis"
+      ],
+      "group": "v2",
+      "id": "v1_incompatible_reverse",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for ulcerative colitis.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "colitis",
+            "ulcerative",
+            "ulcerative colitis"
+          ],
+          "codes": [
+            "C26723",
+            "C2952",
+            "C3426"
+          ],
+          "end": 38,
+          "normalization": "RECOGNIZED",
+          "requirement": "ulcerative colitis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "ulcerative colitis"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "group": "v2",
+      "id": "v1_incomparable",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "group": "v2",
+      "id": "v1_broader",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "Investigational syndrome ZZ9"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "ZZ9"
+      ],
+      "exact": true,
+      "expected": [
+        "Investigational syndrome ZZ9"
+      ],
+      "group": "v2",
+      "id": "v1_unrecognized_request",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for Investigational syndrome ZZ9.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "syndrome"
+          ],
+          "codes": [
+            "C28193"
+          ],
+          "end": 48,
+          "normalization": "UNRESOLVED",
+          "requirement": "Investigational syndrome ZZ9",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "Investigational syndrome ZZ9"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "group": "v2",
+      "id": "v1_negation",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "group": "v2",
+      "id": "v1_bcell_same",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "group": "v2",
+      "id": "v1_bcell_subtype",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "group": "v2",
+      "id": "v1_bcell_disjoint",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "group": "v2",
+      "id": "v1_bcell_tcell",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "group": "v2",
+      "id": "v1_bcell_broader",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "group": "v2",
+      "id": "v1_bcell_unrecognized",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "Investigational syndrome ZZ9"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "ZZ9"
+      ],
+      "exact": true,
+      "expected": [
+        "Investigational syndrome ZZ9"
+      ],
+      "group": "v2",
+      "id": "v1_unrecognized_identical",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for Investigational syndrome ZZ9.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "syndrome"
+          ],
+          "codes": [
+            "C28193"
+          ],
+          "end": 48,
+          "normalization": "UNRESOLVED",
+          "requirement": "Investigational syndrome ZZ9",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "Investigational syndrome ZZ9"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "inhibitor"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_inhibitor",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T inhibitor.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "inhibitor"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_inhibitor",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for inhibitor.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "inhibitors"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_inhibitors",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T inhibitors.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "inhibitors"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_inhibitors",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for inhibitors.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_antibody",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T antibody.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_antibody",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for antibody.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_antibodies",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T antibodies.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_antibodies",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for antibodies.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "complement"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_complement",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T complement.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "complement"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_complement",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for complement.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "G12C"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_G12C",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T G12C.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "G12C"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_G12C",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for G12C.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "KRAS",
+          "label": "KRAS"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_KRAS",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T KRAS.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "KRAS",
+          "label": "KRAS"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "KRAS",
+          "label": "KRAS"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_KRAS",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for KRAS.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "KRAS",
+          "label": "KRAS"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_CD19",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T CD19.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_CD19",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for CD19.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "TIGIT",
+          "label": "TIGIT"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_TIGIT",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T TIGIT.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "TIGIT",
+          "label": "TIGIT"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "TIGIT",
+          "label": "TIGIT"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_TIGIT",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for TIGIT.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "TIGIT",
+          "label": "TIGIT"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "C5",
+          "label": "C5"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_C5",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T C5.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "C5",
+          "label": "C5"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "C5",
+          "label": "C5"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_C5",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for C5.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "C5",
+          "label": "C5"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "IL17A",
+          "label": "IL17A"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_IL17A",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T IL17A.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "IL17A",
+          "label": "IL17A"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "IL17A",
+          "label": "IL17A"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_IL17A",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for IL17A.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "IL17A",
+          "label": "IL17A"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "CD38",
+          "label": "CD38"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_CD38",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T CD38.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "CD38",
+          "label": "CD38"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "CD38",
+          "label": "CD38"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_CD38",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for CD38.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "CD38",
+          "label": "CD38"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_CAR-T",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T CAR-T.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_CAR-T",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for CAR-T.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_bispecific",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T bispecific.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_bispecific",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for bispecific.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_small molecule",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T small molecule.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_small molecule",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for small molecule.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "clinical"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_clinical",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T clinical.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "clinical"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_clinical",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for clinical.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "research"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_research",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T research.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "research"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_research",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for research.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_bare_human efficacy",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T human efficacy.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "leak_for_human efficacy",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for human efficacy.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "lupus nephritis"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "lupus",
+        "nephritis"
+      ],
+      "exact": true,
+      "expected": [
+        "lupus nephritis"
+      ],
+      "group": "v2",
+      "id": "general_lupus",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for lupus nephritis.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "lupus",
+            "lupus nephritis",
+            "nephritis"
+          ],
+          "codes": [
+            "C26833",
+            "C27153",
+            "C34789"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "lupus nephritis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "lupus nephritis"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "lupus nephritis"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "lupus",
+        "nephritis"
+      ],
+      "exact": true,
+      "expected": [
+        "lupus nephritis"
+      ],
+      "group": "v2",
+      "id": "general_implicit_lupus",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T lupus nephritis.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "lupus",
+            "lupus nephritis",
+            "nephritis"
+          ],
+          "codes": [
+            "C26833",
+            "C27153",
+            "C34789"
+          ],
+          "end": 31,
+          "normalization": "RECOGNIZED",
+          "requirement": "lupus nephritis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 16,
+          "text": "lupus nephritis"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "breast cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "breast",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "breast cancer"
+      ],
+      "group": "v2",
+      "id": "general_breast",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for breast cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "breast cancer",
+            "cancer"
+          ],
+          "codes": [
+            "C118809",
+            "C4872",
+            "C9305",
+            "C9335"
+          ],
+          "end": 33,
+          "normalization": "UNRESOLVED",
+          "requirement": "breast cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "breast cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "Quux illness"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "Quux",
+        "illness"
+      ],
+      "exact": true,
+      "expected": [
+        "Quux illness"
+      ],
+      "group": "v2",
+      "id": "general_unknown",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for Quux illness.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [],
+          "codes": [],
+          "end": 32,
+          "normalization": "UNRESOLVED",
+          "requirement": "Quux illness",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "Quux illness"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "Investigational syndrome ZZ9"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "ZZ9"
+      ],
+      "exact": true,
+      "expected": [
+        "Investigational syndrome ZZ9"
+      ],
+      "group": "v2",
+      "id": "general_syndrome",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for Investigational syndrome ZZ9.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "syndrome"
+          ],
+          "codes": [
+            "C28193"
+          ],
+          "end": 48,
+          "normalization": "UNRESOLVED",
+          "requirement": "Investigational syndrome ZZ9",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "Investigational syndrome ZZ9"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not NSCLC"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "NSCLC"
+      ],
+      "exact": true,
+      "expected": [
+        "not NSCLC"
+      ],
+      "group": "v2",
+      "id": "general_negated",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 23,
+          "explanation": "Negation scopes the immediately following clinical alias 'nsclc'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 20,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for not NSCLC.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "nsclc"
+          ],
+          "codes": [
+            "C2926"
+          ],
+          "end": 29,
+          "normalization": "UNRESOLVED",
+          "requirement": "not NSCLC",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "not NSCLC"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "diffuse large B-cell lymphoma, not otherwise specified"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "LARGE1",
+          "label": "LARGE1"
+        }
+      ],
+      "before": [
+        "diffuse",
+        "INDICATION:B_CELL_LYMPHOMA",
+        "otherwise",
+        "specified"
+      ],
+      "exact": true,
+      "expected": [
+        "diffuse large B-cell lymphoma, not otherwise specified"
+      ],
+      "group": "v2",
+      "id": "general_nos",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for diffuse large B-cell lymphoma, not otherwise specified.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "diffuse",
+            "diffuse large b cell lymphoma",
+            "diffuse large b cell lymphoma not otherwise specified",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587",
+            "C7615",
+            "C7616",
+            "C80280",
+            "C8851",
+            "C9159"
+          ],
+          "end": 74,
+          "normalization": "RECOGNIZED",
+          "requirement": "diffuse large B-cell lymphoma, not otherwise specified",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "diffuse large B-cell lymphoma, not otherwise specified"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        },
+        {
+          "aliases": [],
+          "canonical_id": "LARGE1",
+          "label": "LARGE1"
+        }
+      ]
+    },
+    {
+      "after": [
+        "lupus nephritis"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "lupus",
+        "nephritis"
+      ],
+      "exact": true,
+      "expected": [
+        "lupus nephritis"
+      ],
+      "group": "v2",
+      "id": "general_front",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "For lupus nephritis, find CD19 CAR-T.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "lupus",
+            "lupus nephritis",
+            "nephritis"
+          ],
+          "codes": [
+            "C26833",
+            "C27153",
+            "C34789"
+          ],
+          "end": 19,
+          "normalization": "RECOGNIZED",
+          "requirement": "lupus nephritis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 4,
+          "text": "lupus nephritis"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "lupus nephritis"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "lupus",
+        "nephritis"
+      ],
+      "exact": true,
+      "expected": [
+        "lupus nephritis"
+      ],
+      "group": "v2",
+      "id": "general_evidence",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for lupus nephritis with human efficacy.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "lupus",
+            "lupus nephritis",
+            "nephritis"
+          ],
+          "codes": [
+            "C26833",
+            "C27153",
+            "C34789"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "lupus nephritis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "lupus nephritis"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "complement",
+        "inhibitors"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "general_format",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for complement inhibitors.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "G13D",
+        "inhibitors"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "general_mutation",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for G13D inhibitors.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "research"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "general_research",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for research.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "group": "v2",
+      "id": "general_no_disease",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "breast cancer or melanoma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "breast",
+        "cancer",
+        "melanoma"
+      ],
+      "exact": true,
+      "expected": [
+        "breast cancer or melanoma"
+      ],
+      "group": "v2",
+      "id": "general_coordination",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for breast cancer or melanoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "breast cancer",
+            "cancer",
+            "melanoma"
+          ],
+          "codes": [
+            "C118809",
+            "C21790",
+            "C3224",
+            "C4872",
+            "C9305",
+            "C9335"
+          ],
+          "end": 45,
+          "normalization": "UNRESOLVED",
+          "requirement": "breast cancer or melanoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "breast cancer or melanoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "severe Quux illness"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "severe",
+        "Quux",
+        "illness"
+      ],
+      "exact": true,
+      "expected": [
+        "severe Quux illness"
+      ],
+      "group": "v2",
+      "id": "general_qualified",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for severe Quux illness.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "severe"
+          ],
+          "codes": [
+            "C189227"
+          ],
+          "end": 39,
+          "normalization": "UNRESOLVED",
+          "requirement": "severe Quux illness",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "severe Quux illness"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "lymphoma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "B-cell",
+        "lymphoma"
+      ],
+      "exact": true,
+      "expected": [
+        "lymphoma"
+      ],
+      "group": "v2",
+      "id": "general_boundary",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find CD19 B-cell CAR-T for lymphoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "lymphoma"
+          ],
+          "codes": [
+            "C21602",
+            "C3208",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "UNRESOLVED",
+          "requirement": "lymphoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 27,
+          "text": "lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not NSCLC"
+      ],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [
+        "not NSCLC"
+      ],
+      "group": "negation",
+      "id": "neg_0_bare",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 3,
+          "explanation": "Negation scopes the immediately following clinical alias 'nsclc'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 0,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "not NSCLC",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "nsclc"
+          ],
+          "codes": [
+            "C2926"
+          ],
+          "end": 9,
+          "normalization": "UNRESOLVED",
+          "requirement": "not NSCLC",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 0,
+          "text": "not NSCLC"
+        }
+      ],
+      "targets": []
+    },
+    {
+      "after": [
+        "not NSCLC"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "NSCLC"
+      ],
+      "exact": true,
+      "expected": [
+        "not NSCLC"
+      ],
+      "group": "negation",
+      "id": "neg_0_for",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 23,
+          "explanation": "Negation scopes the immediately following clinical alias 'nsclc'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 20,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for not NSCLC.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "nsclc"
+          ],
+          "codes": [
+            "C2926"
+          ],
+          "end": 29,
+          "normalization": "UNRESOLVED",
+          "requirement": "not NSCLC",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "not NSCLC"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not NSCLC"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "NSCLC"
+      ],
+      "exact": true,
+      "expected": [
+        "not NSCLC"
+      ],
+      "group": "negation",
+      "id": "neg_0_long",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 38,
+          "explanation": "Negation scopes the immediately following clinical alias 'nsclc'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 35,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD19 CAR-T for not NSCLC with human efficacy.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "nsclc"
+          ],
+          "codes": [
+            "C2926"
+          ],
+          "end": 44,
+          "normalization": "UNRESOLVED",
+          "requirement": "not NSCLC",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 35,
+          "text": "not NSCLC"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not non-small cell lung cancer"
+      ],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [
+        "not non-small cell lung cancer"
+      ],
+      "group": "negation",
+      "id": "neg_1_bare",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 3,
+          "explanation": "Negation scopes the immediately following clinical alias 'non small cell lung cancer'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 0,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "not non-small cell lung cancer",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 30,
+          "normalization": "UNRESOLVED",
+          "requirement": "not non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 0,
+          "text": "not non-small cell lung cancer"
+        }
+      ],
+      "targets": []
+    },
+    {
+      "after": [
+        "not non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "not non-small cell lung cancer"
+      ],
+      "group": "negation",
+      "id": "neg_1_for",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 23,
+          "explanation": "Negation scopes the immediately following clinical alias 'non small cell lung cancer'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 20,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for not non-small cell lung cancer.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 50,
+          "normalization": "UNRESOLVED",
+          "requirement": "not non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "not non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not non-small cell lung cancer"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "not non-small cell lung cancer"
+      ],
+      "group": "negation",
+      "id": "neg_1_long",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 38,
+          "explanation": "Negation scopes the immediately following clinical alias 'non small cell lung cancer'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 35,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD19 CAR-T for not non-small cell lung cancer with human efficacy.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 65,
+          "normalization": "UNRESOLVED",
+          "requirement": "not non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 35,
+          "text": "not non-small cell lung cancer"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not melanoma"
+      ],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [
+        "not melanoma"
+      ],
+      "group": "negation",
+      "id": "neg_2_bare",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 3,
+          "explanation": "Negation scopes the immediately following clinical alias 'melanoma'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 0,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "not melanoma",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "melanoma"
+          ],
+          "codes": [
+            "C21790",
+            "C3224"
+          ],
+          "end": 12,
+          "normalization": "UNRESOLVED",
+          "requirement": "not melanoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 0,
+          "text": "not melanoma"
+        }
+      ],
+      "targets": []
+    },
+    {
+      "after": [
+        "not melanoma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "melanoma"
+      ],
+      "exact": true,
+      "expected": [
+        "not melanoma"
+      ],
+      "group": "negation",
+      "id": "neg_2_for",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 23,
+          "explanation": "Negation scopes the immediately following clinical alias 'melanoma'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 20,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for not melanoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "melanoma"
+          ],
+          "codes": [
+            "C21790",
+            "C3224"
+          ],
+          "end": 32,
+          "normalization": "UNRESOLVED",
+          "requirement": "not melanoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "not melanoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not melanoma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "melanoma"
+      ],
+      "exact": true,
+      "expected": [
+        "not melanoma"
+      ],
+      "group": "negation",
+      "id": "neg_2_long",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 38,
+          "explanation": "Negation scopes the immediately following clinical alias 'melanoma'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 35,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD19 CAR-T for not melanoma with human efficacy.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "melanoma"
+          ],
+          "codes": [
+            "C21790",
+            "C3224"
+          ],
+          "end": 47,
+          "normalization": "UNRESOLVED",
+          "requirement": "not melanoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 35,
+          "text": "not melanoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not psoriasis"
+      ],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [
+        "not psoriasis"
+      ],
+      "group": "negation",
+      "id": "neg_3_bare",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 3,
+          "explanation": "Negation scopes the immediately following clinical alias 'psoriasis'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 0,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "not psoriasis",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "psoriasis"
+          ],
+          "codes": [
+            "C3346"
+          ],
+          "end": 13,
+          "normalization": "UNRESOLVED",
+          "requirement": "not psoriasis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 0,
+          "text": "not psoriasis"
+        }
+      ],
+      "targets": []
+    },
+    {
+      "after": [
+        "not psoriasis"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "psoriasis"
+      ],
+      "exact": true,
+      "expected": [
+        "not psoriasis"
+      ],
+      "group": "negation",
+      "id": "neg_3_for",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 23,
+          "explanation": "Negation scopes the immediately following clinical alias 'psoriasis'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 20,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for not psoriasis.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "psoriasis"
+          ],
+          "codes": [
+            "C3346"
+          ],
+          "end": 33,
+          "normalization": "UNRESOLVED",
+          "requirement": "not psoriasis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "not psoriasis"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not psoriasis"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "psoriasis"
+      ],
+      "exact": true,
+      "expected": [
+        "not psoriasis"
+      ],
+      "group": "negation",
+      "id": "neg_3_long",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 38,
+          "explanation": "Negation scopes the immediately following clinical alias 'psoriasis'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 35,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD19 CAR-T for not psoriasis with human efficacy.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "psoriasis"
+          ],
+          "codes": [
+            "C3346"
+          ],
+          "end": 48,
+          "normalization": "UNRESOLVED",
+          "requirement": "not psoriasis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 35,
+          "text": "not psoriasis"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not B-cell lymphoma"
+      ],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [
+        "not B-cell lymphoma"
+      ],
+      "group": "negation",
+      "id": "neg_4_bare",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 3,
+          "explanation": "Negation scopes the immediately following clinical alias 'b cell lymphoma'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 0,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "not B-cell lymphoma",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 19,
+          "normalization": "UNRESOLVED",
+          "requirement": "not B-cell lymphoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 0,
+          "text": "not B-cell lymphoma"
+        }
+      ],
+      "targets": []
+    },
+    {
+      "after": [
+        "not B-cell lymphoma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "not B-cell lymphoma"
+      ],
+      "group": "negation",
+      "id": "neg_4_for",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 23,
+          "explanation": "Negation scopes the immediately following clinical alias 'b cell lymphoma'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 20,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for not B-cell lymphoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 39,
+          "normalization": "UNRESOLVED",
+          "requirement": "not B-cell lymphoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "not B-cell lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not B-cell lymphoma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "not B-cell lymphoma"
+      ],
+      "group": "negation",
+      "id": "neg_4_long",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 38,
+          "explanation": "Negation scopes the immediately following clinical alias 'b cell lymphoma'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 35,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD19 CAR-T for not B-cell lymphoma with human efficacy.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 54,
+          "normalization": "UNRESOLVED",
+          "requirement": "not B-cell lymphoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 35,
+          "text": "not B-cell lymphoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not melanoma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "melanoma"
+      ],
+      "exact": true,
+      "expected": [
+        "not melanoma"
+      ],
+      "group": "negation",
+      "id": "neg_implicit",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 34,
+          "explanation": "Negation scopes the immediately following clinical alias 'melanoma'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 31,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD19 CAR-T not melanoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "melanoma"
+          ],
+          "codes": [
+            "C21790",
+            "C3224"
+          ],
+          "end": 43,
+          "normalization": "UNRESOLVED",
+          "requirement": "not melanoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 31,
+          "text": "not melanoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "not psoriasis"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "psoriasis"
+      ],
+      "exact": true,
+      "expected": [
+        "not psoriasis"
+      ],
+      "group": "negation",
+      "id": "neg_front",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 7,
+          "explanation": "Negation scopes the immediately following clinical alias 'psoriasis'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 4,
+          "text": "not"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "For not psoriasis, find CD19 CAR-T.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "psoriasis"
+          ],
+          "codes": [
+            "C3346"
+          ],
+          "end": 17,
+          "normalization": "UNRESOLVED",
+          "requirement": "not psoriasis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 4,
+          "text": "not psoriasis"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "NOT NSCLC"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ],
+      "before": [
+        "NSCLC"
+      ],
+      "exact": true,
+      "expected": [
+        "NOT NSCLC"
+      ],
+      "group": "negation",
+      "id": "neg_upper",
+      "offsets": true,
+      "operator_expected": true,
+      "operator_ok": true,
+      "operators": [
+        {
+          "candidates": [],
+          "end": 23,
+          "explanation": "Negation scopes the immediately following clinical alias 'nsclc'; the operator is protected before entity resolution.",
+          "kind": "GRAMMATICAL_OPERATOR",
+          "resolved_to": "NOT",
+          "rule": "grammatical_clinical_negation",
+          "start": 20,
+          "text": "NOT"
+        }
+      ],
+      "parser_isolation": true,
+      "parser_unchanged": false,
+      "problem_isolation": true,
+      "query": "Find CD19 CAR-T for NOT NSCLC.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "nsclc"
+          ],
+          "codes": [
+            "C2926"
+          ],
+          "end": 29,
+          "normalization": "UNRESOLVED",
+          "requirement": "NOT NSCLC",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "NOT NSCLC"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "CD19",
+          "label": "CD19"
+        }
+      ]
+    },
+    {
+      "after": [
+        "melanoma"
+      ],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [
+        "melanoma"
+      ],
+      "group": "entity",
+      "id": "entity_affix",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find NOT-directed antibodies for melanoma.",
+      "refusal_preserved": true,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "melanoma"
+          ],
+          "codes": [
+            "C21790",
+            "C3224"
+          ],
+          "end": 41,
+          "normalization": "UNRESOLVED",
+          "requirement": "melanoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 33,
+          "text": "melanoma"
+        }
+      ],
+      "targets": []
+    },
+    {
+      "after": [
+        "melanoma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "ALG3",
+          "label": "ALG3"
+        }
+      ],
+      "before": [
+        "inhibitors",
+        "melanoma"
+      ],
+      "exact": true,
+      "expected": [
+        "melanoma"
+      ],
+      "group": "entity",
+      "id": "entity_alg3",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find ALG3 (NOT) inhibitors for melanoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "melanoma"
+          ],
+          "codes": [
+            "C21790",
+            "C3224"
+          ],
+          "end": 39,
+          "normalization": "UNRESOLVED",
+          "requirement": "melanoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 31,
+          "text": "melanoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "ALG3",
+          "label": "ALG3"
+        }
+      ]
+    },
+    {
+      "after": [
+        "melanoma"
+      ],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "NR4A2",
+          "label": "NR4A2"
+        }
+      ],
+      "before": [
+        "inhibitors",
+        "melanoma"
+      ],
+      "exact": true,
+      "expected": [
+        "melanoma"
+      ],
+      "group": "entity",
+      "id": "entity_nr4a2",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find NR4A2 (NOT) inhibitors for melanoma.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "melanoma"
+          ],
+          "codes": [
+            "C21790",
+            "C3224"
+          ],
+          "end": 40,
+          "normalization": "UNRESOLVED",
+          "requirement": "melanoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 32,
+          "text": "melanoma"
+        }
+      ],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "NR4A2",
+          "label": "NR4A2"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [
+        {
+          "aliases": [],
+          "canonical_id": "ALG3",
+          "label": "ALG3"
+        }
+      ],
+      "before": [
+        "inhibitors"
+      ],
+      "exact": true,
+      "expected": [],
+      "group": "entity",
+      "id": "entity_alg3_bare",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find ALG3 inhibitors.",
+      "refusal_preserved": false,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": [
+        {
+          "aliases": [],
+          "canonical_id": "ALG3",
+          "label": "ALG3"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [],
+      "group": "entity",
+      "id": "entity_protein",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find NOT protein.",
+      "refusal_preserved": true,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": []
+    },
+    {
+      "after": [],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [],
+      "group": "entity",
+      "id": "entity_target",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find NOT target.",
+      "refusal_preserved": true,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": []
+    },
+    {
+      "after": [],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [],
+      "group": "ambiguous",
+      "id": "amb_upper",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "NOT",
+      "refusal_preserved": true,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": []
+    },
+    {
+      "after": [],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [],
+      "group": "ambiguous",
+      "id": "amb_lower",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "not",
+      "refusal_preserved": true,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": []
+    },
+    {
+      "after": [],
+      "baseline_targets": [],
+      "before": null,
+      "exact": true,
+      "expected": [],
+      "group": "ambiguous",
+      "id": "amb_unknown",
+      "offsets": true,
+      "operator_expected": false,
+      "operator_ok": true,
+      "operators": [],
+      "parser_isolation": true,
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find not Quux illness.",
+      "refusal_preserved": true,
+      "retrieval_unchanged": true,
+      "spans": [],
+      "targets": []
+    }
+  ],
+  "sealed": true,
+  "source_diff_scoped": true,
+  "total": 103,
+  "v2_preserved": true
+}

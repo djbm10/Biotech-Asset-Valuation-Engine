@@ -1,0 +1,293 @@
+{
+  "H16_H20": "untouched",
+  "all_original_v2_correct": true,
+  "all_six_diagnostic_indications_coherent": true,
+  "development_only": true,
+  "rows": [
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "id": "H11",
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage TIGIT antibodies for non-small cell lung cancer.",
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 67,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 41,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "paroxysmal nocturnal hemoglobinuria"
+      ],
+      "before": [
+        "complement",
+        "inhibitors",
+        "paroxysmal",
+        "nocturnal",
+        "hemoglobinuria"
+      ],
+      "exact": true,
+      "id": "H12",
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage C5 complement inhibitors for paroxysmal nocturnal hemoglobinuria.",
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "paroxysmal nocturnal hemoglobinuria"
+          ],
+          "codes": [
+            "C61233"
+          ],
+          "end": 84,
+          "normalization": "RECOGNIZED",
+          "requirement": "paroxysmal nocturnal hemoglobinuria",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 49,
+          "text": "paroxysmal nocturnal hemoglobinuria"
+        }
+      ]
+    },
+    {
+      "after": [
+        "hidradenitis suppurativa"
+      ],
+      "before": [
+        "hidradenitis",
+        "suppurativa"
+      ],
+      "exact": true,
+      "id": "H13",
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage anti-IL-17A antibodies for hidradenitis suppurativa.",
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "hidradenitis",
+            "hidradenitis suppurativa"
+          ],
+          "codes": [
+            "C112190",
+            "C128429"
+          ],
+          "end": 71,
+          "normalization": "UNRESOLVED",
+          "requirement": "hidradenitis suppurativa",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 47,
+          "text": "hidradenitis suppurativa"
+        }
+      ]
+    },
+    {
+      "after": [
+        "multiple myeloma"
+      ],
+      "before": [
+        "multiple",
+        "myeloma"
+      ],
+      "exact": true,
+      "id": "H14",
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD38-directed antibodies for multiple myeloma.",
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "multiple myeloma",
+            "myeloma"
+          ],
+          "codes": [
+            "C3242"
+          ],
+          "end": 65,
+          "normalization": "RECOGNIZED",
+          "requirement": "multiple myeloma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 49,
+          "text": "multiple myeloma"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "G12C",
+        "inhibitors",
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "id": "H2",
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage KRAS G12C inhibitors for non-small cell lung cancer.",
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 71,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 45,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "ulcerative colitis"
+      ],
+      "before": [
+        "ulcerative",
+        "colitis"
+      ],
+      "exact": true,
+      "id": "H4",
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage TL1A antibodies for ulcerative colitis.",
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "colitis",
+            "ulcerative",
+            "ulcerative colitis"
+          ],
+          "codes": [
+            "C26723",
+            "C2952",
+            "C3426"
+          ],
+          "end": 58,
+          "normalization": "RECOGNIZED",
+          "requirement": "ulcerative colitis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 40,
+          "text": "ulcerative colitis"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "id": "TAC01",
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage CD19 cell therapies for relapsed or refractory B-cell lymphoma.",
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma",
+            "refractory b cell lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587",
+            "C8842"
+          ],
+          "end": 82,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 44,
+          "text": "relapsed or refractory B-cell lymphoma"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "id": "mint5",
+      "parser_unchanged": true,
+      "problem_isolation": true,
+      "query": "Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with human efficacy.",
+      "retrieval_unchanged": true,
+      "spans": [
+        {
+          "aliases": [
+            "autoimmune disease",
+            "disease"
+          ],
+          "codes": [
+            "C2889",
+            "C2991"
+          ],
+          "end": 67,
+          "normalization": "DELEGATED_CLASS",
+          "requirement": null,
+          "rule": "existing_scientific_class",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 49,
+          "text": "autoimmune disease"
+        }
+      ]
+    }
+  ],
+  "scope": "offline compilation only; no gate/product/ranking outcomes recomputed"
+}

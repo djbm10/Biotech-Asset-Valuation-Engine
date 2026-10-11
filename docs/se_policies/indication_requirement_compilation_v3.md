@@ -1,6 +1,6 @@
 # INDICATION_REQUIREMENT_COMPILATION v3
 
-Status: PREREGISTERED, 2026-10-11. Baseline clean HEAD 2633539.
+Status: ADOPTED, 2026-10-11. Baseline clean HEAD 2633539.
 
 ## Diagnosis and hypothesis
 
@@ -102,3 +102,28 @@ the unchanged literal gate can still falsely FAIL correctly compiled disease phr
 No development score is generalization evidence. Stop before gate implementation; next
 separate milestone is INDICATION_GATE_SEMANTICS v1. No live acquisitions or long replays.
 H16–H20 remain untouched primary validation; H6–H10 remain unrun secondary validation.
+
+## Adoption result — frozen rules unchanged
+
+Preregistration 5e972d5; implementation 4cdfa8a. C3.1–C3.8 ALL PASS.
+Offline exact compilation: 103/103; entire original v2 population: 76/76.
+All 19 grammatical negations retain one operator and one original UNRESOLVED clinical
+span; no entity lookup receives the consumed negator. Six biological contexts and the
+NOT/ALG3/NR4A2 resolver outcomes remain unchanged. Three ambiguous controls stay refused.
+TAC01, mint5, JCAR014 PASS and all 16 gate controls preserved. Every protected source /
+v2 policy/result hash matches; the source diff is solely the five preregistered files.
+
+Targeted tests 117 passed. Full tests/se 1,672 passed, 3 expected xfails (1,675 collected).
+ruff check src/ clean. No post-result source patch or oracle/criterion changes.
+Research artifacts include the sealed population, raw score, combined acceptance, test/
+lint output and offline diagnostic_compilation_readout.json. All six development disease
+queries now produce one coherent requirement; H13 remains UNRESOLVED because its source
+locator is Finding-typed. This is compilation correctness, not gate compatibility or
+generalization evidence. Negation is retained, but exclusion semantics is not enforced
+by the unchanged indication gate. No reference visibility/shortlist score is asserted.
+
+The failed v2 record remains byte-identical and permanently retained. No gate milestone
+implementation, live acquisition/replay, H16–H20 exposure or H6–H10 run occurred.
+Next separate milestone: INDICATION_GATE_SEMANTICS v1, with its own diagnosis/population/
+preregistration before changing same-disease, synonym/subtype, incompatibility or sparse-
+evidence UNKNOWN decisions. Stop compilation work here.
