@@ -11,10 +11,11 @@ modality to make the pipeline run would reintroduce exactly the guessing M9A rem
 
 from __future__ import annotations
 
+import re
 from datetime import date
 
-from bve.se.intent.intent import SearchIntent
-from bve.se.intent.indication_compilation import compilation_version, indication_spans
+from bve.se.intent.intent import IntentSpan, SearchIntent, SpanKind
+from bve.se.ontology.indications import resolve_indication_phrase
 from bve.se.ontology.targets import target_aliases
 from bve.se.schemas.contracts import (
     BuyerIdentity,
@@ -54,8 +55,8 @@ def compile_intent(
 
     ``therapeutic_areas`` and ``indications`` are caller-supplied because neither can be
     derived from the question without a disease ontology; when omitted, the therapeutic
-    area is recorded as ``UNSPECIFIED`` and coherent clinical query spans become the
-    indications, preserving unresolved normalization as original free text.
+    area is recorded as ``UNSPECIFIED`` and the intent's residual terms become the
+    indications, flagged as unverified free text rather than resolved concepts.
 
     They are also the answer to a ``NEEDS_CLARIFICATION`` blocker. A question naming a
     disease *class* does not compile on its own, because the class cannot be enforced; once
@@ -100,21 +101,43 @@ def compile_intent(
     return BuyerProblemV2(
         problem_id=intent.problem_id,
         # Both halves matter for replay: the compiler and the snapshot it resolved against.
-        version=f"{intent.compiler_version}__{intent.ontology_version}__{compilation_version()}",
+        version=f"{intent.compiler_version}__{intent.ontology_version}",
         buyer=buyer,
         strategic_gap=gap,
     )
 
 
-def residual_indications(intent: SearchIntent) -> list[str]:
-    """Coherent indication clauses, with the existing B-cell concept preserved.
+#: What may separate two residual words that still belong to one disease phrase.
+_PHRASE_GLUE = re.compile(r"(?:[\s/,\-]|\b(?:or|and)\b)*", re.IGNORECASE)
 
-    Query-role provenance is available through ``indication_spans``. Neither parser
-    residuals nor the asset indication evaluator is changed by compilation.
+
+def residual_indications(intent: SearchIntent) -> list[str]:
+    """The question's leftover words as indications, one concept per disease phrase.
+
+    Adjacent residual words form one phrase. A phrase that names a known indication concept
+    compiles to that concept ("relapsed or refractory B-cell lymphoma" is one requirement,
+    not four); any other phrase keeps its words as literals, exactly as before.
+    ``intent.residual_terms`` is not touched: it also drives trial retrieval.
     """
-    return list(dict.fromkeys(
-        span.requirement for span in indication_spans(intent) if span.requirement is not None
-    ))
+
+    query = intent.original_query
+    phrases: list[list[IntentSpan]] = []
+    previous: IntentSpan | None = None
+    for span in sorted(intent.spans, key=lambda s: (s.start, s.end)):
+        if span.kind is not SpanKind.RESIDUAL:
+            previous = None
+            continue
+        if previous is not None and _PHRASE_GLUE.fullmatch(query[previous.end : span.start]):
+            phrases[-1].append(span)
+        else:
+            phrases.append([span])
+        previous = span
+
+    indications: list[str] = []
+    for phrase in phrases:
+        concept = resolve_indication_phrase(query[phrase[0].start : phrase[-1].end])
+        indications.extend([concept] if concept else [span.text for span in phrase])
+    return list(dict.fromkeys(indications))
 
 
 def build_buyer_identity(name: str, *, as_of_date: date, buyer_id: str | None = None) -> BuyerIdentity:
