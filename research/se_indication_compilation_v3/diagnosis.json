@@ -1,0 +1,609 @@
+{
+  "Find ALG3 (NOT) inhibitors for melanoma.": {
+    "ambiguous_terms": [
+      "NOT"
+    ],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": false,
+    "minimum_stage": null,
+    "modalities": [],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "Find ALG3 (NOT) inhibitors for melanoma.",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [
+      "inhibitors",
+      "melanoma"
+    ],
+    "spans": [
+      {
+        "candidates": [],
+        "end": 9,
+        "explanation": "'ALG3' -> symbol alias 'ALG3' asserted by chembl, open_targets -> ALG3 -> merged on uniprot:Q92685",
+        "kind": "TARGET",
+        "resolved_to": "ALG3",
+        "rule": "unique_alias_match",
+        "start": 5,
+        "text": "ALG3"
+      },
+      {
+        "candidates": [
+          "TARGET:ALG3",
+          "TARGET:NR4A2"
+        ],
+        "end": 15,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 10,
+        "text": "NOT"
+      },
+      {
+        "candidates": [],
+        "end": 26,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 16,
+        "text": "inhibitors"
+      },
+      {
+        "candidates": [],
+        "end": 40,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 31,
+        "text": "melanoma"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [
+      {
+        "aliases": [],
+        "canonical_id": "ALG3",
+        "label": "ALG3"
+      }
+    ],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "ambiguous terms left unresolved (escalate rather than guess): NOT",
+      "unrecognized terms carried as free text, not as resolved criteria: inhibitors, melanoma"
+    ]
+  },
+  "Find ALG3 inhibitors.": {
+    "ambiguous_terms": [],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": false,
+    "minimum_stage": null,
+    "modalities": [],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "Find ALG3 inhibitors.",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [
+      "inhibitors"
+    ],
+    "spans": [
+      {
+        "candidates": [],
+        "end": 9,
+        "explanation": "'ALG3' -> symbol alias 'ALG3' asserted by chembl, open_targets -> ALG3 -> merged on uniprot:Q92685",
+        "kind": "TARGET",
+        "resolved_to": "ALG3",
+        "rule": "unique_alias_match",
+        "start": 5,
+        "text": "ALG3"
+      },
+      {
+        "candidates": [],
+        "end": 21,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 10,
+        "text": "inhibitors"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [
+      {
+        "aliases": [],
+        "canonical_id": "ALG3",
+        "label": "ALG3"
+      }
+    ],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "unrecognized terms carried as free text, not as resolved criteria: inhibitors"
+    ]
+  },
+  "Find NOT protein.": {
+    "ambiguous_terms": [
+      "NOT"
+    ],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": false,
+    "minimum_stage": null,
+    "modalities": [],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "Find NOT protein.",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [
+      "protein"
+    ],
+    "spans": [
+      {
+        "candidates": [
+          "TARGET:ALG3",
+          "TARGET:NR4A2"
+        ],
+        "end": 8,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 5,
+        "text": "NOT"
+      },
+      {
+        "candidates": [],
+        "end": 17,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 9,
+        "text": "protein"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "ambiguous terms left unresolved (escalate rather than guess): NOT",
+      "unrecognized terms carried as free text, not as resolved criteria: protein"
+    ]
+  },
+  "Find NOT target.": {
+    "ambiguous_terms": [
+      "NOT"
+    ],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": false,
+    "minimum_stage": null,
+    "modalities": [],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "Find NOT target.",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [],
+    "spans": [
+      {
+        "candidates": [
+          "TARGET:ALG3",
+          "TARGET:NR4A2"
+        ],
+        "end": 8,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 5,
+        "text": "NOT"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "ambiguous terms left unresolved (escalate rather than guess): NOT"
+    ]
+  },
+  "Find NOT-directed antibodies for melanoma.": {
+    "ambiguous_terms": [
+      "NOT"
+    ],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": false,
+    "minimum_stage": null,
+    "modalities": [
+      "MONOCLONAL_ANTIBODY"
+    ],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "Find NOT-directed antibodies for melanoma.",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [
+      "melanoma"
+    ],
+    "spans": [
+      {
+        "candidates": [
+          "TARGET:ALG3",
+          "TARGET:NR4A2"
+        ],
+        "end": 8,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 5,
+        "text": "NOT"
+      },
+      {
+        "candidates": [],
+        "end": 28,
+        "explanation": null,
+        "kind": "MODALITY",
+        "resolved_to": "MONOCLONAL_ANTIBODY",
+        "rule": "modality_vocabulary",
+        "start": 18,
+        "text": "antibodies"
+      },
+      {
+        "candidates": [],
+        "end": 42,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 33,
+        "text": "melanoma"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "ambiguous terms left unresolved (escalate rather than guess): NOT",
+      "unrecognized terms carried as free text, not as resolved criteria: melanoma"
+    ]
+  },
+  "Find NR4A2 (NOT) inhibitors for melanoma.": {
+    "ambiguous_terms": [
+      "NOT"
+    ],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": false,
+    "minimum_stage": null,
+    "modalities": [],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "Find NR4A2 (NOT) inhibitors for melanoma.",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [
+      "inhibitors",
+      "melanoma"
+    ],
+    "spans": [
+      {
+        "candidates": [],
+        "end": 10,
+        "explanation": "'NR4A2' -> symbol alias 'NR4A2' asserted by chembl, open_targets -> NR4A2 -> merged on uniprot:P43354",
+        "kind": "TARGET",
+        "resolved_to": "NR4A2",
+        "rule": "unique_alias_match",
+        "start": 5,
+        "text": "NR4A2"
+      },
+      {
+        "candidates": [
+          "TARGET:ALG3",
+          "TARGET:NR4A2"
+        ],
+        "end": 16,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 11,
+        "text": "NOT"
+      },
+      {
+        "candidates": [],
+        "end": 27,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 17,
+        "text": "inhibitors"
+      },
+      {
+        "candidates": [],
+        "end": 41,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 32,
+        "text": "melanoma"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [
+      {
+        "aliases": [],
+        "canonical_id": "NR4A2",
+        "label": "NR4A2"
+      }
+    ],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "ambiguous terms left unresolved (escalate rather than guess): NOT",
+      "unrecognized terms carried as free text, not as resolved criteria: inhibitors, melanoma"
+    ]
+  },
+  "Find clinical-stage CD19 CAR-T for not melanoma with human efficacy.": {
+    "ambiguous_terms": [
+      "not"
+    ],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": true,
+    "minimum_stage": "PHASE_1",
+    "modalities": [
+      "CAR_T"
+    ],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "Find clinical-stage CD19 CAR-T for not melanoma with human efficacy.",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [
+      "melanoma"
+    ],
+    "spans": [
+      {
+        "candidates": [],
+        "end": 19,
+        "explanation": null,
+        "kind": "EVIDENCE",
+        "resolved_to": "minimum_stage",
+        "rule": "evidence_clinical_stage_vocabulary",
+        "start": 5,
+        "text": "clinical-stage"
+      },
+      {
+        "candidates": [],
+        "end": 24,
+        "explanation": "'CD19' -> symbol alias 'CD19' asserted by chembl, open_targets -> CD19 -> merged on uniprot:P15391",
+        "kind": "TARGET",
+        "resolved_to": "CD19",
+        "rule": "unique_alias_match",
+        "start": 20,
+        "text": "CD19"
+      },
+      {
+        "candidates": [],
+        "end": 30,
+        "explanation": null,
+        "kind": "MODALITY",
+        "resolved_to": "CAR_T",
+        "rule": "modality_vocabulary",
+        "start": 25,
+        "text": "CAR-T"
+      },
+      {
+        "candidates": [
+          "TARGET:ALG3",
+          "TARGET:NR4A2"
+        ],
+        "end": 38,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 35,
+        "text": "not"
+      },
+      {
+        "candidates": [],
+        "end": 47,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 39,
+        "text": "melanoma"
+      },
+      {
+        "candidates": [],
+        "end": 68,
+        "explanation": null,
+        "kind": "EVIDENCE",
+        "resolved_to": "human_poc_required",
+        "rule": "evidence_human_poc_vocabulary",
+        "start": 53,
+        "text": "human efficacy"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [
+      {
+        "aliases": [],
+        "canonical_id": "CD19",
+        "label": "CD19"
+      }
+    ],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "ambiguous terms left unresolved (escalate rather than guess): not",
+      "unrecognized terms carried as free text, not as resolved criteria: melanoma"
+    ]
+  },
+  "Find not Quux illness.": {
+    "ambiguous_terms": [
+      "not"
+    ],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": false,
+    "minimum_stage": null,
+    "modalities": [],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "Find not Quux illness.",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [
+      "Quux",
+      "illness"
+    ],
+    "spans": [
+      {
+        "candidates": [
+          "TARGET:ALG3",
+          "TARGET:NR4A2"
+        ],
+        "end": 8,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 5,
+        "text": "not"
+      },
+      {
+        "candidates": [],
+        "end": 13,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 9,
+        "text": "Quux"
+      },
+      {
+        "candidates": [],
+        "end": 22,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 14,
+        "text": "illness"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "ambiguous terms left unresolved (escalate rather than guess): not",
+      "unrecognized terms carried as free text, not as resolved criteria: Quux, illness"
+    ]
+  },
+  "NOT": {
+    "ambiguous_terms": [
+      "NOT"
+    ],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": false,
+    "minimum_stage": null,
+    "modalities": [],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "NOT",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [],
+    "spans": [
+      {
+        "candidates": [
+          "TARGET:ALG3",
+          "TARGET:NR4A2"
+        ],
+        "end": 3,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 0,
+        "text": "NOT"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "ambiguous terms left unresolved (escalate rather than guess): NOT"
+    ]
+  },
+  "not": {
+    "ambiguous_terms": [
+      "not"
+    ],
+    "compiler_version": "intent_v1",
+    "conjunction_stated": false,
+    "human_poc_required": false,
+    "minimum_stage": null,
+    "modalities": [],
+    "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "original_query": "not",
+    "phase_operator": "EXACT",
+    "phases": [],
+    "residual_terms": [],
+    "spans": [
+      {
+        "candidates": [
+          "TARGET:ALG3",
+          "TARGET:NR4A2"
+        ],
+        "end": 3,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 0,
+        "text": "not"
+      }
+    ],
+    "statuses": [],
+    "target_operator": "ANY",
+    "targets": [],
+    "unresolved_scientific_terms": [],
+    "warnings": [
+      "ambiguous terms left unresolved (escalate rather than guess): not"
+    ]
+  },
+  "resolve:ALG3": {
+    "candidates": [],
+    "entity": "TARGET:ALG3",
+    "rule": "unique_alias_match",
+    "status": "RESOLVED"
+  },
+  "resolve:NOT": {
+    "candidates": [
+      "TARGET:ALG3",
+      "TARGET:NR4A2"
+    ],
+    "entity": null,
+    "rule": "homonym_requires_escalation",
+    "status": "AMBIGUOUS"
+  },
+  "resolve:NR4A2": {
+    "candidates": [],
+    "entity": "TARGET:NR4A2",
+    "rule": "unique_alias_match",
+    "status": "RESOLVED"
+  }
+}
