@@ -1,5 +1,30 @@
 # Codex handoff — S&E engine, 2026-10-11
 
+## Current gate milestone — DIAGNOSIS ONLY, evidence contract unresolved (2026-10-11)
+
+Production remains adopted compilation v3 at **ebbb554**. No gate code or query
+compilation changed. Diagnosis and baseline freeze:
+docs/se_policies/indication_gate_semantics_v1_diagnosis.md and
+research/se_indication_gate_semantics_v1/ (manifest, provenance audit, baseline population).
+Frozen: 38 references, 655 historical diagnostic indication-only exclusions, prior
+16 semantic controls, TAC01/mint5, compilation readout and all source hashes.
+Current reference indication decisions: **0 PASS / 5 UNKNOWN / 33 FAIL**.
+
+All 9,127 indication facts across eight existing runs are unreviewed registry first-
+condition strings, not exhaustive asset inventories or negative incompatibility
+assertions. Different disease evidence cannot establish asset-level incompatibility.
+G3 cannot be made nonvacuous from these facts without a new negative-evidence contract.
+Stop under the user's unresolved scientific/architecture exception: decide whether
+to authorize an explicit reviewed, claim-backed asset-level incompatibility assertion
+contract, or separately defer FAIL/G3. No preregistration or acceptance score exists
+yet; do not treat this diagnosis as an adopted/reverted experiment.
+
+Next: resolve that contract, then preregister and execute gate semantics. All prior
+failures and compilation v3 remain preserved. **H16–H20 completely untouched;
+H6–H10 unrun.** No live acquisition/replay or terminal run is needed now.
+
+## Preserved adopted compilation result
+
 ## Current outcome — INDICATION_REQUIREMENT_COMPILATION v3 ADOPTED (2026-10-11)
 
 Clean baseline **2633539**, preregistration **5e972d5**, implementation **4cdfa8a**.
