@@ -26,6 +26,8 @@ INTENT_COMPILER_VERSION = "intent_v1"
 
 
 class SpanKind(str, Enum):
+    #: Query grammar consumes this span before any entity lookup.
+    GRAMMATICAL_OPERATOR = "GRAMMATICAL_OPERATOR"
     TARGET = "TARGET"
     MODALITY = "MODALITY"
     PHASE = "PHASE"

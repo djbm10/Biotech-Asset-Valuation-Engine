@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import re
 
+from bve.se.intent.grammar import grammatical_negations
 from bve.se.intent.intent import INTENT_COMPILER_VERSION, IntentSpan, SearchIntent, SpanKind
 from bve.se.ontology.modality import known_modalities, modality_aliases, normalize_modality
 from bve.se.ontology.resolver import ResolutionStatus
@@ -384,10 +385,11 @@ def parse_query(query: str) -> SearchIntent:
     """
 
     original_query = query
+    operator_spans = grammatical_negations(query)
     query = _strip_target_affixes(query)
 
-    spans: list[IntentSpan] = []
-    consumed: list[tuple[int, int]] = []
+    spans: list[IntentSpan] = list(operator_spans)
+    consumed: list[tuple[int, int]] = [(span.start, span.end) for span in operator_spans]
     warnings: list[str] = []
 
     def overlaps(start: int, end: int) -> bool:
