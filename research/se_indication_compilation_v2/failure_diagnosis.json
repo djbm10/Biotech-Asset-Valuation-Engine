@@ -1,0 +1,19 @@
+{
+  "H16_H20": "untouched",
+  "expected": [
+    "not NSCLC"
+  ],
+  "frozen_control": "general_negated",
+  "live_acquisitions_or_replays": 0,
+  "next_principled_option": "New compilation-only preregistration with grammatical operator/span binding preceding typed component trimming; explicit conservative retention for overlapping lexical roles. Do not implement gate semantics before compilation adoption.",
+  "no_post_result_patch": true,
+  "observed": [
+    "NSCLC"
+  ],
+  "parser": "AMBIGUOUS_TARGET: TARGET:ALG3, TARGET:NR4A2; unchanged",
+  "root_cause": "NCIt molecular alias NOT overlaps query negation; component trimming overrides soft AMBIGUOUS_TARGET and erases not before NSCLC. Grammar/negation must bind before molecular component roles. No target parser or gate fix is justified here.",
+  "scientific_risk": "positive assertion replaces negated requested disease",
+  "source_roles": {
+    "not": "nonclinical component alias"
+  }
+}

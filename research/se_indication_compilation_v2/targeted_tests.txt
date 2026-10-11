@@ -1,0 +1,36 @@
+F..F.................................................................... [ 62%]
+............................................                             [100%]
+=================================== FAILURES ===================================
+_____________________ test_frozen_compilation_contract[C1] _____________________
+
+result = {'JCAR014': {'analyst_override': None, 'gate_id': 'strategic_sandbox', 'next_action': None, 'observed_fact_ids': ['jca...': {'C1': False, 'C2': True, 'C3': True, 'C4': False, ...}, 'gate_controls_unchanged': True, 'positive_count': 35, ...}
+criterion = 'C1'
+
+    @pytest.mark.parametrize("criterion", ["C1", "C2", "C3", "C4", "C5", "C6", "C7"])
+    def test_frozen_compilation_contract(result, criterion):
+>       assert result["criteria"][criterion], [
+            (r["id"], r["after"], r["expected"], r["spans"])
+            for r in result["records"] if not r["exact"]
+        ]
+E       AssertionError: [('general_negated', ['NSCLC'], ['not NSCLC'], [{'aliases': ('nsclc',), 'codes': ('C2926',), 'end': 29, 'normalization': 'RECOGNIZED', ...}])]
+E       assert False
+
+tests/se/test_indication_compilation_v2.py:19: AssertionError
+_____________________ test_frozen_compilation_contract[C4] _____________________
+
+result = {'JCAR014': {'analyst_override': None, 'gate_id': 'strategic_sandbox', 'next_action': None, 'observed_fact_ids': ['jca...': {'C1': False, 'C2': True, 'C3': True, 'C4': False, ...}, 'gate_controls_unchanged': True, 'positive_count': 35, ...}
+criterion = 'C4'
+
+    @pytest.mark.parametrize("criterion", ["C1", "C2", "C3", "C4", "C5", "C6", "C7"])
+    def test_frozen_compilation_contract(result, criterion):
+>       assert result["criteria"][criterion], [
+            (r["id"], r["after"], r["expected"], r["spans"])
+            for r in result["records"] if not r["exact"]
+        ]
+E       AssertionError: [('general_negated', ['NSCLC'], ['not NSCLC'], [{'aliases': ('nsclc',), 'codes': ('C2926',), 'end': 29, 'normalization': 'RECOGNIZED', ...}])]
+E       assert False
+
+tests/se/test_indication_compilation_v2.py:19: AssertionError
+=========================== short test summary info ============================
+FAILED tests/se/test_indication_compilation_v2.py::test_frozen_compilation_contract[C1]
+FAILED tests/se/test_indication_compilation_v2.py::test_frozen_compilation_contract[C4]

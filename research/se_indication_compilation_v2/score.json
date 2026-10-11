@@ -1,0 +1,1871 @@
+{
+  "JCAR014": {
+    "analyst_override": null,
+    "gate_id": "strategic_sandbox",
+    "next_action": null,
+    "observed_fact_ids": [
+      "jcar"
+    ],
+    "override_rationale": null,
+    "rationale": "Observed indication satisfies buyer requirement strategy.indication.",
+    "requirement_id": "strategy.indication",
+    "status": "PASS",
+    "subject_id": "JCAR014",
+    "supporting_or_contradictory_claim_ids": [
+      "jcar_claim"
+    ]
+  },
+  "criteria": {
+    "C1": false,
+    "C2": true,
+    "C3": true,
+    "C4": false,
+    "C5": true,
+    "C6": true,
+    "C7": true
+  },
+  "gate_controls_unchanged": true,
+  "positive_count": 35,
+  "protected_source": true,
+  "records": [
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "id": "H11",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find clinical-stage TIGIT antibodies for non-small cell lung cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 67,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 41,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "paroxysmal nocturnal hemoglobinuria"
+      ],
+      "before": [
+        "complement",
+        "inhibitors",
+        "paroxysmal",
+        "nocturnal",
+        "hemoglobinuria"
+      ],
+      "exact": true,
+      "expected": [
+        "paroxysmal nocturnal hemoglobinuria"
+      ],
+      "id": "H12",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find clinical-stage C5 complement inhibitors for paroxysmal nocturnal hemoglobinuria.",
+      "spans": [
+        {
+          "aliases": [
+            "paroxysmal nocturnal hemoglobinuria"
+          ],
+          "codes": [
+            "C61233"
+          ],
+          "end": 84,
+          "normalization": "RECOGNIZED",
+          "requirement": "paroxysmal nocturnal hemoglobinuria",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 49,
+          "text": "paroxysmal nocturnal hemoglobinuria"
+        }
+      ]
+    },
+    {
+      "after": [
+        "hidradenitis suppurativa"
+      ],
+      "before": [
+        "hidradenitis",
+        "suppurativa"
+      ],
+      "exact": true,
+      "expected": [
+        "hidradenitis suppurativa"
+      ],
+      "id": "H13",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find clinical-stage anti-IL-17A antibodies for hidradenitis suppurativa.",
+      "spans": [
+        {
+          "aliases": [
+            "hidradenitis",
+            "hidradenitis suppurativa"
+          ],
+          "codes": [
+            "C112190",
+            "C128429"
+          ],
+          "end": 71,
+          "normalization": "UNRESOLVED",
+          "requirement": "hidradenitis suppurativa",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 47,
+          "text": "hidradenitis suppurativa"
+        }
+      ]
+    },
+    {
+      "after": [
+        "multiple myeloma"
+      ],
+      "before": [
+        "multiple",
+        "myeloma"
+      ],
+      "exact": true,
+      "expected": [
+        "multiple myeloma"
+      ],
+      "id": "H14",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find clinical-stage CD38-directed antibodies for multiple myeloma.",
+      "spans": [
+        {
+          "aliases": [
+            "multiple myeloma",
+            "myeloma"
+          ],
+          "codes": [
+            "C3242"
+          ],
+          "end": 65,
+          "normalization": "RECOGNIZED",
+          "requirement": "multiple myeloma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 49,
+          "text": "multiple myeloma"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "G12C",
+        "inhibitors",
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "id": "H2",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find clinical-stage KRAS G12C inhibitors for non-small cell lung cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 71,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 45,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "ulcerative colitis"
+      ],
+      "before": [
+        "ulcerative",
+        "colitis"
+      ],
+      "exact": true,
+      "expected": [
+        "ulcerative colitis"
+      ],
+      "id": "H4",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find clinical-stage TL1A antibodies for ulcerative colitis.",
+      "spans": [
+        {
+          "aliases": [
+            "colitis",
+            "ulcerative",
+            "ulcerative colitis"
+          ],
+          "codes": [
+            "C26723",
+            "C2952",
+            "C3426"
+          ],
+          "end": 58,
+          "normalization": "RECOGNIZED",
+          "requirement": "ulcerative colitis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 40,
+          "text": "ulcerative colitis"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "id": "TAC01",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find clinical-stage CD19 cell therapies for relapsed or refractory B-cell lymphoma.",
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma",
+            "refractory b cell lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587",
+            "C8842"
+          ],
+          "end": 82,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 44,
+          "text": "relapsed or refractory B-cell lymphoma"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "mint5",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with human efficacy.",
+      "spans": [
+        {
+          "aliases": [
+            "autoimmune disease",
+            "disease"
+          ],
+          "codes": [
+            "C2889",
+            "C2991"
+          ],
+          "end": 67,
+          "normalization": "DELEGATED_CLASS",
+          "requirement": null,
+          "rule": "existing_scientific_class",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 49,
+          "text": "autoimmune disease"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "id": "v1_same",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "id": "v1_synonym",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "id": "v1_subtype",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "id": "v1_incompatible",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "ulcerative colitis"
+      ],
+      "before": [
+        "ulcerative",
+        "colitis"
+      ],
+      "exact": true,
+      "expected": [
+        "ulcerative colitis"
+      ],
+      "id": "v1_incompatible_reverse",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for ulcerative colitis.",
+      "spans": [
+        {
+          "aliases": [
+            "colitis",
+            "ulcerative",
+            "ulcerative colitis"
+          ],
+          "codes": [
+            "C26723",
+            "C2952",
+            "C3426"
+          ],
+          "end": 38,
+          "normalization": "RECOGNIZED",
+          "requirement": "ulcerative colitis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "ulcerative colitis"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "id": "v1_incomparable",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "id": "v1_broader",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "Investigational syndrome ZZ9"
+      ],
+      "before": [
+        "ZZ9"
+      ],
+      "exact": true,
+      "expected": [
+        "Investigational syndrome ZZ9"
+      ],
+      "id": "v1_unrecognized_request",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for Investigational syndrome ZZ9.",
+      "spans": [
+        {
+          "aliases": [
+            "syndrome"
+          ],
+          "codes": [
+            "C28193"
+          ],
+          "end": 48,
+          "normalization": "UNRESOLVED",
+          "requirement": "Investigational syndrome ZZ9",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "Investigational syndrome ZZ9"
+        }
+      ]
+    },
+    {
+      "after": [
+        "non-small cell lung cancer"
+      ],
+      "before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "non-small cell lung cancer"
+      ],
+      "id": "v1_negation",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for non-small cell lung cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "cancer",
+            "lung cancer",
+            "non small cell lung cancer"
+          ],
+          "codes": [
+            "C2926",
+            "C4878",
+            "C7377",
+            "C9305"
+          ],
+          "end": 46,
+          "normalization": "RECOGNIZED",
+          "requirement": "non-small cell lung cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "non-small cell lung cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "id": "v1_bcell_same",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "id": "v1_bcell_subtype",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "id": "v1_bcell_disjoint",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "id": "v1_bcell_tcell",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "id": "v1_bcell_broader",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ]
+    },
+    {
+      "after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "exact": true,
+      "expected": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "id": "v1_bcell_unrecognized",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for B-cell lymphoma.",
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "INDICATION:B_CELL_LYMPHOMA",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "B-cell lymphoma"
+        }
+      ]
+    },
+    {
+      "after": [
+        "Investigational syndrome ZZ9"
+      ],
+      "before": [
+        "ZZ9"
+      ],
+      "exact": true,
+      "expected": [
+        "Investigational syndrome ZZ9"
+      ],
+      "id": "v1_unrecognized_identical",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for Investigational syndrome ZZ9.",
+      "spans": [
+        {
+          "aliases": [
+            "syndrome"
+          ],
+          "codes": [
+            "C28193"
+          ],
+          "end": 48,
+          "normalization": "UNRESOLVED",
+          "requirement": "Investigational syndrome ZZ9",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "Investigational syndrome ZZ9"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": [
+        "inhibitor"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_inhibitor",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T inhibitor.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "inhibitor"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_inhibitor",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for inhibitor.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "inhibitors"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_inhibitors",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T inhibitors.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "inhibitors"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_inhibitors",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for inhibitors.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_antibody",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T antibody.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_antibody",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for antibody.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_antibodies",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T antibodies.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_antibodies",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for antibodies.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "complement"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_complement",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T complement.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "complement"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_complement",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for complement.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "G12C"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_G12C",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T G12C.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "G12C"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_G12C",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for G12C.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_KRAS",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T KRAS.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_KRAS",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for KRAS.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_CD19",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T CD19.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_CD19",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for CD19.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_TIGIT",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T TIGIT.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_TIGIT",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for TIGIT.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_C5",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T C5.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_C5",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for C5.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_IL17A",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T IL17A.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_IL17A",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for IL17A.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_CD38",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T CD38.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_CD38",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for CD38.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_CAR-T",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T CAR-T.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_CAR-T",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for CAR-T.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_bispecific",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T bispecific.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_bispecific",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for bispecific.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_small molecule",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T small molecule.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_small molecule",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for small molecule.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "clinical"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_clinical",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T clinical.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "clinical"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_clinical",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for clinical.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "research"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_research",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T research.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "research"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_research",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for research.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_bare_human efficacy",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T human efficacy.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "leak_for_human efficacy",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for human efficacy.",
+      "spans": []
+    },
+    {
+      "after": [
+        "lupus nephritis"
+      ],
+      "before": [
+        "lupus",
+        "nephritis"
+      ],
+      "exact": true,
+      "expected": [
+        "lupus nephritis"
+      ],
+      "id": "general_lupus",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for lupus nephritis.",
+      "spans": [
+        {
+          "aliases": [
+            "lupus",
+            "lupus nephritis",
+            "nephritis"
+          ],
+          "codes": [
+            "C26833",
+            "C27153",
+            "C34789"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "lupus nephritis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "lupus nephritis"
+        }
+      ]
+    },
+    {
+      "after": [
+        "lupus nephritis"
+      ],
+      "before": [
+        "lupus",
+        "nephritis"
+      ],
+      "exact": true,
+      "expected": [
+        "lupus nephritis"
+      ],
+      "id": "general_implicit_lupus",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T lupus nephritis.",
+      "spans": [
+        {
+          "aliases": [
+            "lupus",
+            "lupus nephritis",
+            "nephritis"
+          ],
+          "codes": [
+            "C26833",
+            "C27153",
+            "C34789"
+          ],
+          "end": 31,
+          "normalization": "RECOGNIZED",
+          "requirement": "lupus nephritis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 16,
+          "text": "lupus nephritis"
+        }
+      ]
+    },
+    {
+      "after": [
+        "breast cancer"
+      ],
+      "before": [
+        "breast",
+        "cancer"
+      ],
+      "exact": true,
+      "expected": [
+        "breast cancer"
+      ],
+      "id": "general_breast",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for breast cancer.",
+      "spans": [
+        {
+          "aliases": [
+            "breast cancer",
+            "cancer"
+          ],
+          "codes": [
+            "C118809",
+            "C4872",
+            "C9305",
+            "C9335"
+          ],
+          "end": 33,
+          "normalization": "UNRESOLVED",
+          "requirement": "breast cancer",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "breast cancer"
+        }
+      ]
+    },
+    {
+      "after": [
+        "Quux illness"
+      ],
+      "before": [
+        "Quux",
+        "illness"
+      ],
+      "exact": true,
+      "expected": [
+        "Quux illness"
+      ],
+      "id": "general_unknown",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for Quux illness.",
+      "spans": [
+        {
+          "aliases": [],
+          "codes": [],
+          "end": 32,
+          "normalization": "UNRESOLVED",
+          "requirement": "Quux illness",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "Quux illness"
+        }
+      ]
+    },
+    {
+      "after": [
+        "Investigational syndrome ZZ9"
+      ],
+      "before": [
+        "ZZ9"
+      ],
+      "exact": true,
+      "expected": [
+        "Investigational syndrome ZZ9"
+      ],
+      "id": "general_syndrome",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for Investigational syndrome ZZ9.",
+      "spans": [
+        {
+          "aliases": [
+            "syndrome"
+          ],
+          "codes": [
+            "C28193"
+          ],
+          "end": 48,
+          "normalization": "UNRESOLVED",
+          "requirement": "Investigational syndrome ZZ9",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "Investigational syndrome ZZ9"
+        }
+      ]
+    },
+    {
+      "after": [
+        "NSCLC"
+      ],
+      "before": [
+        "NSCLC"
+      ],
+      "exact": false,
+      "expected": [
+        "not NSCLC"
+      ],
+      "id": "general_negated",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for not NSCLC.",
+      "spans": [
+        {
+          "aliases": [
+            "nsclc"
+          ],
+          "codes": [
+            "C2926"
+          ],
+          "end": 29,
+          "normalization": "RECOGNIZED",
+          "requirement": "NSCLC",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 24,
+          "text": "NSCLC"
+        }
+      ]
+    },
+    {
+      "after": [
+        "diffuse large B-cell lymphoma, not otherwise specified"
+      ],
+      "before": [
+        "diffuse",
+        "INDICATION:B_CELL_LYMPHOMA",
+        "otherwise",
+        "specified"
+      ],
+      "exact": true,
+      "expected": [
+        "diffuse large B-cell lymphoma, not otherwise specified"
+      ],
+      "id": "general_nos",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for diffuse large B-cell lymphoma, not otherwise specified.",
+      "spans": [
+        {
+          "aliases": [
+            "b cell lymphoma",
+            "diffuse",
+            "diffuse large b cell lymphoma",
+            "diffuse large b cell lymphoma not otherwise specified",
+            "lymphoma"
+          ],
+          "codes": [
+            "C188021",
+            "C21602",
+            "C3208",
+            "C3457",
+            "C5165",
+            "C7587",
+            "C7615",
+            "C7616",
+            "C80280",
+            "C8851",
+            "C9159"
+          ],
+          "end": 74,
+          "normalization": "RECOGNIZED",
+          "requirement": "diffuse large B-cell lymphoma, not otherwise specified",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "diffuse large B-cell lymphoma, not otherwise specified"
+        }
+      ]
+    },
+    {
+      "after": [
+        "lupus nephritis"
+      ],
+      "before": [
+        "lupus",
+        "nephritis"
+      ],
+      "exact": true,
+      "expected": [
+        "lupus nephritis"
+      ],
+      "id": "general_front",
+      "isolation": true,
+      "offsets": true,
+      "query": "For lupus nephritis, find CD19 CAR-T.",
+      "spans": [
+        {
+          "aliases": [
+            "lupus",
+            "lupus nephritis",
+            "nephritis"
+          ],
+          "codes": [
+            "C26833",
+            "C27153",
+            "C34789"
+          ],
+          "end": 19,
+          "normalization": "RECOGNIZED",
+          "requirement": "lupus nephritis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 4,
+          "text": "lupus nephritis"
+        }
+      ]
+    },
+    {
+      "after": [
+        "lupus nephritis"
+      ],
+      "before": [
+        "lupus",
+        "nephritis"
+      ],
+      "exact": true,
+      "expected": [
+        "lupus nephritis"
+      ],
+      "id": "general_evidence",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for lupus nephritis with human efficacy.",
+      "spans": [
+        {
+          "aliases": [
+            "lupus",
+            "lupus nephritis",
+            "nephritis"
+          ],
+          "codes": [
+            "C26833",
+            "C27153",
+            "C34789"
+          ],
+          "end": 35,
+          "normalization": "RECOGNIZED",
+          "requirement": "lupus nephritis",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "lupus nephritis"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": [
+        "complement",
+        "inhibitors"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "general_format",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for complement inhibitors.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "G13D",
+        "inhibitors"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "general_mutation",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for G13D inhibitors.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [
+        "research"
+      ],
+      "exact": true,
+      "expected": [],
+      "id": "general_research",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for research.",
+      "spans": []
+    },
+    {
+      "after": [],
+      "before": [],
+      "exact": true,
+      "expected": [],
+      "id": "general_no_disease",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T.",
+      "spans": []
+    },
+    {
+      "after": [
+        "breast cancer or melanoma"
+      ],
+      "before": [
+        "breast",
+        "cancer",
+        "melanoma"
+      ],
+      "exact": true,
+      "expected": [
+        "breast cancer or melanoma"
+      ],
+      "id": "general_coordination",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for breast cancer or melanoma.",
+      "spans": [
+        {
+          "aliases": [
+            "breast cancer",
+            "cancer",
+            "melanoma"
+          ],
+          "codes": [
+            "C118809",
+            "C21790",
+            "C3224",
+            "C4872",
+            "C9305",
+            "C9335"
+          ],
+          "end": 45,
+          "normalization": "UNRESOLVED",
+          "requirement": "breast cancer or melanoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "breast cancer or melanoma"
+        }
+      ]
+    },
+    {
+      "after": [
+        "severe Quux illness"
+      ],
+      "before": [
+        "severe",
+        "Quux",
+        "illness"
+      ],
+      "exact": true,
+      "expected": [
+        "severe Quux illness"
+      ],
+      "id": "general_qualified",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 CAR-T for severe Quux illness.",
+      "spans": [
+        {
+          "aliases": [
+            "severe"
+          ],
+          "codes": [
+            "C189227"
+          ],
+          "end": 39,
+          "normalization": "UNRESOLVED",
+          "requirement": "severe Quux illness",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 20,
+          "text": "severe Quux illness"
+        }
+      ]
+    },
+    {
+      "after": [
+        "lymphoma"
+      ],
+      "before": [
+        "B-cell",
+        "lymphoma"
+      ],
+      "exact": true,
+      "expected": [
+        "lymphoma"
+      ],
+      "id": "general_boundary",
+      "isolation": true,
+      "offsets": true,
+      "query": "Find CD19 B-cell CAR-T for lymphoma.",
+      "spans": [
+        {
+          "aliases": [
+            "lymphoma"
+          ],
+          "codes": [
+            "C21602",
+            "C3208",
+            "C5165",
+            "C7587"
+          ],
+          "end": 35,
+          "normalization": "UNRESOLVED",
+          "requirement": "lymphoma",
+          "rule": "original_clinical_clause",
+          "source_fingerprint": "fd11482f834b11e901c9b123bf316ec60fbad1d0f4cb7fd394a32c4b3964144c",
+          "start": 27,
+          "text": "lymphoma"
+        }
+      ]
+    }
+  ],
+  "sealed": true
+}

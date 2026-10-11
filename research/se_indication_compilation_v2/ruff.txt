@@ -1,0 +1,34 @@
+E741 Ambiguous variable name: `l`
+   --> src/bve/se/intent/indication_compilation.py:136:28
+    |
+134 |             continue
+135 |         a, b = tokens[left].start(), tokens[right - 1].end()
+136 |         contained = [l for l in locators if left <= l[0] and l[1] <= right]
+    |                            ^
+137 |         text = query[a:b]
+138 |         delegated = any(s.start == a and s.end == b for s in classes)
+    |
+
+E741 Ambiguous variable name: `l`
+   --> src/bve/se/intent/indication_compilation.py:155:36
+    |
+153 |             a, b, text, None if delegated else concept or text, normalization,
+154 |             "existing_scientific_class" if delegated else "original_clinical_clause",
+155 |             tuple(sorted({l[2] for l in contained})),
+    |                                    ^
+156 |             tuple(sorted({code for l in contained for code in l[3]})), roles["fingerprint"],
+157 |         ))
+    |
+
+E741 Ambiguous variable name: `l`
+   --> src/bve/se/intent/indication_compilation.py:156:36
+    |
+154 |             "existing_scientific_class" if delegated else "original_clinical_clause",
+155 |             tuple(sorted({l[2] for l in contained})),
+156 |             tuple(sorted({code for l in contained for code in l[3]})), roles["fingerprint"],
+    |                                    ^
+157 |         ))
+158 |     return result
+    |
+
+Found 3 errors.

@@ -1,6 +1,6 @@
 # INDICATION_REQUIREMENT_COMPILATION v2
 
-Status: PREREGISTERED, 2026-10-11. Baseline 7f09c26. Compilation ONLY.
+Status: FAILED_ACCEPTANCE; implementation scheduled for normal reversion, 2026-10-11. Baseline 7f09c26. Compilation ONLY.
 INDICATION_REQUIREMENT_SEMANTICS v1 remains FAILED_ACCEPTANCE / REVERTED and authoritative.
 
 ## Diagnosis, hypothesis and representation
@@ -124,3 +124,22 @@ unchanged JCAR014/gate semantics, update handoff. Do not require the 33 referenc
 visible and do not infer generalization from development queries. Gate false FAILs remain
 a separately diagnosed downstream problem. No live acquisition/replay or H16–H20 exposure.
 Then preregister INDICATION_GATE_SEMANTICS v1 separately; do not implement it in this turn.
+
+## Frozen result (no revised rule)
+
+Preregistration 30bfdbe; implementation f46dd76. Offline exact compilation: 75/76.
+C1 FAIL, C2 PASS, C3 PASS, C4 FAIL, C5 PASS, C6 PASS, C7 PASS, C8 FAIL.
+All six diagnostic requirements became coherent; all 41 negative query controls passed.
+TAC01, mint5, JCAR014 PASS, all 16 gate controls and protected source hashes preserved.
+The general negation query requested `not NSCLC` but produced `NSCLC`. NCIt's NOT
+molecular alias caused independent component trimming to erase a grammatical operator,
+despite the existing AMBIGUOUS_TARGET span being a soft disease-span boundary. This can
+turn a negative request into a positive assertion and blocks adoption. No patch follows.
+
+Targeted tests: 114 passed, 2 failed. Full tests/se: 1,669 passed, 2 failed, 3 expected
+xfails (1,674 collected). Ruff: FAIL, three E741 naming violations. Exact failed tests,
+scoring, quality gates and root cause retained under research/se_indication_compilation_v2.
+No gate milestone is preregistered or implemented because compilation has not been adopted.
+Next option requires a NEW compilation-only preregistration giving query grammatical
+operators precedence over molecular alias roles and conservatively retaining overlap.
+H16–H20 remain untouched; no live acquisition/replay or outcome inspection.

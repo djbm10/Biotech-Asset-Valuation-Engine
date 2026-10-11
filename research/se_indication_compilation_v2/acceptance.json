@@ -1,0 +1,45 @@
+{
+  "criteria": {
+    "C1": false,
+    "C2": true,
+    "C3": true,
+    "C4": false,
+    "C5": true,
+    "C6": true,
+    "C7": true,
+    "C8": false
+  },
+  "exact_query_controls": {
+    "passed": 75,
+    "total": 76
+  },
+  "implementation": "f46dd76",
+  "preregistration": "30bfdbe",
+  "quality": {
+    "failed_tests": [
+      "tests/se/test_indication_compilation_v2.py::test_frozen_compilation_contract[C1]",
+      "tests/se/test_indication_compilation_v2.py::test_frozen_compilation_contract[C4]"
+    ],
+    "ruff": {
+      "command": "ruff check src/",
+      "errors": {
+        "E741": 3
+      },
+      "exit_code": 1
+    },
+    "targeted": {
+      "collected": 116,
+      "exit_code": 1,
+      "failed": 2,
+      "passed": 114
+    },
+    "tests_se": {
+      "collected": 1674,
+      "exit_code": 1,
+      "expected_xfailed": 3,
+      "failed": 2,
+      "passed": 1669
+    }
+  },
+  "status": "FAILED_ACCEPTANCE"
+}
