@@ -205,25 +205,26 @@ def evaluate_indication(
     ("Relapsed/Refractory DLBCL" for B-cell lymphoma). An asset developed in several
     indications addresses the request if any of them does. A condition naming only an
     ancestor ("Lymphoma") cannot confirm or rule out the subtype, so it is UNKNOWN, never
-    PASS. Literal entries in the same request keep the exact comparison.
+    PASS. Literal entries resolve through the same disease authority; unknown names stay UNKNOWN.
     """
 
-    from bve.se.ontology.indications import ConditionMatch, classify_condition, is_indication_concept
+    from bve.se.ontology.indications import ConditionMatch, classify_condition
 
     matching = [fact for fact in facts if fact.fact_type == requirement.fact_type]
     undecidable = _undecidable(requirement, subject_id=subject_id, matching=matching, gate_id=gate_id)
     if undecidable is not None:
         return undecidable
 
-    concepts = [value for value in requirement.expected_value if is_indication_concept(value)]
-    literals = [value for value in requirement.expected_value if not is_indication_concept(value)]
+    concepts = requirement.expected_value
     outcomes: set[ConditionMatch] = set()
     for fact in matching:
         for condition in fact.value if isinstance(fact.value, list) else [fact.value]:
-            if condition in literals:
-                outcomes.add(ConditionMatch.MATCH)
-            elif isinstance(condition, str):
+            if isinstance(condition, str):
                 outcomes.update(classify_condition(condition, concept) for concept in concepts)
+            else:
+                outcomes.add(ConditionMatch.UNDETERMINED)
+    if not outcomes:
+        outcomes.add(ConditionMatch.UNDETERMINED)
 
     decided = {
         "gate_id": gate_id,
@@ -233,14 +234,15 @@ def evaluate_indication(
         "supporting_or_contradictory_claim_ids": _claim_ids(matching),
     }
     if ConditionMatch.MATCH in outcomes:
-        return GateDecision(**decided, status=GateStatus.PASS, rationale=requirement.pass_condition)
+        return GateDecision(**decided, status=GateStatus.PASS,
+                            rationale=f"NCIt 26.08e / frozen B-cell same-or-subtype evidence satisfies {concepts}.")
     if ConditionMatch.UNDETERMINED in outcomes:
         return GateDecision(
             **decided,
             status=GateStatus.UNKNOWN,
             rationale=(
-                f"Observed indications name only a broader disease than {concepts}, which "
-                "neither confirms nor rules out the requested indication."
+                f"Indication evidence is broader, ambiguous or semantically incomparable with {concepts} "
+                "under NCIt 26.08e / frozen B-cell rules."
             ),
             next_action="Confirm the specific indication the asset is developed in.",
         )
