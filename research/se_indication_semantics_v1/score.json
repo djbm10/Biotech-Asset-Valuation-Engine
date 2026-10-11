@@ -1,0 +1,1282 @@
+{
+  "controls": [
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "id": "same",
+      "observed": "Non Small Cell Lung Cancer",
+      "rationale": "NCIt 26.08e / frozen B-cell same-or-subtype evidence satisfies ['non-small cell lung cancer'].",
+      "requested": "non-small cell lung cancer"
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "id": "synonym",
+      "observed": "NSCLC",
+      "rationale": "NCIt 26.08e / frozen B-cell same-or-subtype evidence satisfies ['non-small cell lung cancer'].",
+      "requested": "non-small cell lung cancer"
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "id": "subtype",
+      "observed": "Lung Adenocarcinoma",
+      "rationale": "NCIt 26.08e / frozen B-cell same-or-subtype evidence satisfies ['non-small cell lung cancer'].",
+      "requested": "non-small cell lung cancer"
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "id": "incompatible",
+      "observed": "Ulcerative Colitis",
+      "rationale": "Observed indication conflicts with buyer requirement strategy.indication.",
+      "requested": "non-small cell lung cancer"
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "id": "incompatible_reverse",
+      "observed": "Non Small Cell Lung Cancer",
+      "rationale": "Observed indication conflicts with buyer requirement strategy.indication.",
+      "requested": "ulcerative colitis"
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "id": "incomparable",
+      "observed": "Investigational syndrome ZZ9",
+      "rationale": "Indication evidence is broader, ambiguous or semantically incomparable with ['non-small cell lung cancer'] under NCIt 26.08e / frozen B-cell rules.",
+      "requested": "non-small cell lung cancer"
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "id": "broader",
+      "observed": "Malignant Lung Neoplasm",
+      "rationale": "Indication evidence is broader, ambiguous or semantically incomparable with ['non-small cell lung cancer'] under NCIt 26.08e / frozen B-cell rules.",
+      "requested": "non-small cell lung cancer"
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "id": "unrecognized_request",
+      "observed": "NSCLC",
+      "rationale": "Indication evidence is broader, ambiguous or semantically incomparable with ['Investigational syndrome ZZ9'] under NCIt 26.08e / frozen B-cell rules.",
+      "requested": "Investigational syndrome ZZ9"
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "id": "negation",
+      "observed": "Not NSCLC",
+      "rationale": "Indication evidence is broader, ambiguous or semantically incomparable with ['non-small cell lung cancer'] under NCIt 26.08e / frozen B-cell rules.",
+      "requested": "non-small cell lung cancer"
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "id": "bcell_same",
+      "observed": "B-cell lymphoma",
+      "rationale": "NCIt 26.08e / frozen B-cell same-or-subtype evidence satisfies ['INDICATION:B_CELL_LYMPHOMA'].",
+      "requested": "INDICATION:B_CELL_LYMPHOMA"
+    },
+    {
+      "actual": "PASS",
+      "expected": "PASS",
+      "id": "bcell_subtype",
+      "observed": "Follicular Lymphoma",
+      "rationale": "NCIt 26.08e / frozen B-cell same-or-subtype evidence satisfies ['INDICATION:B_CELL_LYMPHOMA'].",
+      "requested": "INDICATION:B_CELL_LYMPHOMA"
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "id": "bcell_disjoint",
+      "observed": "Hodgkin Lymphoma",
+      "rationale": "Observed indication conflicts with buyer requirement strategy.indication.",
+      "requested": "INDICATION:B_CELL_LYMPHOMA"
+    },
+    {
+      "actual": "FAIL",
+      "expected": "FAIL",
+      "id": "bcell_tcell",
+      "observed": "Peripheral T-cell Lymphoma",
+      "rationale": "Observed indication conflicts with buyer requirement strategy.indication.",
+      "requested": "INDICATION:B_CELL_LYMPHOMA"
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "id": "bcell_broader",
+      "observed": "Lymphoma",
+      "rationale": "Indication evidence is broader, ambiguous or semantically incomparable with ['INDICATION:B_CELL_LYMPHOMA'] under NCIt 26.08e / frozen B-cell rules.",
+      "requested": "INDICATION:B_CELL_LYMPHOMA"
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "id": "bcell_unrecognized",
+      "observed": "Investigational syndrome ZZ9",
+      "rationale": "Indication evidence is broader, ambiguous or semantically incomparable with ['INDICATION:B_CELL_LYMPHOMA'] under NCIt 26.08e / frozen B-cell rules.",
+      "requested": "INDICATION:B_CELL_LYMPHOMA"
+    },
+    {
+      "actual": "UNKNOWN",
+      "expected": "UNKNOWN",
+      "id": "unrecognized_identical",
+      "observed": "Investigational syndrome ZZ9",
+      "rationale": "Indication evidence is broader, ambiguous or semantically incomparable with ['Investigational syndrome ZZ9'] under NCIt 26.08e / frozen B-cell rules.",
+      "requested": "Investigational syndrome ZZ9"
+    }
+  ],
+  "criteria": {
+    "I1": false,
+    "I2": true,
+    "I3": true,
+    "I4": true,
+    "I5": false,
+    "I6": false,
+    "I7_mechanical": true,
+    "I7_review": "PENDING_INDEPENDENT_CONDITION_REVIEW",
+    "I8": false
+  },
+  "leakage": {
+    "C5": [],
+    "CAR-T": [],
+    "CD19": [],
+    "CD38": [],
+    "G12C": [],
+    "IL17A": [],
+    "KRAS": [],
+    "TIGIT": [],
+    "antibodies": [],
+    "antibody": [],
+    "bispecific": [],
+    "clinical": [],
+    "complement": [],
+    "human efficacy": [],
+    "inhibitor": [],
+    "inhibitors": [],
+    "research": [],
+    "small molecule": []
+  },
+  "queries": {
+    "H11": {
+      "after_top20": [
+        "asset:9821e6dcf8c5fe29f562",
+        "asset:4e8c6c7dea1dc8423955",
+        "asset:914d55f4c015d8d7607d",
+        "asset:efdd476e78d139672346",
+        "asset:54acb6258bce96ca3dae",
+        "asset:8a097f0284fe9e2fc37d",
+        "asset:c4beaa7df37591cd72c3",
+        "asset:6c30246a4fe70d394d69",
+        "asset:d6f7e2a6d90ffa4f4cfd",
+        "asset:68b26578e303bd8ee758",
+        "asset:db822fae2c2b6704736d",
+        "asset:f2c5eda8a758b20956e5",
+        "asset:3bfa2e9b1416aff4c04f",
+        "asset:82e56867e1582f837fd6",
+        "asset:db265cd428fbd3946a44",
+        "asset:bb47a3b3ac9755652387",
+        "asset:6d6298bbc9760161bc27",
+        "asset:e9eadcd1aff767e58dd0",
+        "asset:e92ad71c707048247e0a",
+        "asset:3f60bbd2a50d2fafc6f2"
+      ],
+      "before_top20": [
+        "asset:6c30246a4fe70d394d69",
+        "asset:d6f7e2a6d90ffa4f4cfd",
+        "asset:68b26578e303bd8ee758",
+        "asset:db822fae2c2b6704736d",
+        "asset:f2c5eda8a758b20956e5",
+        "asset:3bfa2e9b1416aff4c04f",
+        "asset:cf80c971427305ea0d30",
+        "asset:41e05a7f542101a362db",
+        "asset:8603fc152af62a5fb2ed",
+        "asset:1af158be8a5d9809bbf0",
+        "asset:e3de7a37cc741d619107",
+        "asset:1ed7bf4bdca942df2bdd",
+        "asset:a0c9d502b6550c433f12",
+        "asset:8978c19151f6de9a95ff",
+        "asset:b5ace5eec8f4e9d6dc02",
+        "asset:285fb1a192707c595b36",
+        "asset:464f3024d97d7267b16f",
+        "asset:76e573eb53daff3bf921",
+        "asset:dadbdf8dfe0874042cd9",
+        "asset:f649eab7be33e10357a7"
+      ],
+      "isolation": true,
+      "new_pass_conditions": {},
+      "only_indication_excluded_before": 27,
+      "only_indication_recovered": 27,
+      "passes_preserved": true,
+      "query": "Find clinical-stage TIGIT antibodies for non-small cell lung cancer.",
+      "references": [
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:914d55f4c015d8d7607d",
+          "excluded_before": true,
+          "name": "Tiragolumab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:54acb6258bce96ca3dae",
+          "excluded_before": true,
+          "name": "Domvanalimab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:9821e6dcf8c5fe29f562",
+          "excluded_before": true,
+          "name": "vibostolimab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:4e8c6c7dea1dc8423955",
+          "excluded_before": true,
+          "name": "Ociperlimab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:c4beaa7df37591cd72c3",
+          "excluded_before": true,
+          "name": "belrestotug",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:efdd476e78d139672346",
+          "excluded_before": true,
+          "name": "Rilvegostomig",
+          "visible": true
+        }
+      ],
+      "requirements_after": [],
+      "requirements_before": [
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "top20_unchanged": false,
+      "transitions": {
+        "FAIL->NO_REQUIREMENT": 31,
+        "UNKNOWN->NO_REQUIREMENT": 118
+      },
+      "unknowns_preserved": true,
+      "visible_after": 54,
+      "visible_before": 27
+    },
+    "H12": {
+      "after_top20": [
+        "asset:9aad383fc402532572b2",
+        "asset:714a0ebfffe7a2d24c9f",
+        "asset:7d9fbf4bccb645d52b86",
+        "asset:17e976d1eb6ee9dd3f87",
+        "asset:f23478192f5559561365",
+        "asset:61640e1312e3a5a2a753",
+        "asset:f1c1ab7c9bbd1e92d479",
+        "asset:a18e4021746296897a5f",
+        "asset:1f58c04a3f6724b1ca38",
+        "asset:6988f71b7fcae9751c42",
+        "asset:6703d402dae49443d6c1",
+        "asset:9d41f4ad6bfc7acc19f0",
+        "asset:c7e451b44b6907ba5f48",
+        "asset:ed176f0b43c519f1bfa3",
+        "asset:61946f19c33c308999e2",
+        "asset:636f525c11cb44ae5ce8",
+        "asset:8d98a8f6a14436eb627e",
+        "asset:96911277946155a16729",
+        "asset:85520b7f4d5f8d6bda24",
+        "asset:3648d1835dbd1fc704c8"
+      ],
+      "before_top20": [
+        "asset:1f58c04a3f6724b1ca38",
+        "asset:6988f71b7fcae9751c42",
+        "asset:6703d402dae49443d6c1",
+        "asset:9d41f4ad6bfc7acc19f0",
+        "asset:c7e451b44b6907ba5f48",
+        "asset:ed176f0b43c519f1bfa3",
+        "asset:61946f19c33c308999e2",
+        "asset:636f525c11cb44ae5ce8",
+        "asset:8d98a8f6a14436eb627e",
+        "asset:85520b7f4d5f8d6bda24",
+        "asset:78a8423c01cab40d2406",
+        "asset:8a3358d301b04977398d",
+        "asset:d09294742770e26b6170",
+        "asset:6fdbb55dfa1f476a72b5",
+        "asset:2ee7dcd1f258492fe2bd",
+        "asset:e28592c2bc2b5c66f43e",
+        "asset:68d2cfca7d48830a3706",
+        "asset:05bae376d63dbec79671",
+        "asset:db9dd7043f9008f17d5d",
+        "asset:5720b8a57ae42f5061f7"
+      ],
+      "isolation": true,
+      "new_pass_conditions": {
+        "Advanced Age-related Macular Degeneration": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "Age-Related Macular Degeneration": {
+          "INDICATION:NCIT:C61233": "NO"
+        },
+        "Antibody-mediated Rejection": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "Atypical Hemolytic Uremic Syndrome": {
+          "INDICATION:NCIT:C61233": "NO"
+        },
+        "Autoimmune Diseases": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "CD55 - Cluster of Differentiation Antigen 55 Deficiency": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "COVID19": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "Covid19": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "Delayed Graft Function": {
+          "INDICATION:NCIT:C61233": "NO"
+        },
+        "Generalized Myasthenia Gravis": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "Generalized Myasthenia Gravis (gMG)": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "Guillain-Barre Syndrome": {
+          "INDICATION:NCIT:C61233": "NO"
+        },
+        "Healthy": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "Hemolytic Uremic Syndrome of Childhood": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "Lupus Nephritis": {
+          "INDICATION:NCIT:C61233": "NO"
+        },
+        "Neuromyelitis Optica Spectrum Disorder Attack": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "PNH - Paroxysmal Nocturnal Hemoglobinuria": {
+          "INDICATION:NCIT:C61233": "MATCH"
+        },
+        "Paroxysmal Nocturnal Haemoglobinuria (PNH)": {
+          "INDICATION:NCIT:C61233": "UNDETERMINED"
+        },
+        "Paroxysmal Nocturnal Hemoglobinuria": {
+          "INDICATION:NCIT:C61233": "MATCH"
+        },
+        "Paroxysmal Nocturnal Hemoglobinuria (PNH)": {
+          "INDICATION:NCIT:C61233": "MATCH"
+        },
+        "Paroxysmal Nocturnal Hemoglobinuria (PNH) With Signs of Active Hemolysis": {
+          "INDICATION:NCIT:C61233": "MATCH"
+        }
+      },
+      "only_indication_excluded_before": 62,
+      "only_indication_recovered": 52,
+      "passes_preserved": true,
+      "query": "Find clinical-stage C5 complement inhibitors for paroxysmal nocturnal hemoglobinuria.",
+      "references": [
+        {
+          "after": "PASS",
+          "asset_id": "asset:9aad383fc402532572b2",
+          "excluded_before": true,
+          "name": "Soliris",
+          "visible": true
+        },
+        {
+          "after": "PASS",
+          "asset_id": "asset:714a0ebfffe7a2d24c9f",
+          "excluded_before": true,
+          "name": "Ravulizumab",
+          "visible": true
+        },
+        {
+          "after": "FAIL",
+          "asset_id": "asset:0d86782567f80f1443e2",
+          "excluded_before": true,
+          "name": "Crovalimab",
+          "visible": false
+        },
+        {
+          "after": "PASS",
+          "asset_id": "asset:7d9fbf4bccb645d52b86",
+          "excluded_before": true,
+          "name": "pozelimab",
+          "visible": true
+        },
+        {
+          "after": "FAIL",
+          "asset_id": "asset:495736f3aa0f663b8c96",
+          "excluded_before": true,
+          "name": "zilucoplan",
+          "visible": false
+        },
+        {
+          "after": "PASS",
+          "asset_id": "asset:c4467a2fdc090d7a7c1a",
+          "excluded_before": true,
+          "name": "Cemdisiran",
+          "visible": true
+        },
+        {
+          "after": "PASS",
+          "asset_id": "asset:f1c1ab7c9bbd1e92d479",
+          "excluded_before": true,
+          "name": "tesidolumab",
+          "visible": true
+        }
+      ],
+      "requirements_after": [
+        "INDICATION:NCIT:C61233"
+      ],
+      "requirements_before": [
+        "complement",
+        "inhibitors",
+        "paroxysmal",
+        "nocturnal",
+        "hemoglobinuria"
+      ],
+      "top20_unchanged": false,
+      "transitions": {
+        "FAIL->FAIL": 16,
+        "FAIL->PASS": 18,
+        "FAIL->UNKNOWN": 55,
+        "UNKNOWN->UNKNOWN": 742
+      },
+      "unknowns_preserved": true,
+      "visible_after": 336,
+      "visible_before": 284
+    },
+    "H13": {
+      "after_top20": [
+        "asset:43c6b4e3d20826fddb59",
+        "asset:21f14c367e6a6b66bb3e",
+        "asset:8ba8b9edcc033f4b916a",
+        "asset:149e6127b37515be027a",
+        "asset:c0910083c476c364891f",
+        "asset:7eb928187389c72896f4",
+        "asset:16f63ba924ee76444a28",
+        "asset:a86a591b160a12d63c37",
+        "asset:983229d455e7d3fe414c",
+        "asset:803ae461c007e6cceb82",
+        "asset:3a0e2bf17a3e528703ff",
+        "asset:47d9956a57431541e4d4",
+        "asset:0eab2fc8f1f238800602",
+        "asset:d6f7e2a6d90ffa4f4cfd",
+        "asset:9715a132c581ba392cf9",
+        "asset:519b1d97611dd80d2d1b",
+        "asset:56a1932f86a3a993e03a",
+        "asset:31cf8b9bcab48f947301",
+        "asset:192917aaaafcfe2600db",
+        "asset:717054b2fa15f9b3add2"
+      ],
+      "before_top20": [
+        "asset:8ba8b9edcc033f4b916a",
+        "asset:16f63ba924ee76444a28",
+        "asset:983229d455e7d3fe414c",
+        "asset:803ae461c007e6cceb82",
+        "asset:3a0e2bf17a3e528703ff",
+        "asset:47d9956a57431541e4d4",
+        "asset:0eab2fc8f1f238800602",
+        "asset:d6f7e2a6d90ffa4f4cfd",
+        "asset:9715a132c581ba392cf9",
+        "asset:519b1d97611dd80d2d1b",
+        "asset:56a1932f86a3a993e03a",
+        "asset:31cf8b9bcab48f947301",
+        "asset:192917aaaafcfe2600db",
+        "asset:de97d565be232ecb88d7",
+        "asset:18e7e57a3537ffa43184",
+        "asset:1753678e92bc0e98b8ca",
+        "asset:8abd7eb9b7b06597f3f4",
+        "asset:16994e0b91ccff0b8369",
+        "asset:86ca8b8cfcf05906cee0",
+        "asset:bad60ae8e38b0c6c7a17"
+      ],
+      "isolation": true,
+      "new_pass_conditions": {},
+      "only_indication_excluded_before": 33,
+      "only_indication_recovered": 33,
+      "passes_preserved": true,
+      "query": "Find clinical-stage anti-IL-17A antibodies for hidradenitis suppurativa.",
+      "references": [
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:43c6b4e3d20826fddb59",
+          "excluded_before": true,
+          "name": "Secukinumab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:c0910083c476c364891f",
+          "excluded_before": true,
+          "name": "Ixekizumab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:149e6127b37515be027a",
+          "excluded_before": true,
+          "name": "Bimekizumab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:62badf026c5e77ecc666",
+          "excluded_before": true,
+          "name": "Izokibep",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:ac25cb1472b6d944df56",
+          "excluded_before": true,
+          "name": "Sonelokimab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:56a1932f86a3a993e03a",
+          "excluded_before": false,
+          "name": "netakimab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:21f14c367e6a6b66bb3e",
+          "excluded_before": true,
+          "name": "Vunakizumab",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:9563ee9f47dbd1a47ac2",
+          "excluded_before": true,
+          "name": "Xeligekimab",
+          "visible": true
+        }
+      ],
+      "requirements_after": [],
+      "requirements_before": [
+        "hidradenitis",
+        "suppurativa"
+      ],
+      "top20_unchanged": false,
+      "transitions": {
+        "FAIL->NO_REQUIREMENT": 42,
+        "UNKNOWN->NO_REQUIREMENT": 454
+      },
+      "unknowns_preserved": true,
+      "visible_after": 266,
+      "visible_before": 233
+    },
+    "H14": {
+      "after_top20": [
+        "asset:527be7aa10bdf25ef299",
+        "asset:8872e3946add80963cf7",
+        "asset:943d9066ea540b427cc1",
+        "asset:69ed59c986add190f384",
+        "asset:7974e4605656ff99033b",
+        "asset:983229d455e7d3fe414c",
+        "asset:617f8e9deec6423a92d4",
+        "asset:4ebe99c4f7920f934aea",
+        "asset:7fc8fe7c635ef7de685e",
+        "asset:43668977360f1c627d16",
+        "asset:0eab2fc8f1f238800602",
+        "asset:d6f7e2a6d90ffa4f4cfd",
+        "asset:1d99c282f25a4947427b",
+        "asset:a16205a00f8be501e503",
+        "asset:192917aaaafcfe2600db",
+        "asset:5d99fc118bdc7627c998",
+        "asset:d7e80399c7bd03e70a06",
+        "asset:cf0285222d5951a5bee7",
+        "asset:5e472fe5c062a20e1378",
+        "asset:d42c97a0880ccd66bce4"
+      ],
+      "before_top20": [
+        "asset:7974e4605656ff99033b",
+        "asset:983229d455e7d3fe414c",
+        "asset:617f8e9deec6423a92d4",
+        "asset:4ebe99c4f7920f934aea",
+        "asset:7fc8fe7c635ef7de685e",
+        "asset:43668977360f1c627d16",
+        "asset:0eab2fc8f1f238800602",
+        "asset:d6f7e2a6d90ffa4f4cfd",
+        "asset:1d99c282f25a4947427b",
+        "asset:a16205a00f8be501e503",
+        "asset:192917aaaafcfe2600db",
+        "asset:01d75764ec80207a1db4",
+        "asset:207980de7e613b54f16e",
+        "asset:78a8423c01cab40d2406",
+        "asset:16396b1e5eef68270edb",
+        "asset:2cbdac35ac1f9ff8e746",
+        "asset:18e7e57a3537ffa43184",
+        "asset:0c8b0d6525bb61b9c974",
+        "asset:cd00982ad695e9202c31",
+        "asset:57c3a74406e697c15f30"
+      ],
+      "isolation": true,
+      "new_pass_conditions": {
+        "AL Amyloidosis": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "AL Amyloidosis (AL)": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Acquired Hemophilia": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Acute Lymphoblastic Leukemia": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Acute Myeloid Leukemia": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Advanced Solid Tumor": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Allosensitization": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Amyloid Light-chain Amyloidosis": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Antibody-mediated Rejection": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Aplastic Anemia": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Autoimmune Disorders": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Bladder Urothelial Carcinoma": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Breast Adenocarcinoma": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Cavernous Malformation, Cerebral": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Chronic Lymphocytic Leukemia": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Elranatamab": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Glomerulonephritis": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Glomerulonephritis, Membranous": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Hematological Malignancies": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Hematological Malignancy": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "High Risk Myelodysplastic Syndrome": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Highly Sensitized Prospective Kidney Transplant Recipients": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "ISS Stage III Plasma Cell Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "ITP - Immune Thrombocytopenia": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Immune System Disorder": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Immune Thrombocytopenia": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Immunoglobulin A (IgA) Nephropathy": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Light Chain (AL) Amyloidosis": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Lymphoma": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Lymphoma, Primary Effusion": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Malignant Neoplasms of Male Genital Organs": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Membranous Nephropathy": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Minimal Residual Disease": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Monoclonal Gammopathy": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Multiple Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Multiple Myeloma (MM)": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Multiple Myeloma Progression": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Multiple Myeloma in Relapse": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Myeloma Multiple": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "NHL": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Neoplasm": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Nephrotic Syndrome": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Newly Diagnosed Multiple Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Newly Diagnosed Primary Amyloidosis": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "POEMS Syndrome": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Pancreatic Ductal Adenocarcinoma": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Plasma Cell Leukemia": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Plasma Cell Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Plasma Cell Myeloma Refractory": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Plasmablastic Lymphoma": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Prostate Adenocarcinoma": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Prostate Cancer": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Recurrent Chronic Lymphocytic Leukemia": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Recurrent Multiple Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Recurrent Plasma Cell Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Refractory T Acute Lymphoblastic Leukemia": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Refractory T-Cell Lymphoma": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Relapsed Cancer": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Relapsed Hematologic Malignancy": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Relapsed Refractory Multiple Myeloma (RRMM)": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Relapsed or Refractory Multiple Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Relapsed or Refractory Multiple Myeloma (RRMM)": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Relapsed/ Refractory Multiple Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Relapsed/Refractory": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Relapsed/Refractory Multiple Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Relapsed/Refractory Multiple Myeloma(MM)": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Sickle Cell Disease": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Smoldering Plasma Cell Myeloma": {
+          "INDICATION:NCIT:C3242": "MATCH"
+        },
+        "Stage II T Lymphoblastic Leukemia/Lymphoma": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "Systemic Lupus Erythematosus": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "T-ALL": {
+          "INDICATION:NCIT:C3242": "NO"
+        },
+        "T-Lymphocytic Leukemia, Acute": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "T-cell Type Acute Leukemia-Precursor": {
+          "INDICATION:NCIT:C3242": "UNDETERMINED"
+        },
+        "Waldenstr\u00f6m Macroglobulinemia": {
+          "INDICATION:NCIT:C3242": "NO"
+        }
+      },
+      "only_indication_excluded_before": 87,
+      "only_indication_recovered": 74,
+      "passes_preserved": true,
+      "query": "Find clinical-stage CD38-directed antibodies for multiple myeloma.",
+      "references": [
+        {
+          "after": "PASS",
+          "asset_id": "asset:527be7aa10bdf25ef299",
+          "excluded_before": true,
+          "name": "Daratumumab",
+          "visible": true
+        },
+        {
+          "after": "PASS",
+          "asset_id": "asset:69ed59c986add190f384",
+          "excluded_before": true,
+          "name": "Isatuximab",
+          "visible": true
+        },
+        {
+          "after": "PASS",
+          "asset_id": "asset:8872e3946add80963cf7",
+          "excluded_before": true,
+          "name": "Felzartamab",
+          "visible": true
+        },
+        {
+          "after": "PASS",
+          "asset_id": "asset:943d9066ea540b427cc1",
+          "excluded_before": true,
+          "name": "mezagitamab",
+          "visible": true
+        },
+        {
+          "after": "PASS",
+          "asset_id": "asset:ea8a0b57247b00e41a25",
+          "excluded_before": true,
+          "name": "CID-103",
+          "visible": true
+        }
+      ],
+      "requirements_after": [
+        "INDICATION:NCIT:C3242"
+      ],
+      "requirements_before": [
+        "multiple",
+        "myeloma"
+      ],
+      "top20_unchanged": false,
+      "transitions": {
+        "FAIL->FAIL": 19,
+        "FAIL->PASS": 42,
+        "FAIL->UNKNOWN": 56,
+        "UNKNOWN->UNKNOWN": 614
+      },
+      "unknowns_preserved": true,
+      "visible_after": 347,
+      "visible_before": 273
+    },
+    "H2": {
+      "after_top20": [
+        "asset:5424de82fbd893db71a0",
+        "asset:ced227bb307da4b299be",
+        "asset:f7511b87a36a49135dd6",
+        "asset:78204fa34ee314f558f0",
+        "asset:bd90c2c5dc49c329dd1c",
+        "asset:d0ca2c8b85d2f52ab55a",
+        "asset:cd1d729b885c7a8b5fd6",
+        "asset:3099003666f56942a6d1",
+        "asset:b4fc0b500d2d2aa210f8",
+        "asset:89c414fc6d433e7d7208",
+        "asset:afc6703fcf54a91f3237",
+        "asset:3c438615d657aeb6df0e",
+        "asset:e7aa7cbcd50d18669e3c",
+        "asset:a27e1cf0bb71d0fba68a",
+        "asset:efa0866fb96b27e9e193",
+        "asset:a94721677a23dd42c855",
+        "asset:dc2ff31083ffd9a389c4",
+        "asset:70b6d9d82743635d7f7c",
+        "asset:230fe85f2efd3a681788",
+        "asset:b4641da7159e98e2b8e1"
+      ],
+      "before_top20": [
+        "asset:3292673d624be02852a8",
+        "asset:24445334bcef4006d373",
+        "asset:2ed6eb9a131fc497a785",
+        "asset:78a8423c01cab40d2406",
+        "asset:8a3358d301b04977398d",
+        "asset:099482deb9299b52a556",
+        "asset:d09294742770e26b6170",
+        "asset:6fdbb55dfa1f476a72b5",
+        "asset:2ee7dcd1f258492fe2bd",
+        "asset:46b83076a89e023e7964",
+        "asset:68d2cfca7d48830a3706",
+        "asset:7974e4605656ff99033b",
+        "asset:05bae376d63dbec79671",
+        "asset:97964cd4b04edb88fd3b",
+        "asset:5720b8a57ae42f5061f7",
+        "asset:7f2d75dbb4e4ea5f893b",
+        "asset:a16205a00f8be501e503",
+        "asset:0a201cc607dd0d902988",
+        "asset:79cbbe258ec26691cb38",
+        "asset:8d30d136ecb2a1d21729"
+      ],
+      "isolation": true,
+      "new_pass_conditions": {},
+      "only_indication_excluded_before": 444,
+      "only_indication_recovered": 444,
+      "passes_preserved": true,
+      "query": "Find clinical-stage KRAS G12C inhibitors for non-small cell lung cancer.",
+      "references": [
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:ced227bb307da4b299be",
+          "excluded_before": true,
+          "name": "Sotorasib",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:5424de82fbd893db71a0",
+          "excluded_before": true,
+          "name": "Adagrasib",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:4874da22101d03944ca7",
+          "excluded_before": true,
+          "name": "Divarasib",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:9c5381b40258f20c8396",
+          "excluded_before": true,
+          "name": "olomorasib",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:43244a687d45a5beabf1",
+          "excluded_before": true,
+          "name": "Garsorasib",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:c07c07535ddbe6df8cae",
+          "excluded_before": true,
+          "name": "fulzerasib",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:e92d0de3e9b1ba813ad3",
+          "excluded_before": true,
+          "name": "glecirasib",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:3099003666f56942a6d1",
+          "excluded_before": true,
+          "name": "opnurasib",
+          "visible": true
+        },
+        {
+          "after": "NO_REQUIREMENT",
+          "asset_id": "asset:59f21cf39051c6d67ad1",
+          "excluded_before": false,
+          "name": "elironrasib",
+          "visible": true
+        }
+      ],
+      "requirements_after": [],
+      "requirements_before": [
+        "G12C",
+        "inhibitors",
+        "non-small",
+        "lung",
+        "cancer"
+      ],
+      "top20_unchanged": false,
+      "transitions": {
+        "FAIL->NO_REQUIREMENT": 714,
+        "UNKNOWN->NO_REQUIREMENT": 2099
+      },
+      "unknowns_preserved": true,
+      "visible_after": 1522,
+      "visible_before": 1078
+    },
+    "H4": {
+      "after_top20": [
+        "asset:983229d455e7d3fe414c",
+        "asset:0eab2fc8f1f238800602",
+        "asset:192917aaaafcfe2600db",
+        "asset:ba091b6d68fe609feeca",
+        "asset:d0c48ee4d8046babed6a",
+        "asset:0f98398227cee2dfba39",
+        "asset:676ce7395ca973726392",
+        "asset:0ecc2b0c3475214cae8c",
+        "asset:d2137b13292415588775",
+        "asset:c4a1924e2b7fa29f32f8",
+        "asset:1af158be8a5d9809bbf0",
+        "asset:08ca0be3ef391d0d26b3",
+        "asset:093b41319cb763d50fc7",
+        "asset:2ee7dcd1f258492fe2bd",
+        "asset:2a27271374763f6f0fa7",
+        "asset:3c0762d54536ebad70d6",
+        "asset:0197fa8f942dac8d5455",
+        "asset:3f6a20446fa41072bc4d",
+        "asset:5cc1e02717c5ad4b7d53",
+        "asset:528ea45c232865b5041e"
+      ],
+      "before_top20": [
+        "asset:983229d455e7d3fe414c",
+        "asset:0eab2fc8f1f238800602",
+        "asset:192917aaaafcfe2600db",
+        "asset:0f98398227cee2dfba39",
+        "asset:676ce7395ca973726392",
+        "asset:0ecc2b0c3475214cae8c",
+        "asset:d2137b13292415588775",
+        "asset:c4a1924e2b7fa29f32f8",
+        "asset:1af158be8a5d9809bbf0",
+        "asset:08ca0be3ef391d0d26b3",
+        "asset:093b41319cb763d50fc7",
+        "asset:2ee7dcd1f258492fe2bd",
+        "asset:2a27271374763f6f0fa7",
+        "asset:3c0762d54536ebad70d6",
+        "asset:0197fa8f942dac8d5455",
+        "asset:3f6a20446fa41072bc4d",
+        "asset:5cc1e02717c5ad4b7d53",
+        "asset:528ea45c232865b5041e",
+        "asset:a0b628f85d13edb78fb8",
+        "asset:f85d5467fec77e5e7a48"
+      ],
+      "isolation": true,
+      "new_pass_conditions": {
+        "Crohn's Disease (CD)": {
+          "INDICATION:NCIT:C2952": "UNDETERMINED"
+        },
+        "Healthy": {
+          "INDICATION:NCIT:C2952": "UNDETERMINED"
+        },
+        "Healthy Adult Participants": {
+          "INDICATION:NCIT:C2952": "UNDETERMINED"
+        },
+        "Ulcerative Colitis (UC)": {
+          "INDICATION:NCIT:C2952": "MATCH"
+        }
+      },
+      "only_indication_excluded_before": 2,
+      "only_indication_recovered": 2,
+      "passes_preserved": true,
+      "query": "Find clinical-stage TL1A antibodies for ulcerative colitis.",
+      "references": [
+        {
+          "after": "UNKNOWN",
+          "asset_id": "asset:192917aaaafcfe2600db",
+          "excluded_before": false,
+          "name": "tulisokibart",
+          "visible": true
+        },
+        {
+          "after": "UNKNOWN",
+          "asset_id": "asset:0eab2fc8f1f238800602",
+          "excluded_before": false,
+          "name": "duvakitug",
+          "visible": true
+        },
+        {
+          "after": "UNKNOWN",
+          "asset_id": "asset:983229d455e7d3fe414c",
+          "excluded_before": false,
+          "name": "afimkibart",
+          "visible": true
+        }
+      ],
+      "requirements_after": [
+        "INDICATION:NCIT:C2952"
+      ],
+      "requirements_before": [
+        "ulcerative",
+        "colitis"
+      ],
+      "top20_unchanged": false,
+      "transitions": {
+        "FAIL->FAIL": 1,
+        "FAIL->PASS": 2,
+        "UNKNOWN->UNKNOWN": 118
+      },
+      "unknowns_preserved": true,
+      "visible_after": 42,
+      "visible_before": 40
+    },
+    "TAC01": {
+      "after_top20": [
+        "asset:344a173f3d78d2fc6a72",
+        "asset:8ab4f3c7f9fed61b5fa0",
+        "asset:42479b67d44b9dff09e3",
+        "asset:13978f60c2c8cdb7e89e",
+        "asset:26ed0b037de3ecdb26da",
+        "asset:c21b983337620506fa5a",
+        "asset:5701df8d3d8d7363bd5e",
+        "asset:25ff2e301fc980e91b54",
+        "asset:6652ff07141a84913143",
+        "asset:a9cb96e1a6f84d6c8946",
+        "asset:3149a97f2f44839d405c",
+        "asset:2e20adeeeb0f67744124",
+        "asset:0c3bfb202f802a06ec32",
+        "asset:5bfa2fbfb3bc5d33dea5",
+        "asset:0cf8375305ef61224af2",
+        "asset:97a456ccc32de18739ea",
+        "asset:cec39b911bbef02fc5d5",
+        "asset:54cce6642ddf53351f46",
+        "asset:b843c6fdc6d801dcea39",
+        "asset:b7657a8c6276dc55e82a"
+      ],
+      "before_top20": [
+        "asset:344a173f3d78d2fc6a72",
+        "asset:8ab4f3c7f9fed61b5fa0",
+        "asset:42479b67d44b9dff09e3",
+        "asset:13978f60c2c8cdb7e89e",
+        "asset:26ed0b037de3ecdb26da",
+        "asset:c21b983337620506fa5a",
+        "asset:25ff2e301fc980e91b54",
+        "asset:a9cb96e1a6f84d6c8946",
+        "asset:3149a97f2f44839d405c",
+        "asset:2e20adeeeb0f67744124",
+        "asset:0c3bfb202f802a06ec32",
+        "asset:5bfa2fbfb3bc5d33dea5",
+        "asset:0cf8375305ef61224af2",
+        "asset:97a456ccc32de18739ea",
+        "asset:cec39b911bbef02fc5d5",
+        "asset:54cce6642ddf53351f46",
+        "asset:b843c6fdc6d801dcea39",
+        "asset:b7657a8c6276dc55e82a",
+        "asset:fdf2dfd62479e5e339b6",
+        "asset:e0086222fc8e5d625707"
+      ],
+      "isolation": true,
+      "new_pass_conditions": {},
+      "only_indication_excluded_before": 202,
+      "only_indication_recovered": 201,
+      "passes_preserved": false,
+      "query": null,
+      "references": [],
+      "requirements_after": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "requirements_before": [
+        "INDICATION:B_CELL_LYMPHOMA"
+      ],
+      "top20_unchanged": false,
+      "transitions": {
+        "FAIL->FAIL": 1,
+        "FAIL->UNKNOWN": 323,
+        "PASS->PASS": 156,
+        "PASS->UNKNOWN": 1,
+        "UNKNOWN->UNKNOWN": 873
+      },
+      "unknowns_preserved": true,
+      "visible_after": 746,
+      "visible_before": 545
+    },
+    "mint5": {
+      "after_top20": [
+        "asset:d0ace5d86850ba755d2b",
+        "asset:5701df8d3d8d7363bd5e",
+        "asset:be2c3fda82741e749f3a",
+        "asset:620571de7131c8fd4344",
+        "asset:8a4ef325c481300e1e1f",
+        "asset:63a9eb55422e3fbc6178",
+        "asset:ac551940ff9492dd71f6",
+        "asset:7a46f3309cf39ffaab57",
+        "asset:4b6d3e95eae7377d55a5",
+        "asset:3789cb6eba0780f32bac",
+        "asset:e231b8db8ee4aff93bd2",
+        "asset:9b80fb74334e7365d2be",
+        "asset:9eda96c266e5f5525b98",
+        "asset:db81fdf95a821e7828a4",
+        "asset:81b227b1393173413241",
+        "asset:8d4fa58cc47bee4c6b45",
+        "asset:90d9ebb13a19d76f6334",
+        "asset:2e7c4459543976b6e57b",
+        "asset:d3452eca6c9b9e1e4eba",
+        "asset:f58ae0a9111c1469c7de"
+      ],
+      "before_top20": [
+        "asset:d0ace5d86850ba755d2b",
+        "asset:5701df8d3d8d7363bd5e",
+        "asset:be2c3fda82741e749f3a",
+        "asset:620571de7131c8fd4344",
+        "asset:8a4ef325c481300e1e1f",
+        "asset:63a9eb55422e3fbc6178",
+        "asset:ac551940ff9492dd71f6",
+        "asset:7a46f3309cf39ffaab57",
+        "asset:4b6d3e95eae7377d55a5",
+        "asset:3789cb6eba0780f32bac",
+        "asset:e231b8db8ee4aff93bd2",
+        "asset:9b80fb74334e7365d2be",
+        "asset:9eda96c266e5f5525b98",
+        "asset:db81fdf95a821e7828a4",
+        "asset:81b227b1393173413241",
+        "asset:8d4fa58cc47bee4c6b45",
+        "asset:90d9ebb13a19d76f6334",
+        "asset:2e7c4459543976b6e57b",
+        "asset:d3452eca6c9b9e1e4eba",
+        "asset:f58ae0a9111c1469c7de"
+      ],
+      "isolation": true,
+      "new_pass_conditions": {},
+      "only_indication_excluded_before": 0,
+      "only_indication_recovered": 0,
+      "passes_preserved": true,
+      "query": null,
+      "references": [],
+      "requirements_after": [],
+      "requirements_before": [],
+      "top20_unchanged": true,
+      "transitions": {},
+      "unknowns_preserved": true,
+      "visible_after": 244,
+      "visible_before": 244
+    }
+  },
+  "status": "FAILED_ACCEPTANCE"
+}

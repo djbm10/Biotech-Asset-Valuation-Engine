@@ -94,3 +94,64 @@ No patches after acceptance results, threshold changes or history rewriting. Rev
 approach needs a new preregistration. Adopt only after every criterion passes, then update
 handoff and report diagnostics. H16–H20 remain untouched until finalization; operator runs
 any subsequent long live validation, using exact frozen commands only after adoption.
+
+
+## Result — FAILED_ACCEPTANCE, 2026-10-11
+
+Preregistration `0aefe85`; unchanged implementation `93c1f83`. Frozen offline results:
+`research/se_indication_semantics_v1/{score,acceptance,condition_review,quality_gates,failure_diagnosis}.json`.
+The offline scorer is `scripts/score_indication_semantics_v1.py`; the read-only failure
+diagnoser is `scripts/diagnose_indication_semantics_v1_failure.py`. These evaluate the
+historical implementation, not the restored HEAD. Neither launches acquisition or replay.
+
+| Criterion | Result | Evidence |
+|---|---|---|
+| I1 | FAIL | Only 10/33 receive PASS and are visible. 21 become visible through removal of the requirement (invalid recovery); Crovalimab and zilucoplan still FAIL. Attempt visibility 31/33, not adoption evidence. |
+| I2 | PASS | 4/4 frozen explicit incompatibility controls FAIL. |
+| I3 | PASS | 5/5 same/synonym/subtype controls PASS. |
+| I4 | PASS | 7/7 uncertainty controls UNKNOWN. |
+| I5 | FAIL | 18/18 non-disease terms do not leak, but H2/H11/H13 compile no disease requirement. H4/H12/H14 compile coherent NCIt IDs. |
+| I6 | FAIL | TAC01 loses JCAR014's accepted indication PASS; 14/20 rank positions change. mint5 requirements, decisions, dispositions and top-20 order are preserved. |
+| I7 | PASS | Frozen input hash checks pass; all non-indication decisions and data remain identical. Source diff touches only the four preregistered indication files. All 23 newly positive condition strings reviewed; no false positive disease assertion found. No ranking code changed. |
+| I8 | FAIL | Targeted 39 passed / 9 failed. Full tests/se: 1,653 passed / 10 failed / 3 expected xfails, 1,666 collected. ruff check src/ is clean. |
+
+Several old test failures memorialize literal fallback, which this milestone intended to
+replace. They were not rewritten after results. There are also genuine B-cell regression
+failures; independently I1, I5 and I6 fail, so this result cannot be adopted even if old
+literal assertions were updated. No behavior patch or threshold change was made.
+
+### Failure mechanisms observed, not patched
+
+1. H2/H11: the parser correctly preserves an ambiguous `cell` span. Residual-only phrase
+   grouping cannot reconstruct `non-small cell lung cancer` across that boundary. Both
+   requirements disappear. This needs whole disease-phrase handling in the compiler
+   without changing target recognition or query retrieval.
+2. H13: NCIt labels Hidradenitis Suppurativa (C128429) as `Finding`, not `Disease or Syndrome`.
+   The blanket semantic-type filter omits a real disease. Disease typing must follow an
+   authority taxonomy with explicit semantics; including all findings would be unsafe.
+3. Crovalimab's frozen indication facts contain only aHUS; zilucoplan's only COVID-19.
+   Different known diagnoses do not prove an asset's indication inventory is exhaustive.
+   The v1 distinct-concept rule still turns incomplete coverage into FAIL. A revised rule
+   must preregister what positively establishes incompatibility under open-world evidence.
+4. `b cell lymphoma` is ambiguous between C188021 (B-cell malignant neoplasm) and C3457
+   (B-cell NHL), weakening legacy unrelated-disease FAILs. An established legacy concept
+   needs a source-anchored semantic mapping, not unqualified label lookup.
+5. The broad negation token rule mistakes `Diffuse Large B-Cell Lymphoma, Not Otherwise
+   Specified` for negation, changing JCAR014 PASS to UNKNOWN. Disease-scoped negation,
+   rather than arbitrary tokens anywhere in a condition, is required.
+
+### Diagnostics and stopping decision
+
+No durable improvement: implementation reverted normally. Frozen diagnostic baseline
+therefore remains 5/38 visible references, 33 indication-only exclusions; 57
+TARGET_UNKNOWN_FILL rows and 40 NON_PRODUCT_GENERATION plus 1 QUALIFICATION_MISS row in
+the top-20 diagnosis. Dominant shortlist failure remains indication exclusions upstream
+and target-UNKNOWN fill among bad rows. The failed attempt's counts are development-only.
+Post-adoption remeasurement is not applicable; no new blind labels were invented.
+
+Next principled option: a NEW preregistration for indication semantics v2, deriving full
+disease spans and conservative compatibility from an authority taxonomy, explicitly
+testing incomplete histories, ambiguous legacy mapping and diagnostic qualifiers before
+implementation. Do not silently modify v1 or start non-product/routing/target milestones.
+H16–H20 remain entirely untouched. No H16–H20 commands are issued: validation is premature
+while the indication milestone has not been adopted.

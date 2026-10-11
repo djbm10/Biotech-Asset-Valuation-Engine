@@ -1,0 +1,318 @@
+{
+  "H11": {
+    "query": "Find clinical-stage TIGIT antibodies for non-small cell lung cancer.",
+    "requirements": [],
+    "residual_terms": [
+      "non-small",
+      "lung",
+      "cancer"
+    ],
+    "spans": [
+      {
+        "candidates": [],
+        "end": 19,
+        "explanation": null,
+        "kind": "EVIDENCE",
+        "resolved_to": "minimum_stage",
+        "rule": "evidence_clinical_stage_vocabulary",
+        "start": 5,
+        "text": "clinical-stage"
+      },
+      {
+        "candidates": [],
+        "end": 25,
+        "explanation": "'TIGIT' -> symbol alias 'TIGIT' asserted by chembl, open_targets -> TIGIT -> merged on uniprot:Q495A1",
+        "kind": "TARGET",
+        "resolved_to": "TIGIT",
+        "rule": "unique_alias_match",
+        "start": 20,
+        "text": "TIGIT"
+      },
+      {
+        "candidates": [],
+        "end": 36,
+        "explanation": null,
+        "kind": "MODALITY",
+        "resolved_to": "MONOCLONAL_ANTIBODY",
+        "rule": "modality_vocabulary",
+        "start": 26,
+        "text": "antibodies"
+      },
+      {
+        "candidates": [],
+        "end": 50,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 41,
+        "text": "non-small"
+      },
+      {
+        "candidates": [
+          "TARGET:CEL",
+          "TARGET:CELP"
+        ],
+        "end": 55,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 51,
+        "text": "cell"
+      },
+      {
+        "candidates": [],
+        "end": 60,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 56,
+        "text": "lung"
+      },
+      {
+        "candidates": [],
+        "end": 68,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 61,
+        "text": "cancer"
+      }
+    ]
+  },
+  "H12": [
+    {
+      "after": {
+        "analyst_override": null,
+        "gate_id": "strategic_sandbox",
+        "next_action": null,
+        "observed_fact_ids": [
+          "fact:5a24b0c28ff2f59eb38c"
+        ],
+        "override_rationale": null,
+        "rationale": "Observed indication conflicts with buyer requirement strategy.indication.",
+        "requirement_id": "strategy.indication",
+        "status": "FAIL",
+        "subject_id": "asset:495736f3aa0f663b8c96",
+        "supporting_or_contradictory_claim_ids": [
+          "claim:a3594db3b2a358c06998"
+        ]
+      },
+      "asset_id": "asset:495736f3aa0f663b8c96",
+      "conditions": [
+        "COVID-19"
+      ],
+      "name": "zilucoplan"
+    },
+    {
+      "after": {
+        "analyst_override": null,
+        "gate_id": "strategic_sandbox",
+        "next_action": null,
+        "observed_fact_ids": [
+          "fact:0ae6d1e34b5ddd709d46",
+          "fact:dabfd173f02da5d417d2"
+        ],
+        "override_rationale": null,
+        "rationale": "Observed indication conflicts with buyer requirement strategy.indication.",
+        "requirement_id": "strategy.indication",
+        "status": "FAIL",
+        "subject_id": "asset:0d86782567f80f1443e2",
+        "supporting_or_contradictory_claim_ids": [
+          "claim:3c17ff11156b3d6e9354",
+          "claim:757d10e733d665788c7b"
+        ]
+      },
+      "asset_id": "asset:0d86782567f80f1443e2",
+      "conditions": [
+        "Atypical Hemolytic Uremic Syndrome",
+        "Atypical Hemolytic Uremic Syndrome"
+      ],
+      "name": "Crovalimab"
+    }
+  ],
+  "H13": {
+    "query": "Find clinical-stage anti-IL-17A antibodies for hidradenitis suppurativa.",
+    "requirements": [],
+    "residual_terms": [
+      "hidradenitis",
+      "suppurativa"
+    ],
+    "spans": [
+      {
+        "candidates": [],
+        "end": 19,
+        "explanation": null,
+        "kind": "EVIDENCE",
+        "resolved_to": "minimum_stage",
+        "rule": "evidence_clinical_stage_vocabulary",
+        "start": 5,
+        "text": "clinical-stage"
+      },
+      {
+        "candidates": [],
+        "end": 31,
+        "explanation": "'IL-17A' -> symbol alias 'IL-17A' asserted by open_targets -> IL17A -> merged on uniprot:Q16552",
+        "kind": "TARGET",
+        "resolved_to": "IL17A",
+        "rule": "unique_alias_match",
+        "start": 25,
+        "text": "IL-17A"
+      },
+      {
+        "candidates": [],
+        "end": 42,
+        "explanation": null,
+        "kind": "MODALITY",
+        "resolved_to": "MONOCLONAL_ANTIBODY",
+        "rule": "modality_vocabulary",
+        "start": 32,
+        "text": "antibodies"
+      },
+      {
+        "candidates": [],
+        "end": 59,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 47,
+        "text": "hidradenitis"
+      },
+      {
+        "candidates": [],
+        "end": 72,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 60,
+        "text": "suppurativa"
+      }
+    ]
+  },
+  "H2": {
+    "query": "Find clinical-stage KRAS G12C inhibitors for non-small cell lung cancer.",
+    "requirements": [],
+    "residual_terms": [
+      "G12C",
+      "inhibitors",
+      "non-small",
+      "lung",
+      "cancer"
+    ],
+    "spans": [
+      {
+        "candidates": [],
+        "end": 19,
+        "explanation": null,
+        "kind": "EVIDENCE",
+        "resolved_to": "minimum_stage",
+        "rule": "evidence_clinical_stage_vocabulary",
+        "start": 5,
+        "text": "clinical-stage"
+      },
+      {
+        "candidates": [],
+        "end": 24,
+        "explanation": "'KRAS' -> symbol alias 'KRAS' asserted by chembl, open_targets -> KRAS -> merged on uniprot:P01116",
+        "kind": "TARGET",
+        "resolved_to": "KRAS",
+        "rule": "unique_alias_match",
+        "start": 20,
+        "text": "KRAS"
+      },
+      {
+        "candidates": [],
+        "end": 29,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 25,
+        "text": "G12C"
+      },
+      {
+        "candidates": [],
+        "end": 40,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 30,
+        "text": "inhibitors"
+      },
+      {
+        "candidates": [],
+        "end": 54,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 45,
+        "text": "non-small"
+      },
+      {
+        "candidates": [
+          "TARGET:CEL",
+          "TARGET:CELP"
+        ],
+        "end": 59,
+        "explanation": null,
+        "kind": "AMBIGUOUS_TARGET",
+        "resolved_to": null,
+        "rule": "homonym_requires_escalation",
+        "start": 55,
+        "text": "cell"
+      },
+      {
+        "candidates": [],
+        "end": 64,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 60,
+        "text": "lung"
+      },
+      {
+        "candidates": [],
+        "end": 72,
+        "explanation": null,
+        "kind": "RESIDUAL",
+        "resolved_to": null,
+        "rule": "no_vocabulary_match",
+        "start": 65,
+        "text": "cancer"
+      }
+    ]
+  },
+  "TAC01": [
+    {
+      "after": {
+        "analyst_override": null,
+        "gate_id": "strategic_sandbox",
+        "next_action": "Confirm the specific indication the asset is developed in.",
+        "observed_fact_ids": [
+          "fact:81ae0aec763b06a0ca70"
+        ],
+        "override_rationale": null,
+        "rationale": "Indication evidence is broader, ambiguous or semantically incomparable with ['INDICATION:B_CELL_LYMPHOMA'] under NCIt 26.08e / frozen B-cell rules.",
+        "requirement_id": "strategy.indication",
+        "status": "UNKNOWN",
+        "subject_id": "asset:65fad56ec833389641de",
+        "supporting_or_contradictory_claim_ids": [
+          "claim:ae971fcca09b8cbb8363"
+        ]
+      },
+      "asset_id": "asset:65fad56ec833389641de",
+      "conditions": [
+        "Diffuse Large B-Cell Lymphoma, Not Otherwise Specified"
+      ],
+      "name": "JCAR014"
+    }
+  ]
+}

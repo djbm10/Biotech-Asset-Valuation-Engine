@@ -1,0 +1,36 @@
+{
+  "H16_H20": "UNTOUCHED",
+  "artifacts_sha256": {
+    "condition_review.json": "5be8b28d2e4b6c583fb7505ae48f13c76e59db65e0bd097ba457cfbfae134bf5",
+    "controls.json": "60886fa10e168ef87d97925410b447fec1aa35329ee7dd49553cd773273e6b3d",
+    "failure_diagnosis.json": "92d304fa1a09b23a90ddba3176fb4775515e517810d908b1ee27a63585d92bc6",
+    "manifest.json": "00304a4aad73d9b61df02467d0e9461b159a640985fecfa53c251f42a0ebb7a7",
+    "ncit_diseases.json": "49f7246447d58171228da4f0ad5c74a46adefd0f053222f3d02db64e3cff73d2",
+    "population.json": "25f8b6e199ad685e222b7db3cb6fb7a733ccf97a918ce7c60b323d7e331bfe98",
+    "quality_gates.json": "cd44fe1058090aeb080fbe7273fe7bf6dbd35a9b3890eb5b4867976bcc2a1a4e",
+    "score.json": "c6d4d5545248af009c42d23ca6cea81770e9b4523a946305b657c63a55f76e44",
+    "score_partial.json": "279c67ee265cde825db56d1eaed753835790f384928362f6a4138a80fdb8a5f7",
+    "test_failures.txt": "c9e3bfa0f3d81cb805345ade07b9968c106c345da201fa23aa1d7dc709e10000"
+  },
+  "attempt_requirement_removed": 21,
+  "attempt_still_failed": 2,
+  "attempt_valid_semantic_recoveries": 10,
+  "attempt_visible": 31,
+  "criteria": {
+    "I1": "FAIL",
+    "I2": "PASS",
+    "I3": "PASS",
+    "I4": "PASS",
+    "I5": "FAIL",
+    "I6": "FAIL",
+    "I7": "PASS",
+    "I8": "FAIL"
+  },
+  "disposition": "REVERT normally; no implementation patch; retained history",
+  "implementation_commit": "93c1f83",
+  "n_frozen_indication_only_exclusions": 655,
+  "n_frozen_references": 38,
+  "preregistration_commit": "0aefe85",
+  "previously_excluded_references": 33,
+  "status": "FAILED_ACCEPTANCE"
+}

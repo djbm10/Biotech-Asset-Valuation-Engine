@@ -1,0 +1,38 @@
+{
+  "false_indication_passes_found": 0,
+  "limitation": "Does not excuse disease requirements disappearing, incomplete indication histories, or unrecognized evidence admitting wrong-disease rows.",
+  "n_positive_strings": 23,
+  "positive_conditions": {
+    "H12": [
+      "PNH - Paroxysmal Nocturnal Hemoglobinuria",
+      "Paroxysmal Nocturnal Hemoglobinuria",
+      "Paroxysmal Nocturnal Hemoglobinuria (PNH)",
+      "Paroxysmal Nocturnal Hemoglobinuria (PNH) With Signs of Active Hemolysis"
+    ],
+    "H14": [
+      "ISS Stage III Plasma Cell Myeloma",
+      "Multiple Myeloma",
+      "Multiple Myeloma (MM)",
+      "Multiple Myeloma Progression",
+      "Multiple Myeloma in Relapse",
+      "Myeloma Multiple",
+      "Newly Diagnosed Multiple Myeloma",
+      "Plasma Cell Myeloma",
+      "Plasma Cell Myeloma Refractory",
+      "Recurrent Multiple Myeloma",
+      "Recurrent Plasma Cell Myeloma",
+      "Relapsed Refractory Multiple Myeloma (RRMM)",
+      "Relapsed or Refractory Multiple Myeloma",
+      "Relapsed or Refractory Multiple Myeloma (RRMM)",
+      "Relapsed/ Refractory Multiple Myeloma",
+      "Relapsed/Refractory Multiple Myeloma",
+      "Relapsed/Refractory Multiple Myeloma(MM)",
+      "Smoldering Plasma Cell Myeloma"
+    ],
+    "H4": [
+      "Ulcerative Colitis (UC)"
+    ]
+  },
+  "review_method": "Independent inspection of every newly positive condition string against the requested PNH, multiple-myeloma or ulcerative-colitis concept. Other conditions on a PASS asset are not themselves positive matches.",
+  "verdict": "PASS"
+}

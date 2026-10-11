@@ -1,0 +1,15 @@
+{
+  "attempt_commit": "93c1f83",
+  "full_collected": 1666,
+  "full_command": "PYTHONPATH=src python3 -m pytest tests/se -q",
+  "full_exit_code": 1,
+  "full_failed": 10,
+  "full_passed": 1653,
+  "full_xfailed": 3,
+  "ruff_command": "ruff check src/",
+  "ruff_exit_code": 0,
+  "targeted_command": "PYTHONPATH=src python3 -m pytest tests/se/test_indication_gate.py -q",
+  "targeted_exit_code": 1,
+  "targeted_failed": 9,
+  "targeted_passed": 39
+}
