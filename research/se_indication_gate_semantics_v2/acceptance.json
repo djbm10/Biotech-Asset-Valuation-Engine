@@ -1,0 +1,36 @@
+{
+  "attempt_indication_only_exclusions": {
+    "after": 0,
+    "before": 655
+  },
+  "attempt_reference_counts": {
+    "PASS": 18,
+    "UNKNOWN": 20
+  },
+  "baseline": "4cf8485",
+  "collected": 1704,
+  "criteria": {
+    "V2-G1": true,
+    "V2-G10": false,
+    "V2-G2": true,
+    "V2-G3": false,
+    "V2-G4": true,
+    "V2-G5": true,
+    "V2-G6": true,
+    "V2-G7": true,
+    "V2-G8": true,
+    "V2-G9": true
+  },
+  "diagnostic_limit": "33 references are gate-rankable in the failed attempt, not a confirmed shortlist projection. Post-adoption membership/order/top20 counts do not apply: milestone failed.",
+  "full_failures": [
+    "tests/se/test_indication_gate_semantics_v2.py::test_frozen_control[psoriasis_synonym]"
+  ],
+  "holdouts": "H16-H20 untouched; H6-H10 unrun; no live acquisitions/replays",
+  "implementation": "148b71e",
+  "next_principled_option": "Diagnose control authority coverage before a NEW preregistration; verify every asserted positive synonym/subtype against the selected authority before freezing. Preserve unresolved names as UNKNOWN. Do not amend v2.",
+  "preregistration": "43c7cc5",
+  "root_cause": "Positive psoriasis_synonym control was preregistered without verifying authority coverage. Psoriasis Vulgaris is absent from frozen NCIt disease names and compiler disease/finding roles. UNKNOWN obeys the rule but violates frozen PASS acceptance. No post-result patch or threshold change.",
+  "ruff": "PASS",
+  "status": "FAILED_ACCEPTANCE",
+  "targeted": "85 passed / 1 failed (86 collected)"
+}

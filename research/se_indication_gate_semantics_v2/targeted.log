@@ -1,0 +1,35 @@
+........................................................................ [ 83%]
+...........F..                                                           [100%]
+=================================== FAILURES ===================================
+____________________ test_frozen_control[psoriasis_synonym] ____________________
+
+case = {'expected': 'PASS', 'id': 'psoriasis_synonym', 'observed': ['Psoriasis Vulgaris'], 'requested': ['psoriasis']}
+
+    @pytest.mark.parametrize("case", POP["controls"], ids=lambda case: case["id"])
+    def test_frozen_control(case):
+        facts = [NormalizedFact(fact_id=f"f:{i}", subject_id="a", fact_type="indication",
+                 value=value, confidence=.95, supporting_claim_ids=[f"c:{i}"])
+                 for i, value in enumerate(case["observed"])]
+        decision = evaluate_indication(
+            _requirement("strategy.indication", "indication", RequirementOperator.IN, case["requested"]),
+            subject_id="a", facts=facts, gate_id="strategic_sandbox",
+        )
+>       assert decision.status.value == case["expected"]
+E       AssertionError: assert 'UNKNOWN' == 'PASS'
+E         
+E         - PASS
+E         + UNKNOWN
+
+tests/se/test_indication_gate_semantics_v2.py:25: AssertionError
+=============================== warnings summary ===============================
+../../.local/lib/python3.12/site-packages/_pytest/cacheprovider.py:475
+  /home/djmann/.local/lib/python3.12/site-packages/_pytest/cacheprovider.py:475: PytestCacheWarning: cache could not write path /home/djmann/projects/bve-b8/.pytest_cache/v/cache/nodeids: [Errno 30] Read-only file system: '/home/djmann/projects/bve-b8/.pytest_cache/v/cache/nodeids'
+    config.cache.set("cache/nodeids", sorted(self.cached_nodeids))
+
+../../.local/lib/python3.12/site-packages/_pytest/cacheprovider.py:429
+  /home/djmann/.local/lib/python3.12/site-packages/_pytest/cacheprovider.py:429: PytestCacheWarning: cache could not write path /home/djmann/projects/bve-b8/.pytest_cache/v/cache/lastfailed: [Errno 30] Read-only file system: '/home/djmann/projects/bve-b8/.pytest_cache/v/cache/lastfailed'
+    config.cache.set("cache/lastfailed", self.lastfailed)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/se/test_indication_gate_semantics_v2.py::test_frozen_control[psoriasis_synonym]
