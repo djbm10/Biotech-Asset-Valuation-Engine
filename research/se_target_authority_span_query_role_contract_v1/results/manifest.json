@@ -1,0 +1,19 @@
+{
+  "README.md": "34ea51a5a3631cf605e6e5f7feeb32e9f8c86064010173e560772d2dceedab56",
+  "annotated_audit.json": "5f06ce0180a9d5d16b78b6cf59089ac8ef7ec1fc46f9a8ab3664e043e75d24ab",
+  "audit.json": "f7746636259f8d296c1691dde762590a00f45a15a3c19475bb76f8d796e8a7ce",
+  "audit.py": "5655ebdbac34a2cb1c242048bbf08965865410642264cc29118de1c046020799",
+  "english_32.md": "36b2589a7195ee723ed72ecb27720f7a3b4d009be9bcb379c4b5f657924e8a99",
+  "inputs.json": "88bfcef6bfcc9a602b3fd1cac955afb8e67429f48aaffd14bf50aba57c76d4dc",
+  "integrity_checks.json": "b4429ecb16e655e0bdc7a63778cf5dd80ccfab9c79d1bc561c013d04a2274ef2",
+  "model_probe.json": "1bc815fd1ae3f48687094c2ffc303abf9d8f4cb84b6809441535f6c8d06ed79f",
+  "name_audit.md": "8de20a5d4af1780adc4da30fc86286a9b1ba059d63d83816f8de2e265456f8a4",
+  "names.json": "c8fd4d480e87f746d1d67909674b99fbcccc91034e4f264ddbe397a753f551b6",
+  "render_and_check.py": "83e937ce14fb510073ad0880770cbc8dd0b69e8ffdfd9e6bea1b283f3f76534b",
+  "review_notes.json": "5e3cb1fcdef18ca35d2594df1d88d56eccf8ba6157937e9c03bec56c062fe4ed",
+  "reviewed_structural_audit.json": "e54c1db27587e282940ceb5841a8712440600ab14e67c04decb445fbc66d220a",
+  "structural_audit.json": "19a3632374619de9f7d2766e324655ca9f643e628a41e216395aa90a936dc87c",
+  "structural_controls.md": "6a26faee8f6f666d69cec9033f1e820318fe2c4880df73eecbda51b655ee7b53",
+  "summary.json": "c2edce013edef0a15976030d3dc24c32292399d29690575af535d5d8841e2f25",
+  "validation.json": "f5500942b643cacc4866d5b6a247d5ec06f2d262d94e46d1601171eb04c395e2"
+}

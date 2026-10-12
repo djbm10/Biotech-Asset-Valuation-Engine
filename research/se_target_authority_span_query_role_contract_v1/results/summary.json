@@ -1,0 +1,29 @@
+{
+  "observations": 1344,
+  "names": 96,
+  "known_English_mismatches": 32,
+  "English_authority_permitted_target_names": 90,
+  "Greek_authority_permitted_target_names": 0,
+  "unmet_preservation_frames_whole_name_only": 21,
+  "unmet_preservation_names_whole_name_only": [
+    "CaMK-II subunit γ",
+    "Cholesterylβ-glucosidase GBA2",
+    "voltage-gated calcium channel α subunit Cav2.3"
+  ],
+  "first_categories": {
+    "A": 665,
+    "D": 413,
+    "E": 182,
+    "C": 84
+  },
+  "structural_controls": 48,
+  "structural_target_set_matches": 26,
+  "structural_first_categories": {
+    "E": 23,
+    "A": 10,
+    "B": 12,
+    "C": 1,
+    "D": 2
+  },
+  "decision": "B_ARCHITECTURE_EXTENSION_REQUIRED_NO_PRODUCTION_IMPLEMENTATION"
+}

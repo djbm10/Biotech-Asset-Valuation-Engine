@@ -1,0 +1,34 @@
+[
+  {
+    "kind": "TARGET",
+    "accepts_identity_reference": true,
+    "serialized": {
+      "text": "CD19",
+      "start": 0,
+      "end": 4,
+      "kind": "TARGET",
+      "resolved_to": "CD19",
+      "rule": "design_probe",
+      "candidates": [],
+      "explanation": null,
+      "target_reference": {
+        "entity_id": "TARGET:CD19",
+        "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+      }
+    }
+  },
+  {
+    "kind": "RESIDUAL",
+    "accepts_identity_reference": false,
+    "errors": [
+      "Value error, only a resolved target span may carry a target reference"
+    ]
+  },
+  {
+    "kind": "UNRESOLVED_SCIENTIFIC",
+    "accepts_identity_reference": false,
+    "errors": [
+      "Value error, only a resolved target span may carry a target reference"
+    ]
+  }
+]

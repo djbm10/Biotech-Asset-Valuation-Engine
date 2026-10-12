@@ -1,0 +1,23 @@
+{
+  "S002": {
+    "categories": [
+      "C"
+    ],
+    "classification": "AUTHORITY_GAP",
+    "note": "Frozen positive biological label is not attainable by span repair: exact PD-1 is AMBIGUOUS among PDCD1/RPL17/RPL17-C18ORF32. No authority disambiguation is authorized."
+  },
+  "S041": {
+    "categories": [
+      "E"
+    ],
+    "classification": "FROZEN_LABEL_ERROR",
+    "note": "Frozen no-target label conflicts with adopted whole-token safety: ABP/ZF independently resolves to TRPV6 and is emitted as separator_whole_name. CREBZF is not emitted. Do not change the label or suppress the valid whole alias."
+  },
+  "S042": {
+    "categories": [
+      "E"
+    ],
+    "classification": "FROZEN_LABEL_ERROR",
+    "note": "Frozen no-target label incorrectly equates ambiguity with an uncovered component. CD19 remains a target; CAR remains ambiguous and blocks compilation. This is adopted separator behavior, not an invented target."
+  }
+}

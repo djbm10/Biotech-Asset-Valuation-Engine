@@ -1,0 +1,19 @@
+{
+  "decision": "STOP_B_ARCHITECTURE_EXTENSION_REQUIRED",
+  "implementation_ready": false,
+  "production_implementation_attempted": false,
+  "full_contract_acceptance": false,
+  "preregistration_expectation_errors": [
+    "S041",
+    "S042"
+  ],
+  "source_authority_gap": [
+    "S002"
+  ],
+  "input_integrity_checks": "PASS",
+  "research_script_ruff": "PASS",
+  "production_src_tests_scripts_comparison_to_04b184b": "IDENTICAL",
+  "full_tests_repeated": false,
+  "existing_baseline_verification": "1828 passed, 3 existing xfails; restoration packet from 04b184b",
+  "holdouts_inspected_or_run": false
+}

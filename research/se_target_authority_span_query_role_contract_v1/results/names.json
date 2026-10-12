@@ -1,0 +1,2827 @@
+[
+  {
+    "id": "c9b1b331660164ea898b9625d8fec07b95f8daa08f552a08a8b9febc8e502928",
+    "original_name": "DNA polymerase beta subunit",
+    "Greek_name": "DNA polymerase β subunit",
+    "reference": "TARGET:POLB",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:POLB"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "2fc546bb0e784e9103d7787216abf68cd05bc83f03632af34be08ffe98064cbf",
+    "original_name": "Beta-site amyloid precursor protein cleaving enzyme 1",
+    "Greek_name": "β-site amyloid precursor protein cleaving enzyme 1",
+    "reference": "TARGET:BACE1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:BACE1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "112f86ecd315538af7ebe2eefc47fa41cd2e4e4f8af76b1cb81c47e248d5e601",
+    "original_name": "H-IDH alpha",
+    "Greek_name": "H-IDH α",
+    "reference": "TARGET:IDH3A",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:IDH3A"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:IDH3A"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "1a8343184701561ed0ddc241489589c761748acece3fdc91d78a55b65e212a44",
+    "original_name": "Alcohol dehydrogenase subunit gamma",
+    "Greek_name": "Alcohol dehydrogenase subunit γ",
+    "reference": "TARGET:ADH1C",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:AKR1A1"
+    ],
+    "Greek_current": [
+      "TARGET:AKR1A1"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:ADH1C"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "19c1c7e61478162a1e0f6d56c8ed4a6e77d8da98bbd608e3a4138fcd883960cc",
+    "original_name": "CaMK-II subunit gamma",
+    "Greek_name": "CaMK-II subunit γ",
+    "reference": "TARGET:CAMK2G",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:CAMK2G"
+    ],
+    "Greek_current": [
+      "TARGET:CAMK2G"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CAMK2G"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "55119fa169ba333433f90bd84b08b949f2a200d0a79576b03f432509ec82e342",
+    "original_name": "thyroid hormone receptor alpha 1",
+    "Greek_name": "thyroid hormone receptor α 1",
+    "reference": "TARGET:THRA",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:NR4A1",
+      "TARGET:PSMA6"
+    ],
+    "Greek_current": [
+      "TARGET:NR4A1"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:THRA"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "f2dbf0ee650f480851e0278dfedd585baf6e9fc06a6696926ada730e499d21b7",
+    "original_name": "nuclear factor of kappa light chain gene enhancer in B-cells",
+    "Greek_name": "nuclear factor of κ light chain gene enhancer in B-cells",
+    "reference": "TARGET:NFKBIA",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:TNFSF14"
+    ],
+    "Greek_current": [
+      "TARGET:TNFSF14"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:NFKBIA"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "28f8e7253ad1423230153be31aa682fe221b260c62c44585f9df546cab657622",
+    "original_name": "Alpha-1-fetoprotein",
+    "Greek_name": "α-1-fetoprotein",
+    "reference": "TARGET:AFP",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:AFP"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:AFP"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "6c8297c96842d9713466226b9260256b4d3ccb12a53c7a70a5ad938a7fb083d6",
+    "original_name": "calcium channel, cardic dihydropyridine-sensitive, alpha-1 subunit",
+    "Greek_name": "calcium channel, cardic dihydropyridine-sensitive, α-1 subunit",
+    "reference": "TARGET:CACNA1C",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:PSMA6"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CACNA1C"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "2265919fdf6fd68fd0ef5097e6f758a17948f627e367336083c10710a858a4a2",
+    "original_name": "intracellular phospholipase A1 gamma",
+    "Greek_name": "intracellular phospholipase A1 γ",
+    "reference": "TARGET:DDHD2",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:DDHD2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "a4c3062e2cc9d5879ab9c5c9ad4586a2fdfd847effe042e0246e290a7e0e9207",
+    "original_name": "Catenin alpha-1",
+    "Greek_name": "Catenin α-1",
+    "reference": "TARGET:CTNNA1",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:CTNNA1"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CTNNA1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "d82879802647ea89cffa0f1b3f57c266e0dfe4be7ad4e2983a0bd318dc3e75d1",
+    "original_name": "immunoglobulin E receptor, high-affinity, of mast cells, alpha polypeptide",
+    "Greek_name": "immunoglobulin E receptor, high-affinity, of mast cells, α polypeptide",
+    "reference": "TARGET:FCER1A",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:FCER1A"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "6aef26b4bd89b458d0ffbd75715ad0b48e656dbdb2fea0c4947ee5a50462328e",
+    "original_name": "MHC class I antigen HLA-B alpha chain",
+    "Greek_name": "MHC class I antigen HLA-B α chain",
+    "reference": "TARGET:HLA-B",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:HLA-C",
+      "TARGET:HLA-B",
+      "TARGET:FCGRT"
+    ],
+    "Greek_current": [
+      "TARGET:HLA-C",
+      "TARGET:HLA-B"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:HLA-B"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "7d9f85f600b32bcafe53124dc02dd8925bfa5d1ad9ef101771a014084fe363ee",
+    "original_name": "casein kinase 2, beta polypeptide",
+    "Greek_name": "casein kinase 2, β polypeptide",
+    "reference": "TARGET:CSNK2B",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:PDIK1L"
+    ],
+    "Greek_current": [
+      "TARGET:PDIK1L"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CSNK2B"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "5a9d1cae5878e9cdd0a6e28d2dbf95d029b13ca3bd41d740010cb8271e13a029",
+    "original_name": "ER alpha-1,2-mannosidase",
+    "Greek_name": "ER α-1,2-mannosidase",
+    "reference": "TARGET:MAN1B1",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:MAN1B1"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:MAN1B1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "d038e02515c4faecb732508d17aee02127c41c6e442a944a0c78c8b1683b0a19",
+    "original_name": "protein kinase, cGMP-dependent, regulatory, type I, beta",
+    "Greek_name": "protein kinase, cGMP-dependent, regulatory, type I, β",
+    "reference": "TARGET:PRKG1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:WEE1",
+      "TARGET:SGCG"
+    ],
+    "Greek_current": [
+      "TARGET:WEE1",
+      "TARGET:SGCG"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PRKG1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "ef1f5e854b6e94edf0f631cceaa59b98603eb7e7de2b56098d22763ec67193a0",
+    "original_name": "GDP-L-Fuc:N-acetyl-beta-D-glucosaminide alpha1,6-fucosyltransferase",
+    "Greek_name": "GDP-L-Fuc:N-acetylβ-D-glucosaminide alpha1,6-fucosyltransferase",
+    "reference": "TARGET:FUT8",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:FUT8"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:FUT8"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "90b1cabd30930827618c59b2a38668129d7254dc09ed3d41f72c82733ff89571",
+    "original_name": "DAG kinase epsilon",
+    "Greek_name": "DAG kinase ε",
+    "reference": "TARGET:DGKE",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:DAG1"
+    ],
+    "Greek_current": [
+      "TARGET:DAG1"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:DGKE"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "0c8a9574a1aa8d372397b3c9f89349391a3e00c18d5502bb4dc18ef990a9ef24",
+    "original_name": "pro-alpha-1 collagen type 1",
+    "Greek_name": "proα-1 collagen type 1",
+    "reference": "TARGET:COL1A1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:SGCG"
+    ],
+    "Greek_current": [
+      "TARGET:SGCG"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:COL1A1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "dba787e41763b79fc6f784d12e9a924dcbe25d703dc70e2f35349aa8e4cbc49d",
+    "original_name": "5'-AMP-activated protein kinase, catalytic alpha-2 chain",
+    "Greek_name": "5'-AMP-activated protein kinase, catalytic α-2 chain",
+    "reference": "TARGET:PRKAA2",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:WEE1",
+      "TARGET:PSMA2"
+    ],
+    "Greek_current": [
+      "TARGET:WEE1"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PRKAA2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "05ee9485c6aba599079f6e97046282eeb4c7a1c13b4763d69a3008c9ae5150bf",
+    "original_name": "sodium channel protein, brain type 2 alpha subunit",
+    "Greek_name": "sodium channel protein, brain type 2 α subunit",
+    "reference": "TARGET:SCN2A",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:SGCG"
+    ],
+    "Greek_current": [
+      "TARGET:SGCG"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:SCN2A"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "619d61612fdad708bdcd1835a209fb623da5ce8b2b0d07a84595d66b5e0af72d",
+    "original_name": "big potassium channel beta subunit 4",
+    "Greek_name": "big potassium channel β subunit 4",
+    "reference": "TARGET:KCNMB4",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:KCNMB4"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "73231adf027c9b8739e14c370323fffd5e758158ec43a61a5fc27259a08e3e8a",
+    "original_name": "Sialoglycoprotein alpha",
+    "Greek_name": "Sialoglycoprotein α",
+    "reference": "TARGET:GYPA",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:GYPA"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:GYPA"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "faac920bd236166fa0b1e26cf51cf00c5154593282b5d5c20c94f92956f5658d",
+    "original_name": "Hemoglobin beta chain",
+    "Greek_name": "Hemoglobin β chain",
+    "reference": "TARGET:HBB",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:HBB"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "693c7a195f66d41a4342c69da2144eab6b0d44e458daddb064060184e59a65c6",
+    "original_name": "Soluble APP-beta",
+    "Greek_name": "Soluble APPβ",
+    "reference": "TARGET:APP",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:APP"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:APP"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "e00c7d4784672c31d2412ad00240eefc3cb47b5cbcc574b86e84880e988b6a19",
+    "original_name": "Beta-type CGRP",
+    "Greek_name": "β-type CGRP",
+    "reference": "TARGET:CALCB",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:CALCB"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CALCB"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "316ffde1979211e32b9f9ddef406b7cb509fd02a5578312b788f1628e5e80f23",
+    "original_name": "Detyrosinated tubulin alpha-1B chain",
+    "Greek_name": "Detyrosinated tubulin α-1B chain",
+    "reference": null,
+    "English_categories": [
+      "C"
+    ],
+    "Greek_categories": [
+      "C"
+    ],
+    "English_current": [
+      "TARGET:TUBA1B"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "ea1cfa8bfdb11793ecafddffd665c28103c3badbd5c933bd32c1fddb059601e9",
+    "original_name": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+    "Greek_name": "C3 and PZP-like α-2-macroglobulin domain-containing protein 4",
+    "reference": "TARGET:C5",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:C3",
+      "TARGET:A2MP1",
+      "TARGET:A2M"
+    ],
+    "Greek_current": [
+      "TARGET:C3",
+      "TARGET:A2MP1"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:C5"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "53b38330e8593080d84a82e97b066c53e39cb7de3d746d9d883c8f69fb8658c4",
+    "original_name": "Alpha-2 type I collagen",
+    "Greek_name": "α-2 type I collagen",
+    "reference": "TARGET:COL1A2",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:PSMA2",
+      "TARGET:SGCG"
+    ],
+    "Greek_current": [
+      "TARGET:SGCG"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:COL1A2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "0653208d4d2598f1e7f44705b85b757dd9d96e6db456be9f4807274cbbeda812",
+    "original_name": "Isocitrate dehydrogenase [NAD] subunit alpha, mitochondrial",
+    "Greek_name": "Isocitrate dehydrogenase [NAD] subunit α, mitochondrial",
+    "reference": "TARGET:IDH3A",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:IDH3A"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "9a7ff9870388a1b9df8e79c9f57754d255af0cc0d495d17e49ce164d83aebb77",
+    "original_name": "Sodium channel protein brain I subunit alpha",
+    "Greek_name": "Sodium channel protein brain I subunit α",
+    "reference": "TARGET:SCN1A",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:SCN1A"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "c62a1e48fe3b2b19b770c9a37a14862a4f0d0e7f67f840d6dcd621fa13a19263",
+    "original_name": "(R)-beta-hydroxybutyrate dehydrogenase",
+    "Greek_name": "(R)β-hydroxybutyrate dehydrogenase",
+    "reference": "TARGET:BDH2",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:BDH2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "30864c7e2463b7c419920413fec543186b153705121a742ac4050325e9c7b5d8",
+    "original_name": "thymosin, beta 4, X chromosome",
+    "Greek_name": "thymosin, β 4, X chromosome",
+    "reference": "TARGET:TMSB4X",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:TMSB4X"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "326acf78e872431cb2ea701090a4a292039616a5becc5f1114db59d3ff36a943",
+    "original_name": "Phosphorylase kinase subunit beta",
+    "Greek_name": "Phosphorylase kinase subunit β",
+    "reference": "TARGET:PHKB",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PHKB"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "372bf9395493eef0921f89f3d2d82502ea82df22d85c5c5fc2586a3d0c00c8a5",
+    "original_name": "GDNF family receptor alpha-3",
+    "Greek_name": "GDNF family receptor α-3",
+    "reference": "TARGET:GFRA3",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:GDNF",
+      "TARGET:PSMA4"
+    ],
+    "Greek_current": [
+      "TARGET:GDNF"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:GFRA3"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "9ade344cdf7b2c87925d6fd4ec2f5764938a4c6dba6c2c67cd46a04a5d904b1c",
+    "original_name": "COPI coat complex subunit epsilon",
+    "Greek_name": "COPI coat complex subunit ε",
+    "reference": "TARGET:COPE",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:COPE"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "bf361cb45d3d459d019eb41b9ce0491feb8ea55375b07538aa8256c9cd06e1b9",
+    "original_name": "protein kinase, cAMP-dependent, regulatory, type I, beta",
+    "Greek_name": "protein kinase, cAMP-dependent, regulatory, type I, β",
+    "reference": "TARGET:PRKAR1B",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:WEE1",
+      "TARGET:SGCG"
+    ],
+    "Greek_current": [
+      "TARGET:WEE1",
+      "TARGET:SGCG"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PRKAR1B"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "39127bc911bdaa94d4d6955c3c7a8ea7ac791cd628acbab1938176ee5d8d63e4",
+    "original_name": "Brain-derived tau kinase",
+    "Greek_name": "Brain-derived τ kinase",
+    "reference": "TARGET:TTBK1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:MAPT"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:TTBK1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "d1a0f782e8a8c26b7fa9cb535c94082d31e9cd709f2158db7c15b252ad31921d",
+    "original_name": "transforming growth factor beta receptor I",
+    "Greek_name": "transforming growth factor β receptor I",
+    "reference": "TARGET:TGFBR1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:TGFBR1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "c754fc426036d00635105420bd60524f0051a3a3483a0445fb3167158b3c5598",
+    "original_name": "DAGL-alpha",
+    "Greek_name": "DAGLα",
+    "reference": "TARGET:DAGLA",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:DAGLA"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:DAGLA"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "2ee3dfa084bb08ea8766150156c0d809a30e2363f38de56545d9d0785457bc1c",
+    "original_name": "TR-BETA",
+    "Greek_name": "TRβ",
+    "reference": "TARGET:TXNRD2",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:TXNRD2"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:TXNRD2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "f3da7a59a8655615228337266d7e149f675b0896213cc162ba67eb07f8994598",
+    "original_name": "Serine/threonine-protein kinase MRCK beta",
+    "Greek_name": "Serine/threonine-protein kinase MRCK β",
+    "reference": "TARGET:CDC42BPB",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:CDC42BPB"
+    ],
+    "Greek_current": [
+      "TARGET:CDC42BPA"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CDC42BPB"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "6ad32bf49096d6bef4ccfa6aa6b714cc367168261fd9beefc38497b6a0907790",
+    "original_name": "CTP:phosphocholine cytidylyltransferase-alpha",
+    "Greek_name": "CTP:phosphocholine cytidylyltransferaseα",
+    "reference": "TARGET:PCYT1A",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:PCYT1A"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PCYT1A"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "7810245370e5e26c416d267b82d8b43741737428345b5a314764550241bc1daf",
+    "original_name": "interleukin 2 receptor, alpha",
+    "Greek_name": "interleukin 2 receptor, α",
+    "reference": "TARGET:IL2RA",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:IL2"
+    ],
+    "Greek_current": [
+      "TARGET:IL2"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:IL2RA"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "01465f4f3ea435f7ce8a21c74bd6ec1845991bce37d303f292fc8711878964f3",
+    "original_name": "Lanosterol 14-alpha demethylase",
+    "Greek_name": "Lanosterol 14α demethylase",
+    "reference": "TARGET:CYP51A1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:MBD2"
+    ],
+    "Greek_current": [
+      "TARGET:MBD2"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CYP51A1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "615f50072e9e979dd68ce9a733c78f418b9edd70e68c8d4c6af5cfff8ca92317",
+    "original_name": "RAC-PK-gamma",
+    "Greek_name": "RAC-PKγ",
+    "reference": "TARGET:AKT3",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:AKT3"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:AKT3"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "47df245c96c857565ecef59dcadf89590dbd1555c853072e3f1a5c66f46efa58",
+    "original_name": "Glycoprotein-fucosylgalactoside alpha-galactosyltransferase",
+    "Greek_name": "Glycoprotein-fucosylgalactoside α-galactosyltransferase",
+    "reference": "TARGET:ABO",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:ABO"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:ABO"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "f8123f8824020301bbe57673349ee76f4c4624939a147fdeed18a85312cd57da",
+    "original_name": "voltage-gated calcium channel alpha subunit Cav2.3",
+    "Greek_name": "voltage-gated calcium channel α subunit Cav2.3",
+    "reference": "TARGET:CACNA1E",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:CACNA1E"
+    ],
+    "Greek_current": [
+      "TARGET:CACNA1E"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CACNA1E"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "97cc744511a2d8414630f02fee59581ad3830a62bc3e4c5ac26fc353c69d9a65",
+    "original_name": "sodium/potassium-dependent ATPase beta-1 subunit",
+    "Greek_name": "sodium/potassium-dependent ATPase β-1 subunit",
+    "reference": "TARGET:ATP1B1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:DNAH8"
+    ],
+    "Greek_current": [
+      "TARGET:DNAH8"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:ATP1B1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "4dd257833be272a5876e7f5ce42fe0b2334a5dc01380161b1d96b9a83b4faf0a",
+    "original_name": "GDNF receptor alpha 1e",
+    "Greek_name": "GDNF receptor α 1e",
+    "reference": "TARGET:GFRA1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:GDNF"
+    ],
+    "Greek_current": [
+      "TARGET:GDNF"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:GFRA1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "c9c1477658d39031f3ded97b074ba104683bc7ed61aaf6c59f9d33a42c0fce6d",
+    "original_name": "large conductance Ca2+-activated K+ channel beta 1 subunit",
+    "Greek_name": "large conductance Ca2+-activated K+ channel β 1 subunit",
+    "reference": "TARGET:KCNMB1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:LARGE1"
+    ],
+    "Greek_current": [
+      "TARGET:LARGE1"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:KCNMB1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "5d95d20a908936facb1a5c3e7ed23fb0e4322e483d8b6d2b65665a31549cd9aa",
+    "original_name": "Steroid Delta-isomerase",
+    "Greek_name": "Steroid δ-isomerase",
+    "reference": null,
+    "English_categories": [
+      "C"
+    ],
+    "Greek_categories": [
+      "C"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "4e87e4131f989f5a138bff984ec437a9afcb0db0bf169309c60acf46c9880a1b",
+    "original_name": "acetylcholine receptor, nicotinic, delta (muscle)",
+    "Greek_name": "acetylcholine receptor, nicotinic, δ (muscle)",
+    "reference": "TARGET:CHRND",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CHRND"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "847ec181c4228d066680fb60c402679cdf45bf0e259bd15f6664ff78d6c6f092",
+    "original_name": "4-galactosyl-N-acetylglucosaminide 3-alpha-L-fucosyltransferase",
+    "Greek_name": "4-galactosyl-N-acetylglucosaminide 3α-L-fucosyltransferase",
+    "reference": null,
+    "English_categories": [
+      "C"
+    ],
+    "Greek_categories": [
+      "C"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "e8b897ea550a2359a6f81460c741190b29f563c0e2760b2b7b469b2bfd1f88fb",
+    "original_name": "PI3K-delta",
+    "Greek_name": "PI3Kδ",
+    "reference": "TARGET:PIK3CD",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:PIK3CD"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PIK3CD"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "fb2c48169afbd186b5b887d6f9c40b97733ec0731a71a9f409f4ec5213c32ad7",
+    "original_name": "pro-interleukin-1-beta",
+    "Greek_name": "pro-interleukin-1β",
+    "reference": "TARGET:IL1B",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:IL1B"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:IL1B"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "01d029edfb670af2d50ed8fa778d04649d84b2dfc2bb3c6c4052b899eb41cc82",
+    "original_name": "Serine/threonine-protein phosphatase 2B catalytic subunit beta isoform",
+    "Greek_name": "Serine/threonine-protein phosphatase 2B catalytic subunit β isoform",
+    "reference": "TARGET:PPP3CB",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PPP3CB"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "667ab85f588de77794b9540f94fa208fe77db72224000a2e5d41b7098b8c8750",
+    "original_name": "tumor necrosis factor, alpha, converting enzyme",
+    "Greek_name": "tumor necrosis factor, α, converting enzyme",
+    "reference": "TARGET:ADAM17",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:ADAM17"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "d919bb331ddeb473369f2ae5553e7502f541b4441c5086358e14900cf658415c",
+    "original_name": "MGSA beta",
+    "Greek_name": "MGSA β",
+    "reference": "TARGET:CXCL2",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:CXCL2"
+    ],
+    "Greek_current": [
+      "TARGET:CXCL1"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CXCL2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "d35dc50ee3ffa49be57bcf8c38104397d12660d7762f6e1613b1e237aeb77525",
+    "original_name": "polymerase (DNA directed), delta 2, regulatory subunit 50kDa",
+    "Greek_name": "polymerase (DNA directed), δ 2, regulatory subunit 50kDa",
+    "reference": "TARGET:POLD2",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:POLD2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "3d6ba02953f018d49f7d74a2bae8ea4c36b74ec8d56cf368b30a6df993f5dfd8",
+    "original_name": "nascent-polypeptide-associated complex beta polypeptide",
+    "Greek_name": "nascent-polypeptide-associated complex β polypeptide",
+    "reference": "TARGET:BTF3",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:BTF3"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "c22ce64109d4224825e4322943e9c412398f2535490882c609fd346ce4bf0fe6",
+    "original_name": "HNF-4-gamma",
+    "Greek_name": "HNF-4γ",
+    "reference": "TARGET:HNF4G",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:HNF4G"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:HNF4G"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "b41f5bac8665b6b5216488be9d8b98c7032176cf41d4a1983b6209baadbfb964",
+    "original_name": "tubulin gamma complex associated protein 3",
+    "Greek_name": "tubulin γ complex associated protein 3",
+    "reference": "TARGET:TUBGCP3",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:HSPB3"
+    ],
+    "Greek_current": [
+      "TARGET:HSPB3"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:TUBGCP3"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "d2696768a95cc7fba1b7513193a338b6ee39c3b39b150cb886320040c548dd0c",
+    "original_name": "CD8 beta opposite",
+    "Greek_name": "CD8 β opposite",
+    "reference": "TARGET:SMYD1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:CD8A"
+    ],
+    "Greek_current": [
+      "TARGET:CD8A"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:SMYD1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "7b77f4451d71479dffd63bdd563cc18c8e5c1c90c119e8560aba71a9a8f098b5",
+    "original_name": "Na(+)/K(+) ATPase alpha-1 subunit",
+    "Greek_name": "Na(+)/K(+) ATPase α-1 subunit",
+    "reference": "TARGET:ATP1A1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:DNAH8",
+      "TARGET:PSMA6"
+    ],
+    "Greek_current": [
+      "TARGET:DNAH8"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:ATP1A1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "3f30bad016cc30ef0d1e252b35cbde71e3ec2fd42a91d321d2e132b7327bb339",
+    "original_name": "Fc fragment of IgE, high affinity I, receptor for; alpha polypeptide",
+    "Greek_name": "Fc fragment of IgE, high affinity I, receptor for; α polypeptide",
+    "reference": "TARGET:FCER1A",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:IGHE"
+    ],
+    "Greek_current": [
+      "TARGET:IGHE"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:FCER1A"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "a7f3b268ce66a3abfb2b471de3e0b0919cfde0f754385f0a2def308551b3ee9f",
+    "original_name": "AchR epsilon subunit",
+    "Greek_name": "AchR ε subunit",
+    "reference": "TARGET:CHRNE",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CHRNE"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "f559bace6f5f8b8e359e1f928527b0b23a286f43cc7a7f7edad12e07979c17c2",
+    "original_name": "Nuclear receptor ROR-gamma",
+    "Greek_name": "Nuclear receptor RORγ",
+    "reference": "TARGET:RORC",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:RORC"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "3105ead15b7d3eee787f6120db9c72c8cd70de9a5d3db7e7d4484752a08ba902",
+    "original_name": "MMI-alpha",
+    "Greek_name": "MMIα",
+    "reference": "TARGET:MYO1B",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:MYO1B"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:MYO1B"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "82634bba2df524b4f9afd88431f3478430c4c6284184f766fd30eff239d01821",
+    "original_name": "interferon alpha 1b",
+    "Greek_name": "interferon α 1b",
+    "reference": null,
+    "English_categories": [
+      "C"
+    ],
+    "Greek_categories": [
+      "C"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "8c3826136deef833c469dbacb6218ca7025ea6a807080c073107431d96a25063",
+    "original_name": "Adaptor protein complex AP-2 subunit mu",
+    "Greek_name": "Adaptor protein complex AP-2 subunit μ",
+    "reference": "TARGET:AP2M1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:TFAP2A"
+    ],
+    "Greek_current": [
+      "TARGET:TFAP2A"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:AP2M1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "f7ede70d3c05cecee8771793419c0049ce7e8cdfa2f0f1f4eac29a154d25531b",
+    "original_name": "COPI coat complex subunit gamma 1",
+    "Greek_name": "COPI coat complex subunit γ 1",
+    "reference": "TARGET:COPG1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:COPG1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "ef01c57df4637ff36f5582ce9d865fc4a122913cf96579c34ba267b9de24f6ed",
+    "original_name": "p70(S6K)-beta",
+    "Greek_name": "p70(S6K)β",
+    "reference": "TARGET:RPS6KB2",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:RPS6KB2"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:RPS6KB2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "9717e6bee5f8b0192fe49a4f9112db5914231fc428c466c5575f02a566d3aeab",
+    "original_name": "IL-5R-alpha",
+    "Greek_name": "IL-5Rα",
+    "reference": "TARGET:IL5RA",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:IL5RA"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:IL5RA"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "04846c366ebb76abfee886c08eea9e911f3470b958de701150fa1a686e73bf0f",
+    "original_name": "Gamma-secretase-activating protein 16 kDa C-terminal form",
+    "Greek_name": "γ-secretase-activating protein 16 kDa C-terminal form",
+    "reference": "TARGET:GSAP",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:GSAP"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:GSAP"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "8de4dbef6c085fd6c3460f457a4587e417ecfd7d5ccc56cc8bd40d755a307242",
+    "original_name": "Cholesteryl-beta-glucosidase GBA2",
+    "Greek_name": "Cholesterylβ-glucosidase GBA2",
+    "reference": "TARGET:GBA2",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:GBA2"
+    ],
+    "Greek_current": [
+      "TARGET:GBA2"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:GBA2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "fb9d6da5263bd14c184a9408e78edea59b8d66d6e4d30b2dab8f7ab736272030",
+    "original_name": "Delta and Notch-like epidermal growth factor-related receptor",
+    "Greek_name": "δ and Notch-like epidermal growth factor-related receptor",
+    "reference": "TARGET:DNER",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:DNER"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "2a5ddd1731cc66f2d6ac2eeda10f7ba9fd6d89d7874739605c96ad8ecb453cc3",
+    "original_name": "3-beta-hydroxy-5-ene steroid dehydrogenase",
+    "Greek_name": "3β-hydroxy-5-ene steroid dehydrogenase",
+    "reference": null,
+    "English_categories": [
+      "C"
+    ],
+    "Greek_categories": [
+      "C"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "d9e2faad283dd22b56f6d4b0a54ac19da8a0cbd54232e1bd4b1374f194b3fd30",
+    "original_name": "Soluble APP-alpha",
+    "Greek_name": "Soluble APPα",
+    "reference": "TARGET:APP",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:APP"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:APP"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "cd22a8cc125401d65bc5faad8ac6ca51891087fbd4c414ebbd27c710444f6cd9",
+    "original_name": "Chondroitin beta-1,4-N-acetylgalactosaminyltransferase 1",
+    "Greek_name": "Chondroitin β-1,4-N-acetylgalactosaminyltransferase 1",
+    "reference": "TARGET:CSGALNACT1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:B4GALNT1"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CSGALNACT1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "a60b51df58fdea2f02b7d015a9f09beaaec8d62f95f21d62de3dda9343157c20",
+    "original_name": "LX receptor beta",
+    "Greek_name": "LX receptor β",
+    "reference": "TARGET:NR1H2",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:NR1H2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "76fb294cdf7e7ffc3cdd8036f3f7a2e1db1dfcd1ab37beae7f8624304b4640a2",
+    "original_name": "ATPase, Na+/K+ transporting, beta 3 polypeptide",
+    "Greek_name": "ATPase, Na+/K+ transporting, β 3 polypeptide",
+    "reference": "TARGET:ATP1B3",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:DNAH8"
+    ],
+    "Greek_current": [
+      "TARGET:DNAH8"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:ATP1B3"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "cfa817a03029a6f1199c2d72638684fe7c93b58894a4c4b611249c64c788ec33",
+    "original_name": "3-galactosyl-N-acetylglucosaminide 4-alpha-L-fucosyltransferase 3",
+    "Greek_name": "3-galactosyl-N-acetylglucosaminide 4α-L-fucosyltransferase 3",
+    "reference": "TARGET:FUT3",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:FUT3"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "11a027ce541f2bade3afaf99197dfb11448d6a274fb422b2ae31c39ffee6cdf9",
+    "original_name": "Protein transport protein Sec61 subunit beta",
+    "Greek_name": "Protein transport protein Sec61 subunit β",
+    "reference": "TARGET:SEC61B",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:SEC61A1"
+    ],
+    "Greek_current": [
+      "TARGET:SEC61A1"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:SEC61B"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "4280236fb69281c4e217dbda5cc34a048f9908605e65c69282b0604685e44d0b",
+    "original_name": "3 beta-HSD type II",
+    "Greek_name": "3 β-HSD type II",
+    "reference": "TARGET:HSD3B2",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:SGCG"
+    ],
+    "Greek_current": [
+      "TARGET:SGCG"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:HSD3B2"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "1ca689af2f587d4e3f2cf63e8763fac77efe6885c557669f5d13acd1085fd87b",
+    "original_name": "CaMK-II subunit alpha",
+    "Greek_name": "CaMK-II subunit α",
+    "reference": "TARGET:CAMK2A",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:CAMK2G"
+    ],
+    "Greek_current": [
+      "TARGET:CAMK2G"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CAMK2A"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "e4e5808e7e78529cb94da837c685acd73ada12b797ba29f9282da13b0b81addd",
+    "original_name": "phosphorylase kinase, delta subunit",
+    "Greek_name": "phosphorylase kinase, δ subunit",
+    "reference": null,
+    "English_categories": [
+      "C"
+    ],
+    "Greek_categories": [
+      "C"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "e2221298cc0eeba4638116e71722d580f7a4814567bc8adc22bcb2856bfc2faf",
+    "original_name": "CMP-N-acetylneuraminate beta-galactosamide alpha-2,6-sialyltransferase",
+    "Greek_name": "CMP-N-acetylneuraminate β-galactosamide alpha-2,6-sialyltransferase",
+    "reference": "TARGET:ST6GAL1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:ST6GAL1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "441a301cf36f6bce900b482b705b8aaf237b617f837bd31160ea87d20ad3415e",
+    "original_name": "PIAS-gamma",
+    "Greek_name": "PIASγ",
+    "reference": "TARGET:PIAS4",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:PIAS4"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PIAS4"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "1a1b75ae78b9aeb37aab200b0f4aca9210ca634cc194248d1b5021411c832835",
+    "original_name": "Alpha-galactosidase B",
+    "Greek_name": "α-galactosidase B",
+    "reference": "TARGET:NAGA",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:NAGA"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:NAGA"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "c19b8111ae4c26e7d4782c1fc9badac6a35792d1b80bfeb7bc259a0be26db8d4",
+    "original_name": "Thymopoietin-related peptide isoform alpha",
+    "Greek_name": "Thymopoietin-related peptide isoform α",
+    "reference": "TARGET:TMPO",
+    "English_categories": [
+      "A",
+      "B"
+    ],
+    "Greek_categories": [
+      "D",
+      "B"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:TMPO"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "4081d61f4c70fdead85e029427dd6751a2abcf6b539cb6bd20151fb6b5edf826",
+    "original_name": "PP2C-gamma",
+    "Greek_name": "PP2Cγ",
+    "reference": "TARGET:PPM1G",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:PPM1G"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PPM1G"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "b04540a4abf347bd970c732febaeadf8b0f811d83085c3a0bc79ee308950729d",
+    "original_name": "Guanine nucleotide-binding protein G(y) subunit alpha",
+    "Greek_name": "Guanine nucleotide-binding protein G(y) subunit α",
+    "reference": "TARGET:GNA11",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:GNA11"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "c6599eaf9d4567265d0313f50aa621124c5ea2848fb3a4eb5025a5d086538fc7",
+    "original_name": "Beta-glucocerebrosidase",
+    "Greek_name": "β-glucocerebrosidase",
+    "reference": "TARGET:GBA1",
+    "English_categories": [
+      "E"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [
+      "TARGET:GBA1"
+    ],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:GBA1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  },
+  {
+    "id": "f8c1401366cb352b52b4d14462977da68757e69c5f45a120e6d455624dbc288d",
+    "original_name": "collagen, type IV, alpha 3 (Goodpasture antigen) binding protein",
+    "Greek_name": "collagen, type IV, α 3 (Goodpasture antigen) binding protein",
+    "reference": "TARGET:CERT1",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "A",
+      "D"
+    ],
+    "English_current": [
+      "TARGET:SGCG",
+      "TARGET:PSMA4",
+      "TARGET:COL4A3"
+    ],
+    "Greek_current": [
+      "TARGET:SGCG",
+      "TARGET:COL4A3"
+    ],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:CERT1"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": true
+  },
+  {
+    "id": "fd5b4299f77f7206328ee9393c936ee262127047e2605bed7ee491468e6d19df",
+    "original_name": "Proteasome subunit alpha type-6",
+    "Greek_name": "Proteasome subunit α type-6",
+    "reference": "TARGET:PSMA6",
+    "English_categories": [
+      "A"
+    ],
+    "Greek_categories": [
+      "D"
+    ],
+    "English_current": [],
+    "Greek_current": [],
+    "English_permitted": {
+      "state": "TARGET",
+      "targets": [
+        "TARGET:PSMA6"
+      ],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "Greek_permitted": {
+      "state": "UNKNOWN",
+      "targets": [],
+      "note": "Exact full-name identity plus existing therapeutic-slot context; not a implemented parser result."
+    },
+    "known_English_mismatch": false
+  }
+]

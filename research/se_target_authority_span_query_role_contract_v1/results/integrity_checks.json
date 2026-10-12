@@ -1,0 +1,21 @@
+{
+  "input_hashes_unchanged": true,
+  "structural_labels_unchanged": true,
+  "observations_accounted": 1344,
+  "each_name_has_14_observations": true,
+  "exact_expected_span_offsets": true,
+  "authority_projection_uses_exact_supported_whole_identity_only": true,
+  "English_known_mismatches_accounted": 32,
+  "structural_controls_accounted": 48,
+  "frozen_label_errors_retained": [
+    "S041",
+    "S042"
+  ],
+  "authority_gap_retained": [
+    "S002"
+  ],
+  "full_contract_acceptance_demonstrated": false,
+  "reason": "No autonomous grammatical role arbitrator implemented or validated; 21 existing correct-identity frames not preserved by whole-name-only rule; two frozen labels conflict with adopted separator semantics.",
+  "architecture_stop": "B",
+  "production_changes": false
+}
