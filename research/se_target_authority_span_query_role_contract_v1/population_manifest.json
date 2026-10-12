@@ -1,0 +1,16 @@
+{
+  "baseline": "04b184b",
+  "structural_controls": 48,
+  "input_sha256": {
+    "research/se_target_query_authority_span_boundary_diagnosis_v1/trace.json": "7e99376634ebd8399a604e60e8c31576d73bdf46eb7b2b9dca2dfca4df406909",
+    "research/se_target_query_greek_orthography_v2/query_reference.json": "0b497c0034aac8519896649e3eb7e1e8d799d4a9e0e4383f0b76f2c867ece3ea",
+    "research/se_target_query_alias_coverage_v1/survey_baseline.json": "85733d15080965d076898addc3a8af611706eeab7f16cae91b85cd1f61ce99d8",
+    "research/se_target_query_alias_coverage_v1/survey_population.json": "fbe1bbf43fefb7feac37f1a94ed242dff22897663a0c778211abc9cde7b761c1",
+    "research/target_reference_identity_surface_diagnosis_v1/current_scientific_baseline.json": "3b0333066a6ebc5588c2a6b71ff27240d7649e7aaff933bcf7a686b7e07efb5f",
+    "tests/se/test_dual_target_separator_safety.py": "9843a0ca86249e801b0d4b93c6e220369c4125e409d3fcc9434741d90c03eaea",
+    "src/bve/se/intent/intent.py": "172977a37bf712594b7a0da4fb54289185c4dc8e7fb397344e4118a293498e4f",
+    "src/bve/se/intent/parser.py": "34f9edde34a1df0100b82796b378a77bcadbf5898b1ae86e4fc17bdd6c0813bf",
+    "src/bve/se/intent/indication_compilation.py": "27494972c3da7abc51f41b3243243244366746b6bbf701deafefcbc563c92c67"
+  },
+  "controls_sha256": "af25cd4284bf93c1ff3af41e0f6c3a19fd1ec88a3fe7abde58197498e004faf0"
+}

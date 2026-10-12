@@ -1,0 +1,602 @@
+{
+  "note": "Constructed grammar probes; not assertions that these are real diseases, biomarkers or feasible therapies. No synthetic biological aliases.",
+  "rows": [
+    {
+      "id": "S001",
+      "query": "Find clinical-stage CD19 therapies.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Exact symbol in therapeutic target slot."
+    },
+    {
+      "id": "S002",
+      "query": "Find PD-1 antibodies.",
+      "expected_target_spans": [
+        {
+          "text": "PD-1",
+          "entity_id": "TARGET:PDCD1"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Existing explicit alias, not an invented synonym."
+    },
+    {
+      "id": "S003",
+      "query": "Find clinical-stage Hemoglobin beta chain therapies.",
+      "expected_target_spans": [
+        {
+          "text": "Hemoglobin beta chain",
+          "entity_id": "TARGET:HBB"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Existing frozen whole protein name."
+    },
+    {
+      "id": "S004",
+      "query": "Find clinical-stage interleukin 2 receptor, alpha therapies.",
+      "expected_target_spans": [
+        {
+          "text": "interleukin 2 receptor, alpha",
+          "entity_id": "TARGET:IL2RA"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "The ligand token is internal to the complete receptor name."
+    },
+    {
+      "id": "S005",
+      "query": "Find therapies targeting GDNF receptor alpha 1e.",
+      "expected_target_spans": [
+        {
+          "text": "GDNF receptor alpha 1e",
+          "entity_id": "TARGET:GFRA1"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Complete source alias, not GDNF ligand."
+    },
+    {
+      "id": "S006",
+      "query": "Find therapies targeting CD8 beta opposite.",
+      "expected_target_spans": [
+        {
+          "text": "CD8 beta opposite",
+          "entity_id": "TARGET:SMYD1"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Complete authoritative name; embedded CD8 cannot own the span."
+    },
+    {
+      "id": "S007",
+      "query": "Find clinical-stage C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4 therapies.",
+      "expected_target_spans": [
+        {
+          "text": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+          "entity_id": "TARGET:C5"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "The name-internal and is not a target conjunction."
+    },
+    {
+      "id": "S008",
+      "query": "Find clinical-stage (R)-beta-hydroxybutyrate dehydrogenase therapies.",
+      "expected_target_spans": [
+        {
+          "text": "(R)-beta-hydroxybutyrate dehydrogenase",
+          "entity_id": "TARGET:BDH2"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Scientific parentheses belong to the name."
+    },
+    {
+      "id": "S009",
+      "query": "Find clinical-stage Thymopoietin-related peptide isoform alpha therapies.",
+      "expected_target_spans": [
+        {
+          "text": "Thymopoietin-related peptide isoform alpha",
+          "entity_id": "TARGET:TMPO"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Name-internal peptide is not a requested therapeutic modality."
+    },
+    {
+      "id": "S010",
+      "query": "Find clinical-stage anti-CD19 antibodies.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "affix",
+      "expected_outcome": "TARGET",
+      "reason": "Existing adopted wrapper around an independently supported target."
+    },
+    {
+      "id": "S011",
+      "query": "Find clinical-stage CD19-directed antibodies.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "affix",
+      "expected_outcome": "TARGET",
+      "reason": "Existing adopted wrapper around an independently supported target."
+    },
+    {
+      "id": "S012",
+      "query": "Find clinical-stage CD19-targeting antibodies.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "affix",
+      "expected_outcome": "TARGET",
+      "reason": "Existing adopted wrapper around an independently supported target."
+    },
+    {
+      "id": "S013",
+      "query": "Find clinical-stage CD19-blocking antibodies.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "affix",
+      "expected_outcome": "TARGET",
+      "reason": "Existing adopted wrapper around an independently supported target."
+    },
+    {
+      "id": "S014",
+      "query": "Find clinical-stage CD19-binding antibodies.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "affix",
+      "expected_outcome": "TARGET",
+      "reason": "Existing adopted wrapper around an independently supported target."
+    },
+    {
+      "id": "S015",
+      "query": "Find clinical-stage CD19-specific antibodies.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "affix",
+      "expected_outcome": "TARGET",
+      "reason": "Existing adopted wrapper around an independently supported target."
+    },
+    {
+      "id": "S016",
+      "query": "Find antibodies targeting CD19.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Object of explicit targeting predicate."
+    },
+    {
+      "id": "S017",
+      "query": "Find antibodies against CD19.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Object of explicit against complement."
+    },
+    {
+      "id": "S018",
+      "query": "Find antibodies for CD19-positive leukemia.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "biomarker",
+      "expected_outcome": "NO_TARGET",
+      "reason": "Patient disease modifier is not a therapeutic target request."
+    },
+    {
+      "id": "S019",
+      "query": "Find antibodies targeting CD19 for BCMA-positive leukemia.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "mixed",
+      "expected_outcome": "TARGET",
+      "reason": "Separate target object and patient biomarker; no BCMA target inheritance."
+    },
+    {
+      "id": "S020",
+      "query": "Find therapies for interleukin 2 receptor deficiency.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "disease",
+      "expected_outcome": "NO_TARGET",
+      "reason": "Condition complement does not assert target or ligand."
+    },
+    {
+      "id": "S021",
+      "query": "Find therapies for Parkinson disease.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "disease",
+      "expected_outcome": "NO_TARGET",
+      "reason": "Disease role is distinct from protein/gene identity."
+    },
+    {
+      "id": "S022",
+      "query": "Find therapies with CD19 as a biomarker.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "biomarker",
+      "expected_outcome": "NO_TARGET",
+      "reason": "Explicit biomarker role."
+    },
+    {
+      "id": "S023",
+      "query": "Find therapies measuring CD19 expression.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "assay",
+      "expected_outcome": "NO_TARGET",
+      "reason": "Measurement object is not a therapeutic target."
+    },
+    {
+      "id": "S024",
+      "query": "Find therapies evaluated in a CD19 binding assay.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "assay",
+      "expected_outcome": "NO_TARGET",
+      "reason": "Assay context cannot establish the target requirement."
+    },
+    {
+      "id": "S025",
+      "query": "Find therapies for BRAF V600E-mutant melanoma.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "mutation",
+      "expected_outcome": "NO_TARGET",
+      "reason": "Mutation-specific patient criterion must not become a wild-type target."
+    },
+    {
+      "id": "S026",
+      "query": "Find therapies targeting BRAF V600E.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "mutation",
+      "expected_outcome": "UNRESOLVED_SCIENTIFIC",
+      "reason": "Existing target model cannot express mutant-specific scope."
+    },
+    {
+      "id": "S027",
+      "query": "Find therapies targeting CD19 for BRAF V600E-mutant melanoma.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "mixed",
+      "expected_outcome": "TARGET",
+      "reason": "Mutation is in the indication clause, not a second target."
+    },
+    {
+      "id": "S028",
+      "query": "Find therapies targeting the MAPK pathway.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "pathway",
+      "expected_outcome": "UNRESOLVED_SCIENTIFIC",
+      "reason": "Pathway membership is not a single gene."
+    },
+    {
+      "id": "S029",
+      "query": "Find therapies targeting the CD19 family.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "family",
+      "expected_outcome": "UNRESOLVED_SCIENTIFIC",
+      "reason": "A family requirement must not silently collapse to a gene."
+    },
+    {
+      "id": "S030",
+      "query": "Find therapies targeting a complex containing CD19.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "complex",
+      "expected_outcome": "UNRESOLVED_SCIENTIFIC",
+      "reason": "Complex membership does not identify the whole complex."
+    },
+    {
+      "id": "S031",
+      "query": "Find therapies targeting the receptor of GDNF.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "relationship",
+      "expected_outcome": "UNRESOLVED_SCIENTIFIC",
+      "reason": "No inversion of ligand-to-receptor relation."
+    },
+    {
+      "id": "S032",
+      "query": "Find therapies targeting the ligand of PDCD1.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "relationship",
+      "expected_outcome": "UNRESOLVED_SCIENTIFIC",
+      "reason": "No inversion of receptor-to-ligand relation."
+    },
+    {
+      "id": "S033",
+      "query": "Find therapies targeting CD19-associated protein.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "scientific_phrase",
+      "expected_outcome": "UNRESOLVED_SCIENTIFIC",
+      "reason": "A name with an unsupported head cannot promote its embedded alias."
+    },
+    {
+      "id": "S034",
+      "query": "Find therapies targeting CD19 or BCMA.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        },
+        {
+          "text": "BCMA",
+          "entity_id": "TARGET:TNFRSF17"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "multi_target",
+      "expected_outcome": "TARGET",
+      "reason": "Explicit disjunction of independent target objects."
+    },
+    {
+      "id": "S035",
+      "query": "Find therapies targeting CD19 and BCMA.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        },
+        {
+          "text": "BCMA",
+          "entity_id": "TARGET:TNFRSF17"
+        }
+      ],
+      "expected_operator": "ALL",
+      "role_category": "multi_target",
+      "expected_outcome": "TARGET",
+      "reason": "Explicit conjunction of independent target objects."
+    },
+    {
+      "id": "S036",
+      "query": "Find clinical-stage CD19/BCMA CAR-T therapies for lupus.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        },
+        {
+          "text": "BCMA",
+          "entity_id": "TARGET:TNFRSF17"
+        }
+      ],
+      "expected_operator": "ALL",
+      "role_category": "separator",
+      "expected_outcome": "TARGET",
+      "reason": "Existing adopted dual-target separator control."
+    },
+    {
+      "id": "S037",
+      "query": "Find clinical-stage CD19xBCMA CAR-T therapies for lupus.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        },
+        {
+          "text": "BCMA",
+          "entity_id": "TARGET:TNFRSF17"
+        }
+      ],
+      "expected_operator": "ALL",
+      "role_category": "separator",
+      "expected_outcome": "TARGET",
+      "reason": "Existing adopted dual-target separator control."
+    },
+    {
+      "id": "S038",
+      "query": "Find clinical-stage CD19×BCMA CAR-T therapies for lupus.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        },
+        {
+          "text": "BCMA",
+          "entity_id": "TARGET:TNFRSF17"
+        }
+      ],
+      "expected_operator": "ALL",
+      "role_category": "separator",
+      "expected_outcome": "TARGET",
+      "reason": "Existing adopted dual-target separator control."
+    },
+    {
+      "id": "S039",
+      "query": "Find clinical-stage AK/ATPase therapies for cancer.",
+      "expected_target_spans": [
+        {
+          "text": "AK/ATPase",
+          "entity_id": "TARGET:AK6"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "separator",
+      "expected_outcome": "TARGET",
+      "reason": "Whole authority name owns the separator; do not emit ADK."
+    },
+    {
+      "id": "S040",
+      "query": "Find clinical-stage TaxREB107 therapies for cancer.",
+      "expected_target_spans": [
+        {
+          "text": "TaxREB107",
+          "entity_id": "TARGET:RPL6"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "separator",
+      "expected_outcome": "TARGET",
+      "reason": "Whole authority name takes precedence over accidental x separator."
+    },
+    {
+      "id": "S041",
+      "query": "Find clinical-stage anti-ABP/ZF therapies.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "separator",
+      "expected_outcome": "NO_TARGET",
+      "reason": "Unconfirmed separator fragment must not assert CREBZF."
+    },
+    {
+      "id": "S042",
+      "query": "Find clinical-stage CD19/CAR therapies.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "separator",
+      "expected_outcome": "NO_TARGET",
+      "reason": "An unresolved dual-target component cannot be discarded."
+    },
+    {
+      "id": "S043",
+      "query": "Find clinical-stage p150 therapies.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "ambiguity",
+      "expected_outcome": "AMBIGUOUS",
+      "reason": "Ambiguous authority identity remains ambiguous."
+    },
+    {
+      "id": "S044",
+      "query": "Find clinical-stage IL-4Rα therapies.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "unsupported_alias",
+      "expected_outcome": "UNKNOWN",
+      "reason": "Greek expansion remains reverted."
+    },
+    {
+      "id": "S045",
+      "query": "Find clinical-stage IL-4R-alpha therapies.",
+      "expected_target_spans": [
+        {
+          "text": "IL-4R-alpha",
+          "entity_id": "TARGET:IL4R"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "target",
+      "expected_outcome": "TARGET",
+      "reason": "Existing independently supported English alias."
+    },
+    {
+      "id": "S046",
+      "query": "Find clinical-stage CD19xyz therapies.",
+      "expected_target_spans": [],
+      "expected_operator": "ANY",
+      "role_category": "unsupported_alias",
+      "expected_outcome": "UNKNOWN",
+      "reason": "No substring inference from CD19."
+    },
+    {
+      "id": "S047",
+      "query": "Find clinical-stage CD19 therapies for CD19-positive leukemia.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "mixed",
+      "expected_outcome": "TARGET",
+      "reason": "Same identity occurs once as target and once as patient biomarker."
+    },
+    {
+      "id": "S048",
+      "query": "Find clinical-stage CD19 therapies for CD8 beta opposite expression.",
+      "expected_target_spans": [
+        {
+          "text": "CD19",
+          "entity_id": "TARGET:CD19"
+        }
+      ],
+      "expected_operator": "ANY",
+      "role_category": "mixed",
+      "expected_outcome": "TARGET",
+      "reason": "Even a whole target authority name is non-target in an expression criterion."
+    }
+  ]
+}
