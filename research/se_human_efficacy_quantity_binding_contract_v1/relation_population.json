@@ -1,0 +1,5934 @@
+[
+  {
+    "id": "known_false:H16:claim:fda8d13dfda69b782423",
+    "group": "known_false",
+    "run": "H16",
+    "name": "Ivermectin",
+    "survey_id": 64,
+    "frozen_source_row": "known_false:H16:claim:fda8d13dfda69b782423",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 242,
+      "end": 252,
+      "text": "ivermectin"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 132,
+      "end": 164,
+      "text": "combination therapy of dupilumab"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 84,
+      "end": 96,
+      "text": "this patient"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 106,
+      "end": 124,
+      "text": "complete remission"
+    },
+    "numerical_spans": [],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "COMPONENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": false,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "COMPONENT",
+        "reason": "Combination therapy explicitly named; current immediate-name regimen guard misses the apposition. Do not infer component-specific efficacy."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "QUALITATIVE_CASE"
+      },
+      "outcome_to_quantity": {
+        "status": "UNSUPPORTED",
+        "form": "QUALITATIVE_CASE"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "ivermectin",
+            "start": 242,
+            "end": 252,
+            "term": "Ivermectin",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "ivermectin",
+            "start": 242,
+            "end": 252,
+            "term": "Ivermectin",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "ivermectin",
+            "start": 242,
+            "end": 252,
+            "term": "ivermectin",
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 89,
+            "end": 96,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "complete remission",
+            "start": 106,
+            "end": 124,
+            "term": "complete remission",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "remission",
+            "start": 115,
+            "end": 124,
+            "term": "remission",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "4/13",
+            "start": 214,
+            "end": 218,
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "4/13",
+      "start": 214,
+      "end": 218,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "4/13",
+        "start": 214,
+        "end": 218
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "REJECT",
+    "quantity_role_reason": "No numerical efficacy quantity. 4/13 identifies interleukin targets.",
+    "content_binding_form": "QUALITATIVE_CASE",
+    "content_expected": false,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "known_false:H16:claim:6fe84fe83a76085b6cb1",
+    "group": "known_false",
+    "run": "H16",
+    "name": "Dupilumab",
+    "survey_id": 64,
+    "frozen_source_row": "known_false:H16:claim:6fe84fe83a76085b6cb1",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 155,
+      "end": 164,
+      "text": "dupilumab"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 132,
+      "end": 164,
+      "text": "combination therapy of dupilumab"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 84,
+      "end": 96,
+      "text": "this patient"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 106,
+      "end": 124,
+      "text": "complete remission"
+    },
+    "numerical_spans": [],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "COMPONENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": false,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "COMPONENT",
+        "reason": "Combination therapy explicitly named; current immediate-name regimen guard misses the apposition. Do not infer component-specific efficacy."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "QUALITATIVE_CASE"
+      },
+      "outcome_to_quantity": {
+        "status": "UNSUPPORTED",
+        "form": "QUALITATIVE_CASE"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "dupilumab",
+            "start": 155,
+            "end": 164,
+            "term": "Dupilumab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "dupilumab",
+            "start": 155,
+            "end": 164,
+            "term": "Dupilumab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "dupilumab",
+            "start": 155,
+            "end": 164,
+            "term": "dupilumab",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 89,
+            "end": 96,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "complete remission",
+            "start": 106,
+            "end": 124,
+            "term": "complete remission",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "remission",
+            "start": 115,
+            "end": 124,
+            "term": "remission",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "4/13",
+            "start": 214,
+            "end": 218,
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "4/13",
+      "start": 214,
+      "end": 218,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "4/13",
+        "start": 214,
+        "end": 218
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "REJECT",
+    "quantity_role_reason": "No numerical efficacy quantity. 4/13 identifies interleukin targets.",
+    "content_binding_form": "QUALITATIVE_CASE",
+    "content_expected": false,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "known_false:H18:claim:9954996062248331a551",
+    "group": "known_false",
+    "run": "H18",
+    "name": "Tirzepatide",
+    "survey_id": 97,
+    "frozen_source_row": "known_false:H18:claim:9954996062248331a551",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 209,
+      "end": 220,
+      "text": "tirzepatide"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 209,
+      "end": 220,
+      "text": "tirzepatide"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 32,
+      "end": 46,
+      "text": "human myotubes"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 78,
+      "end": 89,
+      "text": "respiration"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 233,
+        "end": 236,
+        "text": "42%"
+      },
+      {
+        "field": "decoded_analysis_passage",
+        "start": 237,
+        "end": 240,
+        "text": "52%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "NAMED_LAB_INTERVENTION",
+    "evidence_world": "LAB_MATERIAL",
+    "outcome_observed": false,
+    "outcome_clinical_efficacy": false,
+    "quantity_is_outcome_measure": false,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "NAMED_LAB_INTERVENTION",
+        "reason": "Named asset exists but there is no treated clinical cohort. Title also establishes In Vitro; local sentence omits that exact veto phrase."
+      },
+      "cohort_to_outcome": {
+        "status": "UNSUPPORTED",
+        "form": "LAB_MEASUREMENT"
+      },
+      "outcome_to_quantity": {
+        "status": "UNSUPPORTED",
+        "form": "LAB_MEASUREMENT"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "tirzepatide",
+            "start": 229,
+            "end": 240,
+            "term": "TIRZEPATIDE",
+            "fragment_indices": [
+              4
+            ]
+          },
+          {
+            "text": "tirzepatide",
+            "start": 229,
+            "end": 240,
+            "term": "Tirzepatide",
+            "fragment_indices": [
+              4
+            ]
+          },
+          {
+            "text": "tirzepatide",
+            "start": 229,
+            "end": 240,
+            "term": "Tirzepatide",
+            "fragment_indices": [
+              4
+            ]
+          },
+          {
+            "text": "tirzepatide",
+            "start": 229,
+            "end": 240,
+            "term": "tirzepatide",
+            "fragment_indices": [
+              4
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "human",
+            "start": 32,
+            "end": 37,
+            "term": "human",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "response",
+            "start": 8,
+            "end": 16,
+            "term": "response",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "219330%",
+            "start": 126,
+            "end": 133,
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "62%",
+            "start": 134,
+            "end": 137,
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "219142%",
+            "start": 259,
+            "end": 266,
+            "fragment_indices": [
+              4
+            ]
+          },
+          {
+            "text": "52%",
+            "start": 267,
+            "end": 270,
+            "fragment_indices": [
+              4
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "219330%",
+      "start": 126,
+      "end": 133,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "219330%",
+        "start": 126,
+        "end": 133
+      },
+      {
+        "text": "62%",
+        "start": 134,
+        "end": 137
+      },
+      {
+        "text": "219142%",
+        "start": 259,
+        "end": 266
+      },
+      {
+        "text": "52%",
+        "start": 267,
+        "end": 270
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "REJECT",
+    "quantity_role_reason": "Respiration percentages are cell-assay measurements; p-values and timepoints are ancillary.",
+    "content_binding_form": "LAB_MEASUREMENT",
+    "content_expected": false,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "known_false:H19:claim:6c5b35e2a5871015f940",
+    "group": "known_false",
+    "run": "H19",
+    "name": "Sacituzumab Tirumotecan",
+    "survey_id": 109,
+    "frozen_source_row": "known_false:H19:claim:6c5b35e2a5871015f940",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 156,
+      "end": 179,
+      "text": "sacituzumab tirumotecan"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 156,
+      "end": 179,
+      "text": "sacituzumab tirumotecan"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 52,
+      "end": 76,
+      "text": "simulate 3-week patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 14,
+      "end": 28,
+      "text": "survival model"
+    },
+    "numerical_spans": [],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MODELED_COMPARISON",
+    "evidence_world": "SIMULATED",
+    "outcome_observed": false,
+    "outcome_clinical_efficacy": false,
+    "quantity_is_outcome_measure": false,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "MODELED_COMPARISON",
+        "reason": "Asset is a modeled comparison, not the recipient of an observed patient outcome in this witness."
+      },
+      "cohort_to_outcome": {
+        "status": "UNSUPPORTED",
+        "form": "MODEL_PARAMETER"
+      },
+      "outcome_to_quantity": {
+        "status": "UNSUPPORTED",
+        "form": "MODEL_PARAMETER"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "sacituzumab tirumotecan",
+            "start": 156,
+            "end": 179,
+            "term": "Sacituzumab Tirumotecan",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "sacituzumab tirumotecan",
+            "start": 156,
+            "end": 179,
+            "term": "Sacituzumab Tirumotecan",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "sacituzumab tirumotecan",
+            "start": 156,
+            "end": 179,
+            "term": "Sacituzumab tirumotecan",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "sacituzumab tirumotecan",
+            "start": 156,
+            "end": 179,
+            "term": "sacituzumab tirumotecan",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 68,
+            "end": 75,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 227,
+            "end": 234,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "survival",
+            "start": 14,
+            "end": 22,
+            "term": "survival",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "5%",
+            "start": 339,
+            "end": 341,
+            "fragment_indices": [
+              5
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "5%",
+      "start": 339,
+      "end": 341,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "5%",
+        "start": 339,
+        "end": 341
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "REJECT",
+    "quantity_role_reason": "5% is an annual discount rate, not patient efficacy.",
+    "content_binding_form": "MODEL_PARAMETER",
+    "content_expected": false,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:TAC01:claim:d873e0fa9c925007ee4e",
+    "group": "v1_removed_clinical",
+    "run": "TAC01",
+    "name": "Bevacizumab",
+    "survey_id": 11,
+    "frozen_source_row": "v1_removed_clinical:TAC01:claim:d873e0fa9c925007ee4e",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 92,
+      "end": 103,
+      "text": "bevacizumab"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 92,
+      "end": 103,
+      "text": "bevacizumab"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 33,
+      "end": 103,
+      "text": "patients with measurable diseases treated with and without bevacizumab"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 4,
+      "end": 28,
+      "text": "objective response rates"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 109,
+        "end": 114,
+        "text": "84.5%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Group-specific comparison, not free attachment of every number to every named product."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_ARM_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_ARM_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "bevacizumab",
+            "start": 92,
+            "end": 103,
+            "term": "Bevacizumab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "bevacizumab",
+            "start": 92,
+            "end": 103,
+            "term": "Bevacizumab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "bevacizumab",
+            "start": 92,
+            "end": 103,
+            "term": "bevacizumab",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 33,
+            "end": 40,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "objective response",
+            "start": 4,
+            "end": 22,
+            "term": "objective response",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "response",
+            "start": 14,
+            "end": 22,
+            "term": "response",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "response rate",
+            "start": 14,
+            "end": 27,
+            "term": "response rate",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "84.5%",
+            "start": 109,
+            "end": 114,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "73.0%",
+            "start": 119,
+            "end": 124,
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "84.5%",
+      "start": 109,
+      "end": 114,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "84.5%",
+        "start": 109,
+        "end": 114
+      },
+      {
+        "text": "73.0%",
+        "start": 119,
+        "end": 124
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "84.5% and 73.0% are objective response rates; P is statistical support.",
+    "content_binding_form": "ORDERED_ARM_RATES",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106",
+    "group": "v1_removed_clinical",
+    "run": "mint5",
+    "name": "Venetoclax",
+    "survey_id": 26,
+    "frozen_source_row": "v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 35,
+      "end": 45,
+      "text": "venetoclax"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 35,
+      "end": 92,
+      "text": "venetoclax (VEN) plus azacitidine (AZA) combined with IVO"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 6,
+      "end": 16,
+      "text": "5 patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 110,
+      "end": 137,
+      "text": "achieved complete remission"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 108,
+        "end": 109,
+        "text": "3"
+      }
+    ],
+    "quantity_unit": "patients",
+    "treatment_scope": "COMPONENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "COMPONENT",
+        "reason": "VEN plus AZA combined with IVO is explicit regimen. Frozen clinical-content positive stands; individual attribution is a separate existing concern."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "COUNT_ACHIEVED"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "COUNT_ACHIEVED"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "venetoclax",
+            "start": 35,
+            "end": 45,
+            "term": "Venetoclax",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "venetoclax",
+            "start": 35,
+            "end": 45,
+            "term": "Venetoclax",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "venetoclax",
+            "start": 35,
+            "end": 45,
+            "term": "venetoclax",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 8,
+            "end": 15,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "complete remission",
+            "start": 119,
+            "end": 137,
+            "term": "complete remission",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "remission",
+            "start": 128,
+            "end": 137,
+            "term": "remission",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "CR",
+            "start": 139,
+            "end": 141,
+            "term": "CR",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "31.2%",
+            "start": 18,
+            "end": 23,
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "31.2%",
+      "start": 18,
+      "end": 23,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "31.2%",
+        "start": 18,
+        "end": 23
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "3 achieved CR, 2 MRD-negative. 5 patients (31.2%) describes subgroup enrollment.",
+    "content_binding_form": "COUNT_ACHIEVED",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:AACR_accepted:claim:2ab7b26095caafbfad9b",
+    "group": "v1_removed_clinical",
+    "run": "AACR_accepted",
+    "name": "PET30",
+    "survey_id": 42,
+    "frozen_source_row": "v1_removed_clinical:AACR_accepted:claim:2ab7b26095caafbfad9b",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 23,
+      "end": 28,
+      "text": "PET30"
+    },
+    "asset_treatment_span": null,
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 9,
+      "end": 31,
+      "text": "patients with PET30-CR"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 32,
+      "end": 53,
+      "text": "ultimately progressed"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 0,
+        "end": 5,
+        "text": "28.6%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "NON_TREATMENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "NON_TREATMENT",
+        "reason": "PET30-CR is a response stratum in this passage. Therapeutic asset identity is not established by clinical-content truth."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "PROPORTION_EVENT"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "PROPORTION_EVENT"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "PET30",
+            "start": 23,
+            "end": 28,
+            "term": "PET30",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "PET30",
+            "start": 23,
+            "end": 28,
+            "term": "PET30",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 9,
+            "end": 16,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "CR",
+            "start": 29,
+            "end": 31,
+            "term": "CR",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "28.6%",
+            "start": 0,
+            "end": 5,
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "28.6%",
+      "start": 0,
+      "end": 5,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "28.6%",
+        "start": 0,
+        "end": 5
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "28.6% ultimately progressed.",
+    "content_binding_form": "PROPORTION_EVENT",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106",
+    "group": "v1_removed_clinical",
+    "run": "AACR_accepted",
+    "name": "Venetoclax",
+    "survey_id": 26,
+    "frozen_source_row": "v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 35,
+      "end": 45,
+      "text": "venetoclax"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 35,
+      "end": 92,
+      "text": "venetoclax (VEN) plus azacitidine (AZA) combined with IVO"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 6,
+      "end": 16,
+      "text": "5 patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 110,
+      "end": 137,
+      "text": "achieved complete remission"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 108,
+        "end": 109,
+        "text": "3"
+      }
+    ],
+    "quantity_unit": "patients",
+    "treatment_scope": "COMPONENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "COMPONENT",
+        "reason": "VEN plus AZA combined with IVO is explicit regimen. Frozen clinical-content positive stands; individual attribution is a separate existing concern."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "COUNT_ACHIEVED"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "COUNT_ACHIEVED"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "venetoclax",
+            "start": 35,
+            "end": 45,
+            "term": "Venetoclax",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "venetoclax",
+            "start": 35,
+            "end": 45,
+            "term": "Venetoclax",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "venetoclax",
+            "start": 35,
+            "end": 45,
+            "term": "venetoclax",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 8,
+            "end": 15,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "complete remission",
+            "start": 119,
+            "end": 137,
+            "term": "complete remission",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "remission",
+            "start": 128,
+            "end": 137,
+            "term": "remission",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "CR",
+            "start": 139,
+            "end": 141,
+            "term": "CR",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "31.2%",
+            "start": 18,
+            "end": 23,
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "31.2%",
+      "start": 18,
+      "end": 23,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "31.2%",
+        "start": 18,
+        "end": 23
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "3 achieved CR, 2 MRD-negative. 5 patients (31.2%) describes subgroup enrollment.",
+    "content_binding_form": "COUNT_ACHIEVED",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c",
+    "group": "v1_removed_clinical",
+    "run": "AACR_accepted",
+    "name": "though",
+    "survey_id": 54,
+    "frozen_source_row": "v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 41,
+      "end": 47,
+      "text": "though"
+    },
+    "asset_treatment_span": null,
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 20,
+      "end": 28,
+      "text": "patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 87,
+      "end": 112,
+      "text": "progression-free survival"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 140,
+        "end": 143,
+        "text": "52%"
+      },
+      {
+        "field": "decoded_analysis_passage",
+        "start": 147,
+        "end": 150,
+        "text": "42%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "NON_TREATMENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "NON_TREATMENT",
+        "reason": "Candidate name though is a conjunction. Existing accepted claim is clinical-content positive, not proof that this token is an asset."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "TIME_SERIES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "TIME_SERIES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "though",
+            "start": 46,
+            "end": 52,
+            "term": "Though",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "though",
+            "start": 46,
+            "end": 52,
+            "term": "though",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "though",
+            "start": 46,
+            "end": 52,
+            "term": "though",
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 25,
+            "end": 32,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "progression-free",
+            "start": 97,
+            "end": 113,
+            "term": "progression-free",
+            "fragment_indices": [
+              4
+            ]
+          },
+          {
+            "text": "survival",
+            "start": 114,
+            "end": 122,
+            "term": "survival",
+            "fragment_indices": [
+              4
+            ]
+          },
+          {
+            "text": "response",
+            "start": 203,
+            "end": 211,
+            "term": "response",
+            "fragment_indices": [
+              5
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "79%",
+            "start": 18,
+            "end": 21,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "60%",
+            "start": 70,
+            "end": 73,
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "52%",
+            "start": 150,
+            "end": 153,
+            "fragment_indices": [
+              5
+            ]
+          },
+          {
+            "text": "42%",
+            "start": 157,
+            "end": 160,
+            "fragment_indices": [
+              5
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "79%",
+      "start": 18,
+      "end": 21,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "79%",
+        "start": 18,
+        "end": 21
+      },
+      {
+        "text": "60%",
+        "start": 70,
+        "end": 73
+      },
+      {
+        "text": "52%",
+        "start": 150,
+        "end": 153
+      },
+      {
+        "text": "42%",
+        "start": 157,
+        "end": 160
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "79% alive at 6 months; 60% at 12 months; PFS 52% to 42%.",
+    "content_binding_form": "TIME_SERIES",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:TAC01_regimen_accepted:claim:d873e0fa9c925007ee4e",
+    "group": "v1_removed_clinical",
+    "run": "TAC01_regimen_accepted",
+    "name": "Bevacizumab",
+    "survey_id": 11,
+    "frozen_source_row": "v1_removed_clinical:TAC01_regimen_accepted:claim:d873e0fa9c925007ee4e",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 92,
+      "end": 103,
+      "text": "bevacizumab"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 92,
+      "end": 103,
+      "text": "bevacizumab"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 33,
+      "end": 103,
+      "text": "patients with measurable diseases treated with and without bevacizumab"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 4,
+      "end": 28,
+      "text": "objective response rates"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 109,
+        "end": 114,
+        "text": "84.5%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Group-specific comparison, not free attachment of every number to every named product."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_ARM_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_ARM_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "bevacizumab",
+            "start": 92,
+            "end": 103,
+            "term": "Bevacizumab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "bevacizumab",
+            "start": 92,
+            "end": 103,
+            "term": "Bevacizumab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "bevacizumab",
+            "start": 92,
+            "end": 103,
+            "term": "bevacizumab",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 33,
+            "end": 40,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "objective response",
+            "start": 4,
+            "end": 22,
+            "term": "objective response",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "response",
+            "start": 14,
+            "end": 22,
+            "term": "response",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "response rate",
+            "start": 14,
+            "end": 27,
+            "term": "response rate",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "84.5%",
+            "start": 109,
+            "end": 114,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "73.0%",
+            "start": 119,
+            "end": 124,
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "84.5%",
+      "start": 109,
+      "end": 114,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "84.5%",
+        "start": 109,
+        "end": 114
+      },
+      {
+        "text": "73.0%",
+        "start": 119,
+        "end": 124
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "84.5% and 73.0% are objective response rates; P is statistical support.",
+    "content_binding_form": "ORDERED_ARM_RATES",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:dfa26674a43723ab9e68",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "Relugolix",
+    "survey_id": 62,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:dfa26674a43723ab9e68",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 0,
+      "end": 9,
+      "text": "Relugolix"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 0,
+      "end": 12,
+      "text": "Relugolix-CT"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 117,
+      "end": 125,
+      "text": "patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 70,
+      "end": 85,
+      "text": "responder rates"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 89,
+        "end": 94,
+        "text": "87.7%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "UNRESOLVED_COMPOUND",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "UNRESOLVED_COMPOUND",
+        "reason": "Relugolix-CT names a treatment; preserve existing candidate/regimen identity semantics. Candidate aliases do not include Relugolix-CT; CT designates combination therapy in the source abstract. Same-product equivalence cannot be invented here."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "NAMED_TREATMENT_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "NAMED_TREATMENT_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "Relugolix",
+            "start": 0,
+            "end": 9,
+            "term": "Relugolix",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "Relugolix",
+            "start": 0,
+            "end": 9,
+            "term": "Relugolix",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "Relugolix",
+            "start": 0,
+            "end": 9,
+            "term": "relugolix",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 117,
+            "end": 124,
+            "term": "patient",
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "efficacy",
+            "start": 36,
+            "end": 44,
+            "term": "efficacy",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "responder",
+            "start": 70,
+            "end": 79,
+            "term": "responder",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "87.7%",
+            "start": 89,
+            "end": 94,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "70%",
+            "start": 110,
+            "end": 113,
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "87.7%",
+      "start": 89,
+      "end": 94,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "87.7%",
+        "start": 89,
+        "end": 94
+      },
+      {
+        "text": "70%",
+        "start": 110,
+        "end": 113
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "87.7% responder rate; 70% amenorrhea; 52 weeks is follow-up.",
+    "content_binding_form": "NAMED_TREATMENT_RATES",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "Glecaprevir",
+    "survey_id": 69,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 13,
+      "end": 24,
+      "text": "Glecaprevir"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 13,
+      "end": 37,
+      "text": "Glecaprevir/pibrentasvir"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 168,
+      "end": 199,
+      "text": "patients with hepatitis C virus"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 82,
+      "end": 110,
+      "text": "sustained virologic response"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 74,
+        "end": 77,
+        "text": "95%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "COMPONENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "COMPONENT",
+        "reason": "Glecaprevir/pibrentasvir regimen outcome; do not silently convert it to separately demonstrated component efficacy."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "RATE_OF_OUTCOME"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "RATE_OF_OUTCOME"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "Glecaprevir",
+            "start": 13,
+            "end": 24,
+            "term": "Glecaprevir",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "Glecaprevir",
+            "start": 13,
+            "end": 24,
+            "term": "Glecaprevir",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "Glecaprevir",
+            "start": 13,
+            "end": 24,
+            "term": "glecaprevir",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 173,
+            "end": 180,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "response",
+            "start": 102,
+            "end": 110,
+            "term": "response",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "95%",
+            "start": 74,
+            "end": 77,
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "95%",
+      "start": 74,
+      "end": 77,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "95%",
+        "start": 74,
+        "end": 77
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": ">95% sustained virologic response at posttreatment Week 12.",
+    "content_binding_form": "RATE_OF_OUTCOME",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:f93f85d51368a0574d97",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "pibrentasvir",
+    "survey_id": 69,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:f93f85d51368a0574d97",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 25,
+      "end": 37,
+      "text": "pibrentasvir"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 13,
+      "end": 37,
+      "text": "Glecaprevir/pibrentasvir"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 168,
+      "end": 199,
+      "text": "patients with hepatitis C virus"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 82,
+      "end": 110,
+      "text": "sustained virologic response"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 74,
+        "end": 77,
+        "text": "95%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "COMPONENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "COMPONENT",
+        "reason": "Glecaprevir/pibrentasvir regimen outcome; do not silently convert it to separately demonstrated component efficacy."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "RATE_OF_OUTCOME"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "RATE_OF_OUTCOME"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "pibrentasvir",
+            "start": 25,
+            "end": 37,
+            "term": "Pibrentasvir",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "pibrentasvir",
+            "start": 25,
+            "end": 37,
+            "term": "pibrentasvir",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "pibrentasvir",
+            "start": 25,
+            "end": 37,
+            "term": "pibrentasvir",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 173,
+            "end": 180,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "response",
+            "start": 102,
+            "end": 110,
+            "term": "response",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "95%",
+            "start": 74,
+            "end": 77,
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "95%",
+      "start": 74,
+      "end": 77,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "95%",
+        "start": 74,
+        "end": 77
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": ">95% sustained virologic response at posttreatment Week 12.",
+    "content_binding_form": "RATE_OF_OUTCOME",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:1672c26a362bce427334",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "bevacizumab",
+    "survey_id": 78,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:1672c26a362bce427334",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 108,
+      "end": 119,
+      "text": "bevacizumab"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 108,
+      "end": 119,
+      "text": "bevacizumab"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 3,
+      "end": 37,
+      "text": "patients with RAS wild-type tumors"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 136,
+      "end": 161,
+      "text": "progression-free survival"
+    },
+    "numerical_spans": [
+      {
+        "field": "source_abstract",
+        "start": 888,
+        "end": 892,
+        "text": "12.0"
+      }
+    ],
+    "quantity_unit": "months",
+    "treatment_scope": "COMPONENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "COMPONENT",
+        "reason": "Compare anti-EGFR and bevacizumab treatment groups; source context describes combination with first-line chemotherapy. Source explicitly describes anti-EGFR/bevacizumab combined with first-line chemotherapy; the bevacizumab arm corresponds to the second PFS value, 12.0 months."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_ARM_DURATIONS"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_ARM_DURATIONS"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "bevacizumab",
+            "start": 108,
+            "end": 119,
+            "term": "Bevacizumab",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "bevacizumab",
+            "start": 108,
+            "end": 119,
+            "term": "bevacizumab",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "bevacizumab",
+            "start": 108,
+            "end": 119,
+            "term": "bevacizumab",
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 3,
+            "end": 10,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "progression-free",
+            "start": 136,
+            "end": 152,
+            "term": "progression-free",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "survival",
+            "start": 153,
+            "end": 161,
+            "term": "survival",
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "n = 17",
+            "start": 96,
+            "end": 102,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "n = 9",
+            "start": 121,
+            "end": 126,
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": true,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "n = 17",
+      "start": 96,
+      "end": 102,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "n = 17",
+        "start": 96,
+        "end": 102
+      },
+      {
+        "text": "n = 9",
+        "start": 121,
+        "end": 126
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "Source completes PFS 15.6 vs 12.0 months and OS 38.4 vs 32.0 months. n=17/n=9 are group sizes.",
+    "content_binding_form": "ORDERED_ARM_DURATIONS",
+    "content_expected": true,
+    "scope_rule": "ABBREVIATION_CONTINUATION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "atazanavir",
+    "survey_id": 80,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 47,
+      "end": 57,
+      "text": "atazanavir"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 18,
+      "end": 112,
+      "text": "lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r)"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 269,
+      "end": 306,
+      "text": "for patients with baseline viral load"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 150,
+      "end": 167,
+      "text": "HIV RNA responses"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 327,
+        "end": 332,
+        "text": "70.1%"
+      },
+      {
+        "field": "source_abstract",
+        "start": 1565,
+        "end": 1570,
+        "text": "80.6%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "POOLED_REGIMENS",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "POOLED_REGIMENS",
+        "reason": "Multiple regimens and backbones are named. Clinical-content truth does not resolve component-specific strict attribution."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "atazanavir",
+            "start": 47,
+            "end": 57,
+            "term": "Atazanavir",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "atazanavir",
+            "start": 47,
+            "end": 57,
+            "term": "atazanavir",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "atazanavir",
+            "start": 47,
+            "end": 57,
+            "term": "atazanavir",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 245,
+            "end": 252,
+            "term": "patient",
+            "fragment_indices": [
+              5
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 273,
+            "end": 280,
+            "term": "patient",
+            "fragment_indices": [
+              6
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "response",
+            "start": 158,
+            "end": 166,
+            "term": "response",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "70.1%",
+            "start": 327,
+            "end": 332,
+            "fragment_indices": [
+              7
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": true,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "70.1%",
+      "start": 327,
+      "end": 332,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "70.1%",
+        "start": 327,
+        "end": 332
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "70.1% comparison is truncated at vs.; source continuation resolves response proportions. P=0.0015 is statistical support; viral-load cutoff is baseline.",
+    "content_binding_form": "ORDERED_BACKBONE_RATES",
+    "content_expected": true,
+    "scope_rule": "ABBREVIATION_CONTINUATION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:e02f9edf1a088951bfae",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "ritonavir",
+    "survey_id": 80,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:e02f9edf1a088951bfae",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 28,
+      "end": 37,
+      "text": "ritonavir"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 18,
+      "end": 112,
+      "text": "lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r)"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 269,
+      "end": 306,
+      "text": "for patients with baseline viral load"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 150,
+      "end": 167,
+      "text": "HIV RNA responses"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 327,
+        "end": 332,
+        "text": "70.1%"
+      },
+      {
+        "field": "source_abstract",
+        "start": 1565,
+        "end": 1570,
+        "text": "80.6%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "POOLED_REGIMENS",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "POOLED_REGIMENS",
+        "reason": "Multiple regimens and backbones are named. Clinical-content truth does not resolve component-specific strict attribution."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "ritonavir",
+            "start": 28,
+            "end": 37,
+            "term": "Ritonavir",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "ritonavir",
+            "start": 28,
+            "end": 37,
+            "term": "ritonavir",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "ritonavir",
+            "start": 28,
+            "end": 37,
+            "term": "ritonavir",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "ritonavir",
+            "start": 58,
+            "end": 67,
+            "term": "Ritonavir",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "ritonavir",
+            "start": 58,
+            "end": 67,
+            "term": "ritonavir",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "ritonavir",
+            "start": 58,
+            "end": 67,
+            "term": "ritonavir",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "ritonavir",
+            "start": 94,
+            "end": 103,
+            "term": "Ritonavir",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "ritonavir",
+            "start": 94,
+            "end": 103,
+            "term": "ritonavir",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "ritonavir",
+            "start": 94,
+            "end": 103,
+            "term": "ritonavir",
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 245,
+            "end": 252,
+            "term": "patient",
+            "fragment_indices": [
+              5
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 273,
+            "end": 280,
+            "term": "patient",
+            "fragment_indices": [
+              6
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "response",
+            "start": 158,
+            "end": 166,
+            "term": "response",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "70.1%",
+            "start": 327,
+            "end": 332,
+            "fragment_indices": [
+              7
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": true,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "70.1%",
+      "start": 327,
+      "end": 332,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "70.1%",
+        "start": 327,
+        "end": 332
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "70.1% comparison is truncated at vs.; source continuation resolves response proportions. P=0.0015 is statistical support; viral-load cutoff is baseline.",
+    "content_binding_form": "ORDERED_BACKBONE_RATES",
+    "content_expected": true,
+    "scope_rule": "ABBREVIATION_CONTINUATION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "Lopinavir",
+    "survey_id": 80,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 18,
+      "end": 27,
+      "text": "lopinavir"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 18,
+      "end": 112,
+      "text": "lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r)"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 269,
+      "end": 306,
+      "text": "for patients with baseline viral load"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 150,
+      "end": 167,
+      "text": "HIV RNA responses"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 327,
+        "end": 332,
+        "text": "70.1%"
+      },
+      {
+        "field": "source_abstract",
+        "start": 1565,
+        "end": 1570,
+        "text": "80.6%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "POOLED_REGIMENS",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "POOLED_REGIMENS",
+        "reason": "Multiple regimens and backbones are named. Clinical-content truth does not resolve component-specific strict attribution."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "lopinavir",
+            "start": 18,
+            "end": 27,
+            "term": "Lopinavir",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "lopinavir",
+            "start": 18,
+            "end": 27,
+            "term": "Lopinavir",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "lopinavir",
+            "start": 18,
+            "end": 27,
+            "term": "lopinavir",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 245,
+            "end": 252,
+            "term": "patient",
+            "fragment_indices": [
+              5
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 273,
+            "end": 280,
+            "term": "patient",
+            "fragment_indices": [
+              6
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "response",
+            "start": 158,
+            "end": 166,
+            "term": "response",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "70.1%",
+            "start": 327,
+            "end": 332,
+            "fragment_indices": [
+              7
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": true,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "70.1%",
+      "start": 327,
+      "end": 332,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "70.1%",
+        "start": 327,
+        "end": 332
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "70.1% comparison is truncated at vs.; source continuation resolves response proportions. P=0.0015 is statistical support; viral-load cutoff is baseline.",
+    "content_binding_form": "ORDERED_BACKBONE_RATES",
+    "content_expected": true,
+    "scope_rule": "ABBREVIATION_CONTINUATION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "Fosamprenavir",
+    "survey_id": 80,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 80,
+      "end": 93,
+      "text": "fosamprenavir"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 18,
+      "end": 112,
+      "text": "lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r)"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 269,
+      "end": 306,
+      "text": "for patients with baseline viral load"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 150,
+      "end": 167,
+      "text": "HIV RNA responses"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 327,
+        "end": 332,
+        "text": "70.1%"
+      },
+      {
+        "field": "source_abstract",
+        "start": 1565,
+        "end": 1570,
+        "text": "80.6%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "POOLED_REGIMENS",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "POOLED_REGIMENS",
+        "reason": "Multiple regimens and backbones are named. Clinical-content truth does not resolve component-specific strict attribution."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "fosamprenavir",
+            "start": 80,
+            "end": 93,
+            "term": "Fosamprenavir",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "fosamprenavir",
+            "start": 80,
+            "end": 93,
+            "term": "Fosamprenavir",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "fosamprenavir",
+            "start": 80,
+            "end": 93,
+            "term": "fosamprenavir",
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 245,
+            "end": 252,
+            "term": "patient",
+            "fragment_indices": [
+              5
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 273,
+            "end": 280,
+            "term": "patient",
+            "fragment_indices": [
+              6
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "response",
+            "start": 158,
+            "end": 166,
+            "term": "response",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "70.1%",
+            "start": 327,
+            "end": 332,
+            "fragment_indices": [
+              7
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": true,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "70.1%",
+      "start": 327,
+      "end": 332,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "70.1%",
+        "start": 327,
+        "end": 332
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "70.1% comparison is truncated at vs.; source continuation resolves response proportions. P=0.0015 is statistical support; viral-load cutoff is baseline.",
+    "content_binding_form": "ORDERED_BACKBONE_RATES",
+    "content_expected": true,
+    "scope_rule": "ABBREVIATION_CONTINUATION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:5104ef3bd86e3a7f4e83",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "Lamivudine",
+    "survey_id": 92,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:5104ef3bd86e3a7f4e83",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 165,
+      "end": 168,
+      "text": "3TC"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 161,
+      "end": 172,
+      "text": "DOR/3TC/TDF"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 141,
+      "end": 146,
+      "text": "in 31"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 17,
+      "end": 37,
+      "text": "virological efficacy"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 148,
+        "end": 150,
+        "text": "89"
+      }
+    ],
+    "quantity_unit": "percent",
+    "treatment_scope": "COMPONENT",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "COMPONENT",
+        "reason": "BIC/F/TAF and DOR/3TC/TDF are comparison regimens; Lamivudine candidate is a component alias (3TC)."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "OBSERVED_THRESHOLD_ATTAINMENT"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "OBSERVED_THRESHOLD_ATTAINMENT"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "3TC",
+            "start": 180,
+            "end": 183,
+            "term": "3TC",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 109,
+            "end": 116,
+            "term": "patient",
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "efficacy",
+            "start": 34,
+            "end": 42,
+            "term": "efficacy",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "93%",
+            "start": 119,
+            "end": 122,
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "93%",
+      "start": 119,
+      "end": 122,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "93%",
+        "start": 119,
+        "end": 122
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "40 patients (93%) and 31 (89%) achieved virological endpoint at 12 months.",
+    "content_binding_form": "OBSERVED_THRESHOLD_ATTAINMENT",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:07de85a540078d3b5cec",
+    "group": "v1_removed_clinical",
+    "run": "H16",
+    "name": "Lamivudine",
+    "survey_id": 80,
+    "frozen_source_row": "v1_removed_clinical:H16:claim:07de85a540078d3b5cec",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 141,
+      "end": 144,
+      "text": "3TC"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 18,
+      "end": 112,
+      "text": "lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r)"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 269,
+      "end": 306,
+      "text": "for patients with baseline viral load"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 150,
+      "end": 167,
+      "text": "HIV RNA responses"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 327,
+        "end": 332,
+        "text": "70.1%"
+      },
+      {
+        "field": "source_abstract",
+        "start": 1565,
+        "end": 1570,
+        "text": "80.6%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "POOLED_REGIMENS",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "UNSUPPORTED",
+        "form": "POOLED_REGIMENS",
+        "reason": "Multiple regimens and backbones are named. Clinical-content truth does not resolve component-specific strict attribution."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_BACKBONE_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "3TC",
+            "start": 141,
+            "end": 144,
+            "term": "3TC",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "3TC",
+            "start": 202,
+            "end": 205,
+            "term": "3TC",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 245,
+            "end": 252,
+            "term": "patient",
+            "fragment_indices": [
+              5
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 273,
+            "end": 280,
+            "term": "patient",
+            "fragment_indices": [
+              6
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "response",
+            "start": 158,
+            "end": 166,
+            "term": "response",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "70.1%",
+            "start": 327,
+            "end": 332,
+            "fragment_indices": [
+              7
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": true,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "70.1%",
+      "start": 327,
+      "end": 332,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "70.1%",
+        "start": 327,
+        "end": 332
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "70.1% comparison is truncated at vs.; source continuation resolves response proportions. P=0.0015 is statistical support; viral-load cutoff is baseline.",
+    "content_binding_form": "ORDERED_BACKBONE_RATES",
+    "content_expected": true,
+    "scope_rule": "ABBREVIATION_CONTINUATION",
+    "same_document": true,
+    "unique_treatment_anchor": false,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H18:claim:b420098f328b37ad2838",
+    "group": "v1_removed_clinical",
+    "run": "H18",
+    "name": "ROSE-010",
+    "survey_id": 99,
+    "frozen_source_row": "v1_removed_clinical:H18:claim:b420098f328b37ad2838",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 83,
+      "end": 91,
+      "text": "ROSE-010"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 83,
+      "end": 91,
+      "text": "ROSE-010"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 14,
+      "end": 38,
+      "text": "patients were responders"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 28,
+      "end": 38,
+      "text": "responders"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 124,
+        "end": 127,
+        "text": "24%"
+      },
+      {
+        "field": "decoded_analysis_passage",
+        "start": 138,
+        "end": 141,
+        "text": "23%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Explicit named drug and placebo arms; retain mapping rather than nearest-number attachment."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_DOSE_ARM_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_DOSE_ARM_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "ROSE-010",
+            "start": 83,
+            "end": 91,
+            "term": "ROSE-010",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "ROSE-010",
+            "start": 83,
+            "end": 91,
+            "term": "ROSE-010",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 14,
+            "end": 21,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "responder",
+            "start": 28,
+            "end": 37,
+            "term": "responder",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "efficacy",
+            "start": 54,
+            "end": 62,
+            "term": "efficacy",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "24%",
+            "start": 124,
+            "end": 127,
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "23%",
+            "start": 138,
+            "end": 141,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "12%",
+            "start": 156,
+            "end": 159,
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "24%",
+      "start": 124,
+      "end": 127,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "24%",
+        "start": 124,
+        "end": 127
+      },
+      {
+        "text": "23%",
+        "start": 138,
+        "end": 141
+      },
+      {
+        "text": "12%",
+        "start": 156,
+        "end": 159
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "24%, 23%, 12% responders at 300 microg, 100 microg, placebo respectively.",
+    "content_binding_form": "ORDERED_DOSE_ARM_RATES",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H18:claim:0c74e255816f9655f5cf",
+    "group": "v1_removed_clinical",
+    "run": "H18",
+    "name": "glepaglutide",
+    "survey_id": 103,
+    "frozen_source_row": "v1_removed_clinical:H18:claim:0c74e255816f9655f5cf",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 0,
+      "end": 12,
+      "text": "Glepaglutide"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 0,
+      "end": 12,
+      "text": "Glepaglutide"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 101,
+      "end": 137,
+      "text": "patients achieving clinical response"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 120,
+      "end": 137,
+      "text": "clinical response"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 209,
+        "end": 214,
+        "text": "65.7%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named drug compared with placebo; PS volume outcome is clinical support requirement, not plasma concentration."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "OBSERVED_THRESHOLD_ATTAINMENT"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "OBSERVED_THRESHOLD_ATTAINMENT"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "Glepaglutide",
+            "start": 0,
+            "end": 12,
+            "term": "Glepaglutide",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "Glepaglutide",
+            "start": 0,
+            "end": 12,
+            "term": "glepaglutide",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "Glepaglutide",
+            "start": 0,
+            "end": 12,
+            "term": "glepaglutide",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 101,
+            "end": 108,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "clinical response",
+            "start": 120,
+            "end": 137,
+            "term": "clinical response",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "response",
+            "start": 129,
+            "end": 137,
+            "term": "response",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "226520%",
+            "start": 152,
+            "end": 159,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "65.7%",
+            "start": 214,
+            "end": 219,
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "38.9%",
+            "start": 223,
+            "end": 228,
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "226520%",
+      "start": 152,
+      "end": 159,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "226520%",
+        "start": 152,
+        "end": 159
+      },
+      {
+        "text": "65.7%",
+        "start": 214,
+        "end": 219
+      },
+      {
+        "text": "38.9%",
+        "start": 223,
+        "end": 228
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "65.7% vs 38.9% achieved clinical response; >=20% reduction defines response.",
+    "content_binding_form": "OBSERVED_THRESHOLD_ATTAINMENT",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "v1_removed_clinical:H18:claim:13f922afecbd81303713",
+    "group": "v1_removed_clinical",
+    "run": "H18",
+    "name": "survodutide",
+    "survey_id": 104,
+    "frozen_source_row": "v1_removed_clinical:H18:claim:13f922afecbd81303713",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 19,
+      "end": 30,
+      "text": "survodutide"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 19,
+      "end": 30,
+      "text": "survodutide"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 19,
+      "end": 47,
+      "text": "survodutide-treated patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 98,
+      "end": 114,
+      "text": "reduction in LFC"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 10,
+        "end": 15,
+        "text": "84.2%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Survodutide-treated and placebo-treated groups explicitly identify comparative attribution."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "OBSERVED_THRESHOLD_ATTAINMENT"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "OBSERVED_THRESHOLD_ATTAINMENT"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "survodutide",
+            "start": 19,
+            "end": 30,
+            "term": "Survodutide",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "survodutide",
+            "start": 19,
+            "end": 30,
+            "term": "survodutide",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "survodutide",
+            "start": 19,
+            "end": 30,
+            "term": "survodutide",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 39,
+            "end": 46,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 80,
+            "end": 87,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "efficacy",
+            "start": 130,
+            "end": 138,
+            "term": "efficacy",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "84.2%",
+            "start": 10,
+            "end": 15,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "24.3%",
+            "start": 55,
+            "end": 60,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "226530%",
+            "start": 95,
+            "end": 102,
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "84.2%",
+      "start": 10,
+      "end": 15,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "84.2%",
+        "start": 10,
+        "end": 15
+      },
+      {
+        "text": "24.3%",
+        "start": 55,
+        "end": 60
+      },
+      {
+        "text": "226530%",
+        "start": 95,
+        "end": 102
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "84.2% vs 24.3% achieved >=30% LFC reduction.",
+    "content_binding_form": "OBSERVED_THRESHOLD_ATTAINMENT",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:a5c42d3cc5f5e7b3d5b5",
+    "group": "accepted_representative",
+    "run": "TAC01",
+    "name": "Obexelimab",
+    "survey_id": 0,
+    "frozen_source_row": "accepted_representative:TAC01:claim:a5c42d3cc5f5e7b3d5b5",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 51,
+      "end": 61,
+      "text": "obexelimab"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 51,
+      "end": 61,
+      "text": "obexelimab"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 27,
+      "end": 35,
+      "text": "patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 0,
+      "end": 20,
+      "text": "flares were reported"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 37,
+        "end": 42,
+        "text": "26.8%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Explicit drug versus placebo groups."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "EVENT_COUNT_WITH_RATE"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "EVENT_COUNT_WITH_RATE"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "obexelimab",
+            "start": 51,
+            "end": 61,
+            "term": "Obexelimab",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "obexelimab",
+            "start": 51,
+            "end": 61,
+            "term": "Obexelimab",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "obexelimab",
+            "start": 51,
+            "end": 61,
+            "term": "obexelimab",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 27,
+            "end": 34,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 78,
+            "end": 85,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "flare",
+            "start": 0,
+            "end": 5,
+            "term": "flare",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "26.8%",
+            "start": 37,
+            "end": 42,
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "54.6%",
+            "start": 88,
+            "end": 93,
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "26.8%",
+      "start": 37,
+      "end": 42,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "26.8%",
+        "start": 37,
+        "end": 42
+      },
+      {
+        "text": "54.6%",
+        "start": 88,
+        "end": 93
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "26/97 (26.8%) vs 53/97 (54.6%) had flares (denominators in abstract).",
+    "content_binding_form": "EVENT_COUNT_WITH_RATE",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:57b21b05d4b3850512c0",
+    "group": "accepted_representative",
+    "run": "TAC01",
+    "name": "CNCT19",
+    "survey_id": 1,
+    "frozen_source_row": "accepted_representative:TAC01:claim:57b21b05d4b3850512c0",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 84,
+      "end": 90,
+      "text": "CNCT19"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 84,
+      "end": 90,
+      "text": "CNCT19"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 46,
+      "end": 96,
+      "text": "20 patients treated with infusions of CNCT19 cells"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 97,
+      "end": 123,
+      "text": "reached complete remission"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 35,
+        "end": 38,
+        "text": "90%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named cell treatment and treated patients in same assertion."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "PROPORTION_ACHIEVED"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "PROPORTION_ACHIEVED"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "CNCT19",
+            "start": 84,
+            "end": 90,
+            "term": "CNCT19",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "CNCT19",
+            "start": 84,
+            "end": 90,
+            "term": "CNCT19",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 49,
+            "end": 56,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "complete remission",
+            "start": 105,
+            "end": 123,
+            "term": "complete remission",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "remission",
+            "start": 114,
+            "end": 123,
+            "term": "remission",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "complete remission",
+            "start": 127,
+            "end": 145,
+            "term": "complete remission",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "remission",
+            "start": 136,
+            "end": 145,
+            "term": "remission",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "CR",
+            "start": 178,
+            "end": 180,
+            "term": "CR",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "90%",
+            "start": 35,
+            "end": 38,
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "90%",
+      "start": 35,
+      "end": 38,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "90%",
+        "start": 35,
+        "end": 38
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "90% of 20 achieved CR/CRi within 28 days.",
+    "content_binding_form": "PROPORTION_ACHIEVED",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:f677e265dc0aec09a7b7",
+    "group": "accepted_representative",
+    "run": "TAC01",
+    "name": "CNCT19",
+    "survey_id": 2,
+    "frozen_source_row": "accepted_representative:TAC01:claim:f677e265dc0aec09a7b7",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 156,
+      "end": 162,
+      "text": "CNCT19"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 156,
+      "end": 162,
+      "text": "CNCT19"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 131,
+      "end": 168,
+      "text": "20 patients treated with CNCT19 cells"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 80,
+      "end": 96,
+      "text": "overall survival"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 173,
+        "end": 185,
+        "text": "12.91 months"
+      }
+    ],
+    "quantity_unit": "months",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named cell treatment; actual outcome magnitude differs from current selected 95%."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_OUTCOME_DURATIONS"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "ORDERED_OUTCOME_DURATIONS"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "CNCT19",
+            "start": 156,
+            "end": 162,
+            "term": "CNCT19",
+            "fragment_indices": [
+              3
+            ]
+          },
+          {
+            "text": "CNCT19",
+            "start": 156,
+            "end": 162,
+            "term": "CNCT19",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 134,
+            "end": 141,
+            "term": "patient",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "survival",
+            "start": 88,
+            "end": 96,
+            "term": "survival",
+            "fragment_indices": [
+              2
+            ]
+          },
+          {
+            "text": "relapse-free",
+            "start": 101,
+            "end": 113,
+            "term": "relapse-free",
+            "fragment_indices": [
+              3
+            ]
+          },
+          {
+            "text": "survival",
+            "start": 114,
+            "end": 122,
+            "term": "survival",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "95%",
+            "start": 187,
+            "end": 190,
+            "fragment_indices": [
+              3
+            ]
+          },
+          {
+            "text": "95%",
+            "start": 253,
+            "end": 256,
+            "fragment_indices": [
+              5
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "95%",
+      "start": 187,
+      "end": 190,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "95%",
+        "start": 187,
+        "end": 190
+      },
+      {
+        "text": "95%",
+        "start": 253,
+        "end": 256
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "Median OS 12.91 months and relapse-free survival 6.93 months; 95% marks confidence interval, not efficacy magnitude.",
+    "content_binding_form": "ORDERED_OUTCOME_DURATIONS",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:f1534ba1833cfaa25f4d",
+    "group": "accepted_representative",
+    "run": "TAC01",
+    "name": "ruxolitinib",
+    "survey_id": 8,
+    "frozen_source_row": "accepted_representative:TAC01:claim:f1534ba1833cfaa25f4d",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 62,
+      "end": 73,
+      "text": "ruxolitinib"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 62,
+      "end": 73,
+      "text": "ruxolitinib"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 43,
+      "end": 73,
+      "text": "patients receiving ruxolitinib"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 74,
+      "end": 102,
+      "text": "achieving complete remission"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 38,
+        "end": 42,
+        "text": "1/10"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named treatment, no efficacy-success threshold required."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "PROPORTION_ACHIEVED"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "PROPORTION_ACHIEVED"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "ruxolitinib",
+            "start": 62,
+            "end": 73,
+            "term": "Ruxolitinib",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "ruxolitinib",
+            "start": 62,
+            "end": 73,
+            "term": "ruxolitinib",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "ruxolitinib",
+            "start": 62,
+            "end": 73,
+            "term": "ruxolitinib",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 43,
+            "end": 50,
+            "term": "patient",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "efficacy",
+            "start": 24,
+            "end": 32,
+            "term": "efficacy",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "complete remission",
+            "start": 84,
+            "end": 102,
+            "term": "complete remission",
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "remission",
+            "start": 93,
+            "end": 102,
+            "term": "remission",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "1/10",
+            "start": 38,
+            "end": 42,
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "1/10",
+      "start": 38,
+      "end": 42,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "1/10",
+        "start": 38,
+        "end": 42
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "1/10 achieved CR with incomplete platelet recovery.",
+    "content_binding_form": "PROPORTION_ACHIEVED",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:cf42310f09d4a0cf6dd2",
+    "group": "accepted_representative",
+    "run": "TAC01",
+    "name": "Glofitamab",
+    "survey_id": 14,
+    "frozen_source_row": "accepted_representative:TAC01:claim:cf42310f09d4a0cf6dd2",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 121,
+      "end": 131,
+      "text": "glofitamab"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 121,
+      "end": 131,
+      "text": "glofitamab"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 68,
+      "end": 89,
+      "text": "21 evaluable patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 26,
+      "end": 48,
+      "text": "complete response rate"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 59,
+        "end": 64,
+        "text": "14.3%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named treated cohort."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "NAMED_TREATMENT_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "NAMED_TREATMENT_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "glofitamab",
+            "start": 121,
+            "end": 131,
+            "term": "Glofitamab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "glofitamab",
+            "start": 121,
+            "end": 131,
+            "term": "Glofitamab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "glofitamab",
+            "start": 121,
+            "end": 131,
+            "term": "glofitamab",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 81,
+            "end": 88,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 99,
+            "end": 106,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "complete response",
+            "start": 26,
+            "end": 43,
+            "term": "complete response",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "response",
+            "start": 35,
+            "end": 43,
+            "term": "response",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "response rate",
+            "start": 35,
+            "end": 48,
+            "term": "response rate",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "47.6%",
+            "start": 12,
+            "end": 17,
+            "fragment_indices": [
+              0
+            ]
+          },
+          {
+            "text": "14.3%",
+            "start": 59,
+            "end": 64,
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "47.6%",
+      "start": 12,
+      "end": 17,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "47.6%",
+        "start": 12,
+        "end": 17
+      },
+      {
+        "text": "14.3%",
+        "start": 59,
+        "end": 64
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "47.6% overall response and 14.3% CR; 21 evaluable out of 25 treated.",
+    "content_binding_form": "NAMED_TREATMENT_RATES",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5",
+    "group": "accepted_representative",
+    "run": "TAC01",
+    "name": "Blinatumomab",
+    "survey_id": 15,
+    "frozen_source_row": "accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 21,
+      "end": 33,
+      "text": "blinatumomab"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 21,
+      "end": 33,
+      "text": "blinatumomab"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 68,
+      "end": 84,
+      "text": "all six patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 34,
+      "end": 64,
+      "text": "induced MRD-negative remission"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 68,
+        "end": 75,
+        "text": "all six"
+      }
+    ],
+    "quantity_unit": "patients",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named drug induced remission, prior burden separately described."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "COUNT_INDUCED_OUTCOME"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "COUNT_INDUCED_OUTCOME"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "blinatumomab",
+            "start": 21,
+            "end": 33,
+            "term": "BLINATUMOMAB",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "blinatumomab",
+            "start": 21,
+            "end": 33,
+            "term": "Blinatumomab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "blinatumomab",
+            "start": 21,
+            "end": 33,
+            "term": "Blinatumomab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "blinatumomab",
+            "start": 21,
+            "end": 33,
+            "term": "blinatumomab",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 76,
+            "end": 83,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "remission",
+            "start": 55,
+            "end": 64,
+            "term": "remission",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "5%",
+            "start": 166,
+            "end": 168,
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "5%",
+      "start": 166,
+      "end": 168,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "5%",
+        "start": 166,
+        "end": 168
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "All six achieved MRD-negative remission; >5% marrow blasts is pretreatment burden.",
+    "content_binding_form": "COUNT_INDUCED_OUTCOME",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:f1920a0e1c36a5da8d0c",
+    "group": "accepted_representative",
+    "run": "TAC01",
+    "name": "ICG318",
+    "survey_id": 24,
+    "frozen_source_row": "accepted_representative:TAC01:claim:f1920a0e1c36a5da8d0c",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 105,
+      "end": 111,
+      "text": "ICG318"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 105,
+      "end": 111,
+      "text": "ICG318"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 19,
+      "end": 30,
+      "text": "12 patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 146,
+      "end": 184,
+      "text": "achieving stringent complete remission"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 137,
+        "end": 145,
+        "text": "10 of 12"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named administered product and treated human cohort."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "COUNT_ACHIEVED"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "COUNT_ACHIEVED"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "ICG318",
+            "start": 105,
+            "end": 111,
+            "term": "ICG318",
+            "fragment_indices": [
+              3
+            ]
+          },
+          {
+            "text": "ICG318",
+            "start": 105,
+            "end": 111,
+            "term": "ICG318",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 22,
+            "end": 29,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "complete remission",
+            "start": 166,
+            "end": 184,
+            "term": "complete remission",
+            "fragment_indices": [
+              3
+            ]
+          },
+          {
+            "text": "remission",
+            "start": 175,
+            "end": 184,
+            "term": "remission",
+            "fragment_indices": [
+              3
+            ]
+          },
+          {
+            "text": "response",
+            "start": 246,
+            "end": 254,
+            "term": "response",
+            "fragment_indices": [
+              4
+            ]
+          },
+          {
+            "text": "CR",
+            "start": 224,
+            "end": 226,
+            "term": "CR",
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "10 of 12",
+            "start": 137,
+            "end": 145,
+            "fragment_indices": [
+              3
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "10 of 12",
+      "start": 137,
+      "end": 145,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "10 of 12",
+        "start": 137,
+        "end": 145
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "10 of 12 achieved stringent complete remission.",
+    "content_binding_form": "COUNT_ACHIEVED",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "accepted_representative:mint5:claim:117c546558458970e8da",
+    "group": "accepted_representative",
+    "run": "mint5",
+    "name": "Cevostamab",
+    "survey_id": 29,
+    "frozen_source_row": "accepted_representative:mint5:claim:117c546558458970e8da",
+    "candidate_mention_span": {
+      "field": "decoded_analysis_passage",
+      "start": 21,
+      "end": 31,
+      "text": "Cevostamab"
+    },
+    "asset_treatment_span": {
+      "field": "decoded_analysis_passage",
+      "start": 21,
+      "end": 31,
+      "text": "Cevostamab"
+    },
+    "patient_cohort_span": {
+      "field": "decoded_analysis_passage",
+      "start": 90,
+      "end": 136,
+      "text": "patients who underwent BCMA-targeted treatment"
+    },
+    "efficacy_outcome_span": {
+      "field": "decoded_analysis_passage",
+      "start": 65,
+      "end": 86,
+      "text": "overall response rate"
+    },
+    "numerical_spans": [
+      {
+        "field": "decoded_analysis_passage",
+        "start": 59,
+        "end": 64,
+        "text": "30.2%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named product efficacy across two pretreated strata."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "NAMED_TREATMENT_RATES"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "NAMED_TREATMENT_RATES"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "Cevostamab",
+            "start": 21,
+            "end": 31,
+            "term": "Cevostamab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "Cevostamab",
+            "start": 21,
+            "end": 31,
+            "term": "Cevostamab",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "Cevostamab",
+            "start": 21,
+            "end": 31,
+            "term": "cevostamab",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 95,
+            "end": 102,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "patient",
+            "start": 180,
+            "end": 187,
+            "term": "patient",
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "overall response",
+            "start": 70,
+            "end": 86,
+            "term": "overall response",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "response",
+            "start": 78,
+            "end": 86,
+            "term": "response",
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "response rate",
+            "start": 78,
+            "end": 91,
+            "term": "response rate",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "30.2%",
+            "start": 64,
+            "end": 69,
+            "fragment_indices": [
+              1
+            ]
+          },
+          {
+            "text": "60.6%",
+            "start": 146,
+            "end": 151,
+            "fragment_indices": [
+              2
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": "cytokine release",
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "30.2%",
+      "start": 64,
+      "end": 69,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "30.2%",
+        "start": 64,
+        "end": 69
+      },
+      {
+        "text": "60.6%",
+        "start": 146,
+        "end": 151
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "30.2% vs 60.6% overall response; subsequent clause concerns CRS safety.",
+    "content_binding_form": "NAMED_TREATMENT_RATES",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "6d78dc914bd1f5210d52ebcd432011ae63c50cd3abe0c0ce11fb89539878b2ea",
+    "group": "changed_legacy",
+    "run": "existing_tests",
+    "name": "CTL019",
+    "survey_id": null,
+    "frozen_source_row": "6d78dc914bd1f5210d52ebcd432011ae63c50cd3abe0c0ce11fb89539878b2ea",
+    "candidate_mention_span": {
+      "field": "exact_passage",
+      "start": 33,
+      "end": 39,
+      "text": "CTL019"
+    },
+    "asset_treatment_span": {
+      "field": "exact_passage",
+      "start": 33,
+      "end": 39,
+      "text": "CTL019"
+    },
+    "patient_cohort_span": {
+      "field": "exact_passage",
+      "start": 6,
+      "end": 39,
+      "text": "evaluable pts treated with CTL019"
+    },
+    "efficacy_outcome_span": {
+      "field": "exact_passage",
+      "start": 45,
+      "end": 58,
+      "text": "ongoing BM CR"
+    },
+    "numerical_spans": [
+      {
+        "field": "exact_passage",
+        "start": 0,
+        "end": 5,
+        "text": "10/16"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named treated asset; preserve existing strict attribution."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "PROPORTION_ONGOING"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "PROPORTION_ONGOING"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "CTL019",
+            "start": 33,
+            "end": 39,
+            "term": "CTL019",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "pts",
+            "start": 16,
+            "end": 19,
+            "term": "pts",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "CR",
+            "start": 56,
+            "end": 58,
+            "term": "CR",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "10/16",
+            "start": 0,
+            "end": 5,
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "10/16",
+      "start": 0,
+      "end": 5,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "10/16",
+        "start": 0,
+        "end": 5
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "10/16 ongoing BM CR; 3.4 months is follow-up.",
+    "content_binding_form": "PROPORTION_ONGOING",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  },
+  {
+    "id": "be39eb3f78e48cd8e18e5a3d8ba3f1e0eea265ec153153d2d2dd47f63d3bd13f",
+    "group": "changed_legacy",
+    "run": "existing_tests",
+    "name": "drugx",
+    "survey_id": null,
+    "frozen_source_row": "be39eb3f78e48cd8e18e5a3d8ba3f1e0eea265ec153153d2d2dd47f63d3bd13f",
+    "candidate_mention_span": {
+      "field": "exact_passage",
+      "start": 15,
+      "end": 20,
+      "text": "drugx"
+    },
+    "asset_treatment_span": {
+      "field": "exact_passage",
+      "start": 15,
+      "end": 20,
+      "text": "drugx"
+    },
+    "patient_cohort_span": {
+      "field": "exact_passage",
+      "start": 73,
+      "end": 85,
+      "text": "194 patients"
+    },
+    "efficacy_outcome_span": {
+      "field": "exact_passage",
+      "start": 36,
+      "end": 59,
+      "text": "reduction in flare risk"
+    },
+    "numerical_spans": [
+      {
+        "field": "exact_passage",
+        "start": 32,
+        "end": 35,
+        "text": "30%"
+      }
+    ],
+    "quantity_unit": "percent_or_proportion",
+    "treatment_scope": "MATCHING_ARM",
+    "evidence_world": "OBSERVED_CLINICAL",
+    "outcome_observed": true,
+    "outcome_clinical_efficacy": true,
+    "quantity_is_outcome_measure": true,
+    "relations": {
+      "treatment_to_cohort": {
+        "status": "SUPPORTED",
+        "form": "MATCHING_ARM",
+        "reason": "Named treated asset; preserve existing strict attribution."
+      },
+      "cohort_to_outcome": {
+        "status": "SUPPORTED",
+        "form": "TREATMENT_PRODUCED_EFFECT"
+      },
+      "outcome_to_quantity": {
+        "status": "SUPPORTED",
+        "form": "TREATMENT_PRODUCED_EFFECT"
+      }
+    },
+    "boundaries_crossed": {
+      "surface_fragment_indices": {
+        "asset": [
+          {
+            "text": "drugx",
+            "start": 15,
+            "end": 20,
+            "term": "drugx",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "human": [
+          {
+            "text": "patient",
+            "start": 77,
+            "end": 84,
+            "term": "patient",
+            "fragment_indices": [
+              1
+            ]
+          }
+        ],
+        "efficacy": [
+          {
+            "text": "flare",
+            "start": 49,
+            "end": 54,
+            "term": "flare",
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "numeric": [
+          {
+            "text": "30%",
+            "start": 32,
+            "end": 35,
+            "fragment_indices": [
+              0
+            ]
+          }
+        ],
+        "interpretation": "Indices refer to the existing surface clause splitter; same-fragment proximity is observational, not a semantic admission rule. Neighboring source text is separately frozen."
+      },
+      "source_continuation": false,
+      "adjacent_sentence_anaphora": false,
+      "note": "A vs. abbreviation continuation is one grammatical sentence, not permission to inherit arbitrary neighboring findings."
+    },
+    "existing_guard_results": {
+      "regimen_veto": false,
+      "regimen_list_veto": false,
+      "eligibility_veto": null,
+      "unreported_veto": null,
+      "safety_non_efficacy_veto": null,
+      "nonhuman_veto": null
+    },
+    "current_selected_numeric_span": {
+      "text": "30%",
+      "start": 32,
+      "end": 35,
+      "field": "exact_passage"
+    },
+    "current_all_numeric_spans": [
+      {
+        "text": "30%",
+        "start": 32,
+        "end": 35
+      }
+    ],
+    "current_extractor_decision": "PASS",
+    "frozen_expected_decision": "ACCEPT",
+    "quantity_role_reason": "30% observed flare-risk reduction; 194 is cohort size.",
+    "content_binding_form": "TREATMENT_PRODUCED_EFFECT",
+    "content_expected": true,
+    "scope_rule": "SAME_ASSERTION",
+    "same_document": true,
+    "unique_treatment_anchor": true,
+    "existing_guard_veto": false,
+    "grounding_method": "Manual exact-source annotation; no proposed text parser implemented."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "milestone": "HUMAN_EFFICACY_QUANTITY_BINDING_CONTRACT v1",
+  "original_rows": 33,
+  "added_discourse_cases": 3,
+  "labels_unchanged": true,
+  "freeze_precedes_contract_and_offline_decision_checker": true,
+  "role_annotations_are_manual_not_text_extraction_results": true,
+  "original_register_sha256": "8c4b3486905c7d35b96ccb640b397f0a7009d1a999cbe79cf3bc4a381674ac72",
+  "files": {
+    "relation_population.json": "c4530f5b8410970ec24d79b8395b16c9fe060f924a9cd7c00cbc9922e1b7ed00",
+    "additional_discourse_cases.json": "d7e9f17cc2b42e26b14a6907d3f317721f73cced06ea0fdab115b91e01ffb296"
+  }
+}

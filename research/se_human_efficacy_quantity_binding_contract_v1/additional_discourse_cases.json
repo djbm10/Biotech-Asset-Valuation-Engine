@@ -1,0 +1,37 @@
+[
+  {
+    "id": "D1",
+    "text": "Twenty patients received X. Among these evaluable patients, 12 achieved complete responses.",
+    "expected": "ACCEPT",
+    "treatments": [
+      "X"
+    ],
+    "cohort_reference": "these evaluable patients",
+    "number": "12",
+    "reason": "Single previous-sentence treatment cohort; explicit demonstrative evaluable subset."
+  },
+  {
+    "id": "D2",
+    "text": "Twenty patients received X, and twenty patients received Y. Among evaluable patients, 12 achieved complete responses.",
+    "expected": "REJECT",
+    "treatments": [
+      "X",
+      "Y"
+    ],
+    "cohort_reference": "evaluable patients",
+    "number": "12",
+    "reason": "Two potential antecedent arms; no response-to-arm assignment."
+  },
+  {
+    "id": "D3",
+    "text": "Twenty patients received X. A separate cohort received Y. Twelve patients achieved complete responses.",
+    "expected": "REJECT",
+    "treatments": [
+      "X",
+      "Y"
+    ],
+    "cohort_reference": null,
+    "number": "Twelve",
+    "reason": "X is not in the immediately preceding sentence; no explicit reference establishes the requested X cohort."
+  }
+]
