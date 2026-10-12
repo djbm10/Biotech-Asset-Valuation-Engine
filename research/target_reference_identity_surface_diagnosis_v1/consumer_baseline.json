@@ -1,0 +1,3524 @@
+{
+  "holdout_probes": 0,
+  "network_calls": 0,
+  "query_cases": [
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "unique_alias_homonymous_symbol",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": "PHASE_1",
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find clinical-stage AXONE antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 19,
+            "explanation": null,
+            "kind": "EVIDENCE",
+            "resolved_to": "minimum_stage",
+            "rule": "evidence_clinical_stage_vocabulary",
+            "start": 5,
+            "text": "clinical-stage"
+          },
+          {
+            "candidates": [],
+            "end": 25,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 20,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 37,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 26,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_4618bdb8752cf8fa",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": "PHASE_1",
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [
+        "no target resolved unambiguously; ambiguous: GAX1"
+      ],
+      "error": {
+        "message": "cannot compile 'Find clinical-stage GAX1 antibodies.': no target resolved unambiguously; ambiguous: GAX1",
+        "type": "IntentNotCompilable"
+      },
+      "id": "bare_homonym",
+      "intent": {
+        "ambiguous_terms": [
+          "GAX1"
+        ],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": "PHASE_1",
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find clinical-stage GAX1 antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 19,
+            "explanation": null,
+            "kind": "EVIDENCE",
+            "resolved_to": "minimum_stage",
+            "rule": "evidence_clinical_stage_vocabulary",
+            "start": 5,
+            "text": "clinical-stage"
+          },
+          {
+            "candidates": [
+              "TARGET:GAX1",
+              "TARGET:GAX2"
+            ],
+            "end": 24,
+            "explanation": null,
+            "kind": "AMBIGUOUS_TARGET",
+            "resolved_to": null,
+            "rule": "homonym_requires_escalation",
+            "start": 20,
+            "text": "GAX1"
+          },
+          {
+            "candidates": [],
+            "end": 36,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 25,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [],
+        "unresolved_scientific_terms": [],
+        "warnings": [
+          "ambiguous terms left unresolved (escalate rather than guess): GAX1"
+        ]
+      }
+    },
+    {
+      "blockers": [],
+      "id": "unambiguous_symbol",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": "PHASE_1",
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find clinical-stage GAX2 antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 19,
+            "explanation": null,
+            "kind": "EVIDENCE",
+            "resolved_to": "minimum_stage",
+            "rule": "evidence_clinical_stage_vocabulary",
+            "start": 5,
+            "text": "clinical-stage"
+          },
+          {
+            "candidates": [],
+            "end": 24,
+            "explanation": "'GAX2' -> symbol alias 'GAX2' asserted by open_targets -> GAX2",
+            "kind": "TARGET",
+            "resolved_to": "GAX2",
+            "rule": "unique_alias_match",
+            "start": 20,
+            "text": "GAX2"
+          },
+          {
+            "candidates": [],
+            "end": 36,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 25,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX2",
+            "label": "GAX2"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "plans": [
+        {
+          "aliases": [
+            "GAX2",
+            "GAX1",
+            "BXTWO"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"GAX2\" OR \"GAX1\" OR \"BXTWO\")",
+          "query_id": "query:4dcec10e6b9ce6e9",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "GAX2"
+          ]
+        },
+        {
+          "aliases": [
+            "GAX2",
+            "GAX1",
+            "BXTWO"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "query": "(\"GAX2\" OR \"GAX1\" OR \"BXTWO\") AND (\"MONOCLONAL_ANTIBODY\" OR \"antibody\" OR \"fully human antibody\" OR \"humanized antibody\" OR \"igg\" OR \"mab\" OR \"monoclonal antibody\")",
+          "query_id": "query:3e2955ed1f302a7b",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "GAX2"
+          ]
+        },
+        {
+          "aliases": [
+            "DRUGB"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"DRUGB\")",
+          "query_id": "query:1f3f82564d0e0a4b",
+          "seed_drug_id": "DRUG:DRUGB",
+          "seed_provenance": "AUTHORITY_SEEDED_ASSET",
+          "target_ids": [
+            "GAX2"
+          ]
+        }
+      ],
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_6111fd5dfa93651a",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": "PHASE_1",
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [
+                  "GAX1",
+                  "GAX2",
+                  "GAX2",
+                  "BXTWO"
+                ],
+                "canonical_id": "GAX2",
+                "label": "GAX2"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "equivalent_mentions",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE or AXTWO antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 19,
+            "explanation": "'AXTWO' -> synonym alias 'AXTWO' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 14,
+            "text": "AXTWO"
+          },
+          {
+            "candidates": [],
+            "end": 31,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 20,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_0e88ec2e3f1a582c",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "distinct_slash",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "BISPECIFIC_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE/AXTHREE bispecifics.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 18,
+            "explanation": "'AXTHREE' -> synonym alias 'AXTHREE' asserted by open_targets -> GAX3",
+            "kind": "TARGET",
+            "resolved_to": "GAX3",
+            "rule": "unique_alias_match",
+            "start": 11,
+            "text": "AXTHREE"
+          },
+          {
+            "candidates": [],
+            "end": 31,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "BISPECIFIC_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 19,
+            "text": "bispecifics"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ALL",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          },
+          {
+            "aliases": [],
+            "canonical_id": "GAX3",
+            "label": "GAX3"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": [
+          "target operator ALL inferred by conjunctive_connector"
+        ]
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_5f22590023c0ef44",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "BISPECIFIC_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ALL",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              },
+              {
+                "aliases": [
+                  "GAX3",
+                  "GAX3",
+                  "AXTHREE"
+                ],
+                "canonical_id": "GAX3",
+                "label": "GAX3"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "distinct_times",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "BISPECIFIC_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE\u00d7AXTHREE bispecifics.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 18,
+            "explanation": "'AXTHREE' -> synonym alias 'AXTHREE' asserted by open_targets -> GAX3",
+            "kind": "TARGET",
+            "resolved_to": "GAX3",
+            "rule": "unique_alias_match",
+            "start": 11,
+            "text": "AXTHREE"
+          },
+          {
+            "candidates": [],
+            "end": 31,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "BISPECIFIC_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 19,
+            "text": "bispecifics"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ALL",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          },
+          {
+            "aliases": [],
+            "canonical_id": "GAX3",
+            "label": "GAX3"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": [
+          "target operator ALL inferred by conjunctive_connector"
+        ]
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_0c95cdbf0e943938",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "BISPECIFIC_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ALL",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              },
+              {
+                "aliases": [
+                  "GAX3",
+                  "GAX3",
+                  "AXTHREE"
+                ],
+                "canonical_id": "GAX3",
+                "label": "GAX3"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [
+        "no biological target recognized in the query"
+      ],
+      "error": {
+        "message": "cannot compile 'Find AXONE/NOTATARGET antibodies.': no biological target recognized in the query",
+        "type": "IntentNotCompilable"
+      },
+      "id": "unknown_fragment",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE/NOTATARGET antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [
+          "AXONE",
+          "NOTATARGET"
+        ],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": null,
+            "kind": "RESIDUAL",
+            "resolved_to": null,
+            "rule": "separator_fragment_unconfirmed",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 21,
+            "explanation": null,
+            "kind": "RESIDUAL",
+            "resolved_to": null,
+            "rule": "no_vocabulary_match",
+            "start": 11,
+            "text": "NOTATARGET"
+          },
+          {
+            "candidates": [],
+            "end": 33,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 22,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [],
+        "unresolved_scientific_terms": [],
+        "warnings": [
+          "unrecognized terms carried as free text, not as resolved criteria: AXONE, NOTATARGET"
+        ]
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "affix_anti-{}",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find anti-AXONE antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 15,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 10,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 27,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 16,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_fd39c2a68f6bf4d1",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "affix_{}-directed",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE-directed antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 31,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 20,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_c9698035cad29cbb",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "affix_{}-targeted",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE-targeted antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 31,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 20,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_9c7951229f1854bf",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "affix_{}-targeting",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE-targeting antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 32,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 21,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_a7a367b78d0a2fb4",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "affix_{}-blocking",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE-blocking antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 31,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 20,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_4179ddf67b1c204f",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "affix_{}-binding",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE-binding antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 30,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 19,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_8ae747d23939fea2",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    },
+    {
+      "blockers": [],
+      "error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "id": "affix_{}-specific",
+      "intent": {
+        "ambiguous_terms": [],
+        "compiler_version": "intent_v1",
+        "conjunction_stated": false,
+        "human_poc_required": false,
+        "minimum_stage": null,
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "ontology_version": "chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2",
+        "original_query": "Find AXONE-specific antibodies.",
+        "phase_operator": "EXACT",
+        "phases": [],
+        "residual_terms": [],
+        "spans": [
+          {
+            "candidates": [],
+            "end": 10,
+            "explanation": "'AXONE' -> synonym alias 'AXONE' asserted by open_targets -> GAX1",
+            "kind": "TARGET",
+            "resolved_to": "GAX1",
+            "rule": "unique_alias_match",
+            "start": 5,
+            "text": "AXONE"
+          },
+          {
+            "candidates": [],
+            "end": 31,
+            "explanation": null,
+            "kind": "MODALITY",
+            "resolved_to": "MONOCLONAL_ANTIBODY",
+            "rule": "modality_vocabulary",
+            "start": 20,
+            "text": "antibodies"
+          }
+        ],
+        "statuses": [],
+        "target_operator": "ANY",
+        "targets": [
+          {
+            "aliases": [],
+            "canonical_id": "GAX1",
+            "label": "GAX1"
+          }
+        ],
+        "unresolved_scientific_terms": [],
+        "warnings": []
+      },
+      "problem": {
+        "buyer": {
+          "as_of_date": "2026-10-12",
+          "buyer_id": "nl_query",
+          "name": "Offline synthetic consumer audit"
+        },
+        "output": {
+          "group_by": "COHORT",
+          "landscape_mode": "COMBINED"
+        },
+        "problem_id": "nlq_49a30733f64f9778",
+        "ranking_cohort_required": true,
+        "schema_version": "se_buyer_problem_v2",
+        "strategic_gap": {
+          "acceptable_deal_routes": [],
+          "capability_constraints": {
+            "clinical_operations": [],
+            "commercial": [],
+            "delivery": [],
+            "integration": [],
+            "manufacturing": []
+          },
+          "clinical_effect_bar": {
+            "comparator": null,
+            "durability_minimum_days": null,
+            "effect_unit": null,
+            "endpoint": null,
+            "indication": null,
+            "minimum_effect": null,
+            "population": null,
+            "safety_ceiling": null,
+            "treatment_line": null
+          },
+          "evidence_floor": {
+            "evaluable_patients_minimum": null,
+            "follow_up_minimum_days": null,
+            "human_poc_required": false,
+            "minimum_stage": null,
+            "required_evidence_types": []
+          },
+          "geographic_rights_requirements": [],
+          "indications": [],
+          "missing_evidence_policy": "REVIEW",
+          "modalities": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "phase_constraint": null,
+          "required_biology": [],
+          "target_expression": {
+            "operator": "ANY",
+            "targets": [
+              {
+                "aliases": [],
+                "canonical_id": "GAX1",
+                "label": "GAX1"
+              }
+            ]
+          },
+          "therapeutic_areas": [
+            "UNSPECIFIED"
+          ]
+        },
+        "version": "intent_v1__chembl_fixture-v1__open_targets_fixture-v1__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b"
+      }
+    }
+  ],
+  "reference_cases": [
+    {
+      "attribution": null,
+      "connectors": {
+        "ClinicalTrialsGovConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "clinicaltrials_gov"
+          },
+          "requests": [
+            [
+              "(GAX1) AND (antibody OR CD3 OR bispecific OR T-cell engager OR BiTE)"
+            ]
+          ]
+        },
+        "CrossrefConferenceConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "conference_asco"
+          },
+          "requests": [
+            [
+              "Fixture Journal",
+              "GAX1",
+              "2026-10-12"
+            ]
+          ]
+        },
+        "FdaLabelConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "fda_label"
+          },
+          "requests": [
+            [
+              "description:\"GAX1\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+            ]
+          ]
+        },
+        "PubMedConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "pubmed"
+          },
+          "requests": [
+            [
+              "(\"GAX1\"[Title/Abstract]) AND (\"antibody\"[Title/Abstract] OR \"bispecific\"[Title/Abstract] OR \"T-cell engager\"[Title/Abstract] OR \"BiTE\"[Title/Abstract] OR \"CD3\"[Title/Abstract])"
+            ]
+          ]
+        },
+        "SecEdgarConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "sec_edgar"
+          },
+          "requests": [
+            [
+              "\"GAX1\""
+            ],
+            [
+              "\"GAX1\" \"antibody\""
+            ],
+            [
+              "\"GAX1\" \"bispecific\""
+            ],
+            [
+              "\"GAX1\" \"T-cell engager\""
+            ]
+          ]
+        },
+        "SecFiledPressReleaseConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "company_press_release_sec_filed"
+          },
+          "requests": [
+            [
+              "\"GAX1\""
+            ],
+            [
+              "\"GAX1\" \"antibody\""
+            ],
+            [
+              "\"GAX1\" \"bispecific\""
+            ],
+            [
+              "\"GAX1\" \"T-cell engager\""
+            ]
+          ]
+        }
+      },
+      "plan_error": {
+        "message": "target 'GAX1' is ambiguous in this ontology; it could mean TARGET:GAX1, TARGET:GAX2. Declare the canonical id you mean -- an ambiguous target may not be searched literally.",
+        "type": "AmbiguousTargetError"
+      },
+      "policy": "ACCEPT",
+      "reference": "GAX1",
+      "resolver": {
+        "entity_id": null,
+        "status": "AMBIGUOUS"
+      },
+      "surface": "GAX1",
+      "targets": [
+        {
+          "aliases": [
+            "GAX1"
+          ],
+          "canonical_id": "GAX1"
+        }
+      ],
+      "trial_query": {
+        "as_of_date": null,
+        "conditions": [],
+        "max_records": 1000,
+        "sponsors": [],
+        "statuses": [],
+        "term_groups": [],
+        "terms": [
+          "GAX1"
+        ]
+      }
+    },
+    {
+      "attribution": {
+        "DRUGA": [
+          {
+            "canonical_target_id": "TARGET:GAX1",
+            "documented_targets": [
+              "TARGET:GAX1"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX1",
+                "evidence_hash": "cdcd6bd6e9bede511c53ba2f1a9432eb778246695afac4aad96fa007bbb6c10f",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGA:GAX1",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGB": [
+          {
+            "canonical_target_id": "TARGET:GAX1",
+            "documented_targets": [
+              "TARGET:GAX2"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX2",
+                "evidence_hash": "26cb54c77249a25d35ffecd349eb36b05dde628bbcfdd4a2088017d22b275d9e",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGB:GAX2",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGC": [
+          {
+            "canonical_target_id": "TARGET:GAX1",
+            "documented_targets": [
+              "TARGET:GAX3"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX3",
+                "evidence_hash": "6c39cec65d55cad03a5453df741ceb1d6e4c87ac3e88e6a51a7c487da439798c",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGC:GAX3",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ]
+      },
+      "connectors": {
+        "ClinicalTrialsGovConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "clinicaltrials_gov"
+          },
+          "requests": [
+            [
+              "(TARGET:GAX1 OR GAX1 OR AXONE OR AXTWO) AND (antibody OR CD3 OR bispecific OR T-cell engager OR BiTE)"
+            ]
+          ]
+        },
+        "CrossrefConferenceConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "conference_asco"
+          },
+          "requests": [
+            [
+              "Fixture Journal",
+              "TARGET:GAX1 GAX1 AXONE AXTWO",
+              "2026-10-12"
+            ]
+          ]
+        },
+        "FdaLabelConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "fda_label"
+          },
+          "requests": [
+            [
+              "description:\"TARGET:GAX1\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+            ]
+          ]
+        },
+        "PubMedConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "pubmed"
+          },
+          "requests": [
+            [
+              "(\"TARGET:GAX1\"[Title/Abstract] OR \"GAX1\"[Title/Abstract] OR \"AXONE\"[Title/Abstract] OR \"AXTWO\"[Title/Abstract]) AND (\"antibody\"[Title/Abstract] OR \"bispecific\"[Title/Abstract] OR \"T-cell engager\"[Title/Abstract] OR \"BiTE\"[Title/Abstract] OR \"CD3\"[Title/Abstract])"
+            ]
+          ]
+        },
+        "SecEdgarConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "sec_edgar"
+          },
+          "requests": [
+            [
+              "\"TARGET:GAX1\""
+            ],
+            [
+              "\"GAX1\""
+            ],
+            [
+              "\"AXONE\""
+            ],
+            [
+              "\"AXTWO\""
+            ],
+            [
+              "\"TARGET:GAX1\" \"antibody\""
+            ],
+            [
+              "\"TARGET:GAX1\" \"bispecific\""
+            ],
+            [
+              "\"TARGET:GAX1\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX1\" \"antibody\""
+            ],
+            [
+              "\"GAX1\" \"bispecific\""
+            ],
+            [
+              "\"GAX1\" \"T-cell engager\""
+            ],
+            [
+              "\"AXONE\" \"antibody\""
+            ],
+            [
+              "\"AXONE\" \"bispecific\""
+            ],
+            [
+              "\"AXONE\" \"T-cell engager\""
+            ],
+            [
+              "\"AXTWO\" \"antibody\""
+            ],
+            [
+              "\"AXTWO\" \"bispecific\""
+            ],
+            [
+              "\"AXTWO\" \"T-cell engager\""
+            ]
+          ]
+        },
+        "SecFiledPressReleaseConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "company_press_release_sec_filed"
+          },
+          "requests": [
+            [
+              "\"TARGET:GAX1\""
+            ],
+            [
+              "\"GAX1\""
+            ],
+            [
+              "\"AXONE\""
+            ],
+            [
+              "\"AXTWO\""
+            ],
+            [
+              "\"TARGET:GAX1\" \"antibody\""
+            ],
+            [
+              "\"TARGET:GAX1\" \"bispecific\""
+            ],
+            [
+              "\"TARGET:GAX1\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX1\" \"antibody\""
+            ],
+            [
+              "\"GAX1\" \"bispecific\""
+            ],
+            [
+              "\"GAX1\" \"T-cell engager\""
+            ],
+            [
+              "\"AXONE\" \"antibody\""
+            ],
+            [
+              "\"AXONE\" \"bispecific\""
+            ],
+            [
+              "\"AXONE\" \"T-cell engager\""
+            ],
+            [
+              "\"AXTWO\" \"antibody\""
+            ],
+            [
+              "\"AXTWO\" \"bispecific\""
+            ],
+            [
+              "\"AXTWO\" \"T-cell engager\""
+            ]
+          ]
+        }
+      },
+      "plans": [
+        {
+          "aliases": [
+            "TARGET:GAX1",
+            "GAX1",
+            "AXONE",
+            "AXTWO"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"TARGET:GAX1\" OR \"GAX1\" OR \"AXONE\" OR \"AXTWO\")",
+          "query_id": "query:5481bb2c2d8918c3",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "TARGET:GAX1"
+          ]
+        },
+        {
+          "aliases": [
+            "TARGET:GAX1",
+            "GAX1",
+            "AXONE",
+            "AXTWO"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "query": "(\"TARGET:GAX1\" OR \"GAX1\" OR \"AXONE\" OR \"AXTWO\") AND (\"MONOCLONAL_ANTIBODY\" OR \"antibody\" OR \"fully human antibody\" OR \"humanized antibody\" OR \"igg\" OR \"mab\" OR \"monoclonal antibody\")",
+          "query_id": "query:3430e089616b0a3a",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "TARGET:GAX1"
+          ]
+        },
+        {
+          "aliases": [
+            "DRUGA"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"DRUGA\")",
+          "query_id": "query:e2586e9bfbae90c3",
+          "seed_drug_id": "DRUG:DRUGA",
+          "seed_provenance": "AUTHORITY_SEEDED_ASSET",
+          "target_ids": [
+            "TARGET:GAX1"
+          ]
+        }
+      ],
+      "policy": {
+        "message": "BuyerProblem 'nlq_6111fd5dfa93651a' is outside live source policy 'fixture-reference-v1': unsupported targets: TARGET:GAX1",
+        "type": "UnsupportedBuyerProblemError"
+      },
+      "reference": "TARGET:GAX1",
+      "resolver": {
+        "entity_id": "TARGET:GAX1",
+        "status": "RESOLVED"
+      },
+      "surface": "GAX1",
+      "targets": [
+        {
+          "aliases": [
+            "GAX1",
+            "AXONE",
+            "AXTWO"
+          ],
+          "canonical_id": "TARGET:GAX1"
+        }
+      ],
+      "trial_query": {
+        "as_of_date": null,
+        "conditions": [],
+        "max_records": 1000,
+        "sponsors": [],
+        "statuses": [],
+        "term_groups": [],
+        "terms": [
+          "TARGET:GAX1",
+          "GAX1",
+          "AXONE",
+          "AXTWO"
+        ]
+      }
+    },
+    {
+      "attribution": {
+        "DRUGA": [
+          {
+            "canonical_target_id": "TARGET:GAX2",
+            "documented_targets": [
+              "TARGET:GAX1"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX1",
+                "evidence_hash": "cdcd6bd6e9bede511c53ba2f1a9432eb778246695afac4aad96fa007bbb6c10f",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGA:GAX1",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGB": [
+          {
+            "canonical_target_id": "TARGET:GAX2",
+            "documented_targets": [
+              "TARGET:GAX2"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX2",
+                "evidence_hash": "26cb54c77249a25d35ffecd349eb36b05dde628bbcfdd4a2088017d22b275d9e",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGB:GAX2",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGC": [
+          {
+            "canonical_target_id": "TARGET:GAX2",
+            "documented_targets": [
+              "TARGET:GAX3"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX3",
+                "evidence_hash": "6c39cec65d55cad03a5453df741ceb1d6e4c87ac3e88e6a51a7c487da439798c",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGC:GAX3",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ]
+      },
+      "connectors": {
+        "ClinicalTrialsGovConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "clinicaltrials_gov"
+          },
+          "requests": [
+            [
+              "(GAX2 OR GAX1 OR BXTWO) AND (antibody OR CD3 OR bispecific OR T-cell engager OR BiTE)"
+            ]
+          ]
+        },
+        "CrossrefConferenceConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "conference_asco"
+          },
+          "requests": [
+            [
+              "Fixture Journal",
+              "GAX2 GAX1 BXTWO",
+              "2026-10-12"
+            ]
+          ]
+        },
+        "FdaLabelConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "fda_label"
+          },
+          "requests": [
+            [
+              "description:\"GAX2\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+            ]
+          ]
+        },
+        "PubMedConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "pubmed"
+          },
+          "requests": [
+            [
+              "(\"GAX2\"[Title/Abstract] OR \"GAX1\"[Title/Abstract] OR \"BXTWO\"[Title/Abstract]) AND (\"antibody\"[Title/Abstract] OR \"bispecific\"[Title/Abstract] OR \"T-cell engager\"[Title/Abstract] OR \"BiTE\"[Title/Abstract] OR \"CD3\"[Title/Abstract])"
+            ]
+          ]
+        },
+        "SecEdgarConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "sec_edgar"
+          },
+          "requests": [
+            [
+              "\"GAX2\""
+            ],
+            [
+              "\"GAX1\""
+            ],
+            [
+              "\"BXTWO\""
+            ],
+            [
+              "\"GAX2\" \"antibody\""
+            ],
+            [
+              "\"GAX2\" \"bispecific\""
+            ],
+            [
+              "\"GAX2\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX1\" \"antibody\""
+            ],
+            [
+              "\"GAX1\" \"bispecific\""
+            ],
+            [
+              "\"GAX1\" \"T-cell engager\""
+            ],
+            [
+              "\"BXTWO\" \"antibody\""
+            ],
+            [
+              "\"BXTWO\" \"bispecific\""
+            ],
+            [
+              "\"BXTWO\" \"T-cell engager\""
+            ]
+          ]
+        },
+        "SecFiledPressReleaseConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "company_press_release_sec_filed"
+          },
+          "requests": [
+            [
+              "\"GAX2\""
+            ],
+            [
+              "\"GAX1\""
+            ],
+            [
+              "\"BXTWO\""
+            ],
+            [
+              "\"GAX2\" \"antibody\""
+            ],
+            [
+              "\"GAX2\" \"bispecific\""
+            ],
+            [
+              "\"GAX2\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX1\" \"antibody\""
+            ],
+            [
+              "\"GAX1\" \"bispecific\""
+            ],
+            [
+              "\"GAX1\" \"T-cell engager\""
+            ],
+            [
+              "\"BXTWO\" \"antibody\""
+            ],
+            [
+              "\"BXTWO\" \"bispecific\""
+            ],
+            [
+              "\"BXTWO\" \"T-cell engager\""
+            ]
+          ]
+        }
+      },
+      "plans": [
+        {
+          "aliases": [
+            "GAX2",
+            "GAX1",
+            "BXTWO"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"GAX2\" OR \"GAX1\" OR \"BXTWO\")",
+          "query_id": "query:4dcec10e6b9ce6e9",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "GAX2"
+          ]
+        },
+        {
+          "aliases": [
+            "GAX2",
+            "GAX1",
+            "BXTWO"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "query": "(\"GAX2\" OR \"GAX1\" OR \"BXTWO\") AND (\"MONOCLONAL_ANTIBODY\" OR \"antibody\" OR \"fully human antibody\" OR \"humanized antibody\" OR \"igg\" OR \"mab\" OR \"monoclonal antibody\")",
+          "query_id": "query:3e2955ed1f302a7b",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "GAX2"
+          ]
+        },
+        {
+          "aliases": [
+            "DRUGB"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"DRUGB\")",
+          "query_id": "query:1f3f82564d0e0a4b",
+          "seed_drug_id": "DRUG:DRUGB",
+          "seed_provenance": "AUTHORITY_SEEDED_ASSET",
+          "target_ids": [
+            "GAX2"
+          ]
+        }
+      ],
+      "policy": "ACCEPT",
+      "reference": "GAX2",
+      "resolver": {
+        "entity_id": "TARGET:GAX2",
+        "status": "RESOLVED"
+      },
+      "surface": "GAX2",
+      "targets": [
+        {
+          "aliases": [
+            "GAX2",
+            "GAX1",
+            "BXTWO"
+          ],
+          "canonical_id": "GAX2"
+        }
+      ],
+      "trial_query": {
+        "as_of_date": null,
+        "conditions": [],
+        "max_records": 1000,
+        "sponsors": [],
+        "statuses": [],
+        "term_groups": [],
+        "terms": [
+          "GAX2",
+          "GAX1",
+          "BXTWO"
+        ]
+      }
+    },
+    {
+      "attribution": {
+        "DRUGA": [
+          {
+            "canonical_target_id": "TARGET:GAX2",
+            "documented_targets": [
+              "TARGET:GAX1"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX1",
+                "evidence_hash": "cdcd6bd6e9bede511c53ba2f1a9432eb778246695afac4aad96fa007bbb6c10f",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGA:GAX1",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGB": [
+          {
+            "canonical_target_id": "TARGET:GAX2",
+            "documented_targets": [
+              "TARGET:GAX2"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX2",
+                "evidence_hash": "26cb54c77249a25d35ffecd349eb36b05dde628bbcfdd4a2088017d22b275d9e",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGB:GAX2",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGC": [
+          {
+            "canonical_target_id": "TARGET:GAX2",
+            "documented_targets": [
+              "TARGET:GAX3"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX3",
+                "evidence_hash": "6c39cec65d55cad03a5453df741ceb1d6e4c87ac3e88e6a51a7c487da439798c",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGC:GAX3",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ]
+      },
+      "connectors": {
+        "ClinicalTrialsGovConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "clinicaltrials_gov"
+          },
+          "requests": [
+            [
+              "(TARGET:GAX2 OR GAX2 OR GAX1 OR BXTWO) AND (antibody OR CD3 OR bispecific OR T-cell engager OR BiTE)"
+            ]
+          ]
+        },
+        "CrossrefConferenceConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "conference_asco"
+          },
+          "requests": [
+            [
+              "Fixture Journal",
+              "TARGET:GAX2 GAX2 GAX1 BXTWO",
+              "2026-10-12"
+            ]
+          ]
+        },
+        "FdaLabelConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "fda_label"
+          },
+          "requests": [
+            [
+              "description:\"TARGET:GAX2\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+            ]
+          ]
+        },
+        "PubMedConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "pubmed"
+          },
+          "requests": [
+            [
+              "(\"TARGET:GAX2\"[Title/Abstract] OR \"GAX2\"[Title/Abstract] OR \"GAX1\"[Title/Abstract] OR \"BXTWO\"[Title/Abstract]) AND (\"antibody\"[Title/Abstract] OR \"bispecific\"[Title/Abstract] OR \"T-cell engager\"[Title/Abstract] OR \"BiTE\"[Title/Abstract] OR \"CD3\"[Title/Abstract])"
+            ]
+          ]
+        },
+        "SecEdgarConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "sec_edgar"
+          },
+          "requests": [
+            [
+              "\"TARGET:GAX2\""
+            ],
+            [
+              "\"GAX2\""
+            ],
+            [
+              "\"GAX1\""
+            ],
+            [
+              "\"BXTWO\""
+            ],
+            [
+              "\"TARGET:GAX2\" \"antibody\""
+            ],
+            [
+              "\"TARGET:GAX2\" \"bispecific\""
+            ],
+            [
+              "\"TARGET:GAX2\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX2\" \"antibody\""
+            ],
+            [
+              "\"GAX2\" \"bispecific\""
+            ],
+            [
+              "\"GAX2\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX1\" \"antibody\""
+            ],
+            [
+              "\"GAX1\" \"bispecific\""
+            ],
+            [
+              "\"GAX1\" \"T-cell engager\""
+            ],
+            [
+              "\"BXTWO\" \"antibody\""
+            ],
+            [
+              "\"BXTWO\" \"bispecific\""
+            ],
+            [
+              "\"BXTWO\" \"T-cell engager\""
+            ]
+          ]
+        },
+        "SecFiledPressReleaseConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "company_press_release_sec_filed"
+          },
+          "requests": [
+            [
+              "\"TARGET:GAX2\""
+            ],
+            [
+              "\"GAX2\""
+            ],
+            [
+              "\"GAX1\""
+            ],
+            [
+              "\"BXTWO\""
+            ],
+            [
+              "\"TARGET:GAX2\" \"antibody\""
+            ],
+            [
+              "\"TARGET:GAX2\" \"bispecific\""
+            ],
+            [
+              "\"TARGET:GAX2\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX2\" \"antibody\""
+            ],
+            [
+              "\"GAX2\" \"bispecific\""
+            ],
+            [
+              "\"GAX2\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX1\" \"antibody\""
+            ],
+            [
+              "\"GAX1\" \"bispecific\""
+            ],
+            [
+              "\"GAX1\" \"T-cell engager\""
+            ],
+            [
+              "\"BXTWO\" \"antibody\""
+            ],
+            [
+              "\"BXTWO\" \"bispecific\""
+            ],
+            [
+              "\"BXTWO\" \"T-cell engager\""
+            ]
+          ]
+        }
+      },
+      "plans": [
+        {
+          "aliases": [
+            "TARGET:GAX2",
+            "GAX2",
+            "GAX1",
+            "BXTWO"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"TARGET:GAX2\" OR \"GAX2\" OR \"GAX1\" OR \"BXTWO\")",
+          "query_id": "query:0fe038b249178ad5",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "TARGET:GAX2"
+          ]
+        },
+        {
+          "aliases": [
+            "TARGET:GAX2",
+            "GAX2",
+            "GAX1",
+            "BXTWO"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "query": "(\"TARGET:GAX2\" OR \"GAX2\" OR \"GAX1\" OR \"BXTWO\") AND (\"MONOCLONAL_ANTIBODY\" OR \"antibody\" OR \"fully human antibody\" OR \"humanized antibody\" OR \"igg\" OR \"mab\" OR \"monoclonal antibody\")",
+          "query_id": "query:bb3a33368988aec2",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "TARGET:GAX2"
+          ]
+        },
+        {
+          "aliases": [
+            "DRUGB"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"DRUGB\")",
+          "query_id": "query:1f3f82564d0e0a4b",
+          "seed_drug_id": "DRUG:DRUGB",
+          "seed_provenance": "AUTHORITY_SEEDED_ASSET",
+          "target_ids": [
+            "TARGET:GAX2"
+          ]
+        }
+      ],
+      "policy": {
+        "message": "BuyerProblem 'nlq_6111fd5dfa93651a' is outside live source policy 'fixture-reference-v1': unsupported targets: TARGET:GAX2",
+        "type": "UnsupportedBuyerProblemError"
+      },
+      "reference": "TARGET:GAX2",
+      "resolver": {
+        "entity_id": "TARGET:GAX2",
+        "status": "RESOLVED"
+      },
+      "surface": "GAX2",
+      "targets": [
+        {
+          "aliases": [
+            "GAX2",
+            "GAX1",
+            "BXTWO"
+          ],
+          "canonical_id": "TARGET:GAX2"
+        }
+      ],
+      "trial_query": {
+        "as_of_date": null,
+        "conditions": [],
+        "max_records": 1000,
+        "sponsors": [],
+        "statuses": [],
+        "term_groups": [],
+        "terms": [
+          "TARGET:GAX2",
+          "GAX1",
+          "GAX2",
+          "BXTWO"
+        ]
+      }
+    },
+    {
+      "attribution": {
+        "DRUGA": [
+          {
+            "canonical_target_id": "TARGET:GAX3",
+            "documented_targets": [
+              "TARGET:GAX1"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX1",
+                "evidence_hash": "cdcd6bd6e9bede511c53ba2f1a9432eb778246695afac4aad96fa007bbb6c10f",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGA:GAX1",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGB": [
+          {
+            "canonical_target_id": "TARGET:GAX3",
+            "documented_targets": [
+              "TARGET:GAX2"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX2",
+                "evidence_hash": "26cb54c77249a25d35ffecd349eb36b05dde628bbcfdd4a2088017d22b275d9e",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGB:GAX2",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGC": [
+          {
+            "canonical_target_id": "TARGET:GAX3",
+            "documented_targets": [
+              "TARGET:GAX3"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX3",
+                "evidence_hash": "6c39cec65d55cad03a5453df741ceb1d6e4c87ac3e88e6a51a7c487da439798c",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGC:GAX3",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_TARGET",
+            "supporting_associations": []
+          }
+        ]
+      },
+      "connectors": {
+        "ClinicalTrialsGovConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "clinicaltrials_gov"
+          },
+          "requests": [
+            [
+              "(GAX3 OR AXTHREE) AND (antibody OR CD3 OR bispecific OR T-cell engager OR BiTE)"
+            ]
+          ]
+        },
+        "CrossrefConferenceConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "conference_asco"
+          },
+          "requests": [
+            [
+              "Fixture Journal",
+              "GAX3 AXTHREE",
+              "2026-10-12"
+            ]
+          ]
+        },
+        "FdaLabelConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "fda_label"
+          },
+          "requests": [
+            [
+              "description:\"GAX3\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+            ]
+          ]
+        },
+        "PubMedConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "pubmed"
+          },
+          "requests": [
+            [
+              "(\"GAX3\"[Title/Abstract] OR \"AXTHREE\"[Title/Abstract]) AND (\"antibody\"[Title/Abstract] OR \"bispecific\"[Title/Abstract] OR \"T-cell engager\"[Title/Abstract] OR \"BiTE\"[Title/Abstract] OR \"CD3\"[Title/Abstract])"
+            ]
+          ]
+        },
+        "SecEdgarConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "sec_edgar"
+          },
+          "requests": [
+            [
+              "\"GAX3\""
+            ],
+            [
+              "\"AXTHREE\""
+            ],
+            [
+              "\"GAX3\" \"antibody\""
+            ],
+            [
+              "\"GAX3\" \"bispecific\""
+            ],
+            [
+              "\"GAX3\" \"T-cell engager\""
+            ],
+            [
+              "\"AXTHREE\" \"antibody\""
+            ],
+            [
+              "\"AXTHREE\" \"bispecific\""
+            ],
+            [
+              "\"AXTHREE\" \"T-cell engager\""
+            ]
+          ]
+        },
+        "SecFiledPressReleaseConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "company_press_release_sec_filed"
+          },
+          "requests": [
+            [
+              "\"GAX3\""
+            ],
+            [
+              "\"AXTHREE\""
+            ],
+            [
+              "\"GAX3\" \"antibody\""
+            ],
+            [
+              "\"GAX3\" \"bispecific\""
+            ],
+            [
+              "\"GAX3\" \"T-cell engager\""
+            ],
+            [
+              "\"AXTHREE\" \"antibody\""
+            ],
+            [
+              "\"AXTHREE\" \"bispecific\""
+            ],
+            [
+              "\"AXTHREE\" \"T-cell engager\""
+            ]
+          ]
+        }
+      },
+      "plans": [
+        {
+          "aliases": [
+            "GAX3",
+            "AXTHREE"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"GAX3\" OR \"AXTHREE\")",
+          "query_id": "query:41cba29a8ee2713c",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "GAX3"
+          ]
+        },
+        {
+          "aliases": [
+            "GAX3",
+            "AXTHREE"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "query": "(\"GAX3\" OR \"AXTHREE\") AND (\"MONOCLONAL_ANTIBODY\" OR \"antibody\" OR \"fully human antibody\" OR \"humanized antibody\" OR \"igg\" OR \"mab\" OR \"monoclonal antibody\")",
+          "query_id": "query:804312fa0cb79608",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "GAX3"
+          ]
+        },
+        {
+          "aliases": [
+            "DRUGC"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"DRUGC\")",
+          "query_id": "query:074de6968fc894c0",
+          "seed_drug_id": "DRUG:DRUGC",
+          "seed_provenance": "AUTHORITY_SEEDED_ASSET",
+          "target_ids": [
+            "GAX3"
+          ]
+        }
+      ],
+      "policy": "ACCEPT",
+      "reference": "GAX3",
+      "resolver": {
+        "entity_id": "TARGET:GAX3",
+        "status": "RESOLVED"
+      },
+      "surface": "GAX3",
+      "targets": [
+        {
+          "aliases": [
+            "GAX3",
+            "AXTHREE"
+          ],
+          "canonical_id": "GAX3"
+        }
+      ],
+      "trial_query": {
+        "as_of_date": null,
+        "conditions": [],
+        "max_records": 1000,
+        "sponsors": [],
+        "statuses": [],
+        "term_groups": [],
+        "terms": [
+          "GAX3",
+          "AXTHREE"
+        ]
+      }
+    },
+    {
+      "attribution": {
+        "DRUGA": [
+          {
+            "canonical_target_id": "TARGET:GAX3",
+            "documented_targets": [
+              "TARGET:GAX1"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX1",
+                "evidence_hash": "cdcd6bd6e9bede511c53ba2f1a9432eb778246695afac4aad96fa007bbb6c10f",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGA:GAX1",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGB": [
+          {
+            "canonical_target_id": "TARGET:GAX3",
+            "documented_targets": [
+              "TARGET:GAX2"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX2",
+                "evidence_hash": "26cb54c77249a25d35ffecd349eb36b05dde628bbcfdd4a2088017d22b275d9e",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGB:GAX2",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGC": [
+          {
+            "canonical_target_id": "TARGET:GAX3",
+            "documented_targets": [
+              "TARGET:GAX3"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX3",
+                "evidence_hash": "6c39cec65d55cad03a5453df741ceb1d6e4c87ac3e88e6a51a7c487da439798c",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGC:GAX3",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_TARGET",
+            "supporting_associations": []
+          }
+        ]
+      },
+      "connectors": {
+        "ClinicalTrialsGovConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "clinicaltrials_gov"
+          },
+          "requests": [
+            [
+              "(TARGET:GAX3 OR GAX3 OR AXTHREE) AND (antibody OR CD3 OR bispecific OR T-cell engager OR BiTE)"
+            ]
+          ]
+        },
+        "CrossrefConferenceConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "conference_asco"
+          },
+          "requests": [
+            [
+              "Fixture Journal",
+              "TARGET:GAX3 GAX3 AXTHREE",
+              "2026-10-12"
+            ]
+          ]
+        },
+        "FdaLabelConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "fda_label"
+          },
+          "requests": [
+            [
+              "description:\"TARGET:GAX3\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+            ]
+          ]
+        },
+        "PubMedConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "pubmed"
+          },
+          "requests": [
+            [
+              "(\"TARGET:GAX3\"[Title/Abstract] OR \"GAX3\"[Title/Abstract] OR \"AXTHREE\"[Title/Abstract]) AND (\"antibody\"[Title/Abstract] OR \"bispecific\"[Title/Abstract] OR \"T-cell engager\"[Title/Abstract] OR \"BiTE\"[Title/Abstract] OR \"CD3\"[Title/Abstract])"
+            ]
+          ]
+        },
+        "SecEdgarConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "sec_edgar"
+          },
+          "requests": [
+            [
+              "\"TARGET:GAX3\""
+            ],
+            [
+              "\"GAX3\""
+            ],
+            [
+              "\"AXTHREE\""
+            ],
+            [
+              "\"TARGET:GAX3\" \"antibody\""
+            ],
+            [
+              "\"TARGET:GAX3\" \"bispecific\""
+            ],
+            [
+              "\"TARGET:GAX3\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX3\" \"antibody\""
+            ],
+            [
+              "\"GAX3\" \"bispecific\""
+            ],
+            [
+              "\"GAX3\" \"T-cell engager\""
+            ],
+            [
+              "\"AXTHREE\" \"antibody\""
+            ],
+            [
+              "\"AXTHREE\" \"bispecific\""
+            ],
+            [
+              "\"AXTHREE\" \"T-cell engager\""
+            ]
+          ]
+        },
+        "SecFiledPressReleaseConnector": {
+          "health": {
+            "connector_succeeded": true,
+            "documents_indexed": 0,
+            "documents_parsed": 0,
+            "error": null,
+            "parse_failures": 0,
+            "query_returned_results": false,
+            "raw_record_count": 0,
+            "required_evidence_present": null,
+            "source_family": "company_press_release_sec_filed"
+          },
+          "requests": [
+            [
+              "\"TARGET:GAX3\""
+            ],
+            [
+              "\"GAX3\""
+            ],
+            [
+              "\"AXTHREE\""
+            ],
+            [
+              "\"TARGET:GAX3\" \"antibody\""
+            ],
+            [
+              "\"TARGET:GAX3\" \"bispecific\""
+            ],
+            [
+              "\"TARGET:GAX3\" \"T-cell engager\""
+            ],
+            [
+              "\"GAX3\" \"antibody\""
+            ],
+            [
+              "\"GAX3\" \"bispecific\""
+            ],
+            [
+              "\"GAX3\" \"T-cell engager\""
+            ],
+            [
+              "\"AXTHREE\" \"antibody\""
+            ],
+            [
+              "\"AXTHREE\" \"bispecific\""
+            ],
+            [
+              "\"AXTHREE\" \"T-cell engager\""
+            ]
+          ]
+        }
+      },
+      "plans": [
+        {
+          "aliases": [
+            "TARGET:GAX3",
+            "GAX3",
+            "AXTHREE"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"TARGET:GAX3\" OR \"GAX3\" OR \"AXTHREE\")",
+          "query_id": "query:0a92060ddaa823fe",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "TARGET:GAX3"
+          ]
+        },
+        {
+          "aliases": [
+            "TARGET:GAX3",
+            "GAX3",
+            "AXTHREE"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [
+            "MONOCLONAL_ANTIBODY"
+          ],
+          "query": "(\"TARGET:GAX3\" OR \"GAX3\" OR \"AXTHREE\") AND (\"MONOCLONAL_ANTIBODY\" OR \"antibody\" OR \"fully human antibody\" OR \"humanized antibody\" OR \"igg\" OR \"mab\" OR \"monoclonal antibody\")",
+          "query_id": "query:553bfad7d36695f3",
+          "seed_drug_id": null,
+          "seed_provenance": "TARGET_VOCABULARY",
+          "target_ids": [
+            "TARGET:GAX3"
+          ]
+        },
+        {
+          "aliases": [
+            "DRUGC"
+          ],
+          "expansion_depth": 0,
+          "modality_ids": [],
+          "query": "(\"DRUGC\")",
+          "query_id": "query:074de6968fc894c0",
+          "seed_drug_id": "DRUG:DRUGC",
+          "seed_provenance": "AUTHORITY_SEEDED_ASSET",
+          "target_ids": [
+            "TARGET:GAX3"
+          ]
+        }
+      ],
+      "policy": {
+        "message": "BuyerProblem 'nlq_6111fd5dfa93651a' is outside live source policy 'fixture-reference-v1': unsupported targets: TARGET:GAX3",
+        "type": "UnsupportedBuyerProblemError"
+      },
+      "reference": "TARGET:GAX3",
+      "resolver": {
+        "entity_id": "TARGET:GAX3",
+        "status": "RESOLVED"
+      },
+      "surface": "GAX3",
+      "targets": [
+        {
+          "aliases": [
+            "GAX3",
+            "AXTHREE"
+          ],
+          "canonical_id": "TARGET:GAX3"
+        }
+      ],
+      "trial_query": {
+        "as_of_date": null,
+        "conditions": [],
+        "max_records": 1000,
+        "sponsors": [],
+        "statuses": [],
+        "term_groups": [],
+        "terms": [
+          "TARGET:GAX3",
+          "GAX3",
+          "AXTHREE"
+        ]
+      }
+    }
+  ]
+}

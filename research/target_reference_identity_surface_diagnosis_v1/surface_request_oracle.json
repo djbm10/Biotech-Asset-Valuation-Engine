@@ -1,0 +1,497 @@
+{
+  "basis": "Existing connector behavior with biological canonical surface and the exact aliases already returned by the certified ontology ID. Not a new resolver or source implementation.",
+  "network_calls": 0,
+  "rows": [
+    {
+      "aliases": [
+        "GAX1",
+        "AXONE",
+        "AXTWO"
+      ],
+      "attribution": {
+        "DRUGA": [
+          {
+            "canonical_target_id": "TARGET:GAX1",
+            "documented_targets": [
+              "TARGET:GAX1"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX1",
+                "evidence_hash": "cdcd6bd6e9bede511c53ba2f1a9432eb778246695afac4aad96fa007bbb6c10f",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGA:GAX1",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGB": [
+          {
+            "canonical_target_id": "TARGET:GAX1",
+            "documented_targets": [
+              "TARGET:GAX2"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX2",
+                "evidence_hash": "26cb54c77249a25d35ffecd349eb36b05dde628bbcfdd4a2088017d22b275d9e",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGB:GAX2",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGC": [
+          {
+            "canonical_target_id": "TARGET:GAX1",
+            "documented_targets": [
+              "TARGET:GAX3"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX3",
+                "evidence_hash": "6c39cec65d55cad03a5453df741ceb1d6e4c87ac3e88e6a51a7c487da439798c",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGC:GAX3",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ]
+      },
+      "entity_id": "TARGET:GAX1",
+      "policy_expected": "ACCEPT",
+      "requests": {
+        "ClinicalTrialsGovConnector": [
+          [
+            "(GAX1 OR AXONE OR AXTWO) AND (antibody OR CD3 OR bispecific OR T-cell engager OR BiTE)"
+          ]
+        ],
+        "CrossrefConferenceConnector": [
+          [
+            "Fixture Journal",
+            "GAX1 AXONE AXTWO",
+            "2026-10-12"
+          ]
+        ],
+        "FdaLabelConnector": [
+          [
+            "description:\"GAX1\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+          ]
+        ],
+        "PubMedConnector": [
+          [
+            "(\"GAX1\"[Title/Abstract] OR \"AXONE\"[Title/Abstract] OR \"AXTWO\"[Title/Abstract]) AND (\"antibody\"[Title/Abstract] OR \"bispecific\"[Title/Abstract] OR \"T-cell engager\"[Title/Abstract] OR \"BiTE\"[Title/Abstract] OR \"CD3\"[Title/Abstract])"
+          ]
+        ],
+        "SecEdgarConnector": [
+          [
+            "\"GAX1\""
+          ],
+          [
+            "\"AXONE\""
+          ],
+          [
+            "\"AXTWO\""
+          ],
+          [
+            "\"GAX1\" \"antibody\""
+          ],
+          [
+            "\"GAX1\" \"bispecific\""
+          ],
+          [
+            "\"GAX1\" \"T-cell engager\""
+          ],
+          [
+            "\"AXONE\" \"antibody\""
+          ],
+          [
+            "\"AXONE\" \"bispecific\""
+          ],
+          [
+            "\"AXONE\" \"T-cell engager\""
+          ],
+          [
+            "\"AXTWO\" \"antibody\""
+          ],
+          [
+            "\"AXTWO\" \"bispecific\""
+          ],
+          [
+            "\"AXTWO\" \"T-cell engager\""
+          ]
+        ],
+        "SecFiledPressReleaseConnector": [
+          [
+            "\"GAX1\""
+          ],
+          [
+            "\"AXONE\""
+          ],
+          [
+            "\"AXTWO\""
+          ],
+          [
+            "\"GAX1\" \"antibody\""
+          ],
+          [
+            "\"GAX1\" \"bispecific\""
+          ],
+          [
+            "\"GAX1\" \"T-cell engager\""
+          ],
+          [
+            "\"AXONE\" \"antibody\""
+          ],
+          [
+            "\"AXONE\" \"bispecific\""
+          ],
+          [
+            "\"AXONE\" \"T-cell engager\""
+          ],
+          [
+            "\"AXTWO\" \"antibody\""
+          ],
+          [
+            "\"AXTWO\" \"bispecific\""
+          ],
+          [
+            "\"AXTWO\" \"T-cell engager\""
+          ]
+        ]
+      },
+      "surface": "GAX1"
+    },
+    {
+      "aliases": [
+        "GAX2",
+        "GAX1",
+        "BXTWO"
+      ],
+      "attribution": {
+        "DRUGA": [
+          {
+            "canonical_target_id": "TARGET:GAX2",
+            "documented_targets": [
+              "TARGET:GAX1"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX1",
+                "evidence_hash": "cdcd6bd6e9bede511c53ba2f1a9432eb778246695afac4aad96fa007bbb6c10f",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGA:GAX1",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGB": [
+          {
+            "canonical_target_id": "TARGET:GAX2",
+            "documented_targets": [
+              "TARGET:GAX2"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX2",
+                "evidence_hash": "26cb54c77249a25d35ffecd349eb36b05dde628bbcfdd4a2088017d22b275d9e",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGB:GAX2",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGC": [
+          {
+            "canonical_target_id": "TARGET:GAX2",
+            "documented_targets": [
+              "TARGET:GAX3"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX3",
+                "evidence_hash": "6c39cec65d55cad03a5453df741ceb1d6e4c87ac3e88e6a51a7c487da439798c",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGC:GAX3",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ]
+      },
+      "entity_id": "TARGET:GAX2",
+      "policy_expected": "ACCEPT",
+      "requests": {
+        "ClinicalTrialsGovConnector": [
+          [
+            "(GAX2 OR GAX1 OR BXTWO) AND (antibody OR CD3 OR bispecific OR T-cell engager OR BiTE)"
+          ]
+        ],
+        "CrossrefConferenceConnector": [
+          [
+            "Fixture Journal",
+            "GAX2 GAX1 BXTWO",
+            "2026-10-12"
+          ]
+        ],
+        "FdaLabelConnector": [
+          [
+            "description:\"GAX2\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+          ]
+        ],
+        "PubMedConnector": [
+          [
+            "(\"GAX2\"[Title/Abstract] OR \"GAX1\"[Title/Abstract] OR \"BXTWO\"[Title/Abstract]) AND (\"antibody\"[Title/Abstract] OR \"bispecific\"[Title/Abstract] OR \"T-cell engager\"[Title/Abstract] OR \"BiTE\"[Title/Abstract] OR \"CD3\"[Title/Abstract])"
+          ]
+        ],
+        "SecEdgarConnector": [
+          [
+            "\"GAX2\""
+          ],
+          [
+            "\"GAX1\""
+          ],
+          [
+            "\"BXTWO\""
+          ],
+          [
+            "\"GAX2\" \"antibody\""
+          ],
+          [
+            "\"GAX2\" \"bispecific\""
+          ],
+          [
+            "\"GAX2\" \"T-cell engager\""
+          ],
+          [
+            "\"GAX1\" \"antibody\""
+          ],
+          [
+            "\"GAX1\" \"bispecific\""
+          ],
+          [
+            "\"GAX1\" \"T-cell engager\""
+          ],
+          [
+            "\"BXTWO\" \"antibody\""
+          ],
+          [
+            "\"BXTWO\" \"bispecific\""
+          ],
+          [
+            "\"BXTWO\" \"T-cell engager\""
+          ]
+        ],
+        "SecFiledPressReleaseConnector": [
+          [
+            "\"GAX2\""
+          ],
+          [
+            "\"GAX1\""
+          ],
+          [
+            "\"BXTWO\""
+          ],
+          [
+            "\"GAX2\" \"antibody\""
+          ],
+          [
+            "\"GAX2\" \"bispecific\""
+          ],
+          [
+            "\"GAX2\" \"T-cell engager\""
+          ],
+          [
+            "\"GAX1\" \"antibody\""
+          ],
+          [
+            "\"GAX1\" \"bispecific\""
+          ],
+          [
+            "\"GAX1\" \"T-cell engager\""
+          ],
+          [
+            "\"BXTWO\" \"antibody\""
+          ],
+          [
+            "\"BXTWO\" \"bispecific\""
+          ],
+          [
+            "\"BXTWO\" \"T-cell engager\""
+          ]
+        ]
+      },
+      "surface": "GAX2"
+    },
+    {
+      "aliases": [
+        "GAX3",
+        "AXTHREE"
+      ],
+      "attribution": {
+        "DRUGA": [
+          {
+            "canonical_target_id": "TARGET:GAX3",
+            "documented_targets": [
+              "TARGET:GAX1"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX1",
+                "evidence_hash": "cdcd6bd6e9bede511c53ba2f1a9432eb778246695afac4aad96fa007bbb6c10f",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGA:GAX1",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGB": [
+          {
+            "canonical_target_id": "TARGET:GAX3",
+            "documented_targets": [
+              "TARGET:GAX2"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX2",
+                "evidence_hash": "26cb54c77249a25d35ffecd349eb36b05dde628bbcfdd4a2088017d22b275d9e",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGB:GAX2",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_OTHER_TARGET",
+            "supporting_associations": []
+          }
+        ],
+        "DRUGC": [
+          {
+            "canonical_target_id": "TARGET:GAX3",
+            "documented_targets": [
+              "TARGET:GAX3"
+            ],
+            "evidence": [
+              {
+                "canonical_target_id": "TARGET:GAX3",
+                "evidence_hash": "6c39cec65d55cad03a5453df741ceb1d6e4c87ac3e88e6a51a7c487da439798c",
+                "relationship_type": "DIRECT_TARGET",
+                "source": "chembl",
+                "source_record_id": "fixture:DRUGC:GAX3",
+                "source_release": "fixture-v1"
+              }
+            ],
+            "status": "CONFIRMED_TARGET",
+            "supporting_associations": []
+          }
+        ]
+      },
+      "entity_id": "TARGET:GAX3",
+      "policy_expected": "ACCEPT",
+      "requests": {
+        "ClinicalTrialsGovConnector": [
+          [
+            "(GAX3 OR AXTHREE) AND (antibody OR CD3 OR bispecific OR T-cell engager OR BiTE)"
+          ]
+        ],
+        "CrossrefConferenceConnector": [
+          [
+            "Fixture Journal",
+            "GAX3 AXTHREE",
+            "2026-10-12"
+          ]
+        ],
+        "FdaLabelConnector": [
+          [
+            "description:\"GAX3\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+          ]
+        ],
+        "PubMedConnector": [
+          [
+            "(\"GAX3\"[Title/Abstract] OR \"AXTHREE\"[Title/Abstract]) AND (\"antibody\"[Title/Abstract] OR \"bispecific\"[Title/Abstract] OR \"T-cell engager\"[Title/Abstract] OR \"BiTE\"[Title/Abstract] OR \"CD3\"[Title/Abstract])"
+          ]
+        ],
+        "SecEdgarConnector": [
+          [
+            "\"GAX3\""
+          ],
+          [
+            "\"AXTHREE\""
+          ],
+          [
+            "\"GAX3\" \"antibody\""
+          ],
+          [
+            "\"GAX3\" \"bispecific\""
+          ],
+          [
+            "\"GAX3\" \"T-cell engager\""
+          ],
+          [
+            "\"AXTHREE\" \"antibody\""
+          ],
+          [
+            "\"AXTHREE\" \"bispecific\""
+          ],
+          [
+            "\"AXTHREE\" \"T-cell engager\""
+          ]
+        ],
+        "SecFiledPressReleaseConnector": [
+          [
+            "\"GAX3\""
+          ],
+          [
+            "\"AXTHREE\""
+          ],
+          [
+            "\"GAX3\" \"antibody\""
+          ],
+          [
+            "\"GAX3\" \"bispecific\""
+          ],
+          [
+            "\"GAX3\" \"T-cell engager\""
+          ],
+          [
+            "\"AXTHREE\" \"antibody\""
+          ],
+          [
+            "\"AXTHREE\" \"bispecific\""
+          ],
+          [
+            "\"AXTHREE\" \"T-cell engager\""
+          ]
+        ]
+      },
+      "surface": "GAX3"
+    }
+  ]
+}

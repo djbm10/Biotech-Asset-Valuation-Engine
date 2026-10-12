@@ -1,0 +1,12 @@
+{
+  "capture_current_target_contracts.py": "2d36bb702f18ad44a29f8833d3ab6e9d3802443e5932a561ea2aa05f000e3e60",
+  "capture_historical_target_contracts.py": "12bb297aadb102fd44dc5067f8a47781f1b86588f0d8226bf02d81e5a18f8703",
+  "consumer_baseline.json": "d294bbfa7767106d77999618bf33e0b57d75fceced0cef52ba341396cf7905df",
+  "current_scientific_baseline.json": "3b0333066a6ebc5588c2a6b71ff27240d7649e7aaff933bcf7a686b7e07efb5f",
+  "freeze_target_surface_oracle.py": "3305afc9be72c86aef82718a3fa18cb4df1be62bd28bb92b0404dc33908d54f8",
+  "historical_source_verification.json": "10e5cffeae9449c790860b8e03e3ffac52e25eeb381c66b85b7516f1141b7ced",
+  "probe_target_reference_consumers.py": "864000c7be87988f2fe7cff4edaccbb7d72d45fce3b18d0ddde1535694309271",
+  "se_indication_compilation_v3_implementation_src.tar.gz": "1e1fe58e9df87110594087fdc659aa3528b24a9c041a4080de0c61a151ac1414",
+  "se_indication_gate_semantics_v3_implementation_src.tar.gz": "17ebde42a56ba72c0f2ff33697edc1a1a9e77cda4b94e94e8f3cd3ae840c493c",
+  "surface_request_oracle.json": "04f277820059fe298b7b6ffe3e769a951d6ed6eb814355d6e814842aa6c29f98"
+}

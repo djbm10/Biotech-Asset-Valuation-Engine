@@ -78,3 +78,25 @@ for candidate 612c088, whose failure remains final.
 No human-PoC recovery, C056 fix, indication change, target alias addition, live run,
 replay or heldout scoring belongs to this diagnosis. Alias capitalization and the
 failed prednisone/prednisolone oracle remain separate.
+
+## Diagnosis complete; successor contract frozen
+
+Frozen controls: dea4fdb. Offline baseline: 14 queries, 13 current compilation
+errors (two expected refusals and 11 lost-identity failures), six reference cases
+and 36 stubbed connector cases. All 18 qualified-ID connector cases leak internal
+IDs; all three qualified-ID policy cases are rejected. The biological-surface
+oracle freezes 18 corrected request sets using unchanged connector algorithms
+and aliases already obtained from exact ontology references.
+
+The additive TargetReference design and cross-consumer rules are now specified
+in docs/se_policies/target_reference_identity_surface_v1.md. It retains legacy
+biological symbols, carries exact entity/version separately, validates coherence
+and prevents metadata from becoming source text. Production has not changed.
+
+Historical source archives match 894/894 and 897/897 original source checks; all
+103 current controls retain their frozen indication outcomes. A successor can
+therefore preserve historical certification separately from strict present-day
+scientific compatibility, without editing the old artifacts or scorers.
+
+Implementation-ready for the narrowly preregistered interface milestone. Alias
+coverage is still separate; no new target names or biological inferences adopted.
