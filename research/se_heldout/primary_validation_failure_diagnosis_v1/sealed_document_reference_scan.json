@@ -1,0 +1,531 @@
+{
+  "H19": {
+    "datopotamab deruxtecan": [
+      {
+        "document_id": "document:c51b781d353550b88f60",
+        "source_url": "https://clinicaltrials.gov/study/NCT07674615",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/f2f2c8a56afa69361d3f914272f0ae06d11233f20bd03290e31a42a0a438f92f.json",
+        "context": " promising antitumor therapeutic target. Novel antibody-drug conjugates (ADCs) targeting TROP-2, such as IMMU-132 (SG), Datopotamab Deruxtecan (Dato-DXd), and Sacituzumab Tirumotecan (MK-2870), are under active development. In ovarian cancer, efficacy data for TROP-2 ADCs mainly derive from pan-solid tumor clinical studies. TROP-2 expression exhibits intratumoral "
+      },
+      {
+        "document_id": "document:4b6e0f9f45dc58c25b07",
+        "source_url": "https://clinicaltrials.gov/study/NCT07471776",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/3a4e205f946b0847295ac7b029202202129626bd7e4d7469dee938e10a339855.json",
+        "context": "entionsModule\": {\n    \"armGroups\": [\n      {\n        \"interventionNames\": [\n          \"Drug: Sacituzumab Govitecan\\u3001Datopotamab deruxtecan\\u3001Sacituzumab tirumotecan\",\n          \"Diagnostic Test: 68Ga-TROP2 PET/CT Imaging\",\n          \"Diagnostic Test: 18F-FDG PET Imaging\"\n        ],\n        \"label\": \"TROP2 ADC\",\n        \"type\": \"OTHER\"\n      }\n    ],\n    \"in"
+      },
+      {
+        "document_id": "document:ce181c403e914ab3bb15",
+        "source_url": "https://clinicaltrials.gov/study/NCT07738341",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/7683c763853b47e1b3168fe2eefc46f60b104d796a9c5e13be0b5a37fc457dc7.json",
+        "context": "b-Paclitaxel)\",\n        \"type\": \"EXPERIMENTAL\"\n      },\n      {\n        \"description\": \"GB268 (10 or 20 mg/kg Q3W IV) + Datopotamab Deruxtecan 6 mg/kg Day 1 Q3W IV. For participants with HR+/HER2- breast cancer who have received at least 1 line of endocrine therapy, CDK4/6i, and at least 1 line of systemic chemotherapy in the advanced setting; no prior Trop-2 ADC."
+      },
+      {
+        "document_id": "document:48fc4aa25348665a56ce",
+        "source_url": "https://clinicaltrials.gov/study/NCT06103864",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/776958066c4af6beb235976996239fe6d0d95c86674ee90ea1d86b99415fd84a.json",
+        "context": "{\n  \"armsInterventionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Arm 1: Dato-DXd + durvalumab\",\n        \"interventionNames\": [\n          \"Drug: Dato-DXd\",\n          \"Drug: Durvalumab\"\n        ],\n        \"label\": \"Dato-DXd + durvalumab\",\n        \"type\": \"EXPERIMENTAL\"\n      },\n      {\n        \"description\": \"Arm 2: Inve"
+      },
+      {
+        "document_id": "document:0392e32ad988bb16acd6",
+        "source_url": "https://clinicaltrials.gov/study/NCT06112379",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/e34681d83cd4963a9da3a354c35b82d435b05cdc553957049155d1bd73de7ce0.json",
+        "context": "ionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Participants receive durvalumab every 3 weeks (Q3W) + Dato-DXd Q3W as neoadjuvant therapy prior to surgery; followed by 9 cycles of durvaluamb Q3W as adjuvant therapy post-surgery. Adjuvant chemotherapy may be given in combination with durvalumab only if participants have residual disease.\\n\\nOlaparib"
+      },
+      {
+        "document_id": "document:9b0faff387ba073c5845",
+        "source_url": "https://clinicaltrials.gov/study/NCT06822543",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8a2e992bbec9edfe3901c8f788f975fa41eed39274f4115c48c78a3c2ca9cc0c.json",
+        "context": "le\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Study treatment:\\n\\n* INDUCTION: Pembrolizumab 200 mg IV Q3W; Datopotamab-Deruxtecan 6mg/kg IV Q3W; Carboplatin AUC 5 IV Q3W.\\n* For four (4) cycles.\\n* MAINTENANCE: Pembrolizumab 200 mg IV Q3W for 35 cycles; Datopotamab-Deruxtecan 6mg/ kg IV Q3W.\\\\*\\n\\n  * until disease progression or unacceptable toxicity"
+      },
+      {
+        "document_id": "document:da21505e302a3fbec3ee",
+        "source_url": "https://clinicaltrials.gov/study/NCT05629585",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/23c0b965f4fa1f6e9ef23681eb3f9a36cef82ed5a61533d75386e6113468dc87.json",
+        "context": "{\n  \"armsInterventionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Arm 1: Dato-DXd 6 mg/kg IV Q3W x 8 cycles + Durvalumab 1120 mg IV Q3W x 9 cycles\",\n        \"interventionNames\": [\n          \"Drug: Dato-DXd\",\n          \"Drug: Durvalumab\"\n        ],\n        \"label\": \"Dato-DXd in combination with Durvalumab\",\n        \"type"
+      },
+      {
+        "document_id": "document:33e524ac1625107bc3b1",
+        "source_url": "https://clinicaltrials.gov/study/NCT07291037",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/776a32b392ace6af386a8abe73ca5d23bbce1828977a689c896e4a4de8518570.json",
+        "context": "{\n  \"armsInterventionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Participants in the Dato-DXd monotherapy group will receive Dato-DXd as intravenous (IV) infusion every 3 weeks (Q3W) on Day 1 of each 21-day cycle.\",\n        \"interventionNames\": [\n          \"Drug: Datopotamab deruxtecan (Dato-DXd)\"\n        ],\n        \"label\": \"Arm A"
+      },
+      {
+        "document_id": "document:8977455168dc2e01f0d0",
+        "source_url": "https://clinicaltrials.gov/study/NCT06676917",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ad2b6ff4ef0d28f018046348f0e6988161358e38aca2faa565115c6de77599c7.json",
+        "context": "{\n  \"armsInterventionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Dato-DXd, administered as 6 mg/kg intravenous (IV) infusion on day 1 (D1) of each 21-day cycle until unacceptable toxicity, disease progression, patient's consensus withdrawal, death, or discontinuation from the study treatment for any other reason"
+      },
+      {
+        "document_id": "document:3fc8f94e80c935a1b4a9",
+        "source_url": "https://clinicaltrials.gov/study/NCT05460273",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4e32748a2b7147f047e25e72d441a6dbccdbd79683e91406c4846bceea15810c.json",
+        "context": "single-arm study consists of multiple cohorts, divided by indication.\",\n        \"interventionNames\": [\n          \"Drug: Datopotamab Deruxtecan (Dato-DXd)\"\n        ],\n        \"label\": \"Dato-DXd Arm\",\n        \"type\": \"EXPERIMENTAL\"\n      }\n    ],\n    \"interventions\": [\n      {\n        \"armGroupLabels\": [\n          \"Dato-DXd Arm\"\n        ],\n        \"description\": \"Da"
+      },
+      {
+        "document_id": "document:463bc509faf65578f7c9",
+        "source_url": "https://clinicaltrials.gov/study/NCT05687266",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/81588ffe4b36fb3005f6de5022e968870d7827f15db638b7b4e15f50edf29b05.json",
+        "context": "ntionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Participants will be randomized to receive 6.0mg/kg Dato-DXd plus 1120 mg durvalumab plus carboplatin area under the curve \\\\[AUC\\\\] 5 mg/mL/minute.\",\n        \"interventionNames\": [\n          \"Drug: Datopotamab deruxtecan\",\n          \"Drug: Durvalumab\",\n          \"Drug: Carboplatin\"\n        ],\n     "
+      },
+      {
+        "document_id": "document:b6a2fa4dde06a25cc7bd",
+        "source_url": "https://clinicaltrials.gov/study/NCT06533826",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/d2cfc23ddb97f84fb4cf215aa9022edf12a613389dee7260179e9e975d65c3bf.json",
+        "context": "y 8.\\n* Imaging every 9 weeks.\\n* Cycle 1 through end of treatment:\\n\\n  --Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\\n* Cycle 4 through end of treatment:\\n\\n  * Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\\n  * Imaging on Day 1.\\n* End of Treatment visit with imaging, tumor biopsy, eye exam.\\n* F"
+      },
+      {
+        "document_id": "document:5df5a369a19e7e2b9d4a",
+        "source_url": "https://clinicaltrials.gov/study/NCT07825753",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/662fabb56d3299c25d15f716ffc132856da3e05783612f910b044ae5f8e59948.json",
+        "context": "ssion, as assessed by membrane protein assay, were treated with TROP2-targeted antibody-drug conjugates (ADCs), such as datopotamab deruxtecan (Dato-DXd) or sacituzumab govitecan (SG).\",\n        \"interventionNames\": [\n          \"Drug: Datopotamab deruxtecan (Dato-DXd)\",\n          \"Drug: Sacituzumab govitecan (SG)\"\n        ],\n        \"label\": \"TROP2-directed molecu"
+      },
+      {
+        "document_id": "document:4199a1bc33979b8d17ff",
+        "source_url": "https://clinicaltrials.gov/study/NCT05104866",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/b39a99245542cec68c336868bffcf1c6157b12d10a2c6b6f13aa834f3913b987.json",
+        "context": "{\n  \"armsInterventionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Arm 1: Dato-DXd\",\n        \"interventionNames\": [\n          \"Drug: Dato-DXd\"\n        ],\n        \"label\": \"Dato-DXd\",\n        \"type\": \"EXPERIMENTAL\"\n      },\n      {\n        \"description\": \"Arm 2: ICC\\n\\nCapecitabine\\n\\nGemcitabine\\n\\nEribulin mesylate\\n\\nV"
+      },
+      {
+        "document_id": "document:034bddd623d341e5f1ed",
+        "source_url": "https://clinicaltrials.gov/study/NCT05489211",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/6501fcaf64535f08ef1bb7986bbedf3a712f38e27b67366d51de4a727a5130af.json",
+        "context": "{\n  \"armsInterventionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Dato-DXd will be evaluated as monotherapy\",\n        \"interventionNames\": [\n          \"Drug: Datopotamab deruxtecan (Dato-DXd)\"\n        ],\n        \"label\": \"Substudy-1A\",\n        \"type\": \"EXPERIMENTAL\"\n      },\n      {\n        \"description\": \"Dato-D"
+      },
+      {
+        "document_id": "document:9eeaec608621aa9d89d4",
+        "source_url": "https://clinicaltrials.gov/study/NCT06592417",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8a71fd6e0a0e836c606e05e0803818ebf781b0e630fffc7ae1b8241ef9aec02a.json",
+        "context": "s received including the antibody coupling of topoisomerase inhibitors class I drug therapy, such as DS-8201, HER3-DXd, DS-1062, etc; 9. A history of (noninfectious) interstitial lung disease (ILD) or noninfectious pneumonia requiring steroid therapy, current ILD or noninfectious pneumonia, or ILD or noninfectious pneumonia that could not be ruled out by imaging at"
+      },
+      {
+        "document_id": "document:2913fbd2462b85930a46",
+        "source_url": "https://clinicaltrials.gov/study/NCT07501169",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/bb114d5004630509437ef928715c4bdc41c5612c72ec88b4e750f221112df556.json",
+        "context": "es with topoisomerase I inhibitor payloads (e.g., topotecan, irinotecan, trastuzumab deruxtecan, sacituzumab govitecan, datopotamab deruxtecan \\\\[DS-1062\\\\]).\\n* 6.Brain metastases unless asymptomatic (stable for \\u22654 weeks, requiring \\u226410 mg/day prednisone or equivalent for \\u226514 days prior to first dose, and no significant peritumoral edema on imaging)"
+      },
+      {
+        "document_id": "document:463268b43ea527c591e7",
+        "source_url": "https://clinicaltrials.gov/study/NCT07720284",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4828b8f5fbd71186fa071a4b54ba423670dbea52ac962fb367adf091931dc35e.json",
+        "context": "{\n  \"armsInterventionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Dato-DXd: 6 mg/kg IV Q3W for 9 cycles (approximately 6 months), can be extended based on Investigator assessment of tolerability up to 17 cycles or up to 1 year + rilvegostomig: 750 mg IV Q3W 17 cycles or up to 1 year whichever occurs first.\",\n    "
+      },
+      {
+        "document_id": "document:82812b5b309c78d953ad",
+        "source_url": "https://clinicaltrials.gov/study/NCT05117476",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/e6e8a2d260a233caa799ba365be873b411b18b967a354a3660827fd7e042f78c.json",
+        "context": "TAL\"\n      },\n      {\n        \"description\": \"Patients with select NSCLC tumor types taking CLN-619 in combination with Dato-DXd\",\n        \"interventionNames\": [\n          \"Drug: CLN-619\",\n          \"Drug: Datopotamab deruxtecan-dlnk (Dato-DXd)\"\n        ],\n        \"label\": \"Module E Safety Run-in and Expansion\",\n        \"type\": \"EXPERIMENTAL\"\n      }\n    ],\n    \"int"
+      },
+      {
+        "document_id": "document:e4d56acb56435d362446",
+        "source_url": "https://clinicaltrials.gov/study/NCT03401385",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/59d34434770dcb8a3bd798a4371d4d0f8ced5aef0661c0d75a0c219f7113eadf.json",
+        "context": "\"description\": \"All participants enrolled in the dose escalation part\",\n        \"interventionNames\": [\n          \"Drug: Datopotamab Deruxtecan (Dato-DXd)\"\n        ],\n        \"label\": \"Dose Escalation - All Participants\",\n        \"type\": \"EXPERIMENTAL\"\n      },\n      {\n        \"description\": \"All participants enrolled in the dose expansion part\",\n        \"intervent"
+      },
+      {
+        "document_id": "document:6e7b7b2d195d99fdc22b",
+        "source_url": "https://clinicaltrials.gov/study/NCT05374512",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/3ceb24f19ebd15242787c7aae2061d680c42419add7e187b5dcce9a6ac94314d.json",
+        "context": "{\n  \"armsInterventionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"Arm 1: Dato-DXd\",\n        \"interventionNames\": [\n          \"Drug: Dato-DXd\"\n        ],\n        \"label\": \"Dato-DXd\",\n        \"type\": \"EXPERIMENTAL\"\n      },\n      {\n        \"description\": \"Arm 2:\\n\\nIf no prior taxane, or prior taxane in the (neo)adjuvant "
+      },
+      {
+        "document_id": "document:a78a4ecf76540f23812a",
+        "source_url": "https://clinicaltrials.gov/study/NCT07475559",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/d47a64a128a2165006df5450acb080d1031820a772ad57ad1ca9a0692f6f4ccc.json",
+        "context": "cine during the study;\\n4. Prior treatment with an ADC containing a topoisomerase I inhibitor (e.g., DS-8201, HER3-DXd, DS-1062, etc);\\n5. Concurrent other malignant tumor within 5 years before dosing, excluding cured cutaneous squamous cell carcinoma, basal cell carcinoma, non-muscle invasive bladder cancer, and in situ prostate/cervical/breast cancer/ papillary t"
+      },
+      {
+        "document_id": "document:8d946a03b7b7a15e85c9",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42853110/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/9fc4907aef2b77dba70af827aa51d11da55037b1ec262a9bf8b43340532179d8.json",
+        "context": "ationship developed without ADC-treated populations. Applied to trastuzumab deruxtecan (T-DXd) in HER2-mutant NSCLC and datopotamab deruxtecan (Dato-DXd), a TROP2-directed ADC, in EGFR-mutated NSCLC, all parameters came from literature or independent assays; only nonspecific antibody uptake and unconjugated-payload hepatic clearances were estimated from population"
+      },
+      {
+        "document_id": "document:6bcc5768fdb3124888c8",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42768463/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/f2f9dab4a1732f207dc4ee15fd6807f065939a6cd1b1f3009e15133213c3f1e8.json",
+        "context": "dence, clinical presentation, timing, severity, and management of oral toxicities (OTs) associated with TROP2-directed (datopotamab deruxtecan and sacituzumab govitecan) and HER2-directed (trastuzumab deruxtecan) antibody-drug conjugates in patients with advanced-stage cancers. A retrospective medical-records review of 207 patients was conducted to characterize an"
+      },
+      {
+        "document_id": "document:516d0fb708fbc9efdf3f",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42757501/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/d077832d30d28c49e8483ab42431cd068946d240479744d890e912054c4fb1ac.json",
+        "context": "toxicities, underlying mechanisms and practical management strategies increasingly important. Sacituzumab govitecan and datopotamab deruxtecan share TROP2 targeting and topoisomerase I inhibition but exhibit distinct safety profiles. Sacituzumab govitecan is mainly associated with neutropenia and diarrhoea, whereas datopotamab deruxtecan is characterized by stomat"
+      },
+      {
+        "document_id": "document:ee328088e40a54ea16db",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42733211/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/e202e30b2257bcdc12f9a1ff38d3c4264ab37e628566d044216bd898e56859ed.json",
+        "context": "{\n  \"abstract\": \"Datopotamab deruxtecan (Dato-DXd) is a trophoblast cell-surface antigen-2 (TROP2)-directed antibody-drug conjugate (ADC) that has demonstrated clinical activity in patients with NSCLC who have received prior therapies. Exposure-response (ER) anal"
+      },
+      {
+        "document_id": "document:70ee0164c528469a25e3",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42661416/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/79ea015b701b40cfd1859e5c169c88d0cd27684bfd5c9473cdcd42e95a3f3ce4.json",
+        "context": "blast cell surface antigen 2 (TROP2) is overexpressed in TNBC cells and an attractive target molecule in breast cancer. Datopotamab deruxtecan (Dato-DXd) is an antibody-drug conjugate targeting TROP2 that selectively releases payloads in tumors. We evaluated the efficacy and tumor concentration of payload of Dato-DXd and sacituzumab govitecan (SG), another TROP2-d"
+      },
+      {
+        "document_id": "document:a98768e55595de0d4e4e",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42656367/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/202e12a26e455a2d90d35aec654889c689a1ff96ee9451b88f5747c71182c01d.json",
+        "context": "horts stratified by body mass index (BMI). Cell viability assays determined responsiveness to Sacituzumab Govitecan and Datopotamab Deruxtecan. Adipocyte-derived CM significantly reduced TROP2 expression at transcript and protein levels, selectively in ER\\u03b1-positive BC models. Elevated 17\\u03b2-estradiol levels were detected in adipocyte CM, and estradiol expo"
+      },
+      {
+        "document_id": "document:a32226c29b909933d608",
+        "source_url": "https://clinicaltrials.gov/study/NCT06974604",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/046e2a7060c3a90295f51b5a9ea5980641c87340ad3b5862fba6905675821a32.json",
+        "context": "        ],\n        \"description\": \"Dexamethasone 10 mL daily for days 1-5 for each of the \\ufb01rst 3 cycles of therapy Datopotamab Deruxtecan 6.0 mg/kg IV on day 1 every 21 days\",\n        \"name\": \"Dexamethasone oral\",\n        \"otherNames\": [\n          \"Datopotamab Deruxtecan (Dato-DXd DS-1062a)\"\n        ],\n        \"type\": \"DRUG\"\n      }\n    ]\n  },\n  \"conditionsMo"
+      },
+      {
+        "document_id": "document:bcaa84b84ddd9b8bbf9a",
+        "source_url": "https://clinicaltrials.gov/study/NCT07548060",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/6614b828bbc871efe2ac0f153b83d214e42a927e063f746f1dc3c57396b4aa21.json",
+        "context": " resistance is limited. Newly published data from the Phase 2 ORCHARD study demonstrated that osimertinib combined with Dato-DXd showed encouraging efficacy and an acceptable safety profile in EGFR-mutated non-small cell lung cancer (NSCLC) patients who progressed after first-line osimertinib therapy, with an ORR of 43%, median PFS of 11.7 months, and median DoR of "
+      },
+      {
+        "document_id": "document:5db858cd2fe758a13d11",
+        "source_url": "https://clinicaltrials.gov/study/NCT04940325",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8718c51569f6ae757f7572abd68d7d89f22047130673f8ccfbbfc4180c22ee61.json",
+        "context": "erventionsModule\": {\n    \"armGroups\": [\n      {\n        \"description\": \"All patients included in the study will receive DS-1062a at a dose of 6 mg/kg every 3 weeks until progression or until unacceptable toxicity\",\n        \"interventionNames\": [\n          \"Drug: DS-1062a\"\n        ],\n        \"label\": \"DS-1062a\",\n        \"type\": \"EXPERIMENTAL\"\n      }\n    ],\n    \"int"
+      },
+      {
+        "document_id": "document:f8f6b91f9ef4854087b1",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42828635/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/f4aa4eaae3ce8574dece1c24f82a18f48503451e49bbb1495da0cf533d364fcc.json",
+        "context": "e and pembrolizumab for ovarian cancer, tislelizumab for nasopharyngeal cancer, trastuzumab deruxtecan, palbociclib and datopotamab deruxtecan for breast cancer, epcoritamab for lymphoma, teclistamab for multiple myeloma.\"\n}\n"
+      },
+      {
+        "document_id": "document:30fe938ffa68cd391108",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42727418/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/1608abfea8ff2c4ae09c145a113a2e0ad0a77b0b30731633c61c8a1cbff18e6e.json",
+        "context": "{\n  \"abstract\": \"In the global phase III TROPION-Breast01 study, datopotamab deruxtecan (Dato-DXd) demonstrated a statistically significant and clinically meaningful improvement in progression-free survival (PFS) by blinded independent central review (BICR) versus investigator's choice of chemotherapy (ICC) in"
+      },
+      {
+        "document_id": "document:ba49844875064b6ea77c",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42723854/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/9a4fd80a79ab8216a67aa1afeeae148eccf23a74734ce6312a9b2d8d81be25d3.json",
+        "context": "ise tumor targeting with cytotoxic payloads, effectively bridging targeted delivery with microenvironmental disruption. Datopotamab deruxtecan (Dato-DXd), a Trop-2-targeted ADC, has demonstrated encouraging clinical activity. Preclinical evidence suggests that Dato-DXd may modulate the tumor microenvironment (TME) through potential induction of immunogenic cell de"
+      },
+      {
+        "document_id": "document:270570667f4ae776eb44",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42716873/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/f2dd7c262172ea2442cd796c3555dd3d80c73550c5ac168c30df25b8e9ae2994.json",
+        "context": "{\n  \"abstract\": \"\",\n  \"pmid\": \"42716873\",\n  \"publication_date\": \"2026\",\n  \"title\": \"[Datopotamab-deruxtecan in previously treated RH+/HER2- advanced or metastatic breast cancer].\"\n}\n"
+      },
+      {
+        "document_id": "document:e65f5c0f6b056e2f4dc4",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42697616/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/b481fe1413c1b057c6ea64cfa4e34941f4dd684497890712d3248313613e335b.json",
+        "context": "{\n  \"abstract\": \"\",\n  \"pmid\": \"42697616\",\n  \"publication_date\": \"2026\",\n  \"title\": \"Letter to the Editor Regarding \\\"Datopotamab Deruxtecan Plus Pembrolizumab With or Without Platinum-Based Chemotherapy for Advanced or Metastatic NSCLC: The Phase Ib TROPION-Lung02 Trial\\\".\"\n}\n"
+      },
+      {
+        "document_id": "document:2a92e9300ad00c38369f",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42697605/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/9f94af364c3a61d4327ddd65974573c51bcc6846868b3c642a078f667388bd78.json",
+        "context": ",\n  \"pmid\": \"42697605\",\n  \"publication_date\": \"2026\",\n  \"title\": \"A Response to the Letter to the Editor: \\\"Regarding \\\"Datopotamab Deruxtecan Plus Pembrolizumab With or Without Platinum-Based Chemotherapy for Advanced or Metastatic NSCLC: The Phase Ib TROPION-Lung02 Trial\\\".\"\n}\n"
+      },
+      {
+        "document_id": "document:eaf6b36afc8f6e6c27e2",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42684568/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/41f3128d8e97cdbb9cb30939e29072aa36f837730bc39e9ae1beddf0a918e033.json",
+        "context": "uencing of antibody-drug conjugates (ADCs) is an important clinical issue in metastatic breast cancer. However, data on datopotamab deruxtecan (Dato-DXd) following trastuzumab deruxtecan (T-DXd) have not been reported. This study evaluated real-world outcomes of Dato-DXd in patients with hormone receptor-positive, HER2-negative metastatic breast cancer, focusing o"
+      },
+      {
+        "document_id": "document:1e844ba4087ccf40754f",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42619658/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/bb876a9574435aa1310f2849f9ef5168f38f7660f6424f178514bf19b41854be.json",
+        "context": "8,946 patients and five ADCs-trastuzumab emtansine (T-DM1), sacituzumab govitecan (SG), trastuzumab deruxtecan (T-DXd), datopotamab deruxtecan (Dato-DXd), and ARX788-were analyzed. SG and T-DXd showed the least favorable hematologic safety profiles, with SUCRA values for anemia/neutropenia of 22.6%/17.4% and 12.0%/27.0%, respectively. T-DM1-based regimens had the "
+      },
+      {
+        "document_id": "document:8d307728dc343d99fa27",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42596749/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/5dfd1e382a5526acf0be5691c29639a63b7e0cafc7fb58d00217a1843904e791.json",
+        "context": "Programmed cell death ligand 1 (PD-L1)-positive metastatic TNBC. Meanwhile, TROPION-Breast02 had led to the approval of Datopotamab deruxtecan (Dato-DXd) for the first-line treatment of immunotherapy-ineligible patients with metastatic TNBC, whereas ASCENT-03 led to the NCCN incorporation of first-line sacituzumab govitecan for the same population. Multiple furthe"
+      },
+      {
+        "document_id": "document:cab0fdaee8556e86e806",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42582778/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/9a405da2cb6037300058802c7f9b2fe4ec305a0d1ca19787c78f0ce177b74ba7.json",
+        "context": "poor prognosis. Various Trop-2-targeted ADCs, such as sacituzumab govitecan (SG), sacituzumab tirumotecan (SKB264), and datopotamab deruxtecan (Dato-DXd), are being actively investigated for advanced triple-negative breast cancer (TNBC) and hormone receptor-positive (HR+) and human epidermal growth factor receptor 2-negative (HER2-) BC. This review discusses the c"
+      },
+      {
+        "document_id": "document:4d09e67c0c67973d6cbf",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42558967/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/da883c460eab781c837e60376030353b2ffc27fe3324e1daf8dedfbac59f47f0.json",
+        "context": "{\n  \"abstract\": \"Datopotamab deruxtecan (Dato-DXd) is a novel antibody-drug conjugate currently under investigation in clinical trials of various solid tumors. In this manuscript, an international steering committee formed by medical oncologists, ophthalmologists"
+      },
+      {
+        "document_id": "document:613277a599cae6008166",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42497483/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/d18cf80522b6dde9670eef48539500ecf795d9d312af56eac5a91ccbf8f6ff43.json",
+        "context": "{\n  \"abstract\": \"In TROPION-Breast01 (NCT05104866), datopotamab deruxtecan (Dato-DXd) improved progression-free survival by blinded independent central review versus investigator's choice of chemotherapy (ICC) in patients with inoperable/metastatic hormone receptor-positive, human epidermal growth"
+      },
+      {
+        "document_id": "document:b174b392741fc058dfc7",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42484993/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/95e5677694a163b3d07694a71e17f5e42b3b228b41d22bb60043783acf4e3476.json",
+        "context": "drug conjugates, bispecific antibodies, or kinase inhibitors, all of which are indicated for tumor treatment, including datopotamab deruxtecan (hormone receptor-positive, HER2-negative breast cancer), tisotumab vedotin (advanced cervical carcinoma), linvoseltamab (fourth-line treatment of multiple myeloma), and erdafitinib (advanced urothelial carcinoma). The smal"
+      },
+      {
+        "document_id": "document:38205996773664e4947f",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42482759/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/b9ac178b98b1fca6533dd55c6d46e9a6e8682cbedb9a9e065a9b2ee127cc269d.json",
+        "context": " the first antibody-drug conjugate (ADC) for solid tumors, the therapeutic landscape in cancer has been revolutionized. Datopotamab deruxtecan (Dato-DXd) is a TROP2-targeting ADC which is composed of a humanized monoclonal antibody and a potent topoisomerase I inhibitor via a tetrapeptide-based cleavable linker. Based on data from multiple clinical trials, Dato-DX"
+      },
+      {
+        "document_id": "document:1b5a29c06e2973f6e972",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42467304/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/78eb629cdceaa21fb5099d2eeddc28efc7a7c0e4a501572a5f9b5be86df9af08.json",
+        "context": "{\n  \"abstract\": \"The antibody-drug conjugates (ADCs) sacituzumab govitecan (SG) and datopotamab deruxtecan target trophoblast cell surface antigen 2 (TROP-2) and have shown significant efficacy in HER2-negative metastatic breast cancer (mBC). As TROP-2 may serve as a target across multiple treatment lines, detailed information o"
+      },
+      {
+        "document_id": "document:1646f6ddbd1dc9b91b32",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42435952/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/948fb15ef3a6a8a4617c83addc96a98dfb0cae58bd877b29ad443429dae305f2.json",
+        "context": "ibody-drug conjugate (ADC) development. Clinically, TROP-2-directed ADCs, exemplified by sacituzumab govitecan (SG) and datopotamab deruxtecan (Dato-DXd), have demonstrated transformative efficacy across multiple solid tumors including triple-negative breast cancer (TNBC), non-small cell lung cancer (NSCLC), and urothelial carcinoma (UC). Their target-specific del"
+      },
+      {
+        "document_id": "document:04c8f6252002f2ee029f",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42431135/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/2b20c68659a1480d14e0d32d199585d868cfe47ac7575b7b8486f766e9faa7e5.json",
+        "context": "he standard of care [e.g. lung: sacituzumab tirumotecan; breast: trastuzumab deruxtecan (T-DXd), sacituzumab govitecan, datopotamab deruxtecan; muscle-invasive bladder cancer: enfortumab vedotin; ovarian cancer: mirvetuximab soravastine; cervical cancer: tisotumab vedotin]. Thus, research priorities must be tailored according to tumour type, potentially focussing "
+      },
+      {
+        "document_id": "document:c749c1c8ee6d9a1d3d44",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42417511/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/48a8fdf94acf6e74143a4151a38d22a969e9c23297db06c5db8f28e1f9770284.json",
+        "context": "{\n  \"abstract\": \"To quantify datopotamab deruxtecan-dlnk in rat plasma, a selective, sensitive, and quick LC-MS/MS technique was created, validated, and successfully used in pharmacokinetic investigations. The analyte separation was accomplished on an Agilent Eclipse XDB-C18"
+      },
+      {
+        "document_id": "document:760fc35ec05d7b8ea838",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42398129/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/5f104847eed1367a40abdf3f3b6be7b4ae2237dbcbec233bae960d02d7a81308.json",
+        "context": "ss hormone receptor-positive/HER2-negative and triple-negative subtypes. Trastuzumab deruxtecan, sacituzumab govitecan, datopotamab deruxtecan, and sacituzumab tirumotecan are expanding treatment options beyond traditional chemotherapy. As their clinical integration advances, optimizing the prevention and management of ADC-related toxicities, determining optimal s"
+      },
+      {
+        "document_id": "document:dcb88f8d457ee73402bc",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42386645/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/ecd656cf27c679bd9bd0e72dc8c8f938dad8ae2eb1ddecfc8cb5652c4334d32b.json",
+        "context": "DC covering unmet medical needs, we have developed a novel trophoblast cell surface antigen 2 (TROP2)-directed DXd-ADC, datopotamab deruxtecan (Dato-DXd). In the preclinical studies, we confirmed that Dato-DXd binds to TROP2 on cancer cell surface and, following internalization and lysosomal trafficking, releases DXd. The released DXd induces DNA damage and apopto"
+      },
+      {
+        "document_id": "document:cd32e96a7a23289bf83d",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42382977/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/bcd09ff6f9d7afbd9f5eb0354d82b114575bf10ed0e65dcb2572a5a5a1a2fd20.json",
+        "context": "osis. While TROP2-targeted antibody-drug conjugates (ADCs), such as sacituzumab govitecan, sacituzumab tirumotecan, and datopotamab deruxtecan (DXD), achieved clinical success, the mechanisms underlying resistance to these therapies remain incompletely understood. Consequently, the full therapeutic potential of TROP2 ADCs has yet to be comprehended. We developed R"
+      },
+      {
+        "document_id": "document:f5668319439a070665b5",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42368461/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/bf19a55b3de9e58708c8871aa56307c67319a6ee7c358603da0348baefb33c5c.json",
+        "context": "tic targets are needed. We evaluated trophoblast cell-surface antigen 2 (TROP2) expression in LGSOC and the activity of datopotamab deruxtecan (Dato-DXd), a TROP2-directed antibody-drug conjugate, in an LGSOC patient-derived xenograft (PDX) model. TROP2 expression was assessed by immunohistochemistry in a retrospective single-center cohort of 29 LGSOC cases treate"
+      },
+      {
+        "document_id": "document:40809cbd4058c206e4af",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42345080/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/71f684596d6748ce8a653322a879615e257fafcddd59492f710accaf1c0540f3.json",
+        "context": "{\n  \"abstract\": \"Datopotamab deruxtecan (Dato-DXd) is a TROP2-directed antibody-drug conjugate (ADC) that has received accelerated approval in the US for adults with locally advanced or metastatic EGFR-mutated non-small cell lung cancer (NSCLC) after progression "
+      },
+      {
+        "document_id": "document:608829ffffd517dc8404",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42294323/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/3691f240dc1bb2d10c7ed93c0bef430f312638d3538dac5096a17ef0d646f600.json",
+        "context": "th potent cytotoxic payloads. With the expanding use of trastuzumab deruxtecan (T-DXd), sacituzumab govitecan (SG), and datopotamab deruxtecan (Dato-DXd) across HER2-positive, HER2-low, and hormone-receptor-positive disease, management of treatment-related toxicities has become a critical determinant of outcomes. To synthesize clinical-trial, post-marketing, and r"
+      },
+      {
+        "document_id": "document:4a9afa7d30da27290342",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42226007/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/640e6d9c1da1176ea5e785c947dcb8b9ce975b845e62291e1bd879650fbaaba2.json",
+        "context": "nced NSCLC. Late-phase ADCs include trastuzumab deruxtecan (targeting HER2 [human epidermal growth factor receptor 2]), datopotamab deruxtecan and sacituzumab govitecan (targeting TROP2 [trophoblast cell-surface antigen 2]), patritumab deruxtecan (targeting HER3), telisotuzumab vedotin (targeting c-MET [cellular-mesenchymal epithelial transition factor]), and sigv"
+      },
+      {
+        "document_id": "document:5fac76b5e8309b87b288",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42214556/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/9d83f5f95e32942af24279b32cd1af026d9f97b7f4084c834bb75e8288bbf085.json",
+        "context": "{\n  \"abstract\": \"\",\n  \"pmid\": \"42214556\",\n  \"publication_date\": \"2026\",\n  \"title\": \"ILD with datopotamab deruxtecan combinations: a warning signal we should not ignore.\"\n}\n"
+      },
+      {
+        "document_id": "document:e83cecaf185fa23055f5",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42194027/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/8cf0c5ff18e5b21683d49aa34601621cad19155130a45ee62b7b23d002b0094b.json",
+        "context": "lls while minimizing systemic toxicity. While HER2-targeted ADCs such as trastuzumab deruxtecan (T-DXd) in HER2-mutant, Datopotamab deruxtecan (Dato-Dxd) in EGFR-mutant, and telisotumumab vedotin (Teliso-V) in MET IHC 3+ expressing lung cancer have already established a clinical role in non-small cell lung cancer (NSCLC), multiple ADCs targeting alternative antige"
+      },
+      {
+        "document_id": "document:b567fdad55903d0ea8bf",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42183859/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/8397bb8ee003fbbfbfbbadc4d3e672f366f7b8729c1f6334d1d02bab95e15245.json",
+        "context": "iew summarizes current evidence on the biological rationale, pharmacologic characteristics, and clinical development of datopotamab deruxtecan (Dato-DXd), with emphasis on findings from the phase III TROPION-Breast01 trial and relevant translational studies. Datopotamab deruxtecan is a TROP-2-directed ADC that enables targeted delivery of a potent topoisomerase I "
+      },
+      {
+        "document_id": "document:3466fe5bdf4888148ba9",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42182601/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/290bfe6f2a64624ec7d236b937c364454feb855a8ea083a3de1578ab480e1a90.json",
+        "context": "L osimertinib in combination with agents which have broad antitumor activity has been demonstrated in phase III trials. Datopotamab deruxtecan (Dato-DXd), an antibody-drug conjugate composed of a humanized anti-trophoblast cell-surface antigen 2 monoclonal antibody conjugated to a potent topoisomerase I inhibitor, has demonstrated efficacy as monotherapy and in co"
+      },
+      {
+        "document_id": "document:cb2e3c321f47155cb25b",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42170579/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/31dcec2299e8f7bb828d7525ad6f47729507c2a6dbf80b544d1c3d55b3e14357.json",
+        "context": "ed triple-negative breast cancer (TNBC) remain poor. We present results from the phase I/II TROPION-PanTumor02 study of datopotamab deruxtecan (Dato-DXd), an antibody-drug conjugate (ADC) comprised of a humanised anti-trophoblast cell surface antigen 2 (TROP2) monoclonal antibody conjugated to a potent topoisomerase I (Topo-I) inhibitor, in Chinese patients with p"
+      },
+      {
+        "document_id": "document:77970c7bdacf68bd4647",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42167437/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/26367babad14e38469956a4cdc58278f8ee8150e41d6b5b4fc70ba1e5ddd27c6.json",
+        "context": "ocally advanced or metastatic triple-negative breast cancer (TNBC). Arms 7 and 8 of BEGONIA assessed the combination of datopotamab deruxtecan (Dato-DXd), a TROP2-directed antibody-drug conjugate, with durvalumab. Arm 7 included patients regardless of tumor PD-L1 expression level. Arm 8 then enrolled patients with PD-L1-high tumors, as determined by local immunohi"
+      },
+      {
+        "document_id": "document:503541f9100b2345c7e8",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42155073/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/f4cfa8ab9f13f5a23fbce8fc5392dee9e90c87c9bad880db1da28ec0ecc67990.json",
+        "context": "ab deruxtecan expanded therapeutic utility across HER2-low and HER2-ultralow disease, whereas sacituzumab govitecan and datopotamab deruxtecan provide later-line options. As ADCs emerge as earlier therapies, questions regarding sequencing, cross-resistance, and toxicity remain central to clinical decision making. Metastasis-directed therapy (MDT) in oligometastati"
+      },
+      {
+        "document_id": "document:6b657230ac4d037e5198",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42142358/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/75d01f0419bc98941b2c4e5848ec5cdda14db417c74a6c99467a9f7988577de7.json",
+        "context": "carcinoma (la/mUC). However, randomized data to guide treatment after progression on EV plus pembrolizumab are limited. Datopotamab deruxtecan (Dato-DXd), a trophoblast cell surface antigen 2-directed antibody-drug conjugate, has demonstrated durable efficacy and a manageable safety profile in patients with la/mUC. TROPION-Urothelial03 is a global, multicenter, ra"
+      },
+      {
+        "document_id": "document:b26652b15fa14ee2fa3d",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42096614/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/bd770bac4d57e6bb2a1d13c243cb969894714e582088c437764317f62d324976.json",
+        "context": "ntal validation, we identified TROP2 as a consistently and highly overexpressed cell-surface antigen in HNSCC and ESCA. DS-1062a, a TROP2-directed ADC delivering the camptothecin (CPT)-like topoisomerase I inhibitor deruxtecan (Dxd), demonstrated marked tumor regression in HNSCC and ESCA xenografts. This pronounced sensitivity may be attributable to prevalent homol"
+      },
+      {
+        "document_id": "document:0ebfc9ef9cd19edda15e",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42060873/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/46d6445e634c87dca9a5968c8ed83e6d648e1bb2f5780ec8150ad48d4b88d629.json",
+        "context": "Phase I Dose-Escalation and Dose-Expansion Study of Trophoblast Cell-Surface Antigen 2-Directed Antibody-Drug Conjugate Datopotamab Deruxtecan in Non-Small-Cell Lung Cancer: TROPION-PanTumor01.\"\n}\n"
+      },
+      {
+        "document_id": "document:1f7a104d64bfd37b30f9",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/42040770/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/b7dd525c8553421a25d8f46c6ee7e42be0d0a1675f3d2b41df70cf41d0a0a1db.json",
+        "context": "es in ADC technology have led to the development of several TROP2-targeting agents, including sacituzumab govitecan and datopotamab deruxtecan, which have demonstrated significant efficacy and acceptable safety in patients with advanced or treatment-resistant TNBC and ovarian carcinoma. Clinical trials have reported improvements in progression-free and overall sur"
+      },
+      {
+        "document_id": "document:d856bb33d0f01fea6220",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41999748/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/00f01227551786e750038fad4df2ed26f9ba1a84619822dd45f9d9e753f3d831.json",
+        "context": "Cell, Planchard et al. report results from ICARUS-LUNG01, a phase 2 study assessing clinical activity and biomarkers of datopotamab deruxtecan in previously treated non-small cell lung cancer (NSCLC). This study contributes to ongoing efforts to characterize predictors of antibody-drug conjugate efficacy and resistance.\",\n  \"pmid\": \"41999748\",\n  \"publication_date\""
+      },
+      {
+        "document_id": "document:2ff2fd697332af6e87d1",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41999747/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/71d8b962662e39235a1f9c219365d5eef0600251d54c91f479c18b72ea1e5bb4.json",
+        "context": "tional analyses. In this multicenter trial, 100 pretreated patients with advanced NSCLC received the TROP2-directed ADC datopotamab deruxtecan (Dato-DXd). The study reported an objective response rate (ORR) of 26.0%, with a median progression-free survival (PFS) of 3.6 months, and a greater benefit observed in non-squamous tumors. Baseline and on-treatment tumor a"
+      },
+      {
+        "document_id": "document:1e9ebf7aecabb7e63786",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41987715/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/e0653baac02249e7deaa9e785df2f07afa843c4f851089de69f097e568d8ad14.json",
+        "context": "{\n  \"abstract\": \"Dato-DXd (datopotamab deruxtecan) is an anti-TROP2 antibody-drug conjugate developed for the treatment of unresectable or metastatic hormone receptor-positive, human epidermal growth factor receptor 2-negative breast cancer (HR+/HER2-BC) who have r"
+      },
+      {
+        "document_id": "document:e2f9f942683df523ed7d",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41986504/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/9e5ce9b573e53d009ba62beb6caf040665170d2765b470e860f7463975768b13.json",
+        "context": "{\n  \"abstract\": \"\",\n  \"pmid\": \"41986504\",\n  \"publication_date\": \"2026\",\n  \"title\": \"OS benefit with first-line datopotamab deruxtecan in advanced-stage TNBC.\"\n}\n"
+      },
+      {
+        "document_id": "document:32a1bf96256a10ed9473",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41937088/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/60865844a656aa0b13640a2c6f94cd14dda780216f26e66f0f928bff10b33746.json",
+        "context": " locally recurrent inoperable or metastatic TNBC for whom immunotherapy was not an option were randomly assigned 1:1 to datopotamab deruxtecan (Dato-DXd; 6 mg/kg intravenously every 3 weeks) or investigator's choice of chemotherapy. Randomisation was stratified by geographic location, disease-free interval, and programmed cell death ligand-1 status. Dual primary e"
+      },
+      {
+        "document_id": "document:28dce5d82758de248a06",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41876196/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/e2b8353db167c6d48a811e4f3ee50f7b9137c27f5751eb20784ff92c61e0dc93.json",
+        "context": "igen 2 (TROP2) has emerged as a pivotal therapeutic target, and TROP2-directed ADCs, including Sacituzumab Tirumotecan, Datopotamab Deruxtecan, and Sacituzumab Govitecan have shown substantial antitumor activity and survival benefits in clinical studies. To further standardize the clinical use and safety management of TROP2 ADCs, this expert consensus systematical"
+      },
+      {
+        "document_id": "document:202a06f5d8f7add5f7d0",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41415897/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/575e92d94601ff45dde92719627ca2260b660784b25f90d2840ae3a4153f4a47.json",
+        "context": "0.66) compared to conventional chemotherapy as evidenced by its superior SUCRA values (0.997 for PFS and 0.946 for OS). Datopotamab deruxtecan (Dato-DXd) also demonstrated clinically meaningful efficacy outcomes. Specifically, Sac-TMT showed statistically superior PFS benefits relative to nearly all comparator regimens, including immune checkpoint inhibitor (ICI)-"
+      },
+      {
+        "document_id": "document:16e9a1f585c470619c2e",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41609549/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/eea2b1f119a4ff6ae82838f6300edc4f6a4e0a5ed4c3de82cac44340c499955e.json",
+        "context": "{\n  \"abstract\": \"Datopotamab deruxtecan (Dato-DXd) is a trophoblast cell surface antigen 2-directed antibody-drug conjugate (ADC) approved for the treatment of unresectable, metastatic, hormone receptor-positive, human epidermal growth factor receptor 2-negative "
+      },
+      {
+        "document_id": "document:c4bf91373a69cffc43a5",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41512604/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/f43453b9410195da5d712ffcfc3ccfd8823c7b59354c8488a1eb32be02c8e499.json",
+        "context": "s unmet treatment needs in NSCLC. There are 5 TROP2-directed ADCs currently under investigation for treatment of NSCLC: datopotamab deruxtecan, sacituzumab govitecan, sacituzumab tirumotecan, DB-1305, and SHR-A1921. Here, we provide an overview of the properties of each ADC as well as efficacy and safety data from clinical trials of patients with NSCLC with or wit"
+      },
+      {
+        "document_id": "document:0ce0d49e88b7db3a444e",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41258931/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/21cbf3bb55b32ff5ae52af00c36410af43adbda3e12e0d6ef1ae919de703468e.json",
+        "context": "esearch and development of Antibody-drug conjugates (ADCs) in the field of lung cancer. Although sacituzumab govitecan, datopotamab deruxtecan and sacituzumab tirumotecan are all TROP2-targeted ADCs, there are certain differences in their drug structures. These differences may have led to the distinctions in their anti-tumor activity and safety. This study aims to"
+      },
+      {
+        "document_id": "document:adbf24b8898d2f1ed665",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41003925/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/9b6e2a79c7557d32d08165822cf5ad77570ced3d07b88e09a3a8d8278c93f436.json",
+        "context": "om biochemistry and genetic studies to immunology and clinical research. The development of next-generation ADCs (e.g., Dato-DXd, SKB264) holds the potential to transform TNBC therapeutics, particularly for tumors with heterogeneous target expression. This study provides valuable insights into the current research status, recent advancements, and emerging trends in "
+      },
+      {
+        "document_id": "document:3ad503d18190e91f44d1",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/40952644/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/ebea56bc5cbaf14f54f80229f98f32a2d215001f46de02958f90ecdcf09ecea6.json",
+        "context": "ading therapeutic strategy: sacituzumab govitecan extended mPFS to 5.6 months (ASCENT trial), SKB264 to 6.7 months, and datopotamab deruxtecan achieved an ORR of 79%. In Human epidermal growth factor receptor 2 (HER2)-low TNBC, trastuzumab deruxtecan prolonged OS to 18.2 months, while disitamab vedotin and SHR-A1811 achieved ORRs of 26% and 60%, respectively. ADCs"
+      },
+      {
+        "document_id": "document:c11d2e7af0415a085244",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/40114224/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/2cf553dbf31ffe5c2dfb540b7c6ab2cab2e507f791cedfb77c2a096f9bec2323.json",
+        "context": "nd solid cancers. So far, trastuzumab emtansine (T-DM1), trastuzumab deruxtecan (T-DXd), sacituzumab govitecan (SG) and datopotamab deruxtecan (Dato-DXd) are the four ADCs that have been approved by US food and drug administration (FDA) in treatment of breast cancer, and SKB264 has been approved by Chinese national medical products administration (NMPA). Many ADCs"
+      },
+      {
+        "document_id": "document:929b5be934156be068db",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41443486/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/ae0a0f18fd7c2183258341a601a81f5b5e8aa9d3fbdfa995376d30caf14603cb.json",
+        "context": "eated with TROP-2-directed ADCs. Eligible studies included adult populations with advanced NSCLC that were treated with datopotamab deruxtecan, sacituzumab govitecan, or sacituzumab tirumotecan, and reported efficacy or safety outcomes. Pseudo-individual patient-level data for survival analyses were reconstructed from published Kaplan-Meier curves. Pooled effect s"
+      },
+      {
+        "document_id": "document:90e7823845fc8bcdb93c",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41347223/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/99cf81043efc84dc7eddab43c9a681e484871869a2cd3fecffb4b80cb4bb2fac.json",
+        "context": "umor-associated antigens in ovarian cancer, including mirvetuximab soravtansine (MIRV), trastuzumab deruxtecan (T-DXd), datopotamab deruxtecan (Dato-DXd), sacituzumab tirumotecan (SKB-264), PF-06664178, anetumab ravtansine (BAY 94-9343), BMS-986148, DMOT4039A, RC88, lifastuzumab vedotin (DNIB0600A), upifitamab rilsodotin (ABBV-181), ZW220, DMUC4064A, and sofituzum"
+      },
+      {
+        "document_id": "document:cc420a85c3d30ed394f3",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/40660679/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/6d5246873aef337b8b82a15d6e851bbc3dad2163e2d115d415acc871f1d79fab.json",
+        "context": "cologic cancers,' 'tisotumab vedotin,' 'mirvetuximab soravtansine,' 'trastuzumab deruxitcan,' 'sacituzumab govitecan,' 'datopotamab deruxtecan,' and 'sacituzumab tirumotecan.' ADCs represent a new frontier for the treatment of gynecologic malignancies. The few ADCs currently approved by the FDA for the treatment of gynecologic cancers demonstrated higher clinical "
+      },
+      {
+        "document_id": "document:7e35a9056b23053dafce",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/38560142/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/54282e07fdbb2ed548feb14cbc8326bbced04f80a63d854d4398c798499fa983.json",
+        "context": "DC Sacituzumab Govitecan has been approved for treatment of previously treated, metastatic TNBC patients. The novel ADC Datopotecan-deruxtecan (Dato-DXd) has recently shown encouraging results for TNBC. In the current paper, we summarize and discuss available data regarding this TROP-2 directed agent mechanism of action and pharmacologic activity, we describe firs"
+      },
+      {
+        "document_id": "document:e8eda50e7c4dbb4b89fe",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/33597275/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/a962ab88712c0cc4c51aeef48248c6a654a2d7843d9c211597512af86984badb.json",
+        "context": "{\n  \"abstract\": \"The TROP2-directed antibody-drug conjugate datopotamab deruxtecan may be active in patients with advanced or metastatic non-small cell lung cancer, according to preliminary findings. In a phase I trial, the agent elicited responses in almost a quarter of patients and had manageable side e"
+      },
+      {
+        "document_id": "document:1a48608076ecd62f7e8c",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41957225/",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/60d2c5a188b10707d55efdbf073dd292afa227129ed6fedb13ed248bf700d57c.json",
+        "context": "mote senescence and its downstream effects. We further corroborated these conclusions exploiting another DXd-based ADC (Datopotamab-DXd) and found that DXd-based drugs promote Topoisomerase I downregulation and senescence. Altogether, these findings provide the rationale for the treatment of breast cancer patients resistant to DXd-based ADCs with senolytic or seno"
+      }
+    ],
+    "ESG401": [
+      {
+        "document_id": "document:a8263dc5ef0a66082f76",
+        "source_url": "https://clinicaltrials.gov/study/NCT06145308",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4c21f6a50df9a1ed3dbb18ccc7fed97c83241e158f710856c1ed0caab050a63d.json",
+        "context": "ive, leuprolide + bicalutamide + abiraterone)\",\n        \"type\": \"EXPERIMENTAL\"\n      },\n      {\n        \"description\": \"ESG401 16 mg/kg IV (days 1, 8, 15, q4w), sacituzumab govitecan 10 mg/kg IV (days 1 \\\\& 8, q3w), or sacituzumab tirumotecan 5 mg/kg IV q2w.\",\n        \"interventionNames\": [\n          \"Drug: TROP2 ADC\"\n        ],\n        \"label\": \"Cohort 4 (TROP2 A"
+      }
+    ],
+    "BL-M02D1": []
+  }
+}

@@ -1,0 +1,732 @@
+{
+  "H16": [],
+  "H18": [
+    {
+      "position": 9,
+      "name": "Saxenda",
+      "resolutions": [
+        {
+          "name": "Saxenda",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:LIRAGLUTIDE",
+          "basis": {
+            "observed_query": "Saxenda",
+            "matched_alias": "Saxenda",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL4084119",
+              "open_targets:CHEMBL4084119"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL4084119",
+              "inchikey:YSDQQAXHVYUZIW-QCIJIYAXSA-N"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        },
+        {
+          "name": "Saxenda",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:LIRAGLUTIDE",
+          "basis": {
+            "observed_query": "Saxenda",
+            "matched_alias": "Saxenda",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL4084119",
+              "open_targets:CHEMBL4084119"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL4084119",
+              "inchikey:YSDQQAXHVYUZIW-QCIJIYAXSA-N"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        }
+      ],
+      "identity_edges": [
+        {
+          "edge_id": "edge:02302877bea622e33fe4",
+          "asset_id": "asset:deffdd980730c8fe12c9",
+          "primary_name": "Saxenda",
+          "related_name": "Prognostic impact of glucagon-like peptide-1 receptor (GLP1R) expression on cancer survival and its implications for GLP-1R agonist therapy: an integrative analysis across multiple tumor types.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:cea687889a34dbdca418",
+          "source_document_id": "document:18db3ecdac8b31346c06",
+          "trial_id": null
+        }
+      ]
+    },
+    {
+      "position": 11,
+      "name": "Victoza",
+      "resolutions": [
+        {
+          "name": "Victoza",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:LIRAGLUTIDE",
+          "basis": {
+            "observed_query": "Victoza",
+            "matched_alias": "Victoza",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL4084119",
+              "open_targets:CHEMBL4084119"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL4084119",
+              "inchikey:YSDQQAXHVYUZIW-QCIJIYAXSA-N"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        },
+        {
+          "name": "Victoza",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:LIRAGLUTIDE",
+          "basis": {
+            "observed_query": "Victoza",
+            "matched_alias": "Victoza",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL4084119",
+              "open_targets:CHEMBL4084119"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL4084119",
+              "inchikey:YSDQQAXHVYUZIW-QCIJIYAXSA-N"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        }
+      ],
+      "identity_edges": [
+        {
+          "edge_id": "edge:f9d825b0f48e88a45132",
+          "asset_id": "asset:db60a85dff623cf014af",
+          "primary_name": "Victoza",
+          "related_name": "Diabetes Medication Market: Costs and Utilization of Glucagon-Like Peptide 1 (GLP-1) Prescriptions From 2008 to 2023.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:22674158879dca118ab3",
+          "source_document_id": "document:8c3f64df73d40336dcc7",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:75287c1be1c9e1a3ea9c",
+          "asset_id": "asset:db60a85dff623cf014af",
+          "primary_name": "Victoza",
+          "related_name": "Prognostic impact of glucagon-like peptide-1 receptor (GLP1R) expression on cancer survival and its implications for GLP-1R agonist therapy: an integrative analysis across multiple tumor types.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:ac8cd8c3e09572c3e77d",
+          "source_document_id": "document:18db3ecdac8b31346c06",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:0aa9588c8e817716a4f2",
+          "asset_id": "asset:db60a85dff623cf014af",
+          "primary_name": "Victoza",
+          "related_name": "GLP-1 and GIP class drugs have neuroprotective properties in Alzheimer's and Parkinson's disease.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:264799913ec36797dd42",
+          "source_document_id": "document:3b2d976c18db3d9c43c6",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:129b2d6e6e878b30a264",
+          "asset_id": "asset:db60a85dff623cf014af",
+          "primary_name": "Victoza",
+          "related_name": "Liraglutide efficacy and action in non-alcoholic steatohepatitis (LEAN): study protocol for a phase II multicentre, double-blinded, randomised, controlled trial.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:a43b232cce880d378bb4",
+          "source_document_id": "document:54e27847fd5a6df30d7d",
+          "trial_id": null
+        }
+      ]
+    },
+    {
+      "position": 12,
+      "name": "Ozempic",
+      "resolutions": [
+        {
+          "name": "Ozempic",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:SEMAGLUTIDE",
+          "basis": {
+            "observed_query": "Ozempic",
+            "matched_alias": "Ozempic",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL2108724",
+              "open_targets:CHEMBL2108724"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL2108724"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        },
+        {
+          "name": "Ozempic",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:SEMAGLUTIDE",
+          "basis": {
+            "observed_query": "Ozempic",
+            "matched_alias": "Ozempic",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL2108724",
+              "open_targets:CHEMBL2108724"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL2108724"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        }
+      ],
+      "identity_edges": [
+        {
+          "edge_id": "edge:08ab603359976cd59842",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "\"Ozempic Face\" and Facial Aging.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:bb0354cc4d37d2060bbe",
+          "source_document_id": "document:b923a956a7211bb9c93e",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:f3600488fa27c50b53a9",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "Diabetes Medication Market: Costs and Utilization of Glucagon-Like Peptide 1 (GLP-1) Prescriptions From 2008 to 2023.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:e31687a5a0b53c43b865",
+          "source_document_id": "document:8c3f64df73d40336dcc7",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:7f79db2fef4247ea1a98",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "Prognostic impact of glucagon-like peptide-1 receptor (GLP1R) expression on cancer survival and its implications for GLP-1R agonist therapy: an integrative analysis across multiple tumor types.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:d71e1c6a68837b6be6d3",
+          "source_document_id": "document:18db3ecdac8b31346c06",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:6a90f4601633a5582634",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "GLP-1 and GIP class drugs have neuroprotective properties in Alzheimer's and Parkinson's disease.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:a41becb3f62344d4ee3d",
+          "source_document_id": "document:3b2d976c18db3d9c43c6",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:198ac049f0cdcee6cbce",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "Anti-Obesity Medications in Longevity and Aesthetic Medicine.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:4d8df7dc41b3b6365cf6",
+          "source_document_id": "document:0f8d93d86243d8cf0327",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:d0c11929df554bef92c6",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "Integrating glucagon-like peptide-1 receptor agonists into dermatology practice: Safety and monitoring strategies.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:201c66a08426c3e0b5f2",
+          "source_document_id": "document:83664d1c52bb369e1517",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:8d5234889194b120e762",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "Effects of GLP-1 receptor agonists on aesthetic surgery practice: A contemporary review.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:2ea3ce2fc4272cb2798a",
+          "source_document_id": "document:5f06e68d4f4b74ce98d6",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:bfea817d18fd88620065",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "Quantifying Medicare prescription payment plan benefits under Medicare Part D.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:5827f64c7764d9bc8eee",
+          "source_document_id": "document:57a0e7caacaa44a734dd",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:74da7064822c44e15cc6",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "Real-world treatment patterns and cost per patient achieving treatment targets among tirzepatide and semaglutide initiators in US patients with type 2 diabetes.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:6ed391e588ce9d52aaa8",
+          "source_document_id": "document:36041adfbfcf86a41ed9",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:422cf37b2926cfa356fe",
+          "asset_id": "asset:9f626c1ee54da5964591",
+          "primary_name": "Ozempic",
+          "related_name": "Assessing the quality and reliability of health information on GLP-1 receptor agonists on TikTok and Bilibili: a cross-sectional analysis of the public health infodemic.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:f2e5f15f4465d06a97da",
+          "source_document_id": "document:b687d09337da530922bd",
+          "trial_id": null
+        }
+      ]
+    },
+    {
+      "position": 14,
+      "name": "Wegovy",
+      "resolutions": [
+        {
+          "name": "Wegovy",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:SEMAGLUTIDE",
+          "basis": {
+            "observed_query": "Wegovy",
+            "matched_alias": "Wegovy",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL2108724",
+              "open_targets:CHEMBL2108724"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL2108724"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        },
+        {
+          "name": "Wegovy",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:SEMAGLUTIDE",
+          "basis": {
+            "observed_query": "Wegovy",
+            "matched_alias": "Wegovy",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL2108724",
+              "open_targets:CHEMBL2108724"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL2108724"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        }
+      ],
+      "identity_edges": [
+        {
+          "edge_id": "edge:48f0cfe96147bbf2d222",
+          "asset_id": "asset:33ab1eb59661ee8628bb",
+          "primary_name": "Wegovy",
+          "related_name": "Prognostic impact of glucagon-like peptide-1 receptor (GLP1R) expression on cancer survival and its implications for GLP-1R agonist therapy: an integrative analysis across multiple tumor types.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:7d1c4fc43ac323a12135",
+          "source_document_id": "document:18db3ecdac8b31346c06",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:23f313034fc740d08c12",
+          "asset_id": "asset:33ab1eb59661ee8628bb",
+          "primary_name": "Wegovy",
+          "related_name": "GLP-1 and GIP class drugs have neuroprotective properties in Alzheimer's and Parkinson's disease.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:21e961d861b56aa20fd1",
+          "source_document_id": "document:3b2d976c18db3d9c43c6",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:a4481bfe6234d4630286",
+          "asset_id": "asset:33ab1eb59661ee8628bb",
+          "primary_name": "Wegovy",
+          "related_name": "Efficacy and Safety of Chemically Synthesized Semaglutide Injection (HD1916) for the Treatment of Obesity: A Multicenter, Randomized, Phase III Trial.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:9820ee97c46fda6fc018",
+          "source_document_id": "document:73b336eb527b51267949",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:68266f79a80fb8b72e93",
+          "asset_id": "asset:33ab1eb59661ee8628bb",
+          "primary_name": "Wegovy",
+          "related_name": "Assessing the quality and reliability of health information on GLP-1 receptor agonists on TikTok and Bilibili: a cross-sectional analysis of the public health infodemic.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:8e9301efe50edb471efd",
+          "source_document_id": "document:b687d09337da530922bd",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:94c75ed285cd12147362",
+          "asset_id": "asset:33ab1eb59661ee8628bb",
+          "primary_name": "Wegovy",
+          "related_name": "Prevalence of Obesity Medications in the Military Health System: An Update from 2022.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:3ba73749223c3753e782",
+          "source_document_id": "document:0906168603fdf883c760",
+          "trial_id": null
+        }
+      ]
+    },
+    {
+      "position": 20,
+      "name": "Rybelsus",
+      "resolutions": [
+        {
+          "name": "Rybelsus",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:SEMAGLUTIDE",
+          "basis": {
+            "observed_query": "Rybelsus",
+            "matched_alias": "Rybelsus",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL2108724",
+              "open_targets:CHEMBL2108724"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL2108724"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        },
+        {
+          "name": "Rybelsus",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:SEMAGLUTIDE",
+          "basis": {
+            "observed_query": "Rybelsus",
+            "matched_alias": "Rybelsus",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL2108724",
+              "open_targets:CHEMBL2108724"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL2108724"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        }
+      ],
+      "identity_edges": [
+        {
+          "edge_id": "edge:13a53de24c4fe01094d0",
+          "asset_id": "asset:bea5b48f7fac4a97f22c",
+          "primary_name": "Rybelsus",
+          "related_name": "Diabetes Medication Market: Costs and Utilization of Glucagon-Like Peptide 1 (GLP-1) Prescriptions From 2008 to 2023.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:021ceba42b3d408e2a39",
+          "source_document_id": "document:8c3f64df73d40336dcc7",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:f332b3a0528811fb53f8",
+          "asset_id": "asset:bea5b48f7fac4a97f22c",
+          "primary_name": "Rybelsus",
+          "related_name": "Prognostic impact of glucagon-like peptide-1 receptor (GLP1R) expression on cancer survival and its implications for GLP-1R agonist therapy: an integrative analysis across multiple tumor types.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:5bf2e63fef57f5ba0231",
+          "source_document_id": "document:18db3ecdac8b31346c06",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:949e2a574f50141b02ee",
+          "asset_id": "asset:bea5b48f7fac4a97f22c",
+          "primary_name": "Rybelsus",
+          "related_name": "Ischemic colitis associated with oral semaglutide with recurrence upon rechallenge.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:308375e996e1ecbc8439",
+          "source_document_id": "document:4d71e52933f13446be2d",
+          "trial_id": null
+        }
+      ]
+    }
+  ],
+  "H19": [
+    {
+      "position": 15,
+      "name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells",
+      "resolutions": [
+        {
+          "name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells",
+          "resolution_status": "UNRESOLVED",
+          "canonical_id": null,
+          "basis": null,
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        },
+        {
+          "name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells",
+          "resolution_status": "UNRESOLVED",
+          "canonical_id": null,
+          "basis": null,
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        }
+      ],
+      "identity_edges": []
+    },
+    {
+      "position": 16,
+      "name": "TRODELVY",
+      "resolutions": [
+        {
+          "name": "TRODELVY",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:SACITUZUMAB GOVITECAN",
+          "basis": {
+            "observed_query": "TRODELVY",
+            "matched_alias": "Trodelvy",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL3545262",
+              "open_targets:CHEMBL3545262"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL3545262"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        },
+        {
+          "name": "TRODELVY",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:SACITUZUMAB GOVITECAN",
+          "basis": {
+            "observed_query": "TRODELVY",
+            "matched_alias": "Trodelvy",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL3545262",
+              "open_targets:CHEMBL3545262"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL3545262"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        },
+        {
+          "name": "Trodelvy",
+          "resolution_status": "RESOLVED",
+          "canonical_id": "DRUG:SACITUZUMAB GOVITECAN",
+          "basis": {
+            "observed_query": "Trodelvy",
+            "matched_alias": "Trodelvy",
+            "matched_alias_type": "TRADE_NAME",
+            "asserted_by": [
+              "chembl",
+              "open_targets"
+            ],
+            "asserting_record_keys": [
+              "chembl:CHEMBL3545262",
+              "open_targets:CHEMBL3545262"
+            ],
+            "identifier_edges": [
+              "chembl:CHEMBL3545262"
+            ],
+            "rule": "unique_alias_match"
+          },
+          "identifier_resolution": null,
+          "authority_identifies_drug": null
+        }
+      ],
+      "identity_edges": [
+        {
+          "edge_id": "edge:50ecac567c6406497982",
+          "asset_id": "asset:7e251ce2a0c8acfe2d6c",
+          "primary_name": "TRODELVY",
+          "related_name": "Quantitative Systems Pharmacology Model for TROP-2 Targeted Antibody-Drug Conjugate in Triple-Negative Breast Cancer.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:ac5bff66dca12747af75",
+          "source_document_id": "document:13605ae4da38cc1edf7e",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:bdf9fe45deba629b6e0e",
+          "asset_id": "asset:7e251ce2a0c8acfe2d6c",
+          "primary_name": "Trodelvy",
+          "related_name": "Discovery of Tetracyclic Derivatives as Highly Potent, Selective, and Bioavailable PKMYT1 Inhibitors for Cancer Therapy.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:84719fd3ec922c183e39",
+          "source_document_id": "document:975b60adbed60b982f8b",
+          "trial_id": null
+        },
+        {
+          "edge_id": "edge:c16b083ef15cb8ae4c3d",
+          "asset_id": "asset:7e251ce2a0c8acfe2d6c",
+          "primary_name": "Trodelvy",
+          "related_name": "Novel Amanitin-Based Antibody-Drug Conjugates Targeting TROP2 for the Treatment of Pancreatic Cancer.",
+          "relationship": "UNCERTAIN_RELATIONSHIP",
+          "merged": false,
+          "evidence_field": "pubmed.intervention.otherNames",
+          "basis": "DISCOVERY_EVIDENCE is not identity evidence, so this name is not eligible to become an alias",
+          "hit_id": "hit:1b8afd1e205eb2f2158b",
+          "source_document_id": "document:61fabe6eca4bd584f967",
+          "trial_id": null
+        }
+      ]
+    }
+  ]
+}

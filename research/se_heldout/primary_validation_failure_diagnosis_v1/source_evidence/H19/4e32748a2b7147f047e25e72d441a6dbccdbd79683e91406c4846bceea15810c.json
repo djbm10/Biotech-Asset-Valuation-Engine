@@ -1,0 +1,501 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "This single-arm study consists of multiple cohorts, divided by indication.",
+        "interventionNames": [
+          "Drug: Datopotamab Deruxtecan (Dato-DXd)"
+        ],
+        "label": "Dato-DXd Arm",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Dato-DXd Arm"
+        ],
+        "description": "Dato-DXd is an antibody-drug conjugate (ADC) that binds to TROP2.",
+        "name": "Datopotamab Deruxtecan (Dato-DXd)",
+        "otherNames": [
+          "DS-1062a"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Carcinoma, Non-Small-Cell Lung",
+      "Triple Negative Breast Cancer"
+    ],
+    "keywords": [
+      "Non-small-cell Lung Cancer",
+      "Triple-negative Breast Cancer",
+      "Dato-DXd",
+      "DS-1062a"
+    ]
+  },
+  "contactsLocationsModule": {
+    "locations": [
+      {
+        "city": "Beijing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.9075,
+          "lon": 116.39723
+        },
+        "zip": "100039"
+      },
+      {
+        "city": "Beijing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.9075,
+          "lon": 116.39723
+        },
+        "zip": "100044"
+      },
+      {
+        "city": "Beijing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.9075,
+          "lon": 116.39723
+        },
+        "zip": "100142"
+      },
+      {
+        "city": "Bengbu",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.94083,
+          "lon": 117.36083
+        },
+        "zip": "233004"
+      },
+      {
+        "city": "Changchun",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.88,
+          "lon": 125.32278
+        },
+        "zip": "130012"
+      },
+      {
+        "city": "Changchun",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.88,
+          "lon": 125.32278
+        },
+        "zip": "130021"
+      },
+      {
+        "city": "Chengdu",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.66667,
+          "lon": 104.06667
+        },
+        "zip": "610000"
+      },
+      {
+        "city": "Chongqing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 29.56026,
+          "lon": 106.55771
+        },
+        "zip": "400030"
+      },
+      {
+        "city": "Dalian",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.91222,
+          "lon": 121.60222
+        },
+        "zip": "116023"
+      },
+      {
+        "city": "Fuzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 26.06139,
+          "lon": 119.30611
+        },
+        "zip": "350001"
+      },
+      {
+        "city": "Guangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 23.11667,
+          "lon": 113.25
+        },
+        "zip": "510060"
+      },
+      {
+        "city": "Guangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 23.11667,
+          "lon": 113.25
+        },
+        "zip": "510100"
+      },
+      {
+        "city": "Hangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.29365,
+          "lon": 120.16142
+        },
+        "zip": "310022"
+      },
+      {
+        "city": "Harbin",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.75,
+          "lon": 126.65
+        },
+        "zip": "150081"
+      },
+      {
+        "city": "Jinan",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.66833,
+          "lon": 116.99722
+        },
+        "zip": "250030"
+      },
+      {
+        "city": "Jinan",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.66833,
+          "lon": 116.99722
+        },
+        "zip": "250117"
+      },
+      {
+        "city": "Nanchang",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 28.68396,
+          "lon": 115.85306
+        },
+        "zip": "330006"
+      },
+      {
+        "city": "Nanchang",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 28.68396,
+          "lon": 115.85306
+        },
+        "zip": "330009"
+      },
+      {
+        "city": "Shenyang",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.79222,
+          "lon": 123.43278
+        },
+        "zip": "110042"
+      },
+      {
+        "city": "Wuhan",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.58333,
+          "lon": 114.26667
+        },
+        "zip": "430022"
+      },
+      {
+        "city": "Wuhan",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.58333,
+          "lon": 114.26667
+        },
+        "zip": "430030"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "Researchers are looking for a better way to treat advanced Triple-Negative Breast Cancer (TNBC) and Non-Small-Cell Lung Cancer (NSCLC). \"Advanced\" usually means that the cancer keeps growing even with treatment. The cancer may also be \"metastatic\", which means that it has spread to other parts of the body or the surrounding tissue.\n\nThe study drug, Datopotamab deruxtecan, is designed to work by attaching to the tumor cells and stopping the tumor growth. Datopotamab deruxtecan is also known as Dato-DXd.\n\nIn this study, the researchers want to find out how well Dato-DXd works to stop tumors from growing in Chinese participants with NCSLC or TNBC. This is the first time Dato-DXd is being studied in Chinese population.\n\nParticipants in this study will get Dato-DXd through a needle as an injection. They will get 1 dose of Dato-DXd every 3 weeks until their cancer gets worse or they leave the study for another reason.\n\nParticipants will visit their study sites at least once every 3 weeks for as long as they are in the study. The study doctors will take blood samples every 3 weeks and take images of the participants' tumors every 6 weeks until the participant leaves the study.",
+    "detailedDescription": "This is a Phase 1/Phase 2, multicentre, open-label, multiple-cohort study, which is designed to evaluate the efficacy, safety, Pharmacokinetic, and immunogenicity of Dato-DXd in adult Chinese participants with advanced or metastatic solid tumours. It is a single-arm study with no blinding.\n\nThis study is divided into different cohorts. Participants of the same cohort are with the same tumour type. The starting cohorts are Cohort 1 (NSCLC) and Cohort 2 (TNBC). Future cohorts will consist of other advanced or metastatic solid tumour types, including, but not limited to, advanced/unresectable or metastatic gastric or gastroesophageal junction adenocarcinoma or urothelial carcinoma that is refractory or intolerant to SoC therapy or for which no Standard of Care therapy is available.\n\nCohort 1 and Cohort 2 will be prioritised for immediate enrolment and the protocol will be amended as needed for the future cohorts.\n\nCohort 1: The target population of Cohort 1 is adult Chinese participants with advanced or metastatic NSCLC with or without actionable genomic alterations(AGAs) (ie, alterations in genes with approved therapies, such as EGFR, ALK, or other known AGAs).\n\nEligible participants without AGAs will have been previously treated with platinum-based chemotherapy and anti-PD-1/anti-PD-L1 monoclonal antibody either in combination or sequentially. Participants without AGAs who received anti-PD-1/anti-PD-L1 monoclonal antibody as frontline therapy may have received the combination of platinum-based chemotherapy and anti-PD-1/anti-PD-L1 monoclonal antibody in the second-line setting.\n\nEligible participants with AGAs will have been previously treated with one or two prior lines of applicable targeted therapy that is approved for the participant's genomic alteration and platinum-based chemotherapy as the only prior line of cytotoxic therapy. Participants with AGAs may have received up to one anti-PD-1/anti-PD-L1 monoclonal antibody treatment alone or in combination with chemotherapy.\n\nA total of approximately 40 eligible participants in China will be enrolled in this cohort, including approximately 6 participants with AGAs.\n\nCohort 2: The target population of Cohort 2 is adult Chinese participants with inoperable locally advanced or metastatic TNBC who have received at least 2 prior chemotherapy regimens for advanced breast cancer, counting the (neo)adjuvant therapy as a prior chemotherapy regimen if progression occurred within 12 months after completion of the therapy (DFI \u2264 12 months).\n\nA total of approximately 78 eligible participants in China will be enrolled in this cohort. Cohort 2 will enroll at most around 20% (approximately N=15) of enrolled participants with a DFI \u2264 12 months.\n\nEnrolled participants will be treated with Dato-DXd at 6.0 mg/kg via an IV infusion on Day 1,every 3 weeks.\n\nThe primary objective of the study is to estimate the effectiveness of Dato-DXd by assessment of confirmed ORR by independent central review."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NA",
+      "interventionModel": "SINGLE_GROUP",
+      "interventionModelDescription": "This is a Phase 1/Phase 2, multicentre, open-label, multiple-cohort study, which is designed to evaluate the efficacy, safety, PK, and immunogenicity of Dato-DXd in adult Chinese participants with advanced or metastatic solid tumours.",
+      "maskingInfo": {
+        "masking": "NONE",
+        "maskingDescription": "It is a single-arm, multi-cohort study with no blinding."
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 119,
+      "type": "ACTUAL"
+    },
+    "phases": [
+      "PHASE1",
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Key Inclusion Criteria:\n\n* Capable of giving signed informed consent.\n* Participant must be \u2265 18 years at the time of screening.\n* Eastern Cooperative Oncology Group performance status of 0 or 1.\n* At least one lesion not previously irradiated that qualifies as a RECIST 1.1 target lesion at baseline and can be accurately measured at baseline and is suitable for accurate repeated measurements.\n\nAdditional Inclusion Criteria for Cohort 1 (NSCLC):\n\n\\- Histologically or cytologically documented Stage IIIB or IIIC NSCLC disease not amenable for surgical resection or definitive chemoradiation or Stage IV NSCLC disease at the beginning of study intervention.\n\nFor the subset of participants without AGAs:\n\n* Documented negative test results for EGFR and ALK genomic alterations. If test results for EGFR and ALK are not available, participants are required to undergo testing performed locally for these genomic alterations.\n* Participants must meet one of the required prior therapy requirements for advanced or metastatic NSCLC.\n\nFor the subset of participants with AGAs:\n\n\\- Documented positive test results for one or more actionable genomic alteration: EGFR, ALK, ROS1, METex14 skipping, RET or other AGAs with approved therapies\n\n\\- Received one or two prior lines of applicable targeted therapy for the participant's genomic alteration at the time of screening.\n\nAdditional Inclusion Criteria for Cohort 2 (TNBC)\n\n* Pathologically documented oestrogen and progesterone receptor-negative and HER2-negative expression.\n* Inoperable locally advanced or metastatic breast cancer.\n* Received at least 2 prior chemotherapy regimens for locally advanced or metastatic breast cancer and previously treated with a taxane in any setting.\n\nKey Exclusion Criteria:\n\n* Has leptomeningeal carcinomatosis or metastasis\n* Has clinically significant corneal disease\n* Has known active hepatitis or uncontrolled hepatitis B or C infection\n* Has a history of non-infectious ILD/pneumonitis that required steroids, has current ILD/pneumonitis, or where suspected ILD/pneumonitis cannot be ruled out by imaging at screening.\n* Prior exposure to specific therapies without an adequate treatment washout period prior to enrolment.\n\nAdditional Exclusion Criteria for Cohort 1 (NSCLC):\n\n\\- Has mixed SCLC and NSCLC histology.",
+    "healthyVolunteers": false,
+    "maximumAge": "130 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "A Study of Dato-DXd in Chinese Patients With Advanced Non-Small Cell Lung Cancer, Triple-negative Breast Cancer and Other Solid Tumors (TROPION-PanTumor02)",
+    "nctId": "NCT05460273",
+    "officialTitle": "Phase 1/2, Multicentre, Open-label, Multiple-cohort Study of Dato-DXd in Chinese Patients With Advanced Non-small-cell Lung Cancer, Triple-negative Breast Cancer, Gastric/Gastroesophageal Junction Cancer, Urothelial Cancer, and Other Solid Tumours (TROPION-PanTumor02)",
+    "orgStudyIdInfo": {
+      "id": "D9266C00001"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "AstraZeneca"
+    }
+  },
+  "ipdSharingStatementModule": {
+    "accessCriteria": "When a request has been approved AstraZeneca will provide access to the deidentified individual patient-level data in an approved sponsored tool . Signed Data Sharing Agreement (non-negotiable contract for data accessors) must be in place before accessing requested information. Additionally, all users will need to accept the terms and conditions of the SAS MSE to gain access. For additional details, please review the Disclosure Statements at https://astrazenecagrouptrials.pharmacm.com/ST/Submission/Disclosure.",
+    "description": "Qualified researchers can request access to anonymized individual patient-level data from AstraZeneca group of companies sponsored clinical trials via the request portal.\n\nAll request will be evaluated as per the AZ disclosure commitment:\n\nhttps://astrazenecagrouptrials.pharmacm.com/ST/Submission/Disclosure.\n\nYes, indicates that AZ are accepting requests for IPD, but this does not mean all requests will be shared.",
+    "ipdSharing": "YES",
+    "timeFrame": "AstraZeneca will meet or exceed data availability as per the commitments made to the EFPIA Pharma Data Sharing Principles. For details of our timelines, please rerefer to our disclosure commitment at https://astrazenecagrouptrials.pharmacm.com/ST/Submission/Disclosure.",
+    "url": "https://astrazenecagroup-dt.pharmacm.com/DT/Home"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "Confirmed ORR is defined as the proportion of participants in each cohort who have a confirmed CR or confirmed PR, as assessed by ICR per RECIST 1.1.",
+        "measure": "Confirmed Objective Response Rate(ORR) Assessed by Independent Central Review(ICR)",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "Confirmed ORR is defined as the proportion of participants in each cohort who have a confirmed CR or confirmed PR, as determined by investigator assessment per RECIST 1.1.",
+        "measure": "Confirmed Objective Response Rate(ORR) Assessed by Investigator",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Duration of response is defined as the time from the date of first documented response (which is subsequently confirmed) until date of documented progression per RECIST 1.1, as assessed by investgator, or death due to any cause.",
+        "measure": "Duration of Response (DoR), Assessed by Investigator",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Disease control rate is defined as the percentage of participants who have a confirmed CR or PR or who have SD per RECIST 1.1, as assessed by ICR",
+        "measure": "Disease Control Rate (DCR), Assessed by ICR",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Best overall response is defined as participant's best confirmed response during their participation in the study, but prior to starting any subsequent anticancer therapy, up until RECIST 1.1-defined PD or the last evaluable assessment in the absence of RECIST 1.1-defined progression.",
+        "measure": "Best Overall Response (BoR) , Assessed by ICR",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Time to response is defined as the time from the date of the first dose of study intervention until the date of first documented objective response, which is subsequently confirmed per RECIST 1.1",
+        "measure": "Time To Response (TTR) , Assessed by ICR",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Progression-free survival is defined as time from the date of the first dose of study intervention until progression per RECIST 1.1, as assessed by ICR, or death due to any cause.",
+        "measure": "Progression-Free Survival (PFS) , Assessed by ICR",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Overall survival is defined as the time from the date of the first dose of study intervention to the date of death due to any cause.",
+        "measure": "Overall Survival (OS)",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Progression-free survival is defined as time from the date of the first dose of study intervention until progression per RECIST 1.1, as assessed by investigator, or death due to any cause.",
+        "measure": "Progression-Free Survival (PFS) , Assessed by Investigator",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Duration of response is defined as the time from the date of first documented response (which is subsequently confirmed) until date of documented progression per RECIST 1.1, as assessed by investigator, or death due to any cause.",
+        "measure": "Disease Control Rate (DCR), Assessed by Investigator",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Best overall response is defined as participant's best confirmed response during their participation in the study, but prior to starting any subsequent anticancer therapy, up until RECIST 1.1-defined PD or the last evaluable assessment in the absence of RECIST 1.1-defined progression.",
+        "measure": "Best Overall Response (BoR) , Assessed by Investigator",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Time to response is defined as the time from the date of the first dose of study intervention until the date of first documented objective response, which is subsequently confirmed per RECIST 1.1.",
+        "measure": "Time To Response (TTR) , Assessed by Investigator",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "PK parameters of Total Anti-TROP2 Antibody\\_Area under the curve",
+        "measure": "Pharmacokinetic Parameter: Area Under the Plasma Concentration- Time Curve (AUC) _ Total Anti-TROP2 Antibody",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "PK parameters of Total Anti-TROP2 Antibody\\_Maximum observed concentration",
+        "measure": "Pharmacokinetic Parameter: Maximum Plasma Concentration (Cmax) _ Total Anti-TROP2 Antibody",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "PK parameters of Dato-DXd\\_Area under the curve",
+        "measure": "Pharmacokinetic Parameter: Area Under the Plasma Concentration- Time Curve (AUC) _Dato-DXd",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "PK parameters of Dato-DXd\\_Maximum observed concentration",
+        "measure": "Pharmacokinetic Parameter: Maximum Plasma Concentration (Cmax) _ Dato-DXd",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "PK parameters of MAAA-1181a\\_Area under the curve",
+        "measure": "Pharmacokinetic Parameter: Area Under the Plasma Concentration- Time Curve (AUC) _ MAAA-1181a",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "PK parameters of MAAA-1181a\\_Maximum observed concentration",
+        "measure": "Pharmacokinetic Parameter: Maximum Plasma Concentration (Cmax) _ MAAA-1181a",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "PK parameters of Total Anti-TROP2 Antibody\\_Time to maximum plasma concentration",
+        "measure": "Pharmacokinetic Parameter: Time to Maximum Plasma Concentration (Tmax) _Total Anti-TROP2 Antibody",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Time to maximum plasma concentration",
+        "measure": "Pharmacokinetic Parameter: Time to Maximum Plasma Concentration (Tmax) _Dato-DXd",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "PK parameters of MAAA-1181a\\_Time to maximum plasma concentration",
+        "measure": "Pharmacokinetic Parameter: Time to Maximum Plasma Concentration (Tmax) _ MAAA-1181a",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "The prevalence of ADA (positive at any visit)",
+        "measure": "Immunogenicity of Dato-DXd",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      },
+      {
+        "description": "Duration of response is defined as the time from the date of first documented response (which is subsequently confirmed) until date of documented progression per RECIST 1.1, as assessed by ICR, or death due to any cause.",
+        "measure": "Duration of Response (DoR), Assessed by ICR",
+        "timeFrame": "TNBC cohort: from enrollment to 13 months post last subject dose with a median of 12 months follow up. NSCLC cohort: from enrollment to 20 months post last subject dose with a median of 16.7 months follow up."
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false,
+    "oversightHasDmc": false
+  },
+  "referencesModule": {
+    "seeAlsoLinks": [
+      {
+        "label": "Redacted CSP",
+        "url": "https://filehosting-v2.pharmacm.com/api/Attachment/Download?tenantId=80217111&amp;parentIdentifier=D9266C00001&amp;attachmentIdentifier=40bd669c-9d78-427d-b670-1dc0ba7734e0&amp;fileName=d9266c00001-csp-v4-Redacted_on_21Aug2024-updated.pdf&amp;versionIdentifier="
+      },
+      {
+        "label": "Related Info",
+        "url": "https://filehosting-v2.pharmacm.com/api/Attachment/Download?tenantId=80217111&amp;parentIdentifier=D9266C00001&amp;attachmentIdentifier=e7e43d4e-e301-401e-8a57-641fff9615c9&amp;fileName=d9266c00001-sap-ed-2_Redacted_on_21Aug2024.pdf&amp;versionIdentifier="
+      },
+      {
+        "label": "Redacted CSR synopsis",
+        "url": "https://filehosting-v2.pharmacm.com/api/Attachment/Download?tenantId=80217111&amp;parentIdentifier=D9266C00001&amp;attachmentIdentifier=712dc6b5-d58d-4fec-93b9-2439c4fb078d&amp;fileName=d9266c00001-study-synopsis-NSCLC&TNBC_clean-redacted.pdf&amp;versionIdentifier="
+      }
+    ]
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "INDUSTRY",
+        "name": "Daiichi Sankyo"
+      }
+    ],
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "AstraZeneca"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2027-06-30",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-08-31",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-08-28",
+    "overallStatus": "ACTIVE_NOT_RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2023-11-07",
+      "type": "ACTUAL"
+    },
+    "resultsFirstPostDateStruct": {
+      "date": "2025-06-13",
+      "type": "ACTUAL"
+    },
+    "resultsFirstSubmitDate": "2024-10-31",
+    "resultsFirstSubmitQcDate": "2025-06-12",
+    "startDateStruct": {
+      "date": "2022-07-11",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-08",
+    "studyFirstPostDateStruct": {
+      "date": "2022-07-15",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2022-06-08",
+    "studyFirstSubmitQcDate": "2022-07-14"
+  }
+}

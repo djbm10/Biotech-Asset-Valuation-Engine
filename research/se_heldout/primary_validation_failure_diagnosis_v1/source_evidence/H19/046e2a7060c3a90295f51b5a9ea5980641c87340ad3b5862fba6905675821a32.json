@@ -1,0 +1,206 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Prophylactic oral dexamethasone",
+        "interventionNames": [
+          "Drug: Dexamethasone oral"
+        ],
+        "label": "Dexamethasone 10mL",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Dexamethasone 10mL"
+        ],
+        "description": "Dexamethasone 10 mL daily for days 1-5 for each of the \ufb01rst 3 cycles of therapy Datopotamab Deruxtecan 6.0 mg/kg IV on day 1 every 21 days",
+        "name": "Dexamethasone oral",
+        "otherNames": [
+          "Datopotamab Deruxtecan (Dato-DXd DS-1062a)"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Breast Neoplasms",
+      "Lung Neoplasms"
+    ],
+    "keywords": [
+      "Advanced/metastatic hormone-receptor positive [HR+], estrogen receptor and/or progesterone receptor positive",
+      "Advanced/metastatic triple negative breast cancer",
+      "Advanced/metastatic non-squamous, non-small cell lung cancer"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "BrUOG@brown.edu",
+        "name": "Brown University Oncology Research Group (BrUOG)",
+        "phone": "401-863-3000",
+        "role": "CONTACT"
+      },
+      {
+        "email": "Sgraff1@brownhealth.org",
+        "name": "Stephanie Graff, MD",
+        "phone": "401-444-5388",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Providence",
+        "contacts": [
+          {
+            "email": "BrUOG@brown.edu",
+            "name": "BrUOG",
+            "phone": "401-863-3000",
+            "role": "CONTACT"
+          },
+          {
+            "email": "sgraff1@brownhealth.org",
+            "name": "Stephanie Graff, MD",
+            "phone": "401-444-5388",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Rhode Island and the Miriam Hospitals (Brown University Health)",
+        "geoPoint": {
+          "lat": 41.82399,
+          "lon": -71.41283
+        },
+        "state": "Rhode Island",
+        "status": "RECRUITING",
+        "zip": "02903/02906"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "Rhode Island and the Miriam Hospitals (Brown University Health)",
+        "name": "Stephanie Graff, MD",
+        "role": "PRINCIPAL_INVESTIGATOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "TROPION-DM/BrUOG-431 is a prospective, , phase 2 trial with two non-comparative cohorts analyzed jointly for primary endpoint in adult patients with either (Cohort 1:) advanced/metastatic hormone-receptor positive (\\[HR+\\], estrogen receptor and/or progesterone receptor positive) breast cancer (BC), or advanced/metastatic triple negative breast cancer (TNBC) or (Cohort 2:) advanced/metastatic non-squamous non-small cell lung cancer (NSCLC).\n\nAll patients will be treated with Datopotumab deruxtecan (Dato-DXd) at 6 mg/kg IV every 3 weeks until disease progression or unacceptable toxicity. Due to the risk of stomatitis, the investigational component of this trial will be to incorporate alcohol-free dexamethasone mouthwash, 10 mL 0.5 mg/5mL oral solution, days 1-5, swish and spit four times daily for the \ufb01rst 3 cycles.",
+    "detailedDescription": "See above summary"
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NA",
+      "interventionModel": "SINGLE_GROUP",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 60,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n* Has advanced and/or metastatic cancer that meets one of the following criteria:\n\n  1. Pathologically documented unresectable advanced non-squamous NSCLC not amenable to curative therapy that has progressed on at least one prior therapy.\n  2. Pathologically documented triple negative breast cancer (estrogen receptor negative and progesterone receptor negative and HER2 negative) who have progressed on at least 1 prior line of therapy or in the opinion of the treating physician, not be a candidate for standard \ufb01rst-line metastatic breast cancer therapy\n  3. Pathologically documented hormone receptor positive breast cancer (estrogen receptor and/or progesterone receptor positive, HER2 negative) which has progressed on hormonal based therapy including CDK4/6 inhibitor and 1 prior line of chemotherapy and/or antibody drug conjugate therapy.\n* Aged \u226518 years.\n* Has an Eastern Cooperative Oncology Group performance status 0-2.\n* Has a left ventricular ejection fraction (LVEF) 50% by either an echocardiogram (ECHO) or multiple gated acquisition scan (MUGA) within 28 days before enrollment.\n* Measurable disease based on Response Evaluation Criteria in Solids Tumors (RECIST) version 1.1.\n* Has adequate organ function that would make them an appropriate candidate for Datopotamab deruxtecan therapy as treatment of advanced metastatic cancer as assessed by the treating physician, which shall include results of complete blood count with di\ufb00erential, and comprehensive metabolic panel within 14 days before Cycle 1, Day 1, de\ufb01ned as:\n\n  1. Platelet count \u2265100,000/mm3\n  2. Hemoglobin \u22659.0 g/dL\n  3. Absolute neutrophil count \u22651000/mm3\n  4. Creatinine clearance \u226530 mL/min as calculated using the Cockcroft-Gault equation.\n  5. Aspartate aminotransferase \u22643 \u00d7ULN (if liver metastases are present, \u22645 \u00d7 ULN)\n  6. Alanine aminotransferase \u22643 \u00d7 ULN (if liver metastases are present, \u22645 \u00d7 ULN)\n  7. Total bilirubin \u22641.5 \u00d7 ULN if no liver metastases or liver \\< 3 if liver metastases are present.\n* Has an adequate treatment washout period prior to Cycle 1, Day 1, de\ufb01ned as appropriately recovering from:\n\n  1. Major surgery: \u22652 weeks (or 2 weeks for low-invasive cases \\[eg, colostomy\\]).\n  2. Radiation therapy (curative) and palliative radiation therapy to lung \ufb01elds: \u22654 weeks; \u22652 weeks (palliative radiation therapy to other areas \\[ie, limited \ufb01eld and 10 or fewer days or fractions\\] including whole brain radiotherapy).\n  3. Hormonal therapy: \u22652 weeks\n  4. Chemotherapy (including immunotherapy \\[non-antibody based therapy\\]), and retinoid therapy: \u22652 weeks or 5 times terminal elimination half-life (T\u00bd) of the chemotherapeutic agent (whichever is longer); \u22656 weeks for nitrosoureas or mitomycin C, \u22651 week for tyrosine kinase inhibitors (TKIs)\n  5. Antibody-based anti-cancer therapy: \u22654 weeks\n  6. Chloroquine/hydroxychloroquine: \\>14 days\n* If of reproductive/child-bearing potential, agrees to use a highly e\ufb00ective form of contraception or avoid intercourse throughout treatment and upon completion of the study for at least 7 months for females and 4 months for males after the last dose of study drug. Highly effective methods of birth control include: combined (estrogen and progesterone containing) hormonal contraception by oral or intravaginal route or dermal patches; progesterone-only hormonal contraception associated with inhibition of ovulation given by oral route or by injections or implants; intrauterine device (IUD); intrauterine hormone-releasing system (IUS); bilateral tubal occlusion; vasectomized partner (with confirmation of surgical success); and complete heterosexual abstinence.\n* Starting at the time of randomization/\ufb01rst dose of study intervention male subjects/participants must not freeze or donate sperm at any time during this study and for at least 4 months after the last dose of Dato-DXd. Preservation of sperm should be considered prior to randomization/\ufb01rst dose of study intervention.\n* Starting at the time of randomization/\ufb01rst dose of study intervention female subjects/participants must not breastfeed or donate, or retrieve for their own use, ova at any time during this study and for at least 7 months after the last dose of Dato-DXd. Preservation of ova should be considered prior to randomization/\ufb01rst dose of study intervention.\n* Is able to provide written informed consent and is willing and able to comply with the protocol. Subject must be fully informed about their illness and the investigational nature of the study protocol (including foreseeable risks and possible toxicities) and must sign and date the Institutional Review Board (IRB)/Independent ethics committee (IEC) approved informed consent form (ICF) (including Health Insurance Portability and Accountability Act authorization \\[HIPAA\\], if applicable) before performance of any study- speci\ufb01c procedures or examinations.\n* Willingness to self-report level of oral pain using Visual Analog Scale (VAS) and the Normalcy Diet Scale (NDS) throughout each stomatitis event. (40, 41) At baseline, patient's self-reported oral pain level, using VAS, must be 0 (See Appendix B) and the normalcy diet scale score should \u2265 60 (See Appendix C).\n* Willingness to record oral symptoms in Oral Diary (See Appendix D).\n* Has a life expectancy of \u22653 months.\n\nExclusion Criteria:\n\n* Active second malignancy which would alter interpretation of study results.\n* Has a history of non-infectious ILD/pneumonitis including radiation pneumonitis that required steroids, has current ILD/pneumonitis, or where suspected ILD/pneumonitis cannot be ruled out by imaging at screening.\n* Has clinically signi\ufb01cant corneal disease\n* Has a history of severe hypersensitivity reactions to either the drug or inactive ingredients (including but not limited to polysorbate 80) of Dato-DXd.\n* Has a history of severe hypersensitivity reactions to other monoclonal antibodies.\n* Has ongoing radiation-related toxicities\n* Has an uncontrolled infection requiring intravenous (IV) antibiotics, antivirals, or antifungals.\n* Has active human immunode\ufb01ciency virus (HIV) infection that is not well controlled.\n* Has an active or uncontrolled hepatitis B and/or hepatitis C infection\n* Is lactating or pregnant as con\ufb01rmed by pregnancy tests performed within 7 days before enrollment.\n* Clinically severe pulmonary compromise resulting from autoimmune, connective tissue or in\ufb02ammatory disorders with pulmonary involvement.\n* Has uncontrolled or significant cardiac disease (including MI or unstable angina within the past 6 months, NYHA Class II-IV heart failure, uncontrolled hypertension, uncontrolled or significant arrhythmia).\n\nPatients with the following may be enrolled based on the investigator's/treating physician's assessment (documentation must be submitted to BrUOG). -Mean resting corrected QTcF interval \\> 470 ms.\n\n* History of QT prolongation associated with other medications that required discontinuation of that medication, or any current concomitant medication known to prolong the QT interval and cause Torsades de Pointes.\n* Congenital long QT syndrome, family history of long QT syndrome, or unexplained sudden death under 40 years of age in first-degree relatives.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "Preventing Dato-DXd Associated Stomatitis With Dexamethasone Mouthwash, TROPION-DM",
+    "nctId": "NCT06974604",
+    "officialTitle": "Prevention of Datopotamab Deruxtecan (TROP-2 Directed ADC) Associated Stomatitis in Patients With HER2-negative Metastatic Breast Cancer or Non-small Cell Lung Cancer Using Dexamethasone Mouthwash: a Single-arm, Phase 2 Trial (TROPION- DM, 2023-ESR-000087)",
+    "orgStudyIdInfo": {
+      "id": "BrUOG 431"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Brown University"
+    }
+  },
+  "ipdSharingStatementModule": {
+    "ipdSharing": "NO"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "Lower the incidence of all stomatitis by 20%",
+        "measure": "Lower the incidence of all stomatitis",
+        "timeFrame": "Approximately 9 weeks"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "Clinical benefit rate",
+        "measure": "Clinical benefit",
+        "timeFrame": "Approximately 9 weeks"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "oversightHasDmc": true
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "OTHER",
+        "name": "Rhode Island Hospital"
+      },
+      {
+        "class": "OTHER",
+        "name": "The Miriam Hospital"
+      }
+    ],
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Brown University"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2029-05-31",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2025-10-24",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2025-10-23",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2027-05-31",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2025-10-22",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2025-10",
+    "studyFirstPostDateStruct": {
+      "date": "2025-05-16",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2025-05-08",
+    "studyFirstSubmitQcDate": "2025-05-08"
+  }
+}

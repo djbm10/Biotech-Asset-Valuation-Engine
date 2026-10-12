@@ -1,0 +1,3144 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Arm 1: Dato-DXd 6 mg/kg IV Q3W x 8 cycles + Durvalumab 1120 mg IV Q3W x 9 cycles",
+        "interventionNames": [
+          "Drug: Dato-DXd",
+          "Drug: Durvalumab"
+        ],
+        "label": "Dato-DXd in combination with Durvalumab",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Arm 2: Dato-DXd 6 mg/kg IV Q3W x 8 cycles",
+        "interventionNames": [
+          "Drug: Dato-DXd"
+        ],
+        "label": "Dato-DXd",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Arm 3: Capecitabine (1000 or 1250 mg/m2 oral BID on Days 1 to 14, Q3W) for 8 cycles\n\nPembrolizumab\\* (200 mg IV on Day 1, Q3W) for 9 cycles\n\nCapecitabine (1000 or 1250 mg/m2 oral BID on Days 1 to 14, Q3W) for 8 cycles + pembrolizumab\\* (200 mg IV on Day 1, Q3W) for 9 cycles\n\n\\* Only participants who have received prior pembrolizumab in the neoadjuvant setting should receive pembrolizumab as part of their adjuvant therapy on Arm 3.",
+        "interventionNames": [
+          "Drug: Capecitabine",
+          "Drug: Pembrolizumab"
+        ],
+        "label": "Investigators Choice Therapy",
+        "type": "ACTIVE_COMPARATOR"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Dato-DXd",
+          "Dato-DXd in combination with Durvalumab"
+        ],
+        "description": "Experimental drug. Provided in 100mg vials. IV infusion",
+        "name": "Dato-DXd",
+        "otherNames": [
+          "Datopotamab deruxtecan (Dato-DXd, DS-1062a)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Dato-DXd in combination with Durvalumab"
+        ],
+        "description": "Experimental drug. Provided in 50mg vials. IV infusion",
+        "name": "Durvalumab",
+        "otherNames": [
+          "MEDI4736"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Investigators Choice Therapy"
+        ],
+        "description": "Active Comparator. Tablet. Oral route of administration",
+        "name": "Capecitabine",
+        "otherNames": [
+          "XELODA\u00ae, Capecitabine Cell Pharm, Capecitabine EG, Capecitabine Accord"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Investigators Choice Therapy"
+        ],
+        "description": "Active Comparator. Provided in 100mg vials. IV infusion",
+        "name": "Pembrolizumab",
+        "otherNames": [
+          "KEYTRUDA\u00ae"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Breast Cancer"
+    ],
+    "keywords": [
+      "Breast Cancer",
+      "TNBC",
+      "Triple-negative",
+      "Adjuvant",
+      "Datopotamab Deruxtecan",
+      "Dato-DXd",
+      "DS1062a",
+      "Antibody Drug Conjugate",
+      "ADC",
+      "TROP2",
+      "Durvalumab"
+    ]
+  },
+  "contactsLocationsModule": {
+    "locations": [
+      {
+        "city": "Gilbert",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.35283,
+          "lon": -111.78903
+        },
+        "state": "Arizona",
+        "zip": "85234"
+      },
+      {
+        "city": "Tucson",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.22174,
+          "lon": -110.92648
+        },
+        "state": "Arizona",
+        "zip": "85711"
+      },
+      {
+        "city": "Tucson",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.22174,
+          "lon": -110.92648
+        },
+        "state": "Arizona",
+        "zip": "85719"
+      },
+      {
+        "city": "Hot Springs",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.5037,
+          "lon": -93.05518
+        },
+        "state": "Arkansas",
+        "zip": "71913"
+      },
+      {
+        "city": "Little Rock",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.74648,
+          "lon": -92.28959
+        },
+        "state": "Arkansas",
+        "zip": "72205"
+      },
+      {
+        "city": "Springdale",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.18674,
+          "lon": -94.12881
+        },
+        "state": "Arkansas",
+        "zip": "72762"
+      },
+      {
+        "city": "Beverly Hills",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.07362,
+          "lon": -118.40036
+        },
+        "state": "California",
+        "zip": "90211"
+      },
+      {
+        "city": "Costa Mesa",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.64113,
+          "lon": -117.91867
+        },
+        "state": "California",
+        "zip": "92627"
+      },
+      {
+        "city": "Duarte",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.13945,
+          "lon": -117.97729
+        },
+        "state": "California",
+        "zip": "91010"
+      },
+      {
+        "city": "Fountain Valley",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.70918,
+          "lon": -117.95367
+        },
+        "state": "California",
+        "zip": "92708"
+      },
+      {
+        "city": "Irvine",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.66946,
+          "lon": -117.82311
+        },
+        "state": "California",
+        "zip": "92618"
+      },
+      {
+        "city": "La Jolla",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.84727,
+          "lon": -117.2742
+        },
+        "state": "California",
+        "zip": "92093"
+      },
+      {
+        "city": "Lakewood",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.85363,
+          "lon": -118.13396
+        },
+        "state": "California",
+        "zip": "90805"
+      },
+      {
+        "city": "Los Angeles",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.05223,
+          "lon": -118.24368
+        },
+        "state": "California",
+        "zip": "90017"
+      },
+      {
+        "city": "Los Angeles",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.05223,
+          "lon": -118.24368
+        },
+        "state": "California",
+        "zip": "90095"
+      },
+      {
+        "city": "Newport Beach",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.61891,
+          "lon": -117.92895
+        },
+        "state": "California",
+        "zip": "92660"
+      },
+      {
+        "city": "Newport Beach",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.61891,
+          "lon": -117.92895
+        },
+        "state": "California",
+        "zip": "92663"
+      },
+      {
+        "city": "Orange",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.78779,
+          "lon": -117.85311
+        },
+        "state": "California",
+        "zip": "92868"
+      },
+      {
+        "city": "Roseville",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.75212,
+          "lon": -121.28801
+        },
+        "state": "California",
+        "zip": "95661"
+      },
+      {
+        "city": "Upland",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.09751,
+          "lon": -117.64839
+        },
+        "state": "California",
+        "zip": "91786"
+      },
+      {
+        "city": "Vallejo",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.10409,
+          "lon": -122.25664
+        },
+        "state": "California",
+        "zip": "94589"
+      },
+      {
+        "city": "Denver",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.73915,
+          "lon": -104.9847
+        },
+        "state": "Colorado",
+        "zip": "80220"
+      },
+      {
+        "city": "New Haven",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.30815,
+          "lon": -72.92816
+        },
+        "state": "Connecticut",
+        "zip": "06510"
+      },
+      {
+        "city": "Newark",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.68372,
+          "lon": -75.74966
+        },
+        "state": "Delaware",
+        "zip": "19713"
+      },
+      {
+        "city": "Washington D.C.",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.89511,
+          "lon": -77.03637
+        },
+        "state": "District of Columbia",
+        "zip": "20007"
+      },
+      {
+        "city": "Altamonte Springs",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 28.66111,
+          "lon": -81.36562
+        },
+        "state": "Florida",
+        "zip": "32701"
+      },
+      {
+        "city": "Hollywood",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 26.0112,
+          "lon": -80.14949
+        },
+        "state": "Florida",
+        "zip": "33021"
+      },
+      {
+        "city": "Miami Beach",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 25.79065,
+          "lon": -80.13005
+        },
+        "state": "Florida",
+        "zip": "33140"
+      },
+      {
+        "city": "Tallahassee",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.43826,
+          "lon": -84.28073
+        },
+        "state": "Florida",
+        "zip": "32308"
+      },
+      {
+        "city": "West Palm Beach",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 26.71534,
+          "lon": -80.05337
+        },
+        "state": "Florida",
+        "zip": "33401"
+      },
+      {
+        "city": "Athens",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.96095,
+          "lon": -83.37794
+        },
+        "state": "Georgia",
+        "zip": "30607"
+      },
+      {
+        "city": "Atlanta",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.749,
+          "lon": -84.38798
+        },
+        "state": "Georgia",
+        "zip": "30318"
+      },
+      {
+        "city": "Atlanta",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.749,
+          "lon": -84.38798
+        },
+        "state": "Georgia",
+        "zip": "30322"
+      },
+      {
+        "city": "Chicago",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.85003,
+          "lon": -87.65005
+        },
+        "state": "Illinois",
+        "zip": "60611"
+      },
+      {
+        "city": "Maywood",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.8792,
+          "lon": -87.84312
+        },
+        "state": "Illinois",
+        "zip": "60153"
+      },
+      {
+        "city": "Westwood",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.04056,
+          "lon": -94.6169
+        },
+        "state": "Kansas",
+        "zip": "66205"
+      },
+      {
+        "city": "Lexington",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.98869,
+          "lon": -84.47772
+        },
+        "state": "Kentucky",
+        "zip": "40503"
+      },
+      {
+        "city": "Louisville",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.25424,
+          "lon": -85.75941
+        },
+        "state": "Kentucky",
+        "zip": "40202"
+      },
+      {
+        "city": "Louisville",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.25424,
+          "lon": -85.75941
+        },
+        "state": "Kentucky",
+        "zip": "40207"
+      },
+      {
+        "city": "Louisville",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.25424,
+          "lon": -85.75941
+        },
+        "state": "Kentucky",
+        "zip": "40241"
+      },
+      {
+        "city": "New Orleans",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 29.95465,
+          "lon": -90.07507
+        },
+        "state": "Louisiana",
+        "zip": "70121"
+      },
+      {
+        "city": "Annapolis",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.97859,
+          "lon": -76.49184
+        },
+        "state": "Maryland",
+        "zip": "21401"
+      },
+      {
+        "city": "Baltimore",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.29038,
+          "lon": -76.61219
+        },
+        "state": "Maryland",
+        "zip": "21202"
+      },
+      {
+        "city": "Columbia",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.24038,
+          "lon": -76.83942
+        },
+        "state": "Maryland",
+        "zip": "21044"
+      },
+      {
+        "city": "Boston",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.35843,
+          "lon": -71.05977
+        },
+        "state": "Massachusetts",
+        "zip": "02114"
+      },
+      {
+        "city": "Detroit",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.33143,
+          "lon": -83.04575
+        },
+        "state": "Michigan",
+        "zip": "48201"
+      },
+      {
+        "city": "St Louis",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.62727,
+          "lon": -90.19789
+        },
+        "state": "Missouri",
+        "zip": "63110"
+      },
+      {
+        "city": "Camden",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.92595,
+          "lon": -75.11962
+        },
+        "state": "New Jersey",
+        "zip": "08103"
+      },
+      {
+        "city": "Albuquerque",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.08449,
+          "lon": -106.65114
+        },
+        "state": "New Mexico",
+        "zip": "87109"
+      },
+      {
+        "city": "New York",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.71427,
+          "lon": -74.00597
+        },
+        "state": "New York",
+        "zip": "10011"
+      },
+      {
+        "city": "New York",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.71427,
+          "lon": -74.00597
+        },
+        "state": "New York",
+        "zip": "10021"
+      },
+      {
+        "city": "New York",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.71427,
+          "lon": -74.00597
+        },
+        "state": "New York",
+        "zip": "10029"
+      },
+      {
+        "city": "New York",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.71427,
+          "lon": -74.00597
+        },
+        "state": "New York",
+        "zip": "10032"
+      },
+      {
+        "city": "New York",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.71427,
+          "lon": -74.00597
+        },
+        "state": "New York",
+        "zip": "10065"
+      },
+      {
+        "city": "Charlotte",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.22709,
+          "lon": -80.84313
+        },
+        "state": "North Carolina",
+        "zip": "28204"
+      },
+      {
+        "city": "Canton",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.79895,
+          "lon": -81.37845
+        },
+        "state": "Ohio",
+        "zip": "44710"
+      },
+      {
+        "city": "Cleveland",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.4995,
+          "lon": -81.69541
+        },
+        "state": "Ohio",
+        "zip": "44106"
+      },
+      {
+        "city": "Cleveland",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.4995,
+          "lon": -81.69541
+        },
+        "state": "Ohio",
+        "zip": "44111"
+      },
+      {
+        "city": "Cleveland",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.4995,
+          "lon": -81.69541
+        },
+        "state": "Ohio",
+        "zip": "44195"
+      },
+      {
+        "city": "Columbus",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.96118,
+          "lon": -82.99879
+        },
+        "state": "Ohio",
+        "zip": "43219"
+      },
+      {
+        "city": "Portland",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.52345,
+          "lon": -122.67621
+        },
+        "state": "Oregon",
+        "zip": "97227"
+      },
+      {
+        "city": "Hershey",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.28592,
+          "lon": -76.65025
+        },
+        "state": "Pennsylvania",
+        "zip": "17033"
+      },
+      {
+        "city": "Philadelphia",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.95238,
+          "lon": -75.16362
+        },
+        "state": "Pennsylvania",
+        "zip": "19111"
+      },
+      {
+        "city": "Pittsburgh",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.44062,
+          "lon": -79.99589
+        },
+        "state": "Pennsylvania",
+        "zip": "15213"
+      },
+      {
+        "city": "Providence",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.82399,
+          "lon": -71.41283
+        },
+        "state": "Rhode Island",
+        "zip": "02903"
+      },
+      {
+        "city": "Germantown",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.08676,
+          "lon": -89.81009
+        },
+        "state": "Tennessee",
+        "zip": "38138"
+      },
+      {
+        "city": "Memphis",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.14953,
+          "lon": -90.04898
+        },
+        "state": "Tennessee",
+        "zip": "38120"
+      },
+      {
+        "city": "Nashville",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.16589,
+          "lon": -86.78444
+        },
+        "state": "Tennessee",
+        "zip": "37203"
+      },
+      {
+        "city": "Nashville",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.16589,
+          "lon": -86.78444
+        },
+        "state": "Tennessee",
+        "zip": "37232"
+      },
+      {
+        "city": "Bedford",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.84402,
+          "lon": -97.14307
+        },
+        "state": "Texas",
+        "zip": "76022"
+      },
+      {
+        "city": "Dallas",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.78306,
+          "lon": -96.80667
+        },
+        "state": "Texas",
+        "zip": "75246"
+      },
+      {
+        "city": "Fort Worth",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.72541,
+          "lon": -97.32085
+        },
+        "state": "Texas",
+        "zip": "76104"
+      },
+      {
+        "city": "Houston",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 29.76328,
+          "lon": -95.36327
+        },
+        "state": "Texas",
+        "zip": "77024"
+      },
+      {
+        "city": "Houston",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 29.76328,
+          "lon": -95.36327
+        },
+        "state": "Texas",
+        "zip": "77030"
+      },
+      {
+        "city": "Irving",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.81402,
+          "lon": -96.94889
+        },
+        "state": "Texas",
+        "zip": "75063"
+      },
+      {
+        "city": "McAllen",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 26.20341,
+          "lon": -98.23001
+        },
+        "state": "Texas",
+        "zip": "78503"
+      },
+      {
+        "city": "Tyler",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.35126,
+          "lon": -95.30106
+        },
+        "state": "Texas",
+        "zip": "75702"
+      },
+      {
+        "city": "Fairfax",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.84622,
+          "lon": -77.30637
+        },
+        "state": "Virginia",
+        "zip": "22031"
+      },
+      {
+        "city": "Midlothian",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.50598,
+          "lon": -77.64916
+        },
+        "state": "Virginia",
+        "zip": "23114"
+      },
+      {
+        "city": "Norfolk",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.84681,
+          "lon": -76.28522
+        },
+        "state": "Virginia",
+        "zip": "23502"
+      },
+      {
+        "city": "Reston",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.96872,
+          "lon": -77.3411
+        },
+        "state": "Virginia",
+        "zip": "20190"
+      },
+      {
+        "city": "Edmonds",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.81065,
+          "lon": -122.37736
+        },
+        "state": "Washington",
+        "zip": "98026"
+      },
+      {
+        "city": "Issaquah",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.5301,
+          "lon": -122.03262
+        },
+        "state": "Washington",
+        "zip": "98029"
+      },
+      {
+        "city": "Puyallup",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.18538,
+          "lon": -122.2929
+        },
+        "state": "Washington",
+        "zip": "98373"
+      },
+      {
+        "city": "Seattle",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.60621,
+          "lon": -122.33207
+        },
+        "state": "Washington",
+        "zip": "98104"
+      },
+      {
+        "city": "Seattle",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.60621,
+          "lon": -122.33207
+        },
+        "state": "Washington",
+        "zip": "98133"
+      },
+      {
+        "city": "Spokane Valley",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.67323,
+          "lon": -117.23937
+        },
+        "state": "Washington",
+        "zip": "99216"
+      },
+      {
+        "city": "Morgantown",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.62953,
+          "lon": -79.9559
+        },
+        "state": "West Virginia",
+        "zip": "26506"
+      },
+      {
+        "city": "Anderlecht",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.83619,
+          "lon": 4.31454
+        },
+        "zip": "1070"
+      },
+      {
+        "city": "Brussels",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.85045,
+          "lon": 4.34878
+        },
+        "zip": "1090"
+      },
+      {
+        "city": "Brussels",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.85045,
+          "lon": 4.34878
+        },
+        "zip": "1200"
+      },
+      {
+        "city": "Charleroi",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.41136,
+          "lon": 4.44448
+        },
+        "zip": "6060"
+      },
+      {
+        "city": "Edegem",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.15662,
+          "lon": 4.44504
+        },
+        "zip": "2650"
+      },
+      {
+        "city": "Ghent",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.05,
+          "lon": 3.71667
+        },
+        "zip": "9000"
+      },
+      {
+        "city": "Hasselt",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.93106,
+          "lon": 5.33781
+        },
+        "zip": "3500"
+      },
+      {
+        "city": "Li\u00e8ge",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.63373,
+          "lon": 5.56749
+        },
+        "zip": "4000"
+      },
+      {
+        "city": "Namur",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.4669,
+          "lon": 4.86746
+        },
+        "zip": "5000"
+      },
+      {
+        "city": "Sint-Niklaas",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.16509,
+          "lon": 4.1437
+        },
+        "zip": "9100"
+      },
+      {
+        "city": "Wilrijk",
+        "country": "Belgium",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.16734,
+          "lon": 4.39513
+        },
+        "zip": "2610"
+      },
+      {
+        "city": "Bras\u00edlia",
+        "country": "Brazil",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": -15.77972,
+          "lon": -47.92972
+        },
+        "zip": "71681-603"
+      },
+      {
+        "city": "Porto Alegre",
+        "country": "Brazil",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": -30.03283,
+          "lon": -51.23019
+        },
+        "zip": "90035-000"
+      },
+      {
+        "city": "Recife",
+        "country": "Brazil",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": -8.05389,
+          "lon": -34.88111
+        },
+        "zip": "52010-075"
+      },
+      {
+        "city": "Salvador",
+        "country": "Brazil",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": -12.97563,
+          "lon": -38.49096
+        },
+        "zip": "41253-190"
+      },
+      {
+        "city": "S\u00e3o Paulo",
+        "country": "Brazil",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": -23.5475,
+          "lon": -46.63611
+        },
+        "zip": "01321-001"
+      },
+      {
+        "city": "S\u00e3o Paulo",
+        "country": "Brazil",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": -23.5475,
+          "lon": -46.63611
+        },
+        "zip": "01508-010"
+      },
+      {
+        "city": "S\u00e3o Paulo",
+        "country": "Brazil",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": -23.5475,
+          "lon": -46.63611
+        },
+        "zip": "03102-002"
+      },
+      {
+        "city": "S\u00e3o Paulo",
+        "country": "Brazil",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": -23.5475,
+          "lon": -46.63611
+        },
+        "zip": "04532-030"
+      },
+      {
+        "city": "Vit\u00f3ria",
+        "country": "Brazil",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": -20.31944,
+          "lon": -40.33778
+        },
+        "zip": "29055-450"
+      },
+      {
+        "city": "North Vancouver",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 49.31636,
+          "lon": -123.06934
+        },
+        "state": "British Columbia",
+        "zip": "V7L 2L7"
+      },
+      {
+        "city": "Barrie",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 44.40011,
+          "lon": -79.66634
+        },
+        "state": "Ontario",
+        "zip": "L4M 6M2"
+      },
+      {
+        "city": "Kingston",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 44.22976,
+          "lon": -76.48098
+        },
+        "state": "Ontario",
+        "zip": "K7L 2V7"
+      },
+      {
+        "city": "Oakville",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.45011,
+          "lon": -79.68292
+        },
+        "state": "Ontario",
+        "zip": "L9T 6G2"
+      },
+      {
+        "city": "Ottawa",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.41117,
+          "lon": -75.69812
+        },
+        "state": "Ontario",
+        "zip": "K1H 8L6"
+      },
+      {
+        "city": "Toronto",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.70643,
+          "lon": -79.39864
+        },
+        "state": "Ontario",
+        "zip": "M5G 1X5"
+      },
+      {
+        "city": "Toronto",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.70643,
+          "lon": -79.39864
+        },
+        "state": "Ontario",
+        "zip": "M5G 2M9"
+      },
+      {
+        "city": "Laval",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.56995,
+          "lon": -73.692
+        },
+        "state": "Quebec",
+        "zip": "H7M 3L9"
+      },
+      {
+        "city": "Montreal",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.50884,
+          "lon": -73.58781
+        },
+        "state": "Quebec",
+        "zip": "H2X 0C1"
+      },
+      {
+        "city": "Montreal",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.50884,
+          "lon": -73.58781
+        },
+        "state": "Quebec",
+        "zip": "H3T 1E2"
+      },
+      {
+        "city": "Montreal",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.50884,
+          "lon": -73.58781
+        },
+        "state": "Quebec",
+        "zip": "H4A 3J1"
+      },
+      {
+        "city": "Qu\u00e9bec",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 46.81228,
+          "lon": -71.21454
+        },
+        "state": "Quebec",
+        "zip": "G1S 4L8"
+      },
+      {
+        "city": "Saskatoon",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 52.13238,
+          "lon": -106.66892
+        },
+        "state": "Saskatchewan",
+        "zip": "S7N 4H4"
+      },
+      {
+        "city": "Beijing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.9075,
+          "lon": 116.39723
+        },
+        "zip": "100044"
+      },
+      {
+        "city": "Beijing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.9075,
+          "lon": 116.39723
+        },
+        "zip": "100142"
+      },
+      {
+        "city": "Bengbu",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.94083,
+          "lon": 117.36083
+        },
+        "zip": "233004"
+      },
+      {
+        "city": "Changchun",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.88,
+          "lon": 125.32278
+        },
+        "zip": "130021"
+      },
+      {
+        "city": "Changsha",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 28.19874,
+          "lon": 112.97087
+        },
+        "zip": "410008"
+      },
+      {
+        "city": "Chengdu",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.66667,
+          "lon": 104.06667
+        },
+        "zip": "610000"
+      },
+      {
+        "city": "Chengdu",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.66667,
+          "lon": 104.06667
+        },
+        "zip": "610072"
+      },
+      {
+        "city": "Chongqing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 29.56026,
+          "lon": 106.55771
+        },
+        "zip": "400030"
+      },
+      {
+        "city": "Fuzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 26.06139,
+          "lon": 119.30611
+        },
+        "zip": "350011"
+      },
+      {
+        "city": "Guangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 23.11667,
+          "lon": 113.25
+        },
+        "zip": "510060"
+      },
+      {
+        "city": "Guangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 23.11667,
+          "lon": 113.25
+        },
+        "zip": "510100"
+      },
+      {
+        "city": "Guangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 23.11667,
+          "lon": 113.25
+        },
+        "zip": "510120"
+      },
+      {
+        "city": "Guangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 23.11667,
+          "lon": 113.25
+        },
+        "zip": "510700"
+      },
+      {
+        "city": "Haikou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 20.03421,
+          "lon": 110.34651
+        },
+        "zip": "570311"
+      },
+      {
+        "city": "Hangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.29365,
+          "lon": 120.16142
+        },
+        "zip": "310009"
+      },
+      {
+        "city": "Hangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.29365,
+          "lon": 120.16142
+        },
+        "zip": "310020"
+      },
+      {
+        "city": "Harbin",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.75,
+          "lon": 126.65
+        },
+        "zip": "150081"
+      },
+      {
+        "city": "Hefei",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 31.86389,
+          "lon": 117.28083
+        },
+        "zip": "230001"
+      },
+      {
+        "city": "Jinan",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.66833,
+          "lon": 116.99722
+        },
+        "zip": "250030"
+      },
+      {
+        "city": "Nanchang",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 28.68396,
+          "lon": 115.85306
+        },
+        "zip": "330009"
+      },
+      {
+        "city": "Nanjing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.06167,
+          "lon": 118.77778
+        },
+        "zip": "210008"
+      },
+      {
+        "city": "Nanjing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.06167,
+          "lon": 118.77778
+        },
+        "zip": "210009"
+      },
+      {
+        "city": "Nanning",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 22.81667,
+          "lon": 108.31667
+        },
+        "zip": "530021"
+      },
+      {
+        "city": "Qingdao",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.06488,
+          "lon": 120.38042
+        },
+        "zip": "110016"
+      },
+      {
+        "city": "Shanghai",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 31.22222,
+          "lon": 121.45806
+        },
+        "zip": "200025"
+      },
+      {
+        "city": "Shanghai",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 31.22222,
+          "lon": 121.45806
+        },
+        "zip": "200032"
+      },
+      {
+        "city": "Shenzhen",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 22.54554,
+          "lon": 114.0683
+        },
+        "zip": "518020"
+      },
+      {
+        "city": "Shijiazhuang",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.04139,
+          "lon": 114.47861
+        },
+        "zip": "050020"
+      },
+      {
+        "city": "Tianjin",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.14222,
+          "lon": 117.17667
+        },
+        "zip": "300060"
+      },
+      {
+        "city": "Wuhan",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.58333,
+          "lon": 114.26667
+        },
+        "zip": "430022"
+      },
+      {
+        "city": "Wuhan",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.58333,
+          "lon": 114.26667
+        },
+        "zip": "430060"
+      },
+      {
+        "city": "Xi'an",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.25833,
+          "lon": 108.92861
+        },
+        "zip": "710038"
+      },
+      {
+        "city": "Xiamen",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 24.47979,
+          "lon": 118.08187
+        },
+        "zip": "361003"
+      },
+      {
+        "city": "Zhengzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.75778,
+          "lon": 113.64861
+        },
+        "zip": "450052"
+      },
+      {
+        "city": "Copenhagen",
+        "country": "Denmark",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 55.67594,
+          "lon": 12.56553
+        },
+        "zip": "2100"
+      },
+      {
+        "city": "Herning",
+        "country": "Denmark",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 56.13615,
+          "lon": 8.97662
+        },
+        "zip": "7400"
+      },
+      {
+        "city": "N\u00e6stved",
+        "country": "Denmark",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 55.22992,
+          "lon": 11.76092
+        },
+        "zip": "4700"
+      },
+      {
+        "city": "Odense",
+        "country": "Denmark",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 55.39594,
+          "lon": 10.38831
+        },
+        "zip": "5000"
+      },
+      {
+        "city": "S\u00f8nderborg",
+        "country": "Denmark",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 54.90896,
+          "lon": 9.78917
+        },
+        "zip": "6400"
+      },
+      {
+        "city": "Vejle",
+        "country": "Denmark",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 55.70927,
+          "lon": 9.5357
+        },
+        "zip": "7100"
+      },
+      {
+        "city": "Angers",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.47156,
+          "lon": -0.55202
+        },
+        "zip": "49055"
+      },
+      {
+        "city": "Bordeaux",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 44.84124,
+          "lon": -0.58046
+        },
+        "zip": "33076"
+      },
+      {
+        "city": "Dijon",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.31344,
+          "lon": 5.01391
+        },
+        "zip": "21000"
+      },
+      {
+        "city": "Lyon",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.74906,
+          "lon": 4.84789
+        },
+        "zip": "69008"
+      },
+      {
+        "city": "Montpellier",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.61093,
+          "lon": 3.87635
+        },
+        "zip": "34070"
+      },
+      {
+        "city": "N\u00eemes",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.83665,
+          "lon": 4.35788
+        },
+        "zip": "30029"
+      },
+      {
+        "city": "Paris",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 48.85341,
+          "lon": 2.3488
+        },
+        "zip": "75248"
+      },
+      {
+        "city": "Poitiers",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 46.58261,
+          "lon": 0.34348
+        },
+        "zip": "86021"
+      },
+      {
+        "city": "Rennes",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 48.11109,
+          "lon": -1.67431
+        },
+        "zip": "35000"
+      },
+      {
+        "city": "Saint-Herblain",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.21154,
+          "lon": -1.651
+        },
+        "zip": "44805"
+      },
+      {
+        "city": "Villejuif",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 48.7939,
+          "lon": 2.35992
+        },
+        "zip": "94805"
+      },
+      {
+        "city": "Frankfurt am Main",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.11552,
+          "lon": 8.68417
+        },
+        "zip": "65929"
+      },
+      {
+        "city": "Hamburg",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 53.55073,
+          "lon": 9.99302
+        },
+        "zip": "20357"
+      },
+      {
+        "city": "Hanover",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 52.37052,
+          "lon": 9.73322
+        },
+        "zip": "30177"
+      },
+      {
+        "city": "Heilbronn",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 49.13995,
+          "lon": 9.22054
+        },
+        "zip": "74078"
+      },
+      {
+        "city": "Kiel",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 54.32133,
+          "lon": 10.13489
+        },
+        "zip": "24105"
+      },
+      {
+        "city": "Langen",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 49.98955,
+          "lon": 8.66852
+        },
+        "zip": "63225"
+      },
+      {
+        "city": "Leipzig",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.33962,
+          "lon": 12.37129
+        },
+        "zip": "4103"
+      },
+      {
+        "city": "Ludwigsburg",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 48.89731,
+          "lon": 9.19161
+        },
+        "zip": "71640"
+      },
+      {
+        "city": "M\u00f6nchengladbach",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.18539,
+          "lon": 6.44172
+        },
+        "zip": "41061"
+      },
+      {
+        "city": "M\u00fcnchen",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.60698,
+          "lon": 13.31243
+        },
+        "zip": "80337"
+      },
+      {
+        "city": "Paderborn",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.71905,
+          "lon": 8.75439
+        },
+        "zip": "33098"
+      },
+      {
+        "city": "Regensburg",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 49.01513,
+          "lon": 12.10161
+        },
+        "zip": "93053"
+      },
+      {
+        "city": "Stuttgart",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 48.78232,
+          "lon": 9.17702
+        },
+        "zip": "70199"
+      },
+      {
+        "city": "Troisdorf",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.80901,
+          "lon": 7.14968
+        },
+        "zip": "53840"
+      },
+      {
+        "city": "T\u00fcbingen",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 48.52266,
+          "lon": 9.05222
+        },
+        "zip": "72076"
+      },
+      {
+        "city": "Wuppertal",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.25627,
+          "lon": 7.14816
+        },
+        "zip": "42283"
+      },
+      {
+        "city": "Athens",
+        "country": "Greece",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.98376,
+          "lon": 23.72784
+        },
+        "zip": "115 22"
+      },
+      {
+        "city": "Athens",
+        "country": "Greece",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.98376,
+          "lon": 23.72784
+        },
+        "zip": "11528"
+      },
+      {
+        "city": "Athens",
+        "country": "Greece",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.98376,
+          "lon": 23.72784
+        },
+        "zip": "12462"
+      },
+      {
+        "city": "Heraklion",
+        "country": "Greece",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.32787,
+          "lon": 25.14341
+        },
+        "zip": "71110"
+      },
+      {
+        "city": "Thessaloniki",
+        "country": "Greece",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.64072,
+          "lon": 22.93493
+        },
+        "zip": "54639"
+      },
+      {
+        "city": "Thessaloniki",
+        "country": "Greece",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.64072,
+          "lon": 22.93493
+        },
+        "zip": "57001"
+      },
+      {
+        "city": "Bologna",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 44.49381,
+          "lon": 11.33875
+        },
+        "zip": "40138"
+      },
+      {
+        "city": "Brescia",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.53558,
+          "lon": 10.21472
+        },
+        "zip": "25123"
+      },
+      {
+        "city": "Florence",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.77925,
+          "lon": 11.24626
+        },
+        "zip": "50134"
+      },
+      {
+        "city": "Genova",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.21604,
+          "lon": 11.87211
+        },
+        "zip": "16132"
+      },
+      {
+        "city": "Livorno",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.54427,
+          "lon": 10.32615
+        },
+        "zip": "57124"
+      },
+      {
+        "city": "Meldola",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 44.12775,
+          "lon": 12.0626
+        },
+        "zip": "47014"
+      },
+      {
+        "city": "Messina",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.19394,
+          "lon": 15.55256
+        },
+        "zip": "98158"
+      },
+      {
+        "city": "Milan",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.78235,
+          "lon": 12.59836
+        },
+        "zip": "20132"
+      },
+      {
+        "city": "Milan",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.78235,
+          "lon": 12.59836
+        },
+        "zip": "20141"
+      },
+      {
+        "city": "Naples",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.85216,
+          "lon": 14.26811
+        },
+        "zip": "80131"
+      },
+      {
+        "city": "Padova",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 44.38225,
+          "lon": 11.14261
+        },
+        "zip": "35128"
+      },
+      {
+        "city": "Roma",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 44.99364,
+          "lon": 11.10642
+        },
+        "zip": "00168"
+      },
+      {
+        "city": "Rozzano",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.38193,
+          "lon": 9.1559
+        },
+        "zip": "20089"
+      },
+      {
+        "city": "Akashi-shi",
+        "country": "Japan",
+        "facility": "Research Site",
+        "zip": "673-8558"
+      },
+      {
+        "city": "Chiba",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.6,
+          "lon": 140.11667
+        },
+        "zip": "260-8717"
+      },
+      {
+        "city": "Ch\u016b\u014dku",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.63867,
+          "lon": 130.67068
+        },
+        "zip": "104-0045"
+      },
+      {
+        "city": "Fukuoka",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.6,
+          "lon": 130.41667
+        },
+        "zip": "811-1395"
+      },
+      {
+        "city": "Fukushima",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.75,
+          "lon": 140.46667
+        },
+        "zip": "960-1295"
+      },
+      {
+        "city": "Hiroshima",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.4,
+          "lon": 132.45
+        },
+        "zip": "730-8518"
+      },
+      {
+        "city": "Isehara-shi",
+        "country": "Japan",
+        "facility": "Research Site",
+        "zip": "259-1193"
+      },
+      {
+        "city": "Kashiwa",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.86224,
+          "lon": 139.97732
+        },
+        "zip": "277-8577"
+      },
+      {
+        "city": "K\u014dtoku",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.50417,
+          "lon": 143.14297
+        },
+        "zip": "135-8550"
+      },
+      {
+        "city": "Kyoto",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.02107,
+          "lon": 135.75385
+        },
+        "zip": "606-8507"
+      },
+      {
+        "city": "Matsuyama",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.83916,
+          "lon": 132.76574
+        },
+        "zip": "791-0280"
+      },
+      {
+        "city": "Nagoya",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.18147,
+          "lon": 136.90641
+        },
+        "zip": "464-8681"
+      },
+      {
+        "city": "Nagoya",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.18147,
+          "lon": 136.90641
+        },
+        "zip": "466-8560"
+      },
+      {
+        "city": "Niigata",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.92259,
+          "lon": 139.04125
+        },
+        "zip": "951-8566"
+      },
+      {
+        "city": "Nishinomiya-shi",
+        "country": "Japan",
+        "facility": "Research Site",
+        "zip": "663-8501"
+      },
+      {
+        "city": "Okayama",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.65,
+          "lon": 133.93333
+        },
+        "zip": "700-8558"
+      },
+      {
+        "city": "Osaka",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.69379,
+          "lon": 135.50107
+        },
+        "zip": "541-8567"
+      },
+      {
+        "city": "Ota-shi",
+        "country": "Japan",
+        "facility": "Research Site",
+        "zip": "373-8550"
+      },
+      {
+        "city": "Sapporo",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.06667,
+          "lon": 141.35
+        },
+        "zip": "003-0804"
+      },
+      {
+        "city": "Sendai",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.26667,
+          "lon": 140.86667
+        },
+        "zip": "980-8574"
+      },
+      {
+        "city": "Shinagawa-ku",
+        "country": "Japan",
+        "facility": "Research Site",
+        "zip": "142-8666"
+      },
+      {
+        "city": "Shinjuku-ku",
+        "country": "Japan",
+        "facility": "Research Site",
+        "zip": "162-8655"
+      },
+      {
+        "city": "Tsukuba",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.08333,
+          "lon": 140.11667
+        },
+        "zip": "305-8577"
+      },
+      {
+        "city": "Yokohama",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.43333,
+          "lon": 139.65
+        },
+        "zip": "241-8515"
+      },
+      {
+        "city": "San Juan",
+        "country": "Puerto Rico",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 18.46633,
+          "lon": -66.10572
+        },
+        "zip": "00918"
+      },
+      {
+        "city": "Busan",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.10168,
+          "lon": 129.03004
+        },
+        "zip": "49241"
+      },
+      {
+        "city": "Daegu",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.87028,
+          "lon": 128.59111
+        },
+        "zip": "41404"
+      },
+      {
+        "city": "Goyang-si",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.65639,
+          "lon": 126.835
+        },
+        "zip": "10408"
+      },
+      {
+        "city": "Seongnam-si",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.43861,
+          "lon": 127.13778
+        },
+        "zip": "463-712"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "zip": "02841"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "zip": "03080"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "zip": "03722"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "zip": "05505"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "zip": "06273"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "zip": "06351"
+      },
+      {
+        "city": "Barcelona",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.38879,
+          "lon": 2.15899
+        },
+        "zip": "08028"
+      },
+      {
+        "city": "Barcelona",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.38879,
+          "lon": 2.15899
+        },
+        "zip": "8035"
+      },
+      {
+        "city": "Bilbao (Vizcaya)",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.26271,
+          "lon": -2.92528
+        },
+        "zip": "48013"
+      },
+      {
+        "city": "Elche(Alicante)",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.26218,
+          "lon": -0.70107
+        },
+        "zip": "03202"
+      },
+      {
+        "city": "Madrid",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.4165,
+          "lon": -3.70256
+        },
+        "zip": "28040"
+      },
+      {
+        "city": "Madrid",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.4165,
+          "lon": -3.70256
+        },
+        "zip": "28041"
+      },
+      {
+        "city": "M\u00e1laga",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.72016,
+          "lon": -4.42034
+        },
+        "zip": "29010"
+      },
+      {
+        "city": "Palma de Mallorca",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.56939,
+          "lon": 2.65024
+        },
+        "zip": "07010"
+      },
+      {
+        "city": "Toledo",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.8581,
+          "lon": -4.02263
+        },
+        "zip": "45007"
+      },
+      {
+        "city": "Valencia",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.47391,
+          "lon": -0.37966
+        },
+        "zip": "46010"
+      },
+      {
+        "city": "Stockholm",
+        "country": "Sweden",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 59.32938,
+          "lon": 18.06871
+        },
+        "zip": "11281"
+      },
+      {
+        "city": "Stockholm",
+        "country": "Sweden",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 59.32938,
+          "lon": 18.06871
+        },
+        "zip": "17176"
+      },
+      {
+        "city": "Sundsvall",
+        "country": "Sweden",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 62.39129,
+          "lon": 17.3063
+        },
+        "zip": "851 86"
+      },
+      {
+        "city": "Uppsala",
+        "country": "Sweden",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 59.85882,
+          "lon": 17.63889
+        },
+        "zip": "751 85"
+      },
+      {
+        "city": "Hsinchu",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 24.80361,
+          "lon": 120.96861
+        },
+        "zip": "300"
+      },
+      {
+        "city": "Taichung",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 24.1469,
+          "lon": 120.6839
+        },
+        "zip": "40447"
+      },
+      {
+        "city": "Tainan",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 22.99083,
+          "lon": 120.21333
+        },
+        "zip": "70403"
+      },
+      {
+        "city": "Taipei",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 25.05306,
+          "lon": 121.52639
+        },
+        "zip": "10002"
+      },
+      {
+        "city": "Taipei",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 25.05306,
+          "lon": 121.52639
+        },
+        "zip": "10449"
+      },
+      {
+        "city": "Taipei",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 25.05306,
+          "lon": 121.52639
+        },
+        "zip": "112"
+      },
+      {
+        "city": "Taoyuan",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 24.99368,
+          "lon": 121.29696
+        },
+        "zip": "333"
+      },
+      {
+        "city": "Yung Kang City",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "zip": "71044"
+      },
+      {
+        "city": "Cambridge",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 52.2,
+          "lon": 0.11667
+        },
+        "zip": "CB2 0QQ"
+      },
+      {
+        "city": "Cardiff",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.48,
+          "lon": -3.18
+        },
+        "zip": "CF14 2TL"
+      },
+      {
+        "city": "Edinburgh",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 55.95206,
+          "lon": -3.19648
+        },
+        "zip": "EH4 2XU"
+      },
+      {
+        "city": "Greater London",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "zip": "SW3 6JJ"
+      },
+      {
+        "city": "London",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.50853,
+          "lon": -0.12574
+        },
+        "zip": "EC1A 7BE"
+      },
+      {
+        "city": "London",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.50853,
+          "lon": -0.12574
+        },
+        "zip": "SE1 9RT"
+      },
+      {
+        "city": "Londonderry",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 54.9981,
+          "lon": -7.30934
+        },
+        "zip": "BT47 6SB"
+      },
+      {
+        "city": "Manchester",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 53.48095,
+          "lon": -2.23743
+        },
+        "zip": "M20 4BX"
+      },
+      {
+        "city": "Newcastle upon Tyne",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 54.97328,
+          "lon": -1.61396
+        },
+        "zip": "NE7 7AF"
+      },
+      {
+        "city": "Portsmouth",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.79899,
+          "lon": -1.09125
+        },
+        "zip": "PO6 3LY"
+      },
+      {
+        "city": "Surrey",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "zip": "SM2 5PT"
+      },
+      {
+        "city": "Taunton",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.01494,
+          "lon": -3.10293
+        },
+        "zip": "TA1 5DA"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This is a Phase III, randomized, open-label, 3-arm, multicenter, international study assessing the efficacy and safety of Dato-DXd with or without durvalumab compared with ICT in participants with stage I to III TNBC with residual invasive disease in the breast and/or axillary lymph nodes at surgical resection following neoadjuvant systemic therapy.",
+    "detailedDescription": "The study will investigate the efficacy and safety of Dato-DXd with or without durvalumab when compared with ICT (capecitabine and/or pembrolizumab) in participants with stage I to III TNBC who have residual invasive disease in the breast and/or axillary lymph nodes at surgical resection following neoadjuvant systemic therapy.\n\nThe primary objective of the study is to demonstrate superiority of Dato-DXd in combination with durvalumab relative to ICT by assessment of iDFS in participants with stage I to III TNBC with residual invasive disease at surgical resection following neoadjuvant therapy."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "interventionModelDescription": "Parallel",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 1174,
+      "type": "ACTUAL"
+    },
+    "phases": [
+      "PHASE3"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n1. Participant must be \u2265 18 years at the time of screening.\n2. Histologically confirmed invasive TNBC, as defined by the ASCO/CAP guidelines.\n3. Residual invasive disease in the breast and/or axillary lymph node(s) at surgical resection following neoadjuvant therapy.\n4. Completed at least 6 cycles of neoadjuvant therapy containing an anthracycline and/or a taxane with or without platinum chemotherapy, with or without pembrolizumab.\n5. No evidence of locoregional or distant relapse.\n6. Surgical removal of all clinically evident disease in the breast and lymph nodes.\n7. ECOG performance status of 0 or 1 with no deterioration over the previous 2 weeks prior to randomisation.\n8. All participants must provide an FFPE tumour sample from residual invasive disease at surgery for tissue-based analysis.\n9. No adjuvant systemic therapy.\n10. Radiotherapy (if indicated) delivered before the start of study intervention.\n11. If post-operative radiation therapy is given, an interval of no more than 6 weeks between the completion of radiation therapy and the date of randomisation (radiation therapy can be completed during screening period). If no post-operative radiation therapy is given, an interval of no more than 16 weeks between the date of breast surgery and the date of randomisation.\n12. Has LVEF \u2265 50% by either an ECHO or MUGA scan within 28 days before randomisation.\n13. Eligible for one of the therapy options listed as investigator's choice per investigator assessment.\n14. No known germline BRCA1 or BRCA2 pathogenic mutation.\n15. Adequate bone marrow reserve and organ function within 7 days before randomisation.\n\nExclusion Criteria:\n\n1. Stage IV (metastatic) TNBC.\n2. History of prior invasive breast cancer, or evidence of recurrent disease following preoperative therapy and surgery.\n3. Severe or uncontrolled medical conditions including systemic diseases, history of allogeneic organ transplant and active bleeding diseases, ongoing or active infection, serious chronic gastrointestinal conditions associated with diarrhea chronic diverticulitis or previous complicated diverticulitis.\n4. History of another primary malignancy except for adequately resected basal cell carcinoma of the skin or squamous cell carcinoma of the skin, in situ disease (including ductal carcinoma in situ) that has undergone potentially curative therapy, or other solid malignancy treated with curative intent with no known active disease within 5 years before randomisation and of low potential risk for recurrence.\n5. Persistent toxicities caused by previous anticancer therapy, excluding alopecia, not yet improved to Grade \u2264 1 or baseline. Participants with irreversible toxicity that is not reasonably expected to be exacerbated by study intervention may be included (eg, hearing loss).\n6. Active or prior documented autoimmune or inflammatory disorders.\n7. Clinically significant corneal disease.\n8. Active or uncontrolled hepatitis B or C virus infection.\n9. Known HIV infection that is not well controlled\n10. Active tuberculosis infection.\n11. Mean resting corrected QTcF \\> 470 ms regardless of gender, obtained from triplicate 12-lead ECGs performed at screening.\n12. Uncontrolled or significant cardiac disease.\n13. History of non-infectious ILD/pneumonitis including radiation, pneumonitis that required steroids, has current ILD/pneumonitis, or has suspected ILD/pneumonitis that cannot be ruled out by imaging at screening.\n14. Has severe pulmonary function compromise.\n15. Any known active liver disease.\n16. Grade \u2265 2 peripheral neuropathy of any aetiology.\n17. Prior exposure to a PD-1/PD-L1 inhibitor other than pembrolizumab.\n18. Current or prior use of immunosuppressive medication within 14 days prior to randomisation.\n19. Participants with a known severe hypersensitivity to Dato-DXd or any of the excipients of these products including but not limited to polysorbate 80 or other monoclonal antibodies.\n20. Participants with a known severe hypersensitivity to PD-1/PD-L1 inhibitors.\n21. Participation in another clinical study with a study intervention or investigational medicinal device administered in the last 4 weeks prior to randomisation, randomisation into a prior Dato-DXd, T-DXd, or durvalumab study regardless of treatment assignment.\n22. Currently pregnant (confirmed with positive pregnancy test), breastfeeding or planning to become pregnant.",
+    "healthyVolunteers": false,
+    "maximumAge": "130 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "A Study of Dato-DXd With or Without Durvalumab Versus Investigator's Choice of Therapy in Patients With Stage I-III Triple-negative Breast Cancer Without Pathological Complete Response Following Neoadjuvant Therapy (TROPION-Breast03)",
+    "nctId": "NCT05629585",
+    "officialTitle": "A Phase 3 Open-label, Randomised Study of Datopotamab Deruxtecan (DatoDXd) With or Without Durvalumab Versus Investigator's Choice of Therapy in Patients With Stage I-III Triple-negative Breast Cancer Who Have Residual Invasive Disease in the Breast and/or Axillary Lymph Nodes at Surgical Resection Following Neoadjuvant Systemic Therapy (TROPION-Breast03)",
+    "orgStudyIdInfo": {
+      "id": "D926XC00001"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "AstraZeneca"
+    },
+    "secondaryIdInfos": [
+      {
+        "domain": "CTIS (EU)",
+        "id": "2023-505552-22-00",
+        "type": "REGISTRY"
+      },
+      {
+        "id": "2022-002680-30",
+        "type": "EUDRACT_NUMBER"
+      },
+      {
+        "id": "2023",
+        "link": "https://reporter.nih.gov/quickSearch/2023",
+        "type": "NIH"
+      }
+    ]
+  },
+  "ipdSharingStatementModule": {
+    "accessCriteria": "When a request has been approved AstraZeneca will provide access to the de-identified individual patient-level data in an approved sponsored tool. Signed Data Sharing Agreement (non-negotiable contract for data accessors) must be in place before accessing requested information. Additionally, all users will need to accept the terms and conditions of the SAS MSE to gain access. For additional details, please review the Disclosure Statements at https://astrazenecagrouptrials.pharmacm.com/ST/Submission/Disclosure.",
+    "description": "Qualified researchers can request access to anonymized individual patient-level data from AstraZeneca group of companies sponsored clinical trials via the request portal. All requests will be evaluated as per the AZ disclosure commitment: https://astrazenecagrouptrials.pharmacm.com/ST/Submission/Disclosure\n\nYes, indicates that AZ are accepting requests for IPD, but this does not mean all requests will be shared.",
+    "infoTypes": [
+      "STUDY_PROTOCOL",
+      "SAP"
+    ],
+    "ipdSharing": "YES",
+    "timeFrame": "AstraZeneca will meet or exceed data availability as per the commitments made to the EFPIA Pharma Data Sharing Principles. For details of our timelines, please rerefer to our disclosure commitment at https://astrazenecagrouptrials.pharmacm.com/ST/Submission/Disclosure",
+    "url": "https://astrazenecagroup-dt.pharmacm.com/DT/Home"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "iDFS is defined as time from randomisation until date of first occurrence of one of the following events: ipsilateral invasive breast tumour (local) recurrence, regional invasive breast cancer recurrence (axilla, regional lymph nodes, chest wall, and skin of ipsilateral breast), or distant recurrence (metastatic breast cancer that has either been biopsy-confirmed or clinically diagnosed as recurrent invasive breast cancer); contralateral invasive breast cancer; second primary non-breast invasive cancer (other than squamous or basal cell skin cancer); or death from any cause.\n\niDFS will be determined based on disease recurrence per investigator assessment based on all available clinical assessments. The analysis will include all randomised participants, as randomised, regardless of whether the participant withdraws from randomised therapy or receives another anticancer therapy.\n\nThe measure of interest will be the HR (hazard ratio) of iDFS for Dato-DXd + durvalumab vs ICT.",
+        "measure": "Invasive disease-free survival (iDFS) for Dato-DXd + durvalumab vs. ICT",
+        "timeFrame": "From randomisation to date of the event, up to 57 months from first subject in"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "DDFS is defined as time from randomisation to date of first distant recurrence, occurrence of second primary non-breast invasive cancer, or death from any cause.\n\nDDFS is determined based on disease recurrence per investigators assessment based on all available clinical assessments.\n\nThe analysis will include all randomised participants, as randomised regardless of whether the participant withdraws from randomised therapy or received another anticancer therapy. The measure of interest will be the HR (hazard ratio) of DDFS for Dato-DXd + durvalumab vs ICT.",
+        "measure": "Distant disease-free survival (DDFS) for Dato-DXd + durvalumab vs ICT",
+        "timeFrame": "From randomisation to date of the event, up to 57 months from first subject in"
+      },
+      {
+        "description": "DDFS is defined as time from randomisation to date of first distant recurrence, occurrence of second primary non-breast invasive cancer, or death from any cause. DDFS is determined based on disease recurrence per investigators assessment based on all available clinical assessments. The measure of interest will be the HR (hazard ratio) of DDFS for Dato-DXd vs ICT.",
+        "measure": "DDFS for Dato-DXd vs ICT",
+        "timeFrame": "From randomisation to date of the event, up to 57 months from first subject in"
+      },
+      {
+        "description": "DDFS is defined as time from randomisation to date of first distant recurrence, occurrence of second primary non-breast invasive cancer, or death from any cause. DDFS is determined based on disease recurrence per investigators assessment based on all available clinical assessments. The measure of interest will be the HR (hazard ratio) of DDFS for Dato-DXd + durvalumab vs Dato-DXd.",
+        "measure": "DDFS for Dato-DXd + durvalumab vs Dato-DXd",
+        "timeFrame": "From randomisation to date of the event, up 57 months from first subject in"
+      },
+      {
+        "description": "OS is defined as time from randomisation until date of death due to any cause.\n\nThe analysis will include all randomised participants, as randomised regardless of whether the participant withdraws from randomised therapy or received another anticancer therapy. The measure of interest will be the HR (hazard ratio) of OS for Dato-DXd + durvalumab vs ICT.",
+        "measure": "Overall Survival (OS) for Dato-DXd + durvalumab vs ICT",
+        "timeFrame": "From randomisation to date of death, due to any cause, up to 87 months from first subject in"
+      },
+      {
+        "description": "OS is defined as time from randomisation until date of death due to any cause. The measure of interest will be the HR (hazard ratio) of OS for Dato-DXd vs ICT.",
+        "measure": "OS for Dato-DXd vs ICT",
+        "timeFrame": "From randomisation to date of death, due to any cause, up to 87 months from first subject in"
+      },
+      {
+        "description": "iDFS is defined as time from randomisation until date of first occurrence of one of the following events: ipsilateral invasive breast tumour (local) recurrence, regional invasive breast cancer recurrence (axilla, regional lymph nodes, chest wall, and skin of ipsilateral breast), or distant recurrence (metastatic breast cancer that has either been biopsy-confirmed or clinically diagnosed as recurrent invasive breast cancer); contralateral invasive breast cancer; second primary non-breast invasive cancer (other than squamous or basal cell skin cancer); or death from any cause.\n\niDFS will be determined based on disease recurrence per investigator assessment based on all available clinical assessments. The analysis will include all randomised participants, as randomised, regardless of whether the participant withdraws from randomised therapy or receives another anticancer therapy.\n\nThe measure of interest will be the HR (hazard ratio) of iDFS for Dato-DXd vs ICT.",
+        "measure": "iDFS for Dato-DXd vs ICT",
+        "timeFrame": "From randomisation to date of the event, up to 57 months from first subject in"
+      },
+      {
+        "description": "iDFS is defined as time from randomisation until date of first occurrence of one of the following events: ipsilateral invasive breast tumour (local) recurrence, regional invasive breast cancer recurrence (axilla, regional lymph nodes, chest wall, and skin of ipsilateral breast), or distant recurrence (metastatic breast cancer that has either been biopsy-confirmed or clinically diagnosed as recurrent invasive breast cancer); contralateral invasive breast cancer; second primary non-breast invasive cancer (other than squamous or basal cell skin cancer); or death from any cause. The measure of interest will be the HR (hazard ratio) of iDFS for Dato-DXd + durvalumab vs Dato-DXd.",
+        "measure": "iDFS for Dato-DXd + durvalumab vs Dato-DXd",
+        "timeFrame": "From randomisation to date of the event, up to 57 months from first subject in"
+      },
+      {
+        "description": "Time to Deterioration (TTD) and actual scores in physical function as measured by the PROMIS Physical Function Short Form 8c.TTD is defined as time from the date of randomisation to the date of deterioration. Deterioration is defined as change from baseline that reaches a clinically meaningful deterioration threshold.\n\nThe analysis will include all dosed participants. The measure of interest is the HR (hazard ratio) of TTD and mean between-arm difference in physical function for Dato-DXd with or without durvalumab compared with ICT.",
+        "measure": "Participant-reported physical function in participants treated with Dato-DXd with or without durvalumab compared with ICT",
+        "timeFrame": "From randomisation to date of the deterioration, up to 36 months after randomisation"
+      },
+      {
+        "description": "Time to Deterioration (TTD) and actual scores in GHS/QoL as measured by the GHS/QoL scale from the EORTC IL172.\n\nTTD is defined as time from the date of randomisation to the date of deterioration. Deterioration is defined as change from baseline that reaches a clinically meaningful deterioration threshold.\n\nThe analysis will include all randomised participants. The measure of interest is the HR (hazard ratio) of TTD and mean between-arm difference in GHS/QoL for Dato-DXd with or without durvalumab compared with ICT.",
+        "measure": "Participant-reported in GHS/QoL in participants treated with Dato-DXd with or without durvalumab compared with ICT",
+        "timeFrame": "From randomisation to date of the deterioration, up to 36 months after randomisation"
+      },
+      {
+        "description": "Proportion of participants experiencing different levels of fatigue at 3 months (13weeks), 6 months (26 weeks), and 12 months (52 weeks) as measured by PROMIS Fatigue Short Form 7a.\n\nThe analysis will include all dosed participants. The measure of interest will be the proportion of participants reporting different levels of fatigue.",
+        "measure": "Participant-reported fatigue in participants treated with Dato-DXd with or without durvalumab compared with ICT",
+        "timeFrame": "From randomisation to 24 months after randomisation"
+      },
+      {
+        "description": "Concentration of Dato- DXd, total anti-TROP2 antibody, and MAAA-1181 in plasma.",
+        "measure": "Pharmacokinetics of Dato-DXd",
+        "timeFrame": "Day 1 of cycles 1,2,4,6,8 (Each cycle is 21 days)"
+      },
+      {
+        "description": "Presence of ADAs for Dato-DXd (confirmatory results: positive or negative; titres).",
+        "measure": "Immunogenicity of Dato-DXd",
+        "timeFrame": "Day 1 of cycles 1,2,4,6,8 (Each cycle is 21 days) and within 35 days of completion of or discontinuation of study intervention (at an average of 6 months following randomization)"
+      },
+      {
+        "description": "Safety and tolerability will be evaluated in terms of AEs (graded by CTCAE version 5.0).",
+        "measure": "Incidence of Treatment-Emergent Adverse Events (Safety and Tolerability)",
+        "timeFrame": "Randomization to final safety follow-up visit, either 90 days after last dose of study intervention for those who complete planned study intervention or 90 days after date of discontinuation for those who discontinue study intervention prematurely"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "oversightHasDmc": true
+  },
+  "referencesModule": {
+    "references": [
+      {
+        "citation": "Bardia A, Pusztai L, Albain K, Ciruelos EM, Im SA, Hershman D, Kalinsky K, Isaacs C, Loirat D, Testa L, Tokunaga E, Wu J, Dry H, Barlow W, Kozarski R, Maxwell M, Harbeck N, Sharma P. TROPION-Breast03: a randomized phase III global trial of datopotamab deruxtecan +/- durvalumab in patients with triple-negative breast cancer and residual invasive disease at surgical resection after neoadjuvant therapy. Ther Adv Med Oncol. 2024 Apr 29;16:17588359241248336. doi: 10.1177/17588359241248336. eCollection 2024.",
+        "pmid": "38686016",
+        "type": "DERIVED"
+      }
+    ],
+    "seeAlsoLinks": [
+      {
+        "label": "Breast Cancer Study Locator details (for US)",
+        "url": "https://www.breastcancerstudylocator.com/trial/listing/369195"
+      }
+    ]
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "INDUSTRY",
+        "name": "Daiichi Sankyo"
+      },
+      {
+        "class": "OTHER",
+        "name": "SWOG Clinical Trials Partnerships, LLC"
+      }
+    ],
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "AstraZeneca"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2030-01-30",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-06-15",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-06-12",
+    "overallStatus": "ACTIVE_NOT_RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2027-09-20",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2022-11-28",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-06",
+    "studyFirstPostDateStruct": {
+      "date": "2022-11-29",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2022-11-04",
+    "studyFirstSubmitQcDate": "2022-11-17"
+  }
+}

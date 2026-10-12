@@ -1,0 +1,1157 @@
+{
+  "H17": {
+    "original_query": "Find clinical-stage anti-IL-4R\u03b1 antibodies for atopic dermatitis.",
+    "query_after_existing_affix_normalization": "Find clinical-stage      IL-4R\u03b1 antibodies for atopic dermatitis.",
+    "tokens": [
+      [
+        "Find",
+        0,
+        4
+      ],
+      [
+        "clinical-stage",
+        5,
+        19
+      ],
+      [
+        "IL-4R\u03b1",
+        25,
+        31
+      ],
+      [
+        "antibodies",
+        32,
+        42
+      ],
+      [
+        "for",
+        43,
+        46
+      ],
+      [
+        "atopic",
+        47,
+        53
+      ],
+      [
+        "dermatitis.",
+        54,
+        65
+      ]
+    ],
+    "exact_phrase": "IL-4R\u03b1",
+    "lookup_key": "il 4r\u03b1",
+    "resolution": {
+      "query": "IL-4R\u03b1",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "rule": "no_alias_match",
+      "basis": null,
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+    },
+    "intent": {
+      "original_query": "Find clinical-stage anti-IL-4R\u03b1 antibodies for atopic dermatitis.",
+      "compiler_version": "intent_v1",
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "IL-4R\u03b1",
+          "start": 25,
+          "end": 31,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "antibodies",
+          "start": 32,
+          "end": 42,
+          "kind": "MODALITY",
+          "resolved_to": "MONOCLONAL_ANTIBODY",
+          "rule": "modality_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "atopic",
+          "start": 47,
+          "end": 53,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "dermatitis",
+          "start": 54,
+          "end": 65,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        }
+      ],
+      "targets": [],
+      "target_operator": "ANY",
+      "modalities": [
+        "MONOCLONAL_ANTIBODY"
+      ],
+      "phases": [],
+      "phase_operator": "EXACT",
+      "conjunction_stated": false,
+      "statuses": [],
+      "human_poc_required": false,
+      "minimum_stage": "PHASE_1",
+      "unresolved_scientific_terms": [],
+      "residual_terms": [
+        "IL-4R\u03b1",
+        "atopic",
+        "dermatitis"
+      ],
+      "ambiguous_terms": [],
+      "warnings": [
+        "unrecognized terms carried as free text, not as resolved criteria: IL-4R\u03b1, atopic, dermatitis"
+      ]
+    },
+    "authority_entity": {
+      "canonical_id": "TARGET:IL4R",
+      "entity_type": "TARGET",
+      "canonical_symbol": "IL4R",
+      "label": "Interleukin-4 receptor subunit alpha",
+      "aliases": [
+        {
+          "value": "582J2.1",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "CD124",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL-4 receptor subunit alpha",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL-4R subunit alpha",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL-4R-alpha",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL-4RA",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL4-BP",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL4R",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL4RA",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "sIL4Ralpha/prot",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "Soluble IL-4 receptor subunit alpha",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "Soluble IL-4R-alpha",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "interleukin 4 receptor",
+          "alias_type": "APPROVED_NAME",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "Interleukin-4 receptor subunit alpha",
+          "alias_type": "APPROVED_NAME",
+          "sources": [
+            "chembl"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490"
+          ]
+        },
+        {
+          "value": "582J2.1",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "CD124",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL-4 receptor subunit alpha",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL-4-binding protein",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL-4R subunit alpha",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL-4R-alpha",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL-4RA",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL4-BP",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL4R",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "IL4RA",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "interleukin 13 receptor",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "interleukin-4 receptor alpha chain",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "Interleukin-4 receptor subunit alpha",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "sIL4Ralpha/prot",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "Soluble IL-4 receptor subunit alpha",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "Soluble IL-4R-alpha",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        },
+        {
+          "value": "Soluble interleukin-4 receptor subunit alpha",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL3580490",
+            "open_targets:ENSG00000077238"
+          ]
+        }
+      ],
+      "source_records": [
+        {
+          "source": "chembl",
+          "source_id": "CHEMBL3580490",
+          "entity_type": "TARGET",
+          "canonical_symbol": "IL4R",
+          "label": "Interleukin-4 receptor subunit alpha",
+          "aliases": [
+            {
+              "value": "CD124",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4-binding protein",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL4-BP",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL4R",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "IL-4RA",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL4RA",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4R-alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4 receptor subunit alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4R subunit alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Interleukin-4 receptor subunit alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "sIL4Ralpha/prot",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Soluble IL-4R-alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Soluble IL-4 receptor subunit alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Soluble interleukin-4 receptor subunit alpha",
+              "alias_type": "SYNONYM"
+            }
+          ],
+          "xrefs": {
+            "chembl": [
+              "CHEMBL3580490"
+            ],
+            "uniprot": [
+              "P24394"
+            ]
+          }
+        },
+        {
+          "source": "open_targets",
+          "source_id": "ENSG00000077238",
+          "entity_type": "TARGET",
+          "canonical_symbol": "IL4R",
+          "label": "interleukin 4 receptor",
+          "aliases": [
+            {
+              "value": "Interleukin-4 receptor subunit alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Soluble interleukin-4 receptor subunit alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4 receptor subunit alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4R subunit alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4R-alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4RA",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "CD124",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Soluble IL-4 receptor subunit alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Soluble IL-4R-alpha",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "sIL4Ralpha/prot",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL4-BP",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL4R",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL4RA",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "582J2.1",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4-binding protein",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "interleukin 13 receptor",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "interleukin-4 receptor alpha chain",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "IL-4 receptor subunit alpha",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "IL-4R subunit alpha",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "IL-4R-alpha",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "IL-4RA",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "CD124",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "Soluble IL-4 receptor subunit alpha",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "Soluble IL-4R-alpha",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "sIL4Ralpha/prot",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "IL4-BP",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "IL4R",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "IL4RA",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "582J2.1",
+              "alias_type": "SYMBOL"
+            }
+          ],
+          "xrefs": {
+            "ensembl": [
+              "ENSG00000077238"
+            ],
+            "uniprot": [
+              "P24394",
+              "A0A0G2JLA1",
+              "H3BRH7",
+              "H3BSE7",
+              "H3BTD9",
+              "I3L4H7",
+              "I3L4W9",
+              "J9JII2",
+              "Q5FC08",
+              "B4E076",
+              "B9EKU8",
+              "H3BSY5",
+              "Q96P01",
+              "Q9H181",
+              "Q9H182",
+              "Q9H183",
+              "Q9H184",
+              "Q9H185",
+              "Q9H186",
+              "Q9H187",
+              "Q9H188"
+            ]
+          }
+        }
+      ],
+      "conflicts": [],
+      "identifier_edges": [
+        "uniprot:P24394"
+      ]
+    },
+    "scope": "Only exact original query parsed offline, original target phrase resolved, intended entity metadata read. No alternate query or live engine run."
+  },
+  "H20": {
+    "original_query": "Find clinical-stage factor XI inhibitors for prevention of thrombosis.",
+    "query_after_existing_affix_normalization": "Find clinical-stage factor XI inhibitors for prevention of thrombosis.",
+    "tokens": [
+      [
+        "Find",
+        0,
+        4
+      ],
+      [
+        "clinical-stage",
+        5,
+        19
+      ],
+      [
+        "factor",
+        20,
+        26
+      ],
+      [
+        "XI",
+        27,
+        29
+      ],
+      [
+        "inhibitors",
+        30,
+        40
+      ],
+      [
+        "for",
+        41,
+        44
+      ],
+      [
+        "prevention",
+        45,
+        55
+      ],
+      [
+        "of",
+        56,
+        58
+      ],
+      [
+        "thrombosis.",
+        59,
+        70
+      ]
+    ],
+    "exact_phrase": "factor XI",
+    "lookup_key": "factor xi",
+    "resolution": {
+      "query": "factor XI",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "rule": "no_alias_match",
+      "basis": null,
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+    },
+    "intent": {
+      "original_query": "Find clinical-stage factor XI inhibitors for prevention of thrombosis.",
+      "compiler_version": "intent_v1",
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "factor",
+          "start": 20,
+          "end": 26,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "XI",
+          "start": 27,
+          "end": 29,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "inhibitors",
+          "start": 30,
+          "end": 40,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "prevention",
+          "start": 45,
+          "end": 55,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "thrombosis",
+          "start": 59,
+          "end": 70,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        }
+      ],
+      "targets": [],
+      "target_operator": "ANY",
+      "modalities": [],
+      "phases": [],
+      "phase_operator": "EXACT",
+      "conjunction_stated": false,
+      "statuses": [],
+      "human_poc_required": false,
+      "minimum_stage": "PHASE_1",
+      "unresolved_scientific_terms": [],
+      "residual_terms": [
+        "factor",
+        "XI",
+        "inhibitors",
+        "prevention",
+        "thrombosis"
+      ],
+      "ambiguous_terms": [],
+      "warnings": [
+        "unrecognized terms carried as free text, not as resolved criteria: factor, XI, inhibitors, prevention, thrombosis"
+      ]
+    },
+    "authority_entity": {
+      "canonical_id": "TARGET:F11",
+      "entity_type": "TARGET",
+      "canonical_symbol": "F11",
+      "label": "Coagulation factor XI",
+      "aliases": [
+        {
+          "value": "F11",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL2820",
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "FXI",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "PTA",
+          "alias_type": "SYMBOL",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "Coagulation factor XI",
+          "alias_type": "APPROVED_NAME",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL2820",
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "coagualtion factor XI",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "Coagulation factor XI",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL2820",
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "Coagulation factor XIa heavy chain",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL2820",
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "Coagulation factor XIa light chain",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL2820",
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "F11",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "open_targets"
+          ],
+          "record_keys": [
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "FXI",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL2820",
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "Plasma thromboplastin antecedent",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL2820",
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "PTA",
+          "alias_type": "SYNONYM",
+          "sources": [
+            "chembl",
+            "open_targets"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL2820",
+            "open_targets:ENSG00000088926"
+          ]
+        },
+        {
+          "value": "3.4.21.27",
+          "alias_type": "XREF",
+          "sources": [
+            "chembl"
+          ],
+          "record_keys": [
+            "chembl:CHEMBL2820"
+          ]
+        }
+      ],
+      "source_records": [
+        {
+          "source": "chembl",
+          "source_id": "CHEMBL2820",
+          "entity_type": "TARGET",
+          "canonical_symbol": "F11",
+          "label": "Coagulation factor XI",
+          "aliases": [
+            {
+              "value": "3.4.21.27",
+              "alias_type": "XREF"
+            },
+            {
+              "value": "Coagulation factor XI",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Coagulation factor XIa heavy chain",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Coagulation factor XIa light chain",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "F11",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "FXI",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Plasma thromboplastin antecedent",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "PTA",
+              "alias_type": "SYNONYM"
+            }
+          ],
+          "xrefs": {
+            "chembl": [
+              "CHEMBL2820"
+            ],
+            "uniprot": [
+              "P03951"
+            ]
+          }
+        },
+        {
+          "source": "open_targets",
+          "source_id": "ENSG00000088926",
+          "entity_type": "TARGET",
+          "canonical_symbol": "F11",
+          "label": "coagulation factor XI",
+          "aliases": [
+            {
+              "value": "Coagulation factor XI",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Coagulation factor XIa heavy chain",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Coagulation factor XIa light chain",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "FXI",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "PTA",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "F11",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "Plasma thromboplastin antecedent",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "coagualtion factor XI",
+              "alias_type": "SYNONYM"
+            },
+            {
+              "value": "FXI",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "PTA",
+              "alias_type": "SYMBOL"
+            },
+            {
+              "value": "F11",
+              "alias_type": "SYMBOL"
+            }
+          ],
+          "xrefs": {
+            "ensembl": [
+              "ENSG00000088926"
+            ],
+            "uniprot": [
+              "P03951",
+              "D6RB32",
+              "H0Y596",
+              "X6R3B1",
+              "D3DP64",
+              "Q4W5C2",
+              "Q9Y495"
+            ]
+          }
+        }
+      ],
+      "conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'f11' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:F11",
+            "TARGET:ZNF160"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'pta' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:F11",
+            "TARGET:PTCRA"
+          ]
+        }
+      ],
+      "identifier_edges": [
+        "uniprot:P03951"
+      ]
+    },
+    "scope": "Only exact original query parsed offline, original target phrase resolved, intended entity metadata read. No alternate query or live engine run."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "selected": "PEPTIDE",
+  "matched_terms": [
+    {
+      "modality": "ANTIBODY_DRUG_CONJUGATE",
+      "matched_terms": [
+        "adc"
+      ],
+      "longest_length": 3
+    },
+    {
+      "modality": "FUSION_PROTEIN",
+      "matched_terms": [
+        "trap"
+      ],
+      "longest_length": 4
+    },
+    {
+      "modality": "MONOCLONAL_ANTIBODY",
+      "matched_terms": [
+        "igg",
+        "mab"
+      ],
+      "longest_length": 3
+    },
+    {
+      "modality": "PEPTIDE",
+      "matched_terms": [
+        "peptide",
+        "peptide"
+      ],
+      "longest_length": 7
+    }
+  ],
+  "intervention_context": "dato-dxd dato-dxd is an adc comprised of a recombinant humanised anti-trop2 igg1 mab, maap-9001a, which is covalently conjugated via a cleavable drug-linker, maaa1162a (the complex of maaa-1181a and a maleimide tetrapeptide linker), using thioether bonds to the topoisomerase i inhibitor dxd. datopotamab deruxtecan (dato-dxd, ds-1062a)",
+  "requested_modalities": [],
+  "claim_id": "claim:2022030306a59db4acec",
+  "note": "Exact saved intervention name+description+otherNames and existing modality_in classifier. Target vocabulary omitted because unused by this method; no source query or live run."
+}

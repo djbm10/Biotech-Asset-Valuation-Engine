@@ -1,0 +1,1564 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Dato-DXd will be evaluated as monotherapy",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)"
+        ],
+        "label": "Substudy-1A",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd in combination with capecitabine will be evaluated",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)",
+          "Drug: Capecitabine"
+        ],
+        "label": "Substudy-2A",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd in combination with 5-FU will be evaluated",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)",
+          "Drug: 5-Fluorouracil"
+        ],
+        "label": "Substudy-2B",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd will be evaluated as monotherapy",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)"
+        ],
+        "label": "Substudy-3A",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd will be evaluated in combination with prednisone/prednisolone",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)",
+          "Drug: Prednisone/ prednisolone"
+        ],
+        "label": "Substudy-3C",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd will be evaluated as monotherapy",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)"
+        ],
+        "label": "Substudy-4A",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd in combination with carboplatin + bevacizumab followed by Dato-DXd + bevacizumab will be evaluated",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)",
+          "Drug: Carboplatin",
+          "Drug: Bevacizumab"
+        ],
+        "label": "Substudy-4C",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd will be evaluated as monotherapy",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)"
+        ],
+        "label": "Substudy-5A",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd in combination with volrustomig (MEDI5752) will be evaluated",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)",
+          "Drug: Volrustomig"
+        ],
+        "label": "Substudy-6A",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Data-DXd in combination with rilvegostomig (AZD2936) will be evaluated",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)",
+          "Drug: Rilvegostomig"
+        ],
+        "label": "Substudy-6B",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd will be evaluated as monotherapy",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)"
+        ],
+        "label": "Substudy-6C",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd in combination with carboplatin or cisplatin will be evaluated",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)",
+          "Drug: Carboplatin",
+          "Drug: Cisplatin"
+        ],
+        "label": "Substudy-6D",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd in combination with rilvegostomig (AZD2936) will be evaluated",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)",
+          "Drug: Rilvegostomig"
+        ],
+        "label": "Substudy-6E",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dato-DXd will be evaluated as monotherapy",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)"
+        ],
+        "label": "Substudy-7A",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Substudy-1A",
+          "Substudy-2A",
+          "Substudy-2B",
+          "Substudy-3A",
+          "Substudy-3C",
+          "Substudy-4A",
+          "Substudy-4C",
+          "Substudy-5A",
+          "Substudy-6A",
+          "Substudy-6B",
+          "Substudy-6C",
+          "Substudy-6D",
+          "Substudy-6E",
+          "Substudy-7A"
+        ],
+        "description": "Intravenous (IV) Antibody drug conjugate",
+        "name": "Datopotamab deruxtecan (Dato-DXd)",
+        "otherNames": [
+          "DS-1062a"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Substudy-2A"
+        ],
+        "description": "Administered orally",
+        "name": "Capecitabine",
+        "otherNames": [
+          "Xeloda"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Substudy-2B"
+        ],
+        "description": "Administered as an IV",
+        "name": "5-Fluorouracil",
+        "otherNames": [
+          "Adrucil"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Substudy-6A"
+        ],
+        "description": "Administered as an IV",
+        "name": "Volrustomig",
+        "otherNames": [
+          "MEDI5752"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Substudy-4C",
+          "Substudy-6D"
+        ],
+        "description": "Administered as an IV",
+        "name": "Carboplatin",
+        "otherNames": [
+          "Paraplatin"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Substudy-4C"
+        ],
+        "description": "Administered as an IV",
+        "name": "Bevacizumab",
+        "otherNames": [
+          "Avastin"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Substudy-6B",
+          "Substudy-6E"
+        ],
+        "description": "Administered as an IV",
+        "name": "Rilvegostomig",
+        "otherNames": [
+          "AZD2936"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Substudy-3C"
+        ],
+        "description": "Administered orally",
+        "name": "Prednisone/ prednisolone",
+        "otherNames": [
+          "Prednisolone"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Substudy-6D"
+        ],
+        "description": "Administered as an IV",
+        "name": "Cisplatin",
+        "otherNames": [
+          "Platinol"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Endometrial Cancer",
+      "Gastric Cancer",
+      "Metastatic Castration-resistant Prostate Cancer",
+      "Ovarian Cancer",
+      "Colorectal Cancer",
+      "Urothelial Cancer",
+      "Biliary Tract Cancer"
+    ],
+    "keywords": [
+      "TROPION-PanTumor03",
+      "Datopotamab Deruxtecan (Dato-DXd)",
+      "Solid Tumours",
+      "Antibody-drug conjugate (ADC)",
+      "Trophoblast cell surface protein 2 (TROP2)"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "information.center@astrazeneca.com",
+        "name": "AstraZeneca Clinical Study Information Center",
+        "phone": "1-877-240-9479",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Los Angeles",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.05223,
+          "lon": -118.24368
+        },
+        "state": "California",
+        "status": "RECRUITING",
+        "zip": "90095"
+      },
+      {
+        "city": "San Diego",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 32.71571,
+          "lon": -117.16472
+        },
+        "state": "California",
+        "status": "WITHDRAWN",
+        "zip": "92103"
+      },
+      {
+        "city": "Santa Rosa",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.44047,
+          "lon": -122.71443
+        },
+        "state": "California",
+        "status": "RECRUITING",
+        "zip": "95403"
+      },
+      {
+        "city": "Muncie",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.19338,
+          "lon": -85.38636
+        },
+        "state": "Indiana",
+        "status": "WITHDRAWN",
+        "zip": "47303"
+      },
+      {
+        "city": "Kansas City",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.11417,
+          "lon": -94.62746
+        },
+        "state": "Kansas",
+        "status": "WITHDRAWN",
+        "zip": "66160"
+      },
+      {
+        "city": "Boston",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.35843,
+          "lon": -71.05977
+        },
+        "state": "Massachusetts",
+        "status": "WITHDRAWN",
+        "zip": "02114"
+      },
+      {
+        "city": "Boston",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.35843,
+          "lon": -71.05977
+        },
+        "state": "Massachusetts",
+        "status": "COMPLETED",
+        "zip": "02215"
+      },
+      {
+        "city": "Grand Rapids",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.96336,
+          "lon": -85.66809
+        },
+        "state": "Michigan",
+        "status": "RECRUITING",
+        "zip": "49503"
+      },
+      {
+        "city": "East Brunswick",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.42788,
+          "lon": -74.41598
+        },
+        "state": "New Jersey",
+        "status": "RECRUITING",
+        "zip": "08816"
+      },
+      {
+        "city": "Albuquerque",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.08449,
+          "lon": -106.65114
+        },
+        "state": "New Mexico",
+        "status": "RECRUITING",
+        "zip": "87109"
+      },
+      {
+        "city": "Commack",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.84288,
+          "lon": -73.29289
+        },
+        "state": "New York",
+        "status": "RECRUITING",
+        "zip": "11725"
+      },
+      {
+        "city": "Cincinnati",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.12711,
+          "lon": -84.51439
+        },
+        "state": "Ohio",
+        "status": "RECRUITING",
+        "zip": "45219"
+      },
+      {
+        "city": "Columbus",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.96118,
+          "lon": -82.99879
+        },
+        "state": "Ohio",
+        "status": "RECRUITING",
+        "zip": "43219"
+      },
+      {
+        "city": "Portland",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.52345,
+          "lon": -122.67621
+        },
+        "state": "Oregon",
+        "status": "WITHDRAWN",
+        "zip": "97239"
+      },
+      {
+        "city": "Nashville",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.16589,
+          "lon": -86.78444
+        },
+        "state": "Tennessee",
+        "status": "RECRUITING",
+        "zip": "37203"
+      },
+      {
+        "city": "Nashville",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.16589,
+          "lon": -86.78444
+        },
+        "state": "Tennessee",
+        "status": "WITHDRAWN",
+        "zip": "37232"
+      },
+      {
+        "city": "Houston",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 29.76328,
+          "lon": -95.36327
+        },
+        "state": "Texas",
+        "status": "RECRUITING",
+        "zip": "77030"
+      },
+      {
+        "city": "Madison",
+        "country": "United States",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.07305,
+          "lon": -89.40123
+        },
+        "state": "Wisconsin",
+        "status": "RECRUITING",
+        "zip": "53792"
+      },
+      {
+        "city": "Toronto",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.70643,
+          "lon": -79.39864
+        },
+        "state": "Ontario",
+        "status": "WITHDRAWN",
+        "zip": "M4N 3M5"
+      },
+      {
+        "city": "Toronto",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.70643,
+          "lon": -79.39864
+        },
+        "state": "Ontario",
+        "status": "COMPLETED",
+        "zip": "M5G 2M9"
+      },
+      {
+        "city": "Montreal",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.50884,
+          "lon": -73.58781
+        },
+        "state": "Quebec",
+        "status": "WITHDRAWN",
+        "zip": "H2X 0A9"
+      },
+      {
+        "city": "Montreal",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.50884,
+          "lon": -73.58781
+        },
+        "state": "Quebec",
+        "status": "COMPLETED",
+        "zip": "H4A 3J1"
+      },
+      {
+        "city": "Qu\u00e9bec",
+        "country": "Canada",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 46.81228,
+          "lon": -71.21454
+        },
+        "state": "Quebec",
+        "status": "ACTIVE_NOT_RECRUITING",
+        "zip": "G1J 1Z4"
+      },
+      {
+        "city": "Changsha",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 28.19874,
+          "lon": 112.97087
+        },
+        "status": "WITHDRAWN",
+        "zip": "410013"
+      },
+      {
+        "city": "Chongqing",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 29.56026,
+          "lon": 106.55771
+        },
+        "status": "WITHDRAWN",
+        "zip": "400030"
+      },
+      {
+        "city": "Guangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 23.11667,
+          "lon": 113.25
+        },
+        "status": "COMPLETED",
+        "zip": "510060"
+      },
+      {
+        "city": "Guangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 23.11667,
+          "lon": 113.25
+        },
+        "status": "RECRUITING",
+        "zip": "510060"
+      },
+      {
+        "city": "Guangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 23.11667,
+          "lon": 113.25
+        },
+        "status": "WITHDRAWN",
+        "zip": "510120"
+      },
+      {
+        "city": "Hangzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.29365,
+          "lon": 120.16142
+        },
+        "status": "RECRUITING",
+        "zip": "310020"
+      },
+      {
+        "city": "Hefei",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 31.86389,
+          "lon": 117.28083
+        },
+        "status": "WITHDRAWN",
+        "zip": "230001"
+      },
+      {
+        "city": "Shanghai",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 31.22222,
+          "lon": 121.45806
+        },
+        "status": "RECRUITING",
+        "zip": "200032"
+      },
+      {
+        "city": "Shanghai",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 31.22222,
+          "lon": 121.45806
+        },
+        "status": "NOT_YET_RECRUITING",
+        "zip": "200032"
+      },
+      {
+        "city": "Shenyang",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.79222,
+          "lon": 123.43278
+        },
+        "status": "WITHDRAWN",
+        "zip": "110016"
+      },
+      {
+        "city": "Wuhan",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.58333,
+          "lon": 114.26667
+        },
+        "status": "WITHDRAWN",
+        "zip": "430030"
+      },
+      {
+        "city": "Wuhan",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 30.58333,
+          "lon": 114.26667
+        },
+        "status": "WITHDRAWN",
+        "zip": "430079"
+      },
+      {
+        "city": "Xi'an",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.25833,
+          "lon": 108.92861
+        },
+        "status": "WITHDRAWN",
+        "zip": "710000"
+      },
+      {
+        "city": "Zhengzhou",
+        "country": "China",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 34.75778,
+          "lon": 113.64861
+        },
+        "status": "RECRUITING",
+        "zip": "450052"
+      },
+      {
+        "city": "Bordeaux",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 44.84124,
+          "lon": -0.58046
+        },
+        "status": "RECRUITING",
+        "zip": "33076"
+      },
+      {
+        "city": "Lyon",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.74906,
+          "lon": 4.84789
+        },
+        "status": "RECRUITING",
+        "zip": "69373"
+      },
+      {
+        "city": "Marseille",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.29695,
+          "lon": 5.38107
+        },
+        "status": "WITHDRAWN",
+        "zip": "13273"
+      },
+      {
+        "city": "Suresnes",
+        "country": "France",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 48.87143,
+          "lon": 2.22929
+        },
+        "status": "RECRUITING",
+        "zip": "92150"
+      },
+      {
+        "city": "Berlin",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 52.52437,
+          "lon": 13.41053
+        },
+        "status": "WITHDRAWN",
+        "zip": "10117"
+      },
+      {
+        "city": "Essen",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.45657,
+          "lon": 7.01228
+        },
+        "status": "WITHDRAWN",
+        "zip": "45136"
+      },
+      {
+        "city": "Hanover",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 52.37052,
+          "lon": 9.73322
+        },
+        "status": "WITHDRAWN",
+        "zip": "30625"
+      },
+      {
+        "city": "M\u00fcnchen",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.60698,
+          "lon": 13.31243
+        },
+        "status": "WITHDRAWN",
+        "zip": "81377"
+      },
+      {
+        "city": "Regensburg",
+        "country": "Germany",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 49.01513,
+          "lon": 12.10161
+        },
+        "status": "WITHDRAWN",
+        "zip": "93053"
+      },
+      {
+        "city": "Florence",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 43.77925,
+          "lon": 11.24626
+        },
+        "status": "WITHDRAWN",
+        "zip": "50139"
+      },
+      {
+        "city": "Genova",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 45.21604,
+          "lon": 11.87211
+        },
+        "status": "WITHDRAWN",
+        "zip": "16132"
+      },
+      {
+        "city": "Milan",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.78235,
+          "lon": 12.59836
+        },
+        "status": "RECRUITING",
+        "zip": "20132"
+      },
+      {
+        "city": "Milan",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.78235,
+          "lon": 12.59836
+        },
+        "status": "WITHDRAWN",
+        "zip": "20141"
+      },
+      {
+        "city": "Milan",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.78235,
+          "lon": 12.59836
+        },
+        "status": "RECRUITING",
+        "zip": "20162"
+      },
+      {
+        "city": "Naples",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.85216,
+          "lon": 14.26811
+        },
+        "status": "RECRUITING",
+        "zip": "80131"
+      },
+      {
+        "city": "Rome",
+        "country": "Italy",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.89193,
+          "lon": 12.51133
+        },
+        "status": "WITHDRAWN",
+        "zip": "00168"
+      },
+      {
+        "city": "Ch\u016b\u014dku",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 33.63867,
+          "lon": 130.67068
+        },
+        "status": "RECRUITING",
+        "zip": "104-0045"
+      },
+      {
+        "city": "Kashiwa",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.86224,
+          "lon": 139.97732
+        },
+        "status": "RECRUITING",
+        "zip": "277-8577"
+      },
+      {
+        "city": "K\u014dtoku",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.50417,
+          "lon": 143.14297
+        },
+        "status": "RECRUITING",
+        "zip": "135-8550"
+      },
+      {
+        "city": "Nagoya",
+        "country": "Japan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 35.18147,
+          "lon": 136.90641
+        },
+        "status": "RECRUITING",
+        "zip": "464-8681"
+      },
+      {
+        "city": "Shinagawa-ku",
+        "country": "Japan",
+        "facility": "Research Site",
+        "status": "RECRUITING",
+        "zip": "142-8666"
+      },
+      {
+        "city": "Suita-shi",
+        "country": "Japan",
+        "facility": "Research Site",
+        "status": "RECRUITING",
+        "zip": "565-0871"
+      },
+      {
+        "city": "Gliwice",
+        "country": "Poland",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.29761,
+          "lon": 18.67658
+        },
+        "status": "RECRUITING",
+        "zip": "44-102"
+      },
+      {
+        "city": "Krakow",
+        "country": "Poland",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 50.06143,
+          "lon": 19.93658
+        },
+        "status": "RECRUITING",
+        "zip": "31-501"
+      },
+      {
+        "city": "Lodz",
+        "country": "Poland",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.77058,
+          "lon": 19.47395
+        },
+        "status": "WITHDRAWN",
+        "zip": "92-213"
+      },
+      {
+        "city": "Poznan",
+        "country": "Poland",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 52.40692,
+          "lon": 16.92993
+        },
+        "status": "WITHDRAWN",
+        "zip": "61-866"
+      },
+      {
+        "city": "Warsaw",
+        "country": "Poland",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 52.22977,
+          "lon": 21.01178
+        },
+        "status": "COMPLETED",
+        "zip": "02-781"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "status": "RECRUITING",
+        "zip": "03722"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "status": "RECRUITING",
+        "zip": "05505"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "status": "RECRUITING",
+        "zip": "06351"
+      },
+      {
+        "city": "Seoul",
+        "country": "South Korea",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "status": "RECRUITING",
+        "zip": "110-744"
+      },
+      {
+        "city": "Barcelona",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.38879,
+          "lon": 2.15899
+        },
+        "status": "RECRUITING",
+        "zip": "8035"
+      },
+      {
+        "city": "C\u00f3rdoba",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.89155,
+          "lon": -4.77275
+        },
+        "status": "TERMINATED",
+        "zip": "14004"
+      },
+      {
+        "city": "Madrid",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 40.4165,
+          "lon": -3.70256
+        },
+        "status": "RECRUITING",
+        "zip": "28046"
+      },
+      {
+        "city": "M\u00e1laga",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 36.72016,
+          "lon": -4.42034
+        },
+        "status": "RECRUITING",
+        "zip": "29010"
+      },
+      {
+        "city": "Pamplona",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 42.81687,
+          "lon": -1.64323
+        },
+        "status": "RECRUITING",
+        "zip": "31008"
+      },
+      {
+        "city": "Seville",
+        "country": "Spain",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.38283,
+          "lon": -5.97317
+        },
+        "status": "RECRUITING",
+        "zip": "41013"
+      },
+      {
+        "city": "Basel",
+        "country": "Switzerland",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.55839,
+          "lon": 7.57327
+        },
+        "status": "WITHDRAWN",
+        "zip": "4031"
+      },
+      {
+        "city": "Bellinzona",
+        "country": "Switzerland",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 46.19278,
+          "lon": 9.01703
+        },
+        "status": "WITHDRAWN",
+        "zip": "6500"
+      },
+      {
+        "city": "Sankt Gallen",
+        "country": "Switzerland",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 47.42391,
+          "lon": 9.37477
+        },
+        "status": "WITHDRAWN",
+        "zip": "9007"
+      },
+      {
+        "city": "Liou Ying Township",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "status": "RECRUITING",
+        "zip": "736"
+      },
+      {
+        "city": "Taipei",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 25.05306,
+          "lon": 121.52639
+        },
+        "status": "RECRUITING",
+        "zip": "100"
+      },
+      {
+        "city": "Taipei",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 25.05306,
+          "lon": 121.52639
+        },
+        "status": "RECRUITING",
+        "zip": "11259"
+      },
+      {
+        "city": "Taipei",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 25.05306,
+          "lon": 121.52639
+        },
+        "status": "RECRUITING",
+        "zip": "112"
+      },
+      {
+        "city": "Taoyuan",
+        "country": "Taiwan",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 24.99368,
+          "lon": 121.29696
+        },
+        "status": "RECRUITING",
+        "zip": "333"
+      },
+      {
+        "city": "Ankara",
+        "country": "Turkey (T\u00fcrkiye)",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.91987,
+          "lon": 32.85427
+        },
+        "status": "RECRUITING",
+        "zip": "06620"
+      },
+      {
+        "city": "Ankara",
+        "country": "Turkey (T\u00fcrkiye)",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 39.91987,
+          "lon": 32.85427
+        },
+        "status": "RECRUITING",
+        "zip": "06800"
+      },
+      {
+        "city": "Cordaleo",
+        "country": "Turkey (T\u00fcrkiye)",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 38.45772,
+          "lon": 27.1142
+        },
+        "status": "RECRUITING",
+        "zip": "35575"
+      },
+      {
+        "city": "Edirne",
+        "country": "Turkey (T\u00fcrkiye)",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.67719,
+          "lon": 26.55597
+        },
+        "status": "RECRUITING",
+        "zip": "22030"
+      },
+      {
+        "city": "Kad\u0131koy/Istanbul",
+        "country": "Turkey (T\u00fcrkiye)",
+        "facility": "Research Site",
+        "status": "RECRUITING",
+        "zip": "34722"
+      },
+      {
+        "city": "Konya",
+        "country": "Turkey (T\u00fcrkiye)",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.87135,
+          "lon": 32.48464
+        },
+        "status": "RECRUITING",
+        "zip": "42080"
+      },
+      {
+        "city": "Pamukkale",
+        "country": "Turkey (T\u00fcrkiye)",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 37.91644,
+          "lon": 29.11729
+        },
+        "status": "RECRUITING",
+        "zip": "20070"
+      },
+      {
+        "city": "Samsun",
+        "country": "Turkey (T\u00fcrkiye)",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 41.27976,
+          "lon": 36.3361
+        },
+        "status": "WITHDRAWN",
+        "zip": "55139"
+      },
+      {
+        "city": "Cambridge",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 52.2,
+          "lon": 0.11667
+        },
+        "status": "RECRUITING",
+        "zip": "CB2 0QQ"
+      },
+      {
+        "city": "Dundee",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 56.46913,
+          "lon": -2.97489
+        },
+        "status": "RECRUITING",
+        "zip": "DD1 9SY"
+      },
+      {
+        "city": "London",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.50853,
+          "lon": -0.12574
+        },
+        "status": "RECRUITING",
+        "zip": "EC1A 7BE"
+      },
+      {
+        "city": "London",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.50853,
+          "lon": -0.12574
+        },
+        "status": "RECRUITING",
+        "zip": "NW1 2PG"
+      },
+      {
+        "city": "London",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 51.50853,
+          "lon": -0.12574
+        },
+        "status": "RECRUITING",
+        "zip": "SE1 9RT"
+      },
+      {
+        "city": "Manchester",
+        "country": "United Kingdom",
+        "facility": "Research Site",
+        "geoPoint": {
+          "lat": 53.48095,
+          "lon": -2.23743
+        },
+        "status": "RECRUITING",
+        "zip": "M20 4BX"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "AstraZeneca",
+        "name": "Global Clinical Lead, MD",
+        "role": "PRINCIPAL_INVESTIGATOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "TROPION-PanTumor03 will investigate the safety, tolerability, and anti-tumour activity of Datopotamab Deruxtecan (Dato-DXd) as Monotherapy and in Combination with Anticancer Agents in Patients with Advanced/Metastatic Solid Tumours.",
+    "detailedDescription": "This Phase II, open-label, uncontrolled, multicentre study evaluating the efficacy and safety of Dato-DXd as monotherapy (MONO) and in combination with anticancer agents (COMBO) in various advanced solid tumour types.\n\nThis study has a modular design, as such a master protocol with independent substudies enables simultaneous evaluation of the safety profile, recommended Phase II dose (RP2D), and efficacy of Dato-DXd in multiple disease populations and treatment combinations. This study will evaluate various solid tumour types, including endometrial cancer (Substudy 1), gastric cancer (Substudy 2), metastatic castration-resistant prostate cancer (mCRPC) (Substudy 3), ovarian cancer (Substudy 4), colorectal cancer (CRC) (Substudy 5), urothelial cancer (Substudy 6), and biliary tract cancer (Substudy 7) in the advanced or metastatic setting. Within each substudy, Dato-DXd will be evaluated as monotherapy (for all substudies except Substudy 2) and in combination with approved or novel anticancer agents that may be active in the tumour type being evaluated (for all substudies except Substudy 1 and Substudy 7)."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "interventionModelDescription": "Within each substudy, Dato-DXd will be evaluated as monotherapy (all except #2 Gastric Cancer) and in combination with approved or novel anticancer agents that may be active in the tumour type being evaluated (all except #1 Endometrial Cancer and #7 Biliary Tract Cancer). All substudies will be treatment assigned.\n\nSubstudy 1 (Endometrial): MONO: Dato-DXd\n\nSubstudy 2 (Gastric): COMBO: Dato-DXd + capecitabine, Dato-DXd + 5-fluorouracil (5-FU)\n\nSubstudy 3 (mCRPC): MONO: Dato-DXd; COMBO: Dato-DXd + prednisone/prednisolone\n\nSubstudy 4 (Ovarian): MONO: Dato-DXd; COMBO: Dato-DXd + carboplatin + bevacizumab --\\> Dato-DXd + bevacizumab\n\nSubstudy 5 (CRC): MONO: Dato-DXd; COMBO: Dato-DXd + 5-FU + leucovorin + bevacizumab or Dato-DXd + capecitabine + bevacizumab\n\nSubstudy 6 (Urothelial): MONO: Dato-DXd; COMBO: Dato-DXd + volrustomig, Dato-DXd + rilvegostomig, Dato-DXd + carboplatin or cisplatin\n\nSubstudy 7 (BTC): MONO: Dato-DXd",
+      "maskingInfo": {
+        "masking": "NONE",
+        "maskingDescription": "The study is open label. Patients will be assigned treatment in all Substudies."
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 454,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Key Inclusion Criteria: There are additional substudy requirements not reflected here. This list is based solely on the master CSP\n\n* Male and female, \u2265 18 years\n* Documented advanced or metastatic malignancy\n* Eastern Cooperative Oncology Group performance status of 0 or 1 with no deterioration over the 2 weeks prior to baseline or day of first dosing\n* All participants must provide a tumour sample for tissue-based analysis\n* At least 1 measurable lesion not previously irradiated, except Substudy 3 (Prostate Cancer) which allows participants with non measurable bone metastatic disease\n* Adequate bone marrow reserve and organ function\n* Minimum life expectancy of 12 weeks\n* At the time of screening, contraceptive use by men or women should be consistent with local regulations regarding the methods of contraception for those participating in clinical studies\n* All women of childbearing potential must have a negative serum pregnancy test documented during screening\n* Female participants must be 1 year post-menopausal, surgically sterile, or using 1 highly effective form of birth control. Female participants must not donate, or retrieve for their own use, ova at any time during this study\n* Male participants who intend to be sexually active with a female partner of childbearing potential must be surgically sterile, avoid intercourse, or use a highly effective method of contraception. Male participants must not freeze or donate sperm at any time during this study.\n* Capable of giving signed informed consent\n* Provision of signed and dated written optional genetic research informed consent prior to collection of samples for optional genetic research that supports the Genomic Initiative\n\nKey Exclusion Criteria:\n\n* Any evidence of diseases which, in the investigator's opinion, makes it undesirable for the participant to participate in the study or that would jeopardize compliance with the protocol\n* History of another primary malignancy except for adequately resected basal cell carcinoma or in situ squamous cell carcinoma of the skin, or other solid malignancy treated with curative intent\n* Persistent toxicities caused by previous anticancer therapy, excluding alopecia, not yet improved\n* Irreversible toxicity that is not reasonably expected to be exacerbated by study intervention in the opinion of the investigator, for example hearing loss\n* Spinal cord compression or brain metastases unless treated\n* Leptomeningeal carcinomatosis\n* Clinically significant corneal disease\n* Active hepatitis or uncontrolled hepatitis B or C virus infection\n* Uncontrolled infection requiring IV antibiotics, antivirals or antifungals, for example prodromal symptoms\n* Known HIV infection that is not well controlled\n* Known active tuberculosis infection\n* Mean resting corrected QTcF \\> 470 ms\n* In the judgement of the investigator, history of QT prolongation associated with other medications that required discontinuation of that medication, or any current concomitant medication known to prolong the QT interval and cause TdP\n* In the judgement of the investigator, congenital long QT syndrome, family history of long QT syndrome, or unexplained sudden death under 40 years of age in first-degree relatives\n* Uncontrolled or significant cardiac diseases\n* History of non-infectious Interstitial lung disease (ILD)/pneumonitis, including radiation pneumonitis that required steroids\n* Has severe pulmonary function compromise\n* Prior exposure to chloroquine/hydroxychloroquine without an adequate treatment washout period\n* Receipt of live, attenuated vaccine within 30 days prior to the first dose of study intervention\n* Prior exposure to anticancer therapies without an adequate treatment washout period prior to enrolment or any concurrent anticancer treatment\n* Palliative radiotherapy with a limited field of radiation within \u2264 2 weeks or to more than 30% of the bone marrow within \u2264 4 weeks before the first dose of study intervention\n* Major surgical procedure or significant traumatic injury within \u2264 3 weeks of the first dose of study intervention or an anticipated need for major surgery during the study\n* Prior treatment with TROP2-directed therapies or other antibody-drug conjugate (ADCs) with deruxtecan payload\n* Herbal or natural products intended as treatment or prophylaxis for any type of cancer that may interfere with the activity of the study intervention\n* Previous treatment in the present study\n* Participation in another clinical study with a study intervention or investigational medicinal device administered in the last 4 weeks prior to first dose of study intervention or concurrent enrolment in another clinical study\n* Severe hypersensitivity to Dato-DXd or any of the excipients, including but not limited to polysorbate 80 or other monoclonal antibodies\n* Involvement in the planning and/or conduct of the study\n* Judgment by the investigator that the participant should not participate in the study if the participant is unlikely to comply with study procedures, restrictions, and requirements\n* Females that are pregnant, breastfeeding, or planning to become pregnant\n* Female participants should refrain from breastfeeding from enrolment throughout the study and for at least 7 months after last dose of Dato-DXd",
+    "healthyVolunteers": false,
+    "maximumAge": "130 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "Study of Dato-DXd as Monotherapy and in Combination With Anti-cancer Agents in Patients With Advanced Solid Tumours (TROPION-PanTumor03)",
+    "nctId": "NCT05489211",
+    "officialTitle": "A Phase II, Multicentre, Open-label, Master Protocol to Evaluate the Efficacy and Safety of Datopotamab Deruxtecan (Dato-DXd) as Monotherapy and in Combination With Anticancer Agents in Patients With Advanced/Metastatic Solid Tumours",
+    "orgStudyIdInfo": {
+      "id": "D926UC00001"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "AstraZeneca"
+    },
+    "secondaryIdInfos": [
+      {
+        "domain": "CTIS (EU)",
+        "id": "2023-509436-26-00",
+        "type": "REGISTRY"
+      },
+      {
+        "id": "2022-000776-19",
+        "type": "EUDRACT_NUMBER"
+      },
+      {
+        "id": "2023",
+        "link": "https://reporter.nih.gov/quickSearch/2023",
+        "type": "NIH"
+      }
+    ]
+  },
+  "ipdSharingStatementModule": {
+    "accessCriteria": "When a request has been approved AstraZeneca will provide access to the anonymized individual patient-level data via secure research environment Vivli.org. A Signed Data Usage Agreement (non-negotiable contract for data accessors) must be in place before accessing requested information.",
+    "description": "Qualified researchers can request access to anonymized individual patient-level data from AstraZeneca group of companies sponsored clinical trials via the request portal Vivli.org. All requests will be evaluated as per the AZ disclosure commitment:\n\nhttps://astrazenecagrouptrials.pharmacm.com/ST/Submission/Disclosure. \"Yes\", indicates that AZ are accepting requests for IPD, but this does not mean all requests will be approved.",
+    "infoTypes": [
+      "STUDY_PROTOCOL",
+      "SAP"
+    ],
+    "ipdSharing": "YES",
+    "timeFrame": "AstraZeneca will meet or exceed data availability as per the commitments made to the EFPIA/PhRMA Data-Sharing Principles. For details of our timelines, please refer to our disclosure commitment at https://astrazenecagrouptrials.pharmacm.com/ST/Submission/Disclosure",
+    "url": "https://vivli.org/"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "Proportion of participants who have a confirmed CR or confirmed PR, as determined by the investigator at local site per RECIST 1.1.",
+        "measure": "Objective response rate (ORR)",
+        "timeFrame": "From baseline to progressive disease or death (approximately 1 year)"
+      },
+      {
+        "description": "Number of patients with adverse events and with serious adverse events including abnormal clinical observations, abnormal Electrocardiogram (ECG) parameters, abnormal laboratory assessments and abnormal vital signs that changed from baseline.",
+        "measure": "The number of subjects with adverse events/serious adverse events",
+        "timeFrame": "Throughout the treatment and the safety follow-up period 28 [+ 7] days after the discontinuation of all study interventions, except durvalumab, nivolumab, and bevacizumab for which it will be 90 [+ 7] days (approximately 1 year)"
+      },
+      {
+        "description": "Proportion of participants achieving a \u2265 50% decrease in PSA from baseline to the lowest post-baseline PSA result, confirmed by a second consecutive PSA assessment at least 3 weeks later.",
+        "measure": "PSA50 response (Substudy 3 only)",
+        "timeFrame": "From baseline to PSA response evaluated according to the PCWG3 criteria (approximately 1 year)"
+      },
+      {
+        "description": "PFS is defined as time from start of treatment until progression per RECIST 1.1 as assessed by the investigator or death due to any cause.",
+        "measure": "Progression free survival (PFS) response (Substudy 4C only)",
+        "timeFrame": "From baseline to progressive disease or death (approximately 1 year)"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "PFS is defined as time from start of treatment until progression per RECIST 1.1 as assessed by the investigator or death due to any cause.",
+        "measure": "Progression free survival (PFS)",
+        "timeFrame": "From baseline to progressive disease or death (approximately 1 year)"
+      },
+      {
+        "description": "DoR is defined as the time from the date of first documented confirmed response until date of documented progression per RECIST 1.1 as assessed by the investigator or death due to any cause.",
+        "measure": "Duration Of Response (DoR)",
+        "timeFrame": "From baseline to progressive disease or death (approximately 1 year)"
+      },
+      {
+        "description": "DCR at 12 and 24 weeks is defined as the percentage of participants who prior to Progression of Disease (PD) and starting anticancer therapy have either at least one visit response of Complete response (CR)/Partial response (PR) or Stable disease (SD) for at least 11 and 23 weeks after the date of first dose respectively, per RECIST 1.1 as assessed by the investigator at local site and derived from the raw tumour data.",
+        "measure": "Disease Control Rate (DCR)",
+        "timeFrame": "At approximately 1 year"
+      },
+      {
+        "description": "The best percentage change from baseline in tumour size will be derived as the maximum reduction from baseline or (in the absence of reduction) the minimum increase from baseline.",
+        "measure": "Best percentage change in tumour size",
+        "timeFrame": "From baseline to progressive disease or death (approximately 1 year)"
+      },
+      {
+        "description": "The concentration in plasma will be determined.",
+        "measure": "Pharmacokinetics of Dato-DXd (all substudies) and volrustomig and rilvegostomig (substudy 6): Maximum plasma concentration of the drug (Cmax)",
+        "timeFrame": "At predefined intervals throughout the treatment period (approximately 1 year)"
+      },
+      {
+        "description": "The concentration in plasma will be determined.",
+        "measure": "Pharmacokinetics of Dato-DXd (all substudies) and volrustomig and rilvegostomig (substudy 6): The time taken to reach the maximum concentration (Tmax)",
+        "timeFrame": "At predefined intervals throughout the treatment period (approximately 1 year)"
+      },
+      {
+        "description": "The concentration in plasma will be determined. Area under the curve is the integral of the concentration-time curve. The AUC reflects the actual body exposure to drug after administration. The AUC is dependent on the rate of elimination of the drug from the body and the dose administered.",
+        "measure": "Pharmacokinetic Parameter of Dato-DXd (all substudies) and volrustomig and rilvegostomig (substudy 6): Area under the plasma concentration- time curve (AUC)",
+        "timeFrame": "At predefined intervals throughout the treatment period (approximately 1 year)"
+      },
+      {
+        "description": "Expression of TROP2 will be measured in blood sample",
+        "measure": "Plasma concentration of Total anti-TROP2 antibody",
+        "timeFrame": "Throughout the treatment period at pre-defined intervals (approximately 1 year)"
+      },
+      {
+        "description": "The concentration in plasma will be determined (Cmax will be derived).",
+        "measure": "Plasma concentration of MAAA-1181a",
+        "timeFrame": "Throughout the treatment period at pre-defined intervals (approximately 1 year)"
+      },
+      {
+        "description": "Whole blood samples for determination of ADA in plasma will be collected; Percentage of patients who develop ADA",
+        "measure": "Anti Drug Antibody (ADA) for Dato-DXd (all substudies) and volrustomig and rilvegostomig (substudy 6)",
+        "timeFrame": "Throughout the treatment period at pre-defined intervals and including the safety follow-up period (approximately 1 year)"
+      },
+      {
+        "description": "PFS is defined as time from start of treatment until radiographic progression per RECIST 1.1 (soft tissue) and/or PCWG3 criteria (bone) as assessed by the investigator or death due to any cause.",
+        "measure": "Radiographic PFS (Substudy 3)",
+        "timeFrame": "From baseline to radiographic progression or death (approximately 1 year)"
+      },
+      {
+        "description": "PSA progression is defined as an increase in PSA (after Week 12) of \u226525% greater than the nadir and an absolute increase of at least 2 ng/mL above nadir.",
+        "measure": "PSA progression (Substudy 3)",
+        "timeFrame": "From baseline to PSA response evaluated according to the PCWG3 criteria (approximately 1 year)"
+      },
+      {
+        "description": "Proportion of participants achieving a \\> 50% reduction in CA-125 levels from a pre-treatment sample confirmed and maintained for at least 28 days.",
+        "measure": "CA-125 response (Substudy 4)",
+        "timeFrame": "From baseline to CA-125 response evaluated according to the GCIG criteria (approximately 1 year)"
+      },
+      {
+        "description": "OS is defined as time from start of treatment until death due to any cause.",
+        "measure": "Overall survival (OS) (Substudy 4)",
+        "timeFrame": "From baseline to death (approximately 1 year)"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "oversightHasDmc": false
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "INDUSTRY",
+        "name": "Daiichi Sankyo"
+      }
+    ],
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "AstraZeneca"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2027-10-01",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-09-23",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-09-22",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2027-10-01",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2022-09-06",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-09",
+    "studyFirstPostDateStruct": {
+      "date": "2022-08-05",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2022-07-21",
+    "studyFirstSubmitQcDate": "2022-08-03"
+  }
+}

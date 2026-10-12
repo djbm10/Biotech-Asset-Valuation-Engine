@@ -1,0 +1,3729 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Participants will receive sac-TMT 4 mg/kg every 2 weeks (q2w) and pembrolizumab 400 mg every 6 weeks (q6w) for up to 14 cycles (up to approximately 20 months). Bevacizumab 15 mg/kg every 3 weeks (q3w) will be administered until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+        "interventionNames": [
+          "Biological: Pembrolizumab",
+          "Biological: Sacituzumab Tirumotecan",
+          "Biological: Bevacizumab",
+          "Drug: Rescue Medications"
+        ],
+        "label": "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "During induction treatment, participants will receive pembrolizumab 200 mg q3w for up to 8 cycles, paclitaxel 175 mg/m\\^2 q3w for up to 6 cycles, and cisplatin 50 mg/m\\^2 q3w (or carboplatin area under the curve \\[AUC\\]5 mg/mL/min q3w) for up to 6 cycles. Participants may also receive bevacizumab 15 mg/kg q3w for up to 8 cycles at the investigator's discretion. Each cycle will be 3 weeks long.\n\nDuring maintenance treatment, participants will receive sac-TMT 4 mg/kg q2w and pembrolizumab 400 mg q6w for up to 14 cycles (up to approximately 20 months). Participants may also receive bevacizumab 15 mg/kg q3w, at the investigator's discretion, until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+        "interventionNames": [
+          "Biological: Pembrolizumab",
+          "Biological: Sacituzumab Tirumotecan",
+          "Biological: Bevacizumab",
+          "Drug: Paclitaxel",
+          "Drug: Cisplatin",
+          "Drug: Carboplatin",
+          "Drug: Rescue Medications"
+        ],
+        "label": "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "During induction treatment, participants will receive pembrolizumab 200 mg q3w for up to 8 cycles, paclitaxel 175 mg/m\\^2 q3w for up to 6 cycles, and cisplatin 50 mg/m\\^2 q3w (or carboplatin AUC 5 mg/mL/min q3w) for up to 6 cycles. Participants may also receive bevacizumab 15 mg/kg q3w for up to 8 cycles at the investigator's discretion. Each cycle will be 3 weeks long.\n\nDuring maintenance treatment, participants will receive pembrolizumab 400 mg q6w for up to 14 cycles (up to approximately 20 months). Participants may also receive bevacizumab 15 mg/kg q3w, at the investigator's discretion, until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+        "interventionNames": [
+          "Biological: Pembrolizumab",
+          "Biological: Bevacizumab",
+          "Drug: Paclitaxel",
+          "Drug: Cisplatin",
+          "Drug: Carboplatin"
+        ],
+        "label": "Part 2: Pembrolizumab +/- Bevacizumab",
+        "type": "ACTIVE_COMPARATOR"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+          "Part 2: Pembrolizumab +/- Bevacizumab",
+          "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab"
+        ],
+        "description": "Intravenous (IV) Infusion",
+        "name": "Pembrolizumab",
+        "otherNames": [
+          "Keytruda\u00ae",
+          "MK-3475",
+          "SCH 900475"
+        ],
+        "type": "BIOLOGICAL"
+      },
+      {
+        "armGroupLabels": [
+          "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+          "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab"
+        ],
+        "description": "IV Infusion",
+        "name": "Sacituzumab Tirumotecan",
+        "otherNames": [
+          "sac-TMT",
+          "MK-2870",
+          "SKB264"
+        ],
+        "type": "BIOLOGICAL"
+      },
+      {
+        "armGroupLabels": [
+          "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+          "Part 2: Pembrolizumab +/- Bevacizumab",
+          "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab"
+        ],
+        "description": "IV Infusion",
+        "name": "Bevacizumab",
+        "otherNames": [
+          "Avastin\u00ae",
+          "MVASI\u00ae"
+        ],
+        "type": "BIOLOGICAL"
+      },
+      {
+        "armGroupLabels": [
+          "Part 2: Pembrolizumab +/- Bevacizumab",
+          "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab"
+        ],
+        "description": "IV Infusion",
+        "name": "Paclitaxel",
+        "otherNames": [
+          "Taxol",
+          "Onxol"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Part 2: Pembrolizumab +/- Bevacizumab",
+          "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab"
+        ],
+        "description": "IV Infusion",
+        "name": "Cisplatin",
+        "otherNames": [
+          "Platinol\u00ae"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Part 2: Pembrolizumab +/- Bevacizumab",
+          "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab"
+        ],
+        "description": "IV Infusion",
+        "name": "Carboplatin",
+        "otherNames": [
+          "Paraplatin\u00ae"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+          "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab"
+        ],
+        "description": "Participants will receive the following rescue medications prior to sac-TMT infusion, per approved product label: histamine-1 receptor antagonist, histamine-2 receptor antagonist, acetaminophen or equivalent, and dexamethasone or equivalent, prophylactic steroid mouthwash (dexamethasone or equivalent), and granulocyte colony-stimulating factor (G-CSF).",
+        "name": "Rescue Medications",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Cervical Cancer"
+    ],
+    "keywords": [
+      "Programmed Cell Death-1 (PD1, PD-1)",
+      "Programmed Cell Death 1 Ligand 1 (PDL1, PD-L1)",
+      "Programmed Cell Death 1 Ligand 2 (PDL2, PD-L2)",
+      "Trophoblast Cell Surface Antigen 2 (TROP2)"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "Trialsites@msd.com",
+        "name": "Toll Free Number",
+        "phone": "1-888-577-8839",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Birmingham",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "205-934-4011",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of Alabama- Birmingham ( Site 5015)",
+        "geoPoint": {
+          "lat": 33.52066,
+          "lon": -86.80249
+        },
+        "state": "Alabama",
+        "status": "RECRUITING",
+        "zip": "35294"
+      },
+      {
+        "city": "Anchorage",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "907-562-4673",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Alaska Womens Cancer Care ( Site 5046)",
+        "geoPoint": {
+          "lat": 61.21806,
+          "lon": -149.90028
+        },
+        "state": "Alaska",
+        "status": "RECRUITING",
+        "zip": "99508"
+      },
+      {
+        "city": "Irvine",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "714-456-8000",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "CHAO Family Comprehensive Cancer Center and Ambulatory Care ( Site 5037)",
+        "geoPoint": {
+          "lat": 33.66946,
+          "lon": -117.82311
+        },
+        "state": "California",
+        "status": "RECRUITING",
+        "zip": "92612"
+      },
+      {
+        "city": "Orange",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "714-456-8000",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of California Irvine Medical Center ( Site 6006)",
+        "geoPoint": {
+          "lat": 33.78779,
+          "lon": -117.85311
+        },
+        "state": "California",
+        "status": "RECRUITING",
+        "zip": "92868"
+      },
+      {
+        "city": "Fort Myers",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "239-274-9930",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Florida Cancer Specialists - South ( Site 7001)",
+        "geoPoint": {
+          "lat": 26.62168,
+          "lon": -81.84059
+        },
+        "state": "Florida",
+        "status": "RECRUITING",
+        "zip": "33901"
+      },
+      {
+        "city": "Miami Beach",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "305-674-2625",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Mount Sinai Braman Comprehensive Cancer Center ( Site 5043)",
+        "geoPoint": {
+          "lat": 25.79065,
+          "lon": -80.13005
+        },
+        "state": "Florida",
+        "status": "RECRUITING",
+        "zip": "33140"
+      },
+      {
+        "city": "Miami Beach",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "305-674-2625",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Mount Sinai Comprehensive Cancer Center ( Site 6000)",
+        "geoPoint": {
+          "lat": 25.79065,
+          "lon": -80.13005
+        },
+        "state": "Florida",
+        "status": "RECRUITING",
+        "zip": "33140"
+      },
+      {
+        "city": "West Palm Beach",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "561-366-4100",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Florida Cancer Specialists - East ( Site 7000)",
+        "geoPoint": {
+          "lat": 26.71534,
+          "lon": -80.05337
+        },
+        "state": "Florida",
+        "status": "RECRUITING",
+        "zip": "33401"
+      },
+      {
+        "city": "Atlanta",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "404-778-1900",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Winship Cancer Institute of Emory University ( Site 5005)",
+        "geoPoint": {
+          "lat": 33.749,
+          "lon": -84.38798
+        },
+        "state": "Georgia",
+        "status": "RECRUITING",
+        "zip": "30308"
+      },
+      {
+        "city": "Savannah",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "912-819-5789",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Nancy N. & J.C. Lewis Cancer and Research Pavillion - Research Department ( Site 6005)",
+        "geoPoint": {
+          "lat": 32.08354,
+          "lon": -81.09983
+        },
+        "state": "Georgia",
+        "status": "RECRUITING",
+        "zip": "31405"
+      },
+      {
+        "city": "Shreveport",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "318-408-1198",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "TRIALS 365 ( Site 6008)",
+        "geoPoint": {
+          "lat": 32.52515,
+          "lon": -93.75018
+        },
+        "state": "Louisiana",
+        "status": "RECRUITING",
+        "zip": "71103"
+      },
+      {
+        "city": "Columbia",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "410-964-2212",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Maryland Oncology Hematology (MOH) ( Site 8001)",
+        "geoPoint": {
+          "lat": 39.24038,
+          "lon": -76.83942
+        },
+        "state": "Maryland",
+        "status": "RECRUITING",
+        "zip": "21044"
+      },
+      {
+        "city": "Edina",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "952-928-2944",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Minnesota Oncology Hematology, PA ( Site 8003)",
+        "geoPoint": {
+          "lat": 44.88969,
+          "lon": -93.34995
+        },
+        "state": "Minnesota",
+        "status": "RECRUITING",
+        "zip": "55435"
+      },
+      {
+        "city": "Las Vegas",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "702-851-4672",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Women's Cancer Center of Nevada ( Site 6011)",
+        "geoPoint": {
+          "lat": 36.17497,
+          "lon": -115.13722
+        },
+        "state": "Nevada",
+        "status": "RECRUITING",
+        "zip": "89106"
+      },
+      {
+        "city": "Mineola",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "516-663-3696",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Perlmutter Cancer Center at NYU Langone Hospital - Long Island ( Site 5039)",
+        "geoPoint": {
+          "lat": 40.74927,
+          "lon": -73.64068
+        },
+        "state": "New York",
+        "status": "RECRUITING",
+        "zip": "11501"
+      },
+      {
+        "city": "New York",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "212-404-4434",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Laura and Isaac Perlmutter Cancer Center at NYU Langone ( Site 6009)",
+        "geoPoint": {
+          "lat": 40.71427,
+          "lon": -74.00597
+        },
+        "state": "New York",
+        "status": "RECRUITING",
+        "zip": "10016"
+      },
+      {
+        "city": "Columbus",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "800-293-5066",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "The James Cancer Hospital and Solove Research Institute at The Ohio State University Comprehensive C ( Site 6002)",
+        "geoPoint": {
+          "lat": 39.96118,
+          "lon": -82.99879
+        },
+        "state": "Ohio",
+        "status": "RECRUITING",
+        "zip": "43210"
+      },
+      {
+        "city": "Tulsa",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "918-505-3200",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Oklahoma Cancer Specialists and Research Institute, LLC ( Site 6001)",
+        "geoPoint": {
+          "lat": 36.15398,
+          "lon": -95.99277
+        },
+        "state": "Oklahoma",
+        "status": "RECRUITING",
+        "zip": "74146"
+      },
+      {
+        "city": "Eugene",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "541-683-5001",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Oncology Associates of Oregon, P.C.(Willamette Valley Cancer Institute) (WVCI) ( Site 8007)",
+        "geoPoint": {
+          "lat": 44.05207,
+          "lon": -123.08675
+        },
+        "state": "Oregon",
+        "status": "RECRUITING",
+        "zip": "97401"
+      },
+      {
+        "city": "Philadelphia",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "215-955-6923",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Honickman Center ( Site 5033)",
+        "geoPoint": {
+          "lat": 39.95238,
+          "lon": -75.16362
+        },
+        "state": "Pennsylvania",
+        "status": "RECRUITING",
+        "zip": "19107"
+      },
+      {
+        "city": "Willow Grove",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "215-481-4000",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Asplundh Cancer Pavilion ( Site 5002)",
+        "geoPoint": {
+          "lat": 40.144,
+          "lon": -75.11573
+        },
+        "state": "Pennsylvania",
+        "status": "RECRUITING",
+        "zip": "19090"
+      },
+      {
+        "city": "Providence",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "401-430-4818",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Women & Infants Hospital ( Site 6003)",
+        "geoPoint": {
+          "lat": 41.82399,
+          "lon": -71.41283
+        },
+        "state": "Rhode Island",
+        "status": "RECRUITING",
+        "zip": "02905"
+      },
+      {
+        "city": "Knoxville",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "865-305-4893",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of Tennessee Medical Center ( Site 6012)",
+        "geoPoint": {
+          "lat": 35.96064,
+          "lon": -83.92074
+        },
+        "state": "Tennessee",
+        "status": "RECRUITING",
+        "zip": "37920"
+      },
+      {
+        "city": "Fort Worth",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "817-413-1500",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Texas Oncology - DFW ( Site 8005)",
+        "geoPoint": {
+          "lat": 32.72541,
+          "lon": -97.32085
+        },
+        "state": "Texas",
+        "status": "RECRUITING",
+        "zip": "76104"
+      },
+      {
+        "city": "Houston",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "713-441-6616",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Houston Methodist Hospital-Obstetrics and Gynecology ( Site 6010)",
+        "geoPoint": {
+          "lat": 29.76328,
+          "lon": -95.36327
+        },
+        "state": "Texas",
+        "status": "RECRUITING",
+        "zip": "77030"
+      },
+      {
+        "city": "The Woodlands",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "281-296-0365",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Texas Oncology-The Woodlands ( Site 8000)",
+        "geoPoint": {
+          "lat": 30.15799,
+          "lon": -95.48938
+        },
+        "state": "Texas",
+        "status": "RECRUITING",
+        "zip": "77380"
+      },
+      {
+        "city": "Tyler",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "903-579-9800",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Texas Oncology - Northeast Texas ( Site 8002)",
+        "geoPoint": {
+          "lat": 32.35126,
+          "lon": -95.30106
+        },
+        "state": "Texas",
+        "status": "RECRUITING",
+        "zip": "75702"
+      },
+      {
+        "city": "Charlottesville",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "434-243-8109",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of Virginia Cancer Center ( Site 5044)",
+        "geoPoint": {
+          "lat": 38.02931,
+          "lon": -78.47668
+        },
+        "state": "Virginia",
+        "status": "RECRUITING",
+        "zip": "22908"
+      },
+      {
+        "city": "Charlottesville",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "434-243-8109",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of Virginia Cancer Center ( Site 6014)",
+        "geoPoint": {
+          "lat": 38.02931,
+          "lon": -78.47668
+        },
+        "state": "Virginia",
+        "status": "RECRUITING",
+        "zip": "22908"
+      },
+      {
+        "city": "Fairfax",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "571-472-4724",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Inova Schar Cancer Institute ( Site 5045)",
+        "geoPoint": {
+          "lat": 38.84622,
+          "lon": -77.30637
+        },
+        "state": "Virginia",
+        "status": "RECRUITING",
+        "zip": "22031"
+      },
+      {
+        "city": "Berazategui",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+541142262013",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "Centro de Oncolog\u00eda e Investigaci\u00f3n de Buenos Aires ( Site 0107)",
+        "geoPoint": {
+          "lat": -34.76531,
+          "lon": -58.21278
+        },
+        "state": "Buenos Aires",
+        "status": "RECRUITING",
+        "zip": "B1884BBF"
+      },
+      {
+        "city": "Mar del Plata",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+542234963224",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "Instituto de Investigaciones Clinicas Mar del Plata ( Site 0105)",
+        "geoPoint": {
+          "lat": -38.00042,
+          "lon": -57.5562
+        },
+        "state": "Buenos Aires",
+        "status": "RECRUITING",
+        "zip": "B7600FZO"
+      },
+      {
+        "city": "Belgrano",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+5491170781548",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "Fundaci\u00f3n Respirar ( Site 0101)",
+        "geoPoint": {
+          "lat": -34.5627,
+          "lon": -58.45829
+        },
+        "state": "Buenos Aires F.D.",
+        "status": "RECRUITING",
+        "zip": "C1118AAT"
+      },
+      {
+        "city": "Posadas",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+54376443700ext4304",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "Instituto Misionero del Cancer ( Site 0112)",
+        "geoPoint": {
+          "lat": -27.39184,
+          "lon": -55.92379
+        },
+        "state": "Misiones Province",
+        "status": "RECRUITING",
+        "zip": "N3300KAZ"
+      },
+      {
+        "city": "Rosario",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+543414484830",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "Instituto de Oncologia de Rosario ( Site 0104)",
+        "geoPoint": {
+          "lat": -32.94682,
+          "lon": -60.63932
+        },
+        "state": "Santa Fe Province",
+        "status": "RECRUITING",
+        "zip": "S2000KZE"
+      },
+      {
+        "city": "Rosario",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+5493414307185",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "Hospital Provincial del Centenario ( Site 0106)",
+        "geoPoint": {
+          "lat": -32.94682,
+          "lon": -60.63932
+        },
+        "state": "Santa Fe Province",
+        "status": "RECRUITING",
+        "zip": "S2002KDS"
+      },
+      {
+        "city": "C\u00f3rdoba",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+5493513976568",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "Centro Medico Privado CEMAIC ( Site 0102)",
+        "geoPoint": {
+          "lat": -31.40648,
+          "lon": -64.18853
+        },
+        "status": "RECRUITING",
+        "zip": "X5008AAC"
+      },
+      {
+        "city": "La Rioja",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+543804436443X108",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "Fundaci\u00f3n CORI para la Investigaci\u00f3n y Prevenci\u00f3n del C\u00e1ncer ( Site 0111)",
+        "geoPoint": {
+          "lat": -29.41328,
+          "lon": -66.85637
+        },
+        "status": "RECRUITING",
+        "zip": "F5300COE"
+      },
+      {
+        "city": "Vienna",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+4314040061091",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Austria",
+        "facility": "Medizinische Universitaet Wien ( Site 0302)",
+        "geoPoint": {
+          "lat": 48.20849,
+          "lon": 16.37208
+        },
+        "state": "State of Vienna",
+        "status": "RECRUITING",
+        "zip": "1090"
+      },
+      {
+        "city": "Graz",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+43031638530135",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Austria",
+        "facility": "Medizinische Universitat Graz ( Site 0303)",
+        "geoPoint": {
+          "lat": 47.06733,
+          "lon": 15.44197
+        },
+        "state": "Styria",
+        "status": "RECRUITING",
+        "zip": "8036"
+      },
+      {
+        "city": "Innsbruck",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+43512504-0",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Austria",
+        "facility": "Medizinische Universitaet Innsbruck ( Site 0301)",
+        "geoPoint": {
+          "lat": 47.26266,
+          "lon": 11.39454
+        },
+        "state": "Tyrol",
+        "status": "RECRUITING",
+        "zip": "6020"
+      },
+      {
+        "city": "Salzburg",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+43435725524900",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Austria",
+        "facility": "Uniklinikum Salzburg Landeskrankenhaus ( Site 0304)",
+        "geoPoint": {
+          "lat": 47.79941,
+          "lon": 13.04399
+        },
+        "status": "RECRUITING",
+        "zip": "5020"
+      },
+      {
+        "city": "Edegem",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+32 3821 41 60",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Belgium",
+        "facility": "Antwerp University Hospital ( Site 0407)",
+        "geoPoint": {
+          "lat": 51.15662,
+          "lon": 4.44504
+        },
+        "state": "Antwerpen",
+        "status": "RECRUITING",
+        "zip": "2650"
+      },
+      {
+        "city": "Brussels",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+3227643513",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Belgium",
+        "facility": "Cliniques Universitaires Saint-Luc ( Site 0402)",
+        "geoPoint": {
+          "lat": 50.85045,
+          "lon": 4.34878
+        },
+        "state": "Bruxelles-Capitale, Region de",
+        "status": "RECRUITING",
+        "zip": "1200"
+      },
+      {
+        "city": "Charleroi",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+32 60 11 25 00",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Belgium",
+        "facility": "Grand Hopital de Charleroi ( Site 0404)",
+        "geoPoint": {
+          "lat": 50.41136,
+          "lon": 4.44448
+        },
+        "state": "Hainaut",
+        "status": "RECRUITING",
+        "zip": "6060"
+      },
+      {
+        "city": "Li\u00e8ge",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+32 4 323 3552",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Belgium",
+        "facility": "Centre Hospitalier Universitaire de Li\u00e8ge - Domaine Universitaire du Sart Tilman ( Site 0403)",
+        "geoPoint": {
+          "lat": 50.63373,
+          "lon": 5.56749
+        },
+        "state": "Liege",
+        "status": "RECRUITING",
+        "zip": "4000"
+      },
+      {
+        "city": "Ghent",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+3293321591",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Belgium",
+        "facility": "UZ Gent ( Site 0406)",
+        "geoPoint": {
+          "lat": 51.05,
+          "lon": 3.71667
+        },
+        "state": "Oost-Vlaanderen",
+        "status": "RECRUITING",
+        "zip": "9000"
+      },
+      {
+        "city": "Leuven",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+3216347419",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Belgium",
+        "facility": "UZ Leuven ( Site 0401)",
+        "geoPoint": {
+          "lat": 50.87959,
+          "lon": 4.70093
+        },
+        "state": "Vlaams-Brabant",
+        "status": "RECRUITING",
+        "zip": "3000"
+      },
+      {
+        "city": "Goi\u00e2nia",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+556232437260",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Hospital Ara\u00fajo Jorge ( Site 0518)",
+        "geoPoint": {
+          "lat": -16.67861,
+          "lon": -49.25389
+        },
+        "state": "Goi\u00e1s",
+        "status": "RECRUITING",
+        "zip": "74605070"
+      },
+      {
+        "city": "Natal",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+558440095595",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Liga Norte Riograndense Contra o C\u00e2ncer ( Site 0513)",
+        "geoPoint": {
+          "lat": -5.795,
+          "lon": -35.20944
+        },
+        "state": "Rio Grande do Norte",
+        "status": "RECRUITING",
+        "zip": "59062-000"
+      },
+      {
+        "city": "Porto Alegre",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "55(51)3214-8143",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Irmandade da Santa Casa de Misericordia de Porto Alegre ( Site 0514)",
+        "geoPoint": {
+          "lat": -30.03283,
+          "lon": -51.23019
+        },
+        "state": "Rio Grande do Sul",
+        "status": "RECRUITING",
+        "zip": "90020-090"
+      },
+      {
+        "city": "Porto Alegre",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+5551999892554",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Hospital S\u00e3o Lucas da PUCRS ( Site 0516)",
+        "geoPoint": {
+          "lat": -30.03283,
+          "lon": -51.23019
+        },
+        "state": "Rio Grande do Sul",
+        "status": "RECRUITING",
+        "zip": "90610-000"
+      },
+      {
+        "city": "Barretos",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+55 17 3321-6600",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Funda\u00e7\u00e3o Pio XII - Hospital de C\u00e2ncer de Barretos ( Site 0511)",
+        "geoPoint": {
+          "lat": -20.55722,
+          "lon": -48.56778
+        },
+        "state": "S\u00e3o Paulo",
+        "status": "RECRUITING",
+        "zip": "14784-400"
+      },
+      {
+        "city": "S\u00e3o Jos\u00e9 do Rio Preto",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+55 17 3201-5054",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Fundacao Faculdade Regional de Medicina de Sao Jose do Rio Preto ( Site 0512)",
+        "geoPoint": {
+          "lat": -20.81972,
+          "lon": -49.37944
+        },
+        "state": "S\u00e3o Paulo",
+        "status": "RECRUITING",
+        "zip": "15091-000"
+      },
+      {
+        "city": "S\u00e3o Paulo",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+551144500360",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "IBCC - Instituto Brasileiro de Controle do C\u00e2ncer ( Site 0517)",
+        "geoPoint": {
+          "lat": -23.5475,
+          "lon": -46.63611
+        },
+        "state": "S\u00e3o Paulo",
+        "status": "RECRUITING",
+        "zip": "04014-002"
+      },
+      {
+        "city": "Rio de Janeiro",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+552132072985",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Instituto Nacional de C\u00e2ncer - INCA ( Site 0515)",
+        "geoPoint": {
+          "lat": -22.90642,
+          "lon": -43.18223
+        },
+        "status": "RECRUITING",
+        "zip": "20220-410"
+      },
+      {
+        "city": "Halifax",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "902-473-6000",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Canada",
+        "facility": "Nova Scotia Cancer Centre ( Site 0617)",
+        "geoPoint": {
+          "lat": 44.64269,
+          "lon": -63.57688
+        },
+        "state": "Nova Scotia",
+        "status": "RECRUITING",
+        "zip": "B3H 1V7"
+      },
+      {
+        "city": "London",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "519-685-8500",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Canada",
+        "facility": "London Health Sciences Centre ( Site 0613)",
+        "geoPoint": {
+          "lat": 42.98339,
+          "lon": -81.23304
+        },
+        "state": "Ontario",
+        "status": "RECRUITING",
+        "zip": "N6A 5W9"
+      },
+      {
+        "city": "Toronto",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "4164806100",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Canada",
+        "facility": "Sunnybrook Research Institute ( Site 0605)",
+        "geoPoint": {
+          "lat": 43.70643,
+          "lon": -79.39864
+        },
+        "state": "Ontario",
+        "status": "RECRUITING",
+        "zip": "M4N 3M5"
+      },
+      {
+        "city": "Toronto",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "4169464501",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Canada",
+        "facility": "Princess Margaret Cancer Centre ( Site 0601)",
+        "geoPoint": {
+          "lat": 43.70643,
+          "lon": -79.39864
+        },
+        "state": "Ontario",
+        "status": "RECRUITING",
+        "zip": "M5G 2M9"
+      },
+      {
+        "city": "Montreal",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "514-890-8000",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Canada",
+        "facility": "Centre Hospitalier de l'Universit\u00e9 de Montr\u00e9al ( Site 0616)",
+        "geoPoint": {
+          "lat": 45.50884,
+          "lon": -73.58781
+        },
+        "state": "Quebec",
+        "status": "RECRUITING",
+        "zip": "H2X 0C1"
+      },
+      {
+        "city": "Montreal",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "514-934-1934x31975",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Canada",
+        "facility": "McGill University Health Centre ( Site 0602)",
+        "geoPoint": {
+          "lat": 45.50884,
+          "lon": -73.58781
+        },
+        "state": "Quebec",
+        "status": "RECRUITING",
+        "zip": "H4A 3J1"
+      },
+      {
+        "city": "Qu\u00e9bec",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "4185254444x0",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Canada",
+        "facility": "Centre int\u00e9gr\u00e9 de canc\u00e9rologie du CHU de Qu\u00e9bec Universit\u00e9 Laval, H\u00f4pital de l'Enfant-J\u00e9sus ( Site 0611)",
+        "geoPoint": {
+          "lat": 46.81228,
+          "lon": -71.21454
+        },
+        "state": "Quebec",
+        "status": "RECRUITING",
+        "zip": "G1J 1Z4"
+      },
+      {
+        "city": "Sherbrooke",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "8193461110x12890",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Canada",
+        "facility": "CIUSSS de l Estrie Centre Hospitalier Universitaire de Sherbrooke ( Site 0604)",
+        "geoPoint": {
+          "lat": 45.40008,
+          "lon": -71.89908
+        },
+        "state": "Quebec",
+        "status": "RECRUITING",
+        "zip": "J1H 5N4"
+      },
+      {
+        "city": "Temuco",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+56452657374",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Chile",
+        "facility": "CIDO SpA-Oncology ( Site 0708)",
+        "geoPoint": {
+          "lat": -38.73628,
+          "lon": -72.59738
+        },
+        "state": "Araucania",
+        "status": "RECRUITING",
+        "zip": "4810148"
+      },
+      {
+        "city": "La Serena",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "562227548702",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Chile",
+        "facility": "IC La Serena Research ( Site 0710)",
+        "geoPoint": {
+          "lat": -29.90591,
+          "lon": -71.25014
+        },
+        "state": "Coquimbo Region",
+        "status": "RECRUITING",
+        "zip": "1720430"
+      },
+      {
+        "city": "Santiago",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+56224205098",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Chile",
+        "facility": "Fundaci\u00f3n Arturo L\u00f3pez P\u00e9rez ( Site 0701)",
+        "geoPoint": {
+          "lat": -33.45694,
+          "lon": -70.64827
+        },
+        "state": "Region M. de Santiago",
+        "status": "RECRUITING",
+        "zip": "7500921"
+      },
+      {
+        "city": "Santiago",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+56934331806",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Chile",
+        "facility": "Pontificia Universidad Catolica de Chile-CICUC ( Site 0706)",
+        "geoPoint": {
+          "lat": -33.45694,
+          "lon": -70.64827
+        },
+        "state": "Region M. de Santiago",
+        "status": "RECRUITING",
+        "zip": "8330073"
+      },
+      {
+        "city": "Santiago",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+56998744662",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Chile",
+        "facility": "Bradfordhill ( Site 0702)",
+        "geoPoint": {
+          "lat": -33.45694,
+          "lon": -70.64827
+        },
+        "state": "Region M. de Santiago",
+        "status": "RECRUITING",
+        "zip": "8420383"
+      },
+      {
+        "city": "Vi\u00f1a del Mar",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+56323320850",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Chile",
+        "facility": "ONCOCENTRO APYS-ACEREY ( Site 0703)",
+        "geoPoint": {
+          "lat": -33.02457,
+          "lon": -71.55183
+        },
+        "state": "Valparaiso",
+        "status": "RECRUITING",
+        "zip": "2520598"
+      },
+      {
+        "city": "Rionegro",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+576046052626X5387",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Colombia",
+        "facility": "Clinica Somer ( Site 0903)",
+        "geoPoint": {
+          "lat": 6.15515,
+          "lon": -75.37371
+        },
+        "state": "Antioquia",
+        "status": "RECRUITING",
+        "zip": "054040"
+      },
+      {
+        "city": "Barranquilla",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+573102316174",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Colombia",
+        "facility": "Centro Cancerol\u00f3gico del Caribe (CECAC) ( Site 0906)",
+        "geoPoint": {
+          "lat": 10.96854,
+          "lon": -74.78132
+        },
+        "state": "Atl\u00e1ntico",
+        "status": "RECRUITING",
+        "zip": "080002"
+      },
+      {
+        "city": "Bogot\u00e1",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+573154208007",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Colombia",
+        "facility": "Instituto Nacional De Cancerologia ( Site 0909)",
+        "geoPoint": {
+          "lat": 4.60971,
+          "lon": -74.08175
+        },
+        "state": "Bogota D.C.",
+        "status": "RECRUITING",
+        "zip": "111511"
+      },
+      {
+        "city": "Monter\u00eda",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+573017057680",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Colombia",
+        "facility": "Oncom\u00e9dica S.A.S ( Site 0905)",
+        "geoPoint": {
+          "lat": 8.75081,
+          "lon": -75.87823
+        },
+        "state": "Departamento de C\u00f3rdoba",
+        "status": "RECRUITING",
+        "zip": "230002"
+      },
+      {
+        "city": "Pereira",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+573002558656",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Colombia",
+        "facility": "Onc\u00f3logos del Occidente S.A.S. ( Site 0908)",
+        "geoPoint": {
+          "lat": 4.81428,
+          "lon": -75.69488
+        },
+        "state": "Risaralda Department",
+        "status": "RECRUITING",
+        "zip": "660001"
+      },
+      {
+        "city": "Brno",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+420532233843",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Czechia",
+        "facility": "Fakultn\u00ed Nemocnice Brno ( Site 1003)",
+        "geoPoint": {
+          "lat": 49.19522,
+          "lon": 16.60796
+        },
+        "state": "Brno-mesto",
+        "status": "RECRUITING",
+        "zip": "602 00"
+      },
+      {
+        "city": "Nov\u00fd Ji\u010d\u00edn",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+420556416180",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Czechia",
+        "facility": "Nemocnice AGEL Novy Jicin a.s. ( Site 1004)",
+        "geoPoint": {
+          "lat": 49.59438,
+          "lon": 18.01028
+        },
+        "state": "Moravian-Silesian Region",
+        "status": "RECRUITING",
+        "zip": "741 01"
+      },
+      {
+        "city": "Ostrava",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+420597371804",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Czechia",
+        "facility": "Fakultni nemocnice Ostrava ( Site 1005)",
+        "geoPoint": {
+          "lat": 49.83465,
+          "lon": 18.28204
+        },
+        "state": "Moravian-Silesian Region",
+        "status": "RECRUITING",
+        "zip": "708 52"
+      },
+      {
+        "city": "Prague",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+420267162333",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Czechia",
+        "facility": "Fakultni nemocnice Kralovske Vinohrady ( Site 1002)",
+        "geoPoint": {
+          "lat": 50.08804,
+          "lon": 14.42076
+        },
+        "state": "Praha 10",
+        "status": "RECRUITING",
+        "zip": "100 34"
+      },
+      {
+        "city": "Prague",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+420224967425",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Czechia",
+        "facility": "Vseobecna fakultni nemocnice v Praze-Gynekologicko-porodnicka klinika 1.LF a VFN ( Site 1001)",
+        "geoPoint": {
+          "lat": 50.08804,
+          "lon": 14.42076
+        },
+        "status": "RECRUITING",
+        "zip": "128 08"
+      },
+      {
+        "city": "Strasbourg",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+330368767204",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "France",
+        "facility": "CHU Strasbourg-Hautepierre ( Site 1207)",
+        "geoPoint": {
+          "lat": 48.58392,
+          "lon": 7.74553
+        },
+        "state": "Alsace",
+        "status": "RECRUITING",
+        "zip": "67098"
+      },
+      {
+        "city": "Brest",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+33230338161",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "France",
+        "facility": "CHRU de Brest-Institut de canc\u00e9rologie et d'H\u00e9matologie ( Site 1202)",
+        "geoPoint": {
+          "lat": 48.39029,
+          "lon": -4.48628
+        },
+        "state": "Brittany Region",
+        "status": "RECRUITING",
+        "zip": "29609"
+      },
+      {
+        "city": "Caen",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+33 2 31 45 97 00",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "France",
+        "facility": "Centre Fran\u00e7ois Baclesse ( Site 1201)",
+        "geoPoint": {
+          "lat": 49.18585,
+          "lon": -0.35912
+        },
+        "state": "Calvados",
+        "status": "RECRUITING",
+        "zip": "14076"
+      },
+      {
+        "city": "Chambray-l\u00e8s-Tours",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+33247602060",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "France",
+        "facility": "P\u00f4le Sant\u00e9 L\u00e9onard de Vinci ( Site 1209)",
+        "geoPoint": {
+          "lat": 47.33537,
+          "lon": 0.70286
+        },
+        "state": "Centre-Val de Loire",
+        "status": "RECRUITING",
+        "zip": "37170"
+      },
+      {
+        "city": "Bordeaux",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+33556333279",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "France",
+        "facility": "Institut Bergoni\u00e9 - Centre R\u00e9gional de Lutte Contre Le Cancer de Bordeaux et Sud Ouest ( Site 1204)",
+        "geoPoint": {
+          "lat": 44.84124,
+          "lon": -0.58046
+        },
+        "state": "Gironde",
+        "status": "RECRUITING",
+        "zip": "33076"
+      },
+      {
+        "city": "Toulouse",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+33531155101",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "France",
+        "facility": "LBM ONCOPOLE CLAUDIUS REGAUD ( Site 1203)",
+        "geoPoint": {
+          "lat": 43.60426,
+          "lon": 1.44367
+        },
+        "state": "Haute-Garonne",
+        "status": "RECRUITING",
+        "zip": "31059"
+      },
+      {
+        "city": "Paris",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+330156092942",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "France",
+        "facility": "Hopital Europeen Georges Pompidou ( Site 1210)",
+        "geoPoint": {
+          "lat": 48.85341,
+          "lon": 2.3488
+        },
+        "status": "RECRUITING",
+        "zip": "75015"
+      },
+      {
+        "city": "Jena",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+4936419300",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Germany",
+        "facility": "Universitaetsklinikum Jena ( Site 1303)",
+        "geoPoint": {
+          "lat": 50.92878,
+          "lon": 11.5899
+        },
+        "state": "Thuringia",
+        "status": "RECRUITING",
+        "zip": "07747"
+      },
+      {
+        "city": "Athens",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+302137286444",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Greece",
+        "facility": "Alexandra General Hospital of Athens-ONCOLOGY DEPT. ( Site 1401)",
+        "geoPoint": {
+          "lat": 37.98376,
+          "lon": 23.72784
+        },
+        "state": "Attica",
+        "status": "RECRUITING",
+        "zip": "115 28"
+      },
+      {
+        "city": "Athens",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+302107286444",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Greece",
+        "facility": "Aretaieio Hospital Oncology Unit ( Site 1402)",
+        "geoPoint": {
+          "lat": 37.98376,
+          "lon": 23.72784
+        },
+        "state": "Attica",
+        "status": "RECRUITING",
+        "zip": "115 28"
+      },
+      {
+        "city": "Cha\u00efd\u00e1ri",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+302313301848",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Greece",
+        "facility": "ATTIKON GENERAL UNIVERSITY HOSPITAL ( Site 1403)",
+        "geoPoint": {
+          "lat": 38.01135,
+          "lon": 23.66597
+        },
+        "state": "Attica",
+        "status": "RECRUITING",
+        "zip": "124 62"
+      },
+      {
+        "city": "Budapest",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+3612248600",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Hungary",
+        "facility": "Orsz\u00e1gos Onkol\u00f3giai Int\u00e9zet ( Site 1603)",
+        "geoPoint": {
+          "lat": 47.49835,
+          "lon": 19.04045
+        },
+        "status": "RECRUITING",
+        "zip": "1122"
+      },
+      {
+        "city": "Debrecen",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+36 52 255 705",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Hungary",
+        "facility": "Debreceni Egyetem Klinikai Kozpont ( Site 1601)",
+        "geoPoint": {
+          "lat": 47.53167,
+          "lon": 21.62444
+        },
+        "status": "RECRUITING",
+        "zip": "4032"
+      },
+      {
+        "city": "Visakhapatnam",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "0891-2878787",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "India",
+        "facility": "Mahatma Gandhi Cancer Hospital and Research Institute ( Site 1714)",
+        "geoPoint": {
+          "lat": 17.68009,
+          "lon": 83.20161
+        },
+        "state": "Andhra Pradesh",
+        "status": "RECRUITING",
+        "zip": "530017"
+      },
+      {
+        "city": "Belagavi",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+9108312473777",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "India",
+        "facility": "KLES Prabhakar Kore Hospital & Medical Research Centre [M] ( Site 1705)",
+        "geoPoint": {
+          "lat": 15.85212,
+          "lon": 74.50447
+        },
+        "state": "Karnataka",
+        "status": "RECRUITING",
+        "zip": "590010"
+      },
+      {
+        "city": "Cork",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+353214920500",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Ireland",
+        "facility": "Cork University Hospital ( Site 1802)",
+        "geoPoint": {
+          "lat": 51.89797,
+          "lon": -8.47061
+        },
+        "status": "RECRUITING",
+        "zip": "T12 E8YV"
+      },
+      {
+        "city": "Dublin",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "0035318034834",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Ireland",
+        "facility": "Mater Misercordiae University Hospital ( Site 1804)",
+        "geoPoint": {
+          "lat": 53.33306,
+          "lon": -6.24889
+        },
+        "status": "RECRUITING",
+        "zip": "D07 R2WY"
+      },
+      {
+        "city": "Dublin",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+35314103747",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Ireland",
+        "facility": "St Jame's Hospital ( Site 1801)",
+        "geoPoint": {
+          "lat": 53.33306,
+          "lon": -6.24889
+        },
+        "status": "RECRUITING",
+        "zip": "D08 NHY1"
+      },
+      {
+        "city": "Hadera",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+972047744335",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Israel",
+        "facility": "Hillel Yaffe Medical Center ( Site 1903)",
+        "geoPoint": {
+          "lat": 32.44192,
+          "lon": 34.9039
+        },
+        "status": "RECRUITING",
+        "zip": "0038100"
+      },
+      {
+        "city": "Haifa",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+97247776700",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Israel",
+        "facility": "Rambam Health Care Campus ( Site 1907)",
+        "geoPoint": {
+          "lat": 32.81303,
+          "lon": 34.99928
+        },
+        "status": "RECRUITING",
+        "zip": "3109601"
+      },
+      {
+        "city": "Haifa",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+97248250211",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Israel",
+        "facility": "Carmel Hospital ( Site 1901)",
+        "geoPoint": {
+          "lat": 32.81303,
+          "lon": 34.99928
+        },
+        "status": "RECRUITING",
+        "zip": "3436212"
+      },
+      {
+        "city": "Jerusalem",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+97226666666",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Israel",
+        "facility": "Shaare Zedek Medical Center ( Site 1905)",
+        "geoPoint": {
+          "lat": 31.76904,
+          "lon": 35.21633
+        },
+        "status": "RECRUITING",
+        "zip": "9103102"
+      },
+      {
+        "city": "Petah Tikva",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "97239377377",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Israel",
+        "facility": "Rabin Medical Center ( Site 1904)",
+        "geoPoint": {
+          "lat": 32.0888,
+          "lon": 34.88666
+        },
+        "status": "RECRUITING",
+        "zip": "4941492"
+      },
+      {
+        "city": "Tel Aviv",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+972528844214",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Israel",
+        "facility": "Sourasky Medical Center ( Site 1902)",
+        "geoPoint": {
+          "lat": 32.08088,
+          "lon": 34.78057
+        },
+        "status": "RECRUITING",
+        "zip": "6423906"
+      },
+      {
+        "city": "Meldola",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+39054331111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "IRCCS - Istituto Romagnolo per lo Studio dei Tumori (IRST) \"Dino Amadori\" ( Site 2009)",
+        "geoPoint": {
+          "lat": 44.12775,
+          "lon": 12.0626
+        },
+        "state": "Forli-Cesena",
+        "status": "RECRUITING",
+        "zip": "47014"
+      },
+      {
+        "city": "Aviano",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+39434659111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "CRO-IRCCS ( Site 2014)",
+        "geoPoint": {
+          "lat": 46.07056,
+          "lon": 12.59472
+        },
+        "state": "Friuli Venezia Giulia",
+        "status": "RECRUITING",
+        "zip": "33081"
+      },
+      {
+        "city": "Milan",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+390282243838",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "Ospedale Humanitas San Pio X ( Site 2013)",
+        "geoPoint": {
+          "lat": 45.46427,
+          "lon": 9.18951
+        },
+        "state": "Lombardy",
+        "status": "RECRUITING",
+        "zip": "20159"
+      },
+      {
+        "city": "Milan",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+390223902772",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "Fondazione IRCCS Istituto Nazionale dei Tumori ( Site 2008)",
+        "geoPoint": {
+          "lat": 45.46427,
+          "lon": 9.18951
+        },
+        "state": "Milano",
+        "status": "RECRUITING",
+        "zip": "20133"
+      },
+      {
+        "city": "Brescia",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+393039951",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "ASST Spedali Civili ( Site 2001)",
+        "geoPoint": {
+          "lat": 45.53558,
+          "lon": 10.21472
+        },
+        "status": "RECRUITING",
+        "zip": "25123"
+      },
+      {
+        "city": "Catania",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+390957262165",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "Ospedale Cannizzaro ( Site 2010)",
+        "geoPoint": {
+          "lat": 37.49223,
+          "lon": 15.07041
+        },
+        "status": "RECRUITING",
+        "zip": "95126"
+      },
+      {
+        "city": "Milan",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+39257489001",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "Istituto Europeo di Oncologia ( Site 2003)",
+        "geoPoint": {
+          "lat": 42.78235,
+          "lon": 12.59836
+        },
+        "status": "RECRUITING",
+        "zip": "20141"
+      },
+      {
+        "city": "Padova",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+390498215729",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "Istituto Oncologico Veneto IRCCS ( Site 2005)",
+        "geoPoint": {
+          "lat": 44.38225,
+          "lon": 11.14261
+        },
+        "status": "RECRUITING",
+        "zip": "35128"
+      },
+      {
+        "city": "Roma",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+390630155701",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "Fondazione Policlinico Universitario Agostino Gemelli IRCCS -Ginecologia Oncologica ( Site 2012)",
+        "geoPoint": {
+          "lat": 44.99364,
+          "lon": 11.10642
+        },
+        "status": "RECRUITING",
+        "zip": "00168"
+      },
+      {
+        "city": "Torino",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+390115081111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "Azienda Ospedaliera Ordine Mauriziano di Torino ( Site 2006)",
+        "geoPoint": {
+          "lat": 44.88856,
+          "lon": 11.99138
+        },
+        "status": "RECRUITING",
+        "zip": "10128"
+      },
+      {
+        "city": "Treviso",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+39 0422322922",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "AULSS 2 MARCA TREVIGIANA ( Site 2011)",
+        "geoPoint": {
+          "lat": 45.66673,
+          "lon": 12.2416
+        },
+        "status": "RECRUITING",
+        "zip": "95123"
+      },
+      {
+        "city": "Nagoya",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-52-762-6111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Aichi Cancer Center ( Site 2114)",
+        "geoPoint": {
+          "lat": 35.18147,
+          "lon": 136.90641
+        },
+        "state": "Aichi-ken",
+        "status": "RECRUITING",
+        "zip": "464-8681"
+      },
+      {
+        "city": "T\u014don",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-89-964-5111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Ehime University Hospital ( Site 2105)",
+        "geoPoint": {
+          "lat": 33.79427,
+          "lon": 132.89011
+        },
+        "state": "Ehime",
+        "status": "RECRUITING",
+        "zip": "791-0295"
+      },
+      {
+        "city": "Kurume",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-942-35-3311",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Kurume University Hospital ( Site 2112)",
+        "geoPoint": {
+          "lat": 33.31667,
+          "lon": 130.51667
+        },
+        "state": "Fukuoka",
+        "status": "RECRUITING",
+        "zip": "830-0011"
+      },
+      {
+        "city": "\u014cta",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-276-38-0771",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Gunma Prefectural Cancer Center ( Site 2109)",
+        "geoPoint": {
+          "lat": 36.3,
+          "lon": 139.36667
+        },
+        "state": "Gunma",
+        "status": "RECRUITING",
+        "zip": "373-8550"
+      },
+      {
+        "city": "Sapporo",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-11-811-9111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "National Hospital Organization Hokkaido Cancer Center ( Site 2108)",
+        "geoPoint": {
+          "lat": 43.06667,
+          "lon": 141.35
+        },
+        "state": "Hokkaido",
+        "status": "RECRUITING",
+        "zip": "003-0804"
+      },
+      {
+        "city": "Akashi",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-78-929-1151",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Hyogo Cancer Center ( Site 2118)",
+        "geoPoint": {
+          "lat": 34.65524,
+          "lon": 135.00687
+        },
+        "state": "Hy\u014dgo",
+        "status": "RECRUITING",
+        "zip": "673-8558"
+      },
+      {
+        "city": "Shiwa-gun",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-19-613-7111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Iwate Medical University Hospital ( Site 2116)",
+        "state": "Iwate",
+        "status": "RECRUITING",
+        "zip": "028-3695"
+      },
+      {
+        "city": "Yokohama",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-45-520-2222",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Kanagawa Cancer Center ( Site 2121)",
+        "geoPoint": {
+          "lat": 35.43333,
+          "lon": 139.65
+        },
+        "state": "Kanagawa",
+        "status": "RECRUITING",
+        "zip": "241-8515"
+      },
+      {
+        "city": "Ginowan",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-98-894-1301",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "University of the Ryukyus Hospital ( Site 2117)",
+        "geoPoint": {
+          "lat": 26.26265,
+          "lon": 127.76147
+        },
+        "state": "Okinawa",
+        "status": "RECRUITING",
+        "zip": "901-2725"
+      },
+      {
+        "city": "Hidaka",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-42-984-4111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Saitama Medical University International Medical Center ( Site 2106)",
+        "geoPoint": {
+          "lat": 35.91664,
+          "lon": 139.36233
+        },
+        "state": "Saitama",
+        "status": "RECRUITING",
+        "zip": "350-1298"
+      },
+      {
+        "city": "Sunto-gun,",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-55-989-5222",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Shizuoka Cancer Center ( Site 2104)",
+        "state": "Shizuoka",
+        "status": "RECRUITING",
+        "zip": "411-8777"
+      },
+      {
+        "city": "Koto",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-3-3520-0111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Cancer Institute Hospital of JFCR ( Site 2119)",
+        "state": "Tokyo",
+        "status": "RECRUITING",
+        "zip": "135-8550"
+      },
+      {
+        "city": "Minato",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-3-3433-1111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "The Jikei University Hospital ( Site 2107)",
+        "geoPoint": {
+          "lat": 35.6581,
+          "lon": 139.7515
+        },
+        "state": "Tokyo",
+        "status": "RECRUITING",
+        "zip": "105-8471"
+      },
+      {
+        "city": "Shinjyuku",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-3-3353-1211",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Keio University Hospital ( Site 2103)",
+        "state": "Tokyo",
+        "status": "RECRUITING",
+        "zip": "160-8582"
+      },
+      {
+        "city": "Fukuoka",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-92-541-3231",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "National Hospital Organization Kyushu Cancer Center ( Site 2102)",
+        "geoPoint": {
+          "lat": 33.6,
+          "lon": 130.41667
+        },
+        "status": "RECRUITING",
+        "zip": "811-1395"
+      },
+      {
+        "city": "Niigata",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-25-266-5111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Niigata Cancer Center Hospital ( Site 2110)",
+        "geoPoint": {
+          "lat": 37.92259,
+          "lon": 139.04125
+        },
+        "status": "RECRUITING",
+        "zip": "951-8566"
+      },
+      {
+        "city": "Okayama",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-86-223-7151",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Okayama University Hospital ( Site 2101)",
+        "geoPoint": {
+          "lat": 34.65,
+          "lon": 133.93333
+        },
+        "status": "RECRUITING",
+        "zip": "700-8558"
+      },
+      {
+        "city": "Osaka",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+81-6-6945-1181",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Japan",
+        "facility": "Osaka Prefectural Hospital Organization Osaka International Cancer Institute ( Site 2111)",
+        "geoPoint": {
+          "lat": 34.69379,
+          "lon": 135.50107
+        },
+        "status": "RECRUITING",
+        "zip": "541-8567"
+      },
+      {
+        "city": "Guadalajara",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+523316063096",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Mexico",
+        "facility": "CANCER TREAMTENT CLINIC AND CLINICAL TRIALS SA DE CV ( Site 2204)",
+        "geoPoint": {
+          "lat": 20.67738,
+          "lon": -103.34749
+        },
+        "state": "Jalisco",
+        "status": "RECRUITING",
+        "zip": "44260"
+      },
+      {
+        "city": "Benito Ju\u00e1rez",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+525551013316",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Mexico",
+        "facility": "Grupo M\u00e9dico ASSET SC ( Site 2203)",
+        "geoPoint": {
+          "lat": 19.3727,
+          "lon": -99.1564
+        },
+        "state": "Mexico City",
+        "status": "RECRUITING",
+        "zip": "03100"
+      },
+      {
+        "city": "Mexico City",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+525514747176",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Mexico",
+        "facility": "Higiea Oncologia ( Site 2205)",
+        "geoPoint": {
+          "lat": 19.42847,
+          "lon": -99.12766
+        },
+        "state": "Mexico City",
+        "status": "RECRUITING",
+        "zip": "11819"
+      },
+      {
+        "city": "Monterrey",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+528183338111",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Mexico",
+        "facility": "Laboratorio de Patolog\u00eda Cl\u00ednica del Hospital Universitario \"Dr. Jos\u00e9 Eleuterio Gonz\u00e1lez\" ( Site 2202)",
+        "geoPoint": {
+          "lat": 25.68435,
+          "lon": -100.31721
+        },
+        "state": "Nuevo Le\u00f3n",
+        "status": "RECRUITING",
+        "zip": "64460"
+      },
+      {
+        "city": "Chihuahua City",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "6146883416",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Mexico",
+        "facility": "Scientia Investigacion Clinica S.C. ( Site 2201)",
+        "geoPoint": {
+          "lat": 28.63528,
+          "lon": -106.08889
+        },
+        "status": "RECRUITING",
+        "zip": "31207"
+      },
+      {
+        "city": "Oaxaca City",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+529515473137",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Mexico",
+        "facility": "Centro de Investigacion Clinica de Oaxaca ( Site 2207)",
+        "geoPoint": {
+          "lat": 17.06025,
+          "lon": -96.72544
+        },
+        "status": "RECRUITING",
+        "zip": "68020"
+      },
+      {
+        "city": "Cebu City",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "(02) 8731 1631",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Philippines",
+        "facility": "Perpetual Succour Hospital ( Site 2502)",
+        "geoPoint": {
+          "lat": 10.31672,
+          "lon": 123.89071
+        },
+        "state": "Cebu",
+        "status": "RECRUITING",
+        "zip": "6000"
+      },
+      {
+        "city": "Makati City",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "(02) 8888 8999",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Philippines",
+        "facility": "Makati Medical Center ( Site 2503)",
+        "geoPoint": {
+          "lat": 14.55027,
+          "lon": 121.03269
+        },
+        "state": "National Capital Region",
+        "status": "RECRUITING",
+        "zip": "1229"
+      },
+      {
+        "city": "Manila",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "(+632) 8558-0888",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Philippines",
+        "facility": "Manila Doctors Hospital ( Site 2501)",
+        "geoPoint": {
+          "lat": 14.6042,
+          "lon": 120.9822
+        },
+        "state": "National Capital Region",
+        "status": "RECRUITING",
+        "zip": "1000"
+      },
+      {
+        "city": "Warsaw",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+48225462295",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Poland",
+        "facility": "Narodowy Instytut Onkologii im. Marii Sklodowskiej-Curie - Panstwowy Instytut Badawczy w Warszawie ( Site 2605)",
+        "geoPoint": {
+          "lat": 52.22977,
+          "lon": 21.01178
+        },
+        "state": "Masovian Voivodeship",
+        "status": "RECRUITING",
+        "zip": "02-781"
+      },
+      {
+        "city": "Gliwice",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+48322788613",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Poland",
+        "facility": "Narodowy Instytut Onkologii - Oddzial w Gliwicach-III Klinika Radioterapii i Chemioterapii ( Site 2604)",
+        "geoPoint": {
+          "lat": 50.29761,
+          "lon": 18.67658
+        },
+        "state": "Silesian Voivodeship",
+        "status": "RECRUITING",
+        "zip": "44-102"
+      },
+      {
+        "city": "Siedlce",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+48256403300",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Poland",
+        "facility": "Mazowiecki Szpital Wojew\u00f3dzki w Siedlcach ( Site 2601)",
+        "state": "Warmian-Masurian Voivodeship",
+        "status": "RECRUITING",
+        "zip": "08-110"
+      },
+      {
+        "city": "Kielce",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+48885997850",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Poland",
+        "facility": "Swietokrzyskie Centrum Onkologii. ( Site 2602)",
+        "geoPoint": {
+          "lat": 50.87033,
+          "lon": 20.62752
+        },
+        "state": "\u015awi\u0119tokrzyskie Voivodeship",
+        "status": "RECRUITING",
+        "zip": "25-734"
+      },
+      {
+        "city": "Johannesburg",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+27113390600",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Africa",
+        "facility": "Wits Clinical Research ( Site 2803)",
+        "geoPoint": {
+          "lat": -26.20227,
+          "lon": 28.04363
+        },
+        "state": "Gauteng",
+        "status": "RECRUITING",
+        "zip": "2193"
+      },
+      {
+        "city": "Pretoria",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+27123541771",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Africa",
+        "facility": "Univ. Pretoria and Steve Biko Academic Hospitals ( Site 2804)",
+        "geoPoint": {
+          "lat": -25.74486,
+          "lon": 28.18783
+        },
+        "state": "Gauteng",
+        "status": "RECRUITING",
+        "zip": "0002"
+      },
+      {
+        "city": "Pretoria",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+27123356771",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Africa",
+        "facility": "Curo Oncology. ( Site 2811)",
+        "geoPoint": {
+          "lat": -25.74486,
+          "lon": 28.18783
+        },
+        "state": "Gauteng",
+        "status": "RECRUITING",
+        "zip": "0084"
+      },
+      {
+        "city": "Soweto",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+27119836501",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Africa",
+        "facility": "Wits Clinical Research ( Site 2813)",
+        "geoPoint": {
+          "lat": -26.26781,
+          "lon": 27.85849
+        },
+        "state": "Gauteng",
+        "status": "RECRUITING",
+        "zip": "2113"
+      },
+      {
+        "city": "Hilton",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+27 33 342 0380",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Africa",
+        "facility": "Hopelands Cancer Centre ( Site 2816)",
+        "geoPoint": {
+          "lat": -29.55453,
+          "lon": 30.301
+        },
+        "state": "KwaZulu-Natal",
+        "status": "RECRUITING",
+        "zip": "3245"
+      },
+      {
+        "city": "Cape Town",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+27 21 404 4261",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Africa",
+        "facility": "Groote Schuur Hospital ( Site 2805)",
+        "geoPoint": {
+          "lat": -33.92584,
+          "lon": 18.42322
+        },
+        "state": "Western Cape",
+        "status": "RECRUITING",
+        "zip": "7925"
+      },
+      {
+        "city": "Goyang-si",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+82-31-920-1760",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Korea",
+        "facility": "National Cancer Center ( Site 2905)",
+        "geoPoint": {
+          "lat": 37.65639,
+          "lon": 126.835
+        },
+        "state": "Kyonggi-do",
+        "status": "RECRUITING",
+        "zip": "10408"
+      },
+      {
+        "city": "Jongno-gu",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+82220727439",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Korea",
+        "facility": "Seoul National University Hospital ( Site 2901)",
+        "state": "Seoul",
+        "status": "RECRUITING",
+        "zip": "03080"
+      },
+      {
+        "city": "Seodaemun-Gu",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "82-2-3410-3545",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Korea",
+        "facility": "Severance Hospital Yonsei University Health System ( Site 2902)",
+        "state": "Seoul",
+        "status": "RECRUITING",
+        "zip": "03722"
+      },
+      {
+        "city": "Seoul",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+82230103646",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Korea",
+        "facility": "Asan Medical Center ( Site 2904)",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "status": "RECRUITING",
+        "zip": "05505"
+      },
+      {
+        "city": "Seoul",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+82220084085",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "South Korea",
+        "facility": "Samsung Medical Center ( Site 2903)",
+        "geoPoint": {
+          "lat": 37.566,
+          "lon": 126.9784
+        },
+        "status": "RECRUITING",
+        "zip": "06351"
+      },
+      {
+        "city": "Girona",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+34972225834",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Spain",
+        "facility": "Institut Catal\u00e0 d'Oncologia (ICO) - Girona ( Site 3002)",
+        "geoPoint": {
+          "lat": 41.98311,
+          "lon": 2.82493
+        },
+        "state": "Gerona",
+        "status": "RECRUITING",
+        "zip": "17007"
+      },
+      {
+        "city": "Valencia",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+34961973500",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Spain",
+        "facility": "Hosp Clinico Universitario de Valencia ( Site 3001)",
+        "geoPoint": {
+          "lat": 39.47391,
+          "lon": -0.37966
+        },
+        "state": "Valenciana, Comunitat",
+        "status": "RECRUITING",
+        "zip": "46010"
+      },
+      {
+        "city": "Barcelona",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+34934894350",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Spain",
+        "facility": "Hospital Universitari Vall d Hebron ( Site 3003)",
+        "geoPoint": {
+          "lat": 41.38879,
+          "lon": 2.15899
+        },
+        "status": "RECRUITING",
+        "zip": "08035"
+      },
+      {
+        "city": "C\u00f3rdoba",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+34957011464",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Spain",
+        "facility": "Hospital Universitario Reina Sofia ( Site 3006)",
+        "geoPoint": {
+          "lat": 37.89155,
+          "lon": -4.77275
+        },
+        "status": "RECRUITING",
+        "zip": "14004"
+      },
+      {
+        "city": "Madrid",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+34913368263",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Spain",
+        "facility": "Hospital Ramon y Cajal ( Site 3005)",
+        "geoPoint": {
+          "lat": 40.4165,
+          "lon": -3.70256
+        },
+        "status": "RECRUITING",
+        "zip": "28034"
+      },
+      {
+        "city": "Madrid",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+34913908626",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Spain",
+        "facility": "Hospital Universitario 12 de Octubre ( Site 3007)",
+        "geoPoint": {
+          "lat": 40.4165,
+          "lon": -3.70256
+        },
+        "status": "RECRUITING",
+        "zip": "28041"
+      },
+      {
+        "city": "Madrid",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+34679927508",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Spain",
+        "facility": "Hospital Universitario La Paz ( Site 3004)",
+        "geoPoint": {
+          "lat": 40.4165,
+          "lon": -3.70256
+        },
+        "status": "RECRUITING",
+        "zip": "28046"
+      },
+      {
+        "city": "Lund",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+46171000",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Sweden",
+        "facility": "Skanes Universitetssjukhus Lund ( Site 3103)",
+        "geoPoint": {
+          "lat": 55.70584,
+          "lon": 13.19321
+        },
+        "state": "Sk\u00e5ne County",
+        "status": "RECRUITING",
+        "zip": "22242"
+      },
+      {
+        "city": "Stockholm",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+46812370000",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Sweden",
+        "facility": "Karolinska Universitetssjukhuset-Solna ( Site 3102)",
+        "geoPoint": {
+          "lat": 59.32938,
+          "lon": 18.06871
+        },
+        "state": "Stockholm County",
+        "status": "RECRUITING",
+        "zip": "171 64"
+      },
+      {
+        "city": "Link\u00f6ping",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+46101030000",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Sweden",
+        "facility": "Link\u00f6ping University Hospital ( Site 3101)",
+        "geoPoint": {
+          "lat": 58.41086,
+          "lon": 15.62157
+        },
+        "state": "\u00d6sterg\u00f6tland County",
+        "status": "RECRUITING",
+        "zip": "581 85"
+      },
+      {
+        "city": "Taiwan",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+886-2-23123456",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Taiwan",
+        "facility": "National Taiwan University Hospital ( Site 3301)",
+        "state": "Taipei",
+        "status": "RECRUITING",
+        "zip": "10002"
+      },
+      {
+        "city": "Taichung",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "886-4-23592525",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Taiwan",
+        "facility": "Taichung Veterans General Hospital ( Site 3304)",
+        "geoPoint": {
+          "lat": 24.1469,
+          "lon": 120.6839
+        },
+        "status": "RECRUITING",
+        "zip": "40705"
+      },
+      {
+        "city": "Tainan",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+886 6-2353535",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Taiwan",
+        "facility": "National Cheng Kung University Hospital ( Site 3308)",
+        "geoPoint": {
+          "lat": 22.99083,
+          "lon": 120.21333
+        },
+        "status": "RECRUITING",
+        "zip": "704"
+      },
+      {
+        "city": "Taipei",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+886-2-25433535",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Taiwan",
+        "facility": "Mackay Memorial Hospital ( Site 3303)",
+        "geoPoint": {
+          "lat": 25.05306,
+          "lon": 121.52639
+        },
+        "status": "RECRUITING",
+        "zip": "10449"
+      },
+      {
+        "city": "Taoyuan",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "886-3-3281200",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Taiwan",
+        "facility": "Chang Gung Memorial Hospital ( Site 3302)",
+        "geoPoint": {
+          "lat": 24.99368,
+          "lon": 121.29696
+        },
+        "status": "RECRUITING",
+        "zip": "333"
+      },
+      {
+        "city": "Bangkok",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+6622564500",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Thailand",
+        "facility": "Chulalongkorn University ( Site 3403)",
+        "geoPoint": {
+          "lat": 13.75398,
+          "lon": 100.50144
+        },
+        "state": "Bangkok",
+        "status": "RECRUITING",
+        "zip": "10330"
+      },
+      {
+        "city": "Bangkok",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+6622003611",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Thailand",
+        "facility": "Ramathibodi Hospital ( Site 3404)",
+        "geoPoint": {
+          "lat": 13.75398,
+          "lon": 100.50144
+        },
+        "state": "Bangkok",
+        "status": "RECRUITING",
+        "zip": "10400"
+      },
+      {
+        "city": "Bangkok",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+6624141914",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Thailand",
+        "facility": "Faculty of Medicine Siriraj Hospital ( Site 3401)",
+        "geoPoint": {
+          "lat": 13.75398,
+          "lon": 100.50144
+        },
+        "state": "Bangkok",
+        "status": "RECRUITING",
+        "zip": "10700"
+      },
+      {
+        "city": "Chiang Mai",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+6653936046",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Thailand",
+        "facility": "Maharaj Nakorn Chiang Mai Hospital ( Site 3402)",
+        "geoPoint": {
+          "lat": 18.79038,
+          "lon": 98.98468
+        },
+        "status": "RECRUITING",
+        "zip": "50200"
+      },
+      {
+        "city": "Edinburgh",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+441315371000",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United Kingdom",
+        "facility": "Western General Hospital ( Site 3604)",
+        "geoPoint": {
+          "lat": 55.95206,
+          "lon": -3.19648
+        },
+        "state": "Edinburgh, City of",
+        "status": "RECRUITING",
+        "zip": "EH4 2XU"
+      },
+      {
+        "city": "Truro",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "01872 258344",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United Kingdom",
+        "facility": "The Royal Cornwall Hospital ( Site 3606)",
+        "geoPoint": {
+          "lat": 50.26526,
+          "lon": -5.05436
+        },
+        "state": "England",
+        "status": "RECRUITING",
+        "zip": "TR1 3LJ"
+      },
+      {
+        "city": "London",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "0044 203 447 8025",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United Kingdom",
+        "facility": "University College Hospital London ( Site 3605)",
+        "geoPoint": {
+          "lat": 51.50853,
+          "lon": -0.12574
+        },
+        "state": "London, City of",
+        "status": "RECRUITING",
+        "zip": "NW1 2PG"
+      },
+      {
+        "city": "Withington",
+        "contacts": [
+          {
+            "name": "Study Coordinator",
+            "phone": "+441619187682",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United Kingdom",
+        "facility": "The Christie Hospital NHS Foundation Trust ( Site 3602)",
+        "geoPoint": {
+          "lat": 52.71667,
+          "lon": -2.6
+        },
+        "state": "Manchester",
+        "status": "RECRUITING",
+        "zip": "M20 4BX"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "Merck Sharp & Dohme LLC",
+        "name": "Medical Director",
+        "role": "STUDY_DIRECTOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "Researchers are looking for new ways to treat metastatic cervical cancer. Cervical cancer is cancer in the cervix, the lower part of the uterus (womb). Metastatic means the cancer has spread to other parts of the body.\n\nResearchers want to learn about giving the study medicine sacituzumab tirumotecan (also called sac-TMT or MK-2870) along with pembrolizumab and bevacizumab treatments. Sac-TMT is an antibody drug conjugate, which is a type of medicine that attaches to specific targets on cancer cells and delivers treatment to destroy those cells.\n\nThe goals of this study are to learn:\n\n* About the safety of sac-TMT with pembrolizumab and bevacizumab, and if people tolerate them when given together, and\n* If people who receive sac-TMT and pembrolizumab, with or without bevacizumab, live longer overall or without their cancer getting worse as compared to those who receive standard treatment",
+    "detailedDescription": "This is a 2-part study.\n\nIn Part 1 Safety Run-in, eligible participants will be allocated to treatment with sac-TMT + pembrolizumab + bevacizumab.\n\nIn Part 2, all participants receive standard of care induction treatment. Eligible participants whose cancer does not progress then begin maintenance treatment and are randomized to receive pembrolizumab or sac-TMT + pembrolizumab. All participants in Part 2 maintenance treatment may also receive bevacizumab at the investigator's discretion."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "interventionModelDescription": "Participants in Part 1 Safety Run-in are allocated to a single treatment arm. Participants in study Part 2 complete induction treatment and are then randomized to 1 of 2 maintenance treatment arms.",
+      "maskingInfo": {
+        "masking": "SINGLE",
+        "whoMasked": [
+          "OUTCOMES_ASSESSOR"
+        ]
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 1023,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE3"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "The main inclusion criteria include but are not limited to the following:\n\n* Has a histologically confirmed diagnosis of squamous cell carcinoma, adenosquamous carcinoma, or adenocarcinoma of cervix\n* Has persistent, recurrent, or newly diagnosed metastatic (International Federation of Gynecology and Obstetrics \\[FIGO\\]-2028 Stage IVB) cervical cancer that is not amenable to curative treatment (surgery and/or radiation)\n* If infected with human immunodeficiency virus (HIV), has well controlled HIV on antiretroviral therapy\n* If positive for hepatitis B surface antigen, has received hepatitis B virus (HBV) antiviral therapy and has undetectable HBV viral load\n* If has a history of hepatitis C virus (HCV) infection, has undetectable HCV viral load\n* Has an Eastern Cooperative Oncology Group performance status of 0 or 1\n* Has tumor programmed cell death ligand 1 expression of combined positive score \u22651\n\nThe main exclusion criteria include but are not limited to the following:\n\n* Has HIV infection with a history of Kaposi's sarcoma and/or Multicentric Castleman's Disease\n* Has a history of documented severe dry eye syndrome, severe Meibomian gland disease and/or blepharitis, or severe corneal disease that prevents/delays corneal healing\n* Has active inflammatory bowel disease requiring immunosuppressive medication or previous history of inflammatory bowel disease (eg, Crohn's disease, ulcerative colitis, or chronic diarrhea)\n* Has uncontrolled, significant cardiovascular disease or cerebrovascular disease\n* Has received prior systemic anticancer therapy other than what is specified in this protocol\n* Is currently receiving a strong inducer/inhibitor of cytochrome P450 3A4 that cannot be discontinued for the duration of treatment with sac-TMT\n* Has a diagnosis of immunodeficiency\n* Has a known additional malignancy that is progressing or has required active treatment within the past 3 years\n* Has known active central nervous system metastases and/or carcinomatous meningitis\n* Has active autoimmune disease that has required systemic treatment in the past 2 years; replacement therapy (eg, thyroxine, insulin, or physiologic corticosteroid) is allowed\n* Has a history of (noninfectious) pneumonitis/interstitial lung disease (ILD) that required steroids, has current pneumonitis/ILD, or has suspected ILD or pneumonitis that cannot be ruled out by standard diagnostic assessments\n* Has a history of stem cell/solid organ transplant\n* Has not adequately recovered from major surgery or has ongoing surgical complications",
+    "genderBased": true,
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "FEMALE",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "A Clinical Study of Sacituzumab Tirumotecan (MK-2870) in Combination With Pembrolizumab (MK-3475) as First-line Maintenance Treatment of Cervical Cancer (MK-2870-036/TroFuse-036/GOG-3123/ENGOT-cx22)",
+    "nctId": "NCT07216703",
+    "officialTitle": "A Phase 3, Randomized, Open-label, Multicenter Study to Evaluate the Efficacy and Safety of Sacituzumab Tirumotecan (MK-2870) in Combination With Pembrolizumab With or Without Bevacizumab Compared With Standard of Care as Firstline Maintenance Treatment for Participants With Persistent, Recurrent, or Newly Diagnosed Metastatic Cervical Cancer With PD-L1 CPS Greater Than or Equal to 1 (TroFuse-036/GOG-3123/ENGOT-cx22)",
+    "orgStudyIdInfo": {
+      "id": "2870-036"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "Merck Sharp & Dohme LLC"
+    },
+    "secondaryIdInfos": [
+      {
+        "domain": "UTN",
+        "id": "U1111-1319-9926",
+        "type": "REGISTRY"
+      },
+      {
+        "domain": "EU CT",
+        "id": "2025-521514-26-00",
+        "type": "REGISTRY"
+      },
+      {
+        "domain": "MSD",
+        "id": "MK-2870-036",
+        "type": "OTHER"
+      },
+      {
+        "domain": "MSD",
+        "id": "TroFuse-036",
+        "type": "OTHER"
+      },
+      {
+        "domain": "Gynecologic Oncology Group",
+        "id": "GOG-3123",
+        "type": "OTHER"
+      },
+      {
+        "domain": "European Network for Gynaecological Oncological Trial groups",
+        "id": "ENGOT-cx22",
+        "type": "OTHER"
+      },
+      {
+        "domain": "jRCT (Japan Registry of Clinical Trials)",
+        "id": "jRCT2031250604",
+        "type": "REGISTRY"
+      },
+      {
+        "id": "2025",
+        "link": "https://reporter.nih.gov/quickSearch/2025",
+        "type": "NIH"
+      }
+    ]
+  },
+  "ipdSharingStatementModule": {
+    "description": "https://trialstransparency.msdclinicaltrials.com/pdf/ProcedureAccessClinicalTrialData.pdf",
+    "ipdSharing": "YES",
+    "url": "https://externaldatasharing-msd.com/"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "An AE is any untoward medical occurrence in a clinical study participant, temporally associated with the use of study intervention, whether or not considered related to the study intervention.",
+        "measure": "Part 1 Safety Run-in: Number of Participants Who Experience One or More Adverse Events (AEs)",
+        "timeFrame": "Up to approximately 69 months"
+      },
+      {
+        "description": "An AE is any untoward medical occurrence in a clinical study participant, temporally associated with the use of study intervention, whether or not considered related to the study intervention.",
+        "measure": "Part 1 Safety Run-in: Number of Participants Who Discontinue Study Treatment Due to an AE",
+        "timeFrame": "Up to approximately 66 months"
+      },
+      {
+        "description": "PFS is defined as the time from randomization to the first documented progressive disease (PD) or death due to any cause, whichever occurs first, as assessed by RECIST 1.1 as evaluated by BICR. PD is defined as \u226520% increase in the sum of diameters of target lesions. In addition to the relative increase of 20%, the sum must also demonstrate an absolute increase of \u22655 mm. The appearance of one or more new lesions is also considered PD. PFS as assessed by BICR will be presented.",
+        "measure": "Part 2 Maintenance Treatment: Progression-free Survival (PFS) per Response Evaluation Criteria in Solid Tumors Version 1.1 (RECIST 1.1) as Assessed by Blinded Independent Central Review (BICR)",
+        "timeFrame": "Up to approximately 48 months"
+      },
+      {
+        "description": "OS is defined as time from randomization to death due to any cause. OS will be presented.",
+        "measure": "Part 2 Maintenance Treatment: Overall Survival (OS)",
+        "timeFrame": "Up to approximately 60 months"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "PFS2 is defined as the time from randomization to the documented subsequent objective disease progression after initiation of new anticancer therapy or death due to any cause, whichever occurs first. PFS2 as assessed by the investigator will be presented.",
+        "measure": "Part 2 Maintenance Treatment: Progression-free Survival 2 (PFS2) as Assessed by the Investigator",
+        "timeFrame": "Up to approximately 60 months"
+      },
+      {
+        "description": "An AE is any untoward medical occurrence in a clinical study participant, temporally associated with the use of study intervention, whether or not considered related to the study intervention.",
+        "measure": "Part 2 Maintenance Treatment: Number of Participants Who Experience One or More AEs",
+        "timeFrame": "Up to approximately 64 months"
+      },
+      {
+        "description": "An AE is any untoward medical occurrence in a clinical study participant, temporally associated with the use of study intervention, whether or not considered related to the study intervention.",
+        "measure": "Part 2 Maintenance Treatment: Number of Participants Who Discontinue Study Treatment Due to an AE",
+        "timeFrame": "Up to approximately 61 months"
+      },
+      {
+        "description": "EORTC QLQ-C30 is a questionnaire to assess the overall quality of life (QoL) of cancer patients. Participant responses to questions regarding Global Health Status (GHS; \"How would you rate your overall health during the past week?\") and QoL (\"How would you rate your overall quality of life during the past week?\") are scored on a 7-point scale (1 = Very poor to 7 = Excellent). The combined score of GHS and QoL is computed by averaging the raw scores of the 2 questions and then applying a linear transformation to standardize the average score, so that the combined score ranges from 0 to 100. A higher score indicates a better outcome. The change from baseline in the EORTC QLQ-C30 GHS and QoL combined score will be presented.",
+        "measure": "Part 2 Maintenance Treatment: Change from Baseline in European Organisation for Research and Treatment of Cancer Quality of Life Questionnaire-Core 30 (EORTC QLQ-C30) Global Health Status and Quality of Life Combined Score",
+        "timeFrame": "Baseline and up to approximately 58 months"
+      },
+      {
+        "description": "EORTC QLQ-C30 is a questionnaire to assess the overall QoL of cancer patients. Participant responses to 5 questions about their physical functioning are scored on a 4-point scale (1 = Not at All to 4 = Very Much). The combined score is computed by averaging the raw scores of the 5 questions and then applying a linear transformation to standardize the average score, so that the combined score ranges from 0 to 100. A higher score indicates a better outcome. The change from baseline in the EORTC QLQ-C30 physical functioning combined score will be presented.",
+        "measure": "Part 2 Maintenance Treatment: Change from Baseline in EORTC QLQ-C30 Physical Functioning Combined Score",
+        "timeFrame": "Baseline and up to approximately 58 months"
+      },
+      {
+        "description": "EORTC QLQ-C30 is a questionnaire to assess the overall QoL of cancer patients. Participant responses to 2 questions about their role functioning are scored on a 4-point scale (1 = Not at All to 4 = Very Much). The combined score is computed by averaging the raw scores of the 2 items and then applying a linear transformation to standardize the average score, so that the combined score ranges from 0 to 100. A higher score indicates a better outcome. The change from baseline in the EORTC QLQ-C30 role functioning combined score will be presented.",
+        "measure": "Part 2 Maintenance Treatment: Change from Baseline in EORTC QLQ-C30 Role Functioning Combined Score",
+        "timeFrame": "Baseline and up to approximately 58 months"
+      },
+      {
+        "description": "EORTC QLQ-CX24 is a 24-item questionnaire that assesses symptoms common in women with cervical cancer and evaluates the impact of disease and/or its treatments. Items are rated on a 4-point scale (1 = Not at all to 4= Very Much) and are grouped into 3 multi-item scales (symptom experience, body image, and sexual/vaginal functioning) and 6 single-item scales (lymphedema, peripheral neuropathy, menopausal symptom, sexual concerns, sexual activity, and sexual enjoyment). The combined score is computed by averaging the raw scores of the items and then applying a linear transformation to standardize the average score, so that the combined scores range from 0-100. Higher scores indicate more severe symptoms (lower quality of life) for symptoms scales, or better functioning for functional items. The change from baseline in the EORTC QLQ-CX24 combined score will be presented.",
+        "measure": "Part 2 Maintenance Treatment: Change from Baseline in EORTC Quality of Life Questionnaire-Cervical Cancer Module (QLQ-CX24) Combined Score",
+        "timeFrame": "Baseline and up to approximately 58 months"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "oversightHasDmc": true
+  },
+  "referencesModule": {
+    "seeAlsoLinks": [
+      {
+        "label": "Merck Clinical Trials Information",
+        "url": "https://www.merckclinicaltrials.com/"
+      }
+    ]
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "OTHER",
+        "name": "European Network of Gynaecological Oncological Trial Groups (ENGOT)"
+      },
+      {
+        "class": "NETWORK",
+        "name": "GOG Foundation"
+      }
+    ],
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "Merck Sharp & Dohme LLC"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2031-10-29",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-10-06",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-10-02",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2031-10-29",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2026-01-19",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-10",
+    "studyFirstPostDateStruct": {
+      "date": "2025-10-14",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2025-10-10",
+    "studyFirstSubmitQcDate": "2025-10-10"
+  }
+}

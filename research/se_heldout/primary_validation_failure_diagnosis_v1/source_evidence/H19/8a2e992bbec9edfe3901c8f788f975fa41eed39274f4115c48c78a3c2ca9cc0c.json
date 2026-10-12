@@ -1,0 +1,416 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Study treatment:\n\n* INDUCTION: Pembrolizumab 200 mg IV Q3W; Datopotamab-Deruxtecan 6mg/kg IV Q3W; Carboplatin AUC 5 IV Q3W.\n* For four (4) cycles.\n* MAINTENANCE: Pembrolizumab 200 mg IV Q3W for 35 cycles; Datopotamab-Deruxtecan 6mg/ kg IV Q3W.\\*\n\n  * until disease progression or unacceptable toxicity.",
+        "interventionNames": [
+          "Drug: Pembrolizumab",
+          "Drug: Datopotamab deruxtecan",
+          "Drug: Carboplatin"
+        ],
+        "label": "Single arm: pembrolizumab, datopotamab-deruxtecan, and carboplatin",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Single arm: pembrolizumab, datopotamab-deruxtecan, and carboplatin"
+        ],
+        "description": "Pembrolizumab is a potent humanized immunoglobulin G4 (IgG4) monoclonal antibody (mAb) with high specificity of binding to the programmed cell death 1 (PD-1) receptor, thus inhibiting its interaction with programmed cell death ligand 1 (PD-L1) and programmed cell death ligand 2 (PD-L2).",
+        "name": "Pembrolizumab",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Single arm: pembrolizumab, datopotamab-deruxtecan, and carboplatin"
+        ],
+        "description": "Datopotamab deruxtecan (Dato-DXd) is a novel antibody-drug conjugate (ADC) composed of a humanized anti-TROP2 IgG1 monoclonal antibody linked to a topoisomerase I inhibitor payload and a cleavable linker.",
+        "name": "Datopotamab deruxtecan",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Single arm: pembrolizumab, datopotamab-deruxtecan, and carboplatin"
+        ],
+        "description": "Carboplatin is a platinum compound chemotherapy used to treat lung cancer with a known safety profile. For more details on specific indications refer to the approved product label.",
+        "name": "Carboplatin",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Lung Cancer",
+      "Non Small Cell Lung Cancer",
+      "Brain Metastases"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "lacog0823@lacog.group",
+        "name": "Project Manager",
+        "phone": "+55 51 3384 5334",
+        "role": "CONTACT"
+      },
+      {
+        "email": "laura.voelcker@lacog.group",
+        "name": "Laura Voelcker",
+        "phone": "+55 51 3384 5334",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Fortaleza",
+        "contacts": [
+          {
+            "name": "Eduardo Henrique Cronemberger Costa e Silva",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "CRIO - Centro Regional Integrado de Oncologia",
+        "geoPoint": {
+          "lat": -3.71722,
+          "lon": -38.54306
+        },
+        "state": "Cear\u00e1",
+        "status": "RECRUITING",
+        "zip": "60335-480"
+      },
+      {
+        "city": "Salvador",
+        "contacts": [
+          {
+            "name": "Fernando Oliveira",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Santa Casa de Miseric\u00f3rdia da Bahia - Hospital Santa Izabel (Oncocl\u00ednicas)",
+        "geoPoint": {
+          "lat": -12.97563,
+          "lon": -38.49096
+        },
+        "state": "Estado de Bahia",
+        "status": "RECRUITING",
+        "zip": "40050-410"
+      },
+      {
+        "city": "Belo Horizonte",
+        "contacts": [
+          {
+            "name": "Fl\u00e1via Duarte",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Oncocentro de Minas Gerais (Oncocl\u00ednicas)",
+        "geoPoint": {
+          "lat": -19.92083,
+          "lon": -43.93778
+        },
+        "state": "Minas Gerais",
+        "status": "RECRUITING",
+        "zip": "30360-680"
+      },
+      {
+        "city": "Recife",
+        "contacts": [
+          {
+            "name": "Carla Azevedo",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "IMIP - Instituto de Medicina Integral Professor Fernando Figueira",
+        "geoPoint": {
+          "lat": -8.05389,
+          "lon": -34.88111
+        },
+        "state": "Pernambuco",
+        "status": "RECRUITING",
+        "zip": "50070-902"
+      },
+      {
+        "city": "Rio de Janeiro",
+        "contacts": [
+          {
+            "name": "Tatiane Montella",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "CTTB - Centro de Tratamento de Tumores Botafogo (Oncocl\u00ednicas)",
+        "geoPoint": {
+          "lat": -22.90642,
+          "lon": -43.18223
+        },
+        "state": "Rio de Janeiro",
+        "status": "RECRUITING",
+        "zip": "22250-905"
+      },
+      {
+        "city": "Natal",
+        "contacts": [
+          {
+            "name": "Joilda Batista",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Liga Norte Riograndense Contra o C\u00e2ncer",
+        "geoPoint": {
+          "lat": -5.795,
+          "lon": -35.20944
+        },
+        "state": "Rio Grande do Norte",
+        "status": "RECRUITING",
+        "zip": "59062-000"
+      },
+      {
+        "city": "Porto Alegre",
+        "contacts": [
+          {
+            "name": "Manuela Zereu",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "ISCMPA - Santa Casa de Porto Alegre",
+        "geoPoint": {
+          "lat": -30.03283,
+          "lon": -51.23019
+        },
+        "state": "Rio Grande do Sul",
+        "status": "RECRUITING",
+        "zip": "90050-170"
+      },
+      {
+        "city": "Porto Alegre",
+        "contacts": [
+          {
+            "name": "Ana Gelatti",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "CPO - Centro de Pesquisa em Oncologia do Hospital S\u00e3o Lucas da PUCRS",
+        "geoPoint": {
+          "lat": -30.03283,
+          "lon": -51.23019
+        },
+        "state": "Rio Grande do Sul",
+        "status": "RECRUITING",
+        "zip": "90610-000"
+      },
+      {
+        "city": "Itaja\u00ed",
+        "contacts": [
+          {
+            "name": "Giuliano Santos Borges",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Catarina Pesquisa Cl\u00ednica - Cl\u00ednica de Neoplasias Litoral",
+        "geoPoint": {
+          "lat": -26.90778,
+          "lon": -48.66194
+        },
+        "state": "Santa Catarina",
+        "status": "RECRUITING",
+        "zip": "88301-220"
+      },
+      {
+        "city": "Barretos",
+        "contacts": [
+          {
+            "name": "Fl\u00e1vio Augusto Ferreira da Silva",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "Hospital de Amor de Barretos",
+        "geoPoint": {
+          "lat": -20.55722,
+          "lon": -48.56778
+        },
+        "state": "S\u00e3o Paulo",
+        "status": "RECRUITING",
+        "zip": "14784-400"
+      },
+      {
+        "city": "S\u00e3o Jos\u00e9 do Rio Preto",
+        "contacts": [
+          {
+            "name": "Ma\u00edra Abreu",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "FUNFARME - Hospital de Base de S\u00e3o Jos\u00e9 do Rio Preto",
+        "geoPoint": {
+          "lat": -20.81972,
+          "lon": -49.37944
+        },
+        "state": "S\u00e3o Paulo",
+        "status": "RECRUITING",
+        "zip": "15090-000"
+      },
+      {
+        "city": "S\u00e3o Paulo",
+        "contacts": [
+          {
+            "name": "Vladmir Lima",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "A.C. Camargo Cancer Center",
+        "geoPoint": {
+          "lat": -23.5475,
+          "lon": -46.63611
+        },
+        "state": "S\u00e3o Paulo",
+        "status": "RECRUITING",
+        "zip": "01509-001"
+      },
+      {
+        "city": "S\u00e3o Paulo",
+        "contacts": [
+          {
+            "name": "William Nassib William Junior",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "CPO - Centro Paulista de Oncologia (Oncocl\u00ednicas)",
+        "geoPoint": {
+          "lat": -23.5475,
+          "lon": -46.63611
+        },
+        "state": "S\u00e3o Paulo",
+        "status": "RECRUITING",
+        "zip": "04538-135"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "Latin American Cooperative Oncology Group",
+        "name": "William Nassib William Junior",
+        "role": "PRINCIPAL_INVESTIGATOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This is a Phase II, single-arm, multicenter trial for patients with metastatic non-small cell lung cancer who have brain metastases and no known actionable mutations. Eligible patients will receive a combination of Datopotamab-deruxtecan, Carboplatin, and Pembrolizumab every three weeks for four cycles, followed by maintenance therapy with Datopotamab-deruxtecan and Pembrolizumab until disease progression or intolerable toxicity. Patients with intracranial progression but no systemic progression may receive stereotactic radiosurgery and continue treatment based on the investigator's decision.",
+    "detailedDescription": "This is a phase II, single-arm, multicenter trial. Patients with metastatic NSCLCs with brain metastases and without known actionable mutations will be enrolled. Patients who are eligible for the study will receive Datopotamab-deruxtecan 6 mg/kg, Carboplatin AUC 6, and Pembrolizumab 200 mg flat dose every three weeks, for four cycles, followed by maintenance of Datopotamab-deruxtecan 6 mg/kg and Pembrolizumab 200 mg until unacceptable toxicity or disease progression.\n\nPatients who present intracranial progression but do not present concurrent systemic progression may undergo stereotactic radiosurgery and continue systemic therapy on study as per investigator's decision.\n\nPatients will undergo medical evaluation and laboratory tests (hematology and blood chemistry) every 3 weeks. Abdomen/pelvis and chest CT scans, as well as brain MRIs, will be obtained at baseline, every 6 weeks during the first 24 weeks, then every 9 weeks (\u00b17 days). Patient reported outcomes will be assessed using EORTC QLQ-C30 and QLQ-LC13 questionnaires at baseline and during treatment."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NA",
+      "interventionModel": "SINGLE_GROUP",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 46,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n\\- Male/female participants who are at least 18 years of age on the day of signing informed consent with a histologically confirmed diagnosis of NSCLC will be enrolled in this study.\n\nHistologically confirmed metastatic non-squamous NSCLC with PD-L1 tumor proportion score \\<50% determined by local or central laboratory using antibodies 22C3'\n\n* Documented negative test results for EGFR and ALK actionable genomic alterations by local test;\n* No known actionable genomic alterations in ROS1, NTRK, RET, HER2, or MET.\n* No prior systemic therapy for advanced or metastatic NSCLC. Patients who received chemotherapy or immunotherapy for localized or locally advanced NSCLC are eligible if progression occurred at least 6 months after the last dose of systemic treatment.\n* Participants who have AEs due to previous anticancer therapies must have recovered to \u2264Grade 1 or baseline. Participants with endocrine-related AEs who are adequately treated with hormone replacement or participants who have \u2264Grade 2 neuropathy are eligible.\n* The participant (or legally acceptable representative if applicable) provides written informed consent for the trial.\n* Have measurable disease based on RECIST 1.1, including the following:\n\nPresence of 1 or more measurable central nervous system (CNS) metastases that have not received prior radiation therapy, or presence of 1 or more measurable central nervous system (CNS) metastases that has received prior radiation therapy but has unequivocally progressed within the radiation therapy field; Measurable brain metastasis is defined as any lesion that can be accurately measured in at least one dimension as \u2265 10mm. Patients with brain metastases lesions \u2265 5 mm and \\< 10 mm are considered to have measurable disease and are allowed to be enrolled if MRI slice thickness is 1.5 mm or less.\n\nPresence of 1 or more measurable extracranial lesion; Lesions situated in a previously irradiated area are considered measurable if progression has been demonstrated in such lesions.\n\n\\- No neurological symptoms that require immediate and significant intervention, in the opinion of the treating physician. Patients with neurologic symptoms that do not require significant medical intervention are allowed. Patients may also be enrolled after control of neurological symptoms that require immediate and significant intervention.\n\nPatients with neurologic symptoms that are controlled with anticonvulsants are allowed.\n\nPatients with neurologic symptoms that are controlled with stable (for at least 1 week), low dose dexamethasone (\u22644 mg daily) are allowed.\n\n* No leptomeningeal carcinomatosis.\n* Archival tumor tissue sample or newly obtained \\[core, incisional or excisional\\] biopsy of a tumor lesion has been provided. Formalin-fixed, paraffin embedded (FFPE) tissue blocks are preferred to slide (preferably a minimum of 20 slides).\n\nHave an Eastern Cooperative Oncology Group (ECOG) performance status of 0 to 1. Evaluation of ECOG is to be performed within 7 days prior to the first dose of study intervention.\n\nLife expectancy of \\> 12 weeks.\n\nHas had an adequate treatment washout period before Cycle 1 Day 1, defined as:\n\nMajor surgery: \u2265 3 weeks. Chloroquine/hydroxychloroquine: \\> 14 days.\n\n\\- Participants who are HBsAg positive are eligible if they have received HBV anti-viral therapy for at least 4 weeks and have undetectable HBV viral load prior to inclusion.\n\nNote: Participants should remain on anti-viral therapy throughout study intervention and follow local guidelines for HBV anti-viral therapy post completion of study intervention.\n\n\\- Hepatitis B screening tests are not required unless: Known history of HBV infection. As mandated by local health authority. Participants with a history of HCV infection are eligible if HCV viral load is undetectable at screening.\n\n\\- Note: Participants must have completed curative anti-viral therapy at least 4 weeks prior to inclusion.\n\nHepatitis C screening tests are not required unless:\n\nKnown history of HCV infection As mandated by local health authority\n\n\\- HIV-infected participants must have well-controlled HIV on ART, defined as: Participants on ART must have a CD4+ T-cell count \u2265350 cells/mm3 at the time of screening Participants on ART must have achieved and maintained virologic suppression defined as confirmed HIV RNA level below 50 or the LLOQ (below the limit of detection) using the locally available assay at the time of screening and for at least 12 weeks before screening.\n\n\\- It is advised that participants must not have had any AIDS-defining opportunistic infections within the past 12 months.\n\nParticipants on ART must have been on a stable regimen, without changes in drugs or dose modification, for at least 4 weeks before study entry (Day 1) and agree to continue ART throughout the study The combination ART regimen must not contain any antiretroviral medications that interact with CYP3A4 inhibitors/inducers/substrates (https://www.fda.gov/drugs/drug-interactions-labeling/drug-development-and-drug-interactions-table-substrates-inhibitors-and-inducers)\n\n* Negative pregnancy test (serum) for women of childbearing potential.\n* Have adequate organ function. Specimens must be collected within 10 days prior to the start of study intervention.\n* Hematological: Absolute neutrophil count (ANC) \u22651500/\u00b5L; Platelets \u2265100 000/\u00b5L; Hemoglobin\n\n  \u22659.0 g/dL or \u22655.6 mmol/La;\n* Renal: Creatinine OR Measured or calculatedb creatinine clearance (GFR can also be used in place of creatinine or CrCl) \u22641.5 \u00d7 ULN OR \u226530 mL/min for participant with creatinine levels \\>1.5 \u00d7 institutional ULN\n* Hepatic: Total bilirubin \u22641.5 \u00d7ULN OR direct bilirubin \u2264ULN for participants with total bilirubin levels \\>1.5 \u00d7 ULN AST (SGOT) and ALT (SGPT) \u22642.5 \u00d7 ULN (\u22645 \u00d7 ULN for participants with liver metastases)\n* Coagulation: International normalized ratio (INR) OR prothrombin time (PT) Activated partial thromboplastin time (aPTT) \u22641.5 \u00d7 ULN unless participant is receiving anticoagulant therapy as long as PT or aPTT is within therapeutic range of intended use of anticoagulants;\n* ALT (SGPT)=alanine aminotransferase (serum glutamic pyruvic transaminase); AST (SGOT)=aspartate aminotransferase (serum glutamic oxaloacetic transaminase); GFR=glomerular filtration rate; ULN=upper limit of normal.\n\n  1. Criteria must be met without erythropoietin dependency and without packed red blood cell (pRBC) transfusion within the last 2 weeks.\n  2. Creatinine clearance (CrCl) should be calculated per institutional standard.\n\nExclusion Criteria:\n\n* Has received prior systemic anti-cancer therapy including investigational agents within 4 weeks prior to inclusion.\n* Has received prior radiotherapy to the brain within 2 weeks of the start of therapy, or received radiotherapy to the chest within 4 weeks of start of therapy, or that have ongoing radiation-related toxicities requiring corticosteroid.\n* Has received a live vaccine or live-attenuated vaccine within 30 days before the first dose of study intervention. Administration of killed vaccines is allowed.\n* Has received an investigational agent or has used an investigational device within 4 weeks prior to study intervention administration.\n* Has a diagnosis of immunodeficiency or is receiving chronic systemic steroid therapy (in dosing exceeding 10 mg daily of prednisone equivalent) or any other form of immunosuppressive therapy within 7 days prior to the first dose of study drug. Use of dexamethasone \u2264 4 mg/day (or another steroid at equivalent doses) is allowed for treatment of neurological symptoms.\n* Has spinal cord compression.\n* Uncontrolled or significant cardiovascular disease, including: Mean QT interval corrected for heart rate using Fridericia's formula (QTcF) interval \\>470 msec regardless of sex; Myocardial infarction within 6 months prior to inclusion; Uncontrolled angina pectoris within 6 months prior to inclusion; Known LVEF \\<50% by ECHO or MUGA scan within 28 days before inclusion; New York Heart Association Class 2 to 4 congestive heart failure (CHF) at screening; Uncontrolled hypertension within 7 days before inclusion.\n* Known additional malignancy that is progressing or has required active treatment within the past 5 years. Note: Participants with basal cell carcinoma of the skin, squamous cell carcinoma of the skin, or carcinoma in situ, excluding carcinoma in situ of the bladder, which have undergone potentially curative therapy are not excluded. Participants with low-risk early-stage prostate cancer (T1-T2a, Gleason score \u22646, and PSA \\<10 ng/mL) either treated with definitive intent or untreated in active surveillance with stable disease are not excluded.\n* Has severe hypersensitivity (\u2265Grade 3) to either pembrolizumab and/or any of its excipients and/or Dato-DXd including its excipients (e.g. polysorbate 80).\n* Has a history of non-infectious ILD/pneumonitis including radiation pneumonitis that required steroids, has current ILD/pneumonitis, or has suspected ILD/pneumonitis that cannot be ruled out by imaging at screening.\n* Clinically severe pulmonary compromise resulting from intercurrent pulmonary illnesses (including pulmonary embolism within 3 months of enrollment, severe asthma, severe oxygen-dependent chronic obstructive pulmonary disease, restrictive lung disease, pleural effusion) or autoimmune disease with lung involvement (i.e. rheumatoid arthritis, Sjogren disease, sarcoidosis, etc) with pulmonary involvement documented or suspected at screening.\n* Clinically significant known corneal disease.\n* Known active tuberculosis infection (clinical evaluation that may include clinical history, physical examination and radiographic findings, or tuberculosis testing in line with local practice).\n* Severe infection within 4 weeks prior to the first dose of study treatment (Cycle 1, Day 1), including but not limited to hospitalization for complications of infection, bacteraemia, or severe pneumonia.\n* Treatment with oral or IV antibiotics within 2 weeks prior to initiation of study treatment (Cycle 1, Day 1).\n* Has not adequately recovered from major surgery or has ongoing surgical complications.\n* Has a history or current evidence of any condition, therapy, or laboratory abnormality or other circumstance that might confound the results of the study, interfere with the participant's participation for the full duration of the study, such that it is not in the best interest of the participant to participate, in the opinion of the treating investigator.\n* Has known psychiatric or substance abuse disorders that would interfere with cooperation with the requirements of the trial.\n* Is pregnant or breastfeeding or expecting to conceive or father children within the projected duration of the study, starting 3 months before Cycle 1 Day 1 and continuing for at least 6 months for male subjects and 7 months for female subjects after the last dose.\n* Female participants must be at least 1 year post-menopausal, surgically sterile, or using at least 1 highly effective form of birth control (a highly effective method of contraception is defined as one that can achieve a failure rate of less than 1% per year when used consistently and correctly.) Women of childbearing potential who are sexually active with a non-sterilized male partner must agree to use at least 1 highly effective method of birth control. They should have been stable on their chosen method of birth control for a minimum of 3 months before Cycle 1 Day 1 and continue for at least 7 months after the last dose. Female participants must refrain from egg cell donation or retrieval for their own use, and breastfeeding from first dose throughout the study and for at least 7 months after the last dose of study drug. Any non-sterilized male partner of a woman of childbearing potential must use a male condom plus spermicide (condom alone in countries where spermicides are not approved) throughout this period.\n* Male participants who intend to be sexually active with a female partner of childbearing potential must be surgically sterile or use an acceptable method of contraception from the time of screening throughout the total duration of the study and the drug washout period (at least 6 months after the last dose of study intervention), in addition to the female partner using a highly effective contraceptive method, to prevent pregnancy in a partner. Male participants must not donate or bank sperm during this same time period. Preservation of sperm should be considered prior to inclusion. Not engaging in heterosexual activity (sexual abstinence) for the duration of the study and drug washout period is an acceptable practice, if this is the preferred usual lifestyle of the participant. Periodic or occasional abstinence, the rhythm method, and the withdrawal method are not acceptable methods of contraception.\n* Has had an allogenic tissue/solid organ transplant.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "acronym": "TROPICAL-1",
+    "briefTitle": "A Single Arm, Phase 2 Study of Datopotamab Deruxtecan, Carboplatin, and Pembrolizumab for Treatment-naive Brain Metastases From NSCLC (Non-small Cell Lung Cancer)",
+    "nctId": "NCT06822543",
+    "officialTitle": "A Single Arm, Phase 2 Study of Datopotamab Deruxtecan, Carboplatin, and Pembrolizumab for Treatment-naive Brain Metastases From NSCLC (Non-small Cell Lung Cancer)",
+    "orgStudyIdInfo": {
+      "id": "LACOG 0823"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Latin American Cooperative Oncology Group"
+    }
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "The intracranial objective response rate (iORR) is defined as the proportion of patients achieving a complete response (CR) or partial response (PR) according to the RANO-BM (Response Assessment in Neuro-Oncology Brain Metastases) criteria, as assessed by central review. The best overall CNS (central nervous system) response is determined based on a composite assessment of radiographical CNS target and non-target lesion responses, corticosteroid use, and clinical status.",
+        "measure": "Confirmed Intracranial Objective Response Rate (iORR) as Measured by the RANO-BM Criteria",
+        "timeFrame": "Through study primary completion, an average of 2 years"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false,
+    "oversightHasDmc": false
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "INDUSTRY",
+        "name": "Merck Sharp & Dohme LLC"
+      },
+      {
+        "class": "INDUSTRY",
+        "name": "AstraZeneca"
+      }
+    ],
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Latin American Cooperative Oncology Group"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2028-11-01",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-08-26",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-08-24",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2028-06-30",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2025-09-12",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-08",
+    "studyFirstPostDateStruct": {
+      "date": "2025-02-12",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2025-02-03",
+    "studyFirstSubmitQcDate": "2025-02-11"
+  }
+}

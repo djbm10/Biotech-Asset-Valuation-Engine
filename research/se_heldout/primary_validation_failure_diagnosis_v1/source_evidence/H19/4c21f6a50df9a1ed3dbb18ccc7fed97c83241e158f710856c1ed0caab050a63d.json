@@ -1,0 +1,596 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Disitamab vedotin 2.5 mg/kg will be administered as an intravenous infusion every 2 weeks (Q2W) as monotherapy, or in combination with physician-selected platinum-based chemotherapy (carboplatin 200-250 mg/m\u00b2 IV Q2W or cisplatin 50 mg/m\u00b2 IV Q2W).",
+        "interventionNames": [
+          "Drug: Cohort 1 (HER2-positive, RC48-ADC)"
+        ],
+        "label": "Cohort 1 (HER2-positive, RC48-ADC)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "larotrectinib 100 mg orally twice daily or entrectinib 600 mg orally once daily;",
+        "interventionNames": [
+          "Drug: Cohort 2 (NTRK-fusion or NTRK-mutant)"
+        ],
+        "label": "Cohort 2 (NTRK-fusion or NTRK-mutant)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "leuprolide 3.75 mg subcutaneously every 4 weeks, bicalutamide 50 mg orally once daily, and abiraterone 1 000 mg orally once daily.",
+        "interventionNames": [
+          "Drug: Cohort 3 (AR-positive, leuprolide + bicalutamide + abiraterone)"
+        ],
+        "label": "Cohort 3 (AR-positive, leuprolide + bicalutamide + abiraterone)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "ESG401 16 mg/kg IV (days 1, 8, 15, q4w), sacituzumab govitecan 10 mg/kg IV (days 1 \\& 8, q3w), or sacituzumab tirumotecan 5 mg/kg IV q2w.",
+        "interventionNames": [
+          "Drug: TROP2 ADC"
+        ],
+        "label": "Cohort 4 (TROP2 ADC)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "apatinib 250 mg qd po or anlotinib 12 mg",
+        "interventionNames": [
+          "Drug: TKI"
+        ],
+        "label": "Cohort 5 (ACC-TKI)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "albumin-bound paclitaxel 260 mg/m\u00b2 IV q3w plus physician-selected cisplatin 75 mg/m\u00b2 IV q3w or carboplatin 350 mg/m\u00b2 IV q3w.",
+        "interventionNames": [
+          "Drug: Albumin-paclitaxel + platinum"
+        ],
+        "label": "Cohort 6 (albumin-bound paclitaxel + platinum)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "albumin-bound paclitaxel 260 mg/m\u00b2 IV q3w, carboplatin 350 mg/m\u00b2 IV q3w, camrelizumab 200 mg IV q3w, and apatinib 250 mg qd po.",
+        "interventionNames": [
+          "Drug: Albumin-paclitaxel + carboplatin + apatinib + camrelizumab"
+        ],
+        "label": "Cohort 7 (albumin-bound paclitaxel + carboplatin + apatinib + camrelizumab)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "albumin-bound paclitaxel 260 mg/m\u00b2 + trastuzumab (loading 8 mg/kg \u2192 6 mg/kg IV q3w) + pyrotinib 400 mg PO qd.",
+        "interventionNames": [
+          "Drug: albumin-bound paclitaxel+trastuzumab+pyrotinib"
+        ],
+        "label": "Cohort 8 (HER2-positive, albumin-bound paclitaxel + trastuzumab + pyrotinib)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "trastuzumab deruxtecan 5.4 mg/kg IV q3w \u00b1 pertuzumab (loading 840 mg \u2192 420 mg IV q3w).",
+        "interventionNames": [
+          "Drug: HER2,trastuzumab deruxtecan\u00b1 pertuzumab"
+        ],
+        "label": "Cohort 9 (HER2-positive, DS-8201 \u00b1 pertuzumab)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Darolutamide 600mg po bid / Enzalutamide 160mg po qd / Apalutamide 240mg po qd / Rivarutamide 240mg po qd + goserelin 10.8 mg SC q12w + pertuzumab/trastuzumab loading 15 mL \u2192 10 mL SC q3w.",
+        "interventionNames": [
+          "Drug: AR,AR antagonist ++ goserelin + pertuzumab + trastuzumab"
+        ],
+        "label": "Cohort 10 (HER2+/AR+, AR antagonist + goserelin + pertuzumab + trastuzumab)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Darolutamide 600mg po bid / Enzalutamide 160mg po qd / Apalutamide 240mg po qd / Rivarutamide 240mg po qd+ goserelin 10.8 mg SC q12w \u00b1 docetaxel 75 mg/m\u00b2 IV q3w.",
+        "interventionNames": [
+          "Drug: AR,AR antagonist +goserelin +docetaxel"
+        ],
+        "label": "Cohort 11 (AR-positive, AR antagonist+ goserelin \u00b1 docetaxel)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "ivonescimab 20 mg/kg + investigator-choice platinum doublet (albumin-paclitaxel 260 mg/m\u00b2, liposomal paclitaxel 175 mg/m\u00b2, docetaxel 75 mg/m\u00b2, or vinorelbine 25 mg/m\u00b2 d1,d8) plus cisplatin 75 mg/m\u00b2 or carboplatin AUC 5-6 IV q3w.",
+        "interventionNames": [
+          "Drug: ivonescimab + investigator-choice platinum doublet+"
+        ],
+        "label": "Cohort 12 (ivonescimab)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "iparomlimab 5 mg/kg + platinum doublet (as above) \u00b1 bevacizumab 5 mg/kg IV q3w.",
+        "interventionNames": [
+          "Drug: iparomlimab + tuvonralimab"
+        ],
+        "label": "Cohort 13 (iparomlimab + tuvonralimab)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "cadonilimab 10 mg/kg + platinum doublet (as above) \u00b1 bevacizumab 5 mg/kg IV q3w.",
+        "interventionNames": [
+          "Drug: cadonilimab"
+        ],
+        "label": "Cohort 14 (cadonilimab)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "CDK4/6 inhibitor (abemaciclib 150 mg PO bid or palbociclib 125 mg PO qd) plus AI (letrozole 2.5 mg, anastrozole 1 mg, or exemestane 20 mg PO qd) or fulvestrant 500 mg IM q4w",
+        "interventionNames": [
+          "Drug: CDK4/6 inhibitor+AI or fulvestrant"
+        ],
+        "label": "Cohort 15 (HR-positive)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "alpelisib 300 mg PO qd plus fulvestrant 500 mg IM q4w.",
+        "interventionNames": [
+          "Drug: alpelisib+fulvestrant"
+        ],
+        "label": "Cohort 16 (PI3K-mutant)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "PARP inhibitor (olaparib 300 mg PO bid, niraparib 300 mg PO qd, fluzoparib 150 mg PO bid, or pamiparib 60 mg PO bid).",
+        "interventionNames": [
+          "Drug: PARP inhibitor"
+        ],
+        "label": "Cohort 17 (homologous-recombination-deficient)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "enfortumab vedotin 1.25 mg/kg IV d1,d8,d15 (max 125 mg) \u00b1 ICI (pembrolizumab 200 mg, camrelizumab 200 mg, or toripalimab 240 mg IV q3w).",
+        "interventionNames": [
+          "Drug: enfortumab vedotin"
+        ],
+        "label": "Cohort 18 (Nectin-4 ADC)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "pyrotinib 400 mg PO qd + pertuzumab/trastuzumab loading 15 mL \u2192 10 mL SC q3w.",
+        "interventionNames": [
+          "Drug: HER2, pyrotinib + pertuzumab/trastuzumab"
+        ],
+        "label": "Cohort 19 (HER2-positive, pyrotinib + pertuzumab + trastuzumab)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "verbecotutamab 2.0 mg/kg ivgtt \u00b1 lenvatinib 8mg qd q3w",
+        "interventionNames": [
+          "Drug: vebecotutamab \u00b1lenvatinib"
+        ],
+        "label": "\u2473 Cohort 20 (vebecotutamab \u00b1lenvatinib):",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Cohort 1 (HER2-positive, RC48-ADC)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "Cohort 1 (HER2-positive, RC48-ADC)",
+        "otherNames": [
+          "HER2,Vedolizumab"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 2 (NTRK-fusion or NTRK-mutant)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "Cohort 2 (NTRK-fusion or NTRK-mutant)",
+        "otherNames": [
+          "NTRK-inhibitor"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 3 (AR-positive, leuprolide + bicalutamide + abiraterone)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "Cohort 3 (AR-positive, leuprolide + bicalutamide + abiraterone)",
+        "otherNames": [
+          "AR,leuprolide + bicalutamide + abiraterone"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 4 (TROP2 ADC)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "TROP2 ADC",
+        "otherNames": [
+          "Cohort 4 (TROP2 ADC)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 5 (ACC-TKI)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "TKI",
+        "otherNames": [
+          "Cohort 5 (ACC-TKI)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 6 (albumin-bound paclitaxel + platinum)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "Albumin-paclitaxel + platinum",
+        "otherNames": [
+          "Cohort 6 (albumin-bound paclitaxel + platinum)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 7 (albumin-bound paclitaxel + carboplatin + apatinib + camrelizumab)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "Albumin-paclitaxel + carboplatin + apatinib + camrelizumab",
+        "otherNames": [
+          "Cohort 7 (albumin-bound paclitaxel + carboplatin + apatinib + camrelizumab)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 8 (HER2-positive, albumin-bound paclitaxel + trastuzumab + pyrotinib)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "albumin-bound paclitaxel+trastuzumab+pyrotinib",
+        "otherNames": [
+          "Cohort8 (HER2-positive, albumin-bound paclitaxel + trastuzumab + pyrotinib)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 9 (HER2-positive, DS-8201 \u00b1 pertuzumab)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "HER2,trastuzumab deruxtecan\u00b1 pertuzumab",
+        "otherNames": [
+          "Cohort9(HER2-positive, DS-8201 \u00b1 pertuzumab)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 10 (HER2+/AR+, AR antagonist + goserelin + pertuzumab + trastuzumab)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "AR,AR antagonist ++ goserelin + pertuzumab + trastuzumab",
+        "otherNames": [
+          "Cohort 10 (HER2+/AR+, AR antagonist + goserelin + pertuzumab + trastuzumab)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 11 (AR-positive, AR antagonist+ goserelin \u00b1 docetaxel)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "AR,AR antagonist +goserelin +docetaxel",
+        "otherNames": [
+          "Cohort 11 (AR-positive, AR antagonist + goserelin \u00b1 docetaxel)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 12 (ivonescimab)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "ivonescimab + investigator-choice platinum doublet+",
+        "otherNames": [
+          "Cohort 12 (ivonescimab)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 13 (iparomlimab + tuvonralimab)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "iparomlimab + tuvonralimab",
+        "otherNames": [
+          "Cohort 13 (iparomlimab + tuvonralimab)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 14 (cadonilimab)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "cadonilimab",
+        "otherNames": [
+          "Cohort 14 (cadonilimab)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 15 (HR-positive)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "CDK4/6 inhibitor+AI or fulvestrant",
+        "otherNames": [
+          "Cohort 15 (HR-positive)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 16 (PI3K-mutant)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "alpelisib+fulvestrant",
+        "otherNames": [
+          "Cohort 16 (PI3K-mutant)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 17 (homologous-recombination-deficient)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "PARP inhibitor",
+        "otherNames": [
+          "Cohort 17 (homologous-recombination-deficient)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 18 (Nectin-4 ADC)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "enfortumab vedotin",
+        "otherNames": [
+          "Cohort 18 (Nectin-4 ADC)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 19 (HER2-positive, pyrotinib + pertuzumab + trastuzumab)"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "HER2, pyrotinib + pertuzumab/trastuzumab",
+        "otherNames": [
+          "Cohort 19 (HER2-positive, pyrotinib + pertuzumab + trastuzumab)"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "\u2473 Cohort 20 (vebecotutamab \u00b1lenvatinib):"
+        ],
+        "description": "Neoadjuvant / conversion phase: After 2-6 cycles of protocol therapy, patients are re-evaluated. Those deemed resectable undergo surgery of the primary tumour \u00b1 metastatic sites, followed by radiotherapy or other modalities (e.g., radiofrequency ablation) at the investigator's discretion. Patients who remain unresectable after six cycles continue the same regimen until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to stop.\n\nAdjuvant phase: Treatment is administered for 1 years, or until intolerable toxicity or withdrawal of consent.\n\nSalvage phase: Therapy continues until disease progression, intolerable toxicity, withdrawal of consent, or investigator decision to terminate.",
+        "name": "vebecotutamab \u00b1lenvatinib",
+        "otherNames": [
+          "Cohort 20 (vebecotutamab \u00b1lenvatinib)"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Salivary Gland Carcinoma",
+      "Precision Therapy"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "drmafei@126.com",
+        "name": "fei Ma",
+        "phone": "13910217780",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Beijing",
+        "contacts": [
+          {
+            "email": "drmafei@126.com",
+            "name": "Fei Ma, MD",
+            "phone": "+86-10-87787652",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "China",
+        "facility": "Fei Ma",
+        "geoPoint": {
+          "lat": 39.9075,
+          "lon": 116.39723
+        },
+        "state": "Beijing Municipality",
+        "status": "RECRUITING",
+        "zip": "100021"
+      },
+      {
+        "city": "Beijing",
+        "contacts": [
+          {
+            "email": "drmafei@126.com",
+            "name": "Fei Ma, Dr.",
+            "phone": "13718455257",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "China",
+        "facility": "National Cancer Center/National Clinical Research Center for Cancer/Cancer Hospital, Chinese Academy of Medical Sciences and Peking Union Medical College",
+        "geoPoint": {
+          "lat": 39.9075,
+          "lon": 116.39723
+        },
+        "status": "RECRUITING"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "Department of Oral and Maxillofacial Surgery, Peking University School and Hospital of Stomatology",
+        "name": "Jie Zhang",
+        "role": "PRINCIPAL_INVESTIGATOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "Patients with salivary gland carcinoma were divided into groups according to HER2, NTRK, AR, TROP-2, etc. Patients in different groups were given precision targeted therapy or chemotherapy to evaluate the efficacy (ORR rate) and safety of precision therapy.",
+    "detailedDescription": "Patients with locally advanced/recurrent or oligometastatic salivary gland carcinoma will be stratified by HER2, NTRK, AR, TROP-2, etc., and receive precision-targeted or chemotherapy regimens, with efficacy (objective response rate, etc.) and safety of neoadjuvant/conversion therapy evaluated.\n\nTo assess the efficacy of post-operative adjuvant therapy guided by minimal residual disease (MRD) testing in locally advanced salivary gland carcinoma.\n\nPatients with locally advanced/recurrent or symptomatic, rapidly progressive metastatic salivary gland carcinoma who are intolerant of or refuse surgery and radiotherapy will be molecularly stratified and treated with precision regimens, with efficacy (objective response rate, etc.) and safety of salvage therapy evaluated.\n\nTo evaluate efficacy (objective response rate, etc.) and safety of later-line therapy for locally advanced/recurrent or distant metastatic salivary gland carcinoma.\n\nUsing multi-omic approaches to explore salivary gland carcinoma heterogeneity and biomarkers associated with recurrence, metastasis, treatment response and prognosis.\n\nTo investigate concordance between drug-sensitivity testing using ex-vivo 3D tumour models and actual clinical outcomes, and to guide later-line treatment selection based on drug-sensitivity results.\n\nThe diagnostic and prognostic value of fibroblast activation protein inhibitor (FAPI) PET/CT for salivary gland cancer: All patients undergo routine standard examinations (FDG PET/CT) and FAPI PET/CT before and after treatment. Two independent blinded reading teams separately evaluate the two sets of images to provide diagnosis, staging, and follow-up on patient prognosis."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "interventionModelDescription": "The study employs a master-protocol platform design with the primary objective of identifying promising subgroups; new drug regimens may be added during the trial, while ineffective arms are closed based on interim monitoring. The trial consists of two stages. In Stage 1, each experimental arm uses a Bayesian Optimal Phase II (BOP2) design to assess whether the regimen shows sufficient efficacy to warrant further investigation. Arms demonstrating promising activity proceed to Stage 2\uff08Simon two-stage design\uff09.",
+      "maskingInfo": {
+        "masking": "SINGLE",
+        "whoMasked": [
+          "PARTICIPANT"
+        ]
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 39,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n* Patients with histopathologic diagnosis of salivary gland carcinoma\n\n  * The tumor tissues were subjected to HER2/NTRK/AR/TROP-2 immunohistochemical staining.\n\n    * ECOG physical status 0 or 1 score in the 3 days before the first medication of the study treatment;\n\n      * Age 18 or older - no upper limit;\n\n        * Life expectancy is more than 3 months; \u2465Have at least one measurable lesion according to RECIST1.1 standards; \u2466Women of childbearing age must have a negative pregnancy test within 7 days before the first medication, and agree to receive the necessary contraceptive measures;\n\n          \u2467The patient must have adequate liver, kidney, bone marrow, heart and lung and other organ functions:\n\n          \u2468Understanding and voluntarily signing informed consent prior to performing any research-related evaluation/operation;\n\n          \u2469Ability to comply with research visit schedules and other programmatic requirements.\n\nExclusion Criteria:\n\n* Known hypersensitivity or delayed anaphylaxis to any agents in this trial;\n\n  * Major surgery had been performed within 4 weeks prior to the start of the study and did not fully recover;\n\n    * Have received a live vaccine within 4 weeks before the start of the study or plan to receive any vaccine during the study period ;\n\n      * To study the occurrence of arterial/venous thrombosis events within 6 months before medication;\n\n        * Major cardiovascular diseases;\n\n          * Is suffering from uncontrolled systemic diseases, including diabetes, hypertension, pulmonary fibrosis, acute lung disease, interstitial lung disease, cirrhosis, etc.;\n\n            * Is suffering from an active infection that requires systemic treatment;\n\n              * History of active tuberculosis; \u2468 Positive human immunodeficiency virus (HIV) test result; \u2469 Patients with chronic hepatitis B or active hepatitis C. \u246aConditions that the investigator believes will affect the safety or compliance of the drug therapy in this study \u246bFemale/male who is pregnant or breastfeeding or who intends to give birth;",
+    "healthyVolunteers": false,
+    "maximumAge": "100 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "Precision Treatment of Recurrent/Metastatic Salivary Gland Carcinoma Guided by Molecular Typing",
+    "nctId": "NCT06145308",
+    "officialTitle": "Cancer Hospital, Chinese Academy of Medical Sciences/National Cancer Center of China",
+    "orgStudyIdInfo": {
+      "id": "NCC4132"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Peking Union Medical College"
+    }
+  },
+  "ipdSharingStatementModule": {
+    "ipdSharing": "NO"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "ORR rates for neoadjuvant and translational therapy in patients with locally advanced/recurrent and advanced oligometastatic salivary gland cancer and ORR rate of salvage therapy for locally advanced/recurrent or distantly metastatic salivary gland carcinoma with rapid progression that cannot tolerate or refuses surgery",
+        "measure": "ORR",
+        "timeFrame": "ORR at the end of Cycle 2 (each cycle is 21 days)"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "MPR rates in patients who received neoadjuvant and translational therapy and then underwent surgery",
+        "measure": "MPR;",
+        "timeFrame": "MPR rate at the end of surgical treatment"
+      },
+      {
+        "description": "R0 resection rate in patients who received neoadjuvant and translational therapy and then underwent surgery",
+        "measure": "R0 resection rate;",
+        "timeFrame": "R0 resection rate at the end of surgical treatment"
+      },
+      {
+        "description": "Facial nerve protection rate in patients who received neoadjuvant and translational therapy and then underwent surgery",
+        "measure": "Facial nerve protection rate",
+        "timeFrame": "Facial nerve protection rate at the end of surgical treatment"
+      },
+      {
+        "description": "3-year DFS rates for patients who underwent surgery",
+        "measure": "DFS",
+        "timeFrame": "DFS rates at 3-year"
+      },
+      {
+        "description": "2-Year PFS Rate for Patients Receiving Rescue Therapy",
+        "measure": "PFS;",
+        "timeFrame": "PFS Rate at 2-Year"
+      },
+      {
+        "description": "OS for all patients",
+        "measure": "OS",
+        "timeFrame": "OS rate at 5-year"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "OTHER",
+        "name": "Peking University Hospital of Stomatology"
+      }
+    ],
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Peking Union Medical College"
+    },
+    "responsibleParty": {
+      "investigatorAffiliation": "Peking Union Medical College",
+      "investigatorFullName": "Fei Ma",
+      "investigatorTitle": "Chief physician and deputy chief of internal medicine",
+      "type": "PRINCIPAL_INVESTIGATOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2028-07-10",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-04-02",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-03-27",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2028-07-10",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2023-08-15",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-03",
+    "studyFirstPostDateStruct": {
+      "date": "2023-11-24",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2023-09-07",
+    "studyFirstSubmitQcDate": "2023-11-21"
+  }
+}

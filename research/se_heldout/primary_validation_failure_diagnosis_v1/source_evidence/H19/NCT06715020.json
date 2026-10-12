@@ -1,0 +1,213 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Patients with newly diagnosed or suspected breast cancer will undergo one \\[68Ga\\]Ga-TTP scan and one \\[18F\\]FDG scan within 1 week, in randomized order, with no anticancer treatment administered between the two imaging examinations. This cohort is used to evaluate tumor targeting, compare diagnostic performance with \\[18F\\]FDG, and correlate imaging findings with pathology and TROP2 expression.",
+        "interventionNames": [
+          "Drug: 18F-FDG",
+          "Drug: [68Ga]Ga-TTP"
+        ],
+        "label": "Diagnostic Validation Cohort",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Patients with breast cancer who are planned to receive TROP2-directed ADC therapy will undergo paired \\[68Ga\\]Ga-TTP and \\[18F\\]FDG imaging at three time points: before treatment, after 2 cycles of ADC therapy(each cycle is 21 days), and at disease progression. This cohort is used to assess longitudinal imaging changes and their relationship with treatment response.",
+        "interventionNames": [
+          "Drug: 18F-FDG",
+          "Drug: [68Ga]Ga-TTP"
+        ],
+        "label": "ADC Response Assessment Cohort",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "ADC Response Assessment Cohort",
+          "Diagnostic Validation Cohort"
+        ],
+        "description": "\\[18F\\]FDG is administered intravenously as the comparator PET radiotracer. In the diagnostic validation cohort, participants undergo one \\[18F\\]FDG PET examination within 1 week of the \\[68Ga\\]Ga-TTP scan, with no treatment between scans. In the ADC response assessment cohort, participants undergo \\[18F\\]FDG PET imaging at the same three time points as \\[68Ga\\]Ga-TTP: before ADC therapy, after 2 cycles(each cycle is 21 days), and at disease progression. The planned administered activity is approximately 0.1-0.15 mCi/kg.",
+        "name": "18F-FDG",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "ADC Response Assessment Cohort",
+          "Diagnostic Validation Cohort"
+        ],
+        "description": "\\[68Ga\\]Ga-TTP is a TROP2-targeted PET radiotracer administered intravenously for PET imaging. In the diagnostic validation cohort, participants undergo one \\[68Ga\\]Ga-TTP PET examination within 1 week of the comparator \\[18F\\]FDG scan. In the ADC response assessment cohort, participants undergo \\[68Ga\\]Ga-TTP PET imaging before ADC therapy, after 2 cycles of treatment(each cycle is 21 days), and at disease progression. The planned administered activity is approximately 0.05-0.1 mCi/kg.",
+        "name": "[68Ga]Ga-TTP",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Breast Cancer"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "pekyz@163.com",
+        "name": "Zhi Yang",
+        "phone": "010-88196196",
+        "role": "CONTACT"
+      },
+      {
+        "email": "zhangguojun@kmmu.edu.cn;",
+        "name": "Guojun Zhang",
+        "phone": "0871-68231187",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Beijing",
+        "contacts": [
+          {
+            "email": "pekyz@163.com",
+            "name": "Zhi Yang",
+            "phone": "010-88196196",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "China",
+        "facility": "Peking University Cancer Hospital & Institute",
+        "geoPoint": {
+          "lat": 39.9075,
+          "lon": 116.39723
+        },
+        "status": "RECRUITING",
+        "zip": "100143"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "The objective of the study is to construct a noninvasive approach 68Ga-TTP PET/CT to detect the TROP2 expression of tumor lesions in patients with breast tumors and evaluate the efficacy of ADC drug therapy."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "SINGLE_GROUP",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "DIAGNOSTIC"
+    },
+    "enrollmentInfo": {
+      "count": 60,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "NA"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n1. Age 18-75 years old, male or female, ECOG score 0 or 1 points (see the table in Annex 2 for the score table);\n2. Blood routine and liver and kidney function meet the following criteria: Blood routine: WBC \u2265 4.0\u00d7109 L or neutrophil \u22651.5\u00d7109 /L, PLT \u2265 100\u00d7109/L, Hb\u2265 90 g/L; PT or APTT \u2264 1.5 ULN; Liver and kidney function: T-Bil \u2264 1.5\u00d7ULT(upper limit of normal), ALT and AST\u2264 2.5 ULN or \u2264 5\u00d7ULT(subjects with liver metastasis), ALP \u2264 2.5 ULN(ALP \u2264 4.5 ULN if there is bone metastasis or liver metastasis); BUN \u2264 1.5\u00d7ULT, SCr \u2264 1.5\u00d7ULT;\n3. Patients with confirmed or suspected breast cancer;\n4. Expected survival \u226512 weeks;\n5. Good follow-up compliance;\n6. Women of childbearing age (15 to 49 years old) must undergo a pregnancy test within 7 days before the start of the test and the result is negative; Fertile men and women must consent to the use of effective contraception to ensure pregnancy during the study period and within 3 months of the examination;\n7. Subject patients can fully understand and voluntarily participate in this experiment, and sign informed consent.\n\nExclusion Criteria:\n\n1. Severe abnormal liver and kidney function;\n2. Pregnant, pregnant and lactating women;\n3. Can not lie flat for half an hour;\n4. Unable to obtain informed consent;\n5. Suffering from claustrophobia or other mental illness;\n6. People who are known to be allergic to the investigational drug or its excipients in the investigational therapy;\n7. Other conditions deemed unsuitable for participation in the trial by the investigator.",
+    "healthyVolunteers": false,
+    "maximumAge": "75 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "Establishment and Clinical Transformation of ADC Drug Efficacy Evaluation System for Breast Cancer Based on Molecular Imaging",
+    "nctId": "NCT06715020",
+    "officialTitle": "Establishment and Clinical Transformation of ADC Drug Efficacy Evaluation System for Breast Cancer Based on Molecular Imaging",
+    "orgStudyIdInfo": {
+      "id": "2024KT140"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Peking University Cancer Hospital & Institute"
+    }
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "To compare the diagnostic performance of \\[68Ga\\]Ga-TTP PET and \\[18F\\]FDG PET for breast cancer lesions, including sensitivity, specificity, accuracy, false-positive rate, and false-negative rate, using pathology and/or integrated follow-up assessment as reference standard.",
+        "measure": "Diagnostic performance of [68Ga]Ga-TTP PET compared with [18F]FDG PET for breast cancer lesions",
+        "timeFrame": "Within 1 week after paired baseline imaging and within 2 months of follow-up/reference standard assessment"
+      },
+      {
+        "description": "To evaluate the association between changes in tumor uptake on \\[68Ga\\]Ga-TTP PET (e.g., SUV or SUVmax) before treatment, after 2 cycles of TROP2-directed ADC therapy(each cycle is 21 days), and at disease progression, and clinical treatment response in patients with breast cancer receiving ADC therapy.assessed up to 24 months.",
+        "measure": "Change in [68Ga]Ga-TTP uptake in relation to ADC treatment response",
+        "timeFrame": "Baseline before ADC therapy, at the end of Cycle 2 of ADC therapy (each cycle is 21 days), and from the start of ADC therapy until first documented disease progression, assessed up to 24 months."
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "To evaluate the correlation between standardized uptake values of \\[68Ga\\]Ga-TTP PET in target or suspected tumor lesions and TROP2 expression level in corresponding pathological tissue samples.",
+        "measure": "Correlation between [68Ga]Ga-TTP uptake and TROP2 expression in tumor tissue",
+        "timeFrame": "At baseline PET/CT imaging and from 4 weeks before to 8 weeks after baseline imaging for pathological tissue assessment."
+      },
+      {
+        "description": "To assess the in vivo biodistribution, organ uptake, and temporal distribution characteristics of \\[68Ga\\]Ga-TTP in patients with breast cancer at different imaging time windows.",
+        "measure": "Biodistribution and temporal distribution pattern of [68Ga]Ga-TTP in patients",
+        "timeFrame": "From injection to 40 minutes post-injection for dynamic PET imaging; at 50-60 minutes post-injection for routine static PET/CT imaging; and at 2 hours post-injection and 3 hours post-injection for delayed PET/CT imaging in the dynamic-imaging subgroup."
+      },
+      {
+        "description": "To assess the pathological findings of lesions suspected to be positive on \\[68Ga\\]Ga-TTP PET imaging, including concordance with biopsy or surgical pathology when available.",
+        "measure": "Pathological results of lesions suspected to be positive on [68Ga]Ga-TTP PET",
+        "timeFrame": "Within 2 months after imaging"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "OTHER",
+        "name": "Yunnan Cancer Hospital"
+      }
+    ],
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Peking University Cancer Hospital & Institute"
+    },
+    "responsibleParty": {
+      "investigatorAffiliation": "Peking University Cancer Hospital & Institute",
+      "investigatorFullName": "Hua Zhu",
+      "investigatorTitle": "Associate Professor",
+      "type": "PRINCIPAL_INVESTIGATOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2026-12",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-08-11",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-08-07",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2026-12",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2024-12-10",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-05",
+    "studyFirstPostDateStruct": {
+      "date": "2024-12-04",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2024-11-26",
+    "studyFirstSubmitQcDate": "2024-12-02"
+  }
+}

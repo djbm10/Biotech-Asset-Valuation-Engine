@@ -1,0 +1,135 @@
+{
+  "H16": [],
+  "H18": [
+    {
+      "asset_id": "asset:8866bafec6e43f4b49da",
+      "name": "Tirzepatide",
+      "claim": {
+        "claim_id": "claim:9954996062248331a551",
+        "subject_id": "asset:8866bafec6e43f4b49da",
+        "predicate": "human_poc_present",
+        "normalized_value": true,
+        "unit": null,
+        "indication": null,
+        "population": null,
+        "endpoint": "response",
+        "dose": null,
+        "data_cut_date": null,
+        "source_document_id": "document:418164beb4847cf370ca",
+        "supporting_passage": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (\\u219330%-62%, p\\u2009<\\u20090.05) at 48\\u2009h and a significant improvement in maximal respiration for tirzepatide at 5\\u2009days (\\u219142%-52%, p\\u2009=\\u20090.0022).",
+        "locator": "abstract",
+        "direct_observation": true,
+        "extraction_method": "reported_efficacy_sentence",
+        "extractor_version": "human_poc_v4",
+        "extraction_confidence": 0.7,
+        "verification_status": "MACHINE_VERIFIED",
+        "contradicting_claim_ids": [],
+        "supersedes_claim_ids": [],
+        "applicable_as_of_date": "2026-10-11"
+      },
+      "document": {
+        "document_id": "document:418164beb4847cf370ca",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41852165/",
+        "publisher": "PubMed",
+        "document_type": "publication_abstract",
+        "publication_date": null,
+        "retrieval_date": "2026-10-11T21:19:00.905339Z",
+        "content_hash": "1398d3c8478437a153ba0bc3fa16053835c8b8f9ea5f4b37369538210bc7db26",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h18_v4_rerun1/snapshots/pubmed/1398d3c8478437a153ba0bc3fa16053835c8b8f9ea5f4b37369538210bc7db26.json",
+        "source_tier": "PRIMARY",
+        "public_only": true
+      },
+      "source_snapshot": {
+        "abstract": "Incretin-based therapies such as glucagon-like peptide-1 receptor agonists (GLP-1Ras), dual GLP-1/GIP agonists and amylin analogues have demonstrated significant weight loss benefits. However, their impact on skeletal muscle mitochondrial function, particularly under metabolic stress, remains unclear. This study aimed to investigate the effects of semaglutide (GLP-1RA), tirzepatide (dual GLP-1/GIP agonist) and cagrilintide (amylin analogue) on mitochondrial function in C2C12 skeletal muscle myotubes under both healthy and lipotoxic (palmitic acid-treated) conditions. Differentiated C2C12 myotubes were treated with doses of each drug for 48\u2009h and 5 days. Mitochondrial respiration was assessed using the Seahorse XFp analyser, mitochondrial DNA (mtDNA) copy number and oxidative phosphorylation (OXPHOS) complex protein expression were measured by qPCR and western blotting. Key findings were repeated in primary human skeletal muscle cells. Palmitic acid (PA) significantly impaired mitochondrial function, reducing basal oxygen consumption rate (OCR) by 22% (p\u2009=\u20090.0056) and ATP production by 25% (p\u2009=\u20090.0022). In healthy myotubes, semaglutide and cagrilintide transiently reduced basal respiration (\u219321%-28%, p\u2009<\u20090.05) and ATP production (\u219324%-31%, p\u2009<\u20090.01) at 48\u2009h, along with reductions in Complexes I, III and IV protein expression, all of which resolved by 5\u2009days. Tirzepatide significantly increased maximal respiration (\u219120%-25%, p\u2009<\u20090.005) and spare respiratory capacity (\u219122%-30%, p\u2009<\u20090.005) after 5\u2009days. In PA-treated myotubes, semaglutide and cagrilintide acutely worsened mitochondrial impairment (\u2193ATP production by ~20%-25%, p\u2009<\u20090.01), but these effects resolved by Day 5. Tirzepatide initially suppressed mitochondrial function (\u2193ATP production, p\u2009=\u20090.0087) but reversed these effects by Day 5, significantly improving ATP production (\u219127%-30%, p\u2009<\u20090.005), basal respiration (\u219120%, p\u2009=\u20090.0152), and coupling efficiency. mtDNA content remained unchanged across all conditions. Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (\u219330%-62%, p\u2009<\u20090.05) at 48\u2009h and a significant improvement in maximal respiration for tirzepatide at 5\u2009days (\u219142%-52%, p\u2009=\u20090.0022). Incretin-based therapies exert distinct, time and dose-dependent effects on skeletal muscle mitochondrial function. Tirzepatide promoted sustained improvements in mitochondrial respiration under both healthy and lipotoxic conditions, indicating potential benefits for maintaining skeletal muscle bioenergetic function. These findings underscore the need for further mechanistic studies and suggest that tirzepatide may have the potential to support skeletal muscle health in metabolic disease.",
+        "pmid": "41852165",
+        "publication_date": "2026",
+        "title": "Mitochondrial Adaptations in Skeletal Muscle Following Incretin-Based Therapies: In Vitro."
+      },
+      "acceptance_trace": {
+        "sentence_length": 294,
+        "max_sentence_chars": 400,
+        "endpoint_term": "response",
+        "human_term": "human",
+        "numeric_token": "219330%",
+        "nonhuman_veto": null,
+        "unreported_veto": null,
+        "non_efficacy_veto": null,
+        "accepted_statements": [
+          {
+            "asset_name": "TIRZEPATIDE",
+            "endpoint": "response",
+            "sentence": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (\\u219330%-62%, p\\u2009<\\u20090.05) at 48\\u2009h and a significant improvement in maximal respiration for tirzepatide at 5\\u2009days (\\u219142%-52%, p\\u2009=\\u20090.0022).",
+            "value": "219330%",
+            "document_id": "document:418164beb4847cf370ca"
+          }
+        ]
+      }
+    }
+  ],
+  "H19": [
+    {
+      "asset_id": "asset:cf362b6bc18a7577433e",
+      "name": "Sacituzumab Tirumotecan",
+      "claim": {
+        "claim_id": "claim:6c5b35e2a5871015f940",
+        "subject_id": "asset:cf362b6bc18a7577433e",
+        "predicate": "human_poc_present",
+        "normalized_value": true,
+        "unit": null,
+        "indication": null,
+        "population": null,
+        "endpoint": "survival",
+        "dose": null,
+        "data_cut_date": null,
+        "source_document_id": "document:925c92a7331c6271d9f8",
+        "supporting_passage": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+        "locator": "abstract",
+        "direct_observation": true,
+        "extraction_method": "reported_efficacy_sentence",
+        "extractor_version": "human_poc_v4",
+        "extraction_confidence": 0.7,
+        "verification_status": "MACHINE_VERIFIED",
+        "contradicting_claim_ids": [],
+        "supersedes_claim_ids": [],
+        "applicable_as_of_date": "2026-10-11"
+      },
+      "document": {
+        "document_id": "document:925c92a7331c6271d9f8",
+        "source_url": "https://pubmed.ncbi.nlm.nih.gov/41790608/",
+        "publisher": "PubMed",
+        "document_type": "publication_abstract",
+        "publication_date": null,
+        "retrieval_date": "2026-10-12T00:12:21.780879Z",
+        "content_hash": "607448d89ae8e8cf33dc3362da9daa34fa616b396a646a516f06867b29f9e224",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/pubmed/607448d89ae8e8cf33dc3362da9daa34fa616b396a646a516f06867b29f9e224.json",
+        "source_tier": "PRIMARY",
+        "public_only": true
+      },
+      "source_snapshot": {
+        "abstract": "The OptiTROP-Breast01 trial demonstrated the efficacy of sacituzumab tirumotecan for patients with metastatic triple-negative breast cancer (TNBC). The current analysis evaluated the cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for patients with metastatic TNBC from the Chinese health-care system perspective. A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used. Total cost, life-years (LYs), quality-adjusted life-years (QALYs), and incremental cost-effectiveness ratio (ICER) were the model outputs. Sensitivity analyses and subgroup analyses were conducted to estimate the robustness of the model outcomes. In base-case analysis, compared with chemotherapy, sacituzumab tirumotecan could bring additional 0.41 LYs and 0.35 QALYs, with marginal costs of $55,927.31, resulting in the ICER of $162,799.04/QALY, which high than the willingness-to-pay (WTP) threshold of $40,326 per additional QALY gained. One-way sensitivity analyses revealed that the utility value was the main driver of the model outputs. Probabilistic sensitivity analyses showed the cost-effective probability of sacituzumab tirumotecan was 0% at the WTP threshold of $40,326/QALY. Subgroup analyses suggested that sacituzumab tirumotecan could not be considered cost-effective for all subgroup patients. Sacituzumab tirumotecan was unlikely to be the cost-effective option for patients with metastatic TNBC compared with chemotherapy from the Chinese health-care system perspective, reduced the price of sacituzumab tirumotecan could increase its cost-effective.",
+        "pmid": "41790608",
+        "publication_date": "2026",
+        "title": "Cost-effectiveness of sacituzumab tirumotecan in previously treated metastatic triple-negative breast cancer in China."
+      },
+      "acceptance_trace": {
+        "sentence_length": 351,
+        "max_sentence_chars": 400,
+        "endpoint_term": "survival",
+        "human_term": "patient",
+        "numeric_token": "5%",
+        "nonhuman_veto": null,
+        "unreported_veto": null,
+        "non_efficacy_veto": null,
+        "accepted_statements": [
+          {
+            "asset_name": "Sacituzumab Tirumotecan",
+            "endpoint": "survival",
+            "sentence": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+            "value": "5%",
+            "document_id": "document:925c92a7331c6271d9f8"
+          }
+        ]
+      }
+    }
+  ]
+}

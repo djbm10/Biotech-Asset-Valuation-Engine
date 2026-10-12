@@ -1,0 +1,321 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "All patients included in the study will receive DS-1062a at a dose of 6 mg/kg every 3 weeks until progression or until unacceptable toxicity",
+        "interventionNames": [
+          "Drug: DS-1062a"
+        ],
+        "label": "DS-1062a",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "DS-1062a"
+        ],
+        "description": "First infusion for 90 minutes and then infusion duration can be decreased to 30 minutes if participant didn't experience infusion related reactions (IRR)",
+        "name": "DS-1062a",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Metastatic Lung Cancer",
+      "Advanced Non Small Cell Lung Cancer",
+      "Unresectable Non-small Lung Cancer"
+    ],
+    "keywords": [
+      "Metastatic Lung Cancer",
+      "Advanced lung cancer",
+      "Antibody drug conjugate",
+      "ADC",
+      "Non small Cell lung Cancer",
+      "NSLC",
+      "Advanced non small Cell lung Cancer",
+      "Metastatic non small Cell lung Cancer",
+      "Datopotamab deruxtecan",
+      "Refractory NSCLC",
+      "Refractory Non small Cell lung Cancer",
+      "DS-1062",
+      "DS-1062a",
+      "unresectable lung cancer",
+      "unresectable non small Cell lung Cancer",
+      "Advanced NSCLC",
+      "Metastatic NSCLC",
+      "Unresectable NSCLC"
+    ]
+  },
+  "contactsLocationsModule": {
+    "locations": [
+      {
+        "city": "Bordeaux",
+        "country": "France",
+        "facility": "Institut Bergoni\u00e9",
+        "geoPoint": {
+          "lat": 44.84124,
+          "lon": -0.58046
+        },
+        "zip": "33076"
+      },
+      {
+        "city": "Brest",
+        "country": "France",
+        "facility": "Institut de Canc\u00e9rologie, CHRU Morvan de Brest",
+        "geoPoint": {
+          "lat": 48.39029,
+          "lon": -4.48628
+        },
+        "zip": "29200"
+      },
+      {
+        "city": "Caen",
+        "country": "France",
+        "facility": "Centre Fran\u00e7ois Baclesse",
+        "geoPoint": {
+          "lat": 49.18585,
+          "lon": -0.35912
+        },
+        "zip": "14076"
+      },
+      {
+        "city": "Cr\u00e9teil",
+        "country": "France",
+        "facility": "Centre Hospitalier Intercommunal de Cr\u00e9teil",
+        "geoPoint": {
+          "lat": 48.79266,
+          "lon": 2.46569
+        },
+        "zip": "94010"
+      },
+      {
+        "city": "Paris",
+        "country": "France",
+        "facility": "H\u00f4pital Cochin",
+        "geoPoint": {
+          "lat": 48.85341,
+          "lon": 2.3488
+        },
+        "zip": "75014"
+      },
+      {
+        "city": "Paris",
+        "country": "France",
+        "facility": "H\u00f4pital Tenon",
+        "geoPoint": {
+          "lat": 48.85341,
+          "lon": 2.3488
+        },
+        "zip": "75970"
+      },
+      {
+        "city": "Pierre-B\u00e9nite",
+        "country": "France",
+        "facility": "Hospices Civils de Lyon - Centre Hospitalier Lyon Sud",
+        "geoPoint": {
+          "lat": 45.70359,
+          "lon": 4.82424
+        },
+        "zip": "69310"
+      },
+      {
+        "city": "Strasbourg",
+        "country": "France",
+        "facility": "H\u00f4pitaux Universitaires de Strasbourg",
+        "geoPoint": {
+          "lat": 48.58392,
+          "lon": 7.74553
+        },
+        "zip": "67091"
+      },
+      {
+        "city": "Villejuif",
+        "country": "France",
+        "facility": "Gustave Roussy",
+        "geoPoint": {
+          "lat": 48.7939,
+          "lon": 2.35992
+        },
+        "zip": "94805"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "Gustave Roussy, Cancer Campus, Grand Paris",
+        "name": "David PLANCHARD, MD",
+        "role": "STUDY_CHAIR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This study aims to evaluate the efficacy and safety of DS-1062a in participants with metastatic, unresectable NSCLC having progressed on one, but not more than three previous standard therapies. Moreover, the immune effects, the predictors of resistance and response to treatment, the effect of the chemotherapy on deoxyribonucleic acid (DNA) replication will be assessed and will help identify the subgroups that will mostly benefit from the treatment. The pharmacokinetics of the product and the anti-drug antibody (ADA) will be also evaluated.\n\nA total of 100 participants are planned to be included in the study. Participants will receive, every three weeks, a dose of DS-1062a equivalent to 6 mg/kg of body weight until progression or until unacceptable toxicity.\n\nTumor evaluation will be performed every six weeks by the mean of a computed tomography for the thorax, abdomen and pelvis (TAP CT-scan) or a magnetic resonance imaging (MRI). Brain and/or bone CT scans will be also performed throughout the study for participants with brain and/or bone metastasis.\n\nThe safety of the product will be assessed, through complete clinical exams, biological tests, electrocardiograms (ECGs), cardiac echographies (ECHOs) and through the collection of ongoing toxicities or adverse events."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NA",
+      "interventionModel": "SINGLE_GROUP",
+      "interventionModelDescription": "One group of 100 patients treated with DS-102a",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 100,
+      "type": "ACTUAL"
+    },
+    "phases": [
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n* Participants with histologically confirmed diagnosis of advanced and/or unresectable NSCLC\n* Participants who received at least one line and not more than three lines of therapy and considered by the investigator as refractory to standard treatment or for which no standard treatment is available:\n\n  1. Participants who have no known mutation or mutation without an approved targeted therapy: anti programmed cell death (PD-1)/programmed death-ligand 1 (PD-L1) containing therapy and a platinum-doublet regimen\n  2. Participants who have known EGFR, BRAF, and MET mutation or ALK, ROS1, RET, NTRK fusion: one line of an approved targeted agent and one platinum-doublet regimen\n* Metastatic site easily accessible to biopsy (with exception of bone metastasis)\n* Presence of at least one measurable lesion (different from the biopsy site) according to RECIST v1.1\n* ECOG status should be equal or less to one\n* Life expectancy should be equal or more than 3 months\n* Participants must have adequate bone marrow reserve and organ function, based on local laboratory data within 14 days prior to Cycle 1, Day 1\n* Participants with asymptomatic and clinically stable treated brain metastasis, who require no treatment with corticosteroids and/or anticonvulsants. Participants must have a stable neurologic status for at least two weeks prior to Cycle 1 Day 1\n* Females of reproductive/childbearing potential must have a negative serum pregnancy test at screening and must agree to use a highly effective form of contraception or avoid intercourse during the study and for at least 7 months after the last dose of study drug\n\nContraceptive methods considered highly effective:\n\n1. Combined (estrogen and progestogen containing) hormonal contraception associated with inhibition of ovulation (oral, intravaginal, transdermal)\n2. Progestogen-only hormonal contraception associated with inhibition of ovulation (oral, injectable, implantable)\n3. Intrauterine device (IUD)\n4. Intrauterine hormone-releasing system (IUS)\n5. Bilateral tubal occlusion\n6. Vasectomized partner\n7. Complete sexual abstinence during and for at least 7 months after the last dose of study drug. Female participants must not donate, or retrieve for their own use, ova from the time of screening and for at least 7 months after the final study drug administration\n\nMale participants must be surgically sterile or must withhold heterosexual intercourse or must be willing to use a highly effective birth control upon enrollment, during the treatment period, and for at least 4 months following the last dose of study drug.\n\nMale participants must not freeze or donate sperm from screening and for at least 4 months after the final study drug administration.\n\n* Participants must understand, sign and date the written informed consent from prior to any protocol-specific procedures performed. Participants should be able and willing to comply with study visits and procedures as per protocol\n* Participants must be affiliated to a Social Security System or beneficiary of the same\n\nExclusion Criteria:\n\n* Participants unwilling to participate to the biological investigations and to perform biopsies and blood sample collection as required in the protocol\n* Participants with only bone metastasis will be excluded, except if they have an accessible primary tumor which could be biopsied at baseline, on-treatment and end-of-treatment.\n* Participant with any history of interstitial lung disease (ILD) (including pulmonary fibrosis or radiation pneumonitis), has current ILD, or is suspected to have such disease by imaging during screening.\n* Participant with clinically severe pulmonary compromise (based on investigator's assessment) resulting from intercurrent pulmonary illnesses including, but not limited to:\n\n  1. Any underlying pulmonary disorder\n  2. Any autoimmune, connective tissue or inflammatory disorder with pulmonary involvement\n  3. OR prior pneumonectomy\n* Participants receiving chronic systemic corticosteroids at a dose higher than 10 mg prednisone or equivalent or any form of immunosuppressive therapy prior to Cycle 1 Day 1. Participants who require use of bronchodilators, inhaled steroids, or local steroid injections may be included in the study\n* Participants with evidence of any leptomeningeal disease\n* Participants with evidence of clinically active spinal cord compression or brain metastases\n* Participants with a history of severe hypersensitivity reactions to either the drug substances or inactive ingredients (including but not limited to polysorbate 80) of DS-1062a\n* Participants with a history of severe hypersensitivity reactions to other monoclonal antibodies\n* Inadequate washout period prior to Cycle 1 Day 1, defined as:\n\n  1. Whole brain radiation therapy within 14 days before treatment or stereotactic brain radiation therapy, within 7 days before treatment\n  2. Any cytotoxic chemotherapy, investigational agents or other anticancer drug(s) from a previous cancer treatment regimen or clinical study (other than Epidermal growth factor receptor tyrosine kinase inhibitor (EGFR TKI)), within 14 days before treatment or 5 half-lives, whichever is longer\n  3. Immune checkpoint inhibitor therapy, within 21 days before treatment\n  4. Major surgery (excluding placement of vascular access), within 28 days before treatment\n  5. Radiotherapy treatment to more than 30% of the bone marrow or with a wide field of radiation, within 28 days before treatment or palliative radiation therapy within 14 days before treatment\n  6. Chloroquine or hydroxychloroquine within 14 days before treatment\n  7. Live virus vaccination, within 28 days before treatment\n* Prior treatment with an anti-TROP-2 antibody including study drug\n* Participant previously treated with an antibody drug conjugate (ADC) containing a chemotherapeutic agent targeting topoisomerase I inhibitor\n* Participant with unresolved toxicities from previous anticancer therapy, defined as toxicities (other than alopecia) not yet resolved according to the NCI-CTCAE v5.0, grade 2 or more\n* Any evidence of primary malignancy other than locally advanced or metastatic lung cancer within three years prior to Cycle 1 Day 1, except adequately resected non-melanoma skin cancer, curatively treated in-situ disease, or other solid tumors curatively treated\n* Participant with clinically significant corneal disease\n* Any evidence of severe or uncontrolled systemic diseases including active bleeding diatheses, active infection, psychiatric illness/social situations, geographical factors, substance abuse, or other factors which in the investigator's opinion makes it undesirable for the participant to participate in the study or which would jeopardize compliance with the protocol\n* Uncontrolled or significant cardiovascular disease prior to Cycle 1 Day 1, including:\n\n  1. Corrected QT interval higher than 470 ms for females and 450 ms for males according to Fridericia's formula (QTcF) and assessed based on triplicate ECGs, approximately 1 minute apart\n  2. Left ventricular ejection fraction (LVEF) less than 50% by either ECHO or Multigated Acquisition Scan (MUGA)\n  3. Uncontrolled hypertension (resting systolic blood pressure higher than 180 mmHg or diastolic blood pressure higher than 110 mmHg)\n  4. Myocardial infarction within six months\n  5. NYHA Classes 2 to 4 within 28 days before treatment\n  6. Uncontrolled angina pectoris within six months.\n  7. Cardiac arrhythmia requiring antiarrhythmic treatment. Patients with a history of cardiac arrythmia who, at baseline, are controlled with antiarrythmic treatments can be included.\n* Active hepatitis B and/or hepatitis C infection, such as those with serologic evidence of viral infection within 28 days of Cycle 1, Day 1.\n\nParticipants with past or resolved hepatitis B virus (HBV) infection are eligible if:\n\n1. Hepatitis surface antigen (HBsAg) negative and hepatitis B core antibody (anti-HBc) positive; OR\n2. HBsAg positive and HBV DNA viral load is documented to be equal or less than 2,000 IU/mL in the absence of anti-viral therapy and during the previous 12 weeks prior to the viral load evaluation with normal transaminases (in the absence of liver metastasis); OR\n3. HBsAg positive and HBV DNA viral load is documented to be equal or less than 2,000 IU/mL in the absence of anti-viral therapy and during the previous 12 weeks prior to the viral load evaluation with liver metastasis and abnormal transaminases AST/ALT less than 3 ULN\n4. Participants with a history of Hepatitis C infection will be eligible for enrollment only if the viral load according to local standards of detection, is documented to be below the level of detection in the absence of anti-viral therapy during the previous 12 weeks (ie, sustained viral response according to the local product label but no less than 12 weeks, whichever is longer)\n\n   * Participants with known human immunodeficiency virus (HIV) or active COVID-19 infection\n   * Female participants who are pregnant or breastfeeding or intend to become pregnant during the study\n   * Participants with any psychological, familial, sociological, or geographical condition potentially hampering compliance with the study protocol and follow-up schedule; those conditions should be discussed with the patient before registration in the trial\n   * Participants under guardianship or deprived of his/her liberty by a judicial or administrative decision or incapable of giving his/her consent\n   * Participation in another clinical trial evaluating an experimental drug (except non-interventional research)",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "acronym": "ICARUS-LUNG01",
+    "briefTitle": "Datopotamab Deruxtecan (Dato-DXd, DS-1062a) in Advanced and/or Unresectable Non-Small Cell Lung Cancer",
+    "nctId": "NCT04940325",
+    "officialTitle": "Phase 2, Open Label Study of DS-1062a, an Anti-TROP-2-Antibody-Drug Conjugate (ADC), in Patients With Advanced and/or Unresectable Non-Small Cell Lung Cancer (NSCLC), With Biomarker Analysis to Characterize Response to Therapy",
+    "orgStudyIdInfo": {
+      "id": "2023-505924-71-00"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Gustave Roussy, Cancer Campus, Grand Paris"
+    },
+    "secondaryIdInfos": [
+      {
+        "domain": "CSET Number (Gustave Roussy ID)",
+        "id": "2020/3187",
+        "type": "OTHER"
+      },
+      {
+        "id": "2023",
+        "link": "https://reporter.nih.gov/quickSearch/2023",
+        "type": "NIH"
+      }
+    ]
+  },
+  "outcomesModule": {
+    "otherOutcomes": [
+      {
+        "measure": "To assess physical functioning sub-scale score of the European Organization for Research and Treatment of Cancer quality of life questionnaire (EORTC QLQ-C30) based on a scale from 1 to 4, where higher scores mean worse outcome",
+        "timeFrame": "During treatment (Cycles 1, 2, 3 and then every 2 cycles), at EoT and then up to 3 years after EoT, an average of 40 months]"
+      },
+      {
+        "measure": "To assess global health sub-scale score of the European Organization for Research and Treatment of Cancer quality of life questionnaire (EORTC QLQ-C30) based on a scale from 1 to 7, where higher scores mean better outcome",
+        "timeFrame": "During treatment (Cycles 1, 2, 3 and then every 2 cycles), at EoT and up to 3 years after EoT, an average of 40 months]"
+      }
+    ],
+    "primaryOutcomes": [
+      {
+        "description": "ORR is defined as the proportion of participants who achieved a confirmed complete response (CR) or partial response (PR) observed on treatment and assessed by investigators",
+        "measure": "Evaluation of objective response rate (ORR) based on investigator assessment",
+        "timeFrame": "During treatment period, an average of 4 months"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "Defined as the time from the first documented CR or PR until the date of disease progression, or until the date of death",
+        "measure": "Evaluation of duration of response (DoR)",
+        "timeFrame": "From cycle 2 (Week 3) up to 3 years after the EoT, an average of 39 months]"
+      },
+      {
+        "description": "Defined as the time date of the first dose until progression or death from any cause, whichever occurs first",
+        "measure": "Evaluation of progression free Survival (PFS)",
+        "timeFrame": "From cycle 2 (Week 3) up to 3 years after the EoT, an average of 39 months]"
+      },
+      {
+        "description": "Defined as the presence of at least a PR or CR, or a stable disease (SD) for more than six months under treatment",
+        "measure": "Evaluation of clinical benefit ratio (CBR)",
+        "timeFrame": "From cycle 2 (Week 3) up to 3 years after the EoT, an average of 39 months]"
+      },
+      {
+        "description": "All adverse events (AEs), treatment emergent adverse events (TEAEs), serious adverse events (SAEs), and adverse events of special interest (AESIs)",
+        "measure": "To evaluate incidence of adverse events (AEs)",
+        "timeFrame": "During treatment (at each cycle), at EoT and up to 35 days after EoT, an average of 5 months]"
+      },
+      {
+        "description": "Treatment discontinuation, interruptions and dose reductions",
+        "measure": "To evaluate proportion of treatment modification",
+        "timeFrame": "During treatment, an average of 4 months"
+      },
+      {
+        "measure": "Incidence of abnormal laboratory test results",
+        "timeFrame": "During treatment (at each cycle) and at EoT, an average of 4 months"
+      },
+      {
+        "measure": "To evaluate incidence of abnormal ECG readings",
+        "timeFrame": "During treatment (at each cycle) and at EoT, an average of 4 months"
+      },
+      {
+        "measure": "To evaluate change in left ventricular ejection fraction (LVEF)",
+        "timeFrame": "During treatment and at EoT, an average of 4 months"
+      },
+      {
+        "measure": "To assess changes in Eastern Cooperative Oncology Group performance status [ECOG PS] based on a score from 1 to 5, where higher scores mean worse outcomes",
+        "timeFrame": "During treatment (at each cycle) and at EoT, an average of 4 months"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false,
+    "oversightHasDmc": false
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "INDUSTRY",
+        "name": "Daiichi Sankyo"
+      }
+    ],
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Gustave Roussy, Cancer Campus, Grand Paris"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2028-09",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2025-11-26",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2025-11-24",
+    "overallStatus": "ACTIVE_NOT_RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2028-04",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2021-05-12",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2025-11",
+    "studyFirstPostDateStruct": {
+      "date": "2021-06-25",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2021-06-03",
+    "studyFirstSubmitQcDate": "2021-06-17"
+  }
+}

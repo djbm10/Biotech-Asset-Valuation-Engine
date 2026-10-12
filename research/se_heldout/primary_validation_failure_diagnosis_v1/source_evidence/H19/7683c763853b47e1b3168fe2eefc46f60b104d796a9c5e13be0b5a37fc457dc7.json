@@ -1,0 +1,268 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "GB268 (10 or 20 mg/kg Q3W intravenously \\[IV\\], dose selected by Safety Review Committee \\[SRC\\]) + Sacituzumab Tirumotecan 5 mg/kg once every 2 weeks \\[Q2W\\] IV. For participants with locally advanced/metastatic Triple-Negative Breast Cancer \\[TNBC\\] with no prior systemic therapy for advanced disease; no prior Trop-2 Antibody-Drug Conjugate \\[ADC\\].",
+        "interventionNames": [
+          "Drug: GB268",
+          "Drug: Sacituzumab Tirumotecan"
+        ],
+        "label": "Cohort A (GB268 + Sacituzumab Tirumotecan)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "GB268 (10 or 20 mg/kg Q3W IV) + Nab-Paclitaxel 260 mg/m\u00b2 Day 1 Q3W IV. For participants with locally advanced/metastatic TNBC with no prior systemic therapy for advanced disease; prior adjuvant/neoadjuvant taxane allowed only if recurrence \u226512 months after last taxane dose.",
+        "interventionNames": [
+          "Drug: GB268",
+          "Drug: Nab-Paclitaxel"
+        ],
+        "label": "Cohort B (GB268 + Nab-Paclitaxel)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "GB268 (10 or 20 mg/kg Q3W IV) + Datopotamab Deruxtecan 6 mg/kg Day 1 Q3W IV. For participants with HR+/HER2- breast cancer who have received at least 1 line of endocrine therapy, CDK4/6i, and at least 1 line of systemic chemotherapy in the advanced setting; no prior Trop-2 ADC.",
+        "interventionNames": [
+          "Drug: GB268",
+          "Drug: Datopotamab Deruxtecan (Dato-DXd)"
+        ],
+        "label": "Cohort E (GB268+ Datopotamab Deruxtecan)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "GB268 (10 or 20 mg/kg Q3W IV) + Nab-Paclitaxel 260 mg/m\u00b2 Day 1 Q3W IV. For participants with HR+/HER2- breast cancer with disease progression after \u22651 line of endocrine therapy and CDK4/6i, with primary or secondary endocrine resistance; prior adjuvant/neoadjuvant taxane allowed only if recurrence \u226512 months after last taxane dose.",
+        "interventionNames": [
+          "Drug: GB268",
+          "Drug: Nab-Paclitaxel"
+        ],
+        "label": "Cohort F (GB268 + Nab-Paclitaxel)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "GB268 monotherapy (dose not exceeding 30 mg/kg Q3W, selected by SRC) IV. For participants with HR+/HER2- breast cancer who have received prior CDK4/6i and endocrine therapy in any setting, and a TROP2 or HER2 ADC in the advanced setting.",
+        "interventionNames": [
+          "Drug: GB268"
+        ],
+        "label": "Cohort G (GB268 monotherapy)",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Cohort A (GB268 + Sacituzumab Tirumotecan)",
+          "Cohort B (GB268 + Nab-Paclitaxel)",
+          "Cohort E (GB268+ Datopotamab Deruxtecan)",
+          "Cohort F (GB268 + Nab-Paclitaxel)",
+          "Cohort G (GB268 monotherapy)"
+        ],
+        "description": "GB268 is a tri-specific antibody targeting PD-1, CTLA-4, and VEGF. It is designed to block immune checkpoints (PD-1/CTLA-4) to enhance T-cell-mediated anti-tumor immune responses and simultaneously inhibit VEGF-mediated tumor angiogenesis",
+        "name": "GB268",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort B (GB268 + Nab-Paclitaxel)",
+          "Cohort F (GB268 + Nab-Paclitaxel)"
+        ],
+        "description": "Nab-Paclitaxel is a microtubule-stabilizing agent formulated as albumin-bound nanoparticles for IV administration.",
+        "name": "Nab-Paclitaxel",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort E (GB268+ Datopotamab Deruxtecan)"
+        ],
+        "description": "Datopotamab Deruxtecan is an ADC targeting Trop-2, consisting of a monoclonal antibody linked to a topoisomerase I inhibitor payload.",
+        "name": "Datopotamab Deruxtecan (Dato-DXd)",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort A (GB268 + Sacituzumab Tirumotecan)"
+        ],
+        "description": "A Trop-2-directed Antibody-Drug Conjugate \\[ADC\\] consisting of a humanized anti-Trop-2 monoclonal antibody covalently linked to a topoisomerase I inhibitor payload.",
+        "name": "Sacituzumab Tirumotecan",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Breast Cancer (Locally Advanced or Metastatic)"
+    ],
+    "keywords": [
+      "GB268",
+      "Immunotherapy",
+      "PD-1",
+      "CTLA-4",
+      "VEGF"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "xubinghe@medmail.com.cn",
+        "name": "Binghe Xu",
+        "phone": "86 10 67781331",
+        "role": "CONTACT"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This is a Phase Ib/II, open-label, multi-cohort, multi-center study to evaluate the safety, tolerability, and preliminary anti-tumor activity of GB268, a biological product, as monotherapy or in combination with other therapies in patients with locally advanced unresectable or metastatic breast cancer.",
+    "detailedDescription": "The Phase Ib part of the study will primarily assess the safety and tolerability of GB268 in combination therapies, including dose-limiting toxicities (DLTs). The Phase II part will primarily evaluate the preliminary anti-tumor activity of GB268 as monotherapy and in various combination regimens in corresponding breast cancer populations."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 270,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE1",
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Cohort-Specific Requirements:\n\nCohort A: Histologically confirmed locally advanced unresectable or metastatic Triple-Negative Breast Cancer \\[TNBC\\]; no prior systemic therapy for advanced disease; prior adjuvant/neoadjuvant taxane allowed if recurrence \u22656 months after last taxane dose; no prior Trop-2 Antibody-Drug Conjugate \\[ADC\\].\n\nCohort B: Histologically confirmed locally advanced unresectable or metastatic TNBC; no prior systemic therapy for advanced disease; prior adjuvant/neoadjuvant taxane allowed if recurrence \u226512 months after last taxane dose.\n\nCohort E: Histologically confirmed locally advanced unresectable or metastatic HR+/HER2- breast cancer; disease progression after \u22651 line of endocrine therapy (aromatase inhibitor and/or fulvestrant) and CDK4/6i in advanced setting; received \u22651 line of systemic chemotherapy in advanced setting; no prior Trop-2 ADC.\n\nCohort F: Histologically confirmed locally advanced unresectable or metastatic HR+/HER2- breast cancer; disease progression after \u22651 line of endocrine therapy and CDK4/6i with primary or secondary endocrine resistance; prior adjuvant/neoadjuvant taxane allowed if recurrence \u226512 months after last taxane dose.\n\nCohort G: Histologically confirmed locally advanced unresectable or metastatic HR+/HER2- breast cancer; prior CDK4/6i and endocrine therapy in any setting; received a TROP2 or HER2 ADC in advanced setting.\n\nInclusion Criteria:\n\n1. Age \u2265 18 years, male or female.\n2. Histologically confirmed locally advanced unresectable or metastatic breast cancer (Triple-Negative Breast Cancer \\[TNBC\\] or Hormone Receptor-Positive/Human Epidermal Growth Factor Receptor 2-Negative \\[HR+/HER2-\\]).\n3. At least one measurable lesion per Response Evaluation Criteria in Solid Tumors version 1.1 \\[RECIST v1.1\\].\n4. No prior treatment with any immune checkpoint inhibitor (e.g., anti-Programmed Death-1 \\[PD-1\\], anti-Programmed Death-Ligand 1 \\[PD-L1\\], anti-Cytotoxic T-Lymphocyte-Associated Protein 4 \\[CTLA-4\\]) or Programmed Death-1/Vascular Endothelial Growth Factor \\[PD-1/VEGF\\] bispecific antibody, except for adjuvant therapy if relapse occurred \u226512 months after discontinuation.\n5. Assessed by the investigator as suitable for the assigned combination therapy.\n6. Eastern Cooperative Oncology Group \\[ECOG\\] performance status 0 or 1.\n7. Life expectancy \u2265 3 months.\n8. Adequate organ function (within 14 days before first dose, without transfusion or Granulocyte Colony-Stimulating Factor \\[G-CSF\\] support): Hemoglobin \u2265 9 g/dL, Absolute Neutrophil Count \\[ANC\\] \u2265 1.5\u00d710\\^9/L, Platelets \u2265 100\u00d710\\^9/L; Aspartate Aminotransferase \\[AST\\] and Alanine Aminotransferase \\[ALT\\] \u2264 3\u00d7Upper Limit of Normal \\[ULN\\] (\u22645\u00d7ULN if liver metastases); Alkaline Phosphatase \\[ALP\\] \u2264 2.5\u00d7ULN (\u22645\u00d7ULN if bone or liver metastases); Total Bilirubin \u2264 1.5\u00d7ULN (\u22643\u00d7ULN for Gilbert's Syndrome); Serum Creatinine \u2264 1.5\u00d7ULN or Creatinine Clearance \u2265 50 mL/min (Cockcroft-Gault formula); Urine protein dipstick \u2264 1+ (if \u22652+, 24-hour urine protein quantification \\< 1 g); Coagulation function: International Normalized Ratio \\[INR\\] or activated Partial Thromboplastin Time \\[aPTT\\] \u2264 1.5\u00d7ULN (for patients not on anticoagulation therapy).\n9. Provide a Formalin-Fixed Paraffin-Embedded \\[FFPE\\] tumor tissue sample for biomarker testing.\n10. Effective contraception for fertile participants.\n\nExclusion Criteria:\n\n1. Prior anti-cancer therapy within specified washout periods.\n2. Systemic immunosuppressive therapy within 2 weeks before first dose.\n3. Major surgery or significant traumatic injury within 4 weeks before first dose.\n4. Unresolved toxicity from prior therapy \\> Grade 1 (except alopecia or Grade \u22642 hypothyroidism stable on hormone replacement).\n5. Prior immune-related adverse events \\[irAEs\\] \u2265 Grade 3 leading to treatment discontinuation.\n6. Active Central Nervous System \\[CNS\\] metastases (except stable asymptomatic lesions).\n7. History of other malignancies within 3 years (except cured non-melanoma skin cancer or carcinoma in situ).\n8. Uncontrolled pleural effusion or ascites requiring repeated drainage.\n9. Clinically significant cardiovascular disease (e.g., myocardial infarction, unstable angina, stroke within 6 months; QTcF prolongation; New York Heart Association \\[NYHA\\] Class II-IV heart failure; pericarditis/myocarditis).\n10. History of Interstitial Lung Disease \\[ILD\\] or non-infectious pneumonitis requiring steroids.\n11. Active or history of autoimmune disease requiring systemic treatment in the past 2 years.\n12. History of inflammatory bowel disease (e.g., Crohn's disease, ulcerative colitis, or chronic diarrhea).\n13. History of hypertensive crisis or hypertensive encephalopathy.\n14. Severe coagulation disorders or significant bleeding risk (e.g., severe vascular disease, hemoptysis, intracranial/spinal hemorrhage, tumor invading major vessels).\n15. History of abdominal fistula, gastrointestinal perforation, or intra-abdominal abscess.\n16. Active infection requiring systemic anti-infective therapy within 2 weeks; severe infection within 4 weeks.\n17. Uncontrolled intercurrent illness (e.g., poorly controlled hypertension or Type 2 diabetes mellitus).\n18. Known active tuberculosis \\[TB\\].\n19. Positive for Hepatitis B Virus \\[HBV\\] surface antigen \\[HBsAg\\] or core antibody \\[HBcAb\\] with HBV-Deoxyribonucleic Acid \\[DNA\\] \\> 500 IU/mL; or positive Hepatitis C Virus \\[HCV\\] antibody with HCV-Ribonucleic Acid \\[RNA\\] above the lower limit of quantification.\n20. Known primary immunodeficiency or positive Human Immunodeficiency Virus \\[HIV\\] antibody.\n21. History of solid organ or hematopoietic stem cell transplantation (except corneal transplant).\n22. Pregnant or breastfeeding women.\n23. Known hypersensitivity to GB268 or its excipients; history of severe hypersensitivity to other monoclonal antibodies.\n24. Any other condition that would make the participant unsuitable for the study.\n25. History of severe hypersensitivity to other drugs in the combination regimen.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "GB268 Monotherapy or Combination Therapy for Locally Advanced/Metastatic Breast Cancer (Phase Ib/\u2161)",
+    "nctId": "NCT07738341",
+    "officialTitle": "A Open-label, Multicenter Phase Ib/\u2161 Study to Evaluate the Safety, Tolerability, and Antitumor Activity of GB268 for Injection as Monotherapy or in Combination Regimens in Patients With Locally Advanced Unresectable or Metastatic Breast Cancer",
+    "orgStudyIdInfo": {
+      "id": "GB268-201"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "Eddingpharm (Zhuhai) Co., Ltd."
+    }
+  },
+  "ipdSharingStatementModule": {
+    "ipdSharing": "NO"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "Incidence of Dose-Limiting Toxicities \\[DLTs\\] during the first treatment cycle",
+        "measure": "Dose-Limiting Toxicities [DLTs] (Phase Ib)",
+        "timeFrame": "Within 21 days after first dose"
+      },
+      {
+        "description": "ORR is the proportion of subjects with complete response(CR) or partial response(PR) , based on Investigator per Response Evaluation Criteria in Solid Tumors version 1.1 \\[RECIST v1.1\\]",
+        "measure": "Objective Response Rate [ORR] (Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "Safety as assessed by clinical laboratory tests, 12-lead electrocardiogram (ECG), vital signs measurements, and the incidence, nature and severity of all adverse events (AEs) and serious AEs (SAEs)",
+        "measure": "Number of participants with adverse events [AEs] (Phase Ib and Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      },
+      {
+        "description": "ORR is the proportion of subjects with complete response(CR) or partial response(PR) , based on RECIST v1.1.",
+        "measure": "Objective Response Rate [ORR] (Phase Ib)",
+        "timeFrame": "Up to approximately 2 years"
+      },
+      {
+        "description": "DOR assessed according to RECIST v1.1",
+        "measure": "Duration of Response [DOR] (Phase Ib and Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      },
+      {
+        "description": "OS defined as the time from the first dose to death from any cause",
+        "measure": "Overall Survival [OS] (Phase Ib and Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      },
+      {
+        "description": "DCR assessed according to RECIST v1.1",
+        "measure": "Disease Control Rate [DCR] (Phase Ib and Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      },
+      {
+        "description": "PFS assessed according to RECIST v1.1",
+        "measure": "Progression-Free Survival [PFS] (Phase Ib and Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      },
+      {
+        "description": "Peak plasma concentration",
+        "measure": "Cmax of GB268 of GB268 (Phase Ib and Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      },
+      {
+        "description": "Time to peak drug concentration",
+        "measure": "Tmax of GB268 (Phase Ib and Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      },
+      {
+        "description": "Area under curve",
+        "measure": "AUC of GB268 (Phase Ib and Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      },
+      {
+        "measure": "Number and percentage of participants with Anti-Drug Antibodies [ADAs] (Phase Ib and Phase II)",
+        "timeFrame": "Up to approximately 2 years"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false,
+    "oversightHasDmc": false
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "Eddingpharm (Zhuhai) Co., Ltd."
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2030-08-01",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-07-31",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-07-27",
+    "overallStatus": "NOT_YET_RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2029-08-01",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2026-08-01",
+      "type": "ESTIMATED"
+    },
+    "statusVerifiedDate": "2026-07",
+    "studyFirstPostDateStruct": {
+      "date": "2026-07-31",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2026-07-23",
+    "studyFirstSubmitQcDate": "2026-07-27"
+  }
+}

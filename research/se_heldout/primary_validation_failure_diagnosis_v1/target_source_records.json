@@ -1,0 +1,348 @@
+{
+  "IL4R": [
+    {
+      "aliases": [
+        {
+          "alias_type": "SYNONYM",
+          "value": "Interleukin-4 receptor subunit alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Soluble interleukin-4 receptor subunit alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4 receptor subunit alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4R subunit alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4R-alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4RA"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "CD124"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Soluble IL-4 receptor subunit alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Soluble IL-4R-alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "sIL4Ralpha/prot"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL4-BP"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL4R"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL4RA"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "582J2.1"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4-binding protein"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "interleukin 13 receptor"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "interleukin-4 receptor alpha chain"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "IL-4 receptor subunit alpha"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "IL-4R subunit alpha"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "IL-4R-alpha"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "IL-4RA"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "CD124"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "Soluble IL-4 receptor subunit alpha"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "Soluble IL-4R-alpha"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "sIL4Ralpha/prot"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "IL4-BP"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "IL4R"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "IL4RA"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "582J2.1"
+        }
+      ],
+      "canonical_symbol": "IL4R",
+      "entity_type": "TARGET",
+      "label": "interleukin 4 receptor",
+      "source": "open_targets",
+      "source_id": "ENSG00000077238",
+      "xrefs": {
+        "ensembl": [
+          "ENSG00000077238"
+        ],
+        "uniprot": [
+          "P24394",
+          "A0A0G2JLA1",
+          "H3BRH7",
+          "H3BSE7",
+          "H3BTD9",
+          "I3L4H7",
+          "I3L4W9",
+          "J9JII2",
+          "Q5FC08",
+          "B4E076",
+          "B9EKU8",
+          "H3BSY5",
+          "Q96P01",
+          "Q9H181",
+          "Q9H182",
+          "Q9H183",
+          "Q9H184",
+          "Q9H185",
+          "Q9H186",
+          "Q9H187",
+          "Q9H188"
+        ]
+      }
+    },
+    {
+      "aliases": [
+        {
+          "alias_type": "SYNONYM",
+          "value": "CD124"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4-binding protein"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL4-BP"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "IL4R"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4RA"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL4RA"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4R-alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4 receptor subunit alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "IL-4R subunit alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Interleukin-4 receptor subunit alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "sIL4Ralpha/prot"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Soluble IL-4R-alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Soluble IL-4 receptor subunit alpha"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Soluble interleukin-4 receptor subunit alpha"
+        }
+      ],
+      "canonical_symbol": "IL4R",
+      "entity_type": "TARGET",
+      "label": "Interleukin-4 receptor subunit alpha",
+      "source": "chembl",
+      "source_id": "CHEMBL3580490",
+      "xrefs": {
+        "chembl": [
+          "CHEMBL3580490"
+        ],
+        "uniprot": [
+          "P24394"
+        ]
+      }
+    }
+  ],
+  "F11": [
+    {
+      "aliases": [
+        {
+          "alias_type": "SYNONYM",
+          "value": "Coagulation factor XI"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Coagulation factor XIa heavy chain"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Coagulation factor XIa light chain"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "FXI"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "PTA"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "F11"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Plasma thromboplastin antecedent"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "coagualtion factor XI"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "FXI"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "PTA"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "F11"
+        }
+      ],
+      "canonical_symbol": "F11",
+      "entity_type": "TARGET",
+      "label": "coagulation factor XI",
+      "source": "open_targets",
+      "source_id": "ENSG00000088926",
+      "xrefs": {
+        "ensembl": [
+          "ENSG00000088926"
+        ],
+        "uniprot": [
+          "P03951",
+          "D6RB32",
+          "H0Y596",
+          "X6R3B1",
+          "D3DP64",
+          "Q4W5C2",
+          "Q9Y495"
+        ]
+      }
+    },
+    {
+      "aliases": [
+        {
+          "alias_type": "XREF",
+          "value": "3.4.21.27"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Coagulation factor XI"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Coagulation factor XIa heavy chain"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Coagulation factor XIa light chain"
+        },
+        {
+          "alias_type": "SYMBOL",
+          "value": "F11"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "FXI"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "Plasma thromboplastin antecedent"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "PTA"
+        }
+      ],
+      "canonical_symbol": "F11",
+      "entity_type": "TARGET",
+      "label": "Coagulation factor XI",
+      "source": "chembl",
+      "source_id": "CHEMBL2820",
+      "xrefs": {
+        "chembl": [
+          "CHEMBL2820"
+        ],
+        "uniprot": [
+          "P03951"
+        ]
+      }
+    }
+  ]
+}

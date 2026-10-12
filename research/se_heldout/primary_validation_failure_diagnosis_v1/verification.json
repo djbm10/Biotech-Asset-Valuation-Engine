@@ -1,0 +1,15 @@
+{
+  "first_boundary_rows": 66,
+  "emitted_rows": 60,
+  "original_run_hashes_unchanged": true,
+  "src_scripts_and_frozen_rubric_unchanged": true,
+  "H19_query_source_snapshots_scanned": 779,
+  "H19_synthetic_ontology_document_records": 4,
+  "H19_missing_reference_identity_mentions": {
+    "ESG401": 0,
+    "BL-M02D1": 0
+  },
+  "no_live_search_or_replay": true,
+  "H6_H10": "UNRUN",
+  "validation_result": "PASS"
+}

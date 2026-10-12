@@ -1,0 +1,600 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Enrolled participants will complete:\n\n* Baseline visit with tumor biopsy, imaging, electrocardiogram and echocardiogram.\n* Tumor biopsy between Cycle 2 Day 1 and Day 8.\n* Imaging every 9 weeks.\n* Cycle 1 through Cycle 3:\n\n  --Day 1 of 21 day cycle: Predetermined dose of Trastuzumab deruxtecan 1x daily.\n* Cycle 4 through end of treatment:\n\n  * Day 1 of 21 day cycle: Predetermined dose of Trastuzumab deruxtecan 1x daily.\n  * Imaging on Day 1.\n* End of Treatment visit with imaging, tumor biopsy, echocardiogram\n* Follow up: imaging every 9 weeks.\n* Long-term Follow Up: visits every 6 months.",
+        "interventionNames": [
+          "Drug: Trastuzumab Deruxtecan"
+        ],
+        "label": "Arm A (ADC1 T-DXd HR+)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Enrolled participants will complete:\n\n* Baseline visit with tumor biopsy, imaging, electrocardiogram and echocardiogram.\n* Tumor biopsy between Cycle 2 Day 1 and Day 8.\n* Imaging every 9 weeks.\n* Cycle 1 through end of treatment:\n\n  --Day 1 of 21 day cycle: Predetermined dose of Trastuzumab deruxtecan 1x daily.\n* Cycle 4 through end of treatment:\n\n  * Day 1 of 21 day cycle: Predetermined dose of Trastuzumab deruxtecan 1x daily.\n  * Imaging on Day 1.\n* End of Treatment visit with imaging, tumor biopsy, echocardiogram\n* Follow up: imaging every 9 weeks.\n* Long-term Follow Up: visits every 6 months.",
+        "interventionNames": [
+          "Drug: Trastuzumab Deruxtecan"
+        ],
+        "label": "Arn B (ADC1 T-DXd HR-)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Enrolled participants will complete:\n\n* Baseline visit with tumor biopsy, imaging, electrocardiogram and eye exam.\n* Tumor biopsy between Cycle 2 Day 1 and Day 8.\n* Imaging every 9 weeks.\n* Cycle 1 through end of treatment:\n\n  --Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\n* Cycle 4 through end of treatment:\n\n  * Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\n  * Imaging on Day 1.\n* End of Treatment visit with imaging, tumor biopsy, eye exam.\n* Follow up: imaging every 9 weeks.\n* Long-term Follow Up: visits every 6 months.",
+        "interventionNames": [
+          "Drug: Datopotamab Deruxtecan"
+        ],
+        "label": "Arm C (ADC1 Dato-DXd HR+)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Enrolled participants will complete:\n\n* Baseline visit with tumor biopsy, imaging, electrocardiogram and eye exam.\n* Tumor biopsy between Cycle 2 Day 1 and Day 8.\n* Imaging every 9 weeks.\n* Cycle 1 through Cycle 3:\n\n  --Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\n* Cycle 4 through end of treatment:\n\n  * Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\n  * Imaging on Day 1.\n* End of Treatment visit with imaging, tumor biopsy, eye exam.\n* Follow up: imaging every 9 weeks.\n* Long-term Follow Up: visits every 6 months.",
+        "interventionNames": [
+          "Drug: Datopotamab Deruxtecan"
+        ],
+        "label": "Arm D (ADC1 Dato-DXd HR-)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Participants will complete:\n\n* Baseline visit with imaging, tumor biopsy, electrocardiogram, eye exam.\n* Imaging every 9 weeks.\n* Cycle 1 through Cycle 3:\n\n  --Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\n* Cycle 4 through end of treatment:\n\n  * Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\n  * Imaging on Day 1.\n* End of Treatment visit with imaging, tumor biopsy, eye exam.\n* Follow up: imaging every 9 weeks.\n* Long-term Follow Up: visits every 6 months.",
+        "interventionNames": [
+          "Drug: Datopotamab Deruxtecan"
+        ],
+        "label": "Arm E (ADC2 Dato-DXd HR+)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Participants will complete:\n\n* Baseline visit with imaging, tumor biopsy, electrocardiogram, eye exam.\n* Imaging every 9 weeks.\n* Cycle 1 through Cycle 3:\n\n  --Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\n* Cycle 1 through end of treatment:\n\n  * Day 1 of 21 day cycle: Predetermined dose of Datopotamab deruxtecan 1x daily.\n  * Imaging on Day 1.\n* End of Treatment visit with imaging, tumor biopsy, eye exam.\n* Follow up: imaging every 9 weeks.\n* Long-term Follow Up: visits every 6 months.",
+        "interventionNames": [
+          "Drug: Datopotamab Deruxtecan"
+        ],
+        "label": "Arm F (ADC2 Dato-DXd HR-)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Participants will complete:\n\n* Baseline visit with imaging, tumor biopsy, electrocardiogram, echocardiogram.\n* Imaging every 9 weeks.\n* Cycle 1 through Cycle 3:\n\n  --Day 1 of 21 day cycle: Predetermined dose of Trastuzumab deruxtecan 1x daily.\n* Cycle 1 through end of treatment:\n\n  * Day 1 of 21 day cycle: Predetermined dose of Trastuzumab deruxtecan 1x daily.\n  * Imaging on Day 1.\n* End of Treatment visit with imaging, tumor biopsy, echocardiogram\n* Follow up: imaging every 9 weeks.\n* Long-term Follow Up: visits every 6 months.",
+        "interventionNames": [
+          "Drug: Trastuzumab Deruxtecan"
+        ],
+        "label": "Arm G (ADC2 T-DXd HR+)",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Participants will complete:\n\n* Baseline visit with imaging, tumor biopsy, electrocardiogram, echocardiogram.\n* Imaging every 9 weeks.\n* Cycle 1 through Cycle 3:\n\n  --Day 1 of 21 day cycle: Predetermined dose of Trastuzumab deruxtecan 1x daily.\n* Cycle 1 through end of treatment:\n\n  * Day 1 of 21 day cycle: Predetermined dose of Trastuzumab deruxtecan 1x daily.\n  * Imaging on Day 1.\n* End of Treatment visit with imaging, tumor biopsy, echocardiogram\n* Follow up: imaging every 9 weeks.\n* Long-term Follow Up: visits every 6 months.",
+        "interventionNames": [
+          "Drug: Trastuzumab Deruxtecan"
+        ],
+        "label": "Arm H (ADC2 T-DXd HR-)",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Arm A (ADC1 T-DXd HR+)",
+          "Arm G (ADC2 T-DXd HR+)",
+          "Arm H (ADC2 T-DXd HR-)",
+          "Arn B (ADC1 T-DXd HR-)"
+        ],
+        "description": "A HER2-directed ADC, 100mg/vial, via intravenous (into the vein) infusion per protocol.",
+        "name": "Trastuzumab Deruxtecan",
+        "otherNames": [
+          "Enhertu",
+          "am-trastuzumab deruxtecan-nxki",
+          "T-DXd",
+          "DS-8201a"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Arm C (ADC1 Dato-DXd HR+)",
+          "Arm D (ADC1 Dato-DXd HR-)",
+          "Arm E (ADC2 Dato-DXd HR+)",
+          "Arm F (ADC2 Dato-DXd HR-)"
+        ],
+        "description": "A TROP2-directed antibody drug conjugate, 100mg/vial, via intravenous (into the vein) infusion per protocol.",
+        "name": "Datopotamab Deruxtecan",
+        "otherNames": [
+          "Dato-DXd",
+          "DS-1062",
+          "DS-1062a"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Breast Cancer",
+      "HER2-low Breast Cancer",
+      "Metastatic Breast Cancer",
+      "HER2-negative Breast Cancer"
+    ],
+    "keywords": [
+      "Breast Cancer",
+      "HER2-low Breast Cancer",
+      "Metastatic Breast Cancer",
+      "HER2-negative Breast Cancer"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "ana_garrido-castro@dfci.harvard.edu",
+        "name": "Ana Garrido-Castro, MD",
+        "phone": "617-632-3800",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Birmingham",
+        "contacts": [
+          {
+            "email": "humairasarfraz@uabmc.edu",
+            "name": "Humaira Sarfraz, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Humaira Sarfraz, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of Alabama",
+        "geoPoint": {
+          "lat": 33.52066,
+          "lon": -86.80249
+        },
+        "state": "Alabama",
+        "status": "RECRUITING",
+        "zip": "35294"
+      },
+      {
+        "city": "San Francisco",
+        "contacts": [
+          {
+            "email": "laura.huppert@ucsf.edu",
+            "name": "Laura Huppert, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Laura Huppert, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of San Francisco",
+        "geoPoint": {
+          "lat": 37.77493,
+          "lon": -122.41942
+        },
+        "state": "California",
+        "status": "RECRUITING",
+        "zip": "94158"
+      },
+      {
+        "city": "New Haven",
+        "contacts": [
+          {
+            "email": "maryam.lustberg@yale.edu",
+            "name": "Maryam Lustberg, MD, MPH",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Maryam Lustberg, MD, MPH",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "Yale University Cancer Center",
+        "geoPoint": {
+          "lat": 41.30815,
+          "lon": -72.92816
+        },
+        "state": "Connecticut",
+        "status": "RECRUITING",
+        "zip": "06520"
+      },
+      {
+        "city": "Washington D.C.",
+        "contacts": [
+          {
+            "email": "candace.mainor@gunet.georgetown.edu",
+            "name": "Candace Mainor, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Candace Mainor, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "Georgetown University Medical Center",
+        "geoPoint": {
+          "lat": 38.89511,
+          "lon": -77.03637
+        },
+        "state": "District of Columbia",
+        "status": "RECRUITING",
+        "zip": "20007"
+      },
+      {
+        "city": "Chicago",
+        "contacts": [
+          {
+            "email": "bje8723@uchicagomedicine.org",
+            "name": "Nan Chen, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Nan Chen, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of Chicago Medical Center",
+        "geoPoint": {
+          "lat": 41.85003,
+          "lon": -87.65005
+        },
+        "state": "Illinois",
+        "status": "RECRUITING",
+        "zip": "60637"
+      },
+      {
+        "city": "Boston",
+        "country": "United States",
+        "facility": "Beth Israel Deaconess Medical Center",
+        "geoPoint": {
+          "lat": 42.35843,
+          "lon": -71.05977
+        },
+        "state": "Massachusetts",
+        "status": "ACTIVE_NOT_RECRUITING",
+        "zip": "02215"
+      },
+      {
+        "city": "Boston",
+        "contacts": [
+          {
+            "name": "Ana Garrido-Castro, MD",
+            "phone": "617-632-3800",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Ana Garrido-Castro, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "Dana-Farber Cancer Institute",
+        "geoPoint": {
+          "lat": 42.35843,
+          "lon": -71.05977
+        },
+        "state": "Massachusetts",
+        "status": "RECRUITING",
+        "zip": "02215"
+      },
+      {
+        "city": "The Bronx",
+        "contacts": [
+          {
+            "email": "janampa@montefiore.org",
+            "name": "Jesus Anampa, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Jesus Anampa, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "Montefiore Einstein Comprehensive Cancer Center",
+        "geoPoint": {
+          "lat": 40.84985,
+          "lon": -73.86641
+        },
+        "state": "New York",
+        "status": "RECRUITING",
+        "zip": "10461"
+      },
+      {
+        "city": "Chapel Hill",
+        "contacts": [
+          {
+            "email": "yara_abdou@med.unc.edu",
+            "name": "Yara Abdou, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Yara Abdou, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of North Carolina",
+        "geoPoint": {
+          "lat": 35.9132,
+          "lon": -79.05584
+        },
+        "state": "North Carolina",
+        "status": "RECRUITING",
+        "zip": "27599"
+      },
+      {
+        "city": "Nashville",
+        "contacts": [
+          {
+            "email": "vandana.abramson@vumc.org",
+            "name": "Vandana G Abramson, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Vandana Abramson, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "Vanderbilt Cancer Center",
+        "geoPoint": {
+          "lat": 36.16589,
+          "lon": -86.78444
+        },
+        "state": "Tennessee",
+        "status": "RECRUITING",
+        "zip": "37232"
+      },
+      {
+        "city": "Houston",
+        "contacts": [
+          {
+            "email": "aelkhanany@uabmc.edu",
+            "name": "Ahmed Elkhanany, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Ahmed Elkhanany, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "Baylor College of Medicine",
+        "geoPoint": {
+          "lat": 29.76328,
+          "lon": -95.36327
+        },
+        "state": "Texas",
+        "status": "RECRUITING",
+        "zip": "77030"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "Dana-Farber Cancer Institute",
+        "name": "Ana Garrido-Castro, MD",
+        "role": "PRINCIPAL_INVESTIGATOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "The purpose of this study is to test the safety and effectiveness of the sequence of two investigational drugs (trastuzumab deruxtecan followed by datopotamab deruxtecan, or datopotamab deruxtecan followed by trastuzumab deruxtecan) to learn whether the treatment works in treating HER2-negative (HER2-low or HER2-0) metastatic breast cancer.\n\nThe names of the study drugs involved in this study are:\n\n* Datopotamab deruxtecan (a type of antibody drug conjugate)\n* Trastuzumab deruxtecan (a type of antibody drug conjugate)",
+    "detailedDescription": "This is a multi-institutional, open-label, phase 2 trial assessing the efficacy of sequential antibody drug conjugate (ADC) treatment with Dato-DXd or T-DXd in patients with HER2-negative (HER2-low and HER2-0) locally advanced unresectable or metastatic breast cancer (MBC). There are two parts to this study, which has a sequential design. Most participants will enroll in Group 1, which has two different study drugs. A participant will be randomized to receive one of the two study drugs, and if there is progression of disease on the study drug that was originally assigned, a participant will crossover to a different arm in Group 2 and receive the other study drug. Some participants may enroll directly to Group 2 if they already received the first drug. The goal is to evaluate the effectiveness of sequential ADC therapy by switching the target of the ADC.\n\nRandomization means participants are placed into a treatment arm by chance. Participants will be randomized into one of four treatment arms in Group 1:\n\n* Arm A: Trastuzumab deruxtecan in hormone receptor (HR)-positive metastatic breast cancer (MBC)\n* Arm B: Trastuzumab deruxtecan in HR-negative MBC\n* Arm C: Datopotamab deruxtecan in HR-positive MBC\n* Arm D: Datopotamab deruxtecan in HR-negative MBC\n\nParticipants may crossover to one of the below treatment arms in Group 2:\n\n* Arm E: Datopotamab deruxtecan in HR-positive MBC\n* Arm F: Datopotamab deruxtecan in HR-negative MBC\n* Arm G: Trastuzumab deruxtecan in HR-positive MBC\n* Arm H: Trastuzumab deruxtecan in HR-negative MBC\n\nThe U.S. Food and Drug Administration (FDA) has not approved Datopotamab deruxtecan as a treatment for HER2-low metastatic breast cancer.\n\nThe U.S. FDA has approved Trastuzumab deruxtecan for previously treated HER2-low metastatic breast cancer, and for other uses.\n\nThe research study procedures include screening for eligibility, study treatment visits, blood tests, tumor biopsies, questionnaires, echocardiograms, electrocardiograms, Computerized Tomography (CT) scans, Magnetic Resonance Imaging (MRI) scans, and eye exams.\n\nParticipants will receive study treatment for as long as there is benefit. After the study treatment ends, participants will be followed approximately every six months thereafter.\n\nIt is expected that about 357 people will take part in this research study.\n\nAstraZeneca is supporting this research study by providing the study drugs and funding."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "RANDOMIZED",
+      "interventionModel": "CROSSOVER",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 357,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n* Participants must have histologically or cytologically confirmed invasive breast cancer with unresectable locally advanced or metastatic disease. Participants without pathologic or cytologic confirmation of metastatic disease should have unequivocal evidence of metastasis from physical examination or radiologic evaluation; i.e., visible chest wall disease or metastases on imaging meeting standard radiology criteria (i.e., lymph nodes larger than 1 cm in the short axis diameter).\n* The most recent pathology results will be considered for enrollment according to local testing of ER, PR and HER2 in a CLIA-certified environment. ER, PR and HER2 status per local testing must be known prior to study registration.\n* Participants must have history of HER2-low or HER2-0 breast cancer per local testing, and no known history of HER2-positive breast cancer. All available prior HER2 pathology results must be HER2-low or HER2-0; no known HER2 IHC 3+ or ISH-amplified breast cancer is allowed.\n\n  * HER2-low status is defined as IHC 1+ or 2+/ISH non-amplified breast cancer in any prior tumor sample (e.g., primary or metastatic tumor) collected prior to study enrollment: IHC 2+/ISH-, IHC 1+/ISH-, or IHC 1+/ISH untested (note: ISH may be determined by either fluorescence in situ hybridization \\[FISH\\] or dual in situ hybridization \\[DISH\\])\n  * HER2-0 status is defined as IHC 0 (null or ultra-low) in all prior tumor samples with available HER2 pathology results: IHC 0+/ISH- or IHC 0+/ISH untested (IHC 0+: IHC 0 absent membrane staining \\[null\\] or IHC 0 with membrane staining \\>0 and \\<1+ \\[ultralow\\]). Note: Enrollment of patients with HER2-0 breast cancer will be capped at 15% in each ADC1 and ADC2 cohort.\n* Participants with any HR status will be allowed on study.\n\n  * HR-positive cohorts: ER and/or PR expression \u22651%\n  * HR-negative cohorts: ER and PR expression \\<1%\n  * All cohorts: The most recent HER2 pathology result must be HER2-0 or HER2-low (i.e., must not be HER2-positive).\n  * HER2-0: IHC 0+/ISH- or IHC 0+/ISH untested.\n  * HER2-low: IHC 2+/ISH-, IHC 1+/ISH-, or IHC 1+/ISH untested (note: ISH may be determined by either fluorescence in situ hybridization \\[FISH\\] or dual in situ hybridization \\[DISH\\]).\n* Participants must have measurable disease per RECIST 1.1.\n* Participants must be willing to undergo research tissue biopsies (at baseline prior to ADC1, after 3 weeks of treatment with ADC1, at progression on ADC1 or baseline prior to ADC2, and at progression on ADC2), if tumor is safely accessible.\n* Prior endocrine therapy: Participants with HR-positive breast cancer considered to be candidates for endocrine therapy must have: a) progressed on or within 12 months of adjuvant endocrine therapy or received at least one line of endocrine therapy in the metastatic setting, and b) received prior CDK4/6 inhibitor. Prior endocrine therapy does not require washout.\n* Prior chemotherapy: Prior lines of chemotherapy allowed in the metastatic setting are specified below. Prior topoisomerase I inhibitor therapy is not allowed in any setting, except as specified below for ADC2 cohorts. Participants may have discontinued all chemotherapy at least 14 days prior to study treatment initiation. All toxicities related to prior chemotherapy must have resolved to CTCAE v5.0 grade 1 or lower, unless otherwise specified per protocol, except alopecia (any grade allowed) and neuropathy (grade 2 or lower allowed).\n\n  * ADC1 T-DXd cohorts: Participants must have progressed on 0-1 prior lines in the metastatic setting.\n  * ADC1 Dato-DXd cohorts: Participants must have progressed on 0-1 prior lines in the metastatic setting.\n  * ADC2 T-DXd cohorts: Participants must have progressed on 1-2 prior lines in the metastatic setting, including Dato-DXd (single-agent) as the most recent therapy. Confirmation of documented progressive disease on Dato-DXd (single-agent) as the most recent therapy is required prior to enrollment. No other topoisomerase I inhibitor is allowed in the metastatic setting.\n  * ADC2 Dato-DXd cohorts: Participants must have progressed on 1-2 prior lines in the metastatic setting, including T-DXd (single-agent) as the most recent therapy. Confirmation of documented progressive disease on T-DXd (single-agent) as the most recent therapy is required prior to enrollment. No other topoisomerase I inhibitor is allowed in the metastatic setting.\n* Prior biologic or targeted therapy: Patients must have discontinued all biologic or targeted therapy (e.g., CDK4/6 inhibitor) at least 14 days prior to study treatment initiation. All toxicities related to prior biologic or targeted therapy must have resolved to CTCAE v5.0 grade 1 or lower, unless otherwise specified per protocol.\n* Prior investigational agents for treatment of cancer: Investigational agents must have been discontinued at least 21 days prior to initiation of study therapy. All toxicities related to prior investigational agents must have resolved to CTCAE v5.0 grade 1 or lower, unless otherwise specified per protocol.\n* Prior radiation therapy: Patients may have received prior radiation therapy. Radiation therapy must be completed at least 14 days prior to the initiation of study treatment (at least 7 days for SRS), and all toxicities related to prior radiation therapy must have resolved to CTCAE v5.0 grade 1 or lower, unless otherwise specified per protocol. A 7-day washout is permitted for palliative radiation (\u2264 2 weeks of radiotherapy) to non-CNS disease.\n* Patients with history of treated CNS metastases are eligible, provided the following criteria are met:\n\n  * Disease outside the CNS is present.\n  * Prior SRS/SRT or WBRT should be completed \u2265 7 days before study treatment initiation.\n  * Recovery from acute toxicity associated with the treatment to \u2264 CTCAE v5.0 grade 1 or baseline (with the exception of alopecia), with no requirement for escalating doses of corticosteroids over the past 7 days.\n* Patients with new or progressive brain metastases (active brain metastases) or leptomeningeal disease are eligible if the treating physician determines that immediate CNS specific treatment is not required and is unlikely to be required during the first cycle of therapy, there is no requirement for corticosteroids, and the patient is asymptomatic.\n* Participants on bisphosphonates or RANK ligand inhibitors may continue receiving therapy during study treatment and also may initiate therapy with these agents on study if clinically indicated.\n* The subject is \u2265 18 years old.\n* ECOG performance status 0-1 (Karnofsky \\> 60%).\n* Participants must have adequate organ and marrow function within 2 weeks prior to study treatment initiation as defined below:\n\n  * Absolute neutrophil count \u22651,500/mcL\n  * Platelets \u2265 100,000/mcL\n  * Hemoglobin \u2265 9.0 g/dl\n  * INR/PT/aPTT \u2264 1.5 \u00d7 ULN unless participant is receiving anticoagulant therapy and PT or aPTT is in therapeutic range of anticoagulant\n  * Total bilirubin \u2264 1.5 \u00d7 institutional upper limit of normal (ULN) (or \u2264 3.0 x ULN in patients with documented Gilbert's Syndrome)\n  * AST(SGOT)/ALT(SGPT) \u2264 2.5 \u00d7 institutional ULN or \u2264 5.0 \u00d7 institutional ULN for participants with documented liver metastases\n  * Serum or plasma creatinine \u2264 1.5 \u00d7 institutional ULN OR creatinine clearance (as calculated using the Cockcroft-Gault equation) \u2265 30 mL/min/ 1.73m2 for participants with creatinine levels above institutional ULN.\n* Resolution of all toxicities related to prior anticancer therapy to Grade \u2264 1 or baseline, including toxicities from ADC1 before enrolling to ADC2, unless otherwise specified per protocol.\n* For T-DXd cohorts, baseline LVEF \u2265 50% prior to registration, as measured by echocardiogram (or multiple-gated acquisition \\[MUGA\\] scan if an echocardiogram cannot be performed or is inconclusive).\n* Female subjects of childbearing potential must have a negative serum or urine pregnancy test within 2 weeks prior to study treatment initiation. Childbearing potential is defined as participants who have not reached a postmenopausal state (\u2265 12 continuous months of amenorrhea with no identified cause other than menopause) and have not undergone surgical sterilization (removal of ovaries and/or uterus).\n* Women of childbearing potential (WOCBP) and the female partners of male participants must agree to use an adequate method of contraception. Contraception is required starting with the first dose of study medication through 7 months after the last dose of study medication.\n* Males who are sexually active with WOCBP must agree to follow instructions for method(s) of contraception for the duration of study treatment and 4 months after the last dose of study treatment.\n* The participant must be capable of understanding and complying with the protocol and willing to sign a written informed consent document.\n\nExclusion Criteria:\n\n* Concurrent use of any other investigational or study agents that are being used to treat the underlying malignancy.\n* Any prior treatment (including ADC) containing a chemotherapeutic agent targeting topoisomerase I, except as specified per protocol for ADC2 cohorts.\n* Receipt of live, attenuated vaccine (mRNA and replication deficient adenoviral vaccines are not considered attenuated live vaccines) within 30 days prior to the first exposure to study intervention.\n* Clinically significant corneal disease.\n* History of severe hypersensitivity reactions to either trastuzumab deruxtecan or datopotamab deruxtecan or their inactive ingredients.\n* History of severe hypersensitivity reactions to other monoclonal antibodies.\n* Major surgery within 2 weeks prior to study treatment initiation.\n* Uncontrolled, significant intercurrent or recent illness including, but not limited to, ongoing or active infection, uncontrolled non-malignant systemic disease, uncontrolled seizures, or psychiatric illness/social situation that would limit compliance with study requirements in the opinion of the treating investigator.\n* History of (non-infectious) pneumonitis/interstitial lung disease that required steroids or current pneumonitis/interstitial lung disease, or where suspected ILD/pneumonitis cannot be ruled out by imaging at screening. For ADC2 cohorts, if a participant experienced G1 pneumonitis/ILD with ADC1 (e.g., treated with steroids) with complete resolution of radiographic findings and ability to resume ADC1 within 12 weeks of the scheduled interruption without recurrence of ILD, the participant may enroll to ADC2.\n* Lung-specific intercurrent clinically significant illnesses including, but not limited to, any underlying pulmonary disorder (i.e., pulmonary emboli within 3 months of the study enrollment, severe asthma, severe chronic obstructive pulmonary disease (COPD), restrictive lung disease, pleural effusion etc.), and any autoimmune, connective tissue or inflammatory disorders with pulmonary involvement (i.e., rheumatoid arthritis, Sjogren's syndrome, sarcoidosis etc.), and prior complete pneumonectomy.\n* Corrected QT interval (QTcF) prolongation to \\> 470 msec (females) or \\>450 msec (males).\n* Any of the following procedures or conditions in 6 months prior to enrollment: coronary artery bypass graft, angioplasty, vascular stent, myocardial infarction, angina pectoris, congestive heart failure (New York Heart Association Functional Classification Grade \u22652), and stroke.\n* Individuals with a history of a second malignancy are ineligible except for the following circumstances:\n\n  * Individuals with a history of other malignancies are eligible if they have been disease-free for at least 3 years or are deemed by the investigator to be at low risk for recurrence of that malignancy.\n  * Individuals with the following cancers that have been diagnosed and treated within the past 3 years are eligible: cervical/prostate carcinoma in situ, superficial bladder cancer, non-melanoma cancer of the skin.\n  * Patients with other cancers diagnosed within the past 3 years and felt to be at low risk of recurrence should be discussed with the study principal investigator to determine eligibility.\n* Known human immunodeficiency virus (HIV) infection that is not well controlled.\n* Known hepatitis B or C virus infection that is active or uncontrolled.\n* Active infection, including tuberculosis (clinical evaluation that includes clinical history, physical examination and radiographic findings, and tuberculosis testing in line with local practice).\n* History or current evidence of any condition, therapy, or laboratory abnormality that might confound the results of the study, interfere with the subject's participation for the full duration of the study, or is not in the best interest of the subject to participate, in the opinion of the treating investigator.\n* Women who are pregnant or breastfeeding or planning to become pregnant.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "acronym": "TRADE DXd",
+    "briefTitle": "TReatment of ADC-Refractory Breast CancEr With Dato-DXd or T-DXd: TRADE DXd",
+    "nctId": "NCT06533826",
+    "officialTitle": "A Phase II Non-comparative Trial of Datopotamab Deruxtecan (Dato-DXd) or Trastuzumab Deruxtecan (T-DXd) in Patients With Metastatic HER2-negative (HER2-low or HER2-0) Breast Cancer After Progression on Prior Antibody Drug Conjugate Therapy",
+    "orgStudyIdInfo": {
+      "id": "24-251"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Dana-Farber Cancer Institute"
+    },
+    "secondaryIdInfos": [
+      {
+        "domain": "TBCRC",
+        "id": "TBCRC-064",
+        "type": "OTHER"
+      }
+    ]
+  },
+  "ipdSharingStatementModule": {
+    "accessCriteria": "Contact the Belfer Office for Dana-Farber Innovations (BODFI) at innovation@dfci.harvard.edu",
+    "description": "The Dana-Farber / Harvard Cancer Center encourages and supports the responsible and ethical sharing of data from clinical trials. De-identified participant data from the final research dataset used in the published manuscript may only be shared under the terms of a Data Use Agreement. Requests may be directed to: \\[contact information for Sponsor Investigator or designee\\]. The protocol and statistical analysis plan will be made available on Clinicaltrials.gov only as required by federal regulation or as a condition of awards and agreements supporting the research.",
+    "infoTypes": [
+      "STUDY_PROTOCOL",
+      "SAP"
+    ],
+    "ipdSharing": "YES",
+    "timeFrame": "Data can be shared no earlier than 1 year following the date of publication"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "Objective response rate (ORR), defined as best overall response of either complete or partial response, will be assessed among participants who start protocol therapy and have measurable disease at screening. Radiographic response will be assessed using RECIST 1.1 criteria as defined per protocol.",
+        "measure": "Objective Response Rate in ADC1 (Group 1) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "Objective response rate (ORR), defined as best overall response of either complete or partial response, will be assessed among participants who start protocol therapy and have measurable disease at screening. Radiographic response will be assessed using RECIST 1.1 criteria as defined per protocol.",
+        "measure": "Objective Response Rate in ADC2 (Group 2) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "PFS based on Kaplan-Meier methodology will be defined as the time from randomization until the identification of disease progression or death, whichever occurs first. Subjects without disease progression or death at the time of analysis will be censored at the date of last disease evaluation.",
+        "measure": "Median Progression Free Survival in ADC1 (Group 1) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "Overall survival based on the Kaplan-Meier method is defined as the time from randomization to death. Participants alive are censored at the last date of contact (including lost-to-follow-up) or at the date of withdrawal of consent, if relevant.",
+        "measure": "Median Overall Survival (OS) in ADC1 (Group 1) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 5 years."
+      },
+      {
+        "description": "Clinical Benefit Rate (CBR) is defined as the proportion of participants with CR, PR and stable disease (SD) for \u2265 24 weeks as the best overall response.",
+        "measure": "Clinical Benefit Rate (CBR) in ADC1 (Group 1) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "Time to Progression (TTP) is defined as the time from registration to ADC1 to progression, or censored at date of last disease evaluation for those without progression reported based on Kaplan-Meier methodology.",
+        "measure": "Time to Progression (TTP) in ADC1 (Group 1) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "The time to objective response is defined as the time from registration to the date of the first documented CR or PR (whichever is first recorded).",
+        "measure": "Time to Response (TTR) in ADC1 (Group 1) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "The duration of overall response is measured from the time measurement criteria are met for CR or PR (whichever is first recorded) until the first date that recurrent or progressive disease is objectively documented (taking as reference for progressive disease the smallest measurements recorded since the treatment started, or death due to any cause). Participants without reported events are censored at the last disease evaluation.",
+        "measure": "Duration of Response (DOR)",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "The percentage of participants who experienced a maximum grade 3-5 treatment-related adverse event based on the Common Toxicity Criteria for Adverse events Version 5.0 (CTCAEv5) as reported on case report forms.",
+        "measure": "Grade 3-5 Treatment-Related Toxicity Rate in ADC1 (Group 1) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "The evaluation of change in HER2 expression within each cohort will be based on a paired t-test (absolute difference) using a two-sided alpha = 0.05 for each cohort with no adjustment for multiplicity due to the exploratory nature of these analyses.",
+        "measure": "Change in HER2 Expression from Baseline to Progression",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "The evaluation of change in TROP2 expression within each cohort will be based on a paired t-test (absolute difference) using a two-sided alpha = 0.05 for each cohort with no adjustment for multiplicity due to the exploratory nature of these analyses.",
+        "measure": "Change in TROP2 Expression from Baseline to Progression",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "PFS based on Kaplan-Meier will be defined as the time from registration (external ADC2 patients) or entry into ADC2 (confirmation of eligibility for ADC2 for cross-over patients from ADC1) until the identification of disease progression or death, whichever occurs first. Subjects without disease progression or death at the time of analysis will be censored at the date of last disease evaluation.",
+        "measure": "Median Progression Free Survival in ADC2 (Group 2) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "Overall survival based on the Kaplan-Meier method is defined as the time from randomization to death. Participants alive are censored at the last date of contact (including lost-to-follow-up) or at the date of withdrawal of consent, if relevant.",
+        "measure": "Median Overall Survival (OS) in ADC2 (Group 2) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 5 years."
+      },
+      {
+        "description": "Clinical Benefit Rate (CBR) is defined as the proportion of participants with CR, PR and stable disease (SD) for \u2265 24 weeks as the best overall response.",
+        "measure": "Clinical Benefit Rate (CBR) in ADC2 (Group 2) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "Time to Progression (TTP) is defined as the time from registration to ADC2 to progression, or censored at date of last disease evaluation for those without progression reported based on Kaplan-Meier methodology.",
+        "measure": "Time to Progression (TTP) in ADC2 (Group 2) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "The time to objective response is defined as the time from registration to the date of the first documented CR or PR (whichever is first recorded).",
+        "measure": "Time to Response (TTR) in ADC2 (Group 2) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "The duration of overall response is measured from the time measurement criteria are met for CR or PR (whichever is first recorded) until the first date that recurrent or progressive disease is objectively documented (taking as reference for progressive disease the smallest measurements recorded since the treatment started, or death due to any cause). Participants without events reported are censored at the last disease evaluation.",
+        "measure": "Duration of Response (DOR) in ADC2 (Group 2) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "The percentage of participants who experienced a maximum grade 3-5 treatment-related adverse event based on the Common Toxicity Criteria for Adverse events Version 5.0 (CTCAEv5) as reported on case report forms.",
+        "measure": "Grade 3-5 Treatment-Related Toxicity Rate in ADC2 (Group 2) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      },
+      {
+        "description": "The evaluation of change in HRQoL will be summarized based on EORTC QLQ-C30 scores for the derived functional and symptom quality of life scales according to the scoring manuals. All the derived scales range in score from 0 to 100. For the overall HRQOL and functioning scales, a higher score is correlated with better HRQOL, whereas a higher score represents worse HRQOL for symptom scales. Global health status scores will be reported independently for patients who receive T-DXd as ADC1 and for those who receive Dato-DXd as ADC1.",
+        "measure": "Health-Related Quality of Life (HRQoL) from Baseline to Progression in ADC1 (Group 1) Cohort",
+        "timeFrame": "The observation period related to this endpoint is up to 36 months."
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "oversightHasDmc": true
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "INDUSTRY",
+        "name": "AstraZeneca"
+      },
+      {
+        "class": "OTHER",
+        "name": "Translational Breast Cancer Research Consortium"
+      }
+    ],
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Ana C Garrido-Castro, MD"
+    },
+    "responsibleParty": {
+      "investigatorAffiliation": "Dana-Farber Cancer Institute",
+      "investigatorFullName": "Ana C Garrido-Castro, MD",
+      "investigatorTitle": "Sponsor Investigator",
+      "type": "SPONSOR_INVESTIGATOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2038-08-01",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-08-26",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-08-24",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2028-01-01",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2024-10-29",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-08",
+    "studyFirstPostDateStruct": {
+      "date": "2024-08-01",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2024-07-26",
+    "studyFirstSubmitQcDate": "2024-07-30"
+  }
+}

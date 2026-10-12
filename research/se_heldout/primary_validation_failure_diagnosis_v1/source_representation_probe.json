@@ -1,0 +1,44 @@
+{
+  "H18": {
+    "raw_snapshot_statements": [
+      {
+        "asset_name": "Tirzepatide",
+        "endpoint": "response",
+        "sentence": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (\\u219330%-62%, p\\u2009<\\u20090.05) at 48\\u2009h and a significant improvement in maximal respiration for tirzepatide at 5\\u2009days (\\u219142%-52%, p\\u2009=\\u20090.0022).",
+        "value": "219330%",
+        "document_id": "document:418164beb4847cf370ca"
+      }
+    ],
+    "parsed_abstract_statements": [
+      {
+        "asset_name": "Tirzepatide",
+        "endpoint": "response",
+        "sentence": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (\u219330%-62%, p\u2009<\u20090.05) at 48\u2009h and a significant improvement in maximal respiration for tirzepatide at 5\u2009days (\u219142%-52%, p\u2009=\u20090.0022).",
+        "value": "30%",
+        "document_id": "document:418164beb4847cf370ca"
+      }
+    ],
+    "exact_claim_reproduced_from_original_snapshot": true
+  },
+  "H19": {
+    "raw_snapshot_statements": [
+      {
+        "asset_name": "Sacituzumab Tirumotecan",
+        "endpoint": "survival",
+        "sentence": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+        "value": "5%",
+        "document_id": "document:925c92a7331c6271d9f8"
+      }
+    ],
+    "parsed_abstract_statements": [
+      {
+        "asset_name": "Sacituzumab Tirumotecan",
+        "endpoint": "survival",
+        "sentence": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+        "value": "5%",
+        "document_id": "document:925c92a7331c6271d9f8"
+      }
+    ],
+    "exact_claim_reproduced_from_original_snapshot": true
+  }
+}

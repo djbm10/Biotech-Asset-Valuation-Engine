@@ -1,0 +1,223 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Dato-DXd, administered as 6 mg/kg intravenous (IV) infusion on day 1 (D1) of each 21-day cycle until unacceptable toxicity, disease progression, patient's consensus withdrawal, death, or discontinuation from the study treatment for any other reason, whichever occurs first.\n\nConcomitant prophylactic dexamethasone mouthwash will be recommended to prevent stomatitis, anti-emetic agents will be highly recommended for preventing nausea/vomiting, antihistamines and antipyretics will be required for preventing infusion-related reactions (IRR) and the use of artificial tears will be advised for the prevention of ocular surface events.",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan"
+        ],
+        "label": "Datopotamab deruxtecan (Dato-DXd)",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Datopotamab deruxtecan (Dato-DXd)"
+        ],
+        "description": "Trophoblast cell surface antigen 2 (TROP2)-directed antibody drug conjugate (ADC) consisting of a humanized anti-TROP2 monoclonal antibody (MAAP-9001a), a GGFG tetra-peptide linker, and a Topo I inhibitor (MAAA-1181a, derived from exatecan). Upon binding to TROP2 on the cell surface, Dato-DXd internalizes into the cells and releases MAAA-1181a in the cytoplasm which inhibits cell replication and promotes cell apoptosis.",
+        "name": "Datopotamab deruxtecan",
+        "otherNames": [
+          "Dato-DXd, DS-1062a"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Non-small Cell Lung Cancer"
+    ],
+    "keywords": [
+      "Brain",
+      "Metastases",
+      "NSCLC",
+      "Datopotamab",
+      "Deruxtecan",
+      "Dato-DXd",
+      "DS-1062a"
+    ]
+  },
+  "contactsLocationsModule": {
+    "overallOfficials": [
+      {
+        "affiliation": "Medical University of Vienna, Vienna General Hospital (Austria)",
+        "name": "Matthias Preusser, MD",
+        "role": "PRINCIPAL_INVESTIGATOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This trial will study a type of advanced lung cancer that is defined as non-squamous non-small cell lung cancer (NSCLC) with active brain metastases (BMs). This type of cancer originates in peripheral lung tissue, which is composed of cancer cells that look different from normal lung cells when viewed under a microscope and is characterized by the presence of BMs, which indicates the spreading of such cancer cells into the brain. NSCLC tumors often have specific genetic alterations or mutations that drive their growth and are known as actionable genomic alterations (AGA). This trial will include patients with NSCLC tumors characterized by the presence or absence of such AGA. Patients will be treated with datopotamab deruxtecan (Dato-DXd), a Tumor-associated calcium signal transducer 2 (TROP2)-directed antibody drug conjugate (ADC) that works by targeting TROP2 protein that is differentially expressed in cancer cells. The main purpose of the study is to analyze the efficacy (to find out how effective a treatment is) of Dato-DXd in patients who have NSCLC with active BMs. Dato-DXd efficacy will be determined by assessing the proportion of patients who experience a significant reduction in tumor size or whose cancer disappears completely, as determined at any timepoint during the study period by the investigators conducting the trial.",
+    "detailedDescription": "In this international, multicenter, open-label, single-arm, single-group, two-stage optimal Simon's design, phase II clinical trial patients will be treated datopotamab deruxtecan (Dato-DXd), a Tumor-associated calcium signal transducer 2 (TROP2)-directed antibody drug conjugate (ADC) that works by targeting TROP2 protein that is differentially expressed in cancer cells.\n\nMale or female patients \u2265 18 years of age with non-squamous NSCLC, symptomatic or asymptomatic untreated or progressing brain metastases (BMs) after local treatment, and with or without actionable genomic alterations (AGA).\n\nNote I: Patients without AGA must meet 1 of the following prior therapy requirements for advanced or metastatic NSCLC:\n\n* Platinum-based chemotherapy in combination with \u03b1-PD-1/\u03b1-PD-L1 antibody as the only prior line of therapy.\n* Platinum-based chemotherapy and \u03b1-PD-1/\u03b1-PD-L1 antibody (in either order) sequentially as the only 2 prior lines of therapy.\n\nNote II: Patients with AGA must meet the following for advanced or metastatic NSCLC:\n\n* Treatment with 1 or 2 prior lines of targeted therapy that is locally approved for the participant's genomic alteration.\n* Platinum-based chemotherapy as the only prior line of cytotoxic therapy.\n* May have received up to one \u03b1-PD-1/\u03b1-PD-L1 antibody alone or in combination with a cytotoxic agent.\n\nEvidence of at least one measurable brain lesion of \u226510 mm on T1-weighted, gadolinium-enhanced magnetic resonance imaging (MRI). Eastern Cooperative Oncology Group (ECOG) performance status \u2264 2, life expectancy \u2265 6 weeks, and adequate bone marrow and organ function are mandatory.\n\nA total of 20 patients will be enrolled as follows:\n\nI. 10 patients in the stage I of the study.\n\nII. 10 patients in the stage II of the study.\n\nAfter signing the ICF and confirmed eligibility, patients will receive Dato-DXd, administered as 6 mg/kg intravenous (IV) infusion on day 1 (D1) of each 21-day cycle until unacceptable toxicity, disease progression, patient's consensus withdrawal, death, or discontinuation from the study treatment for any other reason, whichever occurs first.\n\nConcomitant prophylactic dexamethasone mouthwash will be recommended to prevent stomatitis, anti-emetic agents will be highly recommended for preventing nausea/vomiting, antihistamines and antipyretics will be required for preventing infusion-related reactions (IRR) and the use of artificial tears will be advised for the prevention of ocular surface events.\n\nPatients discontinuing the study treatment period prematurely, will enter a post-treatment follow-up period during which survival and new anti-cancer therapy information will be collected every 3 months (\u00b1 7 days), until death, lost to follow-up, elective withdrawal from the study, or the end of study (EoS), whichever occurs first. This information may be collected by telephone call."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NA",
+      "interventionModel": "SINGLE_GROUP",
+      "interventionModelDescription": "A multicenter, open-label, non-comparative, single-arm, phase II trial",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 0,
+      "type": "ACTUAL"
+    },
+    "phases": [
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\nTo be eligible to participate in this trial, an individual must meet ALL the following criteria:\n\n1. Participant must be capable to understand the purpose of the study and have signed a written informed consent form (ICF) prior to beginning specific protocol procedures.\n2. Female or male adults \u2265 18 years old at the time of signing ICF.\n3. Histologically documented non-squamous NSCLC.\n4. Patients may have symptoms attributed to BM.\n5. No indication for immediate local therapy (neurosurgery, brain radiotherapy) for BM as per local investigator.\n\n   Note: in the case immediate local therapy is needed, the study's medical monitor should be consulted.\n6. Type II leptomeningeal disease (LMD) per ESMO-EANO guidelines are allowed (Le Rhun et al., 2023).\n7. Patients must have known AGA status determined on the most recent analyzed biopsy prior to study entry, and meets following criteria for NSCLC:\n\n   a. Participants without AGA:\n\n   i. Must have documented negative test results for epidermal growth factor receptor (EGFR) and anaplastic lymphoma kinase (ALK).\n\n   ii. Must have no known genomic alterations in ROS proto-oncogene 1 (ROS1), neurotrophic tyrosine receptor kinase (NTRK), proto-oncogene B-raf (BRAF) V600, human epidermal growth factor receptor 2 (HER2), mesenchymal-epithelial transition (MET) exon 14 skipping or rearranged during transfection (RET).\n\n   b. Participants with AGA must have one or more documented actionable genomic alteration(s): EGFR, ALK, ROS1, NTRK, BRAF V600, HER2, MET exon 14 skipping, or RET.\n8. Measurable disease according to Response Assessment in Neuro-Oncology Brain Metastases (RANO-BM) criteria, with at least one measurable brain lesion of \u2265 10 mm on T1-weighted, gadolinium-enhanced MRI.\n9. Eastern Cooperative Oncology Group performance status (ECOG PS) \u2264 2.\n10. Minimum life expectancy of \u2265 6 weeks at screening.\n11. Patients without AGA must meet 1 of the following prior therapy requirements for advanced or metastatic NSCLC:\n\n    a. Received platinum-based chemotherapy in combination with \u03b1-PD-1/\u03b1-PD-L1 monoclonal antibody (mAb) as the only prior line of therapy.\n\n    i. Includes participants who received prior platinum-based/chemotherapy with or without radiotherapy with maintenance \u03b1-PD-1/\u03b1-PD-L1 mAb for stage III disease and relapsed/progressed within 6 months from the last dose of platinum-based chemotherapy.\n\n    ii. Includes participants who received prior platinum-based/chemotherapy with or without radiotherapy (with or without maintenance \u03b1-PD-1/\u03b1-PD-L1 mAb) for stage III disease and subsequently received \u03b1-PD-1/\u03b1-PD-L1 mAb therapy (with or without platinum-based chemotherapy) for recurrent disease.\n\n    iii. Includes patients with stage II/III diseases who received prior platinum-based/chemotherapy with or without \u03b1-PD-1/\u03b1-PD-L1 mAb administered in the neoadjuvant/perioperative or adjuvant setting and relapsed/progressed within 6 months from the last dose of platinum-based chemotherapy.\n\n    iv. Includes patients with stage II/III diseases who received prior platinum-based/chemotherapy with or without \u03b1-PD-1/\u03b1-PD-L1 mAb administered in the neoadjuvant/perioperative or adjuvant setting and subsequently received \u03b1-PD-1/\u03b1-PD-L1 mAb therapy (with or without platinum-based chemotherapy) for recurrent disease.\n\n    b. Received platinum-based chemotherapy and \u03b1-PD-1/\u03b1-PD-L1 mAb (in either order) sequentially as the only 2 prior lines of therapy.\n12. Patients with AGA must meet the following for advanced or metastatic NSCLC:\n\n    a. Participants who have been treated with 1 or 2 prior lines of applicable targeted therapy that is locally approved for the participant's genomic alteration at the time of screening; i. Participants who received a targeted agent as adjuvant therapy for early-stage disease must have relapsed or progressed while on the treatment or within 6 months of the last dose OR received at least one additional course of targeted therapy for the same genomic alteration (which may or may not be same agent used in the adjuvant setting) for relapsed/progressive disease.\n\n    ii. Participants who have been treated with a prior TKI must receive additional approved targeted therapy, if locally available and clinically appropriate, for the applicable genomic alteration, or the participant will not be allowed in the study.\n\n    b. Participants who have received platinum-based chemotherapy as the only prior line of cytotoxic therapy: i. One platinum-containing regimen for advanced disease ii. Those who received a platinum-containing regimen as adjuvant therapy for early-stage disease must have relapsed or progressed while on the treatment or within 6 months of the last dose OR received at least one additional course of platinum-containing therapy (which may or may not be same as in the adjuvant setting) for relapsed/progressive disease.\n\n    c. May have received up to one \u03b1-PD-1/\u03b1-PD-L1 mAb alone or in combination with a cytotoxic agent.\n13. Able to provide the most recently available formalin-fixed paraffin-embedded (FFPE) tumor tissue blocks of primary tissue and/or any metastatic site at the time of inclusion. If archival tissue is not available, a newly obtained baseline biopsy of an accessible tumor lesion is required prior to start of study treatment.\n14. Left ventricular ejection fraction (LVEF) of \u2265 50% or \u2265 institution lower limit of normal (LLN) as assessed by either echocardiogram (ECHO) or multigated acquisition (MUGA) scan.\n15. Patient has adequate bone marrow, liver, and renal function within 7 days before first study treatment dose:\n16. Hematological (without platelet, red blood cell transfusion, and/or granulocyte colony-stimulating factor support): White blood cell (WBC) count \\> 3.0 x 109/L, absolute neutrophil count (ANC) \u2265 1.5 x 109/L, platelet count \u2265 100.0 x109/L, and hemoglobin \u2265 9.0 g/dL (\u2265 5.6 mmol/L).\n17. Hepatic: Serum albumin \u2265 2.5 g/dL; total bilirubin \u2264 1.5 times upper limit of normal (ULN) (\u2264 3 in patients with liver metastases or know history of Gilbert's disease); alkaline phosphatase (ALP) \u2264 2.5 times ULN; aspartate transaminase (AST) and alanine transaminase (ALT) \u2264 3 times ULN (\u2264 5 in patients with liver metastases); international normalized ratio (INR) \\< 1.5.\n18. Adequate treatment washout period before randomization.\n19. Resolution of all acute toxic effects of prior anticancer therapy to grade \u2264 1 as determined by the US National Cancer Institute (NCI)-Common Terminology Criteria for Adverse Events (CTCAE) version 5.0 (v.5.0).\n\n    Note: except for alopecia or other toxicities not considered a safety risk for the patient at investigator's discretion.\n20. Females of childbearing potential who are sexually active with a non-sterilized male partner must have a negative serum pregnancy test within 14 days before study treatment initiation. In addition, they must agree to use one highly effective method of birth control from the time of screening until 7 months after the last dose of study treatments. Female patients must refrain from egg cell donation and breastfeeding during this same period of time.\n21. Male participants who are sexually active with a female partner of childbearing potential must be surgically sterile or using an acceptable method of contraception from the time of screening until 4 months after the last administration of the study drug. Male participants must not donate or bank sperm during this same period of time.\n22. Patient must be accessible for treatment and follow-up.\n\nExclusion Criteria:\n\nAn individual who meets ANY of the following criteria will be excluded from participation in this trial:\n\n1. Current participation in another therapeutic clinical trial, except other translational studies.\n2. Treatment with approved or investigational cancer therapy within 14 days prior to initiation of study drug.\n3. Mixed small-cell lung cancer (SCLC) and NSCLC histology.\n4. Histologically documented squamous-cell carcinoma (SCC).\n5. Had prior therapy with:\n\n   1. Tumor-associated calcium signal transducer 2 (TROP2)-targeted therapy.\n   2. Any agent including an antibody drug conjugate (ADC) containing a chemotherapeutic agent targeting topoisomerase I.\n6. Type I LMD per ESMO-EANO guidelines (Le Rhun et al., 2023).\n7. Patients with symptomatic brain metastasis requiring increasing dose of steroids.\n8. Known history of invasive malignancy within 5 years prior to signing informed consent except for adequately treated basal cell or squamous cell skin cancer or in situ cervical cancer. For other cancers considered to have a low risk of recurrence, discussion with the Sponsor's Medical Monitor is required.\n9. Has a history of severe hypersensitivity reactions to either the drug or inactive ingredients (including but not limited to polysorbate 80) of Dato-DXd or its analogs.\n10. Has a history of severe hypersensitivity reactions to other monoclonal antibodies.\n11. Patients who received prior radiotherapy to the brain within 4 weeks of start of study intervention or received radiotherapy to the chest within 4 weeks of start of study intervention or have ongoing radiation-related toxicities requiring corticosteroids.\n\n    Note: Target lesions will be selected according to RANO-BM criteria. Lesions with prior local treatment (i.e. stereotactic radiosurgery or surgical resection) can be considered measurable if progression has occurred since the time of local treatment. However, careful consideration should be given to lesions previously treated with stereotactic radiosurgery, in view of the possibility of treatment effect.\n12. Major surgical procedure or significant traumatic injury within 14 days before the first dose of study treatment or anticipation of need for major surgery within the course of the study treatment.\n13. Has an active cardiac disease or a history of cardiac dysfunction or conduction abnormalities including, but not confined, to any of the following:\n\n    1. Unstable angina pectoris, documented myocardial infarction, or symptomatic congestive heart failure (CHF) (New York Heart Association \\[NYHA\\] Class II-IV) within 6 months prior to study entry.\n    2. Symptomatic pericarditis.\n    3. History of CHF NYHA Class III or IV.\n    4. History of arrhythmia (multifocal premature ventricular contractions, bigeminy, trigeminy, or ventricular tachycardia), which is symptomatic or requires treatment (NCI-CTCAE grade 3), symptomatic or uncontrolled atrial fibrillation despite treatment, or asymptomatic sustained ventricular tachycardia. Participants with atrial fibrillation controlled by medication or arrhythmias controlled by pacemakers will be permitted to enroll.\n    5. QT Interval Corrected by Fridericia's formula (QTcF) prolongation to \\> 470 ms (females) or \\> 450 ms (males) based on average of the screening triplicate 12-lead ECG.\n    6. History of QT prolongation associated with other medications that required discontinuation of that medication, or any current concomitant medication known to prolong the QT interval and cause Torsades de Pointes.\n    7. Congenital long QT syndrome, family history of long QT syndrome, or unexplained sudden death under 40 years of age in first-degree relatives.\n14. Has clinically significant corneal disease.\n15. Has a history of non-infectious interstitial lung disease (ILD)/pneumonitis that required steroids, has current ILD/pneumonitis, or has suspected ILD/pneumonitis that cannot be ruled out by imaging at screening.\n16. Clinically severe pulmonary compromise resulting from intercurrent pulmonary illnesses including, but not limited to, any underlying pulmonary disorder (e.g., pulmonary emboli within 3 months of the study enrolment, severe asthma, severe chronic obstructive pulmonary disease \\[COPD\\], restrictive lung disease, pleural effusion, post COVID-19 pulmonary fibrosis, etc.), and any autoimmune, connective tissue or inflammatory disorders with pulmonary involvement (e.g., rheumatoid arthritis, Sjogren's syndrome, sarcoidosis, etc.), or prior pneumonectomy.\n17. Significant third-space fluid retention (for example ascites or pleural effusion) and is not amenable for required repeated drainage.\n18. Pregnant or lactating females or patients not willing to apply highly effective contraception as defined in the protocol.\n19. Receipt of live or attenuated vaccine within 30 days prior to the first dose of study treatment.\n20. Has active or uncontrolled known infection with hepatitis B virus (HBV), or hepatitis C virus (HCV). Patients with past HBV infection or resolved HBV infection (defined as having a negative hepatitis B surface antibody \\[HBsAg\\] test and a positive hepatitis B core antibody \\[HBcAb\\] test, accompanied by a negative HBV DNA test) are eligible. Patients positive for HCV antibody are eligible only if polymerase chain reaction (PCR) is negative for HCV RNA.\n21. Has known human immunodeficiency virus (HIV) infection that is not well controlled.\n22. Other active uncontrolled infection at the time of enrollment.\n23. Has an active autoimmune disease that has required systemic treatment in past 2 years, or any diagnosis of immunodeficiency, or is receiving systemic steroid therapy or any other form of immunosuppressive therapy within 7 days prior to the first dose of study treatment.\n24. A history of uncontrolled seizures, central nervous system (CNS) disorders, or serious and/or unstable pre-existing psychiatric disability judged by the investigator to be clinically significant and adversely affecting compliance to study drugs or interfering with subject safety.\n25. Known substance abuse or any other concurrent severe and/or uncontrolled medical condition that would, in the investigator's judgment, contraindicate patient participation.\n26. Any serious medical condition or abnormality in clinical laboratory tests that, in the investigator's judgment, precludes the patient's safe participation in and completion of the study.\n27. Inability or unwillingness to comply with the requirements of the protocol in the opinion of the investigator.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "acronym": "TUXEDO-5",
+    "briefTitle": "Datopotamab Deruxtecan (Dato-DXd) for Non-Small Cell Lung Cancer (NSCLC) Patients With Active Brain Metastases",
+    "nctId": "NCT06676917",
+    "officialTitle": "A Multicenter, Open-label, Non-comparative, Single-arm, Phase II Trial of Datopotamab Deruxtecan for Non-small Cell Lung Cancer Patients With Active Brain Metastases (The TUXEDO-5 Study)",
+    "orgStudyIdInfo": {
+      "id": "MEDOPP750"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "MedSIR"
+    },
+    "secondaryIdInfos": [
+      {
+        "id": "2024-512369-14-00",
+        "type": "CTIS"
+      }
+    ]
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "To assess the efficacy in terms of ORR-IC, defined as the rate of patients with complete response (CR) or partial response (PR) for intracranial (IC) lesions, determined locally by investigator, according to Response Assessment in Neuro-Oncology Brain Metastases (RANO-BM) criteria.",
+        "measure": "Intracranial Objective Response Rate (ORR-IC)",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "To assess the ORR-EC defined as the rate of patients with objective response (CR or PR) in EC lesions and overall lesions, as determined locally by the investigator using Response Evaluation Criteria in Solid Tumors Version 1.1 (RECIST v.1.1).",
+        "measure": "Extracranial Objective Response Rate (ORR-EC) and overall lesions (bicompartmental ORR)",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To assess the PFS defined as the period from treatment initiation to the first occurrence of disease progression or death from any cause, whichever occurs first, as per RANO-BM for IC lesions and as per RECIST v1.1 for EC and overall lesions.",
+        "measure": "Progression-Free survival (PFS) for IC lesions",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To assess the CBR for IC lesions defined as the rate of patients with objective response (CR or PR), or stable disease for at least 24 weeks, as determined locally by the investigator using RANO-BM for IC lesions and using RECIST v1.1 for EC and overall lesions.",
+        "measure": "Clinical Benefit Rate (CBR) for IC lesions",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To assess the DCR defined as the percentage of patients with advanced cancer whose therapeutic intervention has led to a complete response, partial response, or stable disease as per RANO-BM for IC lesions and as per RECIST v.1.1 for EC and overall lesions.",
+        "measure": "Disease Control Rate (DCR) for IC lesions",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To assess the TTR for IC lesions defined as the period from the treatment initiation to time of the first objective tumor response (tumor shrinkage of \u2265 30%) observed for patients who achieved a CR or PR, as per RANO-BM for IC lesions and as per RECIST v.1.1 for EC and overall lesions.",
+        "measure": "Time To Response (TTR) for IC lesions",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To assess the DoR for EC defined as the period from the first occurrence of a documented objective response to disease progression or death from any cause, observed for patients who achieved a CR or PR, as per RECIST v.1.1.",
+        "measure": "Duration of Response (DoR) for EC and overall lesions",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To evaluate the best percentage of change in tumor burden determined locally by the investigator using RANO-BM for intracranial lesions and RECIST v.1.1 for extracranial and overall measurable lesions (bicompartmental ORR).",
+        "measure": "Best percentage of change in tumor burden",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To assess the overall survival (OS) defined as the period from treatment initiation to death from any cause, determined locally by the investigator.",
+        "measure": "Overall Survival (OS)",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To determine the safety and tolerability profile of Dato-DXd in NSCLC patients with active Brain Metastases (BMs) according to the NCI-CTCAE v.5.0.",
+        "measure": "Incidence of Dato-DXd-Emergent Adverse Events (Safety and tolerability)",
+        "timeFrame": "Through study completion, an average of 8 months."
+      },
+      {
+        "description": "To evaluate the QoL after Dato-DXd in NSCLC patients with BMs using the European Organization for Research and Treatment of Cancer (EORTC) quality of life questionnaire (QLQ-C30)",
+        "measure": "Quality of Life (QoL)",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To evaluate the neurocognitive function after Dato-DXd in NSCLC patients with BMs using the brain cancer specific questionnaire (QLQ-BN20).",
+        "measure": "Neurocognitive Function Questionnaire",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      },
+      {
+        "description": "To evaluate the neurologic function after Dato-DXd in NSCLC patients with BMs using the Neurologic Assessment in Neuro-Oncology (NANO) scale.",
+        "measure": "Neurologic function",
+        "timeFrame": "From date of inclusion until the date of first documented progression or date of death from any cause or treatment discontinuation from any other reason, whichever came first, assessed through study completion, an average of 8 months."
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "INDUSTRY",
+        "name": "Daiichi Sankyo"
+      }
+    ],
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "MedSIR"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2027-08",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2025-08-08",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2025-08-04",
+    "overallStatus": "WITHDRAWN",
+    "primaryCompletionDateStruct": {
+      "date": "2027-08",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2025-06",
+      "type": "ESTIMATED"
+    },
+    "statusVerifiedDate": "2025-08",
+    "studyFirstPostDateStruct": {
+      "date": "2024-11-06",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2024-11-05",
+    "studyFirstSubmitQcDate": "2024-11-05",
+    "whyStopped": "The clinical trial has not been approved by the regulatory authority."
+  }
+}

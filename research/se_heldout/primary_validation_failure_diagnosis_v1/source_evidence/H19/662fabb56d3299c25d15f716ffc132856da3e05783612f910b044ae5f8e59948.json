@@ -1,0 +1,295 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Participants with elevated HER2 protein expression, as assessed by membrane protein assay, were treated with HER2-directed antibody-drug conjugates (ADCs), such as trastuzumab emtansine (T-DM1) or trastuzumab deruxtecan (T-DXd).",
+        "interventionNames": [
+          "Drug: Trastuzumab emtansine (T-DM1)",
+          "Drug: Trastuzumab deruxtecan (T-DXd)"
+        ],
+        "label": "HER2-directed molecular cohort",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Participants with elevated TROP2 protein expression, as assessed by membrane protein assay, were treated with TROP2-targeted antibody-drug conjugates (ADCs), such as datopotamab deruxtecan (Dato-DXd) or sacituzumab govitecan (SG).",
+        "interventionNames": [
+          "Drug: Datopotamab deruxtecan (Dato-DXd)",
+          "Drug: Sacituzumab govitecan (SG)"
+        ],
+        "label": "TROP2-directed molecular cohort",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Participants with elevated Nectin-4 protein expression, as assessed by membrane protein assay, were treated with Nectin-4-targeted antibody-drug conjugates (ADCs), such as enfortumab vedotin (EV).",
+        "interventionNames": [
+          "Drug: Enfortumab vedotin (EV)"
+        ],
+        "label": "Nectin-4-directed molecular cohort",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Participants with elevated EGFR protein expression, as assessed by membrane protein assay, were treated with EGFR-targeted ADCs, including becotatug vedotin (MRG003), and EGFR/HER3 bispecific ADCs, such as izalontamab brengitecan (iza-bren).",
+        "interventionNames": [
+          "Drug: Becotatug vedotin (MRG003)",
+          "Drug: Izalontamab brengitecan (iza-bren / BL-B01D1)"
+        ],
+        "label": "EGFR-directed molecular cohort",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Participants with elevated FR\u03b1 protein expression, as assessed by membrane protein assay, were treated with FR\u03b1-targeted ADCs, such as mirvetuximab soravtansine (MIRV).",
+        "interventionNames": [
+          "Drug: Mirvetuximab soravtansine (MIRV)"
+        ],
+        "label": "FR\u03b1-directed molecular cohort",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "HER2-directed molecular cohort"
+        ],
+        "description": "Trastuzumab emtansine (T-DM1) is an antibody-drug conjugate (ADC) consisting of the humanized anti-HER2 monoclonal antibody trastuzumab covalently linked to the cytotoxic maytansinoid DM1 via a non-cleavable thioether linker (SMCC). T-DM1 is administered intravenously at a dose of 3.6 mg/kg every 3 weeks (Q3W).",
+        "name": "Trastuzumab emtansine (T-DM1)",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "HER2-directed molecular cohort"
+        ],
+        "description": "Trastuzumab deruxtecan (T-DXd) is an antibody-drug conjugate (ADC) consisting of the humanized anti-HER2 monoclonal antibody trastuzumab covalently linked to the topoisomerase I inhibitor payload DXd via a cleavable tetrapeptide-based linker (GGFG). T-DXd is administered intravenously at a dose of 5.4 mg/kg every 3 weeks (Q3W).",
+        "name": "Trastuzumab deruxtecan (T-DXd)",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "TROP2-directed molecular cohort"
+        ],
+        "description": "Datopotamab deruxtecan (Dato-DXd) is an antibody-drug conjugate (ADC) consisting of a humanized anti-TROP2 IgG1 monoclonal antibody covalently linked to the topoisomerase I inhibitor payload DXd via a cleavable tetrapeptide-based linker (GGFG). Dato-DXd is administered intravenously at a dose of 6 mg/kg every 3 weeks (Q3W).",
+        "name": "Datopotamab deruxtecan (Dato-DXd)",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "TROP2-directed molecular cohort"
+        ],
+        "description": "Sacituzumab govitecan (SG) is an antibody-drug conjugate (ADC) consisting of a humanized anti-TROP2 IgG1 monoclonal antibody covalently linked to the topoisomerase I inhibitor payload SN-38 via a cleavable pH-sensitive carbonate linker (CL2A). SG is administered intravenously at a dose of 10 mg/kg on Days 1 and 8 of each 21-day cycle.",
+        "name": "Sacituzumab govitecan (SG)",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Nectin-4-directed molecular cohort"
+        ],
+        "description": "Enfortumab vedotin (EV) is an antibody-drug conjugate (ADC) consisting of a humanized anti-Nectin-4 IgG1 monoclonal antibody covalently linked to the microtubule-disrupting agent monomethyl auristatin E (MMAE) via a cleavable protease-sensitive linker (vc, valine-citrulline). EV is administered intravenously at a dose of 1.25 mg/kg on Days 1, 8, and 15 of each 28-day cycle.",
+        "name": "Enfortumab vedotin (EV)",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "EGFR-directed molecular cohort"
+        ],
+        "description": "Becotatug vedotin (MRG003) is an antibody-drug conjugate (ADC) consisting of a humanized anti-EGFR IgG1 monoclonal antibody covalently linked to the microtubule-disrupting agent monomethyl auristatin E (MMAE) via a cleavable protease-sensitive linker (vc, valine-citrulline). MRG003 is administered intravenously every 3 weeks (Q3W).",
+        "name": "Becotatug vedotin (MRG003)",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "EGFR-directed molecular cohort"
+        ],
+        "description": "Izalontamab brengitecan (iza-bren; BL-B01D1) is a bispecific antibody-drug conjugate (ADC) targeting both EGFR and HER3, covalently linked to a topoisomerase I inhibitor payload. BL-B01D1 is administered intravenously.",
+        "name": "Izalontamab brengitecan (iza-bren / BL-B01D1)",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "FR\u03b1-directed molecular cohort"
+        ],
+        "description": "Mirvetuximab soravtansine (MIRV) is an antibody-drug conjugate (ADC) consisting of the humanized anti-FR\u03b1 monoclonal antibody M9346A covalently linked to the cytotoxic maytansinoid DM4 via a cleavable disulfide linker. MIRV is administered intravenously at a dose of 6 mg/kg adjusted ideal body weight (AIBW) on Day 1 of every 3-week cycle (Q3W).",
+        "name": "Mirvetuximab soravtansine (MIRV)",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Advanced or Metastatic Pancreatic Adenocarcinoma",
+      "Advanced or Metastatic Breast Cancer (BC)"
+    ],
+    "keywords": [
+      "Pancreatic Cancer",
+      "Breast Cancer"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "syner2000@163.com",
+        "name": "Jian Zhang, MD",
+        "phone": "+8664175590",
+        "phoneExt": "85000",
+        "role": "CONTACT"
+      },
+      {
+        "email": "ycmclinicaltrials@126.com",
+        "name": "Yanchun Meng, MD",
+        "phone": "+8664175590",
+        "phoneExt": "63028",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Shanghai",
+        "country": "China",
+        "facility": "Fudan University Shanghai Cancer Cancer",
+        "geoPoint": {
+          "lat": 31.22222,
+          "lon": 121.45806
+        },
+        "state": "Shanghai Municipality",
+        "zip": "200043"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "To evaluate the clinical efficacy (objective response rate, ORR) of mass spectrometry-based absolute quantification-guided selection and matching of ADC/PDC therapy in patients with locally advanced or metastatic pancreatic cancer/breast cancer, and to explore a quantitative threshold-based stratification strategy for identifying a \"hidden benefit population",
+    "detailedDescription": "This is a single-center, open-label, single-arm, umbrella clinical trial comprising dual cohorts for pancreatic cancer and breast cancer, with multiple sub-cohorts within each cohort. A Bayesian optimal two-stage design will be employed for dynamic decision-making.\n\nThe study consists of a screening period, a treatment period, and a follow-up period. Two cohorts are established: the Pancreatic Cancer cohort (PC) and the Breast Cancer cohort (BC).\n\nDuring the screening period, all enrolled patients will provide fresh or archived tumor tissue for absolute quantification of membrane proteins via a mass spectrometry platform, generating an individualized \"target expression profile\" (expressed as molecules per cell). Targets will be ranked by expression level in descending order to identify the top 1-5 candidate targets."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "interventionModelDescription": "This umbrella trial employs an adaptive platform design. Treatment arms may be dynamically added or dropped during the course of the study based on pre-specified decision rules. The Number of Arms and Arms section will be updated accordingly whenever new arms are introduced or existing arms are discontinued.Patients with locally advanced or metastatic pancreatic or breast cancer are stratified by mass spectrometry-based absolute protein quantitation and assigned to matched antibody/peptide-drug conjugate (ADC) arms in parallel.",
+      "maskingInfo": {
+        "masking": "NONE",
+        "maskingDescription": "This is an open-label study. Blinding of participants and investigators is not feasible due to the distinct characteristics of different ADC agents across arms. Tumor response evaluations are performed by the investigator."
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 225,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n1. Male or female patients aged \u226518 years and \u226475 years at the time of informed consent.\n2. Eastern Cooperative Oncology Group (ECOG) performance status of 0 or 1.\n3. Life expectancy of \u22653 months, as assessed by the investigator.\n4. Histologically confirmed recurrent (unresectable) or metastatic advanced pancreatic cancer or breast cancer.\n5. Radiographic or objective evidence of disease progression during or following the last systemic therapy administered prior to the first dose of study treatment.\n6. Documented failure of standard-of-care therapy in the recurrent/metastatic setting, with receipt of at least 2 prior lines of chemotherapy. If disease recurrence occurs within 6 months after completion of (neo)adjuvant chemotherapy, the adjuvant chemotherapy regimen shall be counted as 1 line of prior chemotherapy. Additionally:\n\n   For patients with hormone receptor-positive (estrogen receptor \\[ER\\]-positive and/or progesterone receptor \\[PR\\]-positive) and HER2-negative tumors: progression after at least 1 line of endocrine therapy, with the investigator's determination that the patient is unlikely to benefit from further endocrine therapy. Primary endocrine resistance in the adjuvant setting shall be counted as 1 line (disease recurrence within 24 months after completion of adjuvant endocrine therapy is considered 1 line). Prior treatment with CDK4/6 inhibitors is permitted.\n\n   For patients with HER2-positive advanced breast cancer: receipt of at least 2 prior lines of anti-HER2 therapy.\n7. At least 1 extracranial measurable lesion as defined by Response Evaluation Criteria in Solid Tumors (RECIST) version 1.1.\n8. Adequate organ and bone marrow function, as demonstrated by the following laboratory values obtained within 14 days prior to the first dose of study treatment:\n\n   1. Hemoglobin \u226590 g/L (without transfusion within 14 days prior to screening).\n   2. Absolute neutrophil count (ANC) \u22651.5 \u00d7 10\u2079/L.\n   3. Platelet count \u226590 \u00d7 10\u2079/L.\n   4. Total bilirubin \u22641.5 \u00d7 upper limit of normal (ULN).\n   5. Alanine aminotransferase (ALT) and aspartate aminotransferase (AST) \u22642.5 \u00d7 ULN; if hepatic metastases are present, ALT and AST \u22645 \u00d7 ULN.\n   6. Serum creatinine \u22641.5 \u00d7 ULN, or creatinine clearance \u226560 mL/min as calculated by the Cockcroft-Gault formula.\n   7. International normalized ratio (INR)/prothrombin time (PT) and activated partial thromboplastin time (aPTT) \u22641.5 \u00d7 ULN.\n   8. Left ventricular ejection fraction (LVEF) \u226550% as assessed by echocardiography or multigated acquisition (MUGA) scan; QTcF \\<470 ms for female patients.\n9. Women of childbearing potential (WOCBP) must agree to use highly effective contraceptive measures from the start of screening through 7 months after the last dose of study treatment, and must agree not to breastfeed. A negative serum pregnancy test is required within 7 days prior to the first dose of study treatment.\n10. Voluntary written informed consent signed prior to any study-specific procedures, with the expectation of good compliance and willingness to adhere to all protocol-specified study requirements.\n\nExclusion Criteria:\n\n1. Known history of severe hypersensitivity to the investigational drug substance, any excipients contained in the study drug formulation, or other monoclonal antibodies/peptides.\n2. Participation in any other interventional clinical trial (excluding observational studies) within 4 weeks (or 5 half-lives of the investigational product, whichever is shorter) prior to the first dose of study treatment. Receipt of any of the following within the specified time windows prior to the first dose of study treatment:\n\n   oSurgery (major cancer-directed surgery), radiotherapy, chemotherapy, biological therapy, or participation in another interventional clinical study within 3 weeks.\n\n   oEndocrine therapy, immunotherapy, molecularly targeted therapy, or anti-cancer traditional Chinese medicine within 2 weeks.\n3. Leptomeningeal metastases or active brain parenchymal metastases. Patients with clinically stable brain parenchymal metastases may be eligible, including those with asymptomatic brain metastases that have not received prior local therapy; or patients who have previously received treatment for CNS metastases (radiotherapy or surgery), provided that imaging-confirmed disease stability has been maintained for at least 4 weeks and symptomatic treatment (including corticosteroids and mannitol) has been discontinued for more than 2 weeks.\n4. Presence of or history of other malignancies, with the following exceptions: cured basal cell carcinoma or squamous cell carcinoma of the skin, carcinoma in situ of the cervix, papillary thyroid carcinoma, ductal carcinoma in situ of the breast, or any other malignancy with disease-free survival exceeding 3 years.\n5. Uncontrolled concurrent illness, including but not limited to: persistent or active infection, uncontrolled or clinically significant cardiovascular disease, severe chronic gastrointestinal disease associated with diarrhea, or any psychiatric illness or social situation that, in the investigator's judgment, would limit compliance with study requirements, significantly increase the risk of adverse events, or impair the ability to provide written informed consent.\n6. Uncontrolled or clinically significant cardiovascular disease, including any of the following:\n\n   1. History of myocardial infarction or symptomatic congestive heart failure (CHF) (New York Heart Association \\[NYHA\\] Class II-IV) within 6 months prior to enrollment. Patients with troponin levels above the upper limit of normal (ULN) at screening, as defined by the manufacturer, in the absence of any myocardial infarction-related symptoms, must undergo cardiology consultation prior to enrollment to rule out myocardial infarction.\n   2. Uncontrolled hypertension.\n   3. Uncontrolled and/or clinically significant cardiac arrhythmias.\n   4. QT interval corrected by the Fredericia method (QTcF) \\>470 ms for female patients, based on the mean of three 12-lead electrocardiogram (ECG) results obtained during the screening period.\n7. History of steroid-treated (non-infectious) interstitial lung disease (ILD)/pneumonitis, current ILD/pneumonitis, or suspected ILD/pneumonitis on screening imaging that cannot be ruled out.\n8. Clinically significant pulmonary comorbidities, including but not limited to: any underlying pulmonary disease (i.e., pulmonary embolism within 3 months prior to study enrollment, severe asthma, severe chronic obstructive pulmonary disease \\[COPD\\], restrictive lung disease, significant pleural effusion, etc.); any autoimmune, connective tissue, or inflammatory disease with pulmonary involvement (i.e., rheumatoid arthritis, Sj\u00f6gren's syndrome, sarcoidosis, etc.); and/or prior pneumonectomy (completed).\n9. Use of immunosuppressive agents or systemic corticosteroids for immunosuppressive purposes within 2 weeks prior to the first dose of study treatment (dose \\>10 mg/day prednisone or equivalent dose of other corticosteroids). Nasal spray or inhaled corticosteroids are excluded from this criterion.\n10. Any active autoimmune disease or history of autoimmune disease with potential for relapse. Patients with skin conditions not requiring systemic treatment (e.g., vitiligo, psoriasis, alopecia), well-controlled type 1 diabetes mellitus on insulin therapy, or asthma that has completely resolved since childhood and requires no intervention in adulthood may be enrolled. Patients with asthma requiring bronchodilator therapy are not eligible.\n11. Uncontrolled infection requiring intravenous antibiotics, antiviral agents, or antifungal agents.\n12. Active primary immunodeficiency, known human immunodeficiency virus (HIV) infection, active hepatitis B (HBsAg-positive with HBV DNA \u2265500 IU/mL), or active hepatitis C infection. Among patients who are hepatitis C antibody-positive, only those with negative HCV RNA by polymerase chain reaction (PCR) are eligible for enrollment.\n13. Unresolved toxicity from prior anti-cancer therapy, defined as toxicity not resolved to Grade \u22641 or baseline (excluding alopecia). Patients with chronic, stable Grade 2 toxicity that the investigator considers related to prior anti-cancer therapy (defined as no worsening to Grade \u22652 for at least 3 months prior to enrollment and manageable with standard treatment) may be enrolled (e.g., chemotherapy-induced neuropathy, fatigue). Residual toxicity from prior immune-oncology (IO) therapy: Grade 1 or Grade 2 endocrinopathies, which may include: (a) hypothyroidism/hyperthyroidism; (b) type 1 diabetes mellitus; (c) hyperglycemia; (d) adrenal insufficiency; (e) adrenalitis; (f) skin depigmentation (vitiligo).\n14. Imaging evidence of tumor invasion into major blood vessels, or, in the investigator's judgment, a very high likelihood of tumor invasion into major blood vessels during treatment that could result in fatal hemorrhage.\n15. Major surgical procedure, severe traumatic injury, fracture, or ulcer within 4 weeks prior to the first dose of study treatment.\n16. Pregnant or breastfeeding women; women of childbearing potential who are unwilling or unable to use highly effective contraceptive measures.\n17. Any other condition that, in the investigator's judgment, may interfere with the conduct of the study or the interpretation of study results.",
+    "healthyVolunteers": false,
+    "maximumAge": "75 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "acronym": "PROBE",
+    "briefTitle": "Protein-Matched ADC or PDC Umbrella Trial in Advanced Pancreatic and Breast Cancer",
+    "nctId": "NCT07825753",
+    "officialTitle": "An Umbrella Clinical Trial of Antibody/Peptide-Drug Conjugates Matched by Mass Spectrometry-Based Absolute Quantitation of Proteins in Locally Advanced or Metastatic Pancreatic or Breast Cancer",
+    "orgStudyIdInfo": {
+      "id": "2607349-13"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Fudan University"
+    }
+  },
+  "outcomesModule": {
+    "otherOutcomes": [
+      {
+        "description": "A TEAE is defined as any adverse event that starts or worsens in severity after the first dose of study treatment. Severity graded per NCI CTCAE v5.0.",
+        "measure": "Number of Participants With Treatment-Emergent Adverse Events (TEAEs) as Assessed by CTCAE v5.0",
+        "timeFrame": "Up to 104 Weeks"
+      },
+      {
+        "description": "The absolute quantity of the target antigen will be measured in tumor tissue samples collected at baseline using a validated mass spectrometry-based assay.",
+        "measure": "Absolute Quantification Value of Target Antigen by Mass Spectrometry",
+        "timeFrame": "Baseline"
+      }
+    ],
+    "primaryOutcomes": [
+      {
+        "description": "ORR is defined as the proportion of participants achieving a best overall response of complete response (CR) or partial response (PR) per RECIST 1.1 criteria, as assessed by the investigator.",
+        "measure": "Objective Response Rate (ORR) as Assessed by RECIST 1.1",
+        "timeFrame": "Up to 104 Weeks"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "Disease Control Rate (DCR), defined as the proportion of patients achieving a best overall response of complete response (CR), partial response (PR), or stable disease (SD), as assessed by RECIST 1.1.",
+        "measure": "Disease Control Rate (DCR) as Assessed by RECIST 1.1",
+        "timeFrame": "Up to 104 Weeks"
+      },
+      {
+        "description": "DoR is defined as the time from the first documented response (CR or PR) to the first documented disease progression or death from any cause, as assessed by RECIST 1.1.",
+        "measure": "Duration of Response (DoR)",
+        "timeFrame": "Up to 104 Weeks"
+      },
+      {
+        "description": "Progression-Free Survival (PFS), defined as the time from the start of treatment to the first documented disease progression or death from any cause, whichever occurs first, as assessed by RECIST 1.1.",
+        "measure": "Progression-Free Survival (PFS)",
+        "timeFrame": "Up to 104 Weeks"
+      },
+      {
+        "description": "Overall Survival (OS), defined as the time from the start of treatment to death from any cause.",
+        "measure": "Overall Survival (OS)",
+        "timeFrame": "Up to 104 Weeks"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false,
+    "isUsExport": false,
+    "oversightHasDmc": false
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Fudan University"
+    },
+    "responsibleParty": {
+      "investigatorAffiliation": "Fudan University",
+      "investigatorFullName": "Jian Zhang,MD",
+      "investigatorTitle": "Director of Phase I Clinical Trial Department; Professor, Chief physician of oncology department",
+      "type": "PRINCIPAL_INVESTIGATOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2030-02-01",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-09-17",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-09-12",
+    "overallStatus": "NOT_YET_RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2027-09-01",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2026-09-10",
+      "type": "ESTIMATED"
+    },
+    "statusVerifiedDate": "2026-09",
+    "studyFirstPostDateStruct": {
+      "date": "2026-09-17",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2026-09-07",
+    "studyFirstSubmitQcDate": "2026-09-12"
+  }
+}

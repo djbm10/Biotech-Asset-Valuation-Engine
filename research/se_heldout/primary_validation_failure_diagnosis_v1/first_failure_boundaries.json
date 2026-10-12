@@ -1,0 +1,952 @@
+[
+  {
+    "query_id": "H16",
+    "position": 1,
+    "asset_id": "asset:80c08086d288d3286dff",
+    "name": "Relatlimab",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 2,
+    "asset_id": "asset:03ab9f1973d0606e57d6",
+    "name": "REGN3767",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 3,
+    "asset_id": "asset:4a7410c1e2efa9254ee2",
+    "name": "Tebotelimab",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 4,
+    "asset_id": "asset:e2ea4a7cef6094657fe0",
+    "name": "ieramilimab",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 5,
+    "asset_id": "asset:7e1d6d5e4a1cb448e077",
+    "name": "Tuparstobart",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 6,
+    "asset_id": "asset:686f4d4a024ed46010b5",
+    "name": "Alcestobart",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 7,
+    "asset_id": "asset:f68af983e29e3518504f",
+    "name": "Favezelimab",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 8,
+    "asset_id": "asset:f2c5eda8a758b20956e5",
+    "name": "Tobemstomig",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 9,
+    "asset_id": "asset:ebfdd24f6ed1ef80f977",
+    "name": "XmAb22841",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 10,
+    "asset_id": "asset:68d2cfca7d48830a3706",
+    "name": "duvortuxizumab",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 11,
+    "asset_id": "asset:6c30246a4fe70d394d69",
+    "name": "benmelstobart",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 12,
+    "asset_id": "asset:3a0e2bf17a3e528703ff",
+    "name": "certolizumab",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 13,
+    "asset_id": "asset:17da7d2071447fc4be9a",
+    "name": "cilgavimab",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 14,
+    "asset_id": "asset:76beff6d6624d6b06005",
+    "name": "fanastomig",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 15,
+    "asset_id": "asset:d6f7e2a6d90ffa4f4cfd",
+    "name": "gremubamab",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 16,
+    "asset_id": "asset:519b1d97611dd80d2d1b",
+    "name": "ivonescimab",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 17,
+    "asset_id": "asset:1d99c282f25a4947427b",
+    "name": "linvoseltamab",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 18,
+    "asset_id": "asset:56a1932f86a3a993e03a",
+    "name": "netakimab",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 19,
+    "asset_id": "asset:b2aea454126231e806f1",
+    "name": "nirsevimab",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H16",
+    "position": 20,
+    "asset_id": "asset:db822fae2c2b6704736d",
+    "name": "peresolimab",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H18",
+    "position": 1,
+    "asset_id": "asset:8866bafec6e43f4b49da",
+    "name": "Tirzepatide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "HUMAN_POC_SENTENCE_ADMISSIBILITY",
+    "row_quality_failure": true,
+    "basis": "Human-myotube respiration was admitted as human-patient efficacy.",
+    "downstream_effects": [
+      "human_poc_present fact",
+      "evidence-sensitive display order"
+    ],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 2,
+    "asset_id": "asset:42f1832f56f4f84d75f0",
+    "name": "survodutide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 3,
+    "asset_id": "asset:9c37f3770d3cf85b2a69",
+    "name": "Albiglutide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 4,
+    "asset_id": "asset:1a69e2cb33e46291579a",
+    "name": "Avexitide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 5,
+    "asset_id": "asset:4c3850a26b5f95e5ffdc",
+    "name": "Dulaglutide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 6,
+    "asset_id": "asset:c930463244e92f9d78f8",
+    "name": "exenatide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 7,
+    "asset_id": "asset:05ba8fe2630c1cb96be3",
+    "name": "Liraglutide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 8,
+    "asset_id": "asset:97effe598e91cdc3bcbd",
+    "name": "Lixisenatide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 9,
+    "asset_id": "asset:deffdd980730c8fe12c9",
+    "name": "Saxenda",
+    "frozen_label": "DUPLICATE",
+    "first_failure_boundary": "IDENTITY_CONSOLIDATION_TRADE_NAME_POLICY",
+    "row_quality_failure": true,
+    "basis": "Saxenda is liraglutide; duplicates position 7.",
+    "downstream_effects": [
+      "separate canonical IDs survive",
+      "multiple shortlist rows for one product"
+    ],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 10,
+    "asset_id": "asset:9a870799adb39ed81805",
+    "name": "Semaglutide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 11,
+    "asset_id": "asset:db60a85dff623cf014af",
+    "name": "Victoza",
+    "frozen_label": "DUPLICATE",
+    "first_failure_boundary": "IDENTITY_CONSOLIDATION_TRADE_NAME_POLICY",
+    "row_quality_failure": true,
+    "basis": "Victoza is liraglutide; duplicates position 7.",
+    "downstream_effects": [
+      "separate canonical IDs survive",
+      "multiple shortlist rows for one product"
+    ],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 12,
+    "asset_id": "asset:9f626c1ee54da5964591",
+    "name": "Ozempic",
+    "frozen_label": "DUPLICATE",
+    "first_failure_boundary": "IDENTITY_CONSOLIDATION_TRADE_NAME_POLICY",
+    "row_quality_failure": true,
+    "basis": "Ozempic is semaglutide; duplicates position 10.",
+    "downstream_effects": [
+      "separate canonical IDs survive",
+      "multiple shortlist rows for one product"
+    ],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 13,
+    "asset_id": "asset:4b35f368e192018b2708",
+    "name": "Retatrutide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 14,
+    "asset_id": "asset:33ab1eb59661ee8628bb",
+    "name": "Wegovy",
+    "frozen_label": "DUPLICATE",
+    "first_failure_boundary": "IDENTITY_CONSOLIDATION_TRADE_NAME_POLICY",
+    "row_quality_failure": true,
+    "basis": "Wegovy is semaglutide; duplicates position 10.",
+    "downstream_effects": [
+      "separate canonical IDs survive",
+      "multiple shortlist rows for one product"
+    ],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 15,
+    "asset_id": "asset:9606371062915435ba7b",
+    "name": "DA-302168S",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 16,
+    "asset_id": "asset:a2ee9576849f88618c1d",
+    "name": "VCT220",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 17,
+    "asset_id": "asset:b6cce06e284b1b949d78",
+    "name": "Cotadutide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 18,
+    "asset_id": "asset:19fcc700d3cab306f620",
+    "name": "efpeglenatide",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 19,
+    "asset_id": "asset:c71226c69fdc4c38ac5c",
+    "name": "NLY01",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H18",
+    "position": 20,
+    "asset_id": "asset:bea5b48f7fac4a97f22c",
+    "name": "Rybelsus",
+    "frozen_label": "DUPLICATE",
+    "first_failure_boundary": "IDENTITY_CONSOLIDATION_TRADE_NAME_POLICY",
+    "row_quality_failure": true,
+    "basis": "Rybelsus is semaglutide; duplicates position 10.",
+    "downstream_effects": [
+      "separate canonical IDs survive",
+      "multiple shortlist rows for one product"
+    ],
+    "observed_gate_disposition": "ELIGIBLE",
+    "modality_match": null
+  },
+  {
+    "query_id": "H19",
+    "position": 1,
+    "asset_id": "asset:cf362b6bc18a7577433e",
+    "name": "Sacituzumab Tirumotecan",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "HUMAN_POC_SENTENCE_ADMISSIBILITY",
+    "row_quality_failure": true,
+    "basis": "Economic-model simulation and discount rate were admitted as observed human efficacy.",
+    "downstream_effects": [
+      "human_poc_present fact",
+      "evidence-sensitive display order"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H19",
+    "position": 2,
+    "asset_id": "asset:a4e8d5e9526a71ca9926",
+    "name": "Sacituzumab govitecan",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H19",
+    "position": 3,
+    "asset_id": "asset:55156988e1caf7540012",
+    "name": "Izalontamab brengitecan",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H19",
+    "position": 4,
+    "asset_id": "asset:ebb191faef21e4ff891a",
+    "name": "becotatug vedotin",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H19",
+    "position": 5,
+    "asset_id": "asset:4851f243ea1b874fc72c",
+    "name": "BMS-986148",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H19",
+    "position": 6,
+    "asset_id": "asset:9eebbd99c1a9aaccbbf6",
+    "name": "Farletuzumab ecteribulin",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H19",
+    "position": 7,
+    "asset_id": "asset:c6b579c637778982425a",
+    "name": "ifinatamab deruxtecan",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H19",
+    "position": 8,
+    "asset_id": "asset:8454195f6696f70f9341",
+    "name": "trastuzumab rezetecan",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "MATCH"
+  },
+  {
+    "query_id": "H19",
+    "position": 9,
+    "asset_id": "asset:31c594ce16901413184d",
+    "name": "LCB84",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 10,
+    "asset_id": "asset:cc8870dce46a89ae8491",
+    "name": "SHR-A1921",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 11,
+    "asset_id": "asset:7e46ff9cac55621121b6",
+    "name": "T60c injection",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 12,
+    "asset_id": "asset:c745a7778d72ccd0530f",
+    "name": "Super Hi-TCR-T cells",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 13,
+    "asset_id": "asset:71c4c66835554a77dee4",
+    "name": "JSKN016HC",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 14,
+    "asset_id": "asset:d8acad65baca22c63bc4",
+    "name": "TGFBR2 KO iC9/TROP2.CAR/IL-15 NK cells",
+    "frozen_label": "RELEVANT",
+    "first_failure_boundary": "NONE_FOR_FROZEN_ROW_METRICS",
+    "row_quality_failure": false,
+    "basis": "Frozen RELEVANT label; no false human-PoC on this row.",
+    "downstream_effects": [],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 15,
+    "asset_id": "asset:238fe29ae046e79a2abd",
+    "name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells",
+    "frozen_label": "DUPLICATE",
+    "first_failure_boundary": "IDENTITY_CONSOLIDATION_CONSTRUCT_BRIDGE_ABSENT",
+    "row_quality_failure": true,
+    "basis": "Abbreviated same MD Anderson CB-derived TROP2 CAR/IL15 TGFBR2KO NK construct as position 14, in another indication; not a distinct named product.",
+    "downstream_effects": [
+      "separate canonical IDs survive",
+      "multiple shortlist rows for one product"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 16,
+    "asset_id": "asset:7e251ce2a0c8acfe2d6c",
+    "name": "TRODELVY",
+    "frozen_label": "DUPLICATE",
+    "first_failure_boundary": "IDENTITY_CONSOLIDATION_TRADE_NAME_POLICY",
+    "row_quality_failure": true,
+    "basis": "Trodelvy is sacituzumab govitecan; duplicates position 2.",
+    "downstream_effects": [
+      "separate canonical IDs survive",
+      "multiple shortlist rows for one product"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 17,
+    "asset_id": "asset:26203a4710a9a1ef4a66",
+    "name": "[68Ga]Ga-TTP",
+    "frozen_label": "NON_ASSET",
+    "first_failure_boundary": "QUALIFICATION_STRUCTURED_ROLE_OVERPROMOTION",
+    "row_quality_failure": true,
+    "basis": "Diagnostic radiotracer in an experimental arm was treated as a therapeutic product.",
+    "downstream_effects": [
+      "identity_valid PASS",
+      "review inclusion"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 18,
+    "asset_id": "asset:20c427deaf4630b016e5",
+    "name": "Rescue Medications",
+    "frozen_label": "NON_ASSET",
+    "first_failure_boundary": "QUALIFICATION_STRUCTURED_ROLE_OVERPROMOTION",
+    "row_quality_failure": true,
+    "basis": "An unspecified premedication category declared DRUG in an experimental arm was promoted to a distinct therapeutic asset.",
+    "downstream_effects": [
+      "identity_valid PASS",
+      "review inclusion"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 19,
+    "asset_id": "asset:5d4d083034e81aa9b191",
+    "name": "Rescue Medication",
+    "frozen_label": "NON_ASSET",
+    "first_failure_boundary": "QUALIFICATION_STRUCTURED_ROLE_OVERPROMOTION",
+    "row_quality_failure": true,
+    "basis": "An unspecified premedication category declared DRUG in an experimental arm was promoted to a distinct therapeutic asset.",
+    "downstream_effects": [
+      "identity_valid PASS",
+      "review inclusion"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H19",
+    "position": 20,
+    "asset_id": "asset:c5a8f2c8daf746c0683a",
+    "name": "9MW2821",
+    "frozen_label": "WRONG_TARGET",
+    "first_failure_boundary": "TARGET_ATTRIBUTION_UNRESOLVED",
+    "row_quality_failure": true,
+    "basis": "Frozen public label is WRONG_TARGET; artifact target.expression remains UNKNOWN rather than containing a false positive target assertion. Earliest unmet prerequisite is product-target evidence; review display admits that uncertainty.",
+    "downstream_effects": [
+      "UNKNOWN goes to review",
+      "modality-first ordering can favor unrelated known-modality products"
+    ],
+    "observed_gate_disposition": "UNRESOLVED",
+    "modality_match": "UNKNOWN"
+  },
+  {
+    "query_id": "H17",
+    "position": null,
+    "asset_id": null,
+    "name": "IL-4R\u03b1",
+    "frozen_label": "REFUSED",
+    "first_failure_boundary": "TARGET_ALIAS_LOOKUP_COVERAGE",
+    "row_quality_failure": true,
+    "basis": "Existing anti- affix stripping works; remaining Greek-alpha form has no normalized alias key in pinned target authority.",
+    "downstream_effects": [
+      "zero TARGET spans",
+      "compiler refuses exact original query"
+    ],
+    "intended_target": "IL4R"
+  },
+  {
+    "query_id": "H20",
+    "position": null,
+    "asset_id": null,
+    "name": "factor XI",
+    "frozen_label": "REFUSED",
+    "first_failure_boundary": "TARGET_ALIAS_LOOKUP_COVERAGE",
+    "row_quality_failure": true,
+    "basis": "Original two-word phrase reaches exact alias lookup but has no normalized key; approved coagulation-factor label is not automatically shortened.",
+    "downstream_effects": [
+      "zero TARGET spans",
+      "compiler refuses exact original query"
+    ],
+    "intended_target": "F11"
+  },
+  {
+    "query_id": "H19",
+    "position": null,
+    "asset_id": null,
+    "name": "datopotamab deruxtecan",
+    "frozen_label": "MISSING_REFERENCE",
+    "first_failure_boundary": "STRUCTURED_MODALITY_EXTRACTION",
+    "row_quality_failure": true,
+    "basis": "Named product exists and qualifies. Longest-substring modality heuristic chooses peptide from tetrapeptide linker; PEPTIDE fact drives modality.required FAIL despite authority ADC MATCH.",
+    "downstream_effects": [
+      "absent from scored shortlist"
+    ]
+  },
+  {
+    "query_id": "H19",
+    "position": null,
+    "asset_id": null,
+    "name": "ESG401",
+    "frozen_label": "MISSING_REFERENCE",
+    "first_failure_boundary": "CANDIDATE_ENUMERATION_STRUCTURED_NAME_BOUNDARY",
+    "row_quality_failure": true,
+    "basis": "Name exists in captured NCT06145308 armGroups[].description, but intervention is named generic TROP2 ADC and no ESG401 candidate or mention is materialized.",
+    "downstream_effects": [
+      "absent from scored shortlist"
+    ]
+  },
+  {
+    "query_id": "H19",
+    "position": null,
+    "asset_id": null,
+    "name": "BL-M02D1",
+    "frozen_label": "MISSING_REFERENCE",
+    "first_failure_boundary": "DISCOVERY_CORPUS_COVERAGE",
+    "row_quality_failure": true,
+    "basis": "No matching candidate, identity mention, or string in the 779 captured query-source snapshots; the other four source-document records are synthetic ontology provenance without snapshot paths. Cause before capture cannot be resolved from artifacts alone; six mandatory families unconfigured.",
+    "downstream_effects": [
+      "absent from scored shortlist"
+    ]
+  },
+  {
+    "query_id": "H16",
+    "position": 541,
+    "asset_id": "asset:2132e952ba48d3ce24a6",
+    "name": "TSR-033 / encelimab",
+    "frozen_label": "REFERENCE_FOUND_OUTSIDE_TOP20",
+    "first_failure_boundary": "DISPLAY_ORDER_MODALITY_COVERAGE",
+    "row_quality_failure": false,
+    "basis": "Correct reference present in all-shortlist at #541; authority modality UNKNOWN sorts behind all ten top20 WRONG_TARGET rows with modality MATCH. Not a recall failure; only frozen P@20 criterion fails.",
+    "downstream_effects": [
+      "reference outside top20"
+    ],
+    "modality_match": "UNKNOWN"
+  }
+]
