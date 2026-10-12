@@ -1,3 +1,44 @@
+# 2026-10-12 HUMAN_EFFICACY_TREATMENT_ATTRIBUTION_CONTRACT v1 — DESIGN COMPLETE
+
+Contract: `docs/se_policies/human_efficacy_treatment_attribution_contract_v1.md`.
+Packet: `research/se_human_efficacy_treatment_attribution_contract_v1/`.
+Captured evidence and annotated controls frozen in **eaf98d2 before evaluation**.
+
+Complete 33-row source/arm/alias audit; 9,359 registry document entries scanned
+across the seven frozen runs (includes repeated snapshots). Raw CT.gov arm
+labels, intervention links, IDs and aliases exist, but no validated result-arm
+bridge rescues any of the 14 unresolved asset-specific claims. Background
+references, ordinary-word protocol/acronym matches and candidate trial lists
+are explicitly excluded as ownership proof.
+
+Recovery counts for asset-specific efficacy: **0 safely certifiable; 0 blocked
+only by identity; 0 recoverable by representation alone; 14 unsupported under
+the captured result scope** (12 regimen/pooled-result limitations, two non-
+treatment candidates). **9/14 have certifiable receipt-only component edges**;
+those do not license regimen efficacy inheritance. Three PI-specific result
+strata remain missing. Clinical-content and quantity labels are unchanged.
+
+Grounded contract checks: 65/65 existing negative expectations remain UNKNOWN;
+six existing positive attribution reader outputs unchanged; eight structured
+and three prior discourse designs match their constraints. Current reader
+still falsely accepts C056's first regimen-list item; that parser defect is
+not fixed by this design. These are grounded-record checks, not automatic
+prose extraction or generalization validation. The 33-row scientific decision
+remains 15 scoped positives / 18 UNKNOWN, not a rescore of primary validation.
+
+**Human-PoC behavior is NOT implementation-ready.** Minimum extension:
+TreatmentCohortAttribution with separate receipt and efficacy-owner status,
+asset/trial/arm/result-group identities, regimen scope, exact provenance,
+qualifiers and contradiction reasons. Raw payload retention is already
+available; current flat statements/clinical results lack this certificate.
+Next proposed separately preregistered milestone:
+**TREATMENT_COHORT_ATTRIBUTION_REPRESENTATION v1**, lossless representation only,
+without human-PoC promotion, identity changes or routing changes. Not opened.
+
+Stop before implementation. No production/source/tests/scripts changes; all
+still match c5bc865. Earlier frozen packets remain hash-identical. H16–H20 stay
+diagnostic/development data; **H6–H10 remain UNRUN**. No searches or replays.
+
 # 2026-10-11 HUMAN_EFFICACY_QUANTITY_BINDING_CONTRACT v1 — NOT IMPLEMENTATION-READY
 
 Design: `docs/se_policies/human_efficacy_quantity_binding_contract_v1.md`.

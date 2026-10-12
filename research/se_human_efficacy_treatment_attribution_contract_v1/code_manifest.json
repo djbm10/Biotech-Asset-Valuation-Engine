@@ -1,0 +1,14 @@
+{
+  "src/bve/se/schemas/contracts.py": "fa598702859cb4e5d70ee2203d1cdad462078e3f992738d1ffcdab01fc56bf9b",
+  "src/bve/se/evidence/human_poc.py": "6259b51f7ad7ecba7d48f0d3a7577caca136e4555ab2c39b8ea6340dbe3b6f66",
+  "src/bve/se/evidence/clinicaltrials.py": "52742577378560f0a0e15dba4ad6c42d80a6700fa81773b1e67d63af635c9291",
+  "src/bve/se/discovery/adapters.py": "a352c6a150342aea7b6ecb5cbdac4d30fdbd7ea67abbb4bbf0150a728fb81402",
+  "src/bve/se/universe/ctgov.py": "1ded261c6817025897ae97634235b6f533d433b79f912470468e3f8ac61a42b8",
+  "src/bve/se/universe/provider.py": "aea918fa568518397d2ad67a6ce923ae039a9678995c4cffcabc6bfc0f1da09a",
+  "src/bve/se/resolution/protocol_attribution.py": "c70178ea1f4db95298a784ed613a6fb7083ee5c112875e17a1f6af50045bc06b",
+  "tests/se/test_human_poc.py": "c3d39be144611012c62ee6d2819466ba6b5c88fcf6ea2771452636151617a886",
+  "tests/se/test_human_poc_regimen_lists.py": "c92d65881e5b01520ccdeeccc68182e704ccac9b99050f2f398d3ab3df06b385",
+  "tests/se/test_conference_human_poc_admissibility.py": "f5910ee4ee663edece73acab17371db7c2d2f4eb0d1ce48c20d3165270a58cd6",
+  "docs/se_policies/human_poc_regimen_list_attribution.md": "ea1304e2e14123a182c8aa7bc553a1f16490addb5bed726329d2ac5bcfe06fc0",
+  "docs/se_policies/human_poc_regimen_list_attribution_amendment_1.md": "071361b0b1512716ed2adca5dd08870cf392040dc8a9d96da225fc34d61255bd"
+}

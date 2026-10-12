@@ -1,0 +1,21 @@
+{
+  "milestone": "HUMAN_EFFICACY_TREATMENT_ATTRIBUTION_CONTRACT v1",
+  "input_freeze_commit": "eaf98d2",
+  "files": {
+    "attribution_audit.json": "ec57df40c6b2af8f684c4dd7d56df9260211428ede0c6ac52b71a6e003803d0e",
+    "attribution_table.md": "4eebd6b80eb01bd0e1a49531a04ea34f74176da666ed3eb4bf0c52d5f2ce99de",
+    "audit_attribution_inventory.py": "19054f8661a7465d54c91096272b5e1361406b4a4a1168ab365728a16d344245",
+    "build_treatment_attribution_design.py": "e4112e5fc45d4954825a0d977b5259f8ce6db28472cf00a876332222d148ff84",
+    "candidate_evidence.json": "4ab67189e0c595f2027e0cb91fe73dc282fe62f94bb4b1667806949e321aebd2",
+    "capture_inventory.json": "3490c6fe4ebea222799c1c968da46e6615d68cab030a734de7fe2049a71d92b7",
+    "check_treatment_attribution_contract.py": "43983d018447abeb83cf94c5a5a1a9aa535dc8e2ef39601ed2317ab63b670391",
+    "code_manifest.json": "a2623ef1767f37e8806328a3f6c9a2ddd36c1c14ae2350fcc488515a2217c050",
+    "contract_checks.json": "d5d51decfbf88ad8e31697586641eddebf5b43b6e2d53bf7276313c839d5a7e0",
+    "design_freeze.json": "852842585e2654b563da7f8a321123d06042f1ff66d334a4896c24c65e401d7c",
+    "negative_controls.json": "c08bbc7c8e593edbd87c87f718200cbac3aeb52c405bc1f55f5d1ed43461a0af",
+    "positive_attribution_controls.json": "bd14853bd1ee57a68d64b024d87942dddb5f66e1ae05a1be127156f899b15392",
+    "structured_design_cases.json": "e9c89ae8eb647d649487f212a5a1c2e8e250802d9e20ea050ef8963e2a4edd15",
+    "structured_registry_evidence.json": "905db66d6b2ab090867bc09a291e0b446414eeccb5c06b8b5c034e9c1c76d634",
+    "verification.json": "23811fbcb2bb4868a80303bb10b61f1d9f5f71821272a0f164403af9a52352d6"
+  }
+}
