@@ -1,3 +1,19 @@
+# 2026-10-12 TARGET AUTHORITY SPAN / QUERY ROLE — STOP B
+
+Population freeze **d3fa60d**; design/audit **36da8d6**; results and final contract in `research/se_target_authority_span_query_role_contract_v1/results/` and `docs/se_policies/target_authority_span_query_role_contract_v1.md`.
+
+**Architecture extension required; no production implementation.** The current IntentSpan model permits identity references only on TARGET spans, greedy consumption drops competing name/role hypotheses, and each TARGET span becomes a query target without a separate role decision. The final design requires a typed pre-resolution authority-candidate ledger, independent role/ownership certificates and an audited projection step. Do not weaken the existing TargetReference validator or change the identity graph.
+
+All **1,344 observations / 96 pairs** and **48 frozen structural controls** audited. All **32 English mismatches / 224 frames** have complete-name source support, but this is potential recovery conditioned on correct role ownership, not a tested parser recovery. A whole-name-only policy loses **21 currently correct-identity frames / three Greek names**. No Greek/common-name alias admission.
+
+**Frozen-label errors preserved:** S041 wrongly expected no target for the whole source-supported ABP/ZF alias; S042 wrongly expected CD19 to disappear when CAR is ambiguous. Both remain in the denominator and are not patched. S002 (PD-1) is an authority ambiguity, not a span error. BRAF mutation controls expose another installed merged-identity concern; record separately, do not repair it in span work. The study does not pass implementation acceptance.
+
+Read-only artifact integrity checks pass; research scripts Ruff clean. Source/tests/scripts remain identical to **04b184b**. No new full-suite run was needed; restored baseline evidence remains **1,828 passed / three existing xfails**.
+
+**Next possible milestone, separately preregistered:** TARGET_MENTION_ROLE_REPRESENTATION v1, decision-neutral, followed only later by a demonstrated role/ownership arbitration contract. Freeze successor controls explicitly correcting the two failed expectations; never edit this study's labels. Current user stop condition B reached: do not implement the extension in this milestone.
+
+Human-PoC recovery STOPPED; ranking/qualification/duplicates unchanged. H21–H25 untouched; H6–H10 unrun. Engine unvalidated. This supersedes earlier “next” instructions below.
+
 # 2026-10-12 AUTHORITY-SPAN DIAGNOSIS — NO NEW IMPLEMENTATION
 
 Scope freeze **2ff9604**; read-only trace/audit **4409c68**. Packet: `research/se_target_query_authority_span_boundary_diagnosis_v1/`.
