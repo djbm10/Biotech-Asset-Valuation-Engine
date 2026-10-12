@@ -1,0 +1,6290 @@
+{
+  "milestone": "HUMAN_EFFICACY_CONTEXT_SAFETY v1",
+  "criteria": {
+    "E1": true,
+    "E2": true,
+    "E3": false,
+    "E4": true,
+    "E5": false,
+    "E6": false,
+    "E7": true,
+    "E8": true,
+    "E9": false,
+    "E10": false
+  },
+  "decision": "FAILED_ACCEPTANCE",
+  "semantic_controls": [
+    {
+      "id": "C001",
+      "category": "laboratory",
+      "text": "RX-001 produced a response of 63% in human cells.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C002",
+      "category": "laboratory",
+      "text": "RX-001 produced a response of 63% in human tissue.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C003",
+      "category": "laboratory",
+      "text": "RX-001 produced a response of 63% in patient-derived cells.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C004",
+      "category": "laboratory",
+      "text": "RX-001 produced a response of 63% in cells isolated from patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C005",
+      "category": "laboratory",
+      "text": "RX-001 produced a response of 63% in human organoids.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C006",
+      "category": "laboratory",
+      "text": "RX-001 produced a response of 63% in human plasma samples.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C007",
+      "category": "laboratory",
+      "text": "RX-001 produced a response of 63% in patient tissue specimens.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C008",
+      "category": "laboratory",
+      "text": "In human cells, RX-001 increased respiration by 63% and improved response.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C009",
+      "category": "laboratory",
+      "text": "In human cells, RX-001 increased metabolism by 63% and improved response.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C010",
+      "category": "laboratory",
+      "text": "In human cells, RX-001 increased receptor occupancy by 63% and improved response.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C011",
+      "category": "laboratory",
+      "text": "In human cells, RX-001 increased target engagement by 63% and improved response.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C012",
+      "category": "laboratory",
+      "text": "In human cells, RX-001 increased cytokine secretion by 63% and improved response.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C013",
+      "category": "pharmacodynamic",
+      "text": "In patients treated with RX-001, the biomarker response was 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C014",
+      "category": "pharmacodynamic",
+      "text": "In patients treated with RX-001, the pharmacodynamic response was 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C015",
+      "category": "pharmacodynamic",
+      "text": "In patients treated with RX-001, the plasma concentration response was 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C016",
+      "category": "pharmacodynamic",
+      "text": "In patients treated with RX-001, the receptor occupancy response was 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C017",
+      "category": "pharmacodynamic",
+      "text": "In patients treated with RX-001, the target engagement response was 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C018",
+      "category": "simulation",
+      "text": "RX-001 achieved a response rate of 63% in simulated patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C019",
+      "category": "simulation",
+      "text": "RX-001 achieved a response rate of 63% in virtual patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C020",
+      "category": "simulation",
+      "text": "RX-001 achieved a response rate of 63% in synthetic patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C021",
+      "category": "simulation",
+      "text": "RX-001 achieved a response rate of 63% in computer-generated patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C022",
+      "category": "model",
+      "text": "A simulation predicted that RX-001 would achieve a response rate of 63% in patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C023",
+      "category": "model",
+      "text": "A mathematical model predicted that RX-001 would achieve a response rate of 63% in patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C024",
+      "category": "model",
+      "text": "A economic model predicted that RX-001 would achieve a response rate of 63% in patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C025",
+      "category": "model",
+      "text": "A decision model predicted that RX-001 would achieve a response rate of 63% in patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C026",
+      "category": "economic",
+      "text": "A survival model evaluated RX-001 for patients, using an annual discount rate of 7%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C027",
+      "category": "economic",
+      "text": "In patients receiving RX-001, economic response was a 63% reduction in costs.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C028",
+      "category": "economic",
+      "text": "Cost-effectiveness of RX-001 was evaluated in patients, with a 7% survival-model discount rate.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C029",
+      "category": "statistical",
+      "text": "A study of RX-001 had 90% power to detect a response in patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C030",
+      "category": "statistical",
+      "text": "RX-001 response was measured in patients using a 95% confidence interval.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C031",
+      "category": "sample_size",
+      "text": "The RX-001 efficacy cohort included n=36 patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C032",
+      "category": "sample_size",
+      "text": "Patients received RX-001 (n=36) for disease control.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C033",
+      "category": "treatment_use",
+      "text": "Among patient responders, 63% received RX-001 maintenance therapy.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C034",
+      "category": "dose",
+      "text": "RX-001 at 0.7% concentration was administered to patients to assess efficacy.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C035",
+      "category": "definition",
+      "text": "The response endpoint in patients treated with RX-001 was defined as a 63% reduction.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C036",
+      "category": "safety",
+      "text": "Patients treated with RX-001 had adverse events in 63% of cases.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C037",
+      "category": "safety",
+      "text": "RX-001 was tolerated in patients with adverse reactions in 4 of 18.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C038",
+      "category": "pk",
+      "text": "RX-001 exposure in patients increased by 63%, with a pharmacokinetic response.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C039",
+      "category": "pk",
+      "text": "The half-life of RX-001 in patients was 14 hours with 63% bioavailability.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C040",
+      "category": "planned",
+      "text": "The response rate for RX-001 in 36 patients will be evaluated.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C041",
+      "category": "planned",
+      "text": "The study will report RX-001 remission in 63% of patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C042",
+      "category": "eligibility",
+      "text": "Patients must have had a response to RX-001 in 4 of 18 prior treatments.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C043",
+      "category": "qualitative",
+      "text": "RX-001 improved survival in patients enrolled in phase 2/3.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C044",
+      "category": "clinical_response",
+      "text": "RX-001 produced an overall response rate of 63% in patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "RX-001 produced an overall response rate of 63% in patients.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C045",
+      "category": "clinical_response",
+      "text": "RX-001 produced an overall response rate of 63% in participants.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "RX-001 produced an overall response rate of 63% in participants.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C046",
+      "category": "clinical_response",
+      "text": "RX-001 produced an overall response rate of 63% in subjects.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "RX-001 produced an overall response rate of 63% in subjects.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C047",
+      "category": "clinical_response",
+      "text": "RX-001 produced an overall response rate of 63% in recipients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "RX-001 produced an overall response rate of 63% in recipients.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C048",
+      "category": "clinical_response",
+      "text": "RX-001 produced an overall response rate of 63% in volunteers.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "RX-001 produced an overall response rate of 63% in volunteers.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C049",
+      "category": "clinical_response",
+      "text": "RX-001 produced an overall response rate of 63% in evaluable pts.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "RX-001 produced an overall response rate of 63% in evaluable pts.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C050",
+      "category": "clinical_remission",
+      "text": "RX-001 achieved complete remission in 4 of 18 treated patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "complete remission",
+          "sentence": "RX-001 achieved complete remission in 4 of 18 treated patients.",
+          "value": "4 of 18",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C051",
+      "category": "clinical_progression",
+      "text": "RX-001 achieved progression-free survival of 63% at one year in patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "survival",
+          "sentence": "RX-001 achieved progression-free survival of 63% at one year in patients.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C052",
+      "category": "clinical_symptom",
+      "text": "RX-001 produced symptom improvement in 63% of treated patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "symptom improvement",
+          "sentence": "RX-001 produced symptom improvement in 63% of treated patients.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C053",
+      "category": "clinical_flare",
+      "text": "RX-001 produced a 63% reduction in disease flare risk in treated patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C054",
+      "category": "clinical_alias",
+      "text": "Treatment with the active name achieved complete remission in 4 of 18 patients.",
+      "asset_names": [
+        "RX-001",
+        "the active name"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "the active name",
+          "endpoint": "complete remission",
+          "sentence": "Treatment with the active name achieved complete remission in 4 of 18 patients.",
+          "value": "4 of 18",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C055",
+      "category": "regimen",
+      "text": "RX-001 plus RX-002 achieved an overall response rate of 63% in patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C056",
+      "category": "regimen",
+      "text": "Patients treated with RX-001, RX-002, and RX-003 achieved a response rate of 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "Patients treated with RX-001, RX-002, and RX-003 achieved a response rate of 63%.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C057",
+      "category": "cross_sentence",
+      "text": "Patients received RX-001. The response rate was 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C058",
+      "category": "mixed_positive",
+      "text": "RX-001 achieved a response rate of 63% in treated patients; an economic model used a 7% discount rate.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "RX-001 achieved a response rate of 63% in treated patients;",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C059",
+      "category": "mixed_positive",
+      "text": "In patients treated with RX-001, the response rate was 63%, and the analysis used a 95% confidence interval.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "In patients treated with RX-001, the response rate was 63%, and the analysis used a 95% confidence interval.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C060",
+      "category": "mixed_positive",
+      "text": "RX-001 achieved complete remission in 4 of 18 patients, while a simulation predicted survival of 7%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "complete remission",
+          "sentence": "RX-001 achieved complete remission in 4 of 18 patients, while a simulation predicted survival of 7%.",
+          "value": "4 of 18",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C061",
+      "category": "mixed_positive",
+      "text": "Safety was evaluated in 36 patients and the RX-001 overall response rate was 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "Safety was evaluated in 36 patients and the RX-001 overall response rate was 63%.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C062",
+      "category": "mixed_positive",
+      "text": "In patients treated with RX-001, the response rate was 63%, and plasma concentrations increased by 7%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "In patients treated with RX-001, the response rate was 63%, and plasma concentrations increased by 7%.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C063",
+      "category": "mixed_negative",
+      "text": "In patients treated with RX-001, an economic analysis used a 7% discount rate, and clinical response was discussed.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C064",
+      "category": "mixed_negative",
+      "text": "Human-cell assays of RX-001 had a 63% response, and simulated patients had remission.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C065",
+      "category": "mixed_negative",
+      "text": "In patients treated with RX-001, plasma concentrations increased 63%, and response was assessed.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C066",
+      "category": "mixed_negative",
+      "text": "The overall response rate for RX-001 was discussed in patients, and 63% experienced adverse events.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C067",
+      "category": "model_adjustment",
+      "text": "A statistical model adjusted for age; RX-001 had an observed response rate of 63% in treated patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "RX-001 had an observed response rate of 63% in treated patients.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    },
+    {
+      "id": "C068",
+      "category": "modeled_outcome",
+      "text": "A model predicted RX-001 response in 63% of patients without observed clinical results.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C069",
+      "category": "material_cohort",
+      "text": "A cohort of human cells treated with RX-001 achieved a response rate of 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C070",
+      "category": "ambiguous_cohort",
+      "text": "RX-001 achieved a response rate of 63% in a cohort.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C071",
+      "category": "clinical_cohort",
+      "text": "RX-001 achieved a response rate of 63% in the treated clinical cohort.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "RX-001 achieved a response rate of 63% in the treated clinical cohort.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    }
+  ],
+  "structured_controls": [
+    {
+      "id": "clinical",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "treated patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Overall response rate",
+        "endpoint_family": "response",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true
+    },
+    {
+      "id": "explicit_clinical_no_count",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "treated patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Overall response rate",
+        "endpoint_family": "response",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": null,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true
+    },
+    {
+      "id": "typed_patient_count",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "disease",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Overall response rate",
+        "endpoint_family": "response",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": true
+    },
+    {
+      "id": "missing_population",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Overall response rate",
+        "endpoint_family": "response",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": null,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false
+    },
+    {
+      "id": "cells",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "human cells",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Overall response rate",
+        "endpoint_family": "response",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false
+    },
+    {
+      "id": "patient_samples",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "tissue samples from patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Overall response rate",
+        "endpoint_family": "response",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false
+    },
+    {
+      "id": "simulation",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "simulated patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Overall response rate",
+        "endpoint_family": "response",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false
+    },
+    {
+      "id": "economic",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "treated patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Economic response",
+        "endpoint_family": "economic",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false
+    },
+    {
+      "id": "biomarker",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "treated patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Biomarker response",
+        "endpoint_family": "biomarker",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false
+    },
+    {
+      "id": "pk",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "treated patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Plasma concentration response",
+        "endpoint_family": "pk",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false
+    },
+    {
+      "id": "planned",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "treated patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Overall response rate",
+        "endpoint_family": "response",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": true,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false
+    },
+    {
+      "id": "no_value",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "treated patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Overall response rate",
+        "endpoint_family": "response",
+        "effect_size": null,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": false,
+      "actual_pass": false
+    },
+    {
+      "id": "projected",
+      "result": {
+        "result_id": "result:control",
+        "subject_id": "asset:control",
+        "indication": "disease",
+        "population": "treated patients",
+        "treatment_line": "",
+        "development_stage": "PHASE1",
+        "endpoint": "Predicted response rate",
+        "endpoint_family": "response",
+        "effect_size": 0.63,
+        "effect_unit": null,
+        "confidence_interval_low": null,
+        "confidence_interval_high": null,
+        "evaluable_patients": 18,
+        "follow_up_days": null,
+        "comparator": null,
+        "analysis_set": null,
+        "safety_grade3plus_rate": null,
+        "discontinuation_rate": null,
+        "uncontrolled": true,
+        "selected_subgroup": false,
+        "endpoint_switched": false,
+        "incomplete_reporting": false,
+        "supporting_claim_ids": [
+          "claim:control"
+        ]
+      },
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": false
+    }
+  ],
+  "existing_controls": [
+    {
+      "id": "0e4c1ae3f9985a6a9cb1105a4a53de02f96cfbbd6a731c76731e04c84d764f1d",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "86ad1d998d5bf046eed7cb5867d936a946df703115edbd039d24232a67bd79ff",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "5b8919ca2f0e05849a80c4568ac488a1535beb91ac1a6252611706547af25bef",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "90505e06b6b61d6078d6c869a30839ea4fe0e998dade438f5f27bce9843145a1",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "5cdf2303c6d08478c2c4f9d60d4d43659b3bf6186ea1c0bdc072eeff72395cd5",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "69a331169d4bd3fbf3c701522bf320a2acb2648ffa59f7582cc84985c13c92c0",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "81d3ec762b1df68cd8cb1b5bd4daee262a0922e1a09d8ba52d4de25d7f9902a1",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "af4dd8f6a66f24990ca9c41b167fff858d848a841cdecf8f2884a202de870de8",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "1deece1bca3c4e9d208698af04f8fba97b398218ce7c776ff55245adeb6c5611",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "dca4a09ab185c4ce121c5795201145b1526d2edc091b8063b8e6e884e1c20f25",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "7e6db301873ed892800ab62950591bc3c4480ee74212f2c384b99c7677cf2e9d",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "c9cd64d4f726ce270f5656b397093d2f08faff522a9d61a1304af6fa8443cdf5",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "55a6d7e420c118e621437f951d98a82849ddc12d676fd666266222a4855d93f9",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "a3f9eb7795efd94ed47c14cee6138a1b6b66d74bbf34c34a10d7e75a0c5b53e3",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "db6ae0a9879042fb0ab486aed83fd281e61b2a07eeec4a52a16e86f50239491b",
+      "route": "structured",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "3ad40fa2a9680d90bb193d2fb547a2c71fac21f42fbec4b5e2bbe5e2803fa1d2",
+      "route": "structured",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "3890327e75c43219461f656a36494f9ceeffe7c1f09a0d3f33d09debef93f627",
+      "route": "structured",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "d27f9f91cd35d4a9e331cbfd70f82ad74cd507bd93d5ea74967ed797167485f1",
+      "route": "structured",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "cfc547f616ad39682943099525f433009ddd26456471ed4fac551430182cfe3e",
+      "route": "structured",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "2e44274405ae33bde9c173fb66be3e84cf228fe0ffe3881b2bbe3f6dab4b7f73",
+      "route": "structured",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "1c72ff3dbc2c324a6ef724061088b80fbba7fbfc8aa371d9bbeb2c72e3d9aac9",
+      "route": "structured",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "f9f00331968863f0370dbfa392616ec997d6eb8af34854cb9a82d7d2d2f08534",
+      "route": "structured",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "5c9c876fe8c2489b6219cf5e8b8812102f493b88bdbe5601ec4b032bcceb48b6",
+      "route": "structured",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "511d2ef937b018d6894db247501c83b34c7e34d0c9b404d2628efc278c373232",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "d5b3394d462a0e16b5edd056fc0066ea2376c465be18807cb6dfac59ffb65c11",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "b36bcdbdb0630917a575473e288f0231a1c34b8fc82e4f8f12956fe13eb8482e",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "a8011679a17da3b4a56625d69d21a3e75bf35ce2d5a5f05ea1848f2d138593df",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "3b5d61558b0ea690c02e92fb9cec154c303cca8c19f729bfbd0851def0c2f483",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "52e8b297009c59f6823348ac6de4c6132e82e90df13a739191aeaa7f1422dad5",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "b325976800d6e1788096f7fa64ec36de61976791670864b6a35920c5b56ff050",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "18507ee1800a35b3af5bc7fc2f67fef78877a1f53f64b182fa420d001e29b236",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "154d519ba62b5fec0585c612f0c0b9f220c141af68b7434a6538b3232f5b5850",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "8bdfb48c87a0be0eafd1b888c7fe33ce20d71d1e39fedd677acefd0568e569fc",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "e3abebdf19a0916dfe165381069168af8a9ee277cf85f3f52f27120fd5eb625a",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "b6c10edfbef8c14137a36d4ab82d27868f8be3898f0875f49ef6382a1c538fe7",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "d0e44750a712b01cea9d6641eeb95b9de63418ec58de38fd17e445aba2e77b23",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "f31f171086e64e0cd48ad5d51005bc05315fb7c68fb30d828ed070e52f19e567",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "caeb01f641a8f53863ef122f93a701e0dc908913e7707fd106c05a81311bdc14",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "a176bad0bf3e18d27bcd9a2bcd7193b9dc3051594b1419275f57e4f9fac191ae",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "0ae81b76967f8da8745fd4a2784fed6a0f867fe3d9b93cf3264bde61819ecbeb",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "6d78dc914bd1f5210d52ebcd432011ae63c50cd3abe0c0ce11fb89539878b2ea",
+      "route": "prose",
+      "expected": true,
+      "actual": false
+    },
+    {
+      "id": "36c936e482350de7f8047d182599050add9ba90200b6663634e5aac86debb2a5",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "0d9bebdadaa0ec403db2dac9090b7c8e9409cef49cef4ae9049a5a6d31bad8e3",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "338243dadf291e7bfb3a5f6e5d303d9d3aa0ed12b601fd3552c09e4da641ba78",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "2ccc538a4650eb1c0672a99d3722ed264a076c695968750060ccf30e184f0fbf",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "5d7df50de7a45a4b48a5450dc7fec5ebe951a2c220a9f7d44eb8e0e9a930d49e",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "ad1749f662ee914bc1e5821f1120783a00300a4aa641bc46dde96369b12236d3",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "5d956cd688ef59f75d2f2d40d5ab8b06cf0dc5f9ed648afbd458f026fab77018",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "d821db77ef6c4a073739e046292fe28b42f37d20fde1c356477f4d149d6c2832",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "7bfec0a46e595d84b224fa0433222a2e7fdaccaaa756362f32c9884a70047046",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "f76d9c850bae97a8d5f07e37c8208d848dd60dab02c4faf3ab826abfa6948d0e",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "58576bca47c2fdc9a69cc54ca386d87a3e2bdc06e272e10931498d1b0b3d8975",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "ebcaad515f46ba1838665b4613e839e6889bbb14367e36b22d33db911a3eeea0",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "d93a0e27dbbd10b4c484f0936b5443bcdcc24e5f9fd7860daaea5d35a12c89a7",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "8c9d82379bcb939b6177699abeaf52644c6b14b91b26ae5a5cc8b2ff993ba6f8",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "f43494394dab9be954c2a934d0552ff8c0e747662c775fde322b8cc7b5f3da8b",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "a19238aca0eaa9ba65f873d23c2b111bae4bf660cb669fd506033dc1512bd4f4",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "d26537fa8016c9b0f369b9222e18a4377080266986b99fb83af6a50c2cef0b63",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "7df532b1b49090cc3ea999e3b122994a9e18954fc54431d33f7468b9b21204b5",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "1f493682033f5e394c4543419b2c8b59630eebdb1e9814163fb8edcb84be6aaf",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "b7a3708267677126c17d588a1522e697c3cc9c8bc8970189aa415e3ca990b475",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "55055f935d81634434acfd3412a8fe1c5f425a5e5bc98875d8fa4c24564bc9e3",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "5983f7f674df4422331216bb2e0ecb02292111da6c4115b8dbd6a2e5fd78fc33",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "13487d9081f13a9a318bec1f3ded41faa35cf93e17ebc04a32412a289c1cb2ed",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "ab8471f86ac5c366b2847685be2fff46652d5c85a9f335bd6f1457e6c459d869",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "372912e80af8b6ab45a06c62032042570bc6708e65a5a76be7f4ab0c567d6592",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "d5d49a4190da395450575b0f3c83a899712f24254dcdbfb7bbba64a829daa064",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "7b6eedabfe4a497aef1f450659354681e7a39526003f90c54ea3b5ddb91e881c",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "e9bd7177cd1ceda799b6720ada43f421a041c81605eae2062edbadafa655605d",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "7ee70e107890633ebdb233c7d6c06dc6c7ae1b9e80cbae07b1f0ace07cd47f04",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "a493a98a1f19122baed4fe67969629afe024a75302eb218e180f943cc05cd4c7",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "c6c61246fd9379275b9c9969a3a1e6aa605bdd589d4d4b8999b290b39b41acfe",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "c9d864f85c6d9fd6a3b3040e824bc46ea50dcafe8f649cb4301a058f8e271d52",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "474672ec3796b9bb7088e4c5db12fb583f2b7e8b4f6323a19c4b18667a26d443",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "54570d301ef70d8a1510fb6177713887a63e09fb44fa67d8511cf591ebba3e7f",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "63ddb8b6c942f01de3e0028efb3e46a1e55198507e761d7ccb63f4e13a5c4d6e",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "4a68b84a8e28c23071bab68619e4d9c8786ff7cc0605668b27ec7401d81168b6",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "8b617d69a10941befa9ad319402badebcaa42589494e83b4a0fa8f4c0d55ff2a",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "6e0808f17f12d5e898798414a18577dcc8525df46bf4daf57c056251d1ec7a47",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "0c72bb9698056d473e1875f84ee1e4891da5acfb827b14c629c7a85aafcb504a",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "77dd47c48d62451f0c0305141732b301cd60ff1f3771e1d1a7583672c13d3bb0",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "be39eb3f78e48cd8e18e5a3d8ba3f1e0eea265ec153153d2d2dd47f63d3bd13f",
+      "route": "prose",
+      "expected": true,
+      "actual": false
+    },
+    {
+      "id": "4114c9e00dee1dfeddb3e18adfd2a22882d591478ead19b4daadec47e715a1ba",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "d078f21dba2e2d4b17ca5b73b360b62df83a866c0f1c11c2606f9c1c6260e1d2",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "a3476d1c0b0790d93daa375f02f4255b1c6fcdb17da3d90fab9984a2d69b68af",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "e45fb60dc65007e5c4e87eba09874113846cdb51e32bc8e6d200092c19668ef8",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "9c9b1097f689bae3820903dd3699b477f8f780d1711d8fad2c2b938c5f691782",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "1cb939e2ca6a09fcd6270b94d975e856f133dc1917274a8a7113b0b9859501c4",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "8e632620a8ca97ff5ae3c403e9c372bb28fca7f465605657a8b8379074202760",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "e69a546a24aea52e1b06759ef3ec03a3efa1db0e81e835c106cd8fe46e11db6d",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "b6b594bb11d754aa4e842b241d5659b238509ac23937e5a64a264c40b14e30f9",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "4adba3e7e8426df97226df10405f676ba87535d5b103509c15706d0057a5e9eb",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "85bbbcbafc7783ce9cb76723adb8fb5224b98fc732fbc876efbd82f5efa9f5d7",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    },
+    {
+      "id": "978fed3321b81296f21d940d002160df556c20dc8ae57e282e89876f6154aa69",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "7df3039ec3753f9d621946c270dd00add92d39fc4567b028000e2b6393e8961f",
+      "route": "prose",
+      "expected": false,
+      "actual": false
+    },
+    {
+      "id": "0f12eb281b824cec92c06ce38dd285e94509aec87fcf9c828337c3c03c750c36",
+      "route": "prose",
+      "expected": true,
+      "actual": true
+    }
+  ],
+  "witnesses": [
+    {
+      "run": "TAC01",
+      "name": "Obexelimab",
+      "asset_id": "asset:9d0e343083a0704d8ee5",
+      "claim_id": "claim:a5c42d3cc5f5e7b3d5b5",
+      "survey_id": 0,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "CNCT19",
+      "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+      "claim_id": "claim:57b21b05d4b3850512c0",
+      "survey_id": 1,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "CNCT19",
+      "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+      "claim_id": "claim:f677e265dc0aec09a7b7",
+      "survey_id": 2,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Ofatumumab",
+      "asset_id": "asset:e05dd8977fdfb9e27e00",
+      "claim_id": "claim:d4427a1399d764b58284",
+      "survey_id": 3,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Ofatumumab",
+      "asset_id": "asset:e05dd8977fdfb9e27e00",
+      "claim_id": "claim:33f1caf74cde4c1c133c",
+      "survey_id": 4,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Treatment-switching proportions, not a measured efficacy outcome."
+    },
+    {
+      "run": "TAC01",
+      "name": "Ocrelizumab",
+      "asset_id": "asset:1db6cfdb8af2ae9a05e6",
+      "claim_id": "claim:ad72fc8a73f606378560",
+      "survey_id": 4,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Treatment-switching proportions, not a measured efficacy outcome."
+    },
+    {
+      "run": "TAC01",
+      "name": "Tebentafusp",
+      "asset_id": "asset:d1e0161719e49a40261f",
+      "claim_id": "claim:cfda5d150808454352aa",
+      "survey_id": 5,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "zanubrutinib",
+      "asset_id": "asset:1913809491b8a6b3429f",
+      "claim_id": "claim:3da50b9d8b9d3d0f3aea",
+      "survey_id": 6,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Pirtobrutinib",
+      "asset_id": "asset:154695e06ce1d1b8a5ee",
+      "claim_id": "claim:28321a0a852380a98a17",
+      "survey_id": 6,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "mirdametinib",
+      "asset_id": "asset:aaf5f41c833f46335260",
+      "claim_id": "claim:8f6c7d8f5d0fad0f2011",
+      "survey_id": 7,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "ruxolitinib",
+      "asset_id": "asset:b4da3c94cadf74d2abe0",
+      "claim_id": "claim:f1534ba1833cfaa25f4d",
+      "survey_id": 8,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "claim_id": "claim:89e116ed311a6e6d880d",
+      "survey_id": 9,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Enrolled/treated n counts and treatment purpose, not efficacy results."
+    },
+    {
+      "run": "TAC01",
+      "name": "Bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "claim_id": "claim:695990bfcf56db55dc3e",
+      "survey_id": 10,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "claim_id": "claim:d873e0fa9c925007ee4e",
+      "survey_id": 11,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "selumetinib",
+      "asset_id": "asset:deb5df1a112927dadc35",
+      "claim_id": "claim:7844746bbd020559dc05",
+      "survey_id": 7,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "ribavirin",
+      "asset_id": "asset:47e1c542f14828d6dee2",
+      "claim_id": "claim:9a9cbe45326d5cc61db3",
+      "survey_id": 12,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "nivolumab",
+      "asset_id": "asset:907cee16c58c5b91cf06",
+      "claim_id": "claim:f31bd57d107d2a57d477",
+      "survey_id": 13,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Glofitamab",
+      "asset_id": "asset:4017515a30542d99a261",
+      "claim_id": "claim:cf42310f09d4a0cf6dd2",
+      "survey_id": 14,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:8eacd0edc94fcbcf9be5",
+      "survey_id": 15,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:7a81028418d81b0738a1",
+      "survey_id": 16,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Cohort size in a prior-response correlation, no quantitative attributable efficacy outcome."
+    },
+    {
+      "run": "TAC01",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:748996ac8b93a87aee89",
+      "survey_id": 17,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "ibrutinib",
+      "asset_id": "asset:3a97e3f7b012f5f7c834",
+      "claim_id": "claim:8db55aa8258f4d9fa289",
+      "survey_id": 18,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:4f79ef0549a533c10a7e",
+      "survey_id": 19,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:c4339d4dcf551caaa93c",
+      "survey_id": 20,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:95bf25b5c9e48cba9e4c",
+      "survey_id": 21,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Maintenance-use percentage, not remission or response."
+    },
+    {
+      "run": "TAC01",
+      "name": "Erenumab",
+      "asset_id": "asset:4a4d21ba102ae833cdf0",
+      "claim_id": "claim:1530ba0c551e2a9c245c",
+      "survey_id": 22,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Responder threshold and qualitative increased rates; no numerical observed response proportion."
+    },
+    {
+      "run": "TAC01",
+      "name": "Brexucabtagene Autoleucel",
+      "asset_id": "asset:344a173f3d78d2fc6a72",
+      "claim_id": "claim:cd4e07aeeb051ee553e7",
+      "survey_id": 23,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01",
+      "name": "Brexucabtagene Autoleucel",
+      "asset_id": "asset:344a173f3d78d2fc6a72",
+      "claim_id": "claim:b9f57e8f520e43eab4db",
+      "survey_id": 16,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Cohort size in a prior-response correlation, no quantitative attributable efficacy outcome."
+    },
+    {
+      "run": "TAC01",
+      "name": "ICG318",
+      "asset_id": "asset:d0ace5d86850ba755d2b",
+      "claim_id": "claim:f1920a0e1c36a5da8d0c",
+      "survey_id": 24,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "obexelimab",
+      "asset_id": "asset:9d0e343083a0704d8ee5",
+      "claim_id": "claim:a5c42d3cc5f5e7b3d5b5",
+      "survey_id": 0,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "rosuvastatin",
+      "asset_id": "asset:9c753cbee183bb3285ae",
+      "claim_id": "claim:727cd4d319ae726bbbcf",
+      "survey_id": 25,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Study objective and formulation concentrations, not an observed clinical outcome."
+    },
+    {
+      "run": "mint5",
+      "name": "simvastatin",
+      "asset_id": "asset:1b574d1f956919d67c9a",
+      "claim_id": "claim:860114b3abeaabf38f2e",
+      "survey_id": 25,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Study objective and formulation concentrations, not an observed clinical outcome."
+    },
+    {
+      "run": "mint5",
+      "name": "Venetoclax",
+      "asset_id": "asset:2284519ef98d99939cc8",
+      "claim_id": "claim:5ededd17eb739d2e1106",
+      "survey_id": 26,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:8eacd0edc94fcbcf9be5",
+      "survey_id": 15,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:7a81028418d81b0738a1",
+      "survey_id": 16,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Cohort size in a prior-response correlation, no quantitative attributable efficacy outcome."
+    },
+    {
+      "run": "mint5",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:748996ac8b93a87aee89",
+      "survey_id": 17,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "vedolizumab",
+      "asset_id": "asset:0c2022542b0f253d95b1",
+      "claim_id": "claim:58c2c01554d277ddb226",
+      "survey_id": 27,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "ibrutinib",
+      "asset_id": "asset:3a97e3f7b012f5f7c834",
+      "claim_id": "claim:8db55aa8258f4d9fa289",
+      "survey_id": 18,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "Glofitamab",
+      "asset_id": "asset:4017515a30542d99a261",
+      "claim_id": "claim:cf42310f09d4a0cf6dd2",
+      "survey_id": 14,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "mezigdomide",
+      "asset_id": "asset:c75ff74f7b0b18290fd8",
+      "claim_id": "claim:f1cd0d19f0ebe5c9b16c",
+      "survey_id": 28,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "lenalidomide",
+      "asset_id": "asset:0f8819b53ea4be14d8fb",
+      "claim_id": "claim:dbcec01d4d893908ef80",
+      "survey_id": 28,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "Cevostamab",
+      "asset_id": "asset:43668977360f1c627d16",
+      "claim_id": "claim:117c546558458970e8da",
+      "survey_id": 29,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "claim_id": "claim:89e116ed311a6e6d880d",
+      "survey_id": 9,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Enrolled/treated n counts and treatment purpose, not efficacy results."
+    },
+    {
+      "run": "mint5",
+      "name": "Nirogacestat",
+      "asset_id": "asset:0ff1d62036a6a24255b6",
+      "claim_id": "claim:a07876f8449346d3cc94",
+      "survey_id": 30,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "Nirogacestat",
+      "asset_id": "asset:0ff1d62036a6a24255b6",
+      "claim_id": "claim:2ccd060cf6018a9e6bda",
+      "survey_id": 31,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Endpoint definition (30% shrinkage) without a reported numerical outcome."
+    },
+    {
+      "run": "mint5",
+      "name": "pomalidomide",
+      "asset_id": "asset:23fb03a1b3d1ccb75892",
+      "claim_id": "claim:402aef043baec79934d9",
+      "survey_id": 32,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "Talquetamab",
+      "asset_id": "asset:f03a99e642b537ecd908",
+      "claim_id": "claim:1a32fe935671c597a7af",
+      "survey_id": 33,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "teclistamab",
+      "asset_id": "asset:9cdcd41970afdc1eccbe",
+      "claim_id": "claim:7eff55482be804d3a223",
+      "survey_id": 34,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "teclistamab",
+      "asset_id": "asset:9cdcd41970afdc1eccbe",
+      "claim_id": "claim:94cf318c14942aea953f",
+      "survey_id": 35,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "ruxolitinib",
+      "asset_id": "asset:b4da3c94cadf74d2abe0",
+      "claim_id": "claim:f1534ba1833cfaa25f4d",
+      "survey_id": 8,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:95bf25b5c9e48cba9e4c",
+      "survey_id": 21,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Maintenance-use percentage, not remission or response."
+    },
+    {
+      "run": "mint5",
+      "name": "elranatamab",
+      "asset_id": "asset:5dcbf26f3ed27fe6df0a",
+      "claim_id": "claim:e82ea9ec13b90747f598",
+      "survey_id": 36,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "Abecma",
+      "asset_id": "asset:9dda7da59144b21787f5",
+      "claim_id": "claim:0000c65d178e56f531cb",
+      "survey_id": 37,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "Carvykti",
+      "asset_id": "asset:b985c396134c4d1bb12c",
+      "claim_id": "claim:a7501a7e4ce333dee057",
+      "survey_id": 38,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "brexucabtagene autoleucel",
+      "asset_id": "asset:344a173f3d78d2fc6a72",
+      "claim_id": "claim:cd4e07aeeb051ee553e7",
+      "survey_id": 23,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "brexucabtagene autoleucel",
+      "asset_id": "asset:344a173f3d78d2fc6a72",
+      "claim_id": "claim:b9f57e8f520e43eab4db",
+      "survey_id": 16,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Cohort size in a prior-response correlation, no quantitative attributable efficacy outcome."
+    },
+    {
+      "run": "mint5",
+      "name": "ICG318",
+      "asset_id": "asset:d0ace5d86850ba755d2b",
+      "claim_id": "claim:f1920a0e1c36a5da8d0c",
+      "survey_id": 24,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "obexelimab",
+      "asset_id": "asset:9d0e343083a0704d8ee5",
+      "claim_id": "claim:a5c42d3cc5f5e7b3d5b5",
+      "survey_id": 0,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "discase",
+      "asset_id": "asset:3fc02ac0bae568b636b5",
+      "claim_id": "claim:bf8f0eb06438661af074",
+      "survey_id": 39,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "ICG318",
+      "asset_id": "asset:d0ace5d86850ba755d2b",
+      "claim_id": "claim:f1920a0e1c36a5da8d0c",
+      "survey_id": 24,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "PLAT-02",
+      "asset_id": "asset:c78563815aac94f24fc4",
+      "claim_id": "claim:571e9888c924493b80c5",
+      "survey_id": 40,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Efficacy-cohort enrollment n, not efficacy outcome."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "PET30",
+      "asset_id": "asset:6b69d646cd18831edd0d",
+      "claim_id": "claim:25467ab00f0210b2f807",
+      "survey_id": 41,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "PET30",
+      "asset_id": "asset:6b69d646cd18831edd0d",
+      "claim_id": "claim:2ab7b26095caafbfad9b",
+      "survey_id": 42,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CPX351",
+      "asset_id": "asset:8ff9752dc8f1f2afa51d",
+      "claim_id": "claim:14c79f952b3dbfaf6fbd",
+      "survey_id": 43,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CPX351",
+      "asset_id": "asset:8ff9752dc8f1f2afa51d",
+      "claim_id": "claim:ab7056ccb72b53d3e5ee",
+      "survey_id": 44,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Transplantation-use count in CR patients, not a measured CR outcome."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Venetoclax",
+      "asset_id": "asset:2284519ef98d99939cc8",
+      "claim_id": "claim:5ededd17eb739d2e1106",
+      "survey_id": 26,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "vedolizumab",
+      "asset_id": "asset:0c2022542b0f253d95b1",
+      "claim_id": "claim:58c2c01554d277ddb226",
+      "survey_id": 27,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:8eacd0edc94fcbcf9be5",
+      "survey_id": 15,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:7a81028418d81b0738a1",
+      "survey_id": 16,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Cohort size in a prior-response correlation, no quantitative attributable efficacy outcome."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:748996ac8b93a87aee89",
+      "survey_id": 17,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CAR19",
+      "asset_id": "asset:95fa25efe92eff54d849",
+      "claim_id": "claim:2fb4055bb4311d165da8",
+      "survey_id": 45,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Review/cohort n and treatment purpose, not quantified response or survival."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CAR19",
+      "asset_id": "asset:95fa25efe92eff54d849",
+      "claim_id": "claim:42b09ed680ea90c46b48",
+      "survey_id": 46,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CART19",
+      "asset_id": "asset:95622d6d74ae27eeaae3",
+      "claim_id": "claim:9dace9dd1d5b04d926be",
+      "survey_id": 47,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Pre-treatment cell assay and molecular correlate; group n, not clinical efficacy."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CART19",
+      "asset_id": "asset:95622d6d74ae27eeaae3",
+      "claim_id": "claim:fc90f270b7f1ed8aeeb3",
+      "survey_id": 48,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CART19",
+      "asset_id": "asset:95622d6d74ae27eeaae3",
+      "claim_id": "claim:4a1b8a9080c349f38d78",
+      "survey_id": 49,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CART19",
+      "asset_id": "asset:95622d6d74ae27eeaae3",
+      "claim_id": "claim:62f74cab8c603d371c3d",
+      "survey_id": 50,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Future relapse prediction, not observed result."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "rituximab-based",
+      "asset_id": "asset:e4630cd6d26c7c73fad1",
+      "claim_id": "claim:d58d6dd408a48ba17bb7",
+      "survey_id": 51,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Glofitamab",
+      "asset_id": "asset:4017515a30542d99a261",
+      "claim_id": "claim:cf42310f09d4a0cf6dd2",
+      "survey_id": 14,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CCS1477",
+      "asset_id": "asset:ae8927edf32d143deea0",
+      "claim_id": "claim:d69b0f2d4ca172ac0913",
+      "survey_id": 32,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "mezigdomide",
+      "asset_id": "asset:c75ff74f7b0b18290fd8",
+      "claim_id": "claim:f1cd0d19f0ebe5c9b16c",
+      "survey_id": 28,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "lenalidomide",
+      "asset_id": "asset:0f8819b53ea4be14d8fb",
+      "claim_id": "claim:dbcec01d4d893908ef80",
+      "survey_id": 28,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Inobrodib",
+      "asset_id": "asset:4a7d12abe47f0eb78c51",
+      "claim_id": "claim:93d331648bcada3d5c47",
+      "survey_id": 32,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "elranatamab",
+      "asset_id": "asset:5dcbf26f3ed27fe6df0a",
+      "claim_id": "claim:e82ea9ec13b90747f598",
+      "survey_id": 36,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Cevostamab",
+      "asset_id": "asset:43668977360f1c627d16",
+      "claim_id": "claim:117c546558458970e8da",
+      "survey_id": 29,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "claim_id": "claim:89e116ed311a6e6d880d",
+      "survey_id": 9,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Enrolled/treated n counts and treatment purpose, not efficacy results."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Nirogacestat",
+      "asset_id": "asset:0ff1d62036a6a24255b6",
+      "claim_id": "claim:a07876f8449346d3cc94",
+      "survey_id": 30,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Nirogacestat",
+      "asset_id": "asset:0ff1d62036a6a24255b6",
+      "claim_id": "claim:2ccd060cf6018a9e6bda",
+      "survey_id": 31,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Endpoint definition (30% shrinkage) without a reported numerical outcome."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "pomalidomide",
+      "asset_id": "asset:23fb03a1b3d1ccb75892",
+      "claim_id": "claim:402aef043baec79934d9",
+      "survey_id": 32,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Talquetamab",
+      "asset_id": "asset:f03a99e642b537ecd908",
+      "claim_id": "claim:1a32fe935671c597a7af",
+      "survey_id": 33,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "teclistamab",
+      "asset_id": "asset:9cdcd41970afdc1eccbe",
+      "claim_id": "claim:7eff55482be804d3a223",
+      "survey_id": 34,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "teclistamab",
+      "asset_id": "asset:9cdcd41970afdc1eccbe",
+      "claim_id": "claim:94cf318c14942aea953f",
+      "survey_id": 35,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "frontline",
+      "asset_id": "asset:f531606c528faec01e32",
+      "claim_id": "claim:52428cecb2d5fe1c8429",
+      "survey_id": 17,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Vicleucel",
+      "asset_id": "asset:630332aa7893084735ea",
+      "claim_id": "claim:3d590804d107bb511e24",
+      "survey_id": 37,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "DAS28",
+      "asset_id": "asset:ab9f752cb3396396ca8f",
+      "claim_id": "claim:52371a46abf6cfed92ba",
+      "survey_id": 52,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "choice",
+      "asset_id": "asset:2514e6fd3d8c80eb8e93",
+      "claim_id": "claim:f10a1030b19a9a4fe4c7",
+      "survey_id": 53,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Referral-reason percentages, not efficacy outcome proportions."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "ruxolitinib",
+      "asset_id": "asset:b4da3c94cadf74d2abe0",
+      "claim_id": "claim:f1534ba1833cfaa25f4d",
+      "survey_id": 8,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "though",
+      "asset_id": "asset:7049f380c38e081a7765",
+      "claim_id": "claim:95e146d23911c954540c",
+      "survey_id": 54,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "canakinumab",
+      "asset_id": "asset:6041f54445894fffafec",
+      "claim_id": "claim:5d518a2fae6cf537a259",
+      "survey_id": 55,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "infliximab",
+      "asset_id": "asset:63f6227f9fb97e92ee7c",
+      "claim_id": "claim:8b1529e068e365c2e939",
+      "survey_id": 55,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:c4339d4dcf551caaa93c",
+      "survey_id": 20,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:f75246dc376d8532dea8",
+      "survey_id": 55,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "adalimumab",
+      "asset_id": "asset:e79db603ab8afa20e9a7",
+      "claim_id": "claim:68db70e4366482b7f23c",
+      "survey_id": 55,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "tocilizumab",
+      "asset_id": "asset:7f6bef13c869c90489e5",
+      "claim_id": "claim:87da73d9546d46937204",
+      "survey_id": 55,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Obexelimab",
+      "asset_id": "asset:9d0e343083a0704d8ee5",
+      "claim_id": "claim:a5c42d3cc5f5e7b3d5b5",
+      "survey_id": 0,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Brexucabtagene Autoleucel",
+      "asset_id": "asset:344a173f3d78d2fc6a72",
+      "claim_id": "claim:cd4e07aeeb051ee553e7",
+      "survey_id": 23,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Brexucabtagene Autoleucel",
+      "asset_id": "asset:344a173f3d78d2fc6a72",
+      "claim_id": "claim:b9f57e8f520e43eab4db",
+      "survey_id": 16,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Cohort size in a prior-response correlation, no quantitative attributable efficacy outcome."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "CNCT19",
+      "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+      "claim_id": "claim:57b21b05d4b3850512c0",
+      "survey_id": 1,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "CNCT19",
+      "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+      "claim_id": "claim:f677e265dc0aec09a7b7",
+      "survey_id": 2,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "ICG318",
+      "asset_id": "asset:d0ace5d86850ba755d2b",
+      "claim_id": "claim:f1920a0e1c36a5da8d0c",
+      "survey_id": 24,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Ofatumumab",
+      "asset_id": "asset:e05dd8977fdfb9e27e00",
+      "claim_id": "claim:d4427a1399d764b58284",
+      "survey_id": 3,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Ofatumumab",
+      "asset_id": "asset:e05dd8977fdfb9e27e00",
+      "claim_id": "claim:33f1caf74cde4c1c133c",
+      "survey_id": 4,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Treatment-switching proportions, not a measured efficacy outcome."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Ocrelizumab",
+      "asset_id": "asset:1db6cfdb8af2ae9a05e6",
+      "claim_id": "claim:ad72fc8a73f606378560",
+      "survey_id": 4,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Treatment-switching proportions, not a measured efficacy outcome."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Tebentafusp",
+      "asset_id": "asset:d1e0161719e49a40261f",
+      "claim_id": "claim:cfda5d150808454352aa",
+      "survey_id": 5,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "zanubrutinib",
+      "asset_id": "asset:1913809491b8a6b3429f",
+      "claim_id": "claim:3da50b9d8b9d3d0f3aea",
+      "survey_id": 6,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Pirtobrutinib",
+      "asset_id": "asset:154695e06ce1d1b8a5ee",
+      "claim_id": "claim:28321a0a852380a98a17",
+      "survey_id": 6,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Erenumab",
+      "asset_id": "asset:4a4d21ba102ae833cdf0",
+      "claim_id": "claim:1530ba0c551e2a9c245c",
+      "survey_id": 22,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Responder threshold and qualitative increased rates; no numerical observed response proportion."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "mirdametinib",
+      "asset_id": "asset:aaf5f41c833f46335260",
+      "claim_id": "claim:8f6c7d8f5d0fad0f2011",
+      "survey_id": 7,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "ruxolitinib",
+      "asset_id": "asset:b4da3c94cadf74d2abe0",
+      "claim_id": "claim:f1534ba1833cfaa25f4d",
+      "survey_id": 8,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "claim_id": "claim:89e116ed311a6e6d880d",
+      "survey_id": 9,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Enrolled/treated n counts and treatment purpose, not efficacy results."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "claim_id": "claim:695990bfcf56db55dc3e",
+      "survey_id": 10,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "claim_id": "claim:d873e0fa9c925007ee4e",
+      "survey_id": 11,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "selumetinib",
+      "asset_id": "asset:deb5df1a112927dadc35",
+      "claim_id": "claim:7844746bbd020559dc05",
+      "survey_id": 7,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "ribavirin",
+      "asset_id": "asset:47e1c542f14828d6dee2",
+      "claim_id": "claim:9a9cbe45326d5cc61db3",
+      "survey_id": 12,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "nivolumab",
+      "asset_id": "asset:907cee16c58c5b91cf06",
+      "claim_id": "claim:f31bd57d107d2a57d477",
+      "survey_id": 13,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Glofitamab",
+      "asset_id": "asset:4017515a30542d99a261",
+      "claim_id": "claim:cf42310f09d4a0cf6dd2",
+      "survey_id": 14,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:8eacd0edc94fcbcf9be5",
+      "survey_id": 15,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:7a81028418d81b0738a1",
+      "survey_id": 16,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Cohort size in a prior-response correlation, no quantitative attributable efficacy outcome."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "claim_id": "claim:748996ac8b93a87aee89",
+      "survey_id": 17,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "ibrutinib",
+      "asset_id": "asset:3a97e3f7b012f5f7c834",
+      "claim_id": "claim:8db55aa8258f4d9fa289",
+      "survey_id": 18,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:4f79ef0549a533c10a7e",
+      "survey_id": 19,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:c4339d4dcf551caaa93c",
+      "survey_id": 20,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:95bf25b5c9e48cba9e4c",
+      "survey_id": 21,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Maintenance-use percentage, not remission or response."
+    },
+    {
+      "run": "H16",
+      "name": "aclidinium bromide",
+      "asset_id": "asset:b3b35b15120011d70e97",
+      "claim_id": "claim:7e520e49b2cd0717146e",
+      "survey_id": 56,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Dose ratio and study duration beside qualitative efficacy."
+    },
+    {
+      "run": "H16",
+      "name": "Aclidinium",
+      "asset_id": "asset:f0d6712c8962348c40e3",
+      "claim_id": "claim:5bff66e406e73ab329f3",
+      "survey_id": 56,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Dose ratio and study duration beside qualitative efficacy."
+    },
+    {
+      "run": "H16",
+      "name": "formoterol",
+      "asset_id": "asset:dfd50871a23130f3af35",
+      "claim_id": "claim:600b01666fda0ad46dc6",
+      "survey_id": 56,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Dose ratio and study duration beside qualitative efficacy."
+    },
+    {
+      "run": "H16",
+      "name": "primaquine",
+      "asset_id": "asset:470e053f2c08afe20c55",
+      "claim_id": "claim:9bc7685c0312be79b379",
+      "survey_id": 57,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Enzyme-activity eligibility and safety/haemolysis comparison, not efficacy outcome."
+    },
+    {
+      "run": "H16",
+      "name": "Artemether-lumefantrine",
+      "asset_id": "asset:37d7bc564662f103620d",
+      "claim_id": "claim:28cc42274f2527d269de",
+      "survey_id": 58,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Aficamten",
+      "asset_id": "asset:24445334bcef4006d373",
+      "claim_id": "claim:114058ee669d5c03476f",
+      "survey_id": 59,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "metoclopramide",
+      "asset_id": "asset:e9f1086423772c9cd01d",
+      "claim_id": "claim:3c848a64fe949dc1e438",
+      "survey_id": 60,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "metoclopramide",
+      "asset_id": "asset:e9f1086423772c9cd01d",
+      "claim_id": "claim:a5ae903b1bc05b704b3b",
+      "survey_id": 61,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Formoterol Fumarate",
+      "asset_id": "asset:df21d16816d0c76b1104",
+      "claim_id": "claim:f8a167a1f9d47298fbf5",
+      "survey_id": 56,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Dose ratio and study duration beside qualitative efficacy."
+    },
+    {
+      "run": "H16",
+      "name": "Relugolix",
+      "asset_id": "asset:645696cdd4ae71760ed1",
+      "claim_id": "claim:dfa26674a43723ab9e68",
+      "survey_id": 62,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "fentanyl",
+      "asset_id": "asset:d3355c1d0291e7e4c745",
+      "claim_id": "claim:9cd3e0c1fef1417bf889",
+      "survey_id": 63,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Reduced use of the named drug among cured patients, not its quantified therapeutic efficacy."
+    },
+    {
+      "run": "H16",
+      "name": "Ivermectin",
+      "asset_id": "asset:456031b8d5cdeb79bb6c",
+      "claim_id": "claim:fda8d13dfda69b782423",
+      "survey_id": 64,
+      "expected_pass": false,
+      "actual_pass": true,
+      "reason": "Qualitative single-patient remission; numeric match is receptor nomenclature 4/13."
+    },
+    {
+      "run": "H16",
+      "name": "Voxilaprevir",
+      "asset_id": "asset:9f999fbbaf108cbd8ab0",
+      "claim_id": "claim:2376a1bb482e04d293f4",
+      "survey_id": 65,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Voxilaprevir",
+      "asset_id": "asset:9f999fbbaf108cbd8ab0",
+      "claim_id": "claim:e325d213b77e13e392dd",
+      "survey_id": 66,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Voxilaprevir",
+      "asset_id": "asset:9f999fbbaf108cbd8ab0",
+      "claim_id": "claim:e60d144ce953e2385ea6",
+      "survey_id": 67,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Glecaprevir",
+      "asset_id": "asset:1457e527c0528a106bed",
+      "claim_id": "claim:0219092a4738aaca9361",
+      "survey_id": 68,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Glecaprevir",
+      "asset_id": "asset:1457e527c0528a106bed",
+      "claim_id": "claim:888e9c2c9ce421d305e4",
+      "survey_id": 69,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Glecaprevir",
+      "asset_id": "asset:1457e527c0528a106bed",
+      "claim_id": "claim:07539f2cb4f40c7a4424",
+      "survey_id": 70,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Glecaprevir",
+      "asset_id": "asset:1457e527c0528a106bed",
+      "claim_id": "claim:c533cda140093daecb30",
+      "survey_id": 71,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "pibrentasvir",
+      "asset_id": "asset:8c19c5153308e43d290a",
+      "claim_id": "claim:aa790e555f2d6f5d32f3",
+      "survey_id": 68,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "pibrentasvir",
+      "asset_id": "asset:8c19c5153308e43d290a",
+      "claim_id": "claim:f93f85d51368a0574d97",
+      "survey_id": 69,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "pibrentasvir",
+      "asset_id": "asset:8c19c5153308e43d290a",
+      "claim_id": "claim:92a84714c7d9bb1632ff",
+      "survey_id": 70,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "pibrentasvir",
+      "asset_id": "asset:8c19c5153308e43d290a",
+      "claim_id": "claim:b65265b4d5af7311c2a9",
+      "survey_id": 71,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "pibrentasvir",
+      "asset_id": "asset:8c19c5153308e43d290a",
+      "claim_id": "claim:2d7307fff5abf3a93f2d",
+      "survey_id": 72,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Velpatasvir",
+      "asset_id": "asset:0ebc5b96f8f7eddfa498",
+      "claim_id": "claim:18143d3f3ec1d87538a4",
+      "survey_id": 65,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Velpatasvir",
+      "asset_id": "asset:0ebc5b96f8f7eddfa498",
+      "claim_id": "claim:a3cc1d129decb585c3b3",
+      "survey_id": 66,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Velpatasvir",
+      "asset_id": "asset:0ebc5b96f8f7eddfa498",
+      "claim_id": "claim:822be7769e36b698a419",
+      "survey_id": 73,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "cyclobenzaprine",
+      "asset_id": "asset:03c514cc1faacda38bc0",
+      "claim_id": "claim:e8eca6cc6b9add89a6ff",
+      "survey_id": 74,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "tiotropium",
+      "asset_id": "asset:349b5e6c4e8a447f5695",
+      "claim_id": "claim:4701eb076cd771413b4f",
+      "survey_id": 75,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Dose ratio and trial durations describing an evaluation, not reported clinical benefit."
+    },
+    {
+      "run": "H16",
+      "name": "olodaterol",
+      "asset_id": "asset:c8200db4558657a59e11",
+      "claim_id": "claim:2ec04584f3556dbcbd2a",
+      "survey_id": 75,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Dose ratio and trial durations describing an evaluation, not reported clinical benefit."
+    },
+    {
+      "run": "H16",
+      "name": "ribavirin",
+      "asset_id": "asset:47e1c542f14828d6dee2",
+      "claim_id": "claim:f1eeb9fb4b43e89578e9",
+      "survey_id": 76,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "ribavirin",
+      "asset_id": "asset:47e1c542f14828d6dee2",
+      "claim_id": "claim:1c7bc787d0d6473942fd",
+      "survey_id": 77,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "claim_id": "claim:1672c26a362bce427334",
+      "survey_id": 78,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Linagliptin",
+      "asset_id": "asset:9ca6bf630c1080da5251",
+      "claim_id": "claim:b721643f01a11308b67f",
+      "survey_id": 79,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "sodium oxybate",
+      "asset_id": "asset:e6b8ac48042a94da9998",
+      "claim_id": "claim:6d22e5e91ebe21c46af3",
+      "survey_id": 74,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Dupilumab",
+      "asset_id": "asset:0ace503481faf6d9d3f2",
+      "claim_id": "claim:6fe84fe83a76085b6cb1",
+      "survey_id": 64,
+      "expected_pass": false,
+      "actual_pass": true,
+      "reason": "Qualitative single-patient remission; numeric match is receptor nomenclature 4/13."
+    },
+    {
+      "run": "H16",
+      "name": "Rosuvastatin",
+      "asset_id": "asset:9c753cbee183bb3285ae",
+      "claim_id": "claim:727cd4d319ae726bbbcf",
+      "survey_id": 25,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Study objective and formulation concentrations, not an observed clinical outcome."
+    },
+    {
+      "run": "H16",
+      "name": "atazanavir",
+      "asset_id": "asset:8603aded7396271f539e",
+      "claim_id": "claim:e9f5d18fea7bd5531e0e",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "netupitant",
+      "asset_id": "asset:03642090cf3498eab8d9",
+      "claim_id": "claim:35b80340ddd67327f8f9",
+      "survey_id": 81,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "simvastatin",
+      "asset_id": "asset:1b574d1f956919d67c9a",
+      "claim_id": "claim:860114b3abeaabf38f2e",
+      "survey_id": 25,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Study objective and formulation concentrations, not an observed clinical outcome."
+    },
+    {
+      "run": "H16",
+      "name": "molnupiravir",
+      "asset_id": "asset:b04bc3f85b921a29a562",
+      "claim_id": "claim:31df6d2c2c18b3256e2c",
+      "survey_id": 82,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Animal-model efficacy extrapolated to humans without treated clinical human cohort."
+    },
+    {
+      "run": "H16",
+      "name": "Metoprolol",
+      "asset_id": "asset:ef14b704d17d4631a9c5",
+      "claim_id": "claim:fb273e811080a34c1d1a",
+      "survey_id": 59,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "claim_id": "claim:89e116ed311a6e6d880d",
+      "survey_id": 9,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Enrolled/treated n counts and treatment purpose, not efficacy results."
+    },
+    {
+      "run": "H16",
+      "name": "cemiplimab",
+      "asset_id": "asset:c4592920b678a91ba968",
+      "claim_id": "claim:0d46006dca855bc8cee6",
+      "survey_id": 83,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "cemiplimab",
+      "asset_id": "asset:c4592920b678a91ba968",
+      "claim_id": "claim:3c40c3481bb21d021693",
+      "survey_id": 84,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "cemiplimab",
+      "asset_id": "asset:c4592920b678a91ba968",
+      "claim_id": "claim:386519e05c9be8abfa2f",
+      "survey_id": 85,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "upadacitinib",
+      "asset_id": "asset:84ac0b89360cd5c66efc",
+      "claim_id": "claim:27b19cc00a77ed5e9c48",
+      "survey_id": 86,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "ritonavir",
+      "asset_id": "asset:2c6dc0fe9921d8e12d9f",
+      "claim_id": "claim:e02f9edf1a088951bfae",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Lopinavir",
+      "asset_id": "asset:b3bb2d4e8e3a824896ed",
+      "claim_id": "claim:ad115c2cb6291b6ce2e9",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Sarilumab",
+      "asset_id": "asset:6a3f0ceddb3c1d039a31",
+      "claim_id": "claim:6db4bbfde1eaf7c39170",
+      "survey_id": 87,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Exposure-response/endpoint grading and safety; ratio in endpoint name, not efficacy value."
+    },
+    {
+      "run": "H16",
+      "name": "tofacitinib",
+      "asset_id": "asset:3a1d8d36fde64c4509e0",
+      "claim_id": "claim:c3eb458590fe2b375d76",
+      "survey_id": 86,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "pembrolizumab",
+      "asset_id": "asset:a841bf49d23836004ccd",
+      "claim_id": "claim:0821491c7548fab035ed",
+      "survey_id": 88,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Relatlimab",
+      "asset_id": "asset:80c08086d288d3286dff",
+      "claim_id": "claim:c50c60857944c4adf7b3",
+      "survey_id": 89,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Relatlimab",
+      "asset_id": "asset:80c08086d288d3286dff",
+      "claim_id": "claim:f16ad65d46519c39999b",
+      "survey_id": 90,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Qualitative PFS improvement; numeric match is phase 2/3, not outcome."
+    },
+    {
+      "run": "H16",
+      "name": "nivolumab",
+      "asset_id": "asset:907cee16c58c5b91cf06",
+      "claim_id": "claim:997388042fc779b12ef5",
+      "survey_id": 89,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Fosamprenavir",
+      "asset_id": "asset:8bd9dbfff9155a763a95",
+      "claim_id": "claim:d6109ffeff6ee4cfadca",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Lamivudine",
+      "asset_id": "asset:a9502fb60e0cddfa05f2",
+      "claim_id": "claim:4798012d2db8649220a2",
+      "survey_id": 91,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Lamivudine",
+      "asset_id": "asset:a9502fb60e0cddfa05f2",
+      "claim_id": "claim:5104ef3bd86e3a7f4e83",
+      "survey_id": 92,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Lamivudine",
+      "asset_id": "asset:a9502fb60e0cddfa05f2",
+      "claim_id": "claim:07de85a540078d3b5cec",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "nirmatrelvir",
+      "asset_id": "asset:0dbe1d1f08c2876cfcb1",
+      "claim_id": "claim:a2f96fee5ea51a13f87d",
+      "survey_id": 93,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Animal-model/estimated human efficacy without a clinical human cohort."
+    },
+    {
+      "run": "H16",
+      "name": "Sofosbuvir",
+      "asset_id": "asset:cfcde9ee9dcac8d2871f",
+      "claim_id": "claim:b490c5410a8d40cdfce0",
+      "survey_id": 65,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Sofosbuvir",
+      "asset_id": "asset:cfcde9ee9dcac8d2871f",
+      "claim_id": "claim:16bf0b26feb0a6bd98ba",
+      "survey_id": 72,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Sofosbuvir",
+      "asset_id": "asset:cfcde9ee9dcac8d2871f",
+      "claim_id": "claim:c92dabfc719bf6ff536b",
+      "survey_id": 66,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Sofosbuvir",
+      "asset_id": "asset:cfcde9ee9dcac8d2871f",
+      "claim_id": "claim:87f32a1723b3e736c248",
+      "survey_id": 67,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Sofosbuvir",
+      "asset_id": "asset:cfcde9ee9dcac8d2871f",
+      "claim_id": "claim:42edd659d3a10654683b",
+      "survey_id": 73,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "IMP321",
+      "asset_id": "asset:f0056ac434d8b297d2de",
+      "claim_id": "claim:26774add54cb04c6f9f1",
+      "survey_id": 94,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "ASTX727",
+      "asset_id": "asset:eeff62b5bc3b677b8866",
+      "claim_id": "claim:e32720191bf1ba07ff89",
+      "survey_id": 95,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "tetracaine",
+      "asset_id": "asset:df0e943dc1898b3e7f0b",
+      "claim_id": "claim:6190416d1d9248c5c8d4",
+      "survey_id": 96,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Study aim and anesthetic concentrations, not observed patient efficacy."
+    },
+    {
+      "run": "H18",
+      "name": "Benzocaine",
+      "asset_id": "asset:7772a98b2f09292d90d5",
+      "claim_id": "claim:0ca0f63a3e5cf50dff96",
+      "survey_id": 96,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Study aim and anesthetic concentrations, not observed patient efficacy."
+    },
+    {
+      "run": "H18",
+      "name": "Cagrilintide",
+      "asset_id": "asset:8b60e9b4bb4d2d88195f",
+      "claim_id": "claim:3b81d9c14529004ce3db",
+      "survey_id": 97,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Human myotube respiratory assay, not human clinical efficacy (primary H18 witness)."
+    },
+    {
+      "run": "H18",
+      "name": "Metoclopramide",
+      "asset_id": "asset:e9f1086423772c9cd01d",
+      "claim_id": "claim:3c848a64fe949dc1e438",
+      "survey_id": 60,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "Paroxetine",
+      "asset_id": "asset:5ea5d6a0f5e72997fab9",
+      "claim_id": "claim:89c0442645ec85736cc7",
+      "survey_id": 98,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Methods define response strata using thresholds; no observed outcome proportion."
+    },
+    {
+      "run": "H18",
+      "name": "sodium oxybate",
+      "asset_id": "asset:e6b8ac48042a94da9998",
+      "claim_id": "claim:6d22e5e91ebe21c46af3",
+      "survey_id": 74,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "cyclobenzaprine",
+      "asset_id": "asset:03c514cc1faacda38bc0",
+      "claim_id": "claim:e8eca6cc6b9add89a6ff",
+      "survey_id": 74,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "ROSE-010",
+      "asset_id": "asset:8dec267ad9d4bae814a6",
+      "claim_id": "claim:b420098f328b37ad2838",
+      "survey_id": 99,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "Roflumilast",
+      "asset_id": "asset:0c8458126da5d3282d89",
+      "claim_id": "claim:c9e3a9eb40cfe7f10f2f",
+      "survey_id": 100,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "Roflumilast",
+      "asset_id": "asset:0c8458126da5d3282d89",
+      "claim_id": "claim:87f94970ac25a7316fc8",
+      "survey_id": 101,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Cream concentration beside qualitative case/treatment description."
+    },
+    {
+      "run": "H18",
+      "name": "lidocaine",
+      "asset_id": "asset:bf9b6d8a7d0c510954e5",
+      "claim_id": "claim:de631a93a41dbfb76c11",
+      "survey_id": 96,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Study aim and anesthetic concentrations, not observed patient efficacy."
+    },
+    {
+      "run": "H18",
+      "name": "teduglutide",
+      "asset_id": "asset:15fcbf372d6c6211363e",
+      "claim_id": "claim:3d3ef664fe05b033de2e",
+      "survey_id": 102,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "glepaglutide",
+      "asset_id": "asset:204b110980405b20ff76",
+      "claim_id": "claim:0c74e255816f9655f5cf",
+      "survey_id": 103,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "rosuvastatin",
+      "asset_id": "asset:9c753cbee183bb3285ae",
+      "claim_id": "claim:727cd4d319ae726bbbcf",
+      "survey_id": 25,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Study objective and formulation concentrations, not an observed clinical outcome."
+    },
+    {
+      "run": "H18",
+      "name": "simvastatin",
+      "asset_id": "asset:1b574d1f956919d67c9a",
+      "claim_id": "claim:860114b3abeaabf38f2e",
+      "survey_id": 25,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Study objective and formulation concentrations, not an observed clinical outcome."
+    },
+    {
+      "run": "H18",
+      "name": "Tirzepatide",
+      "asset_id": "asset:8866bafec6e43f4b49da",
+      "claim_id": "claim:9954996062248331a551",
+      "survey_id": 97,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Human myotube respiratory assay, not human clinical efficacy (primary H18 witness)."
+    },
+    {
+      "run": "H18",
+      "name": "survodutide",
+      "asset_id": "asset:42f1832f56f4f84d75f0",
+      "claim_id": "claim:13f922afecbd81303713",
+      "survey_id": 104,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H19",
+      "name": "adebrelimab",
+      "asset_id": "asset:7520398532c352de284f",
+      "claim_id": "claim:29812e0f43bfc43f1c2e",
+      "survey_id": 105,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H19",
+      "name": "rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "claim_id": "claim:4bea809ff9d3b9f6eba9",
+      "survey_id": 106,
+      "expected_pass": true,
+      "actual_pass": true,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H19",
+      "name": "ribociclib",
+      "asset_id": "asset:1acdc36dae9d812849f1",
+      "claim_id": "claim:1749a74aa47d76718831",
+      "survey_id": 107,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Qualitative survival improvement; numeric match is target-family CDK4/6."
+    },
+    {
+      "run": "H19",
+      "name": "carboplatin",
+      "asset_id": "asset:1af158be8a5d9809bbf0",
+      "claim_id": "claim:02aee745560d65ae7401",
+      "survey_id": 108,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Baseline tumor biomarker percentage beside qualitative partial response."
+    },
+    {
+      "run": "H19",
+      "name": "Sacituzumab Tirumotecan",
+      "asset_id": "asset:cf362b6bc18a7577433e",
+      "claim_id": "claim:6c5b35e2a5871015f940",
+      "survey_id": 109,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Survival-model methods and discount rate, not clinical efficacy (primary H19 witness)."
+    }
+  ],
+  "facts": [
+    {
+      "run": "TAC01",
+      "name": "Obexelimab",
+      "asset_id": "asset:9d0e343083a0704d8ee5",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "CNCT19",
+      "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "Ofatumumab",
+      "asset_id": "asset:e05dd8977fdfb9e27e00",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "Ocrelizumab",
+      "asset_id": "asset:1db6cfdb8af2ae9a05e6",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01",
+      "name": "Tebentafusp",
+      "asset_id": "asset:d1e0161719e49a40261f",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "zanubrutinib",
+      "asset_id": "asset:1913809491b8a6b3429f",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "Pirtobrutinib",
+      "asset_id": "asset:154695e06ce1d1b8a5ee",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "mirdametinib",
+      "asset_id": "asset:aaf5f41c833f46335260",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "ruxolitinib",
+      "asset_id": "asset:b4da3c94cadf74d2abe0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01",
+      "name": "Bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "selumetinib",
+      "asset_id": "asset:deb5df1a112927dadc35",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "ribavirin",
+      "asset_id": "asset:47e1c542f14828d6dee2",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "nivolumab",
+      "asset_id": "asset:907cee16c58c5b91cf06",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "Glofitamab",
+      "asset_id": "asset:4017515a30542d99a261",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "ibrutinib",
+      "asset_id": "asset:3a97e3f7b012f5f7c834",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "Rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "Erenumab",
+      "asset_id": "asset:4a4d21ba102ae833cdf0",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01",
+      "name": "Brexucabtagene Autoleucel",
+      "asset_id": "asset:344a173f3d78d2fc6a72",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01",
+      "name": "ICG318",
+      "asset_id": "asset:d0ace5d86850ba755d2b",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "obexelimab",
+      "asset_id": "asset:9d0e343083a0704d8ee5",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "rosuvastatin",
+      "asset_id": "asset:9c753cbee183bb3285ae",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "simvastatin",
+      "asset_id": "asset:1b574d1f956919d67c9a",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "Venetoclax",
+      "asset_id": "asset:2284519ef98d99939cc8",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "vedolizumab",
+      "asset_id": "asset:0c2022542b0f253d95b1",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "ibrutinib",
+      "asset_id": "asset:3a97e3f7b012f5f7c834",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "Glofitamab",
+      "asset_id": "asset:4017515a30542d99a261",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "mezigdomide",
+      "asset_id": "asset:c75ff74f7b0b18290fd8",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "lenalidomide",
+      "asset_id": "asset:0f8819b53ea4be14d8fb",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "Cevostamab",
+      "asset_id": "asset:43668977360f1c627d16",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "Nirogacestat",
+      "asset_id": "asset:0ff1d62036a6a24255b6",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "pomalidomide",
+      "asset_id": "asset:23fb03a1b3d1ccb75892",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "Talquetamab",
+      "asset_id": "asset:f03a99e642b537ecd908",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "teclistamab",
+      "asset_id": "asset:9cdcd41970afdc1eccbe",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "ruxolitinib",
+      "asset_id": "asset:b4da3c94cadf74d2abe0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "elranatamab",
+      "asset_id": "asset:5dcbf26f3ed27fe6df0a",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "Abecma",
+      "asset_id": "asset:9dda7da59144b21787f5",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "Carvykti",
+      "asset_id": "asset:b985c396134c4d1bb12c",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "brexucabtagene autoleucel",
+      "asset_id": "asset:344a173f3d78d2fc6a72",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "mint5",
+      "name": "ICG318",
+      "asset_id": "asset:d0ace5d86850ba755d2b",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "obexelimab",
+      "asset_id": "asset:9d0e343083a0704d8ee5",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "discase",
+      "asset_id": "asset:3fc02ac0bae568b636b5",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "ICG318",
+      "asset_id": "asset:d0ace5d86850ba755d2b",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "PLAT-02",
+      "asset_id": "asset:c78563815aac94f24fc4",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "vincristine",
+      "asset_id": "asset:b90026f78a8b6c2a3872",
+      "baseline_reader_pass": false,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "PET30",
+      "asset_id": "asset:6b69d646cd18831edd0d",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CPX351",
+      "asset_id": "asset:8ff9752dc8f1f2afa51d",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Venetoclax",
+      "asset_id": "asset:2284519ef98d99939cc8",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "vedolizumab",
+      "asset_id": "asset:0c2022542b0f253d95b1",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CAR19",
+      "asset_id": "asset:95fa25efe92eff54d849",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CART19",
+      "asset_id": "asset:95622d6d74ae27eeaae3",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "rituximab-based",
+      "asset_id": "asset:e4630cd6d26c7c73fad1",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Glofitamab",
+      "asset_id": "asset:4017515a30542d99a261",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "CCS1477",
+      "asset_id": "asset:ae8927edf32d143deea0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "mezigdomide",
+      "asset_id": "asset:c75ff74f7b0b18290fd8",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "lenalidomide",
+      "asset_id": "asset:0f8819b53ea4be14d8fb",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Inobrodib",
+      "asset_id": "asset:4a7d12abe47f0eb78c51",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "elranatamab",
+      "asset_id": "asset:5dcbf26f3ed27fe6df0a",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Cevostamab",
+      "asset_id": "asset:43668977360f1c627d16",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "cyclophosphamide",
+      "asset_id": "asset:e28592c2bc2b5c66f43e",
+      "baseline_reader_pass": false,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Nirogacestat",
+      "asset_id": "asset:0ff1d62036a6a24255b6",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "pomalidomide",
+      "asset_id": "asset:23fb03a1b3d1ccb75892",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Talquetamab",
+      "asset_id": "asset:f03a99e642b537ecd908",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "teclistamab",
+      "asset_id": "asset:9cdcd41970afdc1eccbe",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "frontline",
+      "asset_id": "asset:f531606c528faec01e32",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Vicleucel",
+      "asset_id": "asset:630332aa7893084735ea",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "DAS28",
+      "asset_id": "asset:ab9f752cb3396396ca8f",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "choice",
+      "asset_id": "asset:2514e6fd3d8c80eb8e93",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "ruxolitinib",
+      "asset_id": "asset:b4da3c94cadf74d2abe0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "prednisolone",
+      "asset_id": "asset:db71400363f7dccc5861",
+      "baseline_reader_pass": false,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "though",
+      "asset_id": "asset:7049f380c38e081a7765",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "prednisone",
+      "asset_id": "asset:455d8db56e1116d83361",
+      "baseline_reader_pass": false,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "abatacept",
+      "asset_id": "asset:aefa95eb79e63f20998f",
+      "baseline_reader_pass": false,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "canakinumab",
+      "asset_id": "asset:6041f54445894fffafec",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "infliximab",
+      "asset_id": "asset:63f6227f9fb97e92ee7c",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "adalimumab",
+      "asset_id": "asset:e79db603ab8afa20e9a7",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "tocilizumab",
+      "asset_id": "asset:7f6bef13c869c90489e5",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Obexelimab",
+      "asset_id": "asset:9d0e343083a0704d8ee5",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Brexucabtagene Autoleucel",
+      "asset_id": "asset:344a173f3d78d2fc6a72",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "CNCT19",
+      "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "ICG318",
+      "asset_id": "asset:d0ace5d86850ba755d2b",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Ofatumumab",
+      "asset_id": "asset:e05dd8977fdfb9e27e00",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Ocrelizumab",
+      "asset_id": "asset:1db6cfdb8af2ae9a05e6",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Tebentafusp",
+      "asset_id": "asset:d1e0161719e49a40261f",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "zanubrutinib",
+      "asset_id": "asset:1913809491b8a6b3429f",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Pirtobrutinib",
+      "asset_id": "asset:154695e06ce1d1b8a5ee",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Erenumab",
+      "asset_id": "asset:4a4d21ba102ae833cdf0",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "mirdametinib",
+      "asset_id": "asset:aaf5f41c833f46335260",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "ruxolitinib",
+      "asset_id": "asset:b4da3c94cadf74d2abe0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "selumetinib",
+      "asset_id": "asset:deb5df1a112927dadc35",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "ribavirin",
+      "asset_id": "asset:47e1c542f14828d6dee2",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "nivolumab",
+      "asset_id": "asset:907cee16c58c5b91cf06",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Glofitamab",
+      "asset_id": "asset:4017515a30542d99a261",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Blinatumomab",
+      "asset_id": "asset:9c5b68a7884ad316fa6e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "ibrutinib",
+      "asset_id": "asset:3a97e3f7b012f5f7c834",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "aclidinium bromide",
+      "asset_id": "asset:b3b35b15120011d70e97",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Aclidinium",
+      "asset_id": "asset:f0d6712c8962348c40e3",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "formoterol",
+      "asset_id": "asset:dfd50871a23130f3af35",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "primaquine",
+      "asset_id": "asset:470e053f2c08afe20c55",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Artemether-lumefantrine",
+      "asset_id": "asset:37d7bc564662f103620d",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "Aficamten",
+      "asset_id": "asset:24445334bcef4006d373",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "metoclopramide",
+      "asset_id": "asset:e9f1086423772c9cd01d",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "Formoterol Fumarate",
+      "asset_id": "asset:df21d16816d0c76b1104",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Relugolix",
+      "asset_id": "asset:645696cdd4ae71760ed1",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "fentanyl",
+      "asset_id": "asset:d3355c1d0291e7e4c745",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Ivermectin",
+      "asset_id": "asset:456031b8d5cdeb79bb6c",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "Voxilaprevir",
+      "asset_id": "asset:9f999fbbaf108cbd8ab0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "Glecaprevir",
+      "asset_id": "asset:1457e527c0528a106bed",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "pibrentasvir",
+      "asset_id": "asset:8c19c5153308e43d290a",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "Velpatasvir",
+      "asset_id": "asset:0ebc5b96f8f7eddfa498",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "cyclobenzaprine",
+      "asset_id": "asset:03c514cc1faacda38bc0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "tiotropium",
+      "asset_id": "asset:349b5e6c4e8a447f5695",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "olodaterol",
+      "asset_id": "asset:c8200db4558657a59e11",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "ribavirin",
+      "asset_id": "asset:47e1c542f14828d6dee2",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Linagliptin",
+      "asset_id": "asset:9ca6bf630c1080da5251",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "sodium oxybate",
+      "asset_id": "asset:e6b8ac48042a94da9998",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "Dupilumab",
+      "asset_id": "asset:0ace503481faf6d9d3f2",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "Rosuvastatin",
+      "asset_id": "asset:9c753cbee183bb3285ae",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "atazanavir",
+      "asset_id": "asset:8603aded7396271f539e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "netupitant",
+      "asset_id": "asset:03642090cf3498eab8d9",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "simvastatin",
+      "asset_id": "asset:1b574d1f956919d67c9a",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "molnupiravir",
+      "asset_id": "asset:b04bc3f85b921a29a562",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Metoprolol",
+      "asset_id": "asset:ef14b704d17d4631a9c5",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "cemiplimab",
+      "asset_id": "asset:c4592920b678a91ba968",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "upadacitinib",
+      "asset_id": "asset:84ac0b89360cd5c66efc",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "ritonavir",
+      "asset_id": "asset:2c6dc0fe9921d8e12d9f",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Lopinavir",
+      "asset_id": "asset:b3bb2d4e8e3a824896ed",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Sarilumab",
+      "asset_id": "asset:6a3f0ceddb3c1d039a31",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "tofacitinib",
+      "asset_id": "asset:3a1d8d36fde64c4509e0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "pembrolizumab",
+      "asset_id": "asset:a841bf49d23836004ccd",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "Relatlimab",
+      "asset_id": "asset:80c08086d288d3286dff",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "nivolumab",
+      "asset_id": "asset:907cee16c58c5b91cf06",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "Fosamprenavir",
+      "asset_id": "asset:8bd9dbfff9155a763a95",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Lamivudine",
+      "asset_id": "asset:a9502fb60e0cddfa05f2",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "nirmatrelvir",
+      "asset_id": "asset:0dbe1d1f08c2876cfcb1",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Sofosbuvir",
+      "asset_id": "asset:cfcde9ee9dcac8d2871f",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "IMP321",
+      "asset_id": "asset:f0056ac434d8b297d2de",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H16",
+      "name": "ASTX727",
+      "asset_id": "asset:eeff62b5bc3b677b8866",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H18",
+      "name": "tetracaine",
+      "asset_id": "asset:df0e943dc1898b3e7f0b",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "Benzocaine",
+      "asset_id": "asset:7772a98b2f09292d90d5",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "Cagrilintide",
+      "asset_id": "asset:8b60e9b4bb4d2d88195f",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "Metoclopramide",
+      "asset_id": "asset:e9f1086423772c9cd01d",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H18",
+      "name": "Paroxetine",
+      "asset_id": "asset:5ea5d6a0f5e72997fab9",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "sodium oxybate",
+      "asset_id": "asset:e6b8ac48042a94da9998",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H18",
+      "name": "cyclobenzaprine",
+      "asset_id": "asset:03c514cc1faacda38bc0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H18",
+      "name": "ROSE-010",
+      "asset_id": "asset:8dec267ad9d4bae814a6",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "Roflumilast",
+      "asset_id": "asset:0c8458126da5d3282d89",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H18",
+      "name": "lidocaine",
+      "asset_id": "asset:bf9b6d8a7d0c510954e5",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "teduglutide",
+      "asset_id": "asset:15fcbf372d6c6211363e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H18",
+      "name": "glepaglutide",
+      "asset_id": "asset:204b110980405b20ff76",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "rosuvastatin",
+      "asset_id": "asset:9c753cbee183bb3285ae",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "simvastatin",
+      "asset_id": "asset:1b574d1f956919d67c9a",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "Tirzepatide",
+      "asset_id": "asset:8866bafec6e43f4b49da",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "survodutide",
+      "asset_id": "asset:42f1832f56f4f84d75f0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H19",
+      "name": "adebrelimab",
+      "asset_id": "asset:7520398532c352de284f",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H19",
+      "name": "rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": true
+    },
+    {
+      "run": "H19",
+      "name": "ribociclib",
+      "asset_id": "asset:1acdc36dae9d812849f1",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H19",
+      "name": "carboplatin",
+      "asset_id": "asset:1af158be8a5d9809bbf0",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H19",
+      "name": "Sacituzumab Tirumotecan",
+      "asset_id": "asset:cf362b6bc18a7577433e",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    }
+  ],
+  "primary_false_removals": [
+    {
+      "run": "H18",
+      "name": "Tirzepatide",
+      "asset_id": "asset:8866bafec6e43f4b49da",
+      "claim_id": "claim:9954996062248331a551",
+      "survey_id": 97,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Human myotube respiratory assay, not human clinical efficacy (primary H18 witness)."
+    },
+    {
+      "run": "H19",
+      "name": "Sacituzumab Tirumotecan",
+      "asset_id": "asset:cf362b6bc18a7577433e",
+      "claim_id": "claim:6c5b35e2a5871015f940",
+      "survey_id": 109,
+      "expected_pass": false,
+      "actual_pass": false,
+      "reason": "Survival-model methods and discount rate, not clinical efficacy (primary H19 witness)."
+    }
+  ],
+  "counts": {
+    "preserved_true": 143,
+    "rejected_false": 57
+  },
+  "semantic_failures": [
+    {
+      "id": "C053",
+      "category": "clinical_flare",
+      "text": "RX-001 produced a 63% reduction in disease flare risk in treated patients.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": true,
+      "baseline_pass": true,
+      "actual_pass": false,
+      "statements": []
+    },
+    {
+      "id": "C056",
+      "category": "regimen",
+      "text": "Patients treated with RX-001, RX-002, and RX-003 achieved a response rate of 63%.",
+      "asset_names": [
+        "RX-001"
+      ],
+      "expected_pass": false,
+      "baseline_pass": true,
+      "actual_pass": true,
+      "statements": [
+        {
+          "asset_name": "RX-001",
+          "endpoint": "response rate",
+          "sentence": "Patients treated with RX-001, RX-002, and RX-003 achieved a response rate of 63%.",
+          "value": "63%",
+          "document_id": "control"
+        }
+      ]
+    }
+  ],
+  "structured_failures": [],
+  "witness_failures": [
+    {
+      "run": "TAC01",
+      "name": "Bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "claim_id": "claim:d873e0fa9c925007ee4e",
+      "survey_id": 11,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "mint5",
+      "name": "Venetoclax",
+      "asset_id": "asset:2284519ef98d99939cc8",
+      "claim_id": "claim:5ededd17eb739d2e1106",
+      "survey_id": 26,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "PET30",
+      "asset_id": "asset:6b69d646cd18831edd0d",
+      "claim_id": "claim:2ab7b26095caafbfad9b",
+      "survey_id": 42,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Venetoclax",
+      "asset_id": "asset:2284519ef98d99939cc8",
+      "claim_id": "claim:5ededd17eb739d2e1106",
+      "survey_id": 26,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "though",
+      "asset_id": "asset:7049f380c38e081a7765",
+      "claim_id": "claim:95e146d23911c954540c",
+      "survey_id": 54,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "claim_id": "claim:d873e0fa9c925007ee4e",
+      "survey_id": 11,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Relugolix",
+      "asset_id": "asset:645696cdd4ae71760ed1",
+      "claim_id": "claim:dfa26674a43723ab9e68",
+      "survey_id": 62,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Ivermectin",
+      "asset_id": "asset:456031b8d5cdeb79bb6c",
+      "claim_id": "claim:fda8d13dfda69b782423",
+      "survey_id": 64,
+      "expected_pass": false,
+      "actual_pass": true,
+      "reason": "Qualitative single-patient remission; numeric match is receptor nomenclature 4/13."
+    },
+    {
+      "run": "H16",
+      "name": "Glecaprevir",
+      "asset_id": "asset:1457e527c0528a106bed",
+      "claim_id": "claim:888e9c2c9ce421d305e4",
+      "survey_id": 69,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "pibrentasvir",
+      "asset_id": "asset:8c19c5153308e43d290a",
+      "claim_id": "claim:f93f85d51368a0574d97",
+      "survey_id": 69,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "claim_id": "claim:1672c26a362bce427334",
+      "survey_id": 78,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Dupilumab",
+      "asset_id": "asset:0ace503481faf6d9d3f2",
+      "claim_id": "claim:6fe84fe83a76085b6cb1",
+      "survey_id": 64,
+      "expected_pass": false,
+      "actual_pass": true,
+      "reason": "Qualitative single-patient remission; numeric match is receptor nomenclature 4/13."
+    },
+    {
+      "run": "H16",
+      "name": "atazanavir",
+      "asset_id": "asset:8603aded7396271f539e",
+      "claim_id": "claim:e9f5d18fea7bd5531e0e",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "ritonavir",
+      "asset_id": "asset:2c6dc0fe9921d8e12d9f",
+      "claim_id": "claim:e02f9edf1a088951bfae",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Lopinavir",
+      "asset_id": "asset:b3bb2d4e8e3a824896ed",
+      "claim_id": "claim:ad115c2cb6291b6ce2e9",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Fosamprenavir",
+      "asset_id": "asset:8bd9dbfff9155a763a95",
+      "claim_id": "claim:d6109ffeff6ee4cfadca",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Lamivudine",
+      "asset_id": "asset:a9502fb60e0cddfa05f2",
+      "claim_id": "claim:5104ef3bd86e3a7f4e83",
+      "survey_id": 92,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H16",
+      "name": "Lamivudine",
+      "asset_id": "asset:a9502fb60e0cddfa05f2",
+      "claim_id": "claim:07de85a540078d3b5cec",
+      "survey_id": 80,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "ROSE-010",
+      "asset_id": "asset:8dec267ad9d4bae814a6",
+      "claim_id": "claim:b420098f328b37ad2838",
+      "survey_id": 99,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "glepaglutide",
+      "asset_id": "asset:204b110980405b20ff76",
+      "claim_id": "claim:0c74e255816f9655f5cf",
+      "survey_id": 103,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    },
+    {
+      "run": "H18",
+      "name": "survodutide",
+      "asset_id": "asset:42f1832f56f4f84d75f0",
+      "claim_id": "claim:13f922afecbd81303713",
+      "survey_id": 104,
+      "expected_pass": true,
+      "actual_pass": false,
+      "reason": "Observed numerical clinical efficacy content; preserve existing asset/regimen attribution guards without redesign."
+    }
+  ],
+  "facts_removed": [
+    {
+      "run": "TAC01",
+      "name": "Ocrelizumab",
+      "asset_id": "asset:1db6cfdb8af2ae9a05e6",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01",
+      "name": "Erenumab",
+      "asset_id": "asset:4a4d21ba102ae833cdf0",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "rosuvastatin",
+      "asset_id": "asset:9c753cbee183bb3285ae",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "simvastatin",
+      "asset_id": "asset:1b574d1f956919d67c9a",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "Venetoclax",
+      "asset_id": "asset:2284519ef98d99939cc8",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "mint5",
+      "name": "rituximab",
+      "asset_id": "asset:68975264d9e75bf3a7a0",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "PLAT-02",
+      "asset_id": "asset:c78563815aac94f24fc4",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "Venetoclax",
+      "asset_id": "asset:2284519ef98d99939cc8",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "choice",
+      "asset_id": "asset:2514e6fd3d8c80eb8e93",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "AACR_accepted",
+      "name": "though",
+      "asset_id": "asset:7049f380c38e081a7765",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Ocrelizumab",
+      "asset_id": "asset:1db6cfdb8af2ae9a05e6",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "Erenumab",
+      "asset_id": "asset:4a4d21ba102ae833cdf0",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "TAC01_regimen_accepted",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "aclidinium bromide",
+      "asset_id": "asset:b3b35b15120011d70e97",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Aclidinium",
+      "asset_id": "asset:f0d6712c8962348c40e3",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "formoterol",
+      "asset_id": "asset:dfd50871a23130f3af35",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "primaquine",
+      "asset_id": "asset:470e053f2c08afe20c55",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Formoterol Fumarate",
+      "asset_id": "asset:df21d16816d0c76b1104",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Relugolix",
+      "asset_id": "asset:645696cdd4ae71760ed1",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "fentanyl",
+      "asset_id": "asset:d3355c1d0291e7e4c745",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "tiotropium",
+      "asset_id": "asset:349b5e6c4e8a447f5695",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "olodaterol",
+      "asset_id": "asset:c8200db4558657a59e11",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "bevacizumab",
+      "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Rosuvastatin",
+      "asset_id": "asset:9c753cbee183bb3285ae",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "atazanavir",
+      "asset_id": "asset:8603aded7396271f539e",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "simvastatin",
+      "asset_id": "asset:1b574d1f956919d67c9a",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "molnupiravir",
+      "asset_id": "asset:b04bc3f85b921a29a562",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "atezolizumab",
+      "asset_id": "asset:6f01c7158d876ca9d8bb",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "ritonavir",
+      "asset_id": "asset:2c6dc0fe9921d8e12d9f",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Lopinavir",
+      "asset_id": "asset:b3bb2d4e8e3a824896ed",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Sarilumab",
+      "asset_id": "asset:6a3f0ceddb3c1d039a31",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "Fosamprenavir",
+      "asset_id": "asset:8bd9dbfff9155a763a95",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H16",
+      "name": "nirmatrelvir",
+      "asset_id": "asset:0dbe1d1f08c2876cfcb1",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "tetracaine",
+      "asset_id": "asset:df0e943dc1898b3e7f0b",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "Benzocaine",
+      "asset_id": "asset:7772a98b2f09292d90d5",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "Cagrilintide",
+      "asset_id": "asset:8b60e9b4bb4d2d88195f",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "Paroxetine",
+      "asset_id": "asset:5ea5d6a0f5e72997fab9",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "ROSE-010",
+      "asset_id": "asset:8dec267ad9d4bae814a6",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "lidocaine",
+      "asset_id": "asset:bf9b6d8a7d0c510954e5",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "glepaglutide",
+      "asset_id": "asset:204b110980405b20ff76",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "rosuvastatin",
+      "asset_id": "asset:9c753cbee183bb3285ae",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "simvastatin",
+      "asset_id": "asset:1b574d1f956919d67c9a",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "Tirzepatide",
+      "asset_id": "asset:8866bafec6e43f4b49da",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H18",
+      "name": "survodutide",
+      "asset_id": "asset:42f1832f56f4f84d75f0",
+      "baseline_reader_pass": true,
+      "expected_pass": true,
+      "actual_pass": false
+    },
+    {
+      "run": "H19",
+      "name": "ribociclib",
+      "asset_id": "asset:1acdc36dae9d812849f1",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H19",
+      "name": "carboplatin",
+      "asset_id": "asset:1af158be8a5d9809bbf0",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    },
+    {
+      "run": "H19",
+      "name": "Sacituzumab Tirumotecan",
+      "asset_id": "asset:cf362b6bc18a7577433e",
+      "baseline_reader_pass": true,
+      "expected_pass": false,
+      "actual_pass": false
+    }
+  ],
+  "production_changes": [
+    "src/bve/se/evidence/human_poc.py"
+  ],
+  "quality": {
+    "ruff_exit_code": 0,
+    "pytest_exit_code": 1,
+    "initial_ruff_exit_code": 2,
+    "infrastructure_retry": "original Ruff invocation exit 2: sandbox prohibited cache write; --no-cache rerun passed without any source change"
+  }
+}

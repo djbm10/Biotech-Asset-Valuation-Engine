@@ -1,0 +1,26 @@
+{
+  "preregistration_commit": "38ca6c86e8d9479eae874eabb1533be999e0a232",
+  "implementation_commit": "755e9c1",
+  "preexecution_scorer_fixture_commit": "b1645a3",
+  "source_hashes": {
+    "src/bve/se/evidence/human_poc.py": "ebfd4b2fea7c7b407d71791695ba54b8d50b38683a5409b21a348d2137be0493",
+    "tests/se/test_human_efficacy_context_safety.py": "f36d06a4449644e80fb6d4cf1083583ada7c2a6dd9ff2ab8b580a57414ea3f90",
+    "scripts/score_human_efficacy_context_safety_v1.py": "c7fadf1b147a22ae7f6735ba9523c1c735b8aaa55e5b1cfaf15c01eefd990b6a"
+  },
+  "first_acceptance_decision": "FAILED_ACCEPTANCE",
+  "tests": {
+    "tests": 1994,
+    "failures": 20,
+    "errors": 0,
+    "skipped": 3
+  },
+  "counts": {
+    "clinical_expected": 162,
+    "clinical_preserved": 143,
+    "false_expected": 59,
+    "false_rejected": 57,
+    "legacy_calls_preserved": 94,
+    "legacy_calls_total": 96
+  },
+  "no_post_result_behavior_patch": true
+}

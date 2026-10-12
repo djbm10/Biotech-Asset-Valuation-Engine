@@ -1,0 +1,455 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 10%]
+................................x....................................... [ 14%]
+........................................................................ [ 18%]
+........................................................................ [ 21%]
+........................................................................ [ 25%]
+........................................................................ [ 28%]
+........................................................................ [ 32%]
+.........................................F..F........................... [ 36%]
+.........................................F.............................. [ 39%]
+..........F.........................F..............F...............F.... [ 43%]
+.......F.......F.F....F........F.F...........F......F...FF.............. [ 46%]
+.....................F...................................F.............. [ 50%]
+.....xx................................................................. [ 54%]
+.....................................F.................................. [ 57%]
+........................................................................ [ 61%]
+........................................................................ [ 64%]
+........................................................................ [ 68%]
+........................................................................ [ 72%]
+........................................................................ [ 75%]
+........................................................................ [ 79%]
+........................................................................ [ 83%]
+........................................................................ [ 86%]
+........................................................................ [ 90%]
+........................................................................ [ 93%]
+........................................................................ [ 97%]
+..................................................                       [100%]
+=================================== FAILURES ===================================
+__________________ test_frozen_clinical_context_control[C053] __________________
+
+control = {'asset_names': ['RX-001'], 'baseline_pass': True, 'category': 'clinical_flare', 'expected_pass': True, ...}
+
+    @pytest.mark.parametrize("control", _load("semantic_controls.json"), ids=lambda c: c["id"])
+    def test_frozen_clinical_context_control(control):
+        statements = efficacy_statements(
+            control["text"], asset_names=control["asset_names"], document_id="control"
+        )
+>       assert bool(statements) is control["expected_pass"]
+E       assert False is True
+E        +  where False = bool([])
+
+tests/se/test_human_efficacy_context_safety.py:28: AssertionError
+__________________ test_frozen_clinical_context_control[C056] __________________
+
+control = {'asset_names': ['RX-001'], 'baseline_pass': True, 'category': 'regimen', 'expected_pass': False, ...}
+
+    @pytest.mark.parametrize("control", _load("semantic_controls.json"), ids=lambda c: c["id"])
+    def test_frozen_clinical_context_control(control):
+        statements = efficacy_statements(
+            control["text"], asset_names=control["asset_names"], document_id="control"
+        )
+>       assert bool(statements) is control["expected_pass"]
+E       AssertionError: assert True is False
+E        +  where True = bool([EfficacyStatement(asset_name='RX-001', endpoint='response rate', sentence='Patients treated with RX-001, RX-002, and RX-003 achieved a response rate of 63%.', value='63%', document_id='control')])
+
+tests/se/test_human_efficacy_context_safety.py:28: AssertionError
+________ test_all_previous_reader_controls_are_preserved[6d78dc914bd1] _________
+
+call = {'baseline_outputs': [{'asset_name': 'CTL019', 'document_id': 'doc', 'endpoint': 'CR', 'sentence': '10/16 evaluable pt...t': '10/16 evaluable pts treated with CTL019 have ongoing BM CR with median follow up 3.4 mo.'}, 'route': 'prose', ...}
+
+    @pytest.mark.parametrize("call", _load("existing_test_population.json"), ids=lambda c: c["id"][:12])
+    def test_all_previous_reader_controls_are_preserved(call):
+        if call["route"] == "prose":
+            actual = bool(efficacy_statements(**call["inputs"]))
+        else:
+            actual = result_supports_human_poc(ClinicalResult.model_validate(call["inputs"]))
+>       assert actual is bool(call["baseline_outputs"])
+E       AssertionError: assert False is True
+E        +  where True = bool([{'asset_name': 'CTL019', 'document_id': 'doc', 'endpoint': 'CR', 'sentence': '10/16 evaluable pts treated with CTL019 have ongoing BM CR with median follow up 3.4 mo.', ...}])
+
+tests/se/test_human_efficacy_context_safety.py:52: AssertionError
+________ test_all_previous_reader_controls_are_preserved[be39eb3f78e4] _________
+
+call = {'baseline_outputs': [{'asset_name': 'drugx', 'document_id': 'doc', 'endpoint': 'flare', 'sentence': 'Treatment with d...ext': 'Treatment with drugx produced a 30% reduction in flare risk, observed in 194 patients.'}, 'route': 'prose', ...}
+
+    @pytest.mark.parametrize("call", _load("existing_test_population.json"), ids=lambda c: c["id"][:12])
+    def test_all_previous_reader_controls_are_preserved(call):
+        if call["route"] == "prose":
+            actual = bool(efficacy_statements(**call["inputs"]))
+        else:
+            actual = result_supports_human_poc(ClinicalResult.model_validate(call["inputs"]))
+>       assert actual is bool(call["baseline_outputs"])
+E       AssertionError: assert False is True
+E        +  where True = bool([{'asset_name': 'drugx', 'document_id': 'doc', 'endpoint': 'flare', 'sentence': 'Treatment with drugx produced a 30% reduction in flare risk, observed in 194 patients.', ...}])
+
+tests/se/test_human_efficacy_context_safety.py:52: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[11] _________________
+
+witness = {'expected_pass': True, 'id': 11, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'Th...rable diseases treated with and without bevacizumab were 84.5% and 73.0%, respectively (P\\u2009=\\u20090.0066).', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('The objective response rates for patients with measurable diseases treated with and without bevacizumab were 84.5% and 73.0%, respectively (P\\u2009=\\u20090.0066).', asset_names=['Bevacizumab', 'Bevacizumab', 'bevacizumab'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[26] _________________
+
+witness = {'expected_pass': True, 'id': 26, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'Am...lete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.', asset_names=['Venetoclax', 'Venetoclax', 'venetoclax', 'ABT-199', 'ABT199', 'GDC-0199', ...])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[42] _________________
+
+witness = {'expected_pass': True, 'id': 42, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': '28.6% of patients with PET30-CR ultimately progressed.', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('28.6% of patients with PET30-CR ultimately progressed.', asset_names=['PET30', 'PET30'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[54] _________________
+
+witness = {'expected_pass': True, 'id': 54, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'At...to 42% over the same period\\u2014suggesting many responses did not last.Side effects were generally manageable.', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('At 6\\u2009months, 79% of patients were alive, though this declined to 60% by 12\\u2009months, and progression-free s...m 52% to 42% over the same period\\u2014suggesting many responses did not last.Side effects were generally manageable.', asset_names=['though', 'though', 'Though'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[62] _________________
+
+witness = {'expected_pass': True, 'id': 62, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'Re...orrhea in 70% of patients, and significant improvements in hemoglobin and QoL after 52\\u00a0weeks of treatment.', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('Relugolix-CT demonstrated sustained efficacy in controlling HMB, with responder rates of 87.7%, amenorrhea in 70% of patients, and significant improvements in hemoglobin and QoL after 52\\u00a0weeks of treatment.', asset_names=['Relugolix', 'Relugolix', 'TAK-385', 'relugolix'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[64] _________________
+
+witness = {'expected_pass': False, 'id': 64, 'independently_verified_preexisting_numerical_false_positive': True, 'passage': 'Af...on therapy of dupilumab (a monoclonal antibody targeting the interleukin-4/13 signaling pathway) and ivermectin.', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert True is False
+E            +  where True = bool([EfficacyStatement(asset_name='Ivermectin', endpoint='complete remission', sentence='After an initial induction treatm... monoclonal antibody targeting the interleukin-4/13 signaling pathway) and ivermectin.', value='4/13', document_id='')])
+E            +    where [EfficacyStatement(asset_name='Ivermectin', endpoint='complete remission', sentence='After an initial induction treatm... monoclonal antibody targeting the interleukin-4/13 signaling pathway) and ivermectin.', value='4/13', document_id='')] = efficacy_statements('After an initial induction treatment with a low-to-moderate dose of corticosteroid, this patient achieved complete re...bination therapy of dupilumab (a monoclonal antibody targeting the interleukin-4/13 signaling pathway) and ivermectin.', asset_names=['Ivermectin', 'Ivermectin', 'ivermectin'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[69] _________________
+
+witness = {'expected_pass': True, 'id': 69, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': '"a...2) in treatment-na\\u00efve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('"abstract": "Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at pos... (SVR12) in treatment-na\\u00efve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).', asset_names=['Glecaprevir', 'Glecaprevir', 'glecaprevir'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[78] _________________
+
+witness = {'expected_pass': True, 'id': 78, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'In...able between the anti-EGFR antibody (n = 17) and bevacizumab (n = 9) groups (progression-free survival: 15.6 vs.', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('In patients with RAS wild-type tumors, outcomes were comparable between the anti-EGFR antibody (n = 17) and bevacizumab (n = 9) groups (progression-free survival: 15.6 vs.', asset_names=['bevacizumab', 'bevacizumab', 'Bevacizumab'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[80] _________________
+
+witness = {'expected_pass': True, 'id': 80, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'Fo...e to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) usin...elative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.', asset_names=['atazanavir', 'atazanavir', 'Atazanavir'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[92] _________________
+
+witness = {'expected_pass': True, 'id': 92, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'Af... was obtained in 40\\u2009patients (93%) in the BIC/F/TAF group and in 31 (89\\u200a%) in the DOR/3TC/TDF group.', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('After 12\\u2009months, virological efficacy was comparable: HIV RNA <20 copies ml -1  was obtained in 40\\u2009patients (93%) in the BIC/F/TAF group and in 31 (89\\u200a%) in the DOR/3TC/TDF group.', asset_names=['Lamivudine', 'Lamivudine', 'lamivudine', '3TC'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[99] _________________
+
+witness = {'expected_pass': True, 'id': 99, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'Tw...placebo (24%P = 0.011, 23%P = 0.005, and 12% after 300 microg, 100 microg and placebo injections, respectively).', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('Twice as many patients were responders in the primary efficacy endpoint after both ROSE-010 injections compared to placebo (24%P = 0.011, 23%P = 0.005, and 12% after 300 microg, 100 microg and placebo injections, respectively).', asset_names=['ROSE-010', 'ROSE-010', 'ROSE 010'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[103] ________________
+
+witness = {'expected_pass': True, 'id': 103, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'G...g clinical response, defined as \\u226520% PS volume reduction from baseline to weeks 20 and 24 (65.7% vs 38.9%;', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('Glepaglutide twice weekly was also superior to placebo for key secondary end points of proportion of patients achieving clinical response, defined as \\u226520% PS volume reduction from baseline to weeks 20 and 24 (65.7% vs 38.9%;', asset_names=['glepaglutide', 'glepaglutide', 'ZP1848', 'Glepaglutide'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+________________ test_frozen_adjudicated_benchmark_witness[104] ________________
+
+witness = {'expected_pass': True, 'id': 104, 'independently_verified_preexisting_numerical_false_positive': False, 'passage': 'I...of placebo-treated patients had \\u226530% reduction in LFC using the efficacy estimand (P\\u2009<\\u20090.0001;', ...}
+
+    @pytest.mark.parametrize("witness", _load("witness_adjudications.json"), ids=lambda w: str(w["id"]))
+    def test_frozen_adjudicated_benchmark_witness(witness):
+        population = _load("benchmark_population.json")
+        for row in witness["rows"]:
+            asset = next(
+                a
+                for a in population
+                if a["run"] == row["run"]
+                and any(w["claim"]["claim_id"] == row["claim_id"] for w in a["witnesses"])
+            )
+>           assert (
+                bool(efficacy_statements(witness["passage"], asset_names=asset["asset_names"]))
+                is witness["expected_pass"]
+            )
+E           AssertionError: assert False is True
+E            +  where False = bool([])
+E            +    where [] = efficacy_statements('In total, 84.2% of survodutide-treated patients versus 24.3% of placebo-treated patients had \\u226530% reduction in LFC using the efficacy estimand (P\\u2009<\\u20090.0001;', asset_names=['survodutide', 'survodutide', 'Survodutide', 'BI456906', 'BI 456906'])
+
+tests/se/test_human_efficacy_context_safety.py:65: AssertionError
+_ TestAbbreviationsOfTermsTheStandardAlreadyAccepts.test_abbreviated_patients_are_people _
+
+self = <test_human_poc_abbreviations_and_mixed_sentences.TestAbbreviationsOfTermsTheStandardAlreadyAccepts object at 0x7e7424c3bd40>
+
+    def test_abbreviated_patients_are_people(self) -> None:
+        # AACR abstract PR06, the second refusal. Needs `CR` *and* `pts` together.
+>       assert _passes(
+            "10/16 evaluable pts treated with CTL019 have ongoing BM CR with median "
+            "follow up 3.4 mo."
+        )
+E       AssertionError: assert False
+E        +  where False = _passes('10/16 evaluable pts treated with CTL019 have ongoing BM CR with median follow up 3.4 mo.')
+
+tests/se/test_human_poc_abbreviations_and_mixed_sentences.py:36: AssertionError
+_ TestTheResultsThisVocabularyBelongsTo.test_an_observed_reduction_in_flare_risk_is_still_a_result _
+
+self = <test_human_poc_trial_design_register.TestTheResultsThisVocabularyBelongsTo object at 0x7e7424c38590>
+
+    def test_an_observed_reduction_in_flare_risk_is_still_a_result(self) -> None:
+        """The exact outcome INDIGO describes the *power to detect*, actually observed."""
+>       assert _passes(
+            "Treatment with drugx produced a 30% reduction in flare risk, observed in 194 "
+            "patients.",
+            "drugx",
+        )
+E       AssertionError: assert False
+E        +  where False = _passes('Treatment with drugx produced a 30% reduction in flare risk, observed in 194 patients.', 'drugx')
+
+tests/se/test_human_poc_trial_design_register.py:59: AssertionError
+_________________ test_frozen_compilation_and_source_isolation _________________
+
+    def test_frozen_compilation_and_source_isolation():
+        for path, digest in POP["protected_source"].items():
+            if path not in POP["allowed_source"]:
+>               assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest, path
+E               AssertionError: src/bve/se/evidence/human_poc.py
+E               assert 'ebfd4b2fea7c...48d2137be0493' == '6259b51f7ad7...6340dbe3b6f66'
+E                 
+E                 - 6259b51f7ad7ecba7d48f0d3a7577caca136e4555ab2c39b8ea6340dbe3b6f66
+E                 + ebfd4b2fea7c7b407d71791695ba54b8d50b38683a5409b21a348d2137be0493
+
+tests/se/test_indication_gate_semantics_v3.py:31: AssertionError
+=============================== warnings summary ===============================
+tests/se/test_discovery_coverage.py::test_reference_aliases_measure_output_without_entering_discovery
+  /home/djmann/projects/bve-b8/src/bve/se/evaluation/discovery_coverage.py:67: UserWarning: run r records no trial universe, so its recall against reference set 'discovery_coverage' cannot be shown to be complete
+    require_untruncated_universe(result.run_manifest, reference_set="discovery_coverage")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_clinical_context_control[C053]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_clinical_context_control[C056]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_all_previous_reader_controls_are_preserved[6d78dc914bd1]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_all_previous_reader_controls_are_preserved[be39eb3f78e4]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[11]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[26]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[42]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[54]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[62]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[64]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[69]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[78]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[80]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[92]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[99]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[103]
+FAILED tests/se/test_human_efficacy_context_safety.py::test_frozen_adjudicated_benchmark_witness[104]
+FAILED tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestAbbreviationsOfTermsTheStandardAlreadyAccepts::test_abbreviated_patients_are_people
+FAILED tests/se/test_human_poc_trial_design_register.py::TestTheResultsThisVocabularyBelongsTo::test_an_observed_reduction_in_flare_risk_is_still_a_result
+FAILED tests/se/test_indication_gate_semantics_v3.py::test_frozen_compilation_and_source_isolation

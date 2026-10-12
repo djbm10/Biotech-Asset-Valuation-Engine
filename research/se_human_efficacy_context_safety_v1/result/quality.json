@@ -1,0 +1,6 @@
+{
+  "ruff_exit_code": 0,
+  "pytest_exit_code": 1,
+  "initial_ruff_exit_code": 2,
+  "infrastructure_retry": "original Ruff invocation exit 2: sandbox prohibited cache write; --no-cache rerun passed without any source change"
+}

@@ -1,0 +1,20 @@
+{
+  "first_result": "FAILED_ACCEPTANCE",
+  "files": {
+    "attempt_manifest.json": "4a2b8b705c530d48a66e73482c9ec589c8649b819cb3b4316ad8eabd57ce4852",
+    "human_poc.py": "ebfd4b2fea7c7b407d71791695ba54b8d50b38683a5409b21a348d2137be0493",
+    "quality.json": "196d2a7a0dd0ecece8be2acfb2a202bebfa394b6b8200224279f21da538b868f",
+    "record_outcome.py": "b98b2f76a863f0a5af5ed22ac695151bf191c29d44637ac3aff3b433e0a6c402",
+    "result.md": "853217018ad2eb0548bfedad07f904ab38785b89e8d8ee18b8a6c3c5286cb44e",
+    "ruff.log": "3febd6939865088b8e12bb05a3db9ebeb064f298b76c9595cb3462fa85d07740",
+    "ruff_verified.json": "ccc79121d8eddb63fd0f0fd62843c4b124e40068c67469205df5b6b734619fcd",
+    "ruff_verified.log": "7e9bd13bed678843fc0e8eb229cb5a37d97a3bd19b9484b6e42f016d62f0073f",
+    "score.json": "f8ec0004db0143544a6cbf3c73240a255a2036463a87b6c6c261fa09762e999f",
+    "score_human_efficacy_context_safety_v1.py": "c7fadf1b147a22ae7f6735ba9523c1c735b8aaa55e5b1cfaf15c01eefd990b6a",
+    "test_failure_inventory.json": "d584e2372408967c94ef52fbe3c24c4b38e13041c43b5abfc7070d34c8e04b18",
+    "test_human_efficacy_context_safety.py": "f36d06a4449644e80fb6d4cf1083583ada7c2a6dd9ff2ab8b580a57414ea3f90",
+    "tests.log": "320c67a67a3a99166b7a0ccfe961847b7db50ea41ed3be6557b6e1987c8d113b",
+    "tests.xml": "0ad76d53954598b1cd47f91cecad32c3171956ec0527d2248b69a19991995cc6"
+  },
+  "rule_or_label_changes_after_result": false
+}
