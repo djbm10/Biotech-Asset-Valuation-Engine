@@ -1,0 +1,11 @@
+{
+  "milestone": "TREATMENT_COHORT_ATTRIBUTION_REPRESENTATION v1",
+  "baseline_head": "7103da14b9125086eb30ae68cdf8c5182be057ca",
+  "evaluation": "Typed representation of manually grounded annotations, not raw-text inference.",
+  "files": {
+    "reader_baseline.json": "e0f07c08c199b155f4b264eebe3e01ae040e95f37a1493881ca144a55debabfa",
+    "expected_representation.json": "fdeb66d5c40ad1b9657915306b593db2cc2992c77c9337e64fac398b50bdcb79",
+    "protected_files.json": "907f7ac4a796996c213b691f6f2d19db72119812e2b17acd27f3a75f92bf3a9f",
+    "run_baseline.json": "9c86cab6d467cc14597dfa1d60a18b2034b96aec59fab858da975222dbbb0b81"
+  }
+}

@@ -1,0 +1,1290 @@
+[
+  {
+    "id": "known_false:H16:claim:fda8d13dfda69b782423",
+    "text": "After an initial induction treatment with a low-to-moderate dose of corticosteroid, this patient achieved complete remission with a combination therapy of dupilumab (a monoclonal antibody targeting the interleukin-4/13 signaling pathway) and ivermectin.",
+    "asset_names": [
+      "Ivermectin",
+      "Ivermectin",
+      "ivermectin"
+    ],
+    "document_id": "frozen:known_false:H16:claim:fda8d13dfda69b782423",
+    "outputs": [
+      {
+        "asset_name": "Ivermectin",
+        "endpoint": "complete remission",
+        "sentence": "After an initial induction treatment with a low-to-moderate dose of corticosteroid, this patient achieved complete remission with a combination therapy of dupilumab (a monoclonal antibody targeting the interleukin-4/13 signaling pathway) and ivermectin.",
+        "value": "4/13",
+        "document_id": "frozen:known_false:H16:claim:fda8d13dfda69b782423"
+      }
+    ]
+  },
+  {
+    "id": "known_false:H16:claim:6fe84fe83a76085b6cb1",
+    "text": "After an initial induction treatment with a low-to-moderate dose of corticosteroid, this patient achieved complete remission with a combination therapy of dupilumab (a monoclonal antibody targeting the interleukin-4/13 signaling pathway) and ivermectin.",
+    "asset_names": [
+      "Dupilumab",
+      "Dupilumab",
+      "dupilumab"
+    ],
+    "document_id": "frozen:known_false:H16:claim:6fe84fe83a76085b6cb1",
+    "outputs": [
+      {
+        "asset_name": "Dupilumab",
+        "endpoint": "complete remission",
+        "sentence": "After an initial induction treatment with a low-to-moderate dose of corticosteroid, this patient achieved complete remission with a combination therapy of dupilumab (a monoclonal antibody targeting the interleukin-4/13 signaling pathway) and ivermectin.",
+        "value": "4/13",
+        "document_id": "frozen:known_false:H16:claim:6fe84fe83a76085b6cb1"
+      }
+    ]
+  },
+  {
+    "id": "known_false:H18:claim:9954996062248331a551",
+    "text": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (↓30%-62%, p < 0.05) at 48 h and a significant improvement in maximal respiration for tirzepatide at 5 days (↑42%-52%, p = 0.0022).",
+    "asset_names": [
+      "Tirzepatide",
+      "Tirzepatide",
+      "LY3298176",
+      "Zepbound",
+      "tirzepatide",
+      "TIRZEPATIDE"
+    ],
+    "document_id": "frozen:known_false:H18:claim:9954996062248331a551",
+    "outputs": [
+      {
+        "asset_name": "tirzepatide",
+        "endpoint": "response",
+        "sentence": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (↓30%-62%, p < 0.05) at 48 h and a significant improvement in maximal respiration for tirzepatide at 5 days (↑42%-52%, p = 0.0022).",
+        "value": "30%",
+        "document_id": "frozen:known_false:H18:claim:9954996062248331a551"
+      }
+    ]
+  },
+  {
+    "id": "known_false:H19:claim:6c5b35e2a5871015f940",
+    "text": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+    "asset_names": [
+      "Sacituzumab Tirumotecan",
+      "Sacituzumab Tirumotecan",
+      "SKB264",
+      "MK-2870",
+      "Sacituzumab tirumotecan",
+      "sacituzumab tirumotecan",
+      "SKB-264"
+    ],
+    "document_id": "frozen:known_false:H19:claim:6c5b35e2a5871015f940",
+    "outputs": [
+      {
+        "asset_name": "Sacituzumab tirumotecan",
+        "endpoint": "survival",
+        "sentence": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+        "value": "5%",
+        "document_id": "frozen:known_false:H19:claim:6c5b35e2a5871015f940"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:TAC01:claim:d873e0fa9c925007ee4e",
+    "text": "The objective response rates for patients with measurable diseases treated with and without bevacizumab were 84.5% and 73.0%, respectively (P = 0.0066).",
+    "asset_names": [
+      "Bevacizumab",
+      "Bevacizumab",
+      "bevacizumab"
+    ],
+    "document_id": "frozen:v1_removed_clinical:TAC01:claim:d873e0fa9c925007ee4e",
+    "outputs": [
+      {
+        "asset_name": "Bevacizumab",
+        "endpoint": "response rate",
+        "sentence": "The objective response rates for patients with measurable diseases treated with and without bevacizumab were 84.5% and 73.0%, respectively (P = 0.0066).",
+        "value": "84.5%",
+        "document_id": "frozen:v1_removed_clinical:TAC01:claim:d873e0fa9c925007ee4e"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106",
+    "text": "Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.",
+    "asset_names": [
+      "Venetoclax",
+      "Venetoclax",
+      "venetoclax",
+      "ABT-199",
+      "ABT199",
+      "GDC-0199",
+      "RG7601",
+      "ABT 199",
+      "GDC 0199"
+    ],
+    "document_id": "frozen:v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106",
+    "outputs": [
+      {
+        "asset_name": "venetoclax",
+        "endpoint": "complete remission",
+        "sentence": "Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.",
+        "value": "31.2%",
+        "document_id": "frozen:v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:AACR_accepted:claim:2ab7b26095caafbfad9b",
+    "text": "28.6% of patients with PET30-CR ultimately progressed.",
+    "asset_names": [
+      "PET30",
+      "PET30"
+    ],
+    "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:2ab7b26095caafbfad9b",
+    "outputs": [
+      {
+        "asset_name": "PET30",
+        "endpoint": "CR",
+        "sentence": "28.6% of patients with PET30-CR ultimately progressed.",
+        "value": "28.6%",
+        "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:2ab7b26095caafbfad9b"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106",
+    "text": "Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.",
+    "asset_names": [
+      "Venetoclax",
+      "Venetoclax",
+      "venetoclax",
+      "ABT 199",
+      "ABT-199",
+      "ABT199",
+      "GDC 0199",
+      "GDC-0199",
+      "RG7601"
+    ],
+    "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106",
+    "outputs": [
+      {
+        "asset_name": "venetoclax",
+        "endpoint": "complete remission",
+        "sentence": "Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.",
+        "value": "31.2%",
+        "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c",
+    "text": "At 6 months, 79% of patients were alive, though this declined to 60% by 12 months, and progression-free survival dropped more sharply, from 52% to 42% over the same period—suggesting many responses did not last.Side effects were generally manageable.",
+    "asset_names": [
+      "though",
+      "though",
+      "Though"
+    ],
+    "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c",
+    "outputs": [
+      {
+        "asset_name": "Though",
+        "endpoint": "response",
+        "sentence": "At 6 months, 79% of patients were alive, though this declined to 60% by 12 months, and progression-free survival dropped more sharply, from 52% to 42% over the same period—suggesting many responses did not last.Side effects were generally manageable.",
+        "value": "79%",
+        "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:TAC01_regimen_accepted:claim:d873e0fa9c925007ee4e",
+    "text": "The objective response rates for patients with measurable diseases treated with and without bevacizumab were 84.5% and 73.0%, respectively (P = 0.0066).",
+    "asset_names": [
+      "Bevacizumab",
+      "Bevacizumab",
+      "bevacizumab"
+    ],
+    "document_id": "frozen:v1_removed_clinical:TAC01_regimen_accepted:claim:d873e0fa9c925007ee4e",
+    "outputs": [
+      {
+        "asset_name": "Bevacizumab",
+        "endpoint": "response rate",
+        "sentence": "The objective response rates for patients with measurable diseases treated with and without bevacizumab were 84.5% and 73.0%, respectively (P = 0.0066).",
+        "value": "84.5%",
+        "document_id": "frozen:v1_removed_clinical:TAC01_regimen_accepted:claim:d873e0fa9c925007ee4e"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:dfa26674a43723ab9e68",
+    "text": "Relugolix-CT demonstrated sustained efficacy in controlling HMB, with responder rates of 87.7%, amenorrhea in 70% of patients, and significant improvements in hemoglobin and QoL after 52 weeks of treatment.",
+    "asset_names": [
+      "Relugolix",
+      "Relugolix",
+      "TAK-385",
+      "relugolix"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:dfa26674a43723ab9e68",
+    "outputs": [
+      {
+        "asset_name": "Relugolix",
+        "endpoint": "responder",
+        "sentence": "Relugolix-CT demonstrated sustained efficacy in controlling HMB, with responder rates of 87.7%, amenorrhea in 70% of patients, and significant improvements in hemoglobin and QoL after 52 weeks of treatment.",
+        "value": "87.7%",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:dfa26674a43723ab9e68"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4",
+    "text": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-naïve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+    "asset_names": [
+      "Glecaprevir",
+      "Glecaprevir",
+      "glecaprevir"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4",
+    "outputs": [
+      {
+        "asset_name": "Glecaprevir",
+        "endpoint": "response",
+        "sentence": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-naïve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+        "value": "95%",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:f93f85d51368a0574d97",
+    "text": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-naïve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+    "asset_names": [
+      "pibrentasvir",
+      "pibrentasvir",
+      "Pibrentasvir"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:f93f85d51368a0574d97",
+    "outputs": [
+      {
+        "asset_name": "Pibrentasvir",
+        "endpoint": "response",
+        "sentence": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-naïve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+        "value": "95%",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:f93f85d51368a0574d97"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:1672c26a362bce427334",
+    "text": "In patients with RAS wild-type tumors, outcomes were comparable between the anti-EGFR antibody (n = 17) and bevacizumab (n = 9) groups (progression-free survival: 15.6 vs.",
+    "asset_names": [
+      "bevacizumab",
+      "bevacizumab",
+      "Bevacizumab"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:1672c26a362bce427334",
+    "outputs": [
+      {
+        "asset_name": "Bevacizumab",
+        "endpoint": "survival",
+        "sentence": "In patients with RAS wild-type tumors, outcomes were comparable between the anti-EGFR antibody (n = 17) and bevacizumab (n = 9) groups (progression-free survival: 15.6 vs.",
+        "value": "n = 17",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:1672c26a362bce427334"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e",
+    "text": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+    "asset_names": [
+      "atazanavir",
+      "atazanavir",
+      "Atazanavir"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e",
+    "outputs": [
+      {
+        "asset_name": "atazanavir",
+        "endpoint": "response",
+        "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+        "value": "70.1%",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:e02f9edf1a088951bfae",
+    "text": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+    "asset_names": [
+      "ritonavir",
+      "ritonavir",
+      "Ritonavir"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:e02f9edf1a088951bfae",
+    "outputs": [
+      {
+        "asset_name": "Ritonavir",
+        "endpoint": "response",
+        "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+        "value": "70.1%",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:e02f9edf1a088951bfae"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9",
+    "text": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+    "asset_names": [
+      "Lopinavir",
+      "Lopinavir",
+      "lopinavir"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9",
+    "outputs": [
+      {
+        "asset_name": "lopinavir",
+        "endpoint": "response",
+        "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+        "value": "70.1%",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca",
+    "text": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+    "asset_names": [
+      "Fosamprenavir",
+      "Fosamprenavir",
+      "fosamprenavir",
+      "GW433908"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca",
+    "outputs": [
+      {
+        "asset_name": "Fosamprenavir",
+        "endpoint": "response",
+        "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+        "value": "70.1%",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:5104ef3bd86e3a7f4e83",
+    "text": "After 12 months, virological efficacy was comparable: HIV RNA <20 copies ml -1  was obtained in 40 patients (93%) in the BIC/F/TAF group and in 31 (89 %) in the DOR/3TC/TDF group.",
+    "asset_names": [
+      "Lamivudine",
+      "Lamivudine",
+      "lamivudine",
+      "3TC"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:5104ef3bd86e3a7f4e83",
+    "outputs": [
+      {
+        "asset_name": "3TC",
+        "endpoint": "efficacy",
+        "sentence": "After 12 months, virological efficacy was comparable: HIV RNA <20 copies ml -1  was obtained in 40 patients (93%) in the BIC/F/TAF group and in 31 (89 %) in the DOR/3TC/TDF group.",
+        "value": "93%",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:5104ef3bd86e3a7f4e83"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H16:claim:07de85a540078d3b5cec",
+    "text": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+    "asset_names": [
+      "Lamivudine",
+      "Lamivudine",
+      "lamivudine",
+      "3TC"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H16:claim:07de85a540078d3b5cec",
+    "outputs": [
+      {
+        "asset_name": "3TC",
+        "endpoint": "response",
+        "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+        "value": "70.1%",
+        "document_id": "frozen:v1_removed_clinical:H16:claim:07de85a540078d3b5cec"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H18:claim:b420098f328b37ad2838",
+    "text": "Twice as many patients were responders in the primary efficacy endpoint after both ROSE-010 injections compared to placebo (24%P = 0.011, 23%P = 0.005, and 12% after 300 microg, 100 microg and placebo injections, respectively).",
+    "asset_names": [
+      "ROSE-010",
+      "ROSE-010",
+      "ROSE 010"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H18:claim:b420098f328b37ad2838",
+    "outputs": [
+      {
+        "asset_name": "ROSE-010",
+        "endpoint": "responder",
+        "sentence": "Twice as many patients were responders in the primary efficacy endpoint after both ROSE-010 injections compared to placebo (24%P = 0.011, 23%P = 0.005, and 12% after 300 microg, 100 microg and placebo injections, respectively).",
+        "value": "24%",
+        "document_id": "frozen:v1_removed_clinical:H18:claim:b420098f328b37ad2838"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H18:claim:0c74e255816f9655f5cf",
+    "text": "Glepaglutide twice weekly was also superior to placebo for key secondary end points of proportion of patients achieving clinical response, defined as ≥20% PS volume reduction from baseline to weeks 20 and 24 (65.7% vs 38.9%;",
+    "asset_names": [
+      "glepaglutide",
+      "glepaglutide",
+      "ZP1848",
+      "Glepaglutide"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H18:claim:0c74e255816f9655f5cf",
+    "outputs": [
+      {
+        "asset_name": "Glepaglutide",
+        "endpoint": "response",
+        "sentence": "Glepaglutide twice weekly was also superior to placebo for key secondary end points of proportion of patients achieving clinical response, defined as ≥20% PS volume reduction from baseline to weeks 20 and 24 (65.7% vs 38.9%;",
+        "value": "20%",
+        "document_id": "frozen:v1_removed_clinical:H18:claim:0c74e255816f9655f5cf"
+      }
+    ]
+  },
+  {
+    "id": "v1_removed_clinical:H18:claim:13f922afecbd81303713",
+    "text": "In total, 84.2% of survodutide-treated patients versus 24.3% of placebo-treated patients had ≥30% reduction in LFC using the efficacy estimand (P < 0.0001;",
+    "asset_names": [
+      "survodutide",
+      "survodutide",
+      "Survodutide",
+      "BI456906",
+      "BI 456906"
+    ],
+    "document_id": "frozen:v1_removed_clinical:H18:claim:13f922afecbd81303713",
+    "outputs": [
+      {
+        "asset_name": "Survodutide",
+        "endpoint": "efficacy",
+        "sentence": "In total, 84.2% of survodutide-treated patients versus 24.3% of placebo-treated patients had ≥30% reduction in LFC using the efficacy estimand (P < 0.0001;",
+        "value": "84.2%",
+        "document_id": "frozen:v1_removed_clinical:H18:claim:13f922afecbd81303713"
+      }
+    ]
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:a5c42d3cc5f5e7b3d5b5",
+    "text": "flares were reported in 26 patients (26.8%) in the obexelimab group and in 53 patients (54.6%) in the placebo group.",
+    "asset_names": [
+      "Obexelimab",
+      "Obexelimab",
+      "obexelimab"
+    ],
+    "document_id": "frozen:accepted_representative:TAC01:claim:a5c42d3cc5f5e7b3d5b5",
+    "outputs": [
+      {
+        "asset_name": "obexelimab",
+        "endpoint": "flare",
+        "sentence": "flares were reported in 26 patients (26.8%) in the obexelimab group and in 53 patients (54.6%) in the placebo group.",
+        "value": "26.8%",
+        "document_id": "frozen:accepted_representative:TAC01:claim:a5c42d3cc5f5e7b3d5b5"
+      }
+    ]
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:57b21b05d4b3850512c0",
+    "text": "Data from our study suggested that 90% of the 20 patients treated with infusions of CNCT19 cells reached complete remission or complete remission with incomplete count recovery (CR/CRi) within 28 days.",
+    "asset_names": [
+      "CNCT19",
+      "CNCT19"
+    ],
+    "document_id": "frozen:accepted_representative:TAC01:claim:57b21b05d4b3850512c0",
+    "outputs": [
+      {
+        "asset_name": "CNCT19",
+        "endpoint": "complete remission",
+        "sentence": "Data from our study suggested that 90% of the 20 patients treated with infusions of CNCT19 cells reached complete remission or complete remission with incomplete count recovery (CR/CRi) within 28 days.",
+        "value": "90%",
+        "document_id": "frozen:accepted_representative:TAC01:claim:57b21b05d4b3850512c0"
+      }
+    ]
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:f677e265dc0aec09a7b7",
+    "text": "After a median follow-up of 10.09 months (range, 0.49-24.02 months), the median overall survival and relapse-free survival for the 20 patients treated with CNCT19 cells was 12.91 months (95% confidence interval [CI], 7.74-18.08 months) and 6.93 months (95% CI, 3.13-10.73 months), respectively.",
+    "asset_names": [
+      "CNCT19",
+      "CNCT19"
+    ],
+    "document_id": "frozen:accepted_representative:TAC01:claim:f677e265dc0aec09a7b7",
+    "outputs": [
+      {
+        "asset_name": "CNCT19",
+        "endpoint": "survival",
+        "sentence": "After a median follow-up of 10.09 months (range, 0.49-24.02 months), the median overall survival and relapse-free survival for the 20 patients treated with CNCT19 cells was 12.91 months (95% confidence interval [CI], 7.74-18.08 months) and 6.93 months (95% CI, 3.13-10.73 months), respectively.",
+        "value": "95%",
+        "document_id": "frozen:accepted_representative:TAC01:claim:f677e265dc0aec09a7b7"
+      }
+    ]
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:f1534ba1833cfaa25f4d",
+    "text": "We observed overall low efficacy with 1/10 patients receiving ruxolitinib achieving complete remission with incomplete platelet count recovery.",
+    "asset_names": [
+      "ruxolitinib",
+      "ruxolitinib",
+      "Ruxolitinib"
+    ],
+    "document_id": "frozen:accepted_representative:TAC01:claim:f1534ba1833cfaa25f4d",
+    "outputs": [
+      {
+        "asset_name": "Ruxolitinib",
+        "endpoint": "complete remission",
+        "sentence": "We observed overall low efficacy with 1/10 patients receiving ruxolitinib achieving complete remission with incomplete platelet count recovery.",
+        "value": "1/10",
+        "document_id": "frozen:accepted_representative:TAC01:claim:f1534ba1833cfaa25f4d"
+      }
+    ]
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:cf42310f09d4a0cf6dd2",
+    "text": "The ORR was 47.6% and the complete response rate (CRR) was 14.3% in 21 evaluable patients among 25 patients who received glofitamab as salvage therapy.",
+    "asset_names": [
+      "Glofitamab",
+      "Glofitamab",
+      "glofitamab",
+      "RO7082859",
+      "Glofitamab-gxbm",
+      "RO 7082859",
+      "RO-7082859"
+    ],
+    "document_id": "frozen:accepted_representative:TAC01:claim:cf42310f09d4a0cf6dd2",
+    "outputs": [
+      {
+        "asset_name": "Glofitamab",
+        "endpoint": "response rate",
+        "sentence": "The ORR was 47.6% and the complete response rate (CRR) was 14.3% in 21 evaluable patients among 25 patients who received glofitamab as salvage therapy.",
+        "value": "47.6%",
+        "document_id": "frozen:accepted_representative:TAC01:claim:cf42310f09d4a0cf6dd2"
+      }
+    ]
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5",
+    "text": "Following one cycle, blinatumomab induced MRD-negative remission in all six patients with persistent disease before treatment (four with MRD positivity and two with >5% residual bone marrow blasts).",
+    "asset_names": [
+      "Blinatumomab",
+      "Blinatumomab",
+      "AMG 103",
+      "AMG-103",
+      "AMG103",
+      "MT103",
+      "MEDI 538",
+      "MEDI-538",
+      "MEDI538",
+      "MT 103",
+      "MT-103",
+      "blinatumomab",
+      "BLINATUMOMAB"
+    ],
+    "document_id": "frozen:accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5",
+    "outputs": [
+      {
+        "asset_name": "BLINATUMOMAB",
+        "endpoint": "remission",
+        "sentence": "Following one cycle, blinatumomab induced MRD-negative remission in all six patients with persistent disease before treatment (four with MRD positivity and two with >5% residual bone marrow blasts).",
+        "value": "5%",
+        "document_id": "frozen:accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5"
+      }
+    ]
+  },
+  {
+    "id": "accepted_representative:TAC01:claim:f1920a0e1c36a5da8d0c",
+    "text": "Herein, we present 12 patients with refractory SLE, including 10 with lupus nephritis (LN), who received ICG318 CAR T-cells resulting in 10 of 12 achieving stringent complete remission (sCR) defined by medication-free DORIS CR and complete renal response (CRR).",
+    "asset_names": [
+      "ICG318",
+      "ICG318"
+    ],
+    "document_id": "frozen:accepted_representative:TAC01:claim:f1920a0e1c36a5da8d0c",
+    "outputs": [
+      {
+        "asset_name": "ICG318",
+        "endpoint": "complete remission",
+        "sentence": "Herein, we present 12 patients with refractory SLE, including 10 with lupus nephritis (LN), who received ICG318 CAR T-cells resulting in 10 of 12 achieving stringent complete remission (sCR) defined by medication-free DORIS CR and complete renal response (CRR).",
+        "value": "10 of 12",
+        "document_id": "frozen:accepted_representative:TAC01:claim:f1920a0e1c36a5da8d0c"
+      }
+    ]
+  },
+  {
+    "id": "accepted_representative:mint5:claim:117c546558458970e8da",
+    "text": "Key updates include: Cevostamab (FcRH5×CD3) demonstrated a 30.2% overall response rate in patients who underwent BCMA-targeted treatment and 60.6% in BCMA-targeted naïve patients;the triple-step dosing strategy reduced cytokine release syndrome.",
+    "asset_names": [
+      "Cevostamab",
+      "Cevostamab",
+      "RO7187797",
+      "BFCR4350A",
+      "cevostamab"
+    ],
+    "document_id": "frozen:accepted_representative:mint5:claim:117c546558458970e8da",
+    "outputs": [
+      {
+        "asset_name": "Cevostamab",
+        "endpoint": "response rate",
+        "sentence": "Key updates include: Cevostamab (FcRH5×CD3) demonstrated a 30.2% overall response rate in patients who underwent BCMA-targeted treatment and 60.6% in BCMA-targeted naïve patients;the triple-step dosing strategy reduced cytokine release syndrome.",
+        "value": "30.2%",
+        "document_id": "frozen:accepted_representative:mint5:claim:117c546558458970e8da"
+      }
+    ]
+  },
+  {
+    "id": "6d78dc914bd1f5210d52ebcd432011ae63c50cd3abe0c0ce11fb89539878b2ea",
+    "text": "10/16 evaluable pts treated with CTL019 have ongoing BM CR with median follow up 3.4 mo.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "frozen:6d78dc914bd1f5210d52ebcd432011ae63c50cd3abe0c0ce11fb89539878b2ea",
+    "outputs": [
+      {
+        "asset_name": "CTL019",
+        "endpoint": "CR",
+        "sentence": "10/16 evaluable pts treated with CTL019 have ongoing BM CR with median follow up 3.4 mo.",
+        "value": "10/16",
+        "document_id": "frozen:6d78dc914bd1f5210d52ebcd432011ae63c50cd3abe0c0ce11fb89539878b2ea"
+      }
+    ]
+  },
+  {
+    "id": "be39eb3f78e48cd8e18e5a3d8ba3f1e0eea265ec153153d2d2dd47f63d3bd13f",
+    "text": "Treatment with drugx produced a 30% reduction in flare risk, observed in 194 patients.",
+    "asset_names": [
+      "drugx"
+    ],
+    "document_id": "frozen:be39eb3f78e48cd8e18e5a3d8ba3f1e0eea265ec153153d2d2dd47f63d3bd13f",
+    "outputs": [
+      {
+        "asset_name": "drugx",
+        "endpoint": "flare",
+        "sentence": "Treatment with drugx produced a 30% reduction in flare risk, observed in 194 patients.",
+        "value": "30%",
+        "document_id": "frozen:be39eb3f78e48cd8e18e5a3d8ba3f1e0eea265ec153153d2d2dd47f63d3bd13f"
+      }
+    ]
+  },
+  {
+    "id": "negative:86ad1d998d5bf046eed7cb5867d936a946df703115edbd039d24232a67bd79ff",
+    "text": "The primary endpoint was safety and the secondary endpoints were ORR, progression free survival (PFS), and overall survival (OS) in 11 patients treated with CART19/20.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:5b8919ca2f0e05849a80c4568ac488a1535beb91ac1a6252611706547af25bef",
+    "text": "Efficacy of CTL019 will be evaluated in 40 patients using overall response rate.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:90505e06b6b61d6078d6c869a30839ea4fe0e998dade438f5f27bce9843145a1",
+    "text": "Patients treated with CTL019 achieved durable complete remission.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:5cdf2303c6d08478c2c4f9d60d4d43659b3bf6186ea1c0bdc072eeff72395cd5",
+    "text": "Among 26 patients treated with CTL019, 12 of 26 experienced grade 3 cytokine release syndrome and the regimen was well tolerated.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:69a331169d4bd3fbf3c701522bf320a2acb2648ffa59f7582cc84985c13c92c0",
+    "text": "In 26 patients treated with CTL019, peak biomarker expansion correlated with response in 18 of 26 cases.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:81d3ec762b1df68cd8cb1b5bd4daee262a0922e1a09d8ba52d4de25d7f9902a1",
+    "text": "CTL019 showed promising clinical benefit in 26 of 30 patients in this first-in-human experience.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:af4dd8f6a66f24990ca9c41b167fff858d848a841cdecf8f2884a202de870de8",
+    "text": "CTL019 produced complete tumor regression in 8 of 10 xenograft-bearing mice, with responses in 80% of animals.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:1deece1bca3c4e9d208698af04f8fba97b398218ce7c776ff55245adeb6c5611",
+    "text": "CTL019 was manufactured to specification. Separately, 18 of 26 patients achieved a complete response.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:dca4a09ab185c4ce121c5795201145b1526d2edc091b8063b8e6e884e1c20f25",
+    "text": "CTL019 plus ibrutinib produced a complete response in 18 of 26 patients.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:7e6db301873ed892800ab62950591bc3c4480ee74212f2c384b99c7677cf2e9d",
+    "text": "Patients receiving CTL019 and axicabtagene ciloleucel achieved a complete response in 18 of 26 cases.",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:a3f9eb7795efd94ed47c14cee6138a1b6b66d74bbf34c34a10d7e75a0c5b53e3",
+    "text": "Abstract CT204: CTL019 in relapsed B-cell malignancies",
+    "asset_names": [
+      "CTL019",
+      "axicabtagene ciloleucel",
+      "CART19/20"
+    ],
+    "document_id": "doc:1",
+    "outputs": []
+  },
+  {
+    "id": "negative:511d2ef937b018d6894db247501c83b34c7e34d0c9b404d2628efc278c373232",
+    "text": "In a murine model of lupus nephritis, treatment with ABC-123 produced complete remission in 8 of 10 mice.",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:d5b3394d462a0e16b5edd056fc0066ea2376c465be18807cb6dfac59ffb65c11",
+    "text": "ABC-123 lysed 95% of CD19-positive target cells in vitro.",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:b36bcdbdb0630917a575473e288f0231a1c34b8fc82e4f8f12956fe13eb8482e",
+    "text": "Patients treated with ABC-123 plus dexamethasone achieved an overall response rate of 75% (9 of 12).",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:a8011679a17da3b4a56625d69d21a3e75bf35ce2d5a5f05ea1848f2d138593df",
+    "text": "Among patients receiving teclistamab, the overall response rate was 63%. ABC-123 was administered as bridging therapy.",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:b325976800d6e1788096f7fa64ec36de61976791670864b6a35920c5b56ff050",
+    "text": "The primary endpoint is overall response rate at 3 months. Enrollment of 40 patients is planned.",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:18507ee1800a35b3af5bc7fc2f67fef78877a1f53f64b182fa420d001e29b236",
+    "text": "ABC-123 is a promising therapy with the potential to improve response rates.",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:154d519ba62b5fec0585c612f0c0b9f220c141af68b7434a6538b3232f5b5850",
+    "text": "MoAbs offer the potential to improve efficacy by reducing toxicity. However, there is a huge need for clinical trials exploring response duration.",
+    "asset_names": [
+      "MoAbs"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:8bdfb48c87a0be0eafd1b888c7fe33ce20d71d1e39fedd677acefd0568e569fc",
+    "text": "Active symptoms with inadequate response to at least one immunomodulatory therapy in 40% of patients.",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:e3abebdf19a0916dfe165381069168af8a9ee277cf85f3f52f27120fd5eb625a",
+    "text": "ABC-123 study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail response 40% somewhere in patients",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:b6c10edfbef8c14137a36d4ab82d27868f8be3898f0875f49ef6382a1c538fe7",
+    "text": "The primary outcome was the response rate at 16 weeks after ABC-123 initiation, defined as the proportion of patients achieving a 50% reduction in seizures.",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:a176bad0bf3e18d27bcd9a2bcd7193b9dc3051594b1419275f57e4f9fac191ae",
+    "text": "A phase 1 study of ABC-123 in patients with systemic lupus erythematosus.",
+    "asset_names": [
+      "ABC-123"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:36c936e482350de7f8047d182599050add9ba90200b6663634e5aac86debb2a5",
+    "text": "CRS and CRP increased across all CTL019 cohorts of patients (40%).",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:0d9bebdadaa0ec403db2dac9090b7c8e9409cef49cef4ae9049a5a6d31bad8e3",
+    "text": "CTL019 CRi was reported in 3 of 12 patients.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:338243dadf291e7bfb3a5f6e5d303d9d3aa0ed12b601fd3552c09e4da641ba78",
+    "text": "The cr value for CTL019 was 40% in 20 patients.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:2ccc538a4650eb1c0672a99d3722ed264a076c695968750060ccf30e184f0fbf",
+    "text": "Abstract PR06: CTL019 was given to 20 patients (50%) at the stated dose.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:ad1749f662ee914bc1e5821f1120783a00300a4aa641bc46dde96369b12236d3",
+    "text": "Among 20 patients (50%), we measured CTL019 response to treatment and incidence of cytokine release syndrome.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:5d956cd688ef59f75d2f2d40d5ab8b06cf0dc5f9ed648afbd458f026fab77018",
+    "text": "CTL019 was well tolerated with grade 3 adverse events in 5 of 20 patients.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:d821db77ef6c4a073739e046292fe28b42f37d20fde1c356477f4d149d6c2832",
+    "text": "The primary endpoint was safety and the secondary endpoints were ORR, progression free survival (PFS), overall survival (OS), and CTL019 transgene persistence.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:7bfec0a46e595d84b224fa0433222a2e7fdaccaaa756362f32c9884a70047046",
+    "text": "Safety, pharmacokinetic profiles and primary efficacy parameters for CTL019 in 10 patients will be evaluated over 48 weeks.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:f76d9c850bae97a8d5f07e37c8208d848dd60dab02c4faf3ab826abfa6948d0e",
+    "text": "Primary efficacy endpoint is SLE Responder Index 4 (SRI-4) criteria for CTL019 in 10 patients.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:58576bca47c2fdc9a69cc54ca386d87a3e2bdc06e272e10931498d1b0b3d8975",
+    "text": "This primary objective is to determine the maximum tolerated dose of CTL019 in 5 patients, and the key secondary objective is to investigate the anti-myeloma activity.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:ebcaad515f46ba1838665b4613e839e6889bbb14367e36b22d33db911a3eeea0",
+    "text": "Pt 1 achieved a complete response (CR) on CTL019 and experienced Gr 3 fever and Gr 2 hypotension consistent with mild cytokine release syndrome (CRS).",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:d93a0e27dbbd10b4c484f0936b5443bcdcc24e5f9fd7860daaea5d35a12c89a7",
+    "text": "Patients were treated with CTL019. The overall response rate was 62%.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:8c9d82379bcb939b6177699abeaf52644c6b14b91b26ae5a5cc8b2ff993ba6f8",
+    "text": "CTL019 produced a CR in 8 of 10 xenograft-bearing mice and in treated patients.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:f43494394dab9be954c2a934d0552ff8c0e747662c775fde322b8cc7b5f3da8b",
+    "text": "Patients must have had an inadequate response to CTL019 in at least 2 of 3 prior lines to be eligible.",
+    "asset_names": [
+      "CTL019"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:a19238aca0eaa9ba65f873d23c2b111bae4bf660cb669fd506033dc1512bd4f4",
+    "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+    "asset_names": [
+      "cyclophosphamide"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:d26537fa8016c9b0f369b9222e18a4377080266986b99fb83af6a50c2cef0b63",
+    "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+    "asset_names": [
+      "vincristine"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:7df532b1b49090cc3ea999e3b122994a9e18954fc54431d33f7468b9b21204b5",
+    "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+    "asset_names": [
+      "doxorubicin"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:1f493682033f5e394c4543419b2c8b59630eebdb1e9814163fb8edcb84be6aaf",
+    "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+    "asset_names": [
+      "prednisone"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:b7a3708267677126c17d588a1522e697c3cc9c8bc8970189aa415e3ca990b475",
+    "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+    "asset_names": [
+      "prednisolone"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:55055f935d81634434acfd3412a8fe1c5f425a5e5bc98875d8fa4c24564bc9e3",
+    "text": "Additionally, patients receiving VO showed the highest survival rates at 12 months (95% confidence interval [CI]) at 97.6% (94.5, 100.0), followed by fludarabine, cyclophosphamide, and rituximab (FCR) at 96.6% (94.0, 99.3).",
+    "asset_names": [
+      "cyclophosphamide"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:5983f7f674df4422331216bb2e0ecb02292111da6c4115b8dbd6a2e5fd78fc33",
+    "text": "Additionally, patients receiving VO showed the highest survival rates at 12 months (95% confidence interval [CI]) at 97.6% (94.5, 100.0), followed by fludarabine, cyclophosphamide, and rituximab (FCR) at 96.6% (94.0, 99.3).",
+    "asset_names": [
+      "fludarabine"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:13487d9081f13a9a318bec1f3ded41faa35cf93e17ebc04a32412a289c1cb2ed",
+    "text": "N = 395) demonstrated improved overall minimal residual disease (MRD) negativity rates among patients achieving complete response and progression-free survival (PFS) with daratumumab plus bortezomib, lenalidomide, and dexamethasone (DVRd) versus VRd.",
+    "asset_names": [
+      "lenalidomide"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:372912e80af8b6ab45a06c62032042570bc6708e65a5a76be7f4ab0c567d6592",
+    "text": "Patients treated with ABC-123, XYZ-9, and dexamethasone achieved an overall response rate of 70%.",
+    "asset_names": [
+      "XYZ-9"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:7ee70e107890633ebdb233c7d6c06dc6c7ae1b9e80cbae07b1f0ace07cd47f04",
+    "text": "For VSTs, the principal early complications are tumor flare reaction (in approximately 20% of tabelecleucel recipients), GVHD (below 5% with enriched products), acute infusion reactions, and low-grade CRS-like cytokine release.",
+    "asset_names": [
+      "tabelecleucel"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:a493a98a1f19122baed4fe67969629afe024a75302eb218e180f943cc05cd4c7",
+    "text": "Tumor flare reaction occurred in 20% of patients treated with drugx.",
+    "asset_names": [
+      "drugx"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:c6c61246fd9379275b9c9969a3a1e6aa605bdd589d4d4b8999b290b39b41acfe",
+    "text": "The principal complications of drugx were infusion reactions in 8 of 20 patients.",
+    "asset_names": [
+      "drugx"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:4a68b84a8e28c23071bab68619e4d9c8786ff7cc0605668b27ec7401d81168b6",
+    "text": "drugx was well tolerated with grade 3 adverse events in 5 of 20 patients.",
+    "asset_names": [
+      "drugx"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:8b617d69a10941befa9ad319402badebcaa42589494e83b4a0fa8f4c0d55ff2a",
+    "text": "The INDIGO trial achieved its global enrollment goal with 194 patients, making it the largest phase 3 trial in IgG4-RD to date and providing 90% power to detect a clinically meaningful reduction in flare risk.",
+    "asset_names": [
+      "INDIGO"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:6e0808f17f12d5e898798414a18577dcc8525df46bf4daf57c056251d1ec7a47",
+    "text": "The study enrolled 194 patients and had 90% power to detect a 30% reduction in flare risk with drugx.",
+    "asset_names": [
+      "drugx"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:0c72bb9698056d473e1875f84ee1e4891da5acfb827b14c629c7a85aafcb504a",
+    "text": "drugx reached its enrollment goal of 194 patients, 40% of whom were in remission at baseline.",
+    "asset_names": [
+      "drugx"
+    ],
+    "document_id": "doc",
+    "outputs": []
+  },
+  {
+    "id": "negative:d078f21dba2e2d4b17ca5b73b360b62df83a866c0f1c11c2606f9c1c6260e1d2",
+    "text": "{\n  \"document_id\": \"doc:pr:2\",\n  \"publication_date\": \"2026-04-02\",\n  \"text\": \"Teclistamab is a BCMA-directed CD3 bispecific antibody. In 40 patients, 24 of 40 achieved a partial response. Elranatamab is under study in Phase 2.\",\n  \"title\": \"Teclistamab and elranatamab in relapsed myeloma\",\n  \"url\": \"https://example-bio.test/2\"\n}\n",
+    "asset_names": [
+      "Teclistamab",
+      "Teclistamab"
+    ],
+    "document_id": "document:7f77d9866b998af213ba",
+    "outputs": []
+  },
+  {
+    "id": "negative:a3476d1c0b0790d93daa375f02f4255b1c6fcdb17da3d90fab9984a2d69b68af",
+    "text": "{\n  \"document_id\": \"doc:pr:2\",\n  \"publication_date\": \"2026-04-02\",\n  \"text\": \"Teclistamab is a BCMA-directed CD3 bispecific antibody. In 40 patients, 24 of 40 achieved a partial response. Elranatamab is under study in Phase 2.\",\n  \"title\": \"Teclistamab and elranatamab in relapsed myeloma\",\n  \"url\": \"https://example-bio.test/2\"\n}\n",
+    "asset_names": [
+      "Elranatamab",
+      "Elranatamab",
+      "elranatamab"
+    ],
+    "document_id": "document:7f77d9866b998af213ba",
+    "outputs": []
+  },
+  {
+    "id": "negative:e45fb60dc65007e5c4e87eba09874113846cdb51e32bc8e6d200092c19668ef8",
+    "text": "Exhibit 99.1. FOR IMMEDIATE RELEASE. The Company announced today that it is advancing HPN217 through its clinical program.",
+    "asset_names": [
+      "HPN217",
+      "CC-95266"
+    ],
+    "document_id": "doc:test",
+    "outputs": []
+  },
+  {
+    "id": "negative:9c9b1097f689bae3820903dd3699b477f8f780d1711d8fad2c2b938c5f691782",
+    "text": "The Company reported promising results for HPN217.",
+    "asset_names": [
+      "HPN217",
+      "CC-95266"
+    ],
+    "document_id": "doc:test",
+    "outputs": []
+  },
+  {
+    "id": "negative:1cb939e2ca6a09fcd6270b94d975e856f133dc1917274a8a7113b0b9859501c4",
+    "text": "Data for HPN217 were encouraging.",
+    "asset_names": [
+      "HPN217",
+      "CC-95266"
+    ],
+    "document_id": "doc:test",
+    "outputs": []
+  },
+  {
+    "id": "negative:8e632620a8ca97ff5ae3c403e9c372bb28fca7f465605657a8b8379074202760",
+    "text": "HPN217 delivered positive data in the ongoing study.",
+    "asset_names": [
+      "HPN217",
+      "CC-95266"
+    ],
+    "document_id": "doc:test",
+    "outputs": []
+  },
+  {
+    "id": "negative:e69a546a24aea52e1b06759ef3ec03a3efa1db0e81e835c106cd8fe46e11db6d",
+    "text": "HPN217 is potentially transformative for patients.",
+    "asset_names": [
+      "HPN217",
+      "CC-95266"
+    ],
+    "document_id": "doc:test",
+    "outputs": []
+  },
+  {
+    "id": "negative:b6b594bb11d754aa4e842b241d5659b238509ac23937e5a64a264c40b14e30f9",
+    "text": "We are highly encouraged by the HPN217 profile observed to date.",
+    "asset_names": [
+      "HPN217",
+      "CC-95266"
+    ],
+    "document_id": "doc:test",
+    "outputs": []
+  },
+  {
+    "id": "negative:4adba3e7e8426df97226df10405f676ba87535d5b103509c15706d0057a5e9eb",
+    "text": "The Phase 2 study of HPN217 will enroll 120 patients with relapsed or refractory multiple myeloma. The primary endpoint is overall response rate.",
+    "asset_names": [
+      "HPN217",
+      "CC-95266"
+    ],
+    "document_id": "doc:test",
+    "outputs": []
+  },
+  {
+    "id": "negative:978fed3321b81296f21d940d002160df556c20dc8ae57e282e89876f6154aa69",
+    "text": "The Company is developing HPN217 for multiple myeloma. An overall response rate of 63% was observed in the study.",
+    "asset_names": [
+      "HPN217",
+      "CC-95266"
+    ],
+    "document_id": "doc:test",
+    "outputs": []
+  },
+  {
+    "id": "negative:7df3039ec3753f9d621946c270dd00add92d39fc4567b028000e2b6393e8961f",
+    "text": "HPN217 in combination with dexamethasone achieved an overall response rate of 63% in 30 patients.",
+    "asset_names": [
+      "HPN217",
+      "CC-95266"
+    ],
+    "document_id": "doc:test",
+    "outputs": []
+  },
+  {
+    "id": "negative:C055",
+    "text": "RX-001 plus RX-002 achieved an overall response rate of 63% in patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "document_id": "",
+    "outputs": []
+  },
+  {
+    "id": "negative:C056",
+    "text": "Patients treated with RX-001, RX-002, and RX-003 achieved a response rate of 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "document_id": "",
+    "outputs": [
+      {
+        "asset_name": "RX-001",
+        "endpoint": "response rate",
+        "sentence": "Patients treated with RX-001, RX-002, and RX-003 achieved a response rate of 63%.",
+        "value": "63%",
+        "document_id": ""
+      }
+    ]
+  }
+]
