@@ -1,0 +1,13 @@
+query: 'Find clinical-stage factor XI inhibitors for prevention of thrombosis.'
+  'clinical-stage' -> EVIDENCE minimum_stage [evidence_clinical_stage_vocabulary]
+  'factor' -> RESIDUAL [no_vocabulary_match]
+  'XI' -> RESIDUAL [no_vocabulary_match]
+  'inhibitors' -> RESIDUAL [no_vocabulary_match]
+  'prevention' -> RESIDUAL [no_vocabulary_match]
+  'thrombosis' -> RESIDUAL [no_vocabulary_match]
+  target constraint: none
+  modality constraint: none
+  phase constraint: none
+  evidence floor: minimum_stage=PHASE_1
+  warning: unrecognized terms carried as free text, not as resolved criteria: factor, XI, inhibitors, prevention, thrombosis
+  blocked: no biological target recognized in the query

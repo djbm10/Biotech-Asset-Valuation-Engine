@@ -1,0 +1,327 @@
+{
+  "H16": {
+    "outcome": "RESULT",
+    "rows": [
+      {
+        "position": 1,
+        "asset_id": "asset:80c08086d288d3286dff",
+        "name": "Relatlimab"
+      },
+      {
+        "position": 2,
+        "asset_id": "asset:03ab9f1973d0606e57d6",
+        "name": "REGN3767"
+      },
+      {
+        "position": 3,
+        "asset_id": "asset:4a7410c1e2efa9254ee2",
+        "name": "Tebotelimab"
+      },
+      {
+        "position": 4,
+        "asset_id": "asset:e2ea4a7cef6094657fe0",
+        "name": "ieramilimab"
+      },
+      {
+        "position": 5,
+        "asset_id": "asset:7e1d6d5e4a1cb448e077",
+        "name": "Tuparstobart"
+      },
+      {
+        "position": 6,
+        "asset_id": "asset:686f4d4a024ed46010b5",
+        "name": "Alcestobart"
+      },
+      {
+        "position": 7,
+        "asset_id": "asset:f68af983e29e3518504f",
+        "name": "Favezelimab"
+      },
+      {
+        "position": 8,
+        "asset_id": "asset:f2c5eda8a758b20956e5",
+        "name": "Tobemstomig"
+      },
+      {
+        "position": 9,
+        "asset_id": "asset:ebfdd24f6ed1ef80f977",
+        "name": "XmAb22841"
+      },
+      {
+        "position": 10,
+        "asset_id": "asset:68d2cfca7d48830a3706",
+        "name": "duvortuxizumab"
+      },
+      {
+        "position": 11,
+        "asset_id": "asset:6c30246a4fe70d394d69",
+        "name": "benmelstobart"
+      },
+      {
+        "position": 12,
+        "asset_id": "asset:3a0e2bf17a3e528703ff",
+        "name": "certolizumab"
+      },
+      {
+        "position": 13,
+        "asset_id": "asset:17da7d2071447fc4be9a",
+        "name": "cilgavimab"
+      },
+      {
+        "position": 14,
+        "asset_id": "asset:76beff6d6624d6b06005",
+        "name": "fanastomig"
+      },
+      {
+        "position": 15,
+        "asset_id": "asset:d6f7e2a6d90ffa4f4cfd",
+        "name": "gremubamab"
+      },
+      {
+        "position": 16,
+        "asset_id": "asset:519b1d97611dd80d2d1b",
+        "name": "ivonescimab"
+      },
+      {
+        "position": 17,
+        "asset_id": "asset:1d99c282f25a4947427b",
+        "name": "linvoseltamab"
+      },
+      {
+        "position": 18,
+        "asset_id": "asset:56a1932f86a3a993e03a",
+        "name": "netakimab"
+      },
+      {
+        "position": 19,
+        "asset_id": "asset:b2aea454126231e806f1",
+        "name": "nirsevimab"
+      },
+      {
+        "position": 20,
+        "asset_id": "asset:db822fae2c2b6704736d",
+        "name": "peresolimab"
+      }
+    ]
+  },
+  "H17": {
+    "outcome": "REFUSED",
+    "reason": "blocked: no biological target recognized in the query",
+    "rows": []
+  },
+  "H18": {
+    "outcome": "RESULT",
+    "rows": [
+      {
+        "position": 1,
+        "asset_id": "asset:8866bafec6e43f4b49da",
+        "name": "Tirzepatide"
+      },
+      {
+        "position": 2,
+        "asset_id": "asset:42f1832f56f4f84d75f0",
+        "name": "survodutide"
+      },
+      {
+        "position": 3,
+        "asset_id": "asset:9c37f3770d3cf85b2a69",
+        "name": "Albiglutide"
+      },
+      {
+        "position": 4,
+        "asset_id": "asset:1a69e2cb33e46291579a",
+        "name": "Avexitide"
+      },
+      {
+        "position": 5,
+        "asset_id": "asset:4c3850a26b5f95e5ffdc",
+        "name": "Dulaglutide"
+      },
+      {
+        "position": 6,
+        "asset_id": "asset:c930463244e92f9d78f8",
+        "name": "exenatide"
+      },
+      {
+        "position": 7,
+        "asset_id": "asset:05ba8fe2630c1cb96be3",
+        "name": "Liraglutide"
+      },
+      {
+        "position": 8,
+        "asset_id": "asset:97effe598e91cdc3bcbd",
+        "name": "Lixisenatide"
+      },
+      {
+        "position": 9,
+        "asset_id": "asset:deffdd980730c8fe12c9",
+        "name": "Saxenda"
+      },
+      {
+        "position": 10,
+        "asset_id": "asset:9a870799adb39ed81805",
+        "name": "Semaglutide"
+      },
+      {
+        "position": 11,
+        "asset_id": "asset:db60a85dff623cf014af",
+        "name": "Victoza"
+      },
+      {
+        "position": 12,
+        "asset_id": "asset:9f626c1ee54da5964591",
+        "name": "Ozempic"
+      },
+      {
+        "position": 13,
+        "asset_id": "asset:4b35f368e192018b2708",
+        "name": "Retatrutide"
+      },
+      {
+        "position": 14,
+        "asset_id": "asset:33ab1eb59661ee8628bb",
+        "name": "Wegovy"
+      },
+      {
+        "position": 15,
+        "asset_id": "asset:9606371062915435ba7b",
+        "name": "DA-302168S"
+      },
+      {
+        "position": 16,
+        "asset_id": "asset:a2ee9576849f88618c1d",
+        "name": "VCT220"
+      },
+      {
+        "position": 17,
+        "asset_id": "asset:b6cce06e284b1b949d78",
+        "name": "Cotadutide"
+      },
+      {
+        "position": 18,
+        "asset_id": "asset:19fcc700d3cab306f620",
+        "name": "efpeglenatide"
+      },
+      {
+        "position": 19,
+        "asset_id": "asset:c71226c69fdc4c38ac5c",
+        "name": "NLY01"
+      },
+      {
+        "position": 20,
+        "asset_id": "asset:bea5b48f7fac4a97f22c",
+        "name": "Rybelsus"
+      }
+    ]
+  },
+  "H19": {
+    "outcome": "RESULT",
+    "rows": [
+      {
+        "position": 1,
+        "asset_id": "asset:cf362b6bc18a7577433e",
+        "name": "Sacituzumab Tirumotecan"
+      },
+      {
+        "position": 2,
+        "asset_id": "asset:a4e8d5e9526a71ca9926",
+        "name": "Sacituzumab govitecan"
+      },
+      {
+        "position": 3,
+        "asset_id": "asset:55156988e1caf7540012",
+        "name": "Izalontamab brengitecan"
+      },
+      {
+        "position": 4,
+        "asset_id": "asset:ebb191faef21e4ff891a",
+        "name": "becotatug vedotin"
+      },
+      {
+        "position": 5,
+        "asset_id": "asset:4851f243ea1b874fc72c",
+        "name": "BMS-986148"
+      },
+      {
+        "position": 6,
+        "asset_id": "asset:9eebbd99c1a9aaccbbf6",
+        "name": "Farletuzumab ecteribulin"
+      },
+      {
+        "position": 7,
+        "asset_id": "asset:c6b579c637778982425a",
+        "name": "ifinatamab deruxtecan"
+      },
+      {
+        "position": 8,
+        "asset_id": "asset:8454195f6696f70f9341",
+        "name": "trastuzumab rezetecan"
+      },
+      {
+        "position": 9,
+        "asset_id": "asset:31c594ce16901413184d",
+        "name": "LCB84"
+      },
+      {
+        "position": 10,
+        "asset_id": "asset:cc8870dce46a89ae8491",
+        "name": "SHR-A1921"
+      },
+      {
+        "position": 11,
+        "asset_id": "asset:7e46ff9cac55621121b6",
+        "name": "T60c injection"
+      },
+      {
+        "position": 12,
+        "asset_id": "asset:c745a7778d72ccd0530f",
+        "name": "Super Hi-TCR-T cells"
+      },
+      {
+        "position": 13,
+        "asset_id": "asset:71c4c66835554a77dee4",
+        "name": "JSKN016HC"
+      },
+      {
+        "position": 14,
+        "asset_id": "asset:d8acad65baca22c63bc4",
+        "name": "TGFBR2 KO iC9/TROP2.CAR/IL-15 NK cells"
+      },
+      {
+        "position": 15,
+        "asset_id": "asset:238fe29ae046e79a2abd",
+        "name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells"
+      },
+      {
+        "position": 16,
+        "asset_id": "asset:7e251ce2a0c8acfe2d6c",
+        "name": "TRODELVY"
+      },
+      {
+        "position": 17,
+        "asset_id": "asset:26203a4710a9a1ef4a66",
+        "name": "[68Ga]Ga-TTP"
+      },
+      {
+        "position": 18,
+        "asset_id": "asset:20c427deaf4630b016e5",
+        "name": "Rescue Medications"
+      },
+      {
+        "position": 19,
+        "asset_id": "asset:5d4d083034e81aa9b191",
+        "name": "Rescue Medication"
+      },
+      {
+        "position": 20,
+        "asset_id": "asset:c5a8f2c8daf746c0683a",
+        "name": "9MW2821"
+      }
+    ]
+  },
+  "H20": {
+    "outcome": "REFUSED",
+    "reason": "blocked: no biological target recognized in the query",
+    "rows": []
+  }
+}

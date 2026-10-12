@@ -1,0 +1,189 @@
+{
+  "excluded_interrupted_runs": [
+    "heldout_h17_v4",
+    "heldout_h18_v4"
+  ],
+  "runs": {
+    "H16": {
+      "directory": "/home/djmann/se_runs/heldout_h16_v4",
+      "files": {
+        "result.json": {
+          "sha256": "e6898356dc64eba983b24949b23b270409aa685fc895041eadf488302b80225b",
+          "bytes": 311817602
+        },
+        "shortlist.json": {
+          "sha256": "8212556efda551ce417e395269029c6c20b08a53227f99401cab21141ac0de59",
+          "bytes": 1899208
+        },
+        "summary.json": {
+          "sha256": "851068240b5d29bc2cf97b449438b9bbca73d9d04d6030a1b0170a0d7c3ad5c0",
+          "bytes": 7793
+        },
+        "run_manifest.json": {
+          "sha256": "8522fb0849506f1e7630f7adfa03b2011ea04b9fd30f98a531e3d69976c075be",
+          "bytes": 922535
+        },
+        "problem.yaml": {
+          "sha256": "46dd7d5e2b112f0432cc53ab26e775252c9bd4ea8858dcd7ce41ed848ce483be",
+          "bytes": 1619
+        },
+        "invocation.json": {
+          "sha256": "08995538911cbf9e0420286c891b1cb7170d1a7f3c01d374b4aa027f0f340af5",
+          "bytes": 440
+        },
+        "reproduce.sh": {
+          "sha256": "31778c441f4a3fb39616800683e17bf9555a77512aa151998e3c7afe53356345",
+          "bytes": 461
+        },
+        "logs/run.log": {
+          "sha256": "92c921229b95f8bcb2287f768e8220ebdc1bf20e0535d35eac4b860ccbc55ce8",
+          "bytes": 1953
+        },
+        "custody/corpus_seal.json": {
+          "sha256": "0514ae85c1de06e0474460e556ee4ffc6e17869658d663ecad041de28682a77b",
+          "bytes": 988
+        },
+        "custody/corpus_manifest.json": {
+          "sha256": "bbac523fedaa34c620bb96d21905daf5187fc7cc4e5038a5a062471cfd27d2ee",
+          "bytes": 72695
+        },
+        "custody/source_health.json": {
+          "sha256": "c09978f44396f688f9716e16a282b25f26ad945e031e8c7690d20a2049461c4d",
+          "bytes": 3659
+        }
+      }
+    },
+    "H17": {
+      "directory": "/home/djmann/se_runs/heldout_h17_v4_rerun1",
+      "files": {
+        "invocation.json": {
+          "sha256": "274842ce459d67ad1cb84f3b4f9faed43e2b1c9b3bd6ed8f252b0aec375515c3",
+          "bytes": 469
+        },
+        "reproduce.sh": {
+          "sha256": "c04fdd0059083ec6401f1684c54c36a812ec19b330d301116a6cee7f6fae8bf3",
+          "bytes": 486
+        },
+        "logs/run.log": {
+          "sha256": "21ca5fd79048095e7a470ec64670a8392523b1ee5cb253e477886ee5fef4b9a2",
+          "bytes": 663
+        }
+      }
+    },
+    "H18": {
+      "directory": "/home/djmann/se_runs/heldout_h18_v4_rerun1",
+      "files": {
+        "result.json": {
+          "sha256": "b29ccb5f94bf95260c9615517e628eb1cc84322b56326696f81dc97afdcc4c57",
+          "bytes": 414132565
+        },
+        "shortlist.json": {
+          "sha256": "883d0ce86d16cd7958b3464dfa35850e23666a0d634da55f04a35e9ed89e62b2",
+          "bytes": 6828330
+        },
+        "summary.json": {
+          "sha256": "216572d237013159ffcfbd3c16e58fe768c72f3e78e1527a57db440118ca4883",
+          "bytes": 7881
+        },
+        "run_manifest.json": {
+          "sha256": "f68a74f92ee467543c7e1d8bd14f2707e6c7732074fd58bab3811fbc3227da8e",
+          "bytes": 1535559
+        },
+        "problem.yaml": {
+          "sha256": "3d3117177526822849bd7c4714ccab81515841886b42f267c6d039d1b5044662",
+          "bytes": 1555
+        },
+        "invocation.json": {
+          "sha256": "6a2bcb5bca05f5929e31f67885873f6c32196792c6d4e4d5d6a46f8f9fdf528c",
+          "bytes": 411
+        },
+        "reproduce.sh": {
+          "sha256": "8debff8a925d309566078776ef4b4b10db519cc3034bcc5335686ac519124f43",
+          "bytes": 446
+        },
+        "logs/run.log": {
+          "sha256": "8035001b6f62e7dbcaf7c505c89c3defc49ac2ea2c72e092980c162004390821",
+          "bytes": 1955
+        },
+        "custody/corpus_seal.json": {
+          "sha256": "8a4702acedf55f4446e2802333ab94686c3c36265c4668eeb873aaa792b1a9fc",
+          "bytes": 992
+        },
+        "custody/corpus_manifest.json": {
+          "sha256": "ac3592d397098dc34c6621bf656b2b1075a502702576a1c8b23c3eab8a1eed7f",
+          "bytes": 181990
+        },
+        "custody/source_health.json": {
+          "sha256": "746a20a00a7094f0f4fae4bb7f0fac55c923835fbd2be4bf9f12230231bc0dae",
+          "bytes": 3663
+        }
+      }
+    },
+    "H19": {
+      "directory": "/home/djmann/se_runs/heldout_h19_v4",
+      "files": {
+        "result.json": {
+          "sha256": "5823bb18cea095dff4ecac2f5557e96ac8feaeb3ffd319cedbb71779d59e33e8",
+          "bytes": 37223930
+        },
+        "shortlist.json": {
+          "sha256": "d6ded7fc74dede0f97e78f26317ae756cafd7a5d41f47fd96073c63fb6d6b5ad",
+          "bytes": 924104
+        },
+        "summary.json": {
+          "sha256": "d9d9dd6454d6da609b826366197b9fe1f7eed81ea4d2a54ff5178d1027626f83",
+          "bytes": 7995
+        },
+        "run_manifest.json": {
+          "sha256": "73dd3762d51e51070d4223afc7fb428cbe1bf92924f928079607833f56d6571d",
+          "bytes": 153066
+        },
+        "problem.yaml": {
+          "sha256": "e37abd764d898027913faecb2f81a757e14444bd3ae7796ef2f7f57c53bed3ae",
+          "bytes": 2120
+        },
+        "invocation.json": {
+          "sha256": "f12453ac673bfb704cc48dfc47a3542d8d529eb340013b757820e2a02059bc92",
+          "bytes": 468
+        },
+        "reproduce.sh": {
+          "sha256": "9069dcceff7ef76ffb2f038dfc49f54819f0e3c08ced1daa37e828177da33619",
+          "bytes": 489
+        },
+        "logs/run.log": {
+          "sha256": "28ff08648c38b3af9a368244d68aacc4a6e8c2f6c507a53b2069ff793fea608a",
+          "bytes": 2030
+        },
+        "custody/corpus_seal.json": {
+          "sha256": "4ed2cff97c9b8414f72ac1de92b2f40f240cc85b8d54e0dfc60e31b78b1764d9",
+          "bytes": 986
+        },
+        "custody/corpus_manifest.json": {
+          "sha256": "38eeced4ee8b077c239995570b4debc49cdf95c143b486268e7af506f057ec2b",
+          "bytes": 16618
+        },
+        "custody/source_health.json": {
+          "sha256": "8739b300ceddda5c35f064baf88655d5c066ace4ef86495f0c72c0dfe19a0e82",
+          "bytes": 3653
+        }
+      }
+    },
+    "H20": {
+      "directory": "/home/djmann/se_runs/heldout_h20_v4",
+      "files": {
+        "invocation.json": {
+          "sha256": "52326b6d8affa3891eb2edb7e597f5e054042b4b57b768f3373bf43cf03d255d",
+          "bytes": 418
+        },
+        "reproduce.sh": {
+          "sha256": "17bd62cd2ee92a2b883ba4dd33ae5fbe1c0f8c1d416065d81c816a2043737273",
+          "bytes": 453
+        },
+        "logs/run.log": {
+          "sha256": "d1aa59099199d3542c243744693a462c27ab6b0737b3663eaf3b59f3efa4165d",
+          "bytes": 695
+        }
+      }
+    }
+  }
+}

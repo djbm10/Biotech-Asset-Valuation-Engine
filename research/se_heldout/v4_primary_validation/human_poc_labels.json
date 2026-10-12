@@ -1,0 +1,37 @@
+{
+  "method": "Frozen v1 row-level numerical human efficacy definition. A row with at least one qualifying cited patient-efficacy passage is supported; model simulations and human cells in vitro do not qualify.",
+  "queries": {
+    "H16": [
+      {
+        "position": 1,
+        "name": "Relatlimab",
+        "false_human_poc": false,
+        "rationale": "One cited passage reports numerical pathological and radiographic response rates in patients receiving nivolumab plus relatlimab. The additional nonnumerical PFS passage alone would not qualify."
+      }
+    ],
+    "H18": [
+      {
+        "position": 1,
+        "name": "Tirzepatide",
+        "false_human_poc": true,
+        "rationale": "Cited passage reports respiration changes in human myotubes in vitro, not efficacy in human patients."
+      },
+      {
+        "position": 2,
+        "name": "survodutide",
+        "false_human_poc": false,
+        "rationale": "Cited passage reports the numerical proportion of treated patients with a liver-fat-content reduction versus placebo."
+      }
+    ],
+    "H19": [
+      {
+        "position": 1,
+        "name": "Sacituzumab Tirumotecan",
+        "false_human_poc": true,
+        "rationale": "Cited passage describes a partitioned-survival cost-effectiveness simulation, not numerical observed human efficacy."
+      }
+    ],
+    "H17": null,
+    "H20": null
+  }
+}

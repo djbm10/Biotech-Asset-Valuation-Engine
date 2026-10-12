@@ -1,0 +1,285 @@
+{
+  "run_id": "se:67a42d3d-3a94-4528-b05c-f86049a74891",
+  "problem_id": "nlq_66d3ea7fff17fe7f",
+  "query": "Find clinical-stage LAG-3 antibodies for melanoma.",
+  "interpretation": [
+    "'clinical-stage' -> EVIDENCE minimum_stage [evidence_clinical_stage_vocabulary]",
+    "'LAG-3' -> TARGET LAG3 [unique_alias_match]",
+    "'antibodies' -> MODALITY MONOCLONAL_ANTIBODY [modality_vocabulary]",
+    "'melanoma' -> RESIDUAL [no_vocabulary_match]"
+  ],
+  "run_status": "INCOMPLETE",
+  "convergence_mode": "LIVE",
+  "convergence_meaning": "LIVE: the seed queries were re-issued to the live sources and produced no new candidates. No local-fixpoint or cache-served mode exists; if one is added it must report its own mode and must not be scored as live convergence.",
+  "incomplete_reasons": [
+    "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_asco, conference_ash, conference_eha, sec_edgar"
+  ],
+  "fatal_reasons": [],
+  "elapsed_seconds": 6697.6,
+  "stages": [
+    {
+      "name": "DISCOVERY",
+      "seconds": 3395.1
+    },
+    {
+      "name": "ACQUISITION",
+      "seconds": 48.2
+    },
+    {
+      "name": "IDENTITY",
+      "seconds": 14.6
+    },
+    {
+      "name": "EXTRACTION",
+      "seconds": 502.3
+    },
+    {
+      "name": "CONSTRUCT_TARGETS",
+      "seconds": 0.2
+    },
+    {
+      "name": "NCIT_TARGETS",
+      "seconds": 1.9
+    },
+    {
+      "name": "TARGET_COMPATIBILITY",
+      "seconds": 0.3
+    },
+    {
+      "name": "LEXICON",
+      "seconds": 3.1
+    },
+    {
+      "name": "HUMAN_POC",
+      "seconds": 2643.2
+    },
+    {
+      "name": "GATING",
+      "seconds": 1.2
+    },
+    {
+      "name": "SCORING",
+      "seconds": 0.0
+    }
+  ],
+  "exit_code": 0,
+  "counts": {
+    "total_candidates": 6025,
+    "eligible": 0,
+    "review": 1133,
+    "excluded": 705,
+    "low_support": 4187,
+    "shown": 20
+  },
+  "blind_spots": [
+    "mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown"
+  ],
+  "sources": [
+    {
+      "family": "clinicaltrials_gov",
+      "outcome": "SUCCESS",
+      "queries": 687
+    },
+    {
+      "family": "company_pipeline_or_presentation",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "company_press_release",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_aacr",
+      "outcome": "SUCCESS",
+      "queries": 687
+    },
+    {
+      "family": "conference_asco",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_ash",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_eha",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "pubmed",
+      "outcome": "SUCCESS",
+      "queries": 687
+    },
+    {
+      "family": "sec_edgar",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    }
+  ],
+  "top": [
+    {
+      "position": 1,
+      "name": "Relatlimab",
+      "asset_id": "asset:80c08086d288d3286dff",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 2,
+      "name": "REGN3767",
+      "asset_id": "asset:03ab9f1973d0606e57d6",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 3,
+      "name": "Tebotelimab",
+      "asset_id": "asset:4a7410c1e2efa9254ee2",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 4,
+      "name": "ieramilimab",
+      "asset_id": "asset:e2ea4a7cef6094657fe0",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 5,
+      "name": "Tuparstobart",
+      "asset_id": "asset:7e1d6d5e4a1cb448e077",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 6,
+      "name": "Alcestobart",
+      "asset_id": "asset:686f4d4a024ed46010b5",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 7,
+      "name": "Favezelimab",
+      "asset_id": "asset:f68af983e29e3518504f",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 8,
+      "name": "Tobemstomig",
+      "asset_id": "asset:f2c5eda8a758b20956e5",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 9,
+      "name": "XmAb22841",
+      "asset_id": "asset:ebfdd24f6ed1ef80f977",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 10,
+      "name": "duvortuxizumab",
+      "asset_id": "asset:68d2cfca7d48830a3706",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 11,
+      "name": "benmelstobart",
+      "asset_id": "asset:6c30246a4fe70d394d69",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 12,
+      "name": "certolizumab",
+      "asset_id": "asset:3a0e2bf17a3e528703ff",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 13,
+      "name": "cilgavimab",
+      "asset_id": "asset:17da7d2071447fc4be9a",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 14,
+      "name": "fanastomig",
+      "asset_id": "asset:76beff6d6624d6b06005",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 15,
+      "name": "gremubamab",
+      "asset_id": "asset:d6f7e2a6d90ffa4f4cfd",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 16,
+      "name": "ivonescimab",
+      "asset_id": "asset:519b1d97611dd80d2d1b",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 17,
+      "name": "linvoseltamab",
+      "asset_id": "asset:1d99c282f25a4947427b",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 18,
+      "name": "netakimab",
+      "asset_id": "asset:56a1932f86a3a993e03a",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 19,
+      "name": "nirsevimab",
+      "asset_id": "asset:b2aea454126231e806f1",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 20,
+      "name": "peresolimab",
+      "asset_id": "asset:db822fae2c2b6704736d",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    }
+  ],
+  "artifacts": {
+    "problem": "problem.yaml",
+    "result": "result.json",
+    "shortlist": "shortlist.txt",
+    "shortlist_json": "shortlist.json",
+    "memo": "memo.md",
+    "run_manifest": "run_manifest.json",
+    "acquisition_ledger": "acquisition_ledger.jsonl",
+    "log": "logs/run.log",
+    "custody": "custody",
+    "reproduce": "reproduce.sh",
+    "invocation": "invocation.json"
+  },
+  "artifact_root": "/home/djmann/se_runs/heldout_h16_v4"
+}

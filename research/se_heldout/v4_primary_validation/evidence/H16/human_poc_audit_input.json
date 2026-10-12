@@ -1,0 +1,66 @@
+{
+  "facts": [
+    {
+      "fact_id": "fact:d75faabc6ce4d3ec289b",
+      "subject_id": "asset:80c08086d288d3286dff",
+      "fact_type": "human_poc_present",
+      "value": true,
+      "unit": null,
+      "supporting_claim_ids": [
+        "claim:c50c60857944c4adf7b3",
+        "claim:f16ad65d46519c39999b"
+      ],
+      "contradicting_claim_ids": [],
+      "confidence": 0.7,
+      "analyst_confirmed": false
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim:c50c60857944c4adf7b3",
+      "subject_id": "asset:80c08086d288d3286dff",
+      "predicate": "human_poc_present",
+      "normalized_value": true,
+      "unit": null,
+      "indication": null,
+      "population": null,
+      "endpoint": "response",
+      "dose": null,
+      "data_cut_date": null,
+      "source_document_id": "document:388608fd35e10192de99",
+      "supporting_passage": "Major pathological (\\u226410% viable tumor cells) and objective radiographic responses were achieved in 27% and 10% (nivolumab) and in 30% and 27% (nivolumab and relatlimab) of patients, respectively.",
+      "locator": "abstract",
+      "direct_observation": true,
+      "extraction_method": "reported_efficacy_sentence",
+      "extractor_version": "human_poc_v4",
+      "extraction_confidence": 0.7,
+      "verification_status": "MACHINE_VERIFIED",
+      "contradicting_claim_ids": [],
+      "supersedes_claim_ids": [],
+      "applicable_as_of_date": "2026-10-11"
+    },
+    {
+      "claim_id": "claim:f16ad65d46519c39999b",
+      "subject_id": "asset:80c08086d288d3286dff",
+      "predicate": "human_poc_present",
+      "normalized_value": true,
+      "unit": null,
+      "indication": null,
+      "population": null,
+      "endpoint": "survival",
+      "dose": null,
+      "data_cut_date": null,
+      "source_document_id": "document:d9a9c52c4051b164440a",
+      "supporting_passage": "Relatlimab, a LAG-3 blocking antibody, was investigated in combination with nivolumab in a phase 2/3 randomized double-blind trial (RELATIVITY-047) and could demonstrate significantly improved progression-free survival in treatment-naive advanced melanoma patients compared with nivolumab monotherapy.",
+      "locator": "abstract",
+      "direct_observation": true,
+      "extraction_method": "reported_efficacy_sentence",
+      "extractor_version": "human_poc_v4",
+      "extraction_confidence": 0.7,
+      "verification_status": "MACHINE_VERIFIED",
+      "contradicting_claim_ids": [],
+      "supersedes_claim_ids": [],
+      "applicable_as_of_date": "2026-10-11"
+    }
+  ]
+}

@@ -1,0 +1,962 @@
+[
+  {
+    "asset_id": "asset:cf362b6bc18a7577433e",
+    "name": "Sacituzumab Tirumotecan",
+    "canonical_name": "Sacituzumab Tirumotecan",
+    "aliases": [
+      "Sacituzumab Tirumotecan",
+      "SKB264",
+      "MK-2870",
+      "Sacituzumab tirumotecan",
+      "sacituzumab tirumotecan",
+      "SKB-264"
+    ]
+  },
+  {
+    "asset_id": "asset:a4e8d5e9526a71ca9926",
+    "name": "Sacituzumab govitecan",
+    "canonical_name": "Sacituzumab govitecan",
+    "aliases": [
+      "Sacituzumab govitecan",
+      "sacituzumab govitecan",
+      "Sacituzumab Govitecan",
+      "IMMU-132",
+      "IMMU 132"
+    ]
+  },
+  {
+    "asset_id": "asset:55156988e1caf7540012",
+    "name": "Izalontamab brengitecan",
+    "canonical_name": "Izalontamab brengitecan",
+    "aliases": [
+      "Izalontamab brengitecan",
+      "izalontamab brengitecan"
+    ]
+  },
+  {
+    "asset_id": "asset:ebb191faef21e4ff891a",
+    "name": "becotatug vedotin",
+    "canonical_name": "becotatug vedotin",
+    "aliases": [
+      "becotatug vedotin"
+    ]
+  },
+  {
+    "asset_id": "asset:4851f243ea1b874fc72c",
+    "name": "BMS-986148",
+    "canonical_name": "BMS-986148",
+    "aliases": [
+      "BMS-986148"
+    ]
+  },
+  {
+    "asset_id": "asset:9eebbd99c1a9aaccbbf6",
+    "name": "Farletuzumab ecteribulin",
+    "canonical_name": "Farletuzumab ecteribulin",
+    "aliases": [
+      "Farletuzumab ecteribulin",
+      "farletuzumab ecteribulin"
+    ]
+  },
+  {
+    "asset_id": "asset:c6b579c637778982425a",
+    "name": "ifinatamab deruxtecan",
+    "canonical_name": "ifinatamab deruxtecan",
+    "aliases": [
+      "ifinatamab deruxtecan",
+      "DS7300A"
+    ]
+  },
+  {
+    "asset_id": "asset:8454195f6696f70f9341",
+    "name": "trastuzumab rezetecan",
+    "canonical_name": "trastuzumab rezetecan",
+    "aliases": [
+      "trastuzumab rezetecan"
+    ]
+  },
+  {
+    "asset_id": "asset:31c594ce16901413184d",
+    "name": "LCB84",
+    "canonical_name": "LCB84",
+    "aliases": [
+      "LCB84"
+    ]
+  },
+  {
+    "asset_id": "asset:cc8870dce46a89ae8491",
+    "name": "SHR-A1921",
+    "canonical_name": "SHR-A1921",
+    "aliases": [
+      "SHR-A1921"
+    ]
+  },
+  {
+    "asset_id": "asset:7e46ff9cac55621121b6",
+    "name": "T60c injection",
+    "canonical_name": "T60c injection",
+    "aliases": [
+      "T60c injection"
+    ]
+  },
+  {
+    "asset_id": "asset:c745a7778d72ccd0530f",
+    "name": "Super Hi-TCR-T cells",
+    "canonical_name": "Super Hi-TCR-T cells",
+    "aliases": [
+      "Super Hi-TCR-T cells"
+    ]
+  },
+  {
+    "asset_id": "asset:71c4c66835554a77dee4",
+    "name": "JSKN016HC",
+    "canonical_name": "JSKN016HC",
+    "aliases": [
+      "JSKN016HC"
+    ]
+  },
+  {
+    "asset_id": "asset:d8acad65baca22c63bc4",
+    "name": "TGFBR2 KO iC9/TROP2.CAR/IL-15 NK cells",
+    "canonical_name": "TGFBR2 KO iC9/TROP2.CAR/IL-15 NK cells",
+    "aliases": [
+      "TGFBR2 KO iC9/TROP2.CAR/IL-15 NK cells"
+    ]
+  },
+  {
+    "asset_id": "asset:238fe29ae046e79a2abd",
+    "name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells",
+    "canonical_name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells",
+    "aliases": [
+      "TROP2 CAR/IL-15 TGFBR2 KO NK cells"
+    ]
+  },
+  {
+    "asset_id": "asset:7e251ce2a0c8acfe2d6c",
+    "name": "TRODELVY",
+    "canonical_name": "TRODELVY",
+    "aliases": [
+      "TRODELVY",
+      "Trodelvy"
+    ]
+  },
+  {
+    "asset_id": "asset:26203a4710a9a1ef4a66",
+    "name": "[68Ga]Ga-TTP",
+    "canonical_name": "[68Ga]Ga-TTP",
+    "aliases": [
+      "[68Ga]Ga-TTP"
+    ]
+  },
+  {
+    "asset_id": "asset:20c427deaf4630b016e5",
+    "name": "Rescue Medications",
+    "canonical_name": "Rescue Medications",
+    "aliases": [
+      "Rescue Medications",
+      "Rescue medications"
+    ]
+  },
+  {
+    "asset_id": "asset:5d4d083034e81aa9b191",
+    "name": "Rescue Medication",
+    "canonical_name": "Rescue Medication",
+    "aliases": [
+      "Rescue Medication"
+    ]
+  },
+  {
+    "asset_id": "asset:c5a8f2c8daf746c0683a",
+    "name": "9MW2821",
+    "canonical_name": "9MW2821",
+    "aliases": [
+      "9MW2821"
+    ]
+  },
+  {
+    "asset_id": "asset:7d984b65aa8106b99511",
+    "name": "AK146D1 for injection",
+    "canonical_name": "AK146D1 for injection",
+    "aliases": [
+      "AK146D1 for injection"
+    ]
+  },
+  {
+    "asset_id": "asset:ad888aa99de8baa6baaa",
+    "name": "B1: TROP2 ADC",
+    "canonical_name": "B1: TROP2 ADC",
+    "aliases": [
+      "B1: TROP2 ADC"
+    ]
+  },
+  {
+    "asset_id": "asset:5e90ca42d1e0d51e50b2",
+    "name": "Becotatug vedotin (MRG003)",
+    "canonical_name": "Becotatug vedotin (MRG003)",
+    "aliases": [
+      "Becotatug vedotin (MRG003)"
+    ]
+  },
+  {
+    "asset_id": "asset:c1ca89fccbaf7df29026",
+    "name": "BIO-106",
+    "canonical_name": "BIO-106",
+    "aliases": [
+      "BIO-106"
+    ]
+  },
+  {
+    "asset_id": "asset:9be3cda4f25f86671734",
+    "name": "BP102",
+    "canonical_name": "BP102",
+    "aliases": [
+      "BP102"
+    ]
+  },
+  {
+    "asset_id": "asset:99243d6cc202f24d6897",
+    "name": "D1: TROP2 ADC",
+    "canonical_name": "D1: TROP2 ADC",
+    "aliases": [
+      "D1: TROP2 ADC"
+    ]
+  },
+  {
+    "asset_id": "asset:ef802c6982491675bc10",
+    "name": "D1:SG with VEGFRI",
+    "canonical_name": "D1:SG with VEGFRI",
+    "aliases": [
+      "D1:SG with VEGFRI"
+    ]
+  },
+  {
+    "asset_id": "asset:85d3cde17de194a47f7d",
+    "name": "F1: TROP2 ADC",
+    "canonical_name": "F1: TROP2 ADC",
+    "aliases": [
+      "F1: TROP2 ADC"
+    ]
+  },
+  {
+    "asset_id": "asset:ee636c50432de1cb895f",
+    "name": "H1: TROP2 ADC",
+    "canonical_name": "H1: TROP2 ADC",
+    "aliases": [
+      "H1: TROP2 ADC"
+    ]
+  },
+  {
+    "asset_id": "asset:9396bdbd0c07ed905a11",
+    "name": "HS-20105",
+    "canonical_name": "HS-20105",
+    "aliases": [
+      "HS-20105"
+    ]
+  },
+  {
+    "asset_id": "asset:fa539983fc7aa448dac9",
+    "name": "MY6349",
+    "canonical_name": "MY6349",
+    "aliases": [
+      "MY6349"
+    ]
+  },
+  {
+    "asset_id": "asset:2079d39d2ed102e72fc2",
+    "name": "QLC5513",
+    "canonical_name": "QLC5513",
+    "aliases": [
+      "QLC5513"
+    ]
+  },
+  {
+    "asset_id": "asset:e91488b1a44a81256694",
+    "name": "QLC5513+QL1706",
+    "canonical_name": "QLC5513+QL1706",
+    "aliases": [
+      "QLC5513+QL1706"
+    ]
+  },
+  {
+    "asset_id": "asset:e8e60db9c01f677e6ed6",
+    "name": "Sacituzumab Tirumotecan (SKB264)",
+    "canonical_name": "Sacituzumab Tirumotecan (SKB264)",
+    "aliases": [
+      "Sacituzumab Tirumotecan (SKB264)"
+    ]
+  },
+  {
+    "asset_id": "asset:82040487b80b9d527a3c",
+    "name": "Sacituzumab Tirumotecan and Anlotinib",
+    "canonical_name": "Sacituzumab Tirumotecan and Anlotinib",
+    "aliases": [
+      "Sacituzumab Tirumotecan and Anlotinib"
+    ]
+  },
+  {
+    "asset_id": "asset:a0c36dd3c43f64a4d88b",
+    "name": "Tagitanlimab",
+    "canonical_name": "Tagitanlimab",
+    "aliases": [
+      "Tagitanlimab",
+      "tagitanlimab"
+    ]
+  },
+  {
+    "asset_id": "asset:ab3c9cd46134d3714ad4",
+    "name": "TQB2102 with TQB2868",
+    "canonical_name": "TQB2102 with TQB2868",
+    "aliases": [
+      "TQB2102 with TQB2868"
+    ]
+  },
+  {
+    "asset_id": "asset:2e82409f4bc1c8db8984",
+    "name": "VBC103",
+    "canonical_name": "VBC103",
+    "aliases": [
+      "VBC103"
+    ]
+  },
+  {
+    "asset_id": "asset:dfac5903a01f0e57abf7",
+    "name": "YL202",
+    "canonical_name": "YL202",
+    "aliases": [
+      "YL202"
+    ]
+  },
+  {
+    "asset_id": "asset:4db87977a84553bcbf34",
+    "name": "HER2,trastuzumab deruxtecan\u00b1 pertuzumab",
+    "canonical_name": "HER2,trastuzumab deruxtecan\u00b1 pertuzumab",
+    "aliases": [
+      "HER2,trastuzumab deruxtecan\u00b1 pertuzumab"
+    ]
+  },
+  {
+    "asset_id": "asset:7bd89b3a1051652e778b",
+    "name": "Sac-TMT",
+    "canonical_name": "Sac-TMT",
+    "aliases": [
+      "Sac-TMT"
+    ]
+  },
+  {
+    "asset_id": "asset:316d711d3d911541841f",
+    "name": "BAT8008",
+    "canonical_name": "BAT8008",
+    "aliases": [
+      "BAT8008"
+    ]
+  },
+  {
+    "asset_id": "asset:cbbcbcb6442ca796ccc2",
+    "name": "FDA018",
+    "canonical_name": "FDA018",
+    "aliases": [
+      "FDA018"
+    ]
+  },
+  {
+    "asset_id": "asset:df0b23613e170e339595",
+    "name": "JS108",
+    "canonical_name": "JS108",
+    "aliases": [
+      "JS108"
+    ]
+  },
+  {
+    "asset_id": "asset:12572b8b25de61f0dae5",
+    "name": "JSKN016",
+    "canonical_name": "JSKN016",
+    "aliases": [
+      "JSKN016"
+    ]
+  },
+  {
+    "asset_id": "asset:9f351172d6d4f962a709",
+    "name": "KH815",
+    "canonical_name": "KH815",
+    "aliases": [
+      "KH815"
+    ]
+  },
+  {
+    "asset_id": "asset:d0279f8687a7c4216c9d",
+    "name": "MT-302",
+    "canonical_name": "MT-302",
+    "aliases": [
+      "MT-302"
+    ]
+  },
+  {
+    "asset_id": "asset:7695aed13330ec84783c",
+    "name": "STI-3258",
+    "canonical_name": "STI-3258",
+    "aliases": [
+      "STI-3258"
+    ]
+  },
+  {
+    "asset_id": "asset:95293f407bf91209acd5",
+    "name": "Sacituzumab Tirumotecan (SKB264) plus Tislelizumab",
+    "canonical_name": "Sacituzumab Tirumotecan (SKB264) plus Tislelizumab",
+    "aliases": [
+      "Sacituzumab Tirumotecan (SKB264) plus Tislelizumab"
+    ]
+  },
+  {
+    "asset_id": "asset:2cbdac35ac1f9ff8e746",
+    "name": "vehicle",
+    "canonical_name": "vehicle",
+    "aliases": [
+      "vehicle"
+    ]
+  },
+  {
+    "asset_id": "asset:4c787b1c415068cf1cdb",
+    "name": "radioiodine",
+    "canonical_name": "radioiodine",
+    "aliases": [
+      "radioiodine",
+      "Radioiodine"
+    ]
+  },
+  {
+    "asset_id": "asset:18e7e57a3537ffa43184",
+    "name": "amino acids",
+    "canonical_name": "amino acids",
+    "aliases": [
+      "amino acids"
+    ]
+  },
+  {
+    "asset_id": "asset:85765df6dea8d83f2a01",
+    "name": "MEDI4276",
+    "canonical_name": "MEDI4276",
+    "aliases": [
+      "MEDI4276"
+    ]
+  },
+  {
+    "asset_id": "asset:474bc1fa1bfce8c23638",
+    "name": "tuberculin",
+    "canonical_name": "tuberculin",
+    "aliases": [
+      "tuberculin"
+    ]
+  },
+  {
+    "asset_id": "asset:4c529ceedd0fbe7599cf",
+    "name": "Sacituzumab tirumotecan combined with envafolimab",
+    "canonical_name": "Sacituzumab tirumotecan combined with envafolimab",
+    "aliases": [
+      "Sacituzumab tirumotecan combined with envafolimab"
+    ]
+  },
+  {
+    "asset_id": "asset:1af158be8a5d9809bbf0",
+    "name": "carboplatin",
+    "canonical_name": "carboplatin",
+    "aliases": [
+      "carboplatin",
+      "Carboplatin"
+    ]
+  },
+  {
+    "asset_id": "asset:c5cfc1694cde4e732efb",
+    "name": "Sacituzumab",
+    "canonical_name": "Sacituzumab",
+    "aliases": [
+      "Sacituzumab",
+      "sacituzumab"
+    ]
+  },
+  {
+    "asset_id": "asset:db9dd7043f9008f17d5d",
+    "name": "Fludarabine",
+    "canonical_name": "Fludarabine",
+    "aliases": [
+      "Fludarabine"
+    ]
+  },
+  {
+    "asset_id": "asset:faabc65d0def8431ada8",
+    "name": "Datopotamab",
+    "canonical_name": "Datopotamab",
+    "aliases": [
+      "Datopotamab",
+      "datopotamab"
+    ]
+  },
+  {
+    "asset_id": "asset:099482deb9299b52a556",
+    "name": "bromide",
+    "canonical_name": "bromide",
+    "aliases": [
+      "bromide"
+    ]
+  },
+  {
+    "asset_id": "asset:6fdbb55dfa1f476a72b5",
+    "name": "chromium",
+    "canonical_name": "chromium",
+    "aliases": [
+      "chromium"
+    ]
+  },
+  {
+    "asset_id": "asset:a16205a00f8be501e503",
+    "name": "Loncastuximab",
+    "canonical_name": "Loncastuximab",
+    "aliases": [
+      "Loncastuximab"
+    ]
+  },
+  {
+    "asset_id": "asset:0a201cc607dd0d902988",
+    "name": "maleimide",
+    "canonical_name": "maleimide",
+    "aliases": [
+      "maleimide",
+      "Maleimide"
+    ]
+  },
+  {
+    "asset_id": "asset:1d27c32ff20ae917ffa1",
+    "name": "acetonitrile",
+    "canonical_name": "acetonitrile",
+    "aliases": [
+      "acetonitrile"
+    ]
+  },
+  {
+    "asset_id": "asset:69a60cc7ff0c161b3ee9",
+    "name": "amobarbital sodium",
+    "canonical_name": "amobarbital sodium",
+    "aliases": [
+      "amobarbital sodium"
+    ]
+  },
+  {
+    "asset_id": "asset:a2f688dc2686f3839afd",
+    "name": "artesunate",
+    "canonical_name": "artesunate",
+    "aliases": [
+      "artesunate"
+    ]
+  },
+  {
+    "asset_id": "asset:6c30246a4fe70d394d69",
+    "name": "benmelstobart",
+    "canonical_name": "benmelstobart",
+    "aliases": [
+      "benmelstobart",
+      "Benmelstobart"
+    ]
+  },
+  {
+    "asset_id": "asset:f609957684d8fb339f41",
+    "name": "camostat",
+    "canonical_name": "camostat",
+    "aliases": [
+      "camostat"
+    ]
+  },
+  {
+    "asset_id": "asset:272ee9b5a235bae24b24",
+    "name": "camptothecin",
+    "canonical_name": "camptothecin",
+    "aliases": [
+      "camptothecin"
+    ]
+  },
+  {
+    "asset_id": "asset:bd806274a9323352150d",
+    "name": "caspofungin",
+    "canonical_name": "caspofungin",
+    "aliases": [
+      "caspofungin"
+    ]
+  },
+  {
+    "asset_id": "asset:578e458efa4f1161e20d",
+    "name": "cefoperazone",
+    "canonical_name": "cefoperazone",
+    "aliases": [
+      "cefoperazone"
+    ]
+  },
+  {
+    "asset_id": "asset:094bc0694edf0ffe6dce",
+    "name": "chlorhexidine",
+    "canonical_name": "chlorhexidine",
+    "aliases": [
+      "chlorhexidine"
+    ]
+  },
+  {
+    "asset_id": "asset:e34990bec041889b506c",
+    "name": "chloroquine",
+    "canonical_name": "chloroquine",
+    "aliases": [
+      "chloroquine"
+    ]
+  },
+  {
+    "asset_id": "asset:2ee7dcd1f258492fe2bd",
+    "name": "creatinine",
+    "canonical_name": "creatinine",
+    "aliases": [
+      "creatinine"
+    ]
+  },
+  {
+    "asset_id": "asset:46b83076a89e023e7964",
+    "name": "Curcumin",
+    "canonical_name": "Curcumin",
+    "aliases": [
+      "Curcumin",
+      "curcumin"
+    ]
+  },
+  {
+    "asset_id": "asset:e28592c2bc2b5c66f43e",
+    "name": "cyclophosphamide",
+    "canonical_name": "cyclophosphamide",
+    "aliases": [
+      "cyclophosphamide"
+    ]
+  },
+  {
+    "asset_id": "asset:6c9f59b04896d99c6d84",
+    "name": "dalpiciclib",
+    "canonical_name": "dalpiciclib",
+    "aliases": [
+      "dalpiciclib"
+    ]
+  },
+  {
+    "asset_id": "asset:37a5b1deed7eefa7a30e",
+    "name": "deruxtecan",
+    "canonical_name": "deruxtecan",
+    "aliases": [
+      "deruxtecan"
+    ]
+  },
+  {
+    "asset_id": "asset:29a58266b7b782f2aace",
+    "name": "dextrose",
+    "canonical_name": "dextrose",
+    "aliases": [
+      "dextrose"
+    ]
+  },
+  {
+    "asset_id": "asset:d713df28c7eda681a76c",
+    "name": "dordaviprone",
+    "canonical_name": "dordaviprone",
+    "aliases": [
+      "dordaviprone"
+    ]
+  },
+  {
+    "asset_id": "asset:a2cac070fc8700e73fca",
+    "name": "ecdysone",
+    "canonical_name": "ecdysone",
+    "aliases": [
+      "ecdysone",
+      "Ecdysone"
+    ]
+  },
+  {
+    "asset_id": "asset:5e81240e436f94699dd7",
+    "name": "entecavir",
+    "canonical_name": "entecavir",
+    "aliases": [
+      "entecavir"
+    ]
+  },
+  {
+    "asset_id": "asset:05bae376d63dbec79671",
+    "name": "eosin",
+    "canonical_name": "eosin",
+    "aliases": [
+      "eosin"
+    ]
+  },
+  {
+    "asset_id": "asset:451f42584c754005f18e",
+    "name": "esculin",
+    "canonical_name": "esculin",
+    "aliases": [
+      "esculin"
+    ]
+  },
+  {
+    "asset_id": "asset:5cc1e02717c5ad4b7d53",
+    "name": "Fluoride",
+    "canonical_name": "Fluoride",
+    "aliases": [
+      "Fluoride",
+      "fluoride"
+    ]
+  },
+  {
+    "asset_id": "asset:06a33a949eb0b724aa30",
+    "name": "fluoroestradiol",
+    "canonical_name": "fluoroestradiol",
+    "aliases": [
+      "fluoroestradiol"
+    ]
+  },
+  {
+    "asset_id": "asset:5720b8a57ae42f5061f7",
+    "name": "hematoxylin",
+    "canonical_name": "hematoxylin",
+    "aliases": [
+      "hematoxylin"
+    ]
+  },
+  {
+    "asset_id": "asset:fa49c58c43a98126da44",
+    "name": "honokiol",
+    "canonical_name": "honokiol",
+    "aliases": [
+      "honokiol"
+    ]
+  },
+  {
+    "asset_id": "asset:5695d13e32404c7eb410",
+    "name": "iodine",
+    "canonical_name": "iodine",
+    "aliases": [
+      "iodine"
+    ]
+  },
+  {
+    "asset_id": "asset:464f3024d97d7267b16f",
+    "name": "leucovorin",
+    "canonical_name": "leucovorin",
+    "aliases": [
+      "leucovorin"
+    ]
+  },
+  {
+    "asset_id": "asset:76e573eb53daff3bf921",
+    "name": "levofloxacin",
+    "canonical_name": "levofloxacin",
+    "aliases": [
+      "levofloxacin"
+    ]
+  },
+  {
+    "asset_id": "asset:baed3c23a715a4f682e5",
+    "name": "lifileucel",
+    "canonical_name": "lifileucel",
+    "aliases": [
+      "lifileucel"
+    ]
+  },
+  {
+    "asset_id": "asset:1d99c282f25a4947427b",
+    "name": "linvoseltamab",
+    "canonical_name": "linvoseltamab",
+    "aliases": [
+      "linvoseltamab"
+    ]
+  },
+  {
+    "asset_id": "asset:047a79f0b732cf7f4aac",
+    "name": "lobaplatin",
+    "canonical_name": "lobaplatin",
+    "aliases": [
+      "lobaplatin"
+    ]
+  },
+  {
+    "asset_id": "asset:fb2ae8aa3ac8ea5a490f",
+    "name": "lurbinectedin",
+    "canonical_name": "lurbinectedin",
+    "aliases": [
+      "lurbinectedin"
+    ]
+  },
+  {
+    "asset_id": "asset:2c339e5b8f46b4402aa2",
+    "name": "Mannitol",
+    "canonical_name": "Mannitol",
+    "aliases": [
+      "Mannitol"
+    ]
+  },
+  {
+    "asset_id": "asset:9aa4fd3af8833fa18bd1",
+    "name": "melphalan",
+    "canonical_name": "melphalan",
+    "aliases": [
+      "melphalan"
+    ]
+  },
+  {
+    "asset_id": "asset:0c5a704ee9f271f6d7d0",
+    "name": "nafamostat",
+    "canonical_name": "nafamostat",
+    "aliases": [
+      "nafamostat"
+    ]
+  },
+  {
+    "asset_id": "asset:a0b844b89a66914203e2",
+    "name": "nedaplatin",
+    "canonical_name": "nedaplatin",
+    "aliases": [
+      "nedaplatin"
+    ]
+  },
+  {
+    "asset_id": "asset:744a31b41aa51a9c8dbe",
+    "name": "nelfinavir",
+    "canonical_name": "nelfinavir",
+    "aliases": [
+      "nelfinavir"
+    ]
+  },
+  {
+    "asset_id": "asset:bfce0a2081f2a6e71633",
+    "name": "niclosamide",
+    "canonical_name": "niclosamide",
+    "aliases": [
+      "niclosamide"
+    ]
+  },
+  {
+    "asset_id": "asset:f649eab7be33e10357a7",
+    "name": "oxaliplatin",
+    "canonical_name": "oxaliplatin",
+    "aliases": [
+      "oxaliplatin"
+    ]
+  },
+  {
+    "asset_id": "asset:88461acea68bb6e1cfa8",
+    "name": "PARPi",
+    "canonical_name": "PARPi",
+    "aliases": [
+      "PARPi"
+    ]
+  },
+  {
+    "asset_id": "asset:1939fdfa8fd58fb41f2d",
+    "name": "petosemtamab",
+    "canonical_name": "petosemtamab",
+    "aliases": [
+      "petosemtamab"
+    ]
+  },
+  {
+    "asset_id": "asset:5f5c592c7c83ee6ff63a",
+    "name": "Potassium bromate",
+    "canonical_name": "Potassium bromate",
+    "aliases": [
+      "Potassium bromate"
+    ]
+  },
+  {
+    "asset_id": "asset:d2ae54614834fd5bbf96",
+    "name": "propidium",
+    "canonical_name": "propidium",
+    "aliases": [
+      "propidium"
+    ]
+  },
+  {
+    "asset_id": "asset:cee07784410345749066",
+    "name": "PSMA-617",
+    "canonical_name": "PSMA-617",
+    "aliases": [
+      "PSMA-617"
+    ]
+  },
+  {
+    "asset_id": "asset:f00a4fbf22446a56d5a6",
+    "name": "REGN5093",
+    "canonical_name": "REGN5093",
+    "aliases": [
+      "REGN5093"
+    ]
+  },
+  {
+    "asset_id": "asset:05883731dd7567911599",
+    "name": "SHR-1701",
+    "canonical_name": "SHR-1701",
+    "aliases": [
+      "SHR-1701"
+    ]
+  },
+  {
+    "asset_id": "asset:3884cdc1190320590e6e",
+    "name": "staurosporine",
+    "canonical_name": "staurosporine",
+    "aliases": [
+      "staurosporine"
+    ]
+  },
+  {
+    "asset_id": "asset:d02cb6fe16e083026a16",
+    "name": "sunvozertinib",
+    "canonical_name": "sunvozertinib",
+    "aliases": [
+      "sunvozertinib"
+    ]
+  },
+  {
+    "asset_id": "asset:6a0bf22e986e080c7613",
+    "name": "Tamnorzatinib",
+    "canonical_name": "Tamnorzatinib",
+    "aliases": [
+      "Tamnorzatinib"
+    ]
+  },
+  {
+    "asset_id": "asset:837f689a32f70a02c654",
+    "name": "tecotabart vedotin",
+    "canonical_name": "tecotabart vedotin",
+    "aliases": [
+      "tecotabart vedotin"
+    ]
+  },
+  {
+    "asset_id": "asset:7ae86a756cb12a9c1574",
+    "name": "tolinapant",
+    "canonical_name": "tolinapant",
+    "aliases": [
+      "tolinapant"
+    ]
+  },
+  {
+    "asset_id": "asset:b209b141f4774f8fac07",
+    "name": "vedotin",
+    "canonical_name": "vedotin",
+    "aliases": [
+      "vedotin"
+    ]
+  },
+  {
+    "asset_id": "asset:3bfa2e9b1416aff4c04f",
+    "name": "Volrustomig",
+    "canonical_name": "Volrustomig",
+    "aliases": [
+      "Volrustomig"
+    ]
+  },
+  {
+    "asset_id": "asset:0881ea9bed00015f1ae6",
+    "name": "water",
+    "canonical_name": "water",
+    "aliases": [
+      "water"
+    ]
+  }
+]

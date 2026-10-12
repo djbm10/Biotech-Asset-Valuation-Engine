@@ -1,0 +1,118 @@
+{
+  "fatal_reasons": [],
+  "incomplete_reasons": [
+    "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_asco, conference_ash, conference_eha, sec_edgar"
+  ],
+  "known_blind_spots": [
+    "mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown"
+  ],
+  "run_id": "se:109744f7-2e6a-441f-b3c1-e6a063097401",
+  "run_status": "INCOMPLETE",
+  "schema_version": "se_discovery_source_health_v1",
+  "sources": [
+    {
+      "attempts": 91,
+      "failed_attempts": 0,
+      "mandatory": true,
+      "records": 162,
+      "retried_queries": 0,
+      "semantic_queries": 87,
+      "snapshots": 162,
+      "source": "clinicaltrials_gov",
+      "status": "SUCCESS"
+    },
+    {
+      "attempts": 1,
+      "failed_attempts": 1,
+      "mandatory": true,
+      "records": 0,
+      "retried_queries": 0,
+      "semantic_queries": 1,
+      "snapshots": 0,
+      "source": "company_pipeline_or_presentation",
+      "status": "NOT_CONFIGURED"
+    },
+    {
+      "attempts": 1,
+      "failed_attempts": 1,
+      "mandatory": true,
+      "records": 0,
+      "retried_queries": 0,
+      "semantic_queries": 1,
+      "snapshots": 0,
+      "source": "company_press_release",
+      "status": "NOT_CONFIGURED"
+    },
+    {
+      "attempts": 91,
+      "failed_attempts": 0,
+      "mandatory": true,
+      "records": 0,
+      "retried_queries": 0,
+      "semantic_queries": 87,
+      "snapshots": 0,
+      "source": "conference_aacr",
+      "status": "SUCCESS"
+    },
+    {
+      "attempts": 1,
+      "failed_attempts": 1,
+      "mandatory": true,
+      "records": 0,
+      "retried_queries": 0,
+      "semantic_queries": 1,
+      "snapshots": 0,
+      "source": "conference_asco",
+      "status": "NOT_CONFIGURED"
+    },
+    {
+      "attempts": 1,
+      "failed_attempts": 1,
+      "mandatory": true,
+      "records": 0,
+      "retried_queries": 0,
+      "semantic_queries": 1,
+      "snapshots": 0,
+      "source": "conference_ash",
+      "status": "NOT_CONFIGURED"
+    },
+    {
+      "attempts": 1,
+      "failed_attempts": 1,
+      "mandatory": true,
+      "records": 0,
+      "retried_queries": 0,
+      "semantic_queries": 1,
+      "snapshots": 0,
+      "source": "conference_eha",
+      "status": "NOT_CONFIGURED"
+    },
+    {
+      "attempts": 92,
+      "failed_attempts": 1,
+      "mandatory": false,
+      "records": 1293,
+      "retried_queries": 1,
+      "semantic_queries": 87,
+      "snapshots": 1293,
+      "source": "pubmed",
+      "status": "SUCCESS"
+    },
+    {
+      "attempts": 1,
+      "failed_attempts": 1,
+      "mandatory": true,
+      "records": 0,
+      "retried_queries": 0,
+      "semantic_queries": 1,
+      "snapshots": 0,
+      "source": "sec_edgar",
+      "status": "NOT_CONFIGURED"
+    }
+  ]
+}

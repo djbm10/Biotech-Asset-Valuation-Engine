@@ -1,0 +1,23 @@
+{
+  "attempt_count": 280,
+  "file_hashes": {
+    "acquisition_ledger.jsonl": "9784b2844e2b0ad430117c0ee91934771958fd5b9c6c5bd606eaf26cc82a6d17",
+    "corpus_manifest.json": "38eeced4ee8b077c239995570b4debc49cdf95c143b486268e7af506f057ec2b",
+    "query_attempts.jsonl": "9e5560eeba6996732e254b7f09055cd47e8f9a94aa5ab789a6269398593a6590",
+    "query_record_map.jsonl": "b3e26f38e8c99918b3fa196b635aaf0aaf13cacfcb90f1ac9bc5eb278d24ea13",
+    "source_health.json": "8739b300ceddda5c35f064baf88655d5c066ace4ef86495f0c72c0dfe19a0e82"
+  },
+  "orphan_record_count": 0,
+  "record_count": 1455,
+  "run_id": "se:109744f7-2e6a-441f-b3c1-e6a063097401",
+  "schema_version": "se_acquisition_custody_v1",
+  "sealed_at": "2026-10-12T00:13:29.745998Z",
+  "semantic_query_count": 267,
+  "snapshot_count": 1455,
+  "source_counts": {
+    "clinicaltrials_gov": 162,
+    "pubmed": 1293
+  },
+  "universe_hash": "62b055ad21a08f578b38d2cf60adaf509ec655a783fde6e67d17f55f6432b983",
+  "withheld_record_count": 0
+}

@@ -1,0 +1,78 @@
+{
+  "facts": [
+    {
+      "fact_id": "fact:59c129862be679504adf",
+      "subject_id": "asset:8866bafec6e43f4b49da",
+      "fact_type": "human_poc_present",
+      "value": true,
+      "unit": null,
+      "supporting_claim_ids": [
+        "claim:9954996062248331a551"
+      ],
+      "contradicting_claim_ids": [],
+      "confidence": 0.7,
+      "analyst_confirmed": false
+    },
+    {
+      "fact_id": "fact:e1158066d99359b5faa5",
+      "subject_id": "asset:42f1832f56f4f84d75f0",
+      "fact_type": "human_poc_present",
+      "value": true,
+      "unit": null,
+      "supporting_claim_ids": [
+        "claim:13f922afecbd81303713"
+      ],
+      "contradicting_claim_ids": [],
+      "confidence": 0.7,
+      "analyst_confirmed": false
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim:9954996062248331a551",
+      "subject_id": "asset:8866bafec6e43f4b49da",
+      "predicate": "human_poc_present",
+      "normalized_value": true,
+      "unit": null,
+      "indication": null,
+      "population": null,
+      "endpoint": "response",
+      "dose": null,
+      "data_cut_date": null,
+      "source_document_id": "document:418164beb4847cf370ca",
+      "supporting_passage": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (\\u219330%-62%, p\\u2009<\\u20090.05) at 48\\u2009h and a significant improvement in maximal respiration for tirzepatide at 5\\u2009days (\\u219142%-52%, p\\u2009=\\u20090.0022).",
+      "locator": "abstract",
+      "direct_observation": true,
+      "extraction_method": "reported_efficacy_sentence",
+      "extractor_version": "human_poc_v4",
+      "extraction_confidence": 0.7,
+      "verification_status": "MACHINE_VERIFIED",
+      "contradicting_claim_ids": [],
+      "supersedes_claim_ids": [],
+      "applicable_as_of_date": "2026-10-11"
+    },
+    {
+      "claim_id": "claim:13f922afecbd81303713",
+      "subject_id": "asset:42f1832f56f4f84d75f0",
+      "predicate": "human_poc_present",
+      "normalized_value": true,
+      "unit": null,
+      "indication": null,
+      "population": null,
+      "endpoint": "efficacy",
+      "dose": null,
+      "data_cut_date": null,
+      "source_document_id": "document:3b382f38ef1b4f0ce073",
+      "supporting_passage": "In total, 84.2% of survodutide-treated patients versus 24.3% of placebo-treated patients had \\u226530% reduction in LFC using the efficacy estimand (P\\u2009<\\u20090.0001;",
+      "locator": "abstract",
+      "direct_observation": true,
+      "extraction_method": "reported_efficacy_sentence",
+      "extractor_version": "human_poc_v4",
+      "extraction_confidence": 0.7,
+      "verification_status": "MACHINE_VERIFIED",
+      "contradicting_claim_ids": [],
+      "supersedes_claim_ids": [],
+      "applicable_as_of_date": "2026-10-11"
+    }
+  ]
+}

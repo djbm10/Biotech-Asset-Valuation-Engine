@@ -1,0 +1,42 @@
+{
+  "facts": [
+    {
+      "fact_id": "fact:0ae877f8817ff5660e50",
+      "subject_id": "asset:cf362b6bc18a7577433e",
+      "fact_type": "human_poc_present",
+      "value": true,
+      "unit": null,
+      "supporting_claim_ids": [
+        "claim:6c5b35e2a5871015f940"
+      ],
+      "contradicting_claim_ids": [],
+      "confidence": 0.7,
+      "analyst_confirmed": false
+    }
+  ],
+  "claims": [
+    {
+      "claim_id": "claim:6c5b35e2a5871015f940",
+      "subject_id": "asset:cf362b6bc18a7577433e",
+      "predicate": "human_poc_present",
+      "normalized_value": true,
+      "unit": null,
+      "indication": null,
+      "population": null,
+      "endpoint": "survival",
+      "dose": null,
+      "data_cut_date": null,
+      "source_document_id": "document:925c92a7331c6271d9f8",
+      "supporting_passage": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+      "locator": "abstract",
+      "direct_observation": true,
+      "extraction_method": "reported_efficacy_sentence",
+      "extractor_version": "human_poc_v4",
+      "extraction_confidence": 0.7,
+      "verification_status": "MACHINE_VERIFIED",
+      "contradicting_claim_ids": [],
+      "supersedes_claim_ids": [],
+      "applicable_as_of_date": "2026-10-11"
+    }
+  ]
+}

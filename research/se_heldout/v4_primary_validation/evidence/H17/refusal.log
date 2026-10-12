@@ -1,0 +1,12 @@
+query: 'Find clinical-stage anti-IL-4Rα antibodies for atopic dermatitis.'
+  'clinical-stage' -> EVIDENCE minimum_stage [evidence_clinical_stage_vocabulary]
+  'IL-4Rα' -> RESIDUAL [no_vocabulary_match]
+  'antibodies' -> MODALITY MONOCLONAL_ANTIBODY [modality_vocabulary]
+  'atopic' -> RESIDUAL [no_vocabulary_match]
+  'dermatitis' -> RESIDUAL [no_vocabulary_match]
+  target constraint: none
+  modality constraint: MONOCLONAL_ANTIBODY
+  phase constraint: none
+  evidence floor: minimum_stage=PHASE_1
+  warning: unrecognized terms carried as free text, not as resolved criteria: IL-4Rα, atopic, dermatitis
+  blocked: no biological target recognized in the query

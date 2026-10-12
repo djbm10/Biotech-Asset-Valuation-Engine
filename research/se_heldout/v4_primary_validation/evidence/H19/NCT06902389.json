@@ -1,0 +1,203 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "interventionNames": [
+          "Biological: Super Hi-TCR-T cells"
+        ],
+        "label": "Hi-TCR-T Cell Therapy Group",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Hi-TCR-T Cell Therapy Group"
+        ],
+        "description": "Intravenous infusion of 3.0\u00d710\u2076 cells/kg of Super Hi-TCR-T cells targeting Nectin4, NKG2DL, TROP2, B7H3, GPC3, and FAP.\n\nThe expression levels of Nectin4, NKG2DL, TROP2, B7H3, GPC3 and FAP were detected by immunohistochemistry. Meanwhile, 20ml peripheral blood was extracted to evaluate the quality of T cells. Patients with positive expression rates of at least 2 targets (excluding FAP) \\>10% and qualified T cell quality could be considered for inclusion.\n\nPeripheral blood lymphocytes were collected and Hi-TCR-T cells targeting three targets (including FAP) were prepared. After pretreatment with fludarabine + cyclophosphamide chemotherapy (FC regimen), the prepared Hi-TCR-T cells were transfused back, in which the dose of Hi-TCR-T cells at each target was 3.0x106 cells/kg body weight (the dose was the extended therapeutic dose obtained in the previous clinical trial), and the drug was administered by peripheral intravenous infusion.",
+        "name": "Super Hi-TCR-T cells",
+        "type": "BIOLOGICAL"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Advanced Hepatocellular Carcinoma (HCC)"
+    ],
+    "keywords": [
+      "Hi-TCR-T",
+      "Advanced hepatocellular carcinoma"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "zxf_ehbh@126.com",
+        "name": "Xiaofeng Zhang, Ph.D.",
+        "phone": "+86 13917412555",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Shanghai",
+        "contacts": [
+          {
+            "email": "zxf_ehbh@126.com",
+            "name": "Zhang Xiaofeng, Ph.D",
+            "phone": "86+13917412555",
+            "role": "CONTACT"
+          },
+          {
+            "email": "mjy_ehbh@126.com",
+            "name": "Ma Junyong, Ph.D",
+            "phone": "86+13370050057",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "China",
+        "facility": "The Third Affiliated Hospital of Navy Military Medical University",
+        "geoPoint": {
+          "lat": 31.22222,
+          "lon": 121.45806
+        },
+        "state": "Yangpu District",
+        "status": "RECRUITING",
+        "zip": "200438"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This study is a prospective, single-arm, open, single-center clinical trial initiated by the investigator. The principal investigators are professors Shen Feng and Zhang Xiaofeng from The Third Affiliated Hospital of Navy Military Medical University (Shanghai Eastern Hepatobiliary Surgery Hospital).\n\nPrimary Objectives:\n\n1. To evaluate the safety and tolerability of super Hi-TCR-T cells targeting Nectin4/NKG2DL/TROP2/B7H3/GPC3/FAP in the treatment of refractory/recurrent advanced hepatocellular carcinoma (HCC) and other solid tumors.\n2. To assess the efficacy of super Hi-TCR-T cells targeting Nectin4/NKG2DL/TROP2/B7H3/GPC3/FAP in the treatment of refractory/recurrent advanced HCC and other solid tumors, focusing on progression-free survival (PFS).\n\nSecondary Objectives:\n\n1. To evaluate the efficacy of super Hi-TCR-T cells targeting Nectin4/NKG2DL/TROP2/B7H3/GPC3/FAP in the treatment of refractory/recurrent advanced HCC and other solid tumors at 1, 3, 6, and 12 months, assessing disease control rate (DCR: CR+PR+SD), time to progression (TTP), and overall survival (OS).\n2. To observe and assess the quality of life (QOL score) of patients receiving super Hi-TCR-T cell therapy targeting Nectin4/NKG2DL/TROP2/B7H3/GPC3/FAP for refractory/recurrent advanced HCC and other solid tumors.\n\nExploratory Objectives:\n\n1. To evaluate the relationship between the in vivo expansion and persistence of super Hi-TCR-T cells targeting Nectin4/NKG2DL/TROP2/B7H3/GPC3/FAP and disease progression.\n2. To explore potential predictive biomarkers. Thirty patients are planned to be recruited for this study. The subjects were advanced HCC patients who had failed second-line therapy or could not tolerate therapy. The expression levels of Nectin4, NKG2DL, TROP2, B7H3, GPC3 and FAP were detected by immunohistochemistry in the pathologic tissues of the primary and metastatic sites. Meanwhile, 20ml peripheral blood was extracted to evaluate the quality of T cells (in vitro proliferation activity and lentiviral transduction efficiency). Patients with positive expression rates of at least 2 targets (excluding FAP) \\>10% and qualified T cell quality could be considered for inclusion.\n\nPeripheral blood lymphocytes were collected and Hi-TCR-T cells targeting three targets (including FAP) were prepared. After pretreatment with fludarabine + cyclophosphamide chemotherapy (FC regimen), the prepared Hi-TCR-T cells were transfused back, in which the dose of Hi-TCR-T cells at each target was 3.0x106 cells/kg body weight (the dose was the extended therapeutic dose obtained in the previous clinical trial), and the drug was administered by peripheral intravenous infusion. To improve efficacy, Hi-TCR-T cell retransfusion can be prepared by increasing the cell dose of the target or changing the combination of the target as the disease progresses and evaluated by a multidisciplinary team (MDT).\n\nSafety and efficacy evaluation and exploratory studies were conducted after reinfusion of Hi-TCR-T cells from screening multiple targets:\n\n1. Safety assessment: at baseline, 4, 7, 10, 2, 3, 4, 8, 12, 16, 20, 6, 9 and 12 months after cell therapy;\n2. Effectiveness evaluation: at baseline, 4, 12, 6, 9, 12, 24, and 36 months after cell therapy. Safety assessment: At baseline, 4, 7, 10, 2, 3, 4, 8, 12, 16, 20, 6, 9, and 12 months after cell therapy;\n3. Exploratory study: 20ml peripheral blood was collected from patients at baseline, 7 days, 2 weeks, 4 weeks, 8 weeks, 12 weeks, 16 weeks, 20 weeks, 6 months, 9 months, 12 months after cell therapy, to explore the relationship between the proliferation and survival time of Hi-TCR-T cells in vivo and the changes of disease and peripheral blood cytokines.\n\nThe start time of the study was defined as the date the first patient was enrolled; The end time of the study was defined as 12 months after the end of medication for the final patient, or all patients died, or all patients had lost follow-up or withdrawn consent (whichever occurred first). The planned recruitment period is 12-18 months.",
+    "detailedDescription": "1. Stage 1: Preparatory period (expected 3-6 months) Ethical review and approval: Submit the trial application to the relevant ethics committee, including detailed design of the patient's informed consent, to ensure compliance with ethical requirements and obtain approval.\n\n   Trial protocol registration: Clinical trials are registered on the clinical trial registration platform.\n\n   Test site and equipment preparation: Ensure that test facilities and personnel training are in place.\n\n   Preparation for recruitment: publicity work for patient recruitment was carried out.\n2. Second stage: Patient recruitment and treatment period (expected 12-18 months)\n\n   Patient recruitment and screening: According to inclusion and exclusion criteria, suitable patients were screened and informed consent was signed.\n\n   Baseline assessment: Patients were enrolled for baseline assessment such as detailed physical examination, laboratory testing, and imaging, as well as target screening and T cell quality assessment.\n\n   Multi-target Hi-TCR cell preparation and transfusion: Peripheral blood T cells were collected from patients (single collection), customized and frozen multi-target Hi-TCR cells were transfused into patients via vein. To improve efficacy, Hi-TCR-T cell transfusions can be prepared by increasing the cell dose of the target or changing the combination of the target after MDT evaluation as the disease progresses.\n\n   Follow-up and monitoring: Each patient was followed up regularly after treatment to monitor adverse reactions, immune responses, and tumor control, and to pay close attention to safety data.\n3. Third stage: Data analysis and reporting period (expected 6-9 months) Safety and efficacy data analysis: Comprehensive collection and analysis of patient clinical data, focusing on assessing tolerability, adverse events, and initial efficacy of treatment, and reporting progress to regulatory authorities and ethics committees.\n\nResearch summary and report writing: Complete the summary and statistical analysis of experimental data, write the research report, and submit the final results to the ethics committee and regulatory authorities.\n\nStatistical analyses were as follows\uff1a\n\n1\\. Selection of statistical analysis data\n\n1. Full Analysis Set (FAS) : According to the intention-to-treat (ITT) principle, all enrolled patients will enter the full analysis set of this trial. For patients who dropped out of the study early for various reasons, the results of the corresponding evaluation point will be filled by the last observation carry-over (LOCF).\n2. Meeting protocol Set (PPS) : All patients who met the enrollment conditions entered the study and completed treatment with good compliance.\n3. Safety analysis population: Patients who received at least one course of Hi-TCR-T cell therapy and underwent at least one post-treatment safety evaluation constituted the safety analysis set of this study.\n\n2\\. Analyze the plan Biostatisticians and principal investigators develop statistical analysis plans according to the study protocol and document them before data locking.\n\nStatistical analysis software SAS Statistical analysis software 9.1.1. 3. Evaluation of curative effect Measurement data were represented by x\u00b1s, repeated measurement ANOVA was used for comparison at different time points, and P\\<0.05 was considered statistically significant. Kaplan-Meier survival curve analysis was used for survival analysis, and ORR and DCR, PFS, DOR, TTP and OS at 1, 3, 6 and 12 months were calculated.\n\n4\\. Safety evaluation The safety evaluation will be descriptive and include adverse events, laboratory tests, vital signs, etc. (with a particular focus on CRS, ICANS, and non-targeted tumor toxicity). The types, severity, frequency, and relationship with study drugs of all adverse events that occurred during the study are described in a list. Study discontinuation due to adverse events and cases of serious adverse events will be specifically noted. All completed laboratory tests are listed in a pre - and post-treatment crosstabs (as determined by the clinician). Test items with abnormal values and clinical significance should be listed.\n\n5\\. Other analysis Descriptive statistics will also be used to analyze the expression of tumor markers for HCC and the relationship between in vivo expansion and duration of Hi-TCR-T cells and disease change."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NA",
+      "interventionModel": "SINGLE_GROUP",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 30,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE1",
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion criteria:\n\n1. Patients with advanced HCC who are inoperable and unsuitable for local therapy, and whose disease has progressed or cannot tolerate therapy after first - or second-line therapy, and who meet one of the following requirements: 1) have a histological or cytological diagnosis of HCC; 2) According to the National Health Commission's Guidelines for Primary Liver Cancer Diagnosis and Treatment (2024 edition), the clinical diagnosis was HCC;\n2. At least one measurable lesion was present according to RECIST1.1 and mRECIST criteria;\n3. The expressions of Nectin4, NKG2DL, TROP2, B7H3 and GPC3 in tumor tissues were detected by immunohistochemistry in primary and metastatic specimens or in white paraffin sections of previous pathological pathology (the expression of tumor cells with a target \\>10% is considered positive, and at least 2 targets are required to be positive), as well as the expression of FAP in tumor tissues;\n4. The patient's T cell quality (pre-experimental) assessment met the criteria: at least 5 times T cell proliferation within 3 days, and at least 10% lentivirus transduction efficiency;\n5. ECOG performance status score of 0-2;\n6. Child-Pugh score \u22646;\n7. Expected survival time of at least 3 months;\n8. No contraindications to peripheral blood mononuclear cell (PBMC) collection;\n9. Seven days prior to the first treatment with the study drug, organ function levels must meet the following requirements: Hematology: Hemoglobin (Hb) \u226590 g/L; Absolute neutrophil count (ANC) \u22651.5\u00d710\u2079/L; Platelet count \u226575\u00d710\u2079/L. Blood Biochemistry: Serum albumin \u226528 g/L; Total bilirubin \u22642\u00d7 upper limit of normal (ULN); Aspartate aminotransferase (AST) and alanine aminotransferase (ALT) \u22643\u00d7 ULN; Alkaline phosphatase (ALP) \u22643\u00d7 ULN; Creatinine \u22641.5\u00d7 ULN. Coagulation Function: International normalized ratio (INR) or prothrombin time (PT) \u22641.5\u00d7 ULN; Activated partial thromboplastin time (APTT) \u22641.5\u00d7 ULN. Cardiac Function: Echocardiography confirms normal diastolic function; Left ventricular ejection fraction (LVEF) \u226550%; No severe arrhythmia. Pulmonary and Renal Function: No severe lung or kidney disease; No active pulmonary infection; Blood oxygen saturation \u226592% in room air.\n10. Serum pregnancy test results of women of childbearing age must be negative within 7 days before the first use of the study drug; Fertile men or women with the possibility of becoming pregnant must use a highly effective contraceptive method (such as oral contraceptives, intrauterine devices, abstinence or barrier contraception combined with spermicides) throughout the trial and continue contraception for 12 months after the end of treatment;\n11. The subjects voluntarily joined the study, signed the informed consent, had good compliance, and cooperated with follow-up.\n\nExclusion criteria:\n\n1. Uncontrollable active infection (excluding HBV and/or HCV infections);\n2. active central nervous system disease, or known concomitant brain metastases with significant neurological/psychiatric symptoms assessed by MMSE;\n3. Known allergy to 2 or more non-similar foods/drugs, or known allergy to chemotherapy preconditioning drugs (such as cyclophosphamide, fludarabine);\n4. Any toxicity caused by previous antitumor therapy before chemotherapy preconditioning has not returned to grade 1 or below (CTCAE version 5.0);\n5. Patients who have participated in or are participating in clinical trials of other drugs/therapies within 4 weeks prior to the first administration of the investigational drug;\n6. Major surgery had been performed/received within 4 weeks prior to the first administration of the study drug or had not yet recovered from the side effects of the surgery, live vaccination, and radiotherapy within 2 weeks;\n7. Patients who are taking systemic hormone therapy for immunosuppressive purposes (dose \\>10mg/ day prednisone or other equivalent hormone) and continue to use within 2 weeks prior to treatment;\n8. Pregnant or lactating women;\n9. A history of other malignancies within the past 5 years, except cured basal cell carcinoma of the skin, squamous cell carcinoma of the skin, early prostate cancer, and cervical carcinoma in situ;\n10. Active inflammatory bowel disease or digestive tract ulcer;\n11. HIV antibody or treponema pallidum antibody test results positive;\n12. A large amount of pleural fluid or ascites accompanied by clinical symptoms that require symptomatic treatment;\n13. A history of active lung disease (pneumonia, obstructive pulmonary disease, asthma) or active pulmonary tuberculosis;\n14. suffering from blood system diseases: leukemia, lymph nodes, myelodysplastic syndrome or myeloma;\n15. Except vitiligo accidental immune deficiency disease or autoimmune disease;\n16. Clinically significant bleeding symptoms or definite bleeding tendency occurred within 3 months before recruitment, such as cough/hemoptysis of 2.5ml or more per day, gastrointestinal bleeding, esophageal varicose veins with bleeding risk, hemorrhagic gastric ulcer or vasculitis. At baseline, if the stool was positive for occult blood, it could be re-examined; if it was still positive, gastroscopy was required; if the gastroscopy indicated severe esophageal and gastric fundus varices, it could not be included in the group (except those who were excluded by gastroscopy within 3 months before enrollment).\n17. Have any clinical problems beyond your control, including but not limited to:\n\n1\\) Persistent or active (severe) infection; 2) poorly controlled hypertension (persistent blood pressure \\>150/90mmHg); 3) Poorly controlled diabetes; 4) Heart disease (Class III/IV congestive heart failure or heart block as defined by the Heart Society of New York); 5) The following conditions occurred within 6 months before the first medication: deep vein thrombosis or pulmonary embolism; Myocardial infarction; Severe or unstable arrhythmia or angina; Percutaneous coronary intervention, acute coronary syndrome, coronary artery bypass grafting; Cerebrovascular accident, transient ischemic attack, cerebral embolism.\n\n18.have obvious genetic diseases; 19. have received a stem cell transplant or an organ transplant; 20.Those who have a history of psychotropic drug abuse and cannot quit or have a history of mental disorders; 21.other severe, acute, or chronic medical conditions or abnormalities in laboratory tests that the investigator determines may increase the risks associated with participation in the study or may interfere with the interpretation of the study results; 22.Patients who were judged by the investigator to have poor compliance or other conditions that made them unfit to participate in the trial.",
+    "healthyVolunteers": false,
+    "maximumAge": "75 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "A Clinical Study of Multi-target Hi-TCR-T Cells in the Treatment of Advanced Hepatocellular Carcinoma",
+    "nctId": "NCT06902389",
+    "officialTitle": "A Prospective Study on Super Hi-TCR-T Cells Targeting Nectin4/NKG2DL/TROP2/B7H3/GPC3/FAP for the Treatment of Refractory/Relapsed Advanced Liver Cancer and Other Solid Tumors",
+    "orgStudyIdInfo": {
+      "id": "EHBHKY2025-H010-P001"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Eastern Hepatobiliary Surgery Hospital"
+    }
+  },
+  "ipdSharingStatementModule": {
+    "ipdSharing": "NO"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "In treated subjects, the time from first recording to tumor progression (based on RECIST 1.1 and mRECIST) or death from any cause.",
+        "measure": "progression-free survival",
+        "timeFrame": "From the date of enrollment of each patient, the end point was 12 months after the end of the patient's medication, or the patient died (whichever occurred first)."
+      },
+      {
+        "description": "Adverse medical events that occur after a clinical trial subject is accepted into the trial, but are not necessarily causally related to the treatment. All adverse events that occur during the trial must be faithfully recorded on the Adverse Event sheet.",
+        "measure": "Adverse event",
+        "timeFrame": "From the date of enrollment of each patient, the end point was 12 months after the end of the patient's medication, or the patient died, or the patient was lost to follow-up or withdrew consent (whichever occurred first)."
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "In the enrolled population, the time from the start of treatment to death from any cause. The nonparametric Kaplan-Meier method will be used to estimate the median OS and 95% confidence interval.",
+        "measure": "Overall survival",
+        "timeFrame": "From the date of enrollment of each patient, the end point was 12 months after the end of the patient's medication, or the patient died (whichever occurred first)."
+      },
+      {
+        "description": "The time from the first evaluation of the tumor as CR, PR, or SD to the first evaluation as PD or death from any cause.",
+        "measure": "duration of disease control",
+        "timeFrame": "From the date of enrollment of each patient, the end point was 12 months after the end of the patient's medication, or the patient died (whichever occurred first)."
+      },
+      {
+        "description": "The time from the start of the subject receiving treatment to the first objective progression of the tumor",
+        "measure": "time to progress",
+        "timeFrame": "From the date of enrollment of each patient, the end point was 12 months after the end of the patient's medication."
+      },
+      {
+        "description": "The percentage of patients whose tumors shrink or stabilize for a certain period of time, including complete response (CR), partial response (PR), and stable (SD) cases.",
+        "measure": "Disease Control Rate",
+        "timeFrame": "From the date of enrollment of each patient, the end point was 12 months after the end of the patient's medication, or the patient died (whichever occurred first)."
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false,
+    "isUsExport": false,
+    "oversightHasDmc": true
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Eastern Hepatobiliary Surgery Hospital"
+    },
+    "responsibleParty": {
+      "investigatorAffiliation": "Eastern Hepatobiliary Surgery Hospital",
+      "investigatorFullName": "Xiao-Feng Zhang",
+      "investigatorTitle": "The Vice President of the Clinical Research Institute",
+      "type": "PRINCIPAL_INVESTIGATOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2028-04-07",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2025-09-03",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2025-09-01",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2028-01-01",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2025-07-30",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2025-09",
+    "studyFirstPostDateStruct": {
+      "date": "2025-03-30",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2025-03-16",
+    "studyFirstSubmitQcDate": "2025-03-23"
+  }
+}

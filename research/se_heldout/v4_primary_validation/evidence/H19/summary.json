@@ -1,0 +1,286 @@
+{
+  "run_id": "se:109744f7-2e6a-441f-b3c1-e6a063097401",
+  "problem_id": "nlq_45564befcc9c0892",
+  "query": "Find clinical-stage TROP2-directed antibody-drug conjugates for breast cancer.",
+  "interpretation": [
+    "'clinical-stage' -> EVIDENCE minimum_stage [evidence_clinical_stage_vocabulary]",
+    "'TROP2' -> TARGET TACSTD2 [unique_alias_match]",
+    "'antibody-drug conjugates' -> MODALITY ANTIBODY_DRUG_CONJUGATE [modality_vocabulary]",
+    "'breast' -> RESIDUAL [no_vocabulary_match]",
+    "'cancer' -> RESIDUAL [no_vocabulary_match]"
+  ],
+  "run_status": "INCOMPLETE",
+  "convergence_mode": "LIVE",
+  "convergence_meaning": "LIVE: the seed queries were re-issued to the live sources and produced no new candidates. No local-fixpoint or cache-served mode exists; if one is added it must report its own mode and must not be scored as live convergence.",
+  "incomplete_reasons": [
+    "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_asco, conference_ash, conference_eha, sec_edgar"
+  ],
+  "fatal_reasons": [],
+  "elapsed_seconds": 395.8,
+  "stages": [
+    {
+      "name": "DISCOVERY",
+      "seconds": 138.3
+    },
+    {
+      "name": "ACQUISITION",
+      "seconds": 0.4
+    },
+    {
+      "name": "IDENTITY",
+      "seconds": 0.6
+    },
+    {
+      "name": "EXTRACTION",
+      "seconds": 58.1
+    },
+    {
+      "name": "CONSTRUCT_TARGETS",
+      "seconds": 0.0
+    },
+    {
+      "name": "NCIT_TARGETS",
+      "seconds": 0.2
+    },
+    {
+      "name": "TARGET_COMPATIBILITY",
+      "seconds": 0.0
+    },
+    {
+      "name": "LEXICON",
+      "seconds": 0.2
+    },
+    {
+      "name": "HUMAN_POC",
+      "seconds": 172.6
+    },
+    {
+      "name": "GATING",
+      "seconds": 0.2
+    },
+    {
+      "name": "SCORING",
+      "seconds": 0.0
+    }
+  ],
+  "exit_code": 0,
+  "counts": {
+    "total_candidates": 1181,
+    "eligible": 0,
+    "review": 117,
+    "excluded": 168,
+    "low_support": 896,
+    "shown": 20
+  },
+  "blind_spots": [
+    "mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown"
+  ],
+  "sources": [
+    {
+      "family": "clinicaltrials_gov",
+      "outcome": "SUCCESS",
+      "queries": 91
+    },
+    {
+      "family": "company_pipeline_or_presentation",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "company_press_release",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_aacr",
+      "outcome": "SUCCESS",
+      "queries": 91
+    },
+    {
+      "family": "conference_asco",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_ash",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_eha",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "pubmed",
+      "outcome": "SUCCESS",
+      "queries": 91
+    },
+    {
+      "family": "sec_edgar",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    }
+  ],
+  "top": [
+    {
+      "position": 1,
+      "name": "Sacituzumab Tirumotecan",
+      "asset_id": "asset:cf362b6bc18a7577433e",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 2,
+      "name": "Sacituzumab govitecan",
+      "asset_id": "asset:a4e8d5e9526a71ca9926",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 3,
+      "name": "Izalontamab brengitecan",
+      "asset_id": "asset:55156988e1caf7540012",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 4,
+      "name": "becotatug vedotin",
+      "asset_id": "asset:ebb191faef21e4ff891a",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 5,
+      "name": "BMS-986148",
+      "asset_id": "asset:4851f243ea1b874fc72c",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 6,
+      "name": "Farletuzumab ecteribulin",
+      "asset_id": "asset:9eebbd99c1a9aaccbbf6",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 7,
+      "name": "ifinatamab deruxtecan",
+      "asset_id": "asset:c6b579c637778982425a",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 8,
+      "name": "trastuzumab rezetecan",
+      "asset_id": "asset:8454195f6696f70f9341",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 9,
+      "name": "LCB84",
+      "asset_id": "asset:31c594ce16901413184d",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 10,
+      "name": "SHR-A1921",
+      "asset_id": "asset:cc8870dce46a89ae8491",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 11,
+      "name": "T60c injection",
+      "asset_id": "asset:7e46ff9cac55621121b6",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 12,
+      "name": "Super Hi-TCR-T cells",
+      "asset_id": "asset:c745a7778d72ccd0530f",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 13,
+      "name": "JSKN016HC",
+      "asset_id": "asset:71c4c66835554a77dee4",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 14,
+      "name": "TGFBR2 KO iC9/TROP2.CAR/IL-15 NK cells",
+      "asset_id": "asset:d8acad65baca22c63bc4",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 15,
+      "name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells",
+      "asset_id": "asset:238fe29ae046e79a2abd",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 16,
+      "name": "TRODELVY",
+      "asset_id": "asset:7e251ce2a0c8acfe2d6c",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 17,
+      "name": "[68Ga]Ga-TTP",
+      "asset_id": "asset:26203a4710a9a1ef4a66",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 18,
+      "name": "Rescue Medications",
+      "asset_id": "asset:20c427deaf4630b016e5",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 19,
+      "name": "Rescue Medication",
+      "asset_id": "asset:5d4d083034e81aa9b191",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 20,
+      "name": "9MW2821",
+      "asset_id": "asset:c5a8f2c8daf746c0683a",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    }
+  ],
+  "artifacts": {
+    "problem": "problem.yaml",
+    "result": "result.json",
+    "shortlist": "shortlist.txt",
+    "shortlist_json": "shortlist.json",
+    "memo": "memo.md",
+    "run_manifest": "run_manifest.json",
+    "acquisition_ledger": "acquisition_ledger.jsonl",
+    "log": "logs/run.log",
+    "custody": "custody",
+    "reproduce": "reproduce.sh",
+    "invocation": "invocation.json"
+  },
+  "artifact_root": "/home/djmann/se_runs/heldout_h19_v4"
+}

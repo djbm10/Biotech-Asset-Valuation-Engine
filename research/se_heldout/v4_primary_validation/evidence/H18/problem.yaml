@@ -1,0 +1,63 @@
+schema_version: se_buyer_problem_v2
+problem_id: nlq_2d64c160aed33ed9
+version: intent_v1__chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b
+buyer:
+  buyer_id: nl_query
+  name: Ad-hoc query
+  as_of_date: '2026-10-11'
+strategic_gap:
+  therapeutic_areas:
+  - UNSPECIFIED
+  indications: []
+  target_expression:
+    operator: ANY
+    targets:
+    - canonical_id: GLP1R
+      label: GLP1R
+      aliases:
+      - GLP-1
+      - GLP-1 receptor
+      - GLP-1-R
+      - GLP-1R
+      - GLP1R
+      - Glucagon-like peptide 1 receptor
+      - GLP-1
+      - GLP-1 receptor
+      - GLP-1-R
+      - GLP-1R
+      - GLP1 receptor
+      - GLP1R
+      - Glucagon-like peptide 1 receptor
+      - seven transmembrane helix receptor
+  modalities: []
+  required_biology: []
+  capability_constraints:
+    manufacturing: []
+    delivery: []
+    clinical_operations: []
+    commercial: []
+    integration: []
+  evidence_floor:
+    minimum_stage: PHASE_1
+    human_poc_required: false
+    evaluable_patients_minimum: null
+    follow_up_minimum_days: null
+    required_evidence_types: []
+  phase_constraint: null
+  clinical_effect_bar:
+    indication: null
+    population: null
+    treatment_line: null
+    endpoint: null
+    minimum_effect: null
+    effect_unit: null
+    comparator: null
+    durability_minimum_days: null
+    safety_ceiling: null
+  acceptable_deal_routes: []
+  geographic_rights_requirements: []
+  missing_evidence_policy: REVIEW
+output:
+  landscape_mode: COMBINED
+  group_by: COHORT
+ranking_cohort_required: true

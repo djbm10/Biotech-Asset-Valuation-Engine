@@ -1,0 +1,285 @@
+{
+  "run_id": "se:54cd52b6-cc50-4e11-8312-3e520fe58020",
+  "problem_id": "nlq_2d64c160aed33ed9",
+  "query": "Find clinical-stage GLP-1 receptor agonists for obesity.",
+  "interpretation": [
+    "'clinical-stage' -> EVIDENCE minimum_stage [evidence_clinical_stage_vocabulary]",
+    "'GLP-1 receptor' -> TARGET GLP1R [unique_alias_match]",
+    "'agonists' -> RESIDUAL [no_vocabulary_match]",
+    "'obesity' -> RESIDUAL [no_vocabulary_match]"
+  ],
+  "run_status": "INCOMPLETE",
+  "convergence_mode": "LIVE",
+  "convergence_meaning": "LIVE: the seed queries were re-issued to the live sources and produced no new candidates. No local-fixpoint or cache-served mode exists; if one is added it must report its own mode and must not be scored as live convergence.",
+  "incomplete_reasons": [
+    "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_asco, conference_ash, conference_eha, sec_edgar"
+  ],
+  "fatal_reasons": [],
+  "elapsed_seconds": 9998.1,
+  "stages": [
+    {
+      "name": "DISCOVERY",
+      "seconds": 7303.0
+    },
+    {
+      "name": "ACQUISITION",
+      "seconds": 167.3
+    },
+    {
+      "name": "IDENTITY",
+      "seconds": 25.7
+    },
+    {
+      "name": "EXTRACTION",
+      "seconds": 737.9
+    },
+    {
+      "name": "CONSTRUCT_TARGETS",
+      "seconds": 0.1
+    },
+    {
+      "name": "NCIT_TARGETS",
+      "seconds": 1.0
+    },
+    {
+      "name": "TARGET_COMPATIBILITY",
+      "seconds": 0.1
+    },
+    {
+      "name": "LEXICON",
+      "seconds": 2.3
+    },
+    {
+      "name": "HUMAN_POC",
+      "seconds": 1679.3
+    },
+    {
+      "name": "GATING",
+      "seconds": 0.7
+    },
+    {
+      "name": "SCORING",
+      "seconds": 0.0
+    }
+  ],
+  "exit_code": 0,
+  "counts": {
+    "total_candidates": 6694,
+    "eligible": 24,
+    "review": 913,
+    "excluded": 668,
+    "low_support": 5089,
+    "shown": 20
+  },
+  "blind_spots": [
+    "mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown"
+  ],
+  "sources": [
+    {
+      "family": "clinicaltrials_gov",
+      "outcome": "SUCCESS",
+      "queries": 760
+    },
+    {
+      "family": "company_pipeline_or_presentation",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "company_press_release",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_aacr",
+      "outcome": "SUCCESS",
+      "queries": 760
+    },
+    {
+      "family": "conference_asco",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_ash",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_eha",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "pubmed",
+      "outcome": "SUCCESS",
+      "queries": 760
+    },
+    {
+      "family": "sec_edgar",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    }
+  ],
+  "top": [
+    {
+      "position": 1,
+      "name": "Tirzepatide",
+      "asset_id": "asset:8866bafec6e43f4b49da",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 2,
+      "name": "survodutide",
+      "asset_id": "asset:42f1832f56f4f84d75f0",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 3,
+      "name": "Albiglutide",
+      "asset_id": "asset:9c37f3770d3cf85b2a69",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 4,
+      "name": "Avexitide",
+      "asset_id": "asset:1a69e2cb33e46291579a",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 5,
+      "name": "Dulaglutide",
+      "asset_id": "asset:4c3850a26b5f95e5ffdc",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 6,
+      "name": "exenatide",
+      "asset_id": "asset:c930463244e92f9d78f8",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 7,
+      "name": "Liraglutide",
+      "asset_id": "asset:05ba8fe2630c1cb96be3",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 8,
+      "name": "Lixisenatide",
+      "asset_id": "asset:97effe598e91cdc3bcbd",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 9,
+      "name": "Saxenda",
+      "asset_id": "asset:deffdd980730c8fe12c9",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 10,
+      "name": "Semaglutide",
+      "asset_id": "asset:9a870799adb39ed81805",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 11,
+      "name": "Victoza",
+      "asset_id": "asset:db60a85dff623cf014af",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 12,
+      "name": "Ozempic",
+      "asset_id": "asset:9f626c1ee54da5964591",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 13,
+      "name": "Retatrutide",
+      "asset_id": "asset:4b35f368e192018b2708",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 14,
+      "name": "Wegovy",
+      "asset_id": "asset:33ab1eb59661ee8628bb",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 15,
+      "name": "DA-302168S",
+      "asset_id": "asset:9606371062915435ba7b",
+      "section": "eligible",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 16,
+      "name": "VCT220",
+      "asset_id": "asset:a2ee9576849f88618c1d",
+      "section": "eligible",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 17,
+      "name": "Cotadutide",
+      "asset_id": "asset:b6cce06e284b1b949d78",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 18,
+      "name": "efpeglenatide",
+      "asset_id": "asset:19fcc700d3cab306f620",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 19,
+      "name": "NLY01",
+      "asset_id": "asset:c71226c69fdc4c38ac5c",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 20,
+      "name": "Rybelsus",
+      "asset_id": "asset:bea5b48f7fac4a97f22c",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    }
+  ],
+  "artifacts": {
+    "problem": "problem.yaml",
+    "result": "result.json",
+    "shortlist": "shortlist.txt",
+    "shortlist_json": "shortlist.json",
+    "memo": "memo.md",
+    "run_manifest": "run_manifest.json",
+    "acquisition_ledger": "acquisition_ledger.jsonl",
+    "log": "logs/run.log",
+    "custody": "custody",
+    "reproduce": "reproduce.sh",
+    "invocation": "invocation.json"
+  },
+  "artifact_root": "/home/djmann/se_runs/heldout_h18_v4_rerun1"
+}

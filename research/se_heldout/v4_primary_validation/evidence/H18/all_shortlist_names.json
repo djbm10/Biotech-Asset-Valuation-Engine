@@ -1,0 +1,7774 @@
+[
+  {
+    "asset_id": "asset:8866bafec6e43f4b49da",
+    "name": "Tirzepatide",
+    "canonical_name": "Tirzepatide",
+    "aliases": [
+      "Tirzepatide",
+      "LY3298176",
+      "Zepbound",
+      "tirzepatide",
+      "TIRZEPATIDE"
+    ]
+  },
+  {
+    "asset_id": "asset:42f1832f56f4f84d75f0",
+    "name": "survodutide",
+    "canonical_name": "survodutide",
+    "aliases": [
+      "survodutide",
+      "Survodutide",
+      "BI456906",
+      "BI 456906"
+    ]
+  },
+  {
+    "asset_id": "asset:9c37f3770d3cf85b2a69",
+    "name": "Albiglutide",
+    "canonical_name": "Albiglutide",
+    "aliases": [
+      "Albiglutide",
+      "albiglutide",
+      "GSK716155"
+    ]
+  },
+  {
+    "asset_id": "asset:1a69e2cb33e46291579a",
+    "name": "Avexitide",
+    "canonical_name": "Avexitide",
+    "aliases": [
+      "Avexitide",
+      "avexitide",
+      "Exendin-9,39",
+      "Exendin (9-39)",
+      "Exendin [9-39]",
+      "Exendin-(9-39)",
+      "Exendin 9, 39",
+      "Exendin 9-39",
+      "exendin 9-39",
+      "exendin-(9-39)",
+      "exendin -(9-39)",
+      "Exendin 9,39"
+    ]
+  },
+  {
+    "asset_id": "asset:4c3850a26b5f95e5ffdc",
+    "name": "Dulaglutide",
+    "canonical_name": "Dulaglutide",
+    "aliases": [
+      "Dulaglutide",
+      "dulaglutide",
+      "LY2189265"
+    ]
+  },
+  {
+    "asset_id": "asset:c930463244e92f9d78f8",
+    "name": "exenatide",
+    "canonical_name": "exenatide",
+    "aliases": [
+      "exenatide",
+      "Bydureon",
+      "Exenatide",
+      "Byetta",
+      "BYETTA",
+      "ITCA 650"
+    ]
+  },
+  {
+    "asset_id": "asset:05ba8fe2630c1cb96be3",
+    "name": "Liraglutide",
+    "canonical_name": "Liraglutide",
+    "aliases": [
+      "Liraglutide",
+      "liraglutide",
+      "NN2211",
+      "LIRAGLUTIDE",
+      "LIraglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:97effe598e91cdc3bcbd",
+    "name": "Lixisenatide",
+    "canonical_name": "Lixisenatide",
+    "aliases": [
+      "Lixisenatide",
+      "lixisenatide"
+    ]
+  },
+  {
+    "asset_id": "asset:deffdd980730c8fe12c9",
+    "name": "Saxenda",
+    "canonical_name": "Saxenda",
+    "aliases": [
+      "Saxenda"
+    ]
+  },
+  {
+    "asset_id": "asset:9a870799adb39ed81805",
+    "name": "Semaglutide",
+    "canonical_name": "Semaglutide",
+    "aliases": [
+      "Semaglutide",
+      "semaglutide",
+      "NN9535"
+    ]
+  },
+  {
+    "asset_id": "asset:db60a85dff623cf014af",
+    "name": "Victoza",
+    "canonical_name": "Victoza",
+    "aliases": [
+      "Victoza"
+    ]
+  },
+  {
+    "asset_id": "asset:9f626c1ee54da5964591",
+    "name": "Ozempic",
+    "canonical_name": "Ozempic",
+    "aliases": [
+      "Ozempic"
+    ]
+  },
+  {
+    "asset_id": "asset:4b35f368e192018b2708",
+    "name": "Retatrutide",
+    "canonical_name": "Retatrutide",
+    "aliases": [
+      "Retatrutide",
+      "retatrutide",
+      "LY3437943"
+    ]
+  },
+  {
+    "asset_id": "asset:33ab1eb59661ee8628bb",
+    "name": "Wegovy",
+    "canonical_name": "Wegovy",
+    "aliases": [
+      "Wegovy"
+    ]
+  },
+  {
+    "asset_id": "asset:9606371062915435ba7b",
+    "name": "DA-302168S",
+    "canonical_name": "DA-302168S",
+    "aliases": [
+      "DA-302168S"
+    ]
+  },
+  {
+    "asset_id": "asset:a2ee9576849f88618c1d",
+    "name": "VCT220",
+    "canonical_name": "VCT220",
+    "aliases": [
+      "VCT220"
+    ]
+  },
+  {
+    "asset_id": "asset:b6cce06e284b1b949d78",
+    "name": "Cotadutide",
+    "canonical_name": "Cotadutide",
+    "aliases": [
+      "Cotadutide",
+      "cotadutide",
+      "MEDI0382"
+    ]
+  },
+  {
+    "asset_id": "asset:19fcc700d3cab306f620",
+    "name": "efpeglenatide",
+    "canonical_name": "efpeglenatide",
+    "aliases": [
+      "efpeglenatide",
+      "Efpeglenatide",
+      "HM11260C"
+    ]
+  },
+  {
+    "asset_id": "asset:c71226c69fdc4c38ac5c",
+    "name": "NLY01",
+    "canonical_name": "NLY01",
+    "aliases": [
+      "NLY01"
+    ]
+  },
+  {
+    "asset_id": "asset:bea5b48f7fac4a97f22c",
+    "name": "Rybelsus",
+    "canonical_name": "Rybelsus",
+    "aliases": [
+      "Rybelsus"
+    ]
+  },
+  {
+    "asset_id": "asset:f2b7da9e079cdfaf5a2f",
+    "name": "Taspoglutide",
+    "canonical_name": "Taspoglutide",
+    "aliases": [
+      "Taspoglutide",
+      "taspoglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:e5bf4ba12637cbd0d88d",
+    "name": "Danuglipron",
+    "canonical_name": "Danuglipron",
+    "aliases": [
+      "Danuglipron",
+      "PF-06882961",
+      "danuglipron",
+      "PF 06882961"
+    ]
+  },
+  {
+    "asset_id": "asset:ce8c83fd0c697078a72c",
+    "name": "Mounjaro",
+    "canonical_name": "Mounjaro",
+    "aliases": [
+      "Mounjaro"
+    ]
+  },
+  {
+    "asset_id": "asset:2e15207e39569134d1a1",
+    "name": "XTL6001",
+    "canonical_name": "XTL6001",
+    "aliases": [
+      "XTL6001"
+    ]
+  },
+  {
+    "asset_id": "asset:f4cbb1980707442f7d20",
+    "name": "efinopegdutide",
+    "canonical_name": "efinopegdutide",
+    "aliases": [
+      "efinopegdutide",
+      "Efinopegdutide",
+      "JNJ-64565111"
+    ]
+  },
+  {
+    "asset_id": "asset:eca9e6a7e52bc231770a",
+    "name": "Lyxumia",
+    "canonical_name": "Lyxumia",
+    "aliases": [
+      "Lyxumia"
+    ]
+  },
+  {
+    "asset_id": "asset:96c4247f2ac49cea724e",
+    "name": "pegapamodutide",
+    "canonical_name": "pegapamodutide",
+    "aliases": [
+      "pegapamodutide"
+    ]
+  },
+  {
+    "asset_id": "asset:c609c4466b9eb498e53d",
+    "name": "Tanzeum",
+    "canonical_name": "Tanzeum",
+    "aliases": [
+      "Tanzeum"
+    ]
+  },
+  {
+    "asset_id": "asset:b0bd3861512aa4bd9f1a",
+    "name": "Trulicity",
+    "canonical_name": "Trulicity",
+    "aliases": [
+      "Trulicity"
+    ]
+  },
+  {
+    "asset_id": "asset:729b036dca6f1f1337f4",
+    "name": "Glucagon+Exendin9-39",
+    "canonical_name": "Glucagon+Exendin9-39",
+    "aliases": [
+      "Glucagon+Exendin9-39"
+    ]
+  },
+  {
+    "asset_id": "asset:8b60e9b4bb4d2d88195f",
+    "name": "Cagrilintide",
+    "canonical_name": "Cagrilintide",
+    "aliases": [
+      "Cagrilintide",
+      "cagrilintide"
+    ]
+  },
+  {
+    "asset_id": "asset:204b110980405b20ff76",
+    "name": "glepaglutide",
+    "canonical_name": "glepaglutide",
+    "aliases": [
+      "glepaglutide",
+      "ZP1848",
+      "Glepaglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:8dec267ad9d4bae814a6",
+    "name": "ROSE-010",
+    "canonical_name": "ROSE-010",
+    "aliases": [
+      "ROSE-010",
+      "ROSE 010"
+    ]
+  },
+  {
+    "asset_id": "asset:7772a98b2f09292d90d5",
+    "name": "Benzocaine",
+    "canonical_name": "Benzocaine",
+    "aliases": [
+      "Benzocaine",
+      "benzocaine"
+    ]
+  },
+  {
+    "asset_id": "asset:78be83722b1614c14f0b",
+    "name": "\"Liraglutide\" and \"Mitiglinide\"",
+    "canonical_name": "\"Liraglutide\" and \"Mitiglinide\"",
+    "aliases": [
+      "\"Liraglutide\" and \"Mitiglinide\""
+    ]
+  },
+  {
+    "asset_id": "asset:db2c45a1307c0a403141",
+    "name": "\"Metformin\" and \"Mitiglinide\"",
+    "canonical_name": "\"Metformin\" and \"Mitiglinide\"",
+    "aliases": [
+      "\"Metformin\" and \"Mitiglinide\""
+    ]
+  },
+  {
+    "asset_id": "asset:6a1a288123c315a51948",
+    "name": "[13C9, 15N1]-glucagon",
+    "canonical_name": "[13C9, 15N1]-glucagon",
+    "aliases": [
+      "[13C9, 15N1]-glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:ab3a76be6044329970d9",
+    "name": "[6,6-2H2] glucose",
+    "canonical_name": "[6,6-2H2] glucose",
+    "aliases": [
+      "[6,6-2H2] glucose"
+    ]
+  },
+  {
+    "asset_id": "asset:08f0946ae689508d7f83",
+    "name": "Acetaminophen (paracetamol)",
+    "canonical_name": "Acetaminophen (paracetamol)",
+    "aliases": [
+      "Acetaminophen (paracetamol)"
+    ]
+  },
+  {
+    "asset_id": "asset:2138ac8b6c74de7520aa",
+    "name": "all standard of care to diabetic patient besides tirzepatide",
+    "canonical_name": "all standard of care to diabetic patient besides tirzepatide",
+    "aliases": [
+      "all standard of care to diabetic patient besides tirzepatide"
+    ]
+  },
+  {
+    "asset_id": "asset:6653699546646ed46fb0",
+    "name": "Alpha-Glucosidase Inhibitor",
+    "canonical_name": "Alpha-Glucosidase Inhibitor",
+    "aliases": [
+      "Alpha-Glucosidase Inhibitor"
+    ]
+  },
+  {
+    "asset_id": "asset:82e1b2b6a2b4fc2297d8",
+    "name": "Angiotensin Receptor Blocker (ARB)",
+    "canonical_name": "Angiotensin Receptor Blocker (ARB)",
+    "aliases": [
+      "Angiotensin Receptor Blocker (ARB)"
+    ]
+  },
+  {
+    "asset_id": "asset:d2557998f17814e973e2",
+    "name": "Anti Arrhythmics",
+    "canonical_name": "Anti Arrhythmics",
+    "aliases": [
+      "Anti Arrhythmics"
+    ]
+  },
+  {
+    "asset_id": "asset:d5a8c1e06213fa4db86b",
+    "name": "Anti-Obesity Pharmacotherapy (Class Effect)",
+    "canonical_name": "Anti-Obesity Pharmacotherapy (Class Effect)",
+    "aliases": [
+      "Anti-Obesity Pharmacotherapy (Class Effect)"
+    ]
+  },
+  {
+    "asset_id": "asset:068ed1b9cfcec6d496c5",
+    "name": "Basal Bolus",
+    "canonical_name": "Basal Bolus",
+    "aliases": [
+      "Basal Bolus"
+    ]
+  },
+  {
+    "asset_id": "asset:721b2b37e4ded93e132b",
+    "name": "Basal insulin Basaglar/Lantus + gliclazide MR",
+    "canonical_name": "Basal insulin Basaglar/Lantus + gliclazide MR",
+    "aliases": [
+      "Basal insulin Basaglar/Lantus + gliclazide MR"
+    ]
+  },
+  {
+    "asset_id": "asset:fefb7e18cfb9f4f5b860",
+    "name": "Basal insulin glargine and lixisenatide",
+    "canonical_name": "Basal insulin glargine and lixisenatide",
+    "aliases": [
+      "Basal insulin glargine and lixisenatide"
+    ]
+  },
+  {
+    "asset_id": "asset:cbcdc8120186b8e859fa",
+    "name": "Beinaglutide",
+    "canonical_name": "Beinaglutide",
+    "aliases": [
+      "Beinaglutide",
+      "beinaglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:c953c4ed3f61bd01928e",
+    "name": "BIAsp30",
+    "canonical_name": "BIAsp30",
+    "aliases": [
+      "BIAsp30"
+    ]
+  },
+  {
+    "asset_id": "asset:c97e015dbea78d6acd8a",
+    "name": "Bupropion-Naltrexone-Metformin",
+    "canonical_name": "Bupropion-Naltrexone-Metformin",
+    "aliases": [
+      "Bupropion-Naltrexone-Metformin"
+    ]
+  },
+  {
+    "asset_id": "asset:4af46b5cfc840b8e8c97",
+    "name": "Byetta, Exenatide",
+    "canonical_name": "Byetta, Exenatide",
+    "aliases": [
+      "Byetta, Exenatide",
+      "Byetta (exenatide)"
+    ]
+  },
+  {
+    "asset_id": "asset:92b796f85ddf928ed813",
+    "name": "Canagliflozin (TA-7284)",
+    "canonical_name": "Canagliflozin (TA-7284)",
+    "aliases": [
+      "Canagliflozin (TA-7284)"
+    ]
+  },
+  {
+    "asset_id": "asset:765f74193198895b8917",
+    "name": "COMBI",
+    "canonical_name": "COMBI",
+    "aliases": [
+      "COMBI"
+    ]
+  },
+  {
+    "asset_id": "asset:c040236607a2d34d87a3",
+    "name": "Continue GLP/GIP",
+    "canonical_name": "Continue GLP/GIP",
+    "aliases": [
+      "Continue GLP/GIP"
+    ]
+  },
+  {
+    "asset_id": "asset:850b26d4de5daf4458d4",
+    "name": "CSII",
+    "canonical_name": "CSII",
+    "aliases": [
+      "CSII"
+    ]
+  },
+  {
+    "asset_id": "asset:7f65eeb7c310226090d1",
+    "name": "Cyanocobalamin",
+    "canonical_name": "Cyanocobalamin",
+    "aliases": [
+      "Cyanocobalamin"
+    ]
+  },
+  {
+    "asset_id": "asset:5fce87993803bafe86a3",
+    "name": "Dapagliflozin (Forxiga)",
+    "canonical_name": "Dapagliflozin (Forxiga)",
+    "aliases": [
+      "Dapagliflozin (Forxiga)",
+      "dapagliflozin\uff1aForxiga\u00ae\ufe0f"
+    ]
+  },
+  {
+    "asset_id": "asset:17b3341f480255ee73d7",
+    "name": "DPP-4 Inhibitors",
+    "canonical_name": "DPP-4 Inhibitors",
+    "aliases": [
+      "DPP-4 Inhibitors",
+      "DPP-4 inhibitors"
+    ]
+  },
+  {
+    "asset_id": "asset:b4815b53d0a065d5118f",
+    "name": "dulaglutide (TRULICITY\u00ae) 1.5 mg",
+    "canonical_name": "dulaglutide (TRULICITY\u00ae) 1.5 mg",
+    "aliases": [
+      "dulaglutide (TRULICITY\u00ae) 1.5 mg"
+    ]
+  },
+  {
+    "asset_id": "asset:25d651987822c8e65e2a",
+    "name": "Efsubaglutide",
+    "canonical_name": "Efsubaglutide",
+    "aliases": [
+      "Efsubaglutide",
+      "efsubaglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:69221e3ca92291b9b15b",
+    "name": "Exenatide placebo (saline)",
+    "canonical_name": "Exenatide placebo (saline)",
+    "aliases": [
+      "Exenatide placebo (saline)"
+    ]
+  },
+  {
+    "asset_id": "asset:d16d811d33885d57ca6d",
+    "name": "Exendin-9",
+    "canonical_name": "Exendin-9",
+    "aliases": [
+      "Exendin-9"
+    ]
+  },
+  {
+    "asset_id": "asset:9a20d7f5b82181dab384",
+    "name": "Fresenius",
+    "canonical_name": "Fresenius",
+    "aliases": [
+      "Fresenius"
+    ]
+  },
+  {
+    "asset_id": "asset:0b314c5fbf7b8a50556b",
+    "name": "GLP-1",
+    "canonical_name": "GLP-1",
+    "aliases": [
+      "GLP-1",
+      "GLP 1"
+    ]
+  },
+  {
+    "asset_id": "asset:396a7aab8373c2d7ded3",
+    "name": "GLP-1 agonists",
+    "canonical_name": "GLP-1 agonists",
+    "aliases": [
+      "GLP-1 agonists"
+    ]
+  },
+  {
+    "asset_id": "asset:1dc9728faddaad39f40f",
+    "name": "GLP-1 analogue",
+    "canonical_name": "GLP-1 analogue",
+    "aliases": [
+      "GLP-1 analogue"
+    ]
+  },
+  {
+    "asset_id": "asset:e82c49c530b05550b1e1",
+    "name": "GLP-1 dose reduction",
+    "canonical_name": "GLP-1 dose reduction",
+    "aliases": [
+      "GLP-1 dose reduction"
+    ]
+  },
+  {
+    "asset_id": "asset:de71a3c45736c665fb6e",
+    "name": "GLP-1 RAs",
+    "canonical_name": "GLP-1 RAs",
+    "aliases": [
+      "GLP-1 RAs"
+    ]
+  },
+  {
+    "asset_id": "asset:1694f06b37f9f784c3e7",
+    "name": "GLP-1 receptor agonist",
+    "canonical_name": "GLP-1 receptor agonist",
+    "aliases": [
+      "GLP-1 receptor agonist",
+      "GLP1 receptor agonist",
+      "GLP-1 Receptor Agonist",
+      "GLP1 Receptor Agonist"
+    ]
+  },
+  {
+    "asset_id": "asset:bb469d34a6cb002adb75",
+    "name": "GLP-1 Receptor Agonists",
+    "canonical_name": "GLP-1 Receptor Agonists",
+    "aliases": [
+      "GLP-1 Receptor Agonists"
+    ]
+  },
+  {
+    "asset_id": "asset:c9f788072288207ff1f1",
+    "name": "GLP-1A",
+    "canonical_name": "GLP-1A",
+    "aliases": [
+      "GLP-1A"
+    ]
+  },
+  {
+    "asset_id": "asset:5aadd411cc1b51715ddc",
+    "name": "GLP-1RA",
+    "canonical_name": "GLP-1RA",
+    "aliases": [
+      "GLP-1RA",
+      "GLP-1-RA",
+      "GLP1-RA",
+      "GLP-1 RA"
+    ]
+  },
+  {
+    "asset_id": "asset:8c771628c3a51c1c7f4c",
+    "name": "glucagon-like-peptide-1",
+    "canonical_name": "glucagon-like-peptide-1",
+    "aliases": [
+      "glucagon-like-peptide-1",
+      "glucagon like peptide-1",
+      "Glucagon-Like Peptide 1",
+      "Glucagon-like peptide 1",
+      "Glucagon-like Peptide-1",
+      "glucagon-like peptide-1",
+      "Glucagon-Like Peptide-1",
+      "glucagon-like peptide-1,",
+      "glucagon like peptide -1",
+      "Glucagon like peptide-1",
+      "Glucagon-like peptide-1"
+    ]
+  },
+  {
+    "asset_id": "asset:39b3b246275c9c248cc2",
+    "name": "Glucophage tablets and Victoza",
+    "canonical_name": "Glucophage tablets and Victoza",
+    "aliases": [
+      "Glucophage tablets and Victoza"
+    ]
+  },
+  {
+    "asset_id": "asset:5e1bf60476b36220bb08",
+    "name": "Human regular insulin intravenously",
+    "canonical_name": "Human regular insulin intravenously",
+    "aliases": [
+      "Human regular insulin intravenously"
+    ]
+  },
+  {
+    "asset_id": "asset:e5b6fc41e58734439d6f",
+    "name": "Humulin kwickpen",
+    "canonical_name": "Humulin kwickpen",
+    "aliases": [
+      "Humulin kwickpen"
+    ]
+  },
+  {
+    "asset_id": "asset:0ecc9acab358acee2b98",
+    "name": "IDegLira",
+    "canonical_name": "IDegLira",
+    "aliases": [
+      "IDegLira",
+      "iDegLira",
+      "IDeglira",
+      "iDeglira",
+      "ideglira",
+      "IdegLira"
+    ]
+  },
+  {
+    "asset_id": "asset:f3c1d5b58230a749ea9a",
+    "name": "IGlarLixi",
+    "canonical_name": "IGlarLixi",
+    "aliases": [
+      "IGlarLixi"
+    ]
+  },
+  {
+    "asset_id": "asset:01c16bc98398cb36b690",
+    "name": "iGlarLixi (insulin glargine/lixisenatide)",
+    "canonical_name": "iGlarLixi (insulin glargine/lixisenatide)",
+    "aliases": [
+      "iGlarLixi (insulin glargine/lixisenatide)"
+    ]
+  },
+  {
+    "asset_id": "asset:0b1d3247c33b83256e12",
+    "name": "Incretin analogues",
+    "canonical_name": "Incretin analogues",
+    "aliases": [
+      "Incretin analogues"
+    ]
+  },
+  {
+    "asset_id": "asset:10f155e6f20c9916b494",
+    "name": "Insulin degludec, 100 U/mL",
+    "canonical_name": "Insulin degludec, 100 U/mL",
+    "aliases": [
+      "Insulin degludec, 100 U/mL"
+    ]
+  },
+  {
+    "asset_id": "asset:7f468fc57aa7593541cf",
+    "name": "Insulin glargine combined with metformin",
+    "canonical_name": "Insulin glargine combined with metformin",
+    "aliases": [
+      "Insulin glargine combined with metformin"
+    ]
+  },
+  {
+    "asset_id": "asset:c1014f82a45c88e87ccc",
+    "name": "INSULIN GLARGINE HOE 901",
+    "canonical_name": "INSULIN GLARGINE HOE 901",
+    "aliases": [
+      "INSULIN GLARGINE HOE 901"
+    ]
+  },
+  {
+    "asset_id": "asset:0d45fc04a5688b66c046",
+    "name": "Insulin injections",
+    "canonical_name": "Insulin injections",
+    "aliases": [
+      "Insulin injections"
+    ]
+  },
+  {
+    "asset_id": "asset:9912328c1d96415cb4b7",
+    "name": "Intranasal glugagon",
+    "canonical_name": "Intranasal glugagon",
+    "aliases": [
+      "Intranasal glugagon"
+    ]
+  },
+  {
+    "asset_id": "asset:8f41ab20e876f3d1d3f3",
+    "name": "Januvia (sitagliptin)",
+    "canonical_name": "Januvia (sitagliptin)",
+    "aliases": [
+      "Januvia (sitagliptin)"
+    ]
+  },
+  {
+    "asset_id": "asset:ac7cf3f0aad45349b32d",
+    "name": "Liraglutide (Saxenda) 6Mg/Ml Inj Pen 3Ml",
+    "canonical_name": "Liraglutide (Saxenda) 6Mg/Ml Inj Pen 3Ml",
+    "aliases": [
+      "Liraglutide (Saxenda) 6Mg/Ml Inj Pen 3Ml"
+    ]
+  },
+  {
+    "asset_id": "asset:aebf8122f2db35a12957",
+    "name": "Liraglutide (Saxenda) 6Mg/Ml Inj Pen 3Ml or Placebo",
+    "canonical_name": "Liraglutide (Saxenda) 6Mg/Ml Inj Pen 3Ml or Placebo",
+    "aliases": [
+      "Liraglutide (Saxenda) 6Mg/Ml Inj Pen 3Ml or Placebo"
+    ]
+  },
+  {
+    "asset_id": "asset:3e10172e676ccc187522",
+    "name": "Liraglutide 3 mg (Saxenda)",
+    "canonical_name": "Liraglutide 3 mg (Saxenda)",
+    "aliases": [
+      "Liraglutide 3 mg (Saxenda)"
+    ]
+  },
+  {
+    "asset_id": "asset:97f0ff7b0b03ffdcf7b7",
+    "name": "liraglutide 3 mg (Saxenda\u00ae) once-daily",
+    "canonical_name": "liraglutide 3 mg (Saxenda\u00ae) once-daily",
+    "aliases": [
+      "liraglutide 3 mg (Saxenda\u00ae) once-daily"
+    ]
+  },
+  {
+    "asset_id": "asset:9682e47bf332c85893a3",
+    "name": "Liraglutide 6 MG/ML [Saxenda]",
+    "canonical_name": "Liraglutide 6 MG/ML [Saxenda]",
+    "aliases": [
+      "Liraglutide 6 MG/ML [Saxenda]"
+    ]
+  },
+  {
+    "asset_id": "asset:be25d2a1d42aae12eca9",
+    "name": "Liraglutide combined with metformin",
+    "canonical_name": "Liraglutide combined with metformin",
+    "aliases": [
+      "Liraglutide combined with metformin"
+    ]
+  },
+  {
+    "asset_id": "asset:8197ba6ab96b45f37393",
+    "name": "Liraglutide for 26 weeks",
+    "canonical_name": "Liraglutide for 26 weeks",
+    "aliases": [
+      "Liraglutide for 26 weeks"
+    ]
+  },
+  {
+    "asset_id": "asset:63017f3f5be7adc89a0a",
+    "name": "Liraglutide Pen Injector [Saxenda]",
+    "canonical_name": "Liraglutide Pen Injector [Saxenda]",
+    "aliases": [
+      "Liraglutide Pen Injector [Saxenda]"
+    ]
+  },
+  {
+    "asset_id": "asset:819e835eb6404778b421",
+    "name": "Liraglutide Pen Injector [Victoza]",
+    "canonical_name": "Liraglutide Pen Injector [Victoza]",
+    "aliases": [
+      "Liraglutide Pen Injector [Victoza]"
+    ]
+  },
+  {
+    "asset_id": "asset:34cca00d7e26820ed810",
+    "name": "lixisenatide + glargine",
+    "canonical_name": "lixisenatide + glargine",
+    "aliases": [
+      "lixisenatide + glargine"
+    ]
+  },
+  {
+    "asset_id": "asset:8bca5c14afc56723ca1e",
+    "name": "Low-Dose Glucagon",
+    "canonical_name": "Low-Dose Glucagon",
+    "aliases": [
+      "Low-Dose Glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:4db653c586ea22a9af0e",
+    "name": "Maintenance of GLP-1 dose",
+    "canonical_name": "Maintenance of GLP-1 dose",
+    "aliases": [
+      "Maintenance of GLP-1 dose"
+    ]
+  },
+  {
+    "asset_id": "asset:aef24276c75cf2b06274",
+    "name": "Mazdutide",
+    "canonical_name": "Mazdutide",
+    "aliases": [
+      "Mazdutide",
+      "IBI362",
+      "mazdutide",
+      "LY3305677"
+    ]
+  },
+  {
+    "asset_id": "asset:614556982d0eca51d12b",
+    "name": "MET",
+    "canonical_name": "MET",
+    "aliases": [
+      "MET"
+    ]
+  },
+  {
+    "asset_id": "asset:7b96f83ded0b7bef030c",
+    "name": "Mosapride citrate",
+    "canonical_name": "Mosapride citrate",
+    "aliases": [
+      "Mosapride citrate",
+      "mosapride citrate",
+      "Mosapride Citrate"
+    ]
+  },
+  {
+    "asset_id": "asset:707ad4109499bfd1755a",
+    "name": "Naltrexone-Bupropion Combination",
+    "canonical_name": "Naltrexone-Bupropion Combination",
+    "aliases": [
+      "Naltrexone-Bupropion Combination"
+    ]
+  },
+  {
+    "asset_id": "asset:c0323ccb776d8aff923e",
+    "name": "naltrexone/bupropion extended-release",
+    "canonical_name": "naltrexone/bupropion extended-release",
+    "aliases": [
+      "naltrexone/bupropion extended-release"
+    ]
+  },
+  {
+    "asset_id": "asset:1b8a140a8aff1e575a9e",
+    "name": "non-GLP weight loss medication",
+    "canonical_name": "non-GLP weight loss medication",
+    "aliases": [
+      "non-GLP weight loss medication"
+    ]
+  },
+  {
+    "asset_id": "asset:c1ff82053779f8b81264",
+    "name": "NPH insulin",
+    "canonical_name": "NPH insulin",
+    "aliases": [
+      "NPH insulin"
+    ]
+  },
+  {
+    "asset_id": "asset:0def17f0baa1a4260da2",
+    "name": "Oral Progestins",
+    "canonical_name": "Oral Progestins",
+    "aliases": [
+      "Oral Progestins"
+    ]
+  },
+  {
+    "asset_id": "asset:0f2264a120cab87b3124",
+    "name": "Other DPP4-i",
+    "canonical_name": "Other DPP4-i",
+    "aliases": [
+      "Other DPP4-i"
+    ]
+  },
+  {
+    "asset_id": "asset:50d0f30a90d2e670aaa7",
+    "name": "Phentermine / Topiramate Extended Release Oral Capsule",
+    "canonical_name": "Phentermine / Topiramate Extended Release Oral Capsule",
+    "aliases": [
+      "Phentermine / Topiramate Extended Release Oral Capsule"
+    ]
+  },
+  {
+    "asset_id": "asset:42979d498bff3cd5ceb3",
+    "name": "Physiologic saline - esmolol dummy",
+    "canonical_name": "Physiologic saline - esmolol dummy",
+    "aliases": [
+      "Physiologic saline - esmolol dummy"
+    ]
+  },
+  {
+    "asset_id": "asset:68862094969c7e10c0fc",
+    "name": "Physiologic saline - glucagon dummy",
+    "canonical_name": "Physiologic saline - glucagon dummy",
+    "aliases": [
+      "Physiologic saline - glucagon dummy"
+    ]
+  },
+  {
+    "asset_id": "asset:93060dde0f6c6d4e4320",
+    "name": "Placebo IV",
+    "canonical_name": "Placebo IV",
+    "aliases": [
+      "Placebo IV"
+    ]
+  },
+  {
+    "asset_id": "asset:72b36937858e5f2b2c52",
+    "name": "Placebo SC",
+    "canonical_name": "Placebo SC",
+    "aliases": [
+      "Placebo SC"
+    ]
+  },
+  {
+    "asset_id": "asset:0fc80d559e073155f149",
+    "name": "Prandial insulin",
+    "canonical_name": "Prandial insulin",
+    "aliases": [
+      "Prandial insulin"
+    ]
+  },
+  {
+    "asset_id": "asset:a597014c1dcf2cfc4227",
+    "name": "Receptor Agonists (GLP1RA)",
+    "canonical_name": "Receptor Agonists (GLP1RA)",
+    "aliases": [
+      "Receptor Agonists (GLP1RA)"
+    ]
+  },
+  {
+    "asset_id": "asset:83a0f0fd467a57ac9333",
+    "name": "Saxagliptin",
+    "canonical_name": "Saxagliptin",
+    "aliases": [
+      "Saxagliptin",
+      "saxagliptin"
+    ]
+  },
+  {
+    "asset_id": "asset:7ba89f226899e0e1a97d",
+    "name": "Semaglutide (Ozempic\u00ae)",
+    "canonical_name": "Semaglutide (Ozempic\u00ae)",
+    "aliases": [
+      "Semaglutide (Ozempic\u00ae)"
+    ]
+  },
+  {
+    "asset_id": "asset:a41b1abf44292a16e2b1",
+    "name": "Semaglutide (Rybelsus\u00ae)",
+    "canonical_name": "Semaglutide (Rybelsus\u00ae)",
+    "aliases": [
+      "Semaglutide (Rybelsus\u00ae)"
+    ]
+  },
+  {
+    "asset_id": "asset:7dcd4f0b0c4b853be297",
+    "name": "Semaglutide (Wegovy\u00ae)",
+    "canonical_name": "Semaglutide (Wegovy\u00ae)",
+    "aliases": [
+      "Semaglutide (Wegovy\u00ae)"
+    ]
+  },
+  {
+    "asset_id": "asset:39972ebbfae26a715272",
+    "name": "Semaglutide 14 MG [Rybelsus]",
+    "canonical_name": "Semaglutide 14 MG [Rybelsus]",
+    "aliases": [
+      "Semaglutide 14 MG [Rybelsus]"
+    ]
+  },
+  {
+    "asset_id": "asset:4747a5b1382f8d655f7e",
+    "name": "Semaglutide 1MG Injection [Ozempic]",
+    "canonical_name": "Semaglutide 1MG Injection [Ozempic]",
+    "aliases": [
+      "Semaglutide 1MG Injection [Ozempic]"
+    ]
+  },
+  {
+    "asset_id": "asset:bf907222ea60c1b3bdbd",
+    "name": "Semaglutide 2.4 MG/0.75 ML Subcutaneous Solution [WEGOVY]",
+    "canonical_name": "Semaglutide 2.4 MG/0.75 ML Subcutaneous Solution [WEGOVY]",
+    "aliases": [
+      "Semaglutide 2.4 MG/0.75 ML Subcutaneous Solution [WEGOVY]"
+    ]
+  },
+  {
+    "asset_id": "asset:a0a84f4624c4140a21c8",
+    "name": "Semaglutide in combination with a healthy lifestyle intervention (diet and exercise)",
+    "canonical_name": "Semaglutide in combination with a healthy lifestyle intervention (diet and exercise)",
+    "aliases": [
+      "Semaglutide in combination with a healthy lifestyle intervention (diet and exercise)"
+    ]
+  },
+  {
+    "asset_id": "asset:a40a22aa66b8c5abb76c",
+    "name": "Semaglutide Pen Injector [Ozempic]",
+    "canonical_name": "Semaglutide Pen Injector [Ozempic]",
+    "aliases": [
+      "Semaglutide Pen Injector [Ozempic]"
+    ]
+  },
+  {
+    "asset_id": "asset:21da3f2e594d528b8388",
+    "name": "SGLT2 inhibitors",
+    "canonical_name": "SGLT2 inhibitors",
+    "aliases": [
+      "SGLT2 inhibitors"
+    ]
+  },
+  {
+    "asset_id": "asset:a3c93a73be5bb52d0748",
+    "name": "Signifor (pasireotide)",
+    "canonical_name": "Signifor (pasireotide)",
+    "aliases": [
+      "Signifor (pasireotide)"
+    ]
+  },
+  {
+    "asset_id": "asset:90902dfeda56781a8ef6",
+    "name": "Sitagliptin (Januvia)",
+    "canonical_name": "Sitagliptin (Januvia)",
+    "aliases": [
+      "Sitagliptin (Januvia)",
+      "Sitagliptin (JANUVIA\u00ae)"
+    ]
+  },
+  {
+    "asset_id": "asset:4d5819caa21df6b23a94",
+    "name": "Sitagliptin combined with metformin",
+    "canonical_name": "Sitagliptin combined with metformin",
+    "aliases": [
+      "Sitagliptin combined with metformin"
+    ]
+  },
+  {
+    "asset_id": "asset:482f9da5ab857d4bdc94",
+    "name": "Sodium chloride",
+    "canonical_name": "Sodium chloride",
+    "aliases": [
+      "Sodium chloride",
+      "Sodium-chloride",
+      "saline solution",
+      "Saline Solution"
+    ]
+  },
+  {
+    "asset_id": "asset:bebee002945a5dae8e8c",
+    "name": "Sulfonylurea",
+    "canonical_name": "Sulfonylurea",
+    "aliases": [
+      "Sulfonylurea"
+    ]
+  },
+  {
+    "asset_id": "asset:a9f88e93c5176cedeb97",
+    "name": "Sulphonylureas",
+    "canonical_name": "Sulphonylureas",
+    "aliases": [
+      "Sulphonylureas"
+    ]
+  },
+  {
+    "asset_id": "asset:bbc6deea9ffb3b9724ce",
+    "name": "thiazolidinediones",
+    "canonical_name": "thiazolidinediones",
+    "aliases": [
+      "thiazolidinediones",
+      "Thiazolidinediones"
+    ]
+  },
+  {
+    "asset_id": "asset:8e5ef7489bd9a326587a",
+    "name": "Tirzepatide as an adjunct to lifestyle intervention",
+    "canonical_name": "Tirzepatide as an adjunct to lifestyle intervention",
+    "aliases": [
+      "Tirzepatide as an adjunct to lifestyle intervention"
+    ]
+  },
+  {
+    "asset_id": "asset:fb59e8eb25c777651f36",
+    "name": "UDCA",
+    "canonical_name": "UDCA",
+    "aliases": [
+      "UDCA"
+    ]
+  },
+  {
+    "asset_id": "asset:dad170c53e7c0713ca62",
+    "name": "Victoza (liraglutide)",
+    "canonical_name": "Victoza (liraglutide)",
+    "aliases": [
+      "Victoza (liraglutide)",
+      "Victoza\u00ae (liraglutide)"
+    ]
+  },
+  {
+    "asset_id": "asset:2dee34a2fe5756a3bfb6",
+    "name": "Vildagliptin (Galvus)",
+    "canonical_name": "Vildagliptin (Galvus)",
+    "aliases": [
+      "Vildagliptin (Galvus)"
+    ]
+  },
+  {
+    "asset_id": "asset:0881ea9bed00015f1ae6",
+    "name": "water",
+    "canonical_name": "water",
+    "aliases": [
+      "water",
+      "Water",
+      "WATER",
+      "purified water"
+    ]
+  },
+  {
+    "asset_id": "asset:d581247e29c93b767f0b",
+    "name": "Aleniglipron",
+    "canonical_name": "Aleniglipron",
+    "aliases": [
+      "Aleniglipron",
+      "aleniglipron"
+    ]
+  },
+  {
+    "asset_id": "asset:061ab1e0a0c0e87fc267",
+    "name": "Background therapy: Oral Anti-diabetic Drug (Metformin, Pioglitazone, SGLT2 inhibitor)",
+    "canonical_name": "Background therapy: Oral Anti-diabetic Drug (Metformin, Pioglitazone, SGLT2 inhibitor)",
+    "aliases": [
+      "Background therapy: Oral Anti-diabetic Drug (Metformin, Pioglitazone, SGLT2 inhibitor)"
+    ]
+  },
+  {
+    "asset_id": "asset:43aaa67f12bdb57489f3",
+    "name": "basal insulin",
+    "canonical_name": "basal insulin",
+    "aliases": [
+      "basal insulin",
+      "Basal Insulin",
+      "Basal insulin"
+    ]
+  },
+  {
+    "asset_id": "asset:ae40076c0957f47b69f3",
+    "name": "Benaglutide",
+    "canonical_name": "Benaglutide",
+    "aliases": [
+      "Benaglutide",
+      "benaglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:ddbc51057de894ddae09",
+    "name": "Berobenatide",
+    "canonical_name": "Berobenatide",
+    "aliases": [
+      "Berobenatide"
+    ]
+  },
+  {
+    "asset_id": "asset:2575ca78a0a8ff07c853",
+    "name": "Bofanglutida",
+    "canonical_name": "Bofanglutida",
+    "aliases": [
+      "Bofanglutida"
+    ]
+  },
+  {
+    "asset_id": "asset:6c59fc20329803e95161",
+    "name": "Bofanglutide",
+    "canonical_name": "Bofanglutide",
+    "aliases": [
+      "Bofanglutide",
+      "bofanglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:8b3e8208c3c13a23d374",
+    "name": "Dapagliflozin plus Glucophage (MET ER)",
+    "canonical_name": "Dapagliflozin plus Glucophage (MET ER)",
+    "aliases": [
+      "Dapagliflozin plus Glucophage (MET ER)"
+    ]
+  },
+  {
+    "asset_id": "asset:cb749ae3c8472c8d0957",
+    "name": "ecnoglutide",
+    "canonical_name": "ecnoglutide",
+    "aliases": [
+      "ecnoglutide",
+      "Ecnoglutide",
+      "XW003"
+    ]
+  },
+  {
+    "asset_id": "asset:81dea25b44e83991fdfd",
+    "name": "Elecoglipron",
+    "canonical_name": "Elecoglipron",
+    "aliases": [
+      "Elecoglipron",
+      "elecoglipron"
+    ]
+  },
+  {
+    "asset_id": "asset:c0077f81bfcc5de38b41",
+    "name": "Exenatide 2 mg [Bydureon]",
+    "canonical_name": "Exenatide 2 mg [Bydureon]",
+    "aliases": [
+      "Exenatide 2 mg [Bydureon]"
+    ]
+  },
+  {
+    "asset_id": "asset:0f65552f1ae191eef8ee",
+    "name": "G-Pen",
+    "canonical_name": "G-Pen",
+    "aliases": [
+      "G-Pen"
+    ]
+  },
+  {
+    "asset_id": "asset:6c58d33b95bcdfbf368c",
+    "name": "GLP-1 High Dose",
+    "canonical_name": "GLP-1 High Dose",
+    "aliases": [
+      "GLP-1 High Dose",
+      "GLP-1 Low Dose"
+    ]
+  },
+  {
+    "asset_id": "asset:f42138f591e851913923",
+    "name": "GLP-1 Mid-Range Dose",
+    "canonical_name": "GLP-1 Mid-Range Dose",
+    "aliases": [
+      "GLP-1 Mid-Range Dose"
+    ]
+  },
+  {
+    "asset_id": "asset:aac656afb8e33848c254",
+    "name": "GLP-1 stop for 1 week",
+    "canonical_name": "GLP-1 stop for 1 week",
+    "aliases": [
+      "GLP-1 stop for 1 week",
+      "GLP-1 Stop for 1 week"
+    ]
+  },
+  {
+    "asset_id": "asset:3fb04dd4c4b97c6c296f",
+    "name": "GLP-2",
+    "canonical_name": "GLP-2",
+    "aliases": [
+      "GLP-2"
+    ]
+  },
+  {
+    "asset_id": "asset:3a3ea161252ac3a848db",
+    "name": "Glucagon hydrochloride (GlucaGen\u00ae)",
+    "canonical_name": "Glucagon hydrochloride (GlucaGen\u00ae)",
+    "aliases": [
+      "Glucagon hydrochloride (GlucaGen\u00ae)"
+    ]
+  },
+  {
+    "asset_id": "asset:5621ca2233533d0bc7a0",
+    "name": "Glucagon IM",
+    "canonical_name": "Glucagon IM",
+    "aliases": [
+      "Glucagon IM"
+    ]
+  },
+  {
+    "asset_id": "asset:3ba0e94935e54f41b9e4",
+    "name": "HDG1901",
+    "canonical_name": "HDG1901",
+    "aliases": [
+      "HDG1901"
+    ]
+  },
+  {
+    "asset_id": "asset:b07452750b166f63e2e4",
+    "name": "HDM1002",
+    "canonical_name": "HDM1002",
+    "aliases": [
+      "HDM1002"
+    ]
+  },
+  {
+    "asset_id": "asset:08049566ccb097350579",
+    "name": "human chorionic gonadotropin",
+    "canonical_name": "human chorionic gonadotropin",
+    "aliases": [
+      "human chorionic gonadotropin"
+    ]
+  },
+  {
+    "asset_id": "asset:6b846ebf042d9715baef",
+    "name": "Insulin Degludec (U-100)",
+    "canonical_name": "Insulin Degludec (U-100)",
+    "aliases": [
+      "Insulin Degludec (U-100)"
+    ]
+  },
+  {
+    "asset_id": "asset:461e7f40dc83db529dba",
+    "name": "Insulin glargine/lixisenatide fixed ratio combination",
+    "canonical_name": "Insulin glargine/lixisenatide fixed ratio combination",
+    "aliases": [
+      "Insulin glargine/lixisenatide fixed ratio combination"
+    ]
+  },
+  {
+    "asset_id": "asset:fc7c4ba42096f03e4f39",
+    "name": "Period 1: Semaglutide + Empagliflozin",
+    "canonical_name": "Intervention Period 1: Semaglutide + Empagliflozin",
+    "aliases": [
+      "Intervention Period 1: Semaglutide + Empagliflozin"
+    ]
+  },
+  {
+    "asset_id": "asset:1a415bbe88d045b8eab9",
+    "name": "Period 2: Semaglutide + Empagliflozin Placebo",
+    "canonical_name": "Intervention Period 2: Semaglutide + Empagliflozin Placebo",
+    "aliases": [
+      "Intervention Period 2: Semaglutide + Empagliflozin Placebo"
+    ]
+  },
+  {
+    "asset_id": "asset:fe7284e171aa18610446",
+    "name": "Period 3: Semaglutide Placebo + Empagliflozin",
+    "canonical_name": "Intervention Period 3: Semaglutide Placebo + Empagliflozin",
+    "aliases": [
+      "Intervention Period 3: Semaglutide Placebo + Empagliflozin"
+    ]
+  },
+  {
+    "asset_id": "asset:ab5e5d0266c986c5881d",
+    "name": "Period 4: Semaglutide Placebo + Empagliflozin Placebo",
+    "canonical_name": "Intervention Period 4: Semaglutide Placebo + Empagliflozin Placebo",
+    "aliases": [
+      "Intervention Period 4: Semaglutide Placebo + Empagliflozin Placebo"
+    ]
+  },
+  {
+    "asset_id": "asset:387a8967fa1eb7a49b4e",
+    "name": "Intramuscular Glucagon",
+    "canonical_name": "Intramuscular Glucagon",
+    "aliases": [
+      "Intramuscular Glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:22dba4a1701a888e03b6",
+    "name": "Lantus (glargine)",
+    "canonical_name": "Lantus (glargine)",
+    "aliases": [
+      "Lantus (glargine)"
+    ]
+  },
+  {
+    "asset_id": "asset:1ad3cbb01d562ccdb16d",
+    "name": "Lilly glucagon",
+    "canonical_name": "Lilly glucagon",
+    "aliases": [
+      "Lilly glucagon",
+      "Lilly Glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:d85784a8394ba07a6213",
+    "name": "LIXISENATIDE (AVE0010)",
+    "canonical_name": "LIXISENATIDE (AVE0010)",
+    "aliases": [
+      "LIXISENATIDE (AVE0010)",
+      "Lixisenatide (AVE0010)",
+      "LIXISENATIDE AVE0010"
+    ]
+  },
+  {
+    "asset_id": "asset:7974d04f9089df3f2a97",
+    "name": "LY275585",
+    "canonical_name": "LY275585",
+    "aliases": [
+      "LY275585"
+    ]
+  },
+  {
+    "asset_id": "asset:63a80d465252b3550348",
+    "name": "LY900018",
+    "canonical_name": "LY900018",
+    "aliases": [
+      "LY900018"
+    ]
+  },
+  {
+    "asset_id": "asset:ec2f49a02b338bb5d41d",
+    "name": "Maridebart Cafraglutide",
+    "canonical_name": "Maridebart Cafraglutide",
+    "aliases": [
+      "Maridebart Cafraglutide",
+      "Maridebart cafraglutide",
+      "maridebart cafraglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:d0887693744decd748cf",
+    "name": "Metformin, if taken before",
+    "canonical_name": "Metformin, if taken before",
+    "aliases": [
+      "Metformin, if taken before"
+    ]
+  },
+  {
+    "asset_id": "asset:f0af3f36020003babcf4",
+    "name": "Nasal Glucagon",
+    "canonical_name": "Nasal Glucagon",
+    "aliases": [
+      "Nasal Glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:e5f9848e99e4ac21febf",
+    "name": "Nasal Glucagon (NG)",
+    "canonical_name": "Nasal Glucagon (NG)",
+    "aliases": [
+      "Nasal Glucagon (NG)"
+    ]
+  },
+  {
+    "asset_id": "asset:7df3d7ce272bc77e9968",
+    "name": "native glp-1 (7-36)",
+    "canonical_name": "native glp-1 (7-36)",
+    "aliases": [
+      "native glp-1 (7-36)"
+    ]
+  },
+  {
+    "asset_id": "asset:a2b6a3f419da3cb361a8",
+    "name": "Novo Glucagon",
+    "canonical_name": "Novo Glucagon",
+    "aliases": [
+      "Novo Glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:9b19516466ea20bbf043",
+    "name": "NPO-11",
+    "canonical_name": "NPO-11",
+    "aliases": [
+      "NPO-11"
+    ]
+  },
+  {
+    "asset_id": "asset:f52b77a6c70a55995e52",
+    "name": "Orforglipron",
+    "canonical_name": "Orforglipron",
+    "aliases": [
+      "Orforglipron",
+      "orforglipron",
+      "LY3502970"
+    ]
+  },
+  {
+    "asset_id": "asset:c189aac99104d72e912a",
+    "name": "Phentermine /Topiramate (PHEN/ TPM) ER",
+    "canonical_name": "Phentermine /Topiramate (PHEN/ TPM) ER",
+    "aliases": [
+      "Phentermine /Topiramate (PHEN/ TPM) ER"
+    ]
+  },
+  {
+    "asset_id": "asset:5817a9a02662b857470d",
+    "name": "PJ009",
+    "canonical_name": "PJ009",
+    "aliases": [
+      "PJ009"
+    ]
+  },
+  {
+    "asset_id": "asset:1c62b5b0dd86dab1b135",
+    "name": "Placebo with 4 meal strategies",
+    "canonical_name": "Placebo with 4 meal strategies",
+    "aliases": [
+      "Placebo with 4 meal strategies"
+    ]
+  },
+  {
+    "asset_id": "asset:c45f89c6e107adf60352",
+    "name": "Ribupatide",
+    "canonical_name": "Ribupatide",
+    "aliases": [
+      "Ribupatide",
+      "ribupatide"
+    ]
+  },
+  {
+    "asset_id": "asset:c5d3abf4d57aea89b7c3",
+    "name": "Semagludtide",
+    "canonical_name": "Semagludtide",
+    "aliases": [
+      "Semagludtide"
+    ]
+  },
+  {
+    "asset_id": "asset:0bc200ffa08e876caf13",
+    "name": "Semaglutide 3mg and 7mg [Rybelsus]",
+    "canonical_name": "Semaglutide 3mg and 7mg [Rybelsus]",
+    "aliases": [
+      "Semaglutide 3mg and 7mg [Rybelsus]"
+    ]
+  },
+  {
+    "asset_id": "asset:2e0e6c18adf4a79e9cdd",
+    "name": "Sulfonylurea/non-sulfonylurea insulin secretagogues",
+    "canonical_name": "Sulfonylurea/non-sulfonylurea insulin secretagogues",
+    "aliases": [
+      "Sulfonylurea/non-sulfonylurea insulin secretagogues"
+    ]
+  },
+  {
+    "asset_id": "asset:e73a5ce664e29053ab69",
+    "name": "TED + glucose",
+    "canonical_name": "TED + glucose",
+    "aliases": [
+      "TED + glucose"
+    ]
+  },
+  {
+    "asset_id": "asset:eb063034b403fc0e26e3",
+    "name": "Testosterone gel",
+    "canonical_name": "Testosterone gel",
+    "aliases": [
+      "Testosterone gel"
+    ]
+  },
+  {
+    "asset_id": "asset:d8be3dc21c4bb34e7cb6",
+    "name": "Tirzepatide is administered as part of routine clinical care for obesity management, according to standard prescribing practices. Dosing and treatment duration are determined by the treating physician",
+    "canonical_name": "Tirzepatide is administered as part of routine clinical care for obesity management, according to standard prescribing practices. Dosing and treatment duration are determined by the treating physician",
+    "aliases": [
+      "Tirzepatide is administered as part of routine clinical care for obesity management, according to standard prescribing practices. Dosing and treatment duration are determined by the treating physician"
+    ]
+  },
+  {
+    "asset_id": "asset:c6ecffed0d820f9c73f2",
+    "name": "TQF3510 (Semaglutide Injection)",
+    "canonical_name": "TQF3510 (Semaglutide Injection)",
+    "aliases": [
+      "TQF3510 (Semaglutide Injection)"
+    ]
+  },
+  {
+    "asset_id": "asset:1b1b65c3bfc4f8bc7e85",
+    "name": "VK2735",
+    "canonical_name": "VK2735",
+    "aliases": [
+      "VK2735"
+    ]
+  },
+  {
+    "asset_id": "asset:f3b724338444a1e1baee",
+    "name": "XW003",
+    "canonical_name": "XW003",
+    "aliases": [
+      "XW003"
+    ]
+  },
+  {
+    "asset_id": "asset:9e01ce4d969dce5d7dee",
+    "name": "12 weeks of weekly subcutaneous semaglutide injection",
+    "canonical_name": "12 weeks of weekly subcutaneous semaglutide injection",
+    "aliases": [
+      "12 weeks of weekly subcutaneous semaglutide injection"
+    ]
+  },
+  {
+    "asset_id": "asset:a610885c172206760864",
+    "name": "4P004",
+    "canonical_name": "4P004",
+    "aliases": [
+      "4P004"
+    ]
+  },
+  {
+    "asset_id": "asset:f0690ac55823a96e1b06",
+    "name": "68Ga-NODAGA-Exendin-4",
+    "canonical_name": "68Ga-NODAGA-Exendin-4",
+    "aliases": [
+      "68Ga-NODAGA-Exendin-4"
+    ]
+  },
+  {
+    "asset_id": "asset:22d4241d48194407bb80",
+    "name": "Acesulfame-Potassium",
+    "canonical_name": "Acesulfame-Potassium",
+    "aliases": [
+      "Acesulfame-Potassium",
+      "Acesulfame potassium",
+      "acesulfame potassium",
+      "Acesulfame Potassium"
+    ]
+  },
+  {
+    "asset_id": "asset:abbae1dc284a6c8dbd3b",
+    "name": "AD109",
+    "canonical_name": "AD109",
+    "aliases": [
+      "AD109"
+    ]
+  },
+  {
+    "asset_id": "asset:ae97438de44036be83a6",
+    "name": "Aspartame",
+    "canonical_name": "Aspartame",
+    "aliases": [
+      "Aspartame",
+      "aspartame"
+    ]
+  },
+  {
+    "asset_id": "asset:eab0741310525e67543b",
+    "name": "CJC-1134",
+    "canonical_name": "CJC-1134",
+    "aliases": [
+      "CJC-1134"
+    ]
+  },
+  {
+    "asset_id": "asset:1e83872a25ad8c5e2c1a",
+    "name": "Closed loop with sensor, Insulin and Liraglutide",
+    "canonical_name": "Closed loop with sensor, Insulin and Liraglutide",
+    "aliases": [
+      "Closed loop with sensor, Insulin and Liraglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:72c2fce08fd2b4fe5c74",
+    "name": "control group (insulin)",
+    "canonical_name": "control group (insulin)",
+    "aliases": [
+      "control group (insulin)"
+    ]
+  },
+  {
+    "asset_id": "asset:c3af4dd2ede877fd7683",
+    "name": "Dapagliflozin 10 MG [Farxiga]",
+    "canonical_name": "Dapagliflozin 10 MG [Farxiga]",
+    "aliases": [
+      "Dapagliflozin 10 MG [Farxiga]"
+    ]
+  },
+  {
+    "asset_id": "asset:a3753d122b9ba61913a4",
+    "name": "Dapiglutide",
+    "canonical_name": "Dapiglutide",
+    "aliases": [
+      "Dapiglutide",
+      "dapiglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:c4f4e1f9c5e8920c5487",
+    "name": "DD01",
+    "canonical_name": "DD01",
+    "aliases": [
+      "DD01"
+    ]
+  },
+  {
+    "asset_id": "asset:e655ca1ce2c5f28b5ff1",
+    "name": "Dextrin",
+    "canonical_name": "Dextrin",
+    "aliases": [
+      "Dextrin"
+    ]
+  },
+  {
+    "asset_id": "asset:e98837c83356ff3296d4",
+    "name": "Empagliflozin 25 MG + Liraglutide 1.8 MG",
+    "canonical_name": "Empagliflozin 25 MG + Liraglutide 1.8 MG",
+    "aliases": [
+      "Empagliflozin 25 MG + Liraglutide 1.8 MG"
+    ]
+  },
+  {
+    "asset_id": "asset:0f587440a3c663f7dacc",
+    "name": "FT1",
+    "canonical_name": "FT1",
+    "aliases": [
+      "FT1"
+    ]
+  },
+  {
+    "asset_id": "asset:1653a8e83f6d7b5c8d8c",
+    "name": "G-Pen Mini\u2122 (glucagon injection)",
+    "canonical_name": "G-Pen Mini\u2122 (glucagon injection)",
+    "aliases": [
+      "G-Pen Mini\u2122 (glucagon injection)"
+    ]
+  },
+  {
+    "asset_id": "asset:9d0f806d6eb0ead8dba0",
+    "name": "G-Pump\u2122 (glucagon infusion)",
+    "canonical_name": "G-Pump\u2122 (glucagon infusion)",
+    "aliases": [
+      "G-Pump\u2122 (glucagon infusion)"
+    ]
+  },
+  {
+    "asset_id": "asset:1674cb20ac40e6eaf87d",
+    "name": "GIP/GLP-1a",
+    "canonical_name": "GIP/GLP-1a",
+    "aliases": [
+      "GIP/GLP-1a"
+    ]
+  },
+  {
+    "asset_id": "asset:2936d87d58d87fa02bc2",
+    "name": "GLP-1 agonist",
+    "canonical_name": "GLP-1 agonist",
+    "aliases": [
+      "GLP-1 agonist"
+    ]
+  },
+  {
+    "asset_id": "asset:ac860c2d9a9920bee622",
+    "name": "GLP-1 CellBeads",
+    "canonical_name": "GLP-1 CellBeads",
+    "aliases": [
+      "GLP-1 CellBeads"
+    ]
+  },
+  {
+    "asset_id": "asset:6ff4deaee6dad2ff4992",
+    "name": "GLP-1/FGF21 dual agonist (HEC88473)",
+    "canonical_name": "GLP-1/FGF21 dual agonist (HEC88473)",
+    "aliases": [
+      "GLP-1/FGF21 dual agonist (HEC88473)"
+    ]
+  },
+  {
+    "asset_id": "asset:a9443abc88aef268b21d",
+    "name": "Glucagon (Eli Lilly)",
+    "canonical_name": "Glucagon (Eli Lilly)",
+    "aliases": [
+      "Glucagon (Eli Lilly)"
+    ]
+  },
+  {
+    "asset_id": "asset:2922bdc719cc97e9f08c",
+    "name": "Glucagon response study",
+    "canonical_name": "Glucagon response study",
+    "aliases": [
+      "Glucagon response study"
+    ]
+  },
+  {
+    "asset_id": "asset:4dc747a4984a936b6255",
+    "name": "Glucagon RTU",
+    "canonical_name": "Glucagon RTU",
+    "aliases": [
+      "Glucagon RTU"
+    ]
+  },
+  {
+    "asset_id": "asset:c7cb479bd3ba7aa4b978",
+    "name": "Glucagon-like peptide 1 receptor agonist",
+    "canonical_name": "Glucagon-like peptide 1 receptor agonist",
+    "aliases": [
+      "Glucagon-like peptide 1 receptor agonist",
+      "Glucagon like peptide 1 receptor agonist"
+    ]
+  },
+  {
+    "asset_id": "asset:eb8b7cadb3d527fe2f5e",
+    "name": "Glucagon-Like Peptide-1 Agonist (GLP-1)",
+    "canonical_name": "Glucagon-Like Peptide-1 Agonist (GLP-1)",
+    "aliases": [
+      "Glucagon-Like Peptide-1 Agonist (GLP-1)"
+    ]
+  },
+  {
+    "asset_id": "asset:71e46d0b21162666e05f",
+    "name": "gut-brain axis (GLP-1)-activating food carbohydrate",
+    "canonical_name": "gut-brain axis (GLP-1)-activating food carbohydrate",
+    "aliases": [
+      "gut-brain axis (GLP-1)-activating food carbohydrate"
+    ]
+  },
+  {
+    "asset_id": "asset:3f45756926a302d740a8",
+    "name": "GZR18",
+    "canonical_name": "GZR18",
+    "aliases": [
+      "GZR18"
+    ]
+  },
+  {
+    "asset_id": "asset:f9977d2ebc148cf3586e",
+    "name": "HDM1002 200 mg QD 12weeks",
+    "canonical_name": "HDM1002 200 mg QD 12weeks",
+    "aliases": [
+      "HDM1002 200 mg QD 12weeks"
+    ]
+  },
+  {
+    "asset_id": "asset:fa228eecbd7b7252fb0f",
+    "name": "HDM1002 400 mg QD 12weeks",
+    "canonical_name": "HDM1002 400 mg QD 12weeks",
+    "aliases": [
+      "HDM1002 400 mg QD 12weeks"
+    ]
+  },
+  {
+    "asset_id": "asset:3d8bc1053b97e0133ec6",
+    "name": "HDM1005 dose level 1",
+    "canonical_name": "HDM1005 dose level 1",
+    "aliases": [
+      "HDM1005 dose level 1",
+      "HDM1005 dose level 2",
+      "HDM1005 dose level 3"
+    ]
+  },
+  {
+    "asset_id": "asset:274b4514fefd5c820aa3",
+    "name": "HS-20094",
+    "canonical_name": "HS-20094",
+    "aliases": [
+      "HS-20094"
+    ]
+  },
+  {
+    "asset_id": "asset:f5a6621f143f413ad612",
+    "name": "Hyperglycemic clamp",
+    "canonical_name": "Hyperglycemic clamp",
+    "aliases": [
+      "Hyperglycemic clamp"
+    ]
+  },
+  {
+    "asset_id": "asset:426f53060ad3000d98af",
+    "name": "IC-115",
+    "canonical_name": "IC-115",
+    "aliases": [
+      "IC-115"
+    ]
+  },
+  {
+    "asset_id": "asset:8e3a8bcfaedbb2fe4925",
+    "name": "Insulin, Asp(B28)-",
+    "canonical_name": "Insulin, Asp(B28)-",
+    "aliases": [
+      "Insulin, Asp(B28)-"
+    ]
+  },
+  {
+    "asset_id": "asset:e8143f50d07d9f1427fa",
+    "name": "JNJ-64565111 Dose Level 1",
+    "canonical_name": "JNJ-64565111 Dose Level 1",
+    "aliases": [
+      "JNJ-64565111 Dose Level 1",
+      "JNJ-64565111 Dose Level 2",
+      "JNJ-64565111 Dose Level 3"
+    ]
+  },
+  {
+    "asset_id": "asset:42119d581980cba1d347",
+    "name": "KAI-7535",
+    "canonical_name": "KAI-7535",
+    "aliases": [
+      "KAI-7535"
+    ]
+  },
+  {
+    "asset_id": "asset:b9889c599657eecf2953",
+    "name": "Lilly Glucagon(TM) 1 mg",
+    "canonical_name": "Lilly Glucagon(TM) 1 mg",
+    "aliases": [
+      "Lilly Glucagon(TM) 1 mg"
+    ]
+  },
+  {
+    "asset_id": "asset:1034b08d5f49c61ccf79",
+    "name": "Liraglutide 1.8 MG + Empagliflozin 25 MG",
+    "canonical_name": "Liraglutide 1.8 MG + Empagliflozin 25 MG",
+    "aliases": [
+      "Liraglutide 1.8 MG + Empagliflozin 25 MG"
+    ]
+  },
+  {
+    "asset_id": "asset:9bd6f23ba4e06aec2309",
+    "name": "Liraglutide-metformin vs insulin-metformin",
+    "canonical_name": "Liraglutide-metformin vs insulin-metformin",
+    "aliases": [
+      "Liraglutide-metformin vs insulin-metformin"
+    ]
+  },
+  {
+    "asset_id": "asset:e0c056572e886cb6cd04",
+    "name": "lotiglipron",
+    "canonical_name": "lotiglipron",
+    "aliases": [
+      "lotiglipron",
+      "Lotiglipron",
+      "PF-07081532"
+    ]
+  },
+  {
+    "asset_id": "asset:dfa564ec6cb07c3b267c",
+    "name": "Maltodextrin",
+    "canonical_name": "Maltodextrin",
+    "aliases": [
+      "Maltodextrin",
+      "maltodextrin"
+    ]
+  },
+  {
+    "asset_id": "asset:8127ffef53b8c657fec6",
+    "name": "MET097",
+    "canonical_name": "MET097",
+    "aliases": [
+      "MET097"
+    ]
+  },
+  {
+    "asset_id": "asset:cbca402aeddf1e8f93ea",
+    "name": "MET097 Injection",
+    "canonical_name": "MET097 Injection",
+    "aliases": [
+      "MET097 Injection"
+    ]
+  },
+  {
+    "asset_id": "asset:25f775119a6b95d087c1",
+    "name": "MET233 and MET097",
+    "canonical_name": "MET233 and MET097",
+    "aliases": [
+      "MET233 and MET097"
+    ]
+  },
+  {
+    "asset_id": "asset:2dbab194bd1f639ae6e7",
+    "name": "MK8521",
+    "canonical_name": "MK8521",
+    "aliases": [
+      "MK8521",
+      "MK-8521"
+    ]
+  },
+  {
+    "asset_id": "asset:f7ca1c0d80db187bc708",
+    "name": "NA-931",
+    "canonical_name": "NA-931",
+    "aliases": [
+      "NA-931"
+    ]
+  },
+  {
+    "asset_id": "asset:1faddb3a4714d7cb448b",
+    "name": "NA-931 150 mg + no Tirzepatide",
+    "canonical_name": "NA-931 150 mg + no Tirzepatide",
+    "aliases": [
+      "NA-931 150 mg + no Tirzepatide"
+    ]
+  },
+  {
+    "asset_id": "asset:8a0a4316d63ae73dad1d",
+    "name": "Nasal Glucagon 1 mg",
+    "canonical_name": "Nasal Glucagon 1 mg",
+    "aliases": [
+      "Nasal Glucagon 1 mg"
+    ]
+  },
+  {
+    "asset_id": "asset:fce1f2ef108bf4a4adce",
+    "name": "Nasal Glucagon 2 mg",
+    "canonical_name": "Nasal Glucagon 2 mg",
+    "aliases": [
+      "Nasal Glucagon 2 mg"
+    ]
+  },
+  {
+    "asset_id": "asset:f0046dcd3b34f13d7c4e",
+    "name": "Nasal Glucagon 3 mg",
+    "canonical_name": "Nasal Glucagon 3 mg",
+    "aliases": [
+      "Nasal Glucagon 3 mg"
+    ]
+  },
+  {
+    "asset_id": "asset:8593a2e2164e705e9f7f",
+    "name": "NM-002",
+    "canonical_name": "NM-002",
+    "aliases": [
+      "NM-002"
+    ]
+  },
+  {
+    "asset_id": "asset:36f6f5c179e4da18b08d",
+    "name": "NNC0114",
+    "canonical_name": "NNC0114",
+    "aliases": [
+      "NNC0114"
+    ]
+  },
+  {
+    "asset_id": "asset:0c73fd85476c35d42ef5",
+    "name": "NNC0174",
+    "canonical_name": "NNC0174",
+    "aliases": [
+      "NNC0174"
+    ]
+  },
+  {
+    "asset_id": "asset:00ca6e8a0fb10817b69a",
+    "name": "Oral GLP-1",
+    "canonical_name": "Oral GLP-1",
+    "aliases": [
+      "Oral GLP-1"
+    ]
+  },
+  {
+    "asset_id": "asset:0249cdf9e37e7c740fe8",
+    "name": "Oral Placebo for Azelaprag (BGE-105)",
+    "canonical_name": "Oral Placebo for Azelaprag (BGE-105)",
+    "aliases": [
+      "Oral Placebo for Azelaprag (BGE-105)"
+    ]
+  },
+  {
+    "asset_id": "asset:b90c5b4fad76f7a8a5c1",
+    "name": "PDS290",
+    "canonical_name": "PDS290",
+    "aliases": [
+      "PDS290"
+    ]
+  },
+  {
+    "asset_id": "asset:a54788104358f0fb4dfb",
+    "name": "PG-102(MG12)",
+    "canonical_name": "PG-102(MG12)",
+    "aliases": [
+      "PG-102(MG12)"
+    ]
+  },
+  {
+    "asset_id": "asset:b0b4dda3607182890ddd",
+    "name": "Placebo (0.9% Sodium Chloride)",
+    "canonical_name": "Placebo (0.9% Sodium Chloride)",
+    "aliases": [
+      "Placebo (0.9% Sodium Chloride)"
+    ]
+  },
+  {
+    "asset_id": "asset:6df35aafde211b347e4a",
+    "name": "Placebo (oral)",
+    "canonical_name": "Placebo (oral)",
+    "aliases": [
+      "Placebo (oral)"
+    ]
+  },
+  {
+    "asset_id": "asset:411e39963d5f9f5632cd",
+    "name": "Placebo Pen Injector",
+    "canonical_name": "Placebo Pen Injector",
+    "aliases": [
+      "Placebo Pen Injector"
+    ]
+  },
+  {
+    "asset_id": "asset:aed9a793eb6abb00d158",
+    "name": "Recombinant Zoster Vaccine (Shingrix; RZV)",
+    "canonical_name": "Recombinant Zoster Vaccine (Shingrix; RZV)",
+    "aliases": [
+      "Recombinant Zoster Vaccine (Shingrix; RZV)"
+    ]
+  },
+  {
+    "asset_id": "asset:eaf070956dc2f17a2425",
+    "name": "Retatrutide (LY3437943)",
+    "canonical_name": "Retatrutide (LY3437943)",
+    "aliases": [
+      "Retatrutide (LY3437943)"
+    ]
+  },
+  {
+    "asset_id": "asset:c14086e2cc2b227383f5",
+    "name": "RGT001",
+    "canonical_name": "RGT001",
+    "aliases": [
+      "RGT001"
+    ]
+  },
+  {
+    "asset_id": "asset:340f38829156e0ee2e8e",
+    "name": "RO6807952",
+    "canonical_name": "RO6807952",
+    "aliases": [
+      "RO6807952"
+    ]
+  },
+  {
+    "asset_id": "asset:4b112fb902353311433c",
+    "name": "RO7204239",
+    "canonical_name": "RO7204239",
+    "aliases": [
+      "RO7204239"
+    ]
+  },
+  {
+    "asset_id": "asset:12f2ec18122594b1b9bd",
+    "name": "Sacubitril, Valsartan 97-103 mg Oral Tablet",
+    "canonical_name": "Sacubitril, Valsartan 97-103 mg Oral Tablet",
+    "aliases": [
+      "Sacubitril, Valsartan 97-103 mg Oral Tablet"
+    ]
+  },
+  {
+    "asset_id": "asset:9426336c04fe20698160",
+    "name": "Saxagliptin 5mg + Dapagliflozin 10 mg",
+    "canonical_name": "Saxagliptin 5mg + Dapagliflozin 10 mg",
+    "aliases": [
+      "Saxagliptin 5mg + Dapagliflozin 10 mg"
+    ]
+  },
+  {
+    "asset_id": "asset:fc97b66809ff1a5209c3",
+    "name": "SC Glucagon",
+    "canonical_name": "SC Glucagon",
+    "aliases": [
+      "SC Glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:0354a17e393e15fa1819",
+    "name": "Semaglutide (administered by PDS290 pen-injector)",
+    "canonical_name": "Semaglutide (administered by PDS290 pen-injector)",
+    "aliases": [
+      "Semaglutide (administered by PDS290 pen-injector)"
+    ]
+  },
+  {
+    "asset_id": "asset:611c509f852f93eeb11b",
+    "name": "subcutaneous injection",
+    "canonical_name": "subcutaneous injection",
+    "aliases": [
+      "subcutaneous injection",
+      "Subcutaneous injection"
+    ]
+  },
+  {
+    "asset_id": "asset:6b43e8b34523bcb5e59b",
+    "name": "SYH2069",
+    "canonical_name": "SYH2069",
+    "aliases": [
+      "SYH2069"
+    ]
+  },
+  {
+    "asset_id": "asset:2c46e47ad45514abd852",
+    "name": "Usual care medications",
+    "canonical_name": "Usual care medications",
+    "aliases": [
+      "Usual care medications"
+    ]
+  },
+  {
+    "asset_id": "asset:2cbdac35ac1f9ff8e746",
+    "name": "vehicle",
+    "canonical_name": "vehicle",
+    "aliases": [
+      "vehicle",
+      "Vehicle"
+    ]
+  },
+  {
+    "asset_id": "asset:73efe8cf68a8ca5e0753",
+    "name": "VRB-101",
+    "canonical_name": "VRB-101",
+    "aliases": [
+      "VRB-101"
+    ]
+  },
+  {
+    "asset_id": "asset:42351f2739d7587dfc69",
+    "name": "XP-3994",
+    "canonical_name": "XP-3994",
+    "aliases": [
+      "XP-3994"
+    ]
+  },
+  {
+    "asset_id": "asset:716b5e94e0d5b2d76bdb",
+    "name": "ZP4207 (dasiglucagon)",
+    "canonical_name": "ZP4207 (dasiglucagon)",
+    "aliases": [
+      "ZP4207 (dasiglucagon)"
+    ]
+  },
+  {
+    "asset_id": "asset:c56a928899c2a463bfb5",
+    "name": "ZP4207(dasiglucagon) glucagon analogue",
+    "canonical_name": "ZP4207(dasiglucagon) glucagon analogue",
+    "aliases": [
+      "ZP4207(dasiglucagon) glucagon analogue"
+    ]
+  },
+  {
+    "asset_id": "asset:fd3f766b0f5d73172470",
+    "name": "4P-004",
+    "canonical_name": "4P-004",
+    "aliases": [
+      "4P-004"
+    ]
+  },
+  {
+    "asset_id": "asset:d8dc1d357c6d112c16e0",
+    "name": "68Ga-NOTA-exendin-4",
+    "canonical_name": "68Ga-NOTA-exendin-4",
+    "aliases": [
+      "68Ga-NOTA-exendin-4"
+    ]
+  },
+  {
+    "asset_id": "asset:de7cda4364a9acace69d",
+    "name": "Acute Ethanol Dose",
+    "canonical_name": "Acute Ethanol Dose",
+    "aliases": [
+      "Acute Ethanol Dose"
+    ]
+  },
+  {
+    "asset_id": "asset:0dc568457d3a63048e67",
+    "name": "AMG 598",
+    "canonical_name": "AMG 598",
+    "aliases": [
+      "AMG 598"
+    ]
+  },
+  {
+    "asset_id": "asset:00dc31a2c4328d547133",
+    "name": "amino",
+    "canonical_name": "amino",
+    "aliases": [
+      "amino",
+      "Amino"
+    ]
+  },
+  {
+    "asset_id": "asset:18e7e57a3537ffa43184",
+    "name": "amino acids",
+    "canonical_name": "amino acids",
+    "aliases": [
+      "amino acids",
+      "Amino acids",
+      "Amino Acids"
+    ]
+  },
+  {
+    "asset_id": "asset:3539789b477961e27ad6",
+    "name": "AP026 (TQA2226) for injection",
+    "canonical_name": "AP026 (TQA2226) for injection",
+    "aliases": [
+      "AP026 (TQA2226) for injection"
+    ]
+  },
+  {
+    "asset_id": "asset:438da7ecb1d4cd55c362",
+    "name": "Arm 3 - DehydraTECH-CBD in combination with DehydraTECH-semaglutide",
+    "canonical_name": "Arm 3 - DehydraTECH-CBD in combination with DehydraTECH-semaglutide",
+    "aliases": [
+      "Arm 3 - DehydraTECH-CBD in combination with DehydraTECH-semaglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:ae77a198087b259471d0",
+    "name": "Arm 4 - Rybelsus medication (semaglutide) alone",
+    "canonical_name": "Arm 4 - Rybelsus medication (semaglutide) alone",
+    "aliases": [
+      "Arm 4 - Rybelsus medication (semaglutide) alone"
+    ]
+  },
+  {
+    "asset_id": "asset:7554b0f94eba8b1fa2bc",
+    "name": "ASC35",
+    "canonical_name": "ASC35",
+    "aliases": [
+      "ASC35"
+    ]
+  },
+  {
+    "asset_id": "asset:aaf5cea6986e4656df80",
+    "name": "AZD5004",
+    "canonical_name": "AZD5004",
+    "aliases": [
+      "AZD5004"
+    ]
+  },
+  {
+    "asset_id": "asset:1ceddd8a148f53712164",
+    "name": "Bimagrumab + Tirzepatide Coformulation",
+    "canonical_name": "Bimagrumab + Tirzepatide Coformulation",
+    "aliases": [
+      "Bimagrumab + Tirzepatide Coformulation"
+    ]
+  },
+  {
+    "asset_id": "asset:5dd334771693d5791177",
+    "name": "BIOD-961",
+    "canonical_name": "BIOD-961",
+    "aliases": [
+      "BIOD-961"
+    ]
+  },
+  {
+    "asset_id": "asset:dbb63c6487b58bb7dd8f",
+    "name": "BMF-650",
+    "canonical_name": "BMF-650",
+    "aliases": [
+      "BMF-650"
+    ]
+  },
+  {
+    "asset_id": "asset:4d6ba147f4c436cd59c9",
+    "name": "Bydureon BCise (exenatide extended release)",
+    "canonical_name": "Bydureon BCise (exenatide extended release)",
+    "aliases": [
+      "Bydureon BCise (exenatide extended release)"
+    ]
+  },
+  {
+    "asset_id": "asset:427ec773c9e90fba4c80",
+    "name": "C-peptide",
+    "canonical_name": "C-peptide",
+    "aliases": [
+      "C-peptide"
+    ]
+  },
+  {
+    "asset_id": "asset:45bf990985d42f1f4e3a",
+    "name": "Cohort A",
+    "canonical_name": "Cohort A",
+    "aliases": [
+      "Cohort A"
+    ]
+  },
+  {
+    "asset_id": "asset:2b2d9df9b41c2d81c538",
+    "name": "Cohort B",
+    "canonical_name": "Cohort B",
+    "aliases": [
+      "Cohort B"
+    ]
+  },
+  {
+    "asset_id": "asset:bd5eb39a287a9bd4310e",
+    "name": "Cotadutide-placebo",
+    "canonical_name": "Cotadutide-placebo",
+    "aliases": [
+      "Cotadutide-placebo"
+    ]
+  },
+  {
+    "asset_id": "asset:0efb6eed4de5411887a9",
+    "name": "CPX101",
+    "canonical_name": "CPX101",
+    "aliases": [
+      "CPX101"
+    ]
+  },
+  {
+    "asset_id": "asset:4a9e7f5818c5a7148cc2",
+    "name": "Dexamethasone Oral",
+    "canonical_name": "Dexamethasone Oral",
+    "aliases": [
+      "Dexamethasone Oral"
+    ]
+  },
+  {
+    "asset_id": "asset:29a58266b7b782f2aace",
+    "name": "dextrose",
+    "canonical_name": "dextrose",
+    "aliases": [
+      "dextrose",
+      "Dextrose"
+    ]
+  },
+  {
+    "asset_id": "asset:5875238de8f871232b4c",
+    "name": "Dextrose 20 % in Water",
+    "canonical_name": "Dextrose 20 % in Water",
+    "aliases": [
+      "Dextrose 20 % in Water"
+    ]
+  },
+  {
+    "asset_id": "asset:b4cddb7646beb0c8e715",
+    "name": "Dextrose solution",
+    "canonical_name": "Dextrose solution",
+    "aliases": [
+      "Dextrose solution"
+    ]
+  },
+  {
+    "asset_id": "asset:782e13a4c9b22444902f",
+    "name": "EE/NGM",
+    "canonical_name": "EE/NGM",
+    "aliases": [
+      "EE/NGM"
+    ]
+  },
+  {
+    "asset_id": "asset:f1aa8c40ab4250498461",
+    "name": "Exendin(9-39) plus ID nutrient",
+    "canonical_name": "Exendin(9-39) plus ID nutrient",
+    "aliases": [
+      "Exendin(9-39) plus ID nutrient"
+    ]
+  },
+  {
+    "asset_id": "asset:c793787c54b0f9ee67d2",
+    "name": "Exendin-9,39 at high dose",
+    "canonical_name": "Exendin-9,39 at high dose",
+    "aliases": [
+      "Exendin-9,39 at high dose",
+      "Exendin-9,39 at low dose"
+    ]
+  },
+  {
+    "asset_id": "asset:21685a61cf0c666ba6d7",
+    "name": "Exendin9",
+    "canonical_name": "Exendin9",
+    "aliases": [
+      "Exendin9"
+    ]
+  },
+  {
+    "asset_id": "asset:59605d2cb10b9a614129",
+    "name": "Extra Hi-Xenin",
+    "canonical_name": "Extra Hi-Xenin",
+    "aliases": [
+      "Extra Hi-Xenin"
+    ]
+  },
+  {
+    "asset_id": "asset:028e83c37125408fa45b",
+    "name": "Ga-68-DOTA-TOC",
+    "canonical_name": "Ga-68-DOTA-TOC",
+    "aliases": [
+      "Ga-68-DOTA-TOC"
+    ]
+  },
+  {
+    "asset_id": "asset:bb30cc64794177694eb1",
+    "name": "GIP Bolus",
+    "canonical_name": "GIP Bolus",
+    "aliases": [
+      "GIP Bolus"
+    ]
+  },
+  {
+    "asset_id": "asset:3990f7e57da7f19ac7d6",
+    "name": "GIP Clamp",
+    "canonical_name": "GIP Clamp",
+    "aliases": [
+      "GIP Clamp"
+    ]
+  },
+  {
+    "asset_id": "asset:1c21d5d885493beb12c3",
+    "name": "GIP-infusion",
+    "canonical_name": "GIP-infusion",
+    "aliases": [
+      "GIP-infusion",
+      "GIP infusion"
+    ]
+  },
+  {
+    "asset_id": "asset:3e767f4b05d0496d4e98",
+    "name": "GLP-1 and Exendin(9-39) 1200",
+    "canonical_name": "GLP-1 and Exendin(9-39) 1200",
+    "aliases": [
+      "GLP-1 and Exendin(9-39) 1200"
+    ]
+  },
+  {
+    "asset_id": "asset:ac1948ed6bb9b6465631",
+    "name": "GLP-1 and Exendin(9-39) 300",
+    "canonical_name": "GLP-1 and Exendin(9-39) 300",
+    "aliases": [
+      "GLP-1 and Exendin(9-39) 300"
+    ]
+  },
+  {
+    "asset_id": "asset:73fd843086c63a1cc6ff",
+    "name": "GLP-1 and Exendin(9-39) 600",
+    "canonical_name": "GLP-1 and Exendin(9-39) 600",
+    "aliases": [
+      "GLP-1 and Exendin(9-39) 600"
+    ]
+  },
+  {
+    "asset_id": "asset:7a2aa588e046b807e216",
+    "name": "GLP-1 and Exendin(9-39) 900",
+    "canonical_name": "GLP-1 and Exendin(9-39) 900",
+    "aliases": [
+      "GLP-1 and Exendin(9-39) 900"
+    ]
+  },
+  {
+    "asset_id": "asset:2b4d6f93ade654fd61d7",
+    "name": "GLP-1 and GIP",
+    "canonical_name": "GLP-1 and GIP",
+    "aliases": [
+      "GLP-1 and GIP"
+    ]
+  },
+  {
+    "asset_id": "asset:200a53926ba57c49a880",
+    "name": "GLP-1 control",
+    "canonical_name": "GLP-1 control",
+    "aliases": [
+      "GLP-1 control"
+    ]
+  },
+  {
+    "asset_id": "asset:4f17c0b0d542dc84bb59",
+    "name": "GLP-1 infusion",
+    "canonical_name": "GLP-1 infusion",
+    "aliases": [
+      "GLP-1 infusion",
+      "GLP-1 Infusion"
+    ]
+  },
+  {
+    "asset_id": "asset:1643a8fe23b8fc82d0f4",
+    "name": "GLP-1-9,36 infusion",
+    "canonical_name": "GLP-1-9,36 infusion",
+    "aliases": [
+      "GLP-1-9,36 infusion"
+    ]
+  },
+  {
+    "asset_id": "asset:5c6b9125cc24babc059f",
+    "name": "GLP-2 (10pmol/kg/min)",
+    "canonical_name": "GLP-2 (10pmol/kg/min)",
+    "aliases": [
+      "GLP-2 (10pmol/kg/min)"
+    ]
+  },
+  {
+    "asset_id": "asset:d3396071f10cf700f4c4",
+    "name": "GLP-2 (1pmol/kg/min)",
+    "canonical_name": "GLP-2 (1pmol/kg/min)",
+    "aliases": [
+      "GLP-2 (1pmol/kg/min)"
+    ]
+  },
+  {
+    "asset_id": "asset:4838a595bb1767f03f61",
+    "name": "Glucagon (ZP-Glucagon)",
+    "canonical_name": "Glucagon (ZP-Glucagon)",
+    "aliases": [
+      "Glucagon (ZP-Glucagon)"
+    ]
+  },
+  {
+    "asset_id": "asset:5d637f12a99a1cd6a39f",
+    "name": "Glucagon for Injection (Bedford Laboratories)",
+    "canonical_name": "Glucagon for Injection (Bedford Laboratories)",
+    "aliases": [
+      "Glucagon for Injection (Bedford Laboratories)"
+    ]
+  },
+  {
+    "asset_id": "asset:d143ac6f06838b228167",
+    "name": "Glucagon, 0-0.5 ng/kg/min",
+    "canonical_name": "Glucagon, 0-0.5 ng/kg/min",
+    "aliases": [
+      "Glucagon, 0-0.5 ng/kg/min"
+    ]
+  },
+  {
+    "asset_id": "asset:b4e6b08fd9be83d2d461",
+    "name": "Glucagon-Like Peptide- 1 (GLP-1) infusion",
+    "canonical_name": "Glucagon-Like Peptide- 1 (GLP-1) infusion",
+    "aliases": [
+      "Glucagon-Like Peptide- 1 (GLP-1) infusion"
+    ]
+  },
+  {
+    "asset_id": "asset:a4cd7d5aac51513fdb29",
+    "name": "Glucagon-like peptide-1 receptor agonists (GLP 1 RA)",
+    "canonical_name": "Glucagon-like peptide-1 receptor agonists (GLP 1 RA)",
+    "aliases": [
+      "Glucagon-like peptide-1 receptor agonists (GLP 1 RA)"
+    ]
+  },
+  {
+    "asset_id": "asset:b92c98adc73af1c37c32",
+    "name": "Graded Glucose Infusion with GIP plus xenin-25",
+    "canonical_name": "Graded Glucose Infusion with GIP plus xenin-25",
+    "aliases": [
+      "Graded Glucose Infusion with GIP plus xenin-25"
+    ]
+  },
+  {
+    "asset_id": "asset:b3d457053d50bcf10395",
+    "name": "Graded Glucose Infusion with Placebo",
+    "canonical_name": "Graded Glucose Infusion with Placebo",
+    "aliases": [
+      "Graded Glucose Infusion with Placebo"
+    ]
+  },
+  {
+    "asset_id": "asset:391a9ffea6df801d71bd",
+    "name": "Growth Hormone, Human",
+    "canonical_name": "Growth Hormone, Human",
+    "aliases": [
+      "Growth Hormone, Human"
+    ]
+  },
+  {
+    "asset_id": "asset:8535a29d99354c90aca3",
+    "name": "HDM1002 100 mg QD 12weeks",
+    "canonical_name": "HDM1002 100 mg QD 12weeks",
+    "aliases": [
+      "HDM1002 100 mg QD 12weeks"
+    ]
+  },
+  {
+    "asset_id": "asset:7e58e4829a971203153d",
+    "name": "HDM1002 400 mg QD 12weeks\uff0cQ 2W for titration",
+    "canonical_name": "HDM1002 400 mg QD 12weeks\uff0cQ 2W for titration",
+    "aliases": [
+      "HDM1002 400 mg QD 12weeks\uff0cQ 2W for titration"
+    ]
+  },
+  {
+    "asset_id": "asset:244385b481ec4e09cec4",
+    "name": "HDM1002 400 mg QD 12weeks\uff0cQ 3W for titration",
+    "canonical_name": "HDM1002 400 mg QD 12weeks\uff0cQ 3W for titration",
+    "aliases": [
+      "HDM1002 400 mg QD 12weeks\uff0cQ 3W for titration"
+    ]
+  },
+  {
+    "asset_id": "asset:2d478516944797523981",
+    "name": "HDM1002 and itraconazole",
+    "canonical_name": "HDM1002 and itraconazole",
+    "aliases": [
+      "HDM1002 and itraconazole"
+    ]
+  },
+  {
+    "asset_id": "asset:ff80dea0b1fb80be6929",
+    "name": "HDM1002 and rifampicin",
+    "canonical_name": "HDM1002 and rifampicin",
+    "aliases": [
+      "HDM1002 and rifampicin"
+    ]
+  },
+  {
+    "asset_id": "asset:b732aeef2ee8e4d6f4d8",
+    "name": "Hi-Xenin",
+    "canonical_name": "Hi-Xenin",
+    "aliases": [
+      "Hi-Xenin"
+    ]
+  },
+  {
+    "asset_id": "asset:5c28b91f6cd9ff07378a",
+    "name": "Human albumin",
+    "canonical_name": "Human albumin",
+    "aliases": [
+      "Human albumin"
+    ]
+  },
+  {
+    "asset_id": "asset:f329f6bf3eba9ba3c228",
+    "name": "IM Glucagon",
+    "canonical_name": "IM Glucagon",
+    "aliases": [
+      "IM Glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:7728f1e4ac718300bfc2",
+    "name": "insulin glargine + preexisting metformin",
+    "canonical_name": "insulin glargine + preexisting metformin",
+    "aliases": [
+      "insulin glargine + preexisting metformin"
+    ]
+  },
+  {
+    "asset_id": "asset:08900388d1908dd8cba0",
+    "name": "Insulin regular, 2.0-3.2 mU/m2/min (euinsulinemia)",
+    "canonical_name": "Insulin regular, 2.0-3.2 mU/m2/min (euinsulinemia)",
+    "aliases": [
+      "Insulin regular, 2.0-3.2 mU/m2/min (euinsulinemia)"
+    ]
+  },
+  {
+    "asset_id": "asset:55b634a1d72fb08737a0",
+    "name": "Insulin regular, 32 mU/m2/min (hyperinsulinemia)",
+    "canonical_name": "Insulin regular, 32 mU/m2/min (hyperinsulinemia)",
+    "aliases": [
+      "Insulin regular, 32 mU/m2/min (hyperinsulinemia)"
+    ]
+  },
+  {
+    "asset_id": "asset:1415325ca2cd9eafbc00",
+    "name": "Intranasal glucagon",
+    "canonical_name": "Intranasal glucagon",
+    "aliases": [
+      "Intranasal glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:b16d1e68392f79a185ee",
+    "name": "JY09",
+    "canonical_name": "JY09",
+    "aliases": [
+      "JY09"
+    ]
+  },
+  {
+    "asset_id": "asset:cecf9563128ba694e114",
+    "name": "L-arabinose",
+    "canonical_name": "L-arabinose",
+    "aliases": [
+      "L-arabinose"
+    ]
+  },
+  {
+    "asset_id": "asset:f781323058ce0ada262a",
+    "name": "lactisole",
+    "canonical_name": "lactisole",
+    "aliases": [
+      "lactisole",
+      "Lactisole"
+    ]
+  },
+  {
+    "asset_id": "asset:f0b41abb2787886e2d2f",
+    "name": "Liraglutide injection(Victoza\u00ae)",
+    "canonical_name": "Liraglutide injection(Victoza\u00ae)",
+    "aliases": [
+      "Liraglutide injection(Victoza\u00ae)",
+      "Liraglutide injection,Victoza"
+    ]
+  },
+  {
+    "asset_id": "asset:9afc3c06bfad901e30cf",
+    "name": "Liraglutide injection,RD12014",
+    "canonical_name": "Liraglutide injection,RD12014",
+    "aliases": [
+      "Liraglutide injection,RD12014"
+    ]
+  },
+  {
+    "asset_id": "asset:530a524b49afe1173b86",
+    "name": "Lo-Xenin",
+    "canonical_name": "Lo-Xenin",
+    "aliases": [
+      "Lo-Xenin"
+    ]
+  },
+  {
+    "asset_id": "asset:8a6346ed74238c81cb67",
+    "name": "MDR-001",
+    "canonical_name": "MDR-001",
+    "aliases": [
+      "MDR-001"
+    ]
+  },
+  {
+    "asset_id": "asset:ddfbc54eb097879464cf",
+    "name": "Meal Tolerance Test with Placebo",
+    "canonical_name": "Meal Tolerance Test with Placebo",
+    "aliases": [
+      "Meal Tolerance Test with Placebo"
+    ]
+  },
+  {
+    "asset_id": "asset:8125e7e175aa57c00858",
+    "name": "Meal Tolerance Test with xenin-25",
+    "canonical_name": "Meal Tolerance Test with xenin-25",
+    "aliases": [
+      "Meal Tolerance Test with xenin-25"
+    ]
+  },
+  {
+    "asset_id": "asset:d127ce47da35344fa7c1",
+    "name": "Micro-glucagon",
+    "canonical_name": "Micro-glucagon",
+    "aliases": [
+      "Micro-glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:ec5baad50ae3658db077",
+    "name": "Mini-glucagon",
+    "canonical_name": "Mini-glucagon",
+    "aliases": [
+      "Mini-glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:5292cf3e5d4da34640db",
+    "name": "moxifloxacin",
+    "canonical_name": "moxifloxacin",
+    "aliases": [
+      "moxifloxacin",
+      "Moxifloxacin"
+    ]
+  },
+  {
+    "asset_id": "asset:90e13c6d60b21cdbda16",
+    "name": "NEX-22A, a prolonged release formulation of liraglutide",
+    "canonical_name": "NEX-22A, a prolonged release formulation of liraglutide",
+    "aliases": [
+      "NEX-22A, a prolonged release formulation of liraglutide"
+    ]
+  },
+  {
+    "asset_id": "asset:a68d128b1b73040d86a2",
+    "name": "NNC-112",
+    "canonical_name": "NNC-112",
+    "aliases": [
+      "NNC-112"
+    ]
+  },
+  {
+    "asset_id": "asset:f416201768caea808117",
+    "name": "NNC0113",
+    "canonical_name": "NNC0113",
+    "aliases": [
+      "NNC0113",
+      "NNC 0113"
+    ]
+  },
+  {
+    "asset_id": "asset:9f55f3c4572b20542d3f",
+    "name": "NNC9204",
+    "canonical_name": "NNC9204",
+    "aliases": [
+      "NNC9204"
+    ]
+  },
+  {
+    "asset_id": "asset:5e4246e7c415e8f26f16",
+    "name": "Oral glucose tolerance test (OGTT)",
+    "canonical_name": "Oral glucose tolerance test (OGTT)",
+    "aliases": [
+      "Oral glucose tolerance test (OGTT)",
+      "Oral Glucose Tolerance Test (OGTT)"
+    ]
+  },
+  {
+    "asset_id": "asset:3880e8228a8869e111a0",
+    "name": "PB-119",
+    "canonical_name": "PB-119",
+    "aliases": [
+      "PB-119"
+    ]
+  },
+  {
+    "asset_id": "asset:5f80e196c76164db13cf",
+    "name": "PF-04603629",
+    "canonical_name": "PF-04603629",
+    "aliases": [
+      "PF-04603629"
+    ]
+  },
+  {
+    "asset_id": "asset:d1916069c335a4f44dbd",
+    "name": "Placebo for Oxyntomodulin",
+    "canonical_name": "Placebo for Oxyntomodulin",
+    "aliases": [
+      "Placebo for Oxyntomodulin"
+    ]
+  },
+  {
+    "asset_id": "asset:e9fea5469af7d659cad8",
+    "name": "r-glucagon",
+    "canonical_name": "r-glucagon",
+    "aliases": [
+      "r-glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:a0801eb5958a30cdf9f0",
+    "name": "raclopride",
+    "canonical_name": "raclopride",
+    "aliases": [
+      "raclopride"
+    ]
+  },
+  {
+    "asset_id": "asset:2f31119abef47eb43313",
+    "name": "T2026",
+    "canonical_name": "T2026",
+    "aliases": [
+      "T2026"
+    ]
+  },
+  {
+    "asset_id": "asset:7c6ab55accff4bd05b9c",
+    "name": "TQF3250",
+    "canonical_name": "TQF3250",
+    "aliases": [
+      "TQF3250"
+    ]
+  },
+  {
+    "asset_id": "asset:f093583dc0eed59a2a4e",
+    "name": "tracer",
+    "canonical_name": "tracer",
+    "aliases": [
+      "tracer",
+      "Tracer",
+      "TraCeR"
+    ]
+  },
+  {
+    "asset_id": "asset:9f14078fe5efaf35d7c2",
+    "name": "Ultra-rapid insulin",
+    "canonical_name": "Ultra-rapid insulin",
+    "aliases": [
+      "Ultra-rapid insulin"
+    ]
+  },
+  {
+    "asset_id": "asset:5f2bfb89179ee0dea755",
+    "name": "Victoza (liraglutide) with dietician monitoring",
+    "canonical_name": "Victoza (liraglutide) with dietician monitoring",
+    "aliases": [
+      "Victoza (liraglutide) with dietician monitoring"
+    ]
+  },
+  {
+    "asset_id": "asset:004e4dae3c99b17b4be5",
+    "name": "VX-201",
+    "canonical_name": "VX-201",
+    "aliases": [
+      "VX-201"
+    ]
+  },
+  {
+    "asset_id": "asset:97f21caef02bfa5076cd",
+    "name": "Zenagamtide",
+    "canonical_name": "Zenagamtide",
+    "aliases": [
+      "Zenagamtide",
+      "zenagamtide"
+    ]
+  },
+  {
+    "asset_id": "asset:6e596b0c7ad92b274cd9",
+    "name": "ZP7570",
+    "canonical_name": "ZP7570",
+    "aliases": [
+      "ZP7570"
+    ]
+  },
+  {
+    "asset_id": "asset:5d62083b7d44dc001991",
+    "name": "ZYD1",
+    "canonical_name": "ZYD1",
+    "aliases": [
+      "ZYD1"
+    ]
+  },
+  {
+    "asset_id": "asset:bac8e6f24868de2ee782",
+    "name": "111In-DTPA-exendin-4",
+    "canonical_name": "111In-DTPA-exendin-4",
+    "aliases": [
+      "111In-DTPA-exendin-4"
+    ]
+  },
+  {
+    "asset_id": "asset:3c6decd8e2c7fc685a1d",
+    "name": "18F-FDG (intravenous)",
+    "canonical_name": "18F-FDG (intravenous)",
+    "aliases": [
+      "18F-FDG (intravenous)"
+    ]
+  },
+  {
+    "asset_id": "asset:5efd1aa6328f3a9a61d1",
+    "name": "18F-FDG (oral)",
+    "canonical_name": "18F-FDG (oral)",
+    "aliases": [
+      "18F-FDG (oral)"
+    ]
+  },
+  {
+    "asset_id": "asset:03c38e8d389eafd982ab",
+    "name": "18F-FET (intravenous)",
+    "canonical_name": "18F-FET (intravenous)",
+    "aliases": [
+      "18F-FET (intravenous)"
+    ]
+  },
+  {
+    "asset_id": "asset:25703c15aaa94df96ab9",
+    "name": "18F-FET (oral)",
+    "canonical_name": "18F-FET (oral)",
+    "aliases": [
+      "18F-FET (oral)"
+    ]
+  },
+  {
+    "asset_id": "asset:4952bf3a3ea3b08fbe0f",
+    "name": "Acipimox",
+    "canonical_name": "Acipimox",
+    "aliases": [
+      "Acipimox",
+      "acipimox"
+    ]
+  },
+  {
+    "asset_id": "asset:497880e0de4f6e96e276",
+    "name": "alanine",
+    "canonical_name": "alanine",
+    "aliases": [
+      "alanine"
+    ]
+  },
+  {
+    "asset_id": "asset:8a3358d301b04977398d",
+    "name": "bendamustine",
+    "canonical_name": "bendamustine",
+    "aliases": [
+      "bendamustine"
+    ]
+  },
+  {
+    "asset_id": "asset:6c2ba681b9c9f039543f",
+    "name": "Best medical management",
+    "canonical_name": "Best medical management",
+    "aliases": [
+      "Best medical management"
+    ]
+  },
+  {
+    "asset_id": "asset:5b98b5d47829174576c5",
+    "name": "BKR-017",
+    "canonical_name": "BKR-017",
+    "aliases": [
+      "BKR-017"
+    ]
+  },
+  {
+    "asset_id": "asset:099482deb9299b52a556",
+    "name": "bromide",
+    "canonical_name": "bromide",
+    "aliases": [
+      "bromide"
+    ]
+  },
+  {
+    "asset_id": "asset:d09294742770e26b6170",
+    "name": "butanone",
+    "canonical_name": "butanone",
+    "aliases": [
+      "butanone"
+    ]
+  },
+  {
+    "asset_id": "asset:20bbe914a5734adddc2b",
+    "name": "Byetta (Lilly, Exenatide)",
+    "canonical_name": "Byetta (Lilly, Exenatide)",
+    "aliases": [
+      "Byetta (Lilly, Exenatide)"
+    ]
+  },
+  {
+    "asset_id": "asset:6fdbb55dfa1f476a72b5",
+    "name": "chromium",
+    "canonical_name": "chromium",
+    "aliases": [
+      "chromium"
+    ]
+  },
+  {
+    "asset_id": "asset:0e2cec932c8f493e4b36",
+    "name": "Colesevelam",
+    "canonical_name": "Colesevelam",
+    "aliases": [
+      "Colesevelam",
+      "colesevelam"
+    ]
+  },
+  {
+    "asset_id": "asset:2ee7dcd1f258492fe2bd",
+    "name": "creatinine",
+    "canonical_name": "creatinine",
+    "aliases": [
+      "creatinine",
+      "Creatinine"
+    ]
+  },
+  {
+    "asset_id": "asset:46b83076a89e023e7964",
+    "name": "curcumin",
+    "canonical_name": "curcumin",
+    "aliases": [
+      "curcumin",
+      "Curcumin"
+    ]
+  },
+  {
+    "asset_id": "asset:e28592c2bc2b5c66f43e",
+    "name": "cyclophosphamide",
+    "canonical_name": "cyclophosphamide",
+    "aliases": [
+      "cyclophosphamide",
+      "Cyclophosphamide"
+    ]
+  },
+  {
+    "asset_id": "asset:c447c7345908ac1268f2",
+    "name": "Dihydroberberine",
+    "canonical_name": "Dihydroberberine",
+    "aliases": [
+      "Dihydroberberine"
+    ]
+  },
+  {
+    "asset_id": "asset:4343d98b4df844566795",
+    "name": "DPP-4i group",
+    "canonical_name": "DPP-4i group",
+    "aliases": [
+      "DPP-4i group"
+    ]
+  },
+  {
+    "asset_id": "asset:68d2cfca7d48830a3706",
+    "name": "duvortuxizumab",
+    "canonical_name": "duvortuxizumab",
+    "aliases": [
+      "duvortuxizumab",
+      "Duvortuxizumab",
+      "JNJ-64052781",
+      "MGD011"
+    ]
+  },
+  {
+    "asset_id": "asset:7974e4605656ff99033b",
+    "name": "Emfizatamab",
+    "canonical_name": "Emfizatamab",
+    "aliases": [
+      "Emfizatamab"
+    ]
+  },
+  {
+    "asset_id": "asset:05bae376d63dbec79671",
+    "name": "Eosin",
+    "canonical_name": "Eosin",
+    "aliases": [
+      "Eosin",
+      "eosin"
+    ]
+  },
+  {
+    "asset_id": "asset:b564e7ea7bff30e3fbed",
+    "name": "Epinephrin",
+    "canonical_name": "Epinephrin",
+    "aliases": [
+      "Epinephrin"
+    ]
+  },
+  {
+    "asset_id": "asset:4db151558cf1e2b99238",
+    "name": "Exendin-(9-39) Acetate",
+    "canonical_name": "Exendin-(9-39) Acetate",
+    "aliases": [
+      "Exendin-(9-39) Acetate"
+    ]
+  },
+  {
+    "asset_id": "asset:7a29029eb26c20ed1b19",
+    "name": "fallypride",
+    "canonical_name": "fallypride",
+    "aliases": [
+      "fallypride"
+    ]
+  },
+  {
+    "asset_id": "asset:db9dd7043f9008f17d5d",
+    "name": "fludarabine",
+    "canonical_name": "fludarabine",
+    "aliases": [
+      "fludarabine"
+    ]
+  },
+  {
+    "asset_id": "asset:f41559a00d77259631fc",
+    "name": "Ghrelin",
+    "canonical_name": "Ghrelin",
+    "aliases": [
+      "Ghrelin"
+    ]
+  },
+  {
+    "asset_id": "asset:cae106fb453bc96b0f4d",
+    "name": "GIK infusion",
+    "canonical_name": "GIK infusion",
+    "aliases": [
+      "GIK infusion"
+    ]
+  },
+  {
+    "asset_id": "asset:02cdaea4d8afd6f64bec",
+    "name": "GIP",
+    "canonical_name": "GIP",
+    "aliases": [
+      "GIP"
+    ]
+  },
+  {
+    "asset_id": "asset:e22c28285df92961269f",
+    "name": "GIP(1-42)",
+    "canonical_name": "GIP(1-42)",
+    "aliases": [
+      "GIP(1-42)"
+    ]
+  },
+  {
+    "asset_id": "asset:f5c48a6db7614d16e608",
+    "name": "Glitazone",
+    "canonical_name": "Glitazone",
+    "aliases": [
+      "Glitazone",
+      "glitazone"
+    ]
+  },
+  {
+    "asset_id": "asset:dda1653adb2cda118848",
+    "name": "Glucagon (25ng/kg/min)",
+    "canonical_name": "Glucagon (25ng/kg/min)",
+    "aliases": [
+      "Glucagon (25ng/kg/min)"
+    ]
+  },
+  {
+    "asset_id": "asset:7695b5978668a867c05c",
+    "name": "Glucagon (50ng/kg/min)",
+    "canonical_name": "Glucagon (50ng/kg/min)",
+    "aliases": [
+      "Glucagon (50ng/kg/min)"
+    ]
+  },
+  {
+    "asset_id": "asset:498261f3efc4f8999307",
+    "name": "Glucagon after exercise",
+    "canonical_name": "Glucagon after exercise",
+    "aliases": [
+      "Glucagon after exercise"
+    ]
+  },
+  {
+    "asset_id": "asset:4c26a7bba9fab7962021",
+    "name": "Glucagon after resting",
+    "canonical_name": "Glucagon after resting",
+    "aliases": [
+      "Glucagon after resting"
+    ]
+  },
+  {
+    "asset_id": "asset:a86f5babe20fb0a0d4c7",
+    "name": "Glucagon bolus",
+    "canonical_name": "Glucagon bolus",
+    "aliases": [
+      "Glucagon bolus"
+    ]
+  },
+  {
+    "asset_id": "asset:4723b90cd01012ba5f3f",
+    "name": "Glucagon Injection",
+    "canonical_name": "Glucagon Injection",
+    "aliases": [
+      "Glucagon Injection"
+    ]
+  },
+  {
+    "asset_id": "asset:b11662a5f95f8c1f512e",
+    "name": "Glucagon-like peptide 2",
+    "canonical_name": "Glucagon-like peptide 2",
+    "aliases": [
+      "Glucagon-like peptide 2"
+    ]
+  },
+  {
+    "asset_id": "asset:ad372e406ef89de984af",
+    "name": "Glucagon-like peptide-1 (GLP-1)",
+    "canonical_name": "Glucagon-like peptide-1 (GLP-1)",
+    "aliases": [
+      "Glucagon-like peptide-1 (GLP-1)"
+    ]
+  },
+  {
+    "asset_id": "asset:c42cb468b6dbf2064402",
+    "name": "Glucose",
+    "canonical_name": "Glucose",
+    "aliases": [
+      "Glucose"
+    ]
+  },
+  {
+    "asset_id": "asset:8e3a8fca444ace8c7337",
+    "name": "glucose dependent insulinotropic polypeptide",
+    "canonical_name": "glucose dependent insulinotropic polypeptide",
+    "aliases": [
+      "glucose dependent insulinotropic polypeptide",
+      "Glucose-Dependent Insulinotropic Polypeptide"
+    ]
+  },
+  {
+    "asset_id": "asset:0c83942247b02209d2f3",
+    "name": "Glucose-Dependent Insulin-Releasing Hormone[3-30]",
+    "canonical_name": "Glucose-Dependent Insulin-Releasing Hormone[3-30]",
+    "aliases": [
+      "Glucose-Dependent Insulin-Releasing Hormone[3-30]"
+    ]
+  },
+  {
+    "asset_id": "asset:e5c1d28163b4d58d0dbc",
+    "name": "glucose-dependent insulinotropic peptide",
+    "canonical_name": "glucose-dependent insulinotropic peptide",
+    "aliases": [
+      "glucose-dependent insulinotropic peptide"
+    ]
+  },
+  {
+    "asset_id": "asset:bb2a815a446235c92bb3",
+    "name": "Glucose-dependent Insulinotropic Polypeptide (GIP)",
+    "canonical_name": "Glucose-dependent Insulinotropic Polypeptide (GIP)",
+    "aliases": [
+      "Glucose-dependent Insulinotropic Polypeptide (GIP)",
+      "Glucose-dependent insulinotropic polypeptide (GIP)"
+    ]
+  },
+  {
+    "asset_id": "asset:a0807ffdda2a805432d3",
+    "name": "Glutamine",
+    "canonical_name": "Glutamine",
+    "aliases": [
+      "Glutamine",
+      "L-glutamine"
+    ]
+  },
+  {
+    "asset_id": "asset:bcaf1305f93a98512913",
+    "name": "glycerin",
+    "canonical_name": "glycerin",
+    "aliases": [
+      "glycerin",
+      "Glycerol"
+    ]
+  },
+  {
+    "asset_id": "asset:9bde4aeae9c88e92f58c",
+    "name": "GPR84",
+    "canonical_name": "GPR84",
+    "aliases": [
+      "GPR84"
+    ]
+  },
+  {
+    "asset_id": "asset:5720b8a57ae42f5061f7",
+    "name": "Hematoxylin",
+    "canonical_name": "Hematoxylin",
+    "aliases": [
+      "Hematoxylin",
+      "hematoxylin"
+    ]
+  },
+  {
+    "asset_id": "asset:d374c88b5b068628a92d",
+    "name": "Incretinomimetics",
+    "canonical_name": "Incretinomimetics",
+    "aliases": [
+      "Incretinomimetics"
+    ]
+  },
+  {
+    "asset_id": "asset:1009a4f1d7f2630c2462",
+    "name": "Insulin bolus",
+    "canonical_name": "Insulin bolus",
+    "aliases": [
+      "Insulin bolus"
+    ]
+  },
+  {
+    "asset_id": "asset:8cbe4f609f9a121788b5",
+    "name": "Insulin double-wave bolus",
+    "canonical_name": "Insulin double-wave bolus",
+    "aliases": [
+      "Insulin double-wave bolus"
+    ]
+  },
+  {
+    "asset_id": "asset:eb2c9641ffe3802a6ac1",
+    "name": "Insulin single bolus",
+    "canonical_name": "Insulin single bolus",
+    "aliases": [
+      "Insulin single bolus"
+    ]
+  },
+  {
+    "asset_id": "asset:458b5c9a1753f53aa6bd",
+    "name": "Intravenous glucagon",
+    "canonical_name": "Intravenous glucagon",
+    "aliases": [
+      "Intravenous glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:823d6c7f82f7f7b116ee",
+    "name": "inulin",
+    "canonical_name": "inulin",
+    "aliases": [
+      "inulin",
+      "Inulin"
+    ]
+  },
+  {
+    "asset_id": "asset:867126e11589764a84ac",
+    "name": "Lactate",
+    "canonical_name": "Lactate",
+    "aliases": [
+      "Lactate"
+    ]
+  },
+  {
+    "asset_id": "asset:3fa980d3035685604062",
+    "name": "lactulose",
+    "canonical_name": "lactulose",
+    "aliases": [
+      "lactulose",
+      "Lactulose"
+    ]
+  },
+  {
+    "asset_id": "asset:3fa8c8c5cc07ac2f8e34",
+    "name": "liraglutide (Novo Nordisk, Bagsv\u00e6rd, Denmark)",
+    "canonical_name": "liraglutide (Novo Nordisk, Bagsv\u00e6rd, Denmark)",
+    "aliases": [
+      "liraglutide (Novo Nordisk, Bagsv\u00e6rd, Denmark)"
+    ]
+  },
+  {
+    "asset_id": "asset:48b17a05413f977c8986",
+    "name": "Liraglutide 6 MG/ML [Victoza]",
+    "canonical_name": "Liraglutide 6 MG/ML [Victoza]",
+    "aliases": [
+      "Liraglutide 6 MG/ML [Victoza]"
+    ]
+  },
+  {
+    "asset_id": "asset:dc0d69bd66d097c819e0",
+    "name": "Liraglutide treatment 12 weeks",
+    "canonical_name": "Liraglutide treatment 12 weeks",
+    "aliases": [
+      "Liraglutide treatment 12 weeks"
+    ]
+  },
+  {
+    "asset_id": "asset:a16205a00f8be501e503",
+    "name": "Loncastuximab",
+    "canonical_name": "Loncastuximab",
+    "aliases": [
+      "Loncastuximab"
+    ]
+  },
+  {
+    "asset_id": "asset:2d85ae7a92a7a7831b34",
+    "name": "LY2403021",
+    "canonical_name": "LY2403021",
+    "aliases": [
+      "LY2403021"
+    ]
+  },
+  {
+    "asset_id": "asset:0a201cc607dd0d902988",
+    "name": "Maleimide",
+    "canonical_name": "Maleimide",
+    "aliases": [
+      "Maleimide",
+      "maleimide"
+    ]
+  },
+  {
+    "asset_id": "asset:8d30d136ecb2a1d21729",
+    "name": "Mitomycin",
+    "canonical_name": "Mitomycin",
+    "aliases": [
+      "Mitomycin",
+      "mitomycin"
+    ]
+  },
+  {
+    "asset_id": "asset:818932836d1e2b5a093d",
+    "name": "Omegaven",
+    "canonical_name": "Omegaven",
+    "aliases": [
+      "Omegaven"
+    ]
+  },
+  {
+    "asset_id": "asset:920de508228e10c456cf",
+    "name": "On GLP1 plus HRT",
+    "canonical_name": "On GLP1 plus HRT",
+    "aliases": [
+      "On GLP1 plus HRT"
+    ]
+  },
+  {
+    "asset_id": "asset:16396b1e5eef68270edb",
+    "name": "paraffin",
+    "canonical_name": "paraffin",
+    "aliases": [
+      "paraffin"
+    ]
+  },
+  {
+    "asset_id": "asset:a330a784b891426e0c9d",
+    "name": "Period 2 - Visit 1 Warm control, visit 2 cold control, visit 3 warm glucagon",
+    "canonical_name": "Period 2 - Visit 1 Warm control, visit 2 cold control, visit 3 warm glucagon",
+    "aliases": [
+      "Period 2 - Visit 1 Warm control, visit 2 cold control, visit 3 warm glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:5cc089e81b23ff244786",
+    "name": "Period 2 - Visit 1 Warm Glucagon, Visit 2 Cold control , Visit 3 Warm control",
+    "canonical_name": "Period 2 - Visit 1 Warm Glucagon, Visit 2 Cold control , Visit 3 Warm control",
+    "aliases": [
+      "Period 2 - Visit 1 Warm Glucagon, Visit 2 Cold control , Visit 3 Warm control"
+    ]
+  },
+  {
+    "asset_id": "asset:1013795100f57f2ef871",
+    "name": "Period 2 -Visit 1 cold control, Visit 2 warm control, Visit 3 Warm glucagon",
+    "canonical_name": "Period 2 -Visit 1 cold control, Visit 2 warm control, Visit 3 Warm glucagon",
+    "aliases": [
+      "Period 2 -Visit 1 cold control, Visit 2 warm control, Visit 3 Warm glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:ef1f387c2755cff74251",
+    "name": "Period 2 -Visit 1 cold control, visit 2 warm glucagon, visit 3 warm control",
+    "canonical_name": "Period 2 -Visit 1 cold control, visit 2 warm glucagon, visit 3 warm control",
+    "aliases": [
+      "Period 2 -Visit 1 cold control, visit 2 warm glucagon, visit 3 warm control"
+    ]
+  },
+  {
+    "asset_id": "asset:9840522608f4d8487a7c",
+    "name": "Period 2- Visit 1 Warm glucagon, visit 2 warm control, visit 3 cold control",
+    "canonical_name": "Period 2- Visit 1 Warm glucagon, visit 2 warm control, visit 3 cold control",
+    "aliases": [
+      "Period 2- Visit 1 Warm glucagon, visit 2 warm control, visit 3 cold control"
+    ]
+  },
+  {
+    "asset_id": "asset:8c03ae3d04591dc43d2d",
+    "name": "Pioglitazone metformin tablets",
+    "canonical_name": "Pioglitazone metformin tablets",
+    "aliases": [
+      "Pioglitazone metformin tablets"
+    ]
+  },
+  {
+    "asset_id": "asset:71a0936c23f40d0178b5",
+    "name": "Podophyllotoxin",
+    "canonical_name": "Podophyllotoxin",
+    "aliases": [
+      "Podophyllotoxin"
+    ]
+  },
+  {
+    "asset_id": "asset:7c6c0a4ea13393ad33ea",
+    "name": "Probiotic Agent",
+    "canonical_name": "Probiotic Agent",
+    "aliases": [
+      "Probiotic Agent"
+    ]
+  },
+  {
+    "asset_id": "asset:3d526b4e54ae580d724f",
+    "name": "Regular insulin",
+    "canonical_name": "Regular insulin",
+    "aliases": [
+      "Regular insulin"
+    ]
+  },
+  {
+    "asset_id": "asset:e353680828f4d72178ff",
+    "name": "responders group and nonresponders group",
+    "canonical_name": "responders group and nonresponders group",
+    "aliases": [
+      "responders group and nonresponders group"
+    ]
+  },
+  {
+    "asset_id": "asset:d066ad92c1becd94aca7",
+    "name": "resveratrol",
+    "canonical_name": "resveratrol",
+    "aliases": [
+      "resveratrol",
+      "Resveratrol"
+    ]
+  },
+  {
+    "asset_id": "asset:d4261610ece0c9a3a867",
+    "name": "rimiducid",
+    "canonical_name": "rimiducid",
+    "aliases": [
+      "rimiducid"
+    ]
+  },
+  {
+    "asset_id": "asset:600b6f465fb96956b4ae",
+    "name": "saccharin",
+    "canonical_name": "saccharin",
+    "aliases": [
+      "saccharin",
+      "Saccharin"
+    ]
+  },
+  {
+    "asset_id": "asset:a4856916b2ab742d586a",
+    "name": "Semaglutide 1.34 MG/ML [Ozempic]",
+    "canonical_name": "Semaglutide 1.34 MG/ML [Ozempic]",
+    "aliases": [
+      "Semaglutide 1.34 MG/ML [Ozempic]"
+    ]
+  },
+  {
+    "asset_id": "asset:a5bf21020753889c1ddd",
+    "name": "Semaglutide plus a personalised and supervised program of resistance and endurance training",
+    "canonical_name": "Semaglutide plus a personalised and supervised program of resistance and endurance training",
+    "aliases": [
+      "Semaglutide plus a personalised and supervised program of resistance and endurance training"
+    ]
+  },
+  {
+    "asset_id": "asset:8f64bc0cc122e6c06a38",
+    "name": "Semaglutide with lifestyle modification",
+    "canonical_name": "Semaglutide with lifestyle modification",
+    "aliases": [
+      "Semaglutide with lifestyle modification"
+    ]
+  },
+  {
+    "asset_id": "asset:06161767453e3a26572c",
+    "name": "Sevelamer",
+    "canonical_name": "Sevelamer",
+    "aliases": [
+      "Sevelamer"
+    ]
+  },
+  {
+    "asset_id": "asset:f420c16f9b08d385423c",
+    "name": "simagliptin\uff1aForxiga\u00ae\ufe0f",
+    "canonical_name": "simagliptin\uff1aForxiga\u00ae\ufe0f",
+    "aliases": [
+      "simagliptin\uff1aForxiga\u00ae\ufe0f"
+    ]
+  },
+  {
+    "asset_id": "asset:856331a9fb7342540d33",
+    "name": "Sodium chloride (placebo)",
+    "canonical_name": "Sodium chloride (placebo)",
+    "aliases": [
+      "Sodium chloride (placebo)"
+    ]
+  },
+  {
+    "asset_id": "asset:5ba997b1691bd6e0489d",
+    "name": "sucralose",
+    "canonical_name": "sucralose",
+    "aliases": [
+      "sucralose",
+      "Sucralose"
+    ]
+  },
+  {
+    "asset_id": "asset:6250bc0936c338a4c2c3",
+    "name": "Sucrose",
+    "canonical_name": "Sucrose",
+    "aliases": [
+      "Sucrose"
+    ]
+  },
+  {
+    "asset_id": "asset:3814eb6cf598fc0fa1e3",
+    "name": "Tabelecleucel",
+    "canonical_name": "Tabelecleucel",
+    "aliases": [
+      "Tabelecleucel"
+    ]
+  },
+  {
+    "asset_id": "asset:7f3ebc92d41f7d1e14f5",
+    "name": "Tablet Sitagliptin 100mg (evening before and morning of experiments)",
+    "canonical_name": "Tablet Sitagliptin 100mg (evening before and morning of experiments)",
+    "aliases": [
+      "Tablet Sitagliptin 100mg (evening before and morning of experiments)"
+    ]
+  },
+  {
+    "asset_id": "asset:f5705c8aa1930f2c29a8",
+    "name": "thiazolidinedione",
+    "canonical_name": "thiazolidinedione",
+    "aliases": [
+      "thiazolidinedione",
+      "Thiazolidinedione"
+    ]
+  },
+  {
+    "asset_id": "asset:4a6c693f23bbb2f7b1fc",
+    "name": "Tirzepatide (Mounjaro)",
+    "canonical_name": "Tirzepatide (Mounjaro)",
+    "aliases": [
+      "Tirzepatide (Mounjaro)"
+    ]
+  },
+  {
+    "asset_id": "asset:1e08e541fe2171bbc1a5",
+    "name": "Tirzepatide with lifestyle modification",
+    "canonical_name": "Tirzepatide with lifestyle modification",
+    "aliases": [
+      "Tirzepatide with lifestyle modification"
+    ]
+  },
+  {
+    "asset_id": "asset:cb7f61cecd83cc762134",
+    "name": "Vitamin B",
+    "canonical_name": "Vitamin B",
+    "aliases": [
+      "Vitamin B"
+    ]
+  },
+  {
+    "asset_id": "asset:2c24547d75325524404d",
+    "name": "Xeris Xerisol glucagon",
+    "canonical_name": "Xeris Xerisol glucagon",
+    "aliases": [
+      "Xeris Xerisol glucagon"
+    ]
+  },
+  {
+    "asset_id": "asset:d0c4f5b8925a2220de3b",
+    "name": "yeast",
+    "canonical_name": "yeast",
+    "aliases": [
+      "yeast",
+      "Yeast"
+    ]
+  },
+  {
+    "asset_id": "asset:9958570b03daa75d3bcb",
+    "name": "Abetimus sodium",
+    "canonical_name": "Abetimus sodium",
+    "aliases": [
+      "Abetimus sodium"
+    ]
+  },
+  {
+    "asset_id": "asset:5871dc86adc56251f0ee",
+    "name": "acemannan",
+    "canonical_name": "acemannan",
+    "aliases": [
+      "acemannan"
+    ]
+  },
+  {
+    "asset_id": "asset:d598649ca9cb2a79d130",
+    "name": "acesulfame",
+    "canonical_name": "acesulfame",
+    "aliases": [
+      "acesulfame",
+      "Acesulfame"
+    ]
+  },
+  {
+    "asset_id": "asset:2158718553e4b0b178f4",
+    "name": "acetone",
+    "canonical_name": "acetone",
+    "aliases": [
+      "acetone"
+    ]
+  },
+  {
+    "asset_id": "asset:1d27c32ff20ae917ffa1",
+    "name": "acetonitrile",
+    "canonical_name": "acetonitrile",
+    "aliases": [
+      "acetonitrile",
+      "Acetonitrile"
+    ]
+  },
+  {
+    "asset_id": "asset:81cc4beed0b85313bd2b",
+    "name": "Acetylcarnitine",
+    "canonical_name": "Acetylcarnitine",
+    "aliases": [
+      "Acetylcarnitine"
+    ]
+  },
+  {
+    "asset_id": "asset:1fbe72ad3ce9becb92aa",
+    "name": "Acridine orange",
+    "canonical_name": "Acridine orange",
+    "aliases": [
+      "Acridine orange"
+    ]
+  },
+  {
+    "asset_id": "asset:98194c6486718c4037df",
+    "name": "acrylamide",
+    "canonical_name": "acrylamide",
+    "aliases": [
+      "acrylamide"
+    ]
+  },
+  {
+    "asset_id": "asset:42a76d0bf7c4a025da18",
+    "name": "acrylonitrile",
+    "canonical_name": "acrylonitrile",
+    "aliases": [
+      "acrylonitrile"
+    ]
+  },
+  {
+    "asset_id": "asset:bdb83ea6a0d5088538a4",
+    "name": "Activated Charcoal",
+    "canonical_name": "Activated Charcoal",
+    "aliases": [
+      "Activated Charcoal",
+      "Activated charcoal",
+      "activated charcoal"
+    ]
+  },
+  {
+    "asset_id": "asset:da72d8454c56c7dd10aa",
+    "name": "adamantane",
+    "canonical_name": "adamantane",
+    "aliases": [
+      "adamantane"
+    ]
+  },
+  {
+    "asset_id": "asset:3234d88a98b806eadbbc",
+    "name": "Allantoin",
+    "canonical_name": "Allantoin",
+    "aliases": [
+      "Allantoin",
+      "allantoin"
+    ]
+  },
+  {
+    "asset_id": "asset:8b291c56b5ec84c71e80",
+    "name": "aluminum chloride",
+    "canonical_name": "aluminum chloride",
+    "aliases": [
+      "aluminum chloride"
+    ]
+  },
+  {
+    "asset_id": "asset:acba969ab7b4ddedcb70",
+    "name": "Ambroxol",
+    "canonical_name": "Ambroxol",
+    "aliases": [
+      "Ambroxol",
+      "ambroxol"
+    ]
+  },
+  {
+    "asset_id": "asset:367aba3bd1eafcc19dbd",
+    "name": "amikacin",
+    "canonical_name": "amikacin",
+    "aliases": [
+      "amikacin"
+    ]
+  },
+  {
+    "asset_id": "asset:43161720d3b3d3582861",
+    "name": "aminopyrine",
+    "canonical_name": "aminopyrine",
+    "aliases": [
+      "aminopyrine",
+      "Aminopyrine"
+    ]
+  },
+  {
+    "asset_id": "asset:b792becf4d85fb7fff50",
+    "name": "amoxicillin",
+    "canonical_name": "amoxicillin",
+    "aliases": [
+      "amoxicillin"
+    ]
+  },
+  {
+    "asset_id": "asset:0f8eebee3f6364fc3637",
+    "name": "ampicillin",
+    "canonical_name": "ampicillin",
+    "aliases": [
+      "ampicillin"
+    ]
+  },
+  {
+    "asset_id": "asset:0aa4cbe00ac7b103ef62",
+    "name": "androstenedione",
+    "canonical_name": "androstenedione",
+    "aliases": [
+      "androstenedione"
+    ]
+  },
+  {
+    "asset_id": "asset:2d83251a93ea3749fe61",
+    "name": "ANG-453",
+    "canonical_name": "ANG-453",
+    "aliases": [
+      "ANG-453"
+    ]
+  },
+  {
+    "asset_id": "asset:f82afe66d28e341de76f",
+    "name": "aniline",
+    "canonical_name": "aniline",
+    "aliases": [
+      "aniline"
+    ]
+  },
+  {
+    "asset_id": "asset:3444d62aaf06a866ba54",
+    "name": "anthracene",
+    "canonical_name": "anthracene",
+    "aliases": [
+      "anthracene"
+    ]
+  },
+  {
+    "asset_id": "asset:a6ec738e38920560aca5",
+    "name": "antimony",
+    "canonical_name": "antimony",
+    "aliases": [
+      "antimony"
+    ]
+  },
+  {
+    "asset_id": "asset:316afa5f8dba7dd948a3",
+    "name": "Apigenin",
+    "canonical_name": "Apigenin",
+    "aliases": [
+      "Apigenin",
+      "apigenin"
+    ]
+  },
+  {
+    "asset_id": "asset:0f78fcbfb5a4f91af5aa",
+    "name": "apocynin",
+    "canonical_name": "apocynin",
+    "aliases": [
+      "apocynin"
+    ]
+  },
+  {
+    "asset_id": "asset:927f0ab48ad9096ea196",
+    "name": "aroxybutynin",
+    "canonical_name": "aroxybutynin",
+    "aliases": [
+      "aroxybutynin",
+      "Aroxybutynin"
+    ]
+  },
+  {
+    "asset_id": "asset:ae7b596327a0ff95d221",
+    "name": "Asiaticoside",
+    "canonical_name": "Asiaticoside",
+    "aliases": [
+      "Asiaticoside"
+    ]
+  },
+  {
+    "asset_id": "asset:fcc2aa1bf921b430df85",
+    "name": "Astaxanthin",
+    "canonical_name": "Astaxanthin",
+    "aliases": [
+      "Astaxanthin",
+      "astaxanthin"
+    ]
+  },
+  {
+    "asset_id": "asset:c67cc6903e32ac731183",
+    "name": "Astragalin",
+    "canonical_name": "Astragalin",
+    "aliases": [
+      "Astragalin",
+      "astragalin"
+    ]
+  },
+  {
+    "asset_id": "asset:cd0e7fd434e7d9c27554",
+    "name": "atinvicitinib",
+    "canonical_name": "atinvicitinib",
+    "aliases": [
+      "atinvicitinib",
+      "Atinvicitinib"
+    ]
+  },
+  {
+    "asset_id": "asset:45086efc9a55035b6e5e",
+    "name": "avenciguat",
+    "canonical_name": "avenciguat",
+    "aliases": [
+      "avenciguat"
+    ]
+  },
+  {
+    "asset_id": "asset:9e42fa42b26592d9a050",
+    "name": "avibactam",
+    "canonical_name": "avibactam",
+    "aliases": [
+      "avibactam"
+    ]
+  },
+  {
+    "asset_id": "asset:c0f20dff6668f7e89533",
+    "name": "azithromycin",
+    "canonical_name": "azithromycin",
+    "aliases": [
+      "azithromycin",
+      "Azithromycin"
+    ]
+  },
+  {
+    "asset_id": "asset:3e9945ecabc20ef785a9",
+    "name": "aztreonam",
+    "canonical_name": "aztreonam",
+    "aliases": [
+      "aztreonam",
+      "Aztreonam"
+    ]
+  },
+  {
+    "asset_id": "asset:ea473e82515dab04f739",
+    "name": "baicalein",
+    "canonical_name": "baicalein",
+    "aliases": [
+      "baicalein"
+    ]
+  },
+  {
+    "asset_id": "asset:ecd88a280817b31ff520",
+    "name": "barium",
+    "canonical_name": "barium",
+    "aliases": [
+      "barium"
+    ]
+  },
+  {
+    "asset_id": "asset:adbebb7ea9f1dd7a7abe",
+    "name": "barium sulfate",
+    "canonical_name": "barium sulfate",
+    "aliases": [
+      "barium sulfate"
+    ]
+  },
+  {
+    "asset_id": "asset:6d1eac7b887a4eb7b520",
+    "name": "baxdrostat",
+    "canonical_name": "baxdrostat",
+    "aliases": [
+      "baxdrostat"
+    ]
+  },
+  {
+    "asset_id": "asset:8f5d291b0c06253c3549",
+    "name": "bedaquiline",
+    "canonical_name": "bedaquiline",
+    "aliases": [
+      "bedaquiline"
+    ]
+  },
+  {
+    "asset_id": "asset:6bb940dc6d842774d690",
+    "name": "benzaldehyde",
+    "canonical_name": "benzaldehyde",
+    "aliases": [
+      "benzaldehyde"
+    ]
+  },
+  {
+    "asset_id": "asset:931beb07516211c67720",
+    "name": "benzamide",
+    "canonical_name": "benzamide",
+    "aliases": [
+      "benzamide"
+    ]
+  },
+  {
+    "asset_id": "asset:245e823c08f8dc579b6a",
+    "name": "benzene",
+    "canonical_name": "benzene",
+    "aliases": [
+      "benzene"
+    ]
+  },
+  {
+    "asset_id": "asset:d5ef5867049d3b4b5819",
+    "name": "benznidazole",
+    "canonical_name": "benznidazole",
+    "aliases": [
+      "benznidazole"
+    ]
+  },
+  {
+    "asset_id": "asset:5cffce5e42022633360e",
+    "name": "benzophenone",
+    "canonical_name": "benzophenone",
+    "aliases": [
+      "benzophenone"
+    ]
+  },
+  {
+    "asset_id": "asset:3f3f99849dd3b16f85a1",
+    "name": "benzoquinone",
+    "canonical_name": "benzoquinone",
+    "aliases": [
+      "benzoquinone"
+    ]
+  },
+  {
+    "asset_id": "asset:6e0e05835f02cecda0c5",
+    "name": "benzyl alcohol",
+    "canonical_name": "benzyl alcohol",
+    "aliases": [
+      "benzyl alcohol"
+    ]
+  },
+  {
+    "asset_id": "asset:201262466b8f4f1be3c2",
+    "name": "benzylpenicillin",
+    "canonical_name": "benzylpenicillin",
+    "aliases": [
+      "benzylpenicillin"
+    ]
+  },
+  {
+    "asset_id": "asset:c995a1511d971e2a879b",
+    "name": "Bepirovirsen",
+    "canonical_name": "Bepirovirsen",
+    "aliases": [
+      "Bepirovirsen",
+      "bepirovirsen"
+    ]
+  },
+  {
+    "asset_id": "asset:c4a1924e2b7fa29f32f8",
+    "name": "berberine",
+    "canonical_name": "berberine",
+    "aliases": [
+      "berberine",
+      "Berberine"
+    ]
+  },
+  {
+    "asset_id": "asset:8b30d9d86f4bab1fc7fe",
+    "name": "berberine chloride",
+    "canonical_name": "berberine chloride",
+    "aliases": [
+      "berberine chloride"
+    ]
+  },
+  {
+    "asset_id": "asset:2057cb002c8ec31db865",
+    "name": "Beta-sitosterol",
+    "canonical_name": "Beta-sitosterol",
+    "aliases": [
+      "Beta-sitosterol"
+    ]
+  },
+  {
+    "asset_id": "asset:aa3faa13704b7914a30b",
+    "name": "bicyclol",
+    "canonical_name": "bicyclol",
+    "aliases": [
+      "bicyclol",
+      "Bicyclol"
+    ]
+  },
+  {
+    "asset_id": "asset:c0fe93ff831cd63226dc",
+    "name": "biguanide",
+    "canonical_name": "biguanide",
+    "aliases": [
+      "biguanide"
+    ]
+  },
+  {
+    "asset_id": "asset:1cfbf8ddd4f7971fcbc2",
+    "name": "borax",
+    "canonical_name": "borax",
+    "aliases": [
+      "borax"
+    ]
+  },
+  {
+    "asset_id": "asset:03191bf58841c3136a75",
+    "name": "borneol",
+    "canonical_name": "borneol",
+    "aliases": [
+      "borneol"
+    ]
+  },
+  {
+    "asset_id": "asset:6f8cd9ea135de4b4da0f",
+    "name": "BPC-157",
+    "canonical_name": "BPC-157",
+    "aliases": [
+      "BPC-157"
+    ]
+  },
+  {
+    "asset_id": "asset:aed1038ed8364a1d0e8a",
+    "name": "brodifacoum",
+    "canonical_name": "brodifacoum",
+    "aliases": [
+      "brodifacoum"
+    ]
+  },
+  {
+    "asset_id": "asset:34ba3813592800cfb245",
+    "name": "butadiene",
+    "canonical_name": "butadiene",
+    "aliases": [
+      "butadiene"
+    ]
+  },
+  {
+    "asset_id": "asset:e3de7a37cc741d619107",
+    "name": "cabotegravir",
+    "canonical_name": "cabotegravir",
+    "aliases": [
+      "cabotegravir"
+    ]
+  },
+  {
+    "asset_id": "asset:35320807972594b4a3fb",
+    "name": "cadisegliatin",
+    "canonical_name": "cadisegliatin",
+    "aliases": [
+      "cadisegliatin",
+      "TTP399"
+    ]
+  },
+  {
+    "asset_id": "asset:0be54bb94d65ac99e473",
+    "name": "Cadmium",
+    "canonical_name": "Cadmium",
+    "aliases": [
+      "Cadmium",
+      "cadmium"
+    ]
+  },
+  {
+    "asset_id": "asset:6849a8605c2314404114",
+    "name": "calcium alginate",
+    "canonical_name": "calcium alginate",
+    "aliases": [
+      "calcium alginate",
+      "calcium-alginate"
+    ]
+  },
+  {
+    "asset_id": "asset:63c79609e5be0c52c00c",
+    "name": "calcium oxide",
+    "canonical_name": "calcium oxide",
+    "aliases": [
+      "calcium oxide"
+    ]
+  },
+  {
+    "asset_id": "asset:08b16c0b09851ef3bce8",
+    "name": "Calliterpenone",
+    "canonical_name": "Calliterpenone",
+    "aliases": [
+      "Calliterpenone"
+    ]
+  },
+  {
+    "asset_id": "asset:98d113ac57511eefab19",
+    "name": "calycosin",
+    "canonical_name": "calycosin",
+    "aliases": [
+      "calycosin"
+    ]
+  },
+  {
+    "asset_id": "asset:f421c00b87eb404782e4",
+    "name": "camphor",
+    "canonical_name": "camphor",
+    "aliases": [
+      "camphor"
+    ]
+  },
+  {
+    "asset_id": "asset:272ee9b5a235bae24b24",
+    "name": "camptothecin",
+    "canonical_name": "camptothecin",
+    "aliases": [
+      "camptothecin"
+    ]
+  },
+  {
+    "asset_id": "asset:424de991278cfb629486",
+    "name": "carbapenem",
+    "canonical_name": "carbapenem",
+    "aliases": [
+      "carbapenem"
+    ]
+  },
+  {
+    "asset_id": "asset:ed582eb5df3a4a3a8490",
+    "name": "carbocisteine",
+    "canonical_name": "carbocisteine",
+    "aliases": [
+      "carbocisteine"
+    ]
+  },
+  {
+    "asset_id": "asset:1af158be8a5d9809bbf0",
+    "name": "carboplatin",
+    "canonical_name": "carboplatin",
+    "aliases": [
+      "carboplatin"
+    ]
+  },
+  {
+    "asset_id": "asset:cd00982ad695e9202c31",
+    "name": "carboxymethyl cellulose",
+    "canonical_name": "carboxymethyl cellulose",
+    "aliases": [
+      "carboxymethyl cellulose"
+    ]
+  },
+  {
+    "asset_id": "asset:1753678e92bc0e98b8ca",
+    "name": "Carrageenan",
+    "canonical_name": "Carrageenan",
+    "aliases": [
+      "Carrageenan",
+      "carrageenan"
+    ]
+  },
+  {
+    "asset_id": "asset:03b8bb6bf066110da87c",
+    "name": "carvacrol",
+    "canonical_name": "carvacrol",
+    "aliases": [
+      "carvacrol"
+    ]
+  },
+  {
+    "asset_id": "asset:79899d0a03f8d84f1ad2",
+    "name": "catechin",
+    "canonical_name": "catechin",
+    "aliases": [
+      "catechin"
+    ]
+  },
+  {
+    "asset_id": "asset:8a0624d951108a9a6a80",
+    "name": "cefazolin",
+    "canonical_name": "cefazolin",
+    "aliases": [
+      "cefazolin"
+    ]
+  },
+  {
+    "asset_id": "asset:502704ff25df63bef4a2",
+    "name": "cefepime",
+    "canonical_name": "cefepime",
+    "aliases": [
+      "cefepime"
+    ]
+  },
+  {
+    "asset_id": "asset:cf3950151305024bbb98",
+    "name": "cefiderocol",
+    "canonical_name": "cefiderocol",
+    "aliases": [
+      "cefiderocol"
+    ]
+  },
+  {
+    "asset_id": "asset:c81fe423a1ee65d5d4cb",
+    "name": "cefixime",
+    "canonical_name": "cefixime",
+    "aliases": [
+      "cefixime"
+    ]
+  },
+  {
+    "asset_id": "asset:578e458efa4f1161e20d",
+    "name": "cefoperazone",
+    "canonical_name": "cefoperazone",
+    "aliases": [
+      "cefoperazone"
+    ]
+  },
+  {
+    "asset_id": "asset:08ca0be3ef391d0d26b3",
+    "name": "Ceftazidime",
+    "canonical_name": "Ceftazidime",
+    "aliases": [
+      "Ceftazidime",
+      "ceftazidime"
+    ]
+  },
+  {
+    "asset_id": "asset:9205cbc2baa2558070e7",
+    "name": "Ceftriaxone",
+    "canonical_name": "Ceftriaxone",
+    "aliases": [
+      "Ceftriaxone",
+      "ceftriaxone"
+    ]
+  },
+  {
+    "asset_id": "asset:39246820e7730c26f76b",
+    "name": "cellulase",
+    "canonical_name": "cellulase",
+    "aliases": [
+      "cellulase"
+    ]
+  },
+  {
+    "asset_id": "asset:932da2789c9ef850e1d5",
+    "name": "cephalosporin",
+    "canonical_name": "cephalosporin",
+    "aliases": [
+      "cephalosporin"
+    ]
+  },
+  {
+    "asset_id": "asset:25c182de451c91b5e02f",
+    "name": "cevadine",
+    "canonical_name": "cevadine",
+    "aliases": [
+      "cevadine"
+    ]
+  },
+  {
+    "asset_id": "asset:9e6cd159e5dcc73df58b",
+    "name": "Chalcone",
+    "canonical_name": "Chalcone",
+    "aliases": [
+      "Chalcone",
+      "chalcone"
+    ]
+  },
+  {
+    "asset_id": "asset:fcc4835b7fe5212261dc",
+    "name": "chamomile",
+    "canonical_name": "chamomile",
+    "aliases": [
+      "chamomile"
+    ]
+  },
+  {
+    "asset_id": "asset:8626d5a5dbbe9361fc85",
+    "name": "chlorambucil",
+    "canonical_name": "chlorambucil",
+    "aliases": [
+      "chlorambucil"
+    ]
+  },
+  {
+    "asset_id": "asset:094bc0694edf0ffe6dce",
+    "name": "chlorhexidine",
+    "canonical_name": "chlorhexidine",
+    "aliases": [
+      "chlorhexidine",
+      "Chlorhexidine"
+    ]
+  },
+  {
+    "asset_id": "asset:c8908c6949c4d4f06f1e",
+    "name": "chlorobenzene",
+    "canonical_name": "chlorobenzene",
+    "aliases": [
+      "chlorobenzene"
+    ]
+  },
+  {
+    "asset_id": "asset:27a7c83b39fab82294ab",
+    "name": "chloroform",
+    "canonical_name": "chloroform",
+    "aliases": [
+      "chloroform"
+    ]
+  },
+  {
+    "asset_id": "asset:e34990bec041889b506c",
+    "name": "chloroquine",
+    "canonical_name": "chloroquine",
+    "aliases": [
+      "chloroquine"
+    ]
+  },
+  {
+    "asset_id": "asset:880fd8c3cfe1866f2375",
+    "name": "chlorpyrifos",
+    "canonical_name": "chlorpyrifos",
+    "aliases": [
+      "chlorpyrifos"
+    ]
+  },
+  {
+    "asset_id": "asset:dc64ce79338d0424cb1d",
+    "name": "cholestyramine",
+    "canonical_name": "cholestyramine",
+    "aliases": [
+      "cholestyramine"
+    ]
+  },
+  {
+    "asset_id": "asset:d25d7ece77a08418fdc9",
+    "name": "chrysin",
+    "canonical_name": "chrysin",
+    "aliases": [
+      "chrysin"
+    ]
+  },
+  {
+    "asset_id": "asset:435d94748d9737251605",
+    "name": "cilostamide",
+    "canonical_name": "cilostamide",
+    "aliases": [
+      "cilostamide"
+    ]
+  },
+  {
+    "asset_id": "asset:40a191ceaa49e5385409",
+    "name": "ciluprevir",
+    "canonical_name": "ciluprevir",
+    "aliases": [
+      "ciluprevir"
+    ]
+  },
+  {
+    "asset_id": "asset:92c4a59041fdbe4efb6b",
+    "name": "cinitapride",
+    "canonical_name": "cinitapride",
+    "aliases": [
+      "cinitapride"
+    ]
+  },
+  {
+    "asset_id": "asset:57c3a74406e697c15f30",
+    "name": "cinnamon",
+    "canonical_name": "cinnamon",
+    "aliases": [
+      "cinnamon"
+    ]
+  },
+  {
+    "asset_id": "asset:093b41319cb763d50fc7",
+    "name": "ciprofloxacin",
+    "canonical_name": "ciprofloxacin",
+    "aliases": [
+      "ciprofloxacin"
+    ]
+  },
+  {
+    "asset_id": "asset:3979c2b9fc16405559e1",
+    "name": "Clindamycin",
+    "canonical_name": "Clindamycin",
+    "aliases": [
+      "Clindamycin",
+      "clindamycin"
+    ]
+  },
+  {
+    "asset_id": "asset:75c957e9d43f50cf98d3",
+    "name": "Clindamycin Hydrochloride",
+    "canonical_name": "Clindamycin Hydrochloride",
+    "aliases": [
+      "Clindamycin Hydrochloride",
+      "clindamycin hydrochloride"
+    ]
+  },
+  {
+    "asset_id": "asset:d6cf97a43c9acf064b84",
+    "name": "clobetasol",
+    "canonical_name": "clobetasol",
+    "aliases": [
+      "clobetasol"
+    ]
+  },
+  {
+    "asset_id": "asset:b87ac53a70dffa8ca7f0",
+    "name": "clofazimine",
+    "canonical_name": "clofazimine",
+    "aliases": [
+      "clofazimine"
+    ]
+  },
+  {
+    "asset_id": "asset:aafe407e4af75b72aa6a",
+    "name": "co-trimoxazole",
+    "canonical_name": "co-trimoxazole",
+    "aliases": [
+      "co-trimoxazole"
+    ]
+  },
+  {
+    "asset_id": "asset:8abd7eb9b7b06597f3f4",
+    "name": "colistin",
+    "canonical_name": "colistin",
+    "aliases": [
+      "colistin",
+      "Colistin"
+    ]
+  },
+  {
+    "asset_id": "asset:b5f13e5866f7afeeaccf",
+    "name": "cortisone",
+    "canonical_name": "cortisone",
+    "aliases": [
+      "cortisone"
+    ]
+  },
+  {
+    "asset_id": "asset:a0ebed1f7bb22278d387",
+    "name": "corylin",
+    "canonical_name": "corylin",
+    "aliases": [
+      "corylin",
+      "Corylin"
+    ]
+  },
+  {
+    "asset_id": "asset:db81d47f44c46ce251c8",
+    "name": "cotinine",
+    "canonical_name": "cotinine",
+    "aliases": [
+      "cotinine"
+    ]
+  },
+  {
+    "asset_id": "asset:7c58d3c5c39eba3e43ab",
+    "name": "CP-461",
+    "canonical_name": "CP-461",
+    "aliases": [
+      "CP-461"
+    ]
+  },
+  {
+    "asset_id": "asset:4f7ad2ae98de9553e7de",
+    "name": "croscarmellose sodium",
+    "canonical_name": "croscarmellose sodium",
+    "aliases": [
+      "croscarmellose sodium"
+    ]
+  },
+  {
+    "asset_id": "asset:7b7bcdbbebcee6432109",
+    "name": "crospovidone",
+    "canonical_name": "crospovidone",
+    "aliases": [
+      "crospovidone"
+    ]
+  },
+  {
+    "asset_id": "asset:6363b74ac2db85d7fe91",
+    "name": "Crotamiton",
+    "canonical_name": "Crotamiton",
+    "aliases": [
+      "Crotamiton"
+    ]
+  },
+  {
+    "asset_id": "asset:aab6ff1f59d24797bcee",
+    "name": "cyantraniliprole",
+    "canonical_name": "cyantraniliprole",
+    "aliases": [
+      "cyantraniliprole"
+    ]
+  },
+  {
+    "asset_id": "asset:d1d21f792e912bcb5a41",
+    "name": "D-alanine",
+    "canonical_name": "D-alanine",
+    "aliases": [
+      "D-alanine",
+      "d-alanine"
+    ]
+  },
+  {
+    "asset_id": "asset:787534b468a826e20a92",
+    "name": "Dacarbazine",
+    "canonical_name": "Dacarbazine",
+    "aliases": [
+      "Dacarbazine",
+      "dacarbazine"
+    ]
+  },
+  {
+    "asset_id": "asset:fd64bc96069c2e2c8c2f",
+    "name": "Dalbavancin",
+    "canonical_name": "Dalbavancin",
+    "aliases": [
+      "Dalbavancin"
+    ]
+  },
+  {
+    "asset_id": "asset:4265c9de2289439bda0b",
+    "name": "dapsone",
+    "canonical_name": "dapsone",
+    "aliases": [
+      "dapsone",
+      "Dapsone"
+    ]
+  },
+  {
+    "asset_id": "asset:8730e514c8c42aa836af",
+    "name": "Dasabuvir",
+    "canonical_name": "Dasabuvir",
+    "aliases": [
+      "Dasabuvir"
+    ]
+  },
+  {
+    "asset_id": "asset:882d6e88748a43ddd157",
+    "name": "deferasirox",
+    "canonical_name": "deferasirox",
+    "aliases": [
+      "deferasirox"
+    ]
+  },
+  {
+    "asset_id": "asset:8ea707c334b511a68745",
+    "name": "deferiprone",
+    "canonical_name": "deferiprone",
+    "aliases": [
+      "deferiprone",
+      "CP-20"
+    ]
+  },
+  {
+    "asset_id": "asset:610a33a773c1797d42f5",
+    "name": "delamanid",
+    "canonical_name": "delamanid",
+    "aliases": [
+      "delamanid"
+    ]
+  },
+  {
+    "asset_id": "asset:0516ae7485fa2091b15c",
+    "name": "denatonium",
+    "canonical_name": "denatonium",
+    "aliases": [
+      "denatonium"
+    ]
+  },
+  {
+    "asset_id": "asset:178ff547e60e15b741f8",
+    "name": "denatonium benzoate",
+    "canonical_name": "denatonium benzoate",
+    "aliases": [
+      "denatonium benzoate"
+    ]
+  },
+  {
+    "asset_id": "asset:b7346da553371d93e332",
+    "name": "denifanstat",
+    "canonical_name": "denifanstat",
+    "aliases": [
+      "denifanstat"
+    ]
+  },
+  {
+    "asset_id": "asset:925945420d7a4e15be67",
+    "name": "deoxyglucose",
+    "canonical_name": "deoxyglucose",
+    "aliases": [
+      "deoxyglucose"
+    ]
+  },
+  {
+    "asset_id": "asset:0e3ae1da8afebc3ad09f",
+    "name": "Deoxynivalenol",
+    "canonical_name": "Deoxynivalenol",
+    "aliases": [
+      "Deoxynivalenol",
+      "deoxynivalenol"
+    ]
+  },
+  {
+    "asset_id": "asset:a7231aa8140fe63786b5",
+    "name": "desferrioxamine",
+    "canonical_name": "desferrioxamine",
+    "aliases": [
+      "desferrioxamine"
+    ]
+  },
+  {
+    "asset_id": "asset:95a5bf0810931107258d",
+    "name": "devazepide",
+    "canonical_name": "devazepide",
+    "aliases": [
+      "devazepide"
+    ]
+  },
+  {
+    "asset_id": "asset:ac9e7e7d1a7a9ef56471",
+    "name": "dextran",
+    "canonical_name": "dextran",
+    "aliases": [
+      "dextran",
+      "Dextran"
+    ]
+  },
+  {
+    "asset_id": "asset:0a3fb0c5ebedc71db13f",
+    "name": "dichlorvos",
+    "canonical_name": "dichlorvos",
+    "aliases": [
+      "dichlorvos"
+    ]
+  },
+  {
+    "asset_id": "asset:2e49b47d6058597547d8",
+    "name": "diethanolamine",
+    "canonical_name": "diethanolamine",
+    "aliases": [
+      "diethanolamine"
+    ]
+  },
+  {
+    "asset_id": "asset:eb8ff75993c23500ba36",
+    "name": "dihydrochalcone",
+    "canonical_name": "dihydrochalcone",
+    "aliases": [
+      "dihydrochalcone"
+    ]
+  },
+  {
+    "asset_id": "asset:4afc69984becbd1a5619",
+    "name": "dimethoate",
+    "canonical_name": "dimethoate",
+    "aliases": [
+      "dimethoate"
+    ]
+  },
+  {
+    "asset_id": "asset:c79e870c71d88884e959",
+    "name": "dimethylamine",
+    "canonical_name": "dimethylamine",
+    "aliases": [
+      "dimethylamine"
+    ]
+  },
+  {
+    "asset_id": "asset:f090fde2531bb59fcc90",
+    "name": "Dimethylformamide",
+    "canonical_name": "Dimethylformamide",
+    "aliases": [
+      "Dimethylformamide",
+      "dimethylformamide"
+    ]
+  },
+  {
+    "asset_id": "asset:36e9daca05058e2160b5",
+    "name": "dodecane",
+    "canonical_name": "dodecane",
+    "aliases": [
+      "dodecane"
+    ]
+  },
+  {
+    "asset_id": "asset:d88396d342064c294934",
+    "name": "dodecanol",
+    "canonical_name": "dodecanol",
+    "aliases": [
+      "dodecanol"
+    ]
+  },
+  {
+    "asset_id": "asset:4ae233049f8e5a29fc52",
+    "name": "DPA-714",
+    "canonical_name": "DPA-714",
+    "aliases": [
+      "DPA-714"
+    ]
+  },
+  {
+    "asset_id": "asset:a2cac070fc8700e73fca",
+    "name": "ecdysone",
+    "canonical_name": "ecdysone",
+    "aliases": [
+      "ecdysone",
+      "Ecdysone"
+    ]
+  },
+  {
+    "asset_id": "asset:5cd5ebbedeaebee875e1",
+    "name": "Echinatin",
+    "canonical_name": "Echinatin",
+    "aliases": [
+      "Echinatin"
+    ]
+  },
+  {
+    "asset_id": "asset:a6d84663bb02445b67d4",
+    "name": "edoxudine",
+    "canonical_name": "edoxudine",
+    "aliases": [
+      "edoxudine"
+    ]
+  },
+  {
+    "asset_id": "asset:ecf9ae71d13a91105884",
+    "name": "efaproxiral sodium",
+    "canonical_name": "efaproxiral sodium",
+    "aliases": [
+      "efaproxiral sodium"
+    ]
+  },
+  {
+    "asset_id": "asset:18d1e2707ae0769a8c09",
+    "name": "Efocipegtrutide",
+    "canonical_name": "Efocipegtrutide",
+    "aliases": [
+      "Efocipegtrutide",
+      "efocipegtrutide"
+    ]
+  },
+  {
+    "asset_id": "asset:fca9b73e4664cdf26aba",
+    "name": "efruxifermin",
+    "canonical_name": "efruxifermin",
+    "aliases": [
+      "efruxifermin",
+      "Efruxifermin"
+    ]
+  },
+  {
+    "asset_id": "asset:97c2a1ca23345038bec5",
+    "name": "elcatonin",
+    "canonical_name": "elcatonin",
+    "aliases": [
+      "elcatonin"
+    ]
+  },
+  {
+    "asset_id": "asset:95b50032c6ff7cdd77a3",
+    "name": "Emodepside",
+    "canonical_name": "Emodepside",
+    "aliases": [
+      "Emodepside"
+    ]
+  },
+  {
+    "asset_id": "asset:47f0f1d1884c359a1ea4",
+    "name": "emtricitabine",
+    "canonical_name": "emtricitabine",
+    "aliases": [
+      "emtricitabine"
+    ]
+  },
+  {
+    "asset_id": "asset:5396a343460e28487c27",
+    "name": "enflicoxib",
+    "canonical_name": "enflicoxib",
+    "aliases": [
+      "enflicoxib",
+      "Enflicoxib"
+    ]
+  },
+  {
+    "asset_id": "asset:2a9fdabeba2c875ad2cc",
+    "name": "enfuvirtide",
+    "canonical_name": "enfuvirtide",
+    "aliases": [
+      "enfuvirtide"
+    ]
+  },
+  {
+    "asset_id": "asset:f81c5c84e2150dd4407c",
+    "name": "enmetazobactam",
+    "canonical_name": "enmetazobactam",
+    "aliases": [
+      "enmetazobactam"
+    ]
+  },
+  {
+    "asset_id": "asset:a6c3b90306470ce5b8bd",
+    "name": "ensitrelvir",
+    "canonical_name": "ensitrelvir",
+    "aliases": [
+      "ensitrelvir"
+    ]
+  },
+  {
+    "asset_id": "asset:bff95de28115c7747f87",
+    "name": "epigallocatechin",
+    "canonical_name": "epigallocatechin",
+    "aliases": [
+      "epigallocatechin"
+    ]
+  },
+  {
+    "asset_id": "asset:c215122ad32f3d9c86e3",
+    "name": "epirubicin",
+    "canonical_name": "epirubicin",
+    "aliases": [
+      "epirubicin"
+    ]
+  },
+  {
+    "asset_id": "asset:9de9534a96ffb1e49184",
+    "name": "erastin",
+    "canonical_name": "erastin",
+    "aliases": [
+      "erastin",
+      "Erastin"
+    ]
+  },
+  {
+    "asset_id": "asset:6e456bdac217cc22330e",
+    "name": "ertapenem",
+    "canonical_name": "ertapenem",
+    "aliases": [
+      "ertapenem"
+    ]
+  },
+  {
+    "asset_id": "asset:99d8ac0e6ef6ac3afee9",
+    "name": "Ertiprotafib",
+    "canonical_name": "Ertiprotafib",
+    "aliases": [
+      "Ertiprotafib"
+    ]
+  },
+  {
+    "asset_id": "asset:b58703b0504452239ffb",
+    "name": "erythromycin",
+    "canonical_name": "erythromycin",
+    "aliases": [
+      "erythromycin"
+    ]
+  },
+  {
+    "asset_id": "asset:4187155cd21b42c84c1b",
+    "name": "escin",
+    "canonical_name": "escin",
+    "aliases": [
+      "escin"
+    ]
+  },
+  {
+    "asset_id": "asset:451f42584c754005f18e",
+    "name": "esculin",
+    "canonical_name": "esculin",
+    "aliases": [
+      "esculin"
+    ]
+  },
+  {
+    "asset_id": "asset:83a5dc213e8c799d3d91",
+    "name": "ether",
+    "canonical_name": "ether",
+    "aliases": [
+      "ether"
+    ]
+  },
+  {
+    "asset_id": "asset:04110330bea049a1b5d2",
+    "name": "ethyl acetate",
+    "canonical_name": "ethyl acetate",
+    "aliases": [
+      "ethyl acetate"
+    ]
+  },
+  {
+    "asset_id": "asset:d743212b6368b86300eb",
+    "name": "ethyl chloride",
+    "canonical_name": "ethyl chloride",
+    "aliases": [
+      "ethyl chloride"
+    ]
+  },
+  {
+    "asset_id": "asset:3f6a20446fa41072bc4d",
+    "name": "Ethylene",
+    "canonical_name": "Ethylene",
+    "aliases": [
+      "Ethylene",
+      "ethylene"
+    ]
+  },
+  {
+    "asset_id": "asset:a858356156b5593d7c58",
+    "name": "ethylene glycol",
+    "canonical_name": "ethylene glycol",
+    "aliases": [
+      "ethylene glycol"
+    ]
+  },
+  {
+    "asset_id": "asset:c6e0708b9d13f7a9dc40",
+    "name": "etizolam",
+    "canonical_name": "etizolam",
+    "aliases": [
+      "etizolam"
+    ]
+  },
+  {
+    "asset_id": "asset:4b86e48f28d47de3f0cd",
+    "name": "etofylline clofibrate",
+    "canonical_name": "etofylline clofibrate",
+    "aliases": [
+      "etofylline clofibrate"
+    ]
+  },
+  {
+    "asset_id": "asset:c077e86b3eb704ab39c3",
+    "name": "eugenol",
+    "canonical_name": "eugenol",
+    "aliases": [
+      "eugenol",
+      "Eugenol"
+    ]
+  },
+  {
+    "asset_id": "asset:31a3f9c24cc0fcdb7a5a",
+    "name": "ferumoxytol",
+    "canonical_name": "ferumoxytol",
+    "aliases": [
+      "ferumoxytol"
+    ]
+  },
+  {
+    "asset_id": "asset:d03cacc2166936b41bab",
+    "name": "fisetin",
+    "canonical_name": "fisetin",
+    "aliases": [
+      "fisetin"
+    ]
+  },
+  {
+    "asset_id": "asset:3557fbed56507b7d4764",
+    "name": "flavanone",
+    "canonical_name": "flavanone",
+    "aliases": [
+      "flavanone"
+    ]
+  },
+  {
+    "asset_id": "asset:c37ba788980525642b0e",
+    "name": "flavone",
+    "canonical_name": "flavone",
+    "aliases": [
+      "flavone",
+      "Flavone"
+    ]
+  },
+  {
+    "asset_id": "asset:c432b5255640af01a4ad",
+    "name": "flavonol",
+    "canonical_name": "flavonol",
+    "aliases": [
+      "flavonol"
+    ]
+  },
+  {
+    "asset_id": "asset:809b459fbbf9470b00db",
+    "name": "fluconazole",
+    "canonical_name": "fluconazole",
+    "aliases": [
+      "fluconazole",
+      "Fluconazole"
+    ]
+  },
+  {
+    "asset_id": "asset:b6ba05ff664accc36425",
+    "name": "flucytosine",
+    "canonical_name": "flucytosine",
+    "aliases": [
+      "flucytosine"
+    ]
+  },
+  {
+    "asset_id": "asset:97964cd4b04edb88fd3b",
+    "name": "fluorescein",
+    "canonical_name": "fluorescein",
+    "aliases": [
+      "fluorescein"
+    ]
+  },
+  {
+    "asset_id": "asset:5cc1e02717c5ad4b7d53",
+    "name": "Fluoride",
+    "canonical_name": "Fluoride",
+    "aliases": [
+      "Fluoride"
+    ]
+  },
+  {
+    "asset_id": "asset:536accd1cb3306ee58a6",
+    "name": "formamide",
+    "canonical_name": "formamide",
+    "aliases": [
+      "formamide"
+    ]
+  },
+  {
+    "asset_id": "asset:2d35284e297c05a5f3f2",
+    "name": "formononetin",
+    "canonical_name": "formononetin",
+    "aliases": [
+      "formononetin"
+    ]
+  },
+  {
+    "asset_id": "asset:1ed3d0e549eb2f22e8eb",
+    "name": "fraxetin",
+    "canonical_name": "fraxetin",
+    "aliases": [
+      "fraxetin"
+    ]
+  },
+  {
+    "asset_id": "asset:d76b065038a9b2a5cbdc",
+    "name": "Frexalimab",
+    "canonical_name": "Frexalimab",
+    "aliases": [
+      "Frexalimab",
+      "frexalimab"
+    ]
+  },
+  {
+    "asset_id": "asset:5985e89bdfe821f07a07",
+    "name": "Gadofosveset",
+    "canonical_name": "Gadofosveset",
+    "aliases": [
+      "Gadofosveset"
+    ]
+  },
+  {
+    "asset_id": "asset:b5ace5eec8f4e9d6dc02",
+    "name": "gadolinium",
+    "canonical_name": "gadolinium",
+    "aliases": [
+      "gadolinium"
+    ]
+  },
+  {
+    "asset_id": "asset:f6a4824532b77cc53e06",
+    "name": "Gallium citrate",
+    "canonical_name": "Gallium citrate",
+    "aliases": [
+      "Gallium citrate"
+    ]
+  },
+  {
+    "asset_id": "asset:3ffb91a6f05db024faee",
+    "name": "garlic",
+    "canonical_name": "garlic",
+    "aliases": [
+      "garlic"
+    ]
+  },
+  {
+    "asset_id": "asset:c8344dd076cf1cf90d1f",
+    "name": "geniposide",
+    "canonical_name": "geniposide",
+    "aliases": [
+      "geniposide",
+      "Geniposide"
+    ]
+  },
+  {
+    "asset_id": "asset:47282d02ca27a0d61a8e",
+    "name": "gentamicin",
+    "canonical_name": "gentamicin",
+    "aliases": [
+      "gentamicin"
+    ]
+  },
+  {
+    "asset_id": "asset:16994e0b91ccff0b8369",
+    "name": "ginger",
+    "canonical_name": "ginger",
+    "aliases": [
+      "ginger",
+      "Ginger"
+    ]
+  },
+  {
+    "asset_id": "asset:f464e11f3009ba449762",
+    "name": "glabrene",
+    "canonical_name": "glabrene",
+    "aliases": [
+      "glabrene"
+    ]
+  },
+  {
+    "asset_id": "asset:1b01d86956e209ce100d",
+    "name": "Glabridin",
+    "canonical_name": "Glabridin",
+    "aliases": [
+      "Glabridin",
+      "glabridin"
+    ]
+  },
+  {
+    "asset_id": "asset:72b36ed9c5bb3282cb38",
+    "name": "gliquidone",
+    "canonical_name": "gliquidone",
+    "aliases": [
+      "gliquidone"
+    ]
+  },
+  {
+    "asset_id": "asset:4675dfb63e75e472be39",
+    "name": "Glycyrrhiza",
+    "canonical_name": "Glycyrrhiza",
+    "aliases": [
+      "Glycyrrhiza"
+    ]
+  },
+  {
+    "asset_id": "asset:ebe68b850a16dd8ed412",
+    "name": "glycyrrhizin",
+    "canonical_name": "glycyrrhizin",
+    "aliases": [
+      "glycyrrhizin"
+    ]
+  },
+  {
+    "asset_id": "asset:2fd1f3325ccd68b76762",
+    "name": "Gossypol",
+    "canonical_name": "Gossypol",
+    "aliases": [
+      "Gossypol",
+      "gossypol"
+    ]
+  },
+  {
+    "asset_id": "asset:d6f7e2a6d90ffa4f4cfd",
+    "name": "gremubamab",
+    "canonical_name": "gremubamab",
+    "aliases": [
+      "gremubamab"
+    ]
+  },
+  {
+    "asset_id": "asset:0e2db72f78c2da268c1c",
+    "name": "GV-971",
+    "canonical_name": "GV-971",
+    "aliases": [
+      "GV-971"
+    ]
+  },
+  {
+    "asset_id": "asset:e4ff0dc3ebc06a0d616e",
+    "name": "Harmine",
+    "canonical_name": "Harmine",
+    "aliases": [
+      "Harmine",
+      "harmine"
+    ]
+  },
+  {
+    "asset_id": "asset:528df5389c584399cbc8",
+    "name": "Helium",
+    "canonical_name": "Helium",
+    "aliases": [
+      "Helium",
+      "helium"
+    ]
+  },
+  {
+    "asset_id": "asset:a1526fb34aa6d98f7eed",
+    "name": "heptachlor",
+    "canonical_name": "heptachlor",
+    "aliases": [
+      "heptachlor"
+    ]
+  },
+  {
+    "asset_id": "asset:254786bd348570aa5457",
+    "name": "herniarin",
+    "canonical_name": "herniarin",
+    "aliases": [
+      "herniarin"
+    ]
+  },
+  {
+    "asset_id": "asset:027fb1cac4ca79cbd6d0",
+    "name": "Heterophyllin",
+    "canonical_name": "Heterophyllin",
+    "aliases": [
+      "Heterophyllin"
+    ]
+  },
+  {
+    "asset_id": "asset:61f98f63a251c8c40732",
+    "name": "hexadecylamine",
+    "canonical_name": "hexadecylamine",
+    "aliases": [
+      "hexadecylamine"
+    ]
+  },
+  {
+    "asset_id": "asset:977b6b5afb44ad26b582",
+    "name": "hexane",
+    "canonical_name": "hexane",
+    "aliases": [
+      "hexane"
+    ]
+  },
+  {
+    "asset_id": "asset:bad60ae8e38b0c6c7a17",
+    "name": "honey",
+    "canonical_name": "honey",
+    "aliases": [
+      "honey"
+    ]
+  },
+  {
+    "asset_id": "asset:fa49c58c43a98126da44",
+    "name": "honokiol",
+    "canonical_name": "honokiol",
+    "aliases": [
+      "honokiol"
+    ]
+  },
+  {
+    "asset_id": "asset:6453e2c0fa9c2db746a5",
+    "name": "HSPPC-96",
+    "canonical_name": "HSPPC-96",
+    "aliases": [
+      "HSPPC-96"
+    ]
+  },
+  {
+    "asset_id": "asset:63cd375f63fcb6c10c9a",
+    "name": "hydralazine",
+    "canonical_name": "hydralazine",
+    "aliases": [
+      "hydralazine"
+    ]
+  },
+  {
+    "asset_id": "asset:ac71fc5efa931e69c87e",
+    "name": "hydrazine",
+    "canonical_name": "hydrazine",
+    "aliases": [
+      "hydrazine"
+    ]
+  },
+  {
+    "asset_id": "asset:548901975d14e881e476",
+    "name": "hydrotalcite",
+    "canonical_name": "hydrotalcite",
+    "aliases": [
+      "hydrotalcite"
+    ]
+  },
+  {
+    "asset_id": "asset:528ea45c232865b5041e",
+    "name": "hydroxyapatite",
+    "canonical_name": "hydroxyapatite",
+    "aliases": [
+      "hydroxyapatite"
+    ]
+  },
+  {
+    "asset_id": "asset:2ec48d4e80142c28dcbb",
+    "name": "hydroxypropyl cellulose",
+    "canonical_name": "hydroxypropyl cellulose",
+    "aliases": [
+      "hydroxypropyl cellulose"
+    ]
+  },
+  {
+    "asset_id": "asset:19e745c1faa92ab20296",
+    "name": "hydroxytyrosol",
+    "canonical_name": "hydroxytyrosol",
+    "aliases": [
+      "hydroxytyrosol"
+    ]
+  },
+  {
+    "asset_id": "asset:285fb1a192707c595b36",
+    "name": "icosapent ethyl",
+    "canonical_name": "icosapent ethyl",
+    "aliases": [
+      "icosapent ethyl"
+    ]
+  },
+  {
+    "asset_id": "asset:cfcde0b6eb9e2484420f",
+    "name": "ilunocitinib",
+    "canonical_name": "ilunocitinib",
+    "aliases": [
+      "ilunocitinib",
+      "Ilunocitinib"
+    ]
+  },
+  {
+    "asset_id": "asset:663eb7ef8fbdab1779e2",
+    "name": "imeglimin",
+    "canonical_name": "imeglimin",
+    "aliases": [
+      "imeglimin",
+      "Imeglimin"
+    ]
+  },
+  {
+    "asset_id": "asset:78682ae7b8f807695c41",
+    "name": "imidazole",
+    "canonical_name": "imidazole",
+    "aliases": [
+      "imidazole"
+    ]
+  },
+  {
+    "asset_id": "asset:b2bc436810efd969949b",
+    "name": "imipenem",
+    "canonical_name": "imipenem",
+    "aliases": [
+      "imipenem"
+    ]
+  },
+  {
+    "asset_id": "asset:013c8a7d6182d053f51c",
+    "name": "INDIGO",
+    "canonical_name": "INDIGO",
+    "aliases": [
+      "INDIGO"
+    ]
+  },
+  {
+    "asset_id": "asset:298abd80f80d019c6fb2",
+    "name": "indisulam",
+    "canonical_name": "indisulam",
+    "aliases": [
+      "indisulam"
+    ]
+  },
+  {
+    "asset_id": "asset:a0b628f85d13edb78fb8",
+    "name": "indocyanine green",
+    "canonical_name": "indocyanine green",
+    "aliases": [
+      "indocyanine green"
+    ]
+  },
+  {
+    "asset_id": "asset:5695d13e32404c7eb410",
+    "name": "iodine",
+    "canonical_name": "iodine",
+    "aliases": [
+      "iodine"
+    ]
+  },
+  {
+    "asset_id": "asset:e20b0560d5e24eb84b65",
+    "name": "iodoacetamide",
+    "canonical_name": "iodoacetamide",
+    "aliases": [
+      "iodoacetamide"
+    ]
+  },
+  {
+    "asset_id": "asset:26694f6f387cc8974036",
+    "name": "Isobavachalcone",
+    "canonical_name": "Isobavachalcone",
+    "aliases": [
+      "Isobavachalcone",
+      "isobavachalcone"
+    ]
+  },
+  {
+    "asset_id": "asset:2c9b2b6923d7f901c448",
+    "name": "isobutyraldehyde",
+    "canonical_name": "isobutyraldehyde",
+    "aliases": [
+      "isobutyraldehyde"
+    ]
+  },
+  {
+    "asset_id": "asset:3fbdab1c486bcc633604",
+    "name": "isoeugenol",
+    "canonical_name": "isoeugenol",
+    "aliases": [
+      "isoeugenol"
+    ]
+  },
+  {
+    "asset_id": "asset:ba952e937a63fda9d3d3",
+    "name": "isoflavone",
+    "canonical_name": "isoflavone",
+    "aliases": [
+      "isoflavone"
+    ]
+  },
+  {
+    "asset_id": "asset:f95c53da8807a163c208",
+    "name": "isoniazid",
+    "canonical_name": "isoniazid",
+    "aliases": [
+      "isoniazid"
+    ]
+  },
+  {
+    "asset_id": "asset:4d3ce3d7278123fe4fa1",
+    "name": "isoquercetin",
+    "canonical_name": "isoquercetin",
+    "aliases": [
+      "isoquercetin"
+    ]
+  },
+  {
+    "asset_id": "asset:e70495521250a886a5ba",
+    "name": "isorhamnetin",
+    "canonical_name": "isorhamnetin",
+    "aliases": [
+      "isorhamnetin"
+    ]
+  },
+  {
+    "asset_id": "asset:055dc2df061279822c4e",
+    "name": "isothiazole",
+    "canonical_name": "isothiazole",
+    "aliases": [
+      "isothiazole"
+    ]
+  },
+  {
+    "asset_id": "asset:7f2d75dbb4e4ea5f893b",
+    "name": "isothiocyanate",
+    "canonical_name": "isothiocyanate",
+    "aliases": [
+      "isothiocyanate"
+    ]
+  },
+  {
+    "asset_id": "asset:2ef687f047a0aed856a6",
+    "name": "itraconazole",
+    "canonical_name": "itraconazole",
+    "aliases": [
+      "itraconazole"
+    ]
+  },
+  {
+    "asset_id": "asset:c31c7d2edca8f08bddb3",
+    "name": "kaempferol",
+    "canonical_name": "kaempferol",
+    "aliases": [
+      "kaempferol",
+      "Kaempferol"
+    ]
+  },
+  {
+    "asset_id": "asset:fd7538137f0a5ac62cb9",
+    "name": "kaolin",
+    "canonical_name": "kaolin",
+    "aliases": [
+      "kaolin"
+    ]
+  },
+  {
+    "asset_id": "asset:8370186caeea6c045fc0",
+    "name": "ketoconazole",
+    "canonical_name": "ketoconazole",
+    "aliases": [
+      "ketoconazole"
+    ]
+  },
+  {
+    "asset_id": "asset:9c0238398d60ca58b52b",
+    "name": "kinetin",
+    "canonical_name": "kinetin",
+    "aliases": [
+      "kinetin"
+    ]
+  },
+  {
+    "asset_id": "asset:0a70ee7a3534344cc874",
+    "name": "L-arginine",
+    "canonical_name": "L-arginine",
+    "aliases": [
+      "L-arginine"
+    ]
+  },
+  {
+    "asset_id": "asset:d9949be303b0e960e284",
+    "name": "l-isoleucine",
+    "canonical_name": "l-isoleucine",
+    "aliases": [
+      "l-isoleucine"
+    ]
+  },
+  {
+    "asset_id": "asset:c5bf6c988f59f5069b7a",
+    "name": "l-leucine",
+    "canonical_name": "l-leucine",
+    "aliases": [
+      "l-leucine",
+      "l-Leucine",
+      "L-leucine"
+    ]
+  },
+  {
+    "asset_id": "asset:0915b0d2904535f47abf",
+    "name": "L-theanine",
+    "canonical_name": "L-theanine",
+    "aliases": [
+      "L-theanine"
+    ]
+  },
+  {
+    "asset_id": "asset:5e2869c7794d00dcc814",
+    "name": "Lactobacillus acidophilus",
+    "canonical_name": "Lactobacillus acidophilus",
+    "aliases": [
+      "Lactobacillus acidophilus"
+    ]
+  },
+  {
+    "asset_id": "asset:7e1453e3d82cc05a2984",
+    "name": "laquinimod",
+    "canonical_name": "laquinimod",
+    "aliases": [
+      "laquinimod"
+    ]
+  },
+  {
+    "asset_id": "asset:b8490f8b94c607eb2be7",
+    "name": "Lascufloxacin",
+    "canonical_name": "Lascufloxacin",
+    "aliases": [
+      "Lascufloxacin",
+      "lascufloxacin"
+    ]
+  },
+  {
+    "asset_id": "asset:69fb39c18b967587d707",
+    "name": "levamisole",
+    "canonical_name": "levamisole",
+    "aliases": [
+      "levamisole"
+    ]
+  },
+  {
+    "asset_id": "asset:76e573eb53daff3bf921",
+    "name": "levofloxacin",
+    "canonical_name": "levofloxacin",
+    "aliases": [
+      "levofloxacin"
+    ]
+  },
+  {
+    "asset_id": "asset:b421c190c86cce80ff4a",
+    "name": "licofelone",
+    "canonical_name": "licofelone",
+    "aliases": [
+      "licofelone"
+    ]
+  },
+  {
+    "asset_id": "asset:617cbaebad5cc699f82c",
+    "name": "licorice",
+    "canonical_name": "licorice",
+    "aliases": [
+      "licorice"
+    ]
+  },
+  {
+    "asset_id": "asset:7885469ff0307dc8af72",
+    "name": "ligstroside",
+    "canonical_name": "ligstroside",
+    "aliases": [
+      "ligstroside"
+    ]
+  },
+  {
+    "asset_id": "asset:0ad91885bf2e7a0163d1",
+    "name": "ligustrazine",
+    "canonical_name": "ligustrazine",
+    "aliases": [
+      "ligustrazine",
+      "Ligustrazine"
+    ]
+  },
+  {
+    "asset_id": "asset:152a6cb6c8d172c05c28",
+    "name": "linalool",
+    "canonical_name": "linalool",
+    "aliases": [
+      "linalool"
+    ]
+  },
+  {
+    "asset_id": "asset:9257b908cd6426001ac9",
+    "name": "lindane",
+    "canonical_name": "lindane",
+    "aliases": [
+      "lindane"
+    ]
+  },
+  {
+    "asset_id": "asset:25aa611eb34bc6be9194",
+    "name": "Linezolid",
+    "canonical_name": "Linezolid",
+    "aliases": [
+      "Linezolid",
+      "linezolid"
+    ]
+  },
+  {
+    "asset_id": "asset:d1c701bdf81205fc82af",
+    "name": "linopirdine",
+    "canonical_name": "linopirdine",
+    "aliases": [
+      "linopirdine"
+    ]
+  },
+  {
+    "asset_id": "asset:8c2e89d6170381bbcf3b",
+    "name": "lobeglitazone",
+    "canonical_name": "lobeglitazone",
+    "aliases": [
+      "lobeglitazone"
+    ]
+  },
+  {
+    "asset_id": "asset:630cff1c6660e7a00d55",
+    "name": "loliolide",
+    "canonical_name": "loliolide",
+    "aliases": [
+      "loliolide"
+    ]
+  },
+  {
+    "asset_id": "asset:b3bb2d4e8e3a824896ed",
+    "name": "lopinavir",
+    "canonical_name": "lopinavir",
+    "aliases": [
+      "lopinavir"
+    ]
+  },
+  {
+    "asset_id": "asset:69e80a0a992ae7570991",
+    "name": "luseogliflozin",
+    "canonical_name": "luseogliflozin",
+    "aliases": [
+      "luseogliflozin"
+    ]
+  },
+  {
+    "asset_id": "asset:d37c916692f4b4fdbcfc",
+    "name": "luteolin",
+    "canonical_name": "luteolin",
+    "aliases": [
+      "luteolin"
+    ]
+  },
+  {
+    "asset_id": "asset:42aa831020f0ff318af2",
+    "name": "magnesium stearate",
+    "canonical_name": "magnesium stearate",
+    "aliases": [
+      "magnesium stearate"
+    ]
+  },
+  {
+    "asset_id": "asset:3647d30ae348d848c0d9",
+    "name": "malathion",
+    "canonical_name": "malathion",
+    "aliases": [
+      "malathion"
+    ]
+  },
+  {
+    "asset_id": "asset:96c34d1e6d8ff73f251b",
+    "name": "maleic-anhydride",
+    "canonical_name": "maleic-anhydride",
+    "aliases": [
+      "maleic-anhydride"
+    ]
+  },
+  {
+    "asset_id": "asset:1cb65e0166216f6fea0b",
+    "name": "maltose",
+    "canonical_name": "maltose",
+    "aliases": [
+      "maltose"
+    ]
+  },
+  {
+    "asset_id": "asset:441c7e2abd2757026cd6",
+    "name": "Maltotriose",
+    "canonical_name": "Maltotriose",
+    "aliases": [
+      "Maltotriose",
+      "maltotriose"
+    ]
+  },
+  {
+    "asset_id": "asset:84574840b04885227eea",
+    "name": "Mangiferin",
+    "canonical_name": "Mangiferin",
+    "aliases": [
+      "Mangiferin",
+      "mangiferin"
+    ]
+  },
+  {
+    "asset_id": "asset:2c339e5b8f46b4402aa2",
+    "name": "mannitol",
+    "canonical_name": "mannitol",
+    "aliases": [
+      "mannitol"
+    ]
+  },
+  {
+    "asset_id": "asset:3bce34d56082061a5ce3",
+    "name": "maropitant",
+    "canonical_name": "maropitant",
+    "aliases": [
+      "maropitant",
+      "Maropitant"
+    ]
+  },
+  {
+    "asset_id": "asset:79d5863466e8d215bb40",
+    "name": "medetomidine",
+    "canonical_name": "medetomidine",
+    "aliases": [
+      "medetomidine"
+    ]
+  },
+  {
+    "asset_id": "asset:92aee35d8d4d0281d5e2",
+    "name": "meglitinide",
+    "canonical_name": "meglitinide",
+    "aliases": [
+      "meglitinide"
+    ]
+  },
+  {
+    "asset_id": "asset:ab0e880a664d17902e2b",
+    "name": "meropenem",
+    "canonical_name": "meropenem",
+    "aliases": [
+      "meropenem",
+      "Meropenem"
+    ]
+  },
+  {
+    "asset_id": "asset:934aff7a3a85d5847d64",
+    "name": "metacresol",
+    "canonical_name": "metacresol",
+    "aliases": [
+      "metacresol"
+    ]
+  },
+  {
+    "asset_id": "asset:dadbdf8dfe0874042cd9",
+    "name": "methicillin",
+    "canonical_name": "methicillin",
+    "aliases": [
+      "methicillin",
+      "Methicillin"
+    ]
+  },
+  {
+    "asset_id": "asset:6f3628c10941bdaeec2f",
+    "name": "methyl-nicotinate",
+    "canonical_name": "methyl-nicotinate",
+    "aliases": [
+      "methyl-nicotinate"
+    ]
+  },
+  {
+    "asset_id": "asset:7afa2616e008326d0bee",
+    "name": "Methylcellulose",
+    "canonical_name": "Methylcellulose",
+    "aliases": [
+      "Methylcellulose",
+      "methylcellulose"
+    ]
+  },
+  {
+    "asset_id": "asset:747da77b8ae50575e1a9",
+    "name": "metomidate",
+    "canonical_name": "metomidate",
+    "aliases": [
+      "metomidate"
+    ]
+  },
+  {
+    "asset_id": "asset:01e6743ab0f17ab71809",
+    "name": "metronidazole",
+    "canonical_name": "metronidazole",
+    "aliases": [
+      "metronidazole",
+      "Metronidazole"
+    ]
+  },
+  {
+    "asset_id": "asset:415f5280959e08376aba",
+    "name": "microcrystalline cellulose",
+    "canonical_name": "microcrystalline cellulose",
+    "aliases": [
+      "microcrystalline cellulose"
+    ]
+  },
+  {
+    "asset_id": "asset:655098da8f6785bb152b",
+    "name": "minocycline",
+    "canonical_name": "minocycline",
+    "aliases": [
+      "minocycline",
+      "Minocycline"
+    ]
+  },
+  {
+    "asset_id": "asset:0316ffcbae5873c333eb",
+    "name": "minzasolmin",
+    "canonical_name": "minzasolmin",
+    "aliases": [
+      "minzasolmin"
+    ]
+  },
+  {
+    "asset_id": "asset:b0c6d9da5a4ebf6c3008",
+    "name": "mizagliflozin",
+    "canonical_name": "mizagliflozin",
+    "aliases": [
+      "mizagliflozin",
+      "Mizagliflozin"
+    ]
+  },
+  {
+    "asset_id": "asset:06a40c59e1dae27429ef",
+    "name": "MLN-4760",
+    "canonical_name": "MLN-4760",
+    "aliases": [
+      "MLN-4760"
+    ]
+  },
+  {
+    "asset_id": "asset:1588be927412a74e4fad",
+    "name": "monocrotaline",
+    "canonical_name": "monocrotaline",
+    "aliases": [
+      "monocrotaline"
+    ]
+  },
+  {
+    "asset_id": "asset:f47053a48a1bea3efeb0",
+    "name": "monosodium glutamate",
+    "canonical_name": "monosodium glutamate",
+    "aliases": [
+      "monosodium glutamate"
+    ]
+  },
+  {
+    "asset_id": "asset:d0cc01ebced3f50a114a",
+    "name": "Morphine hydrochloride",
+    "canonical_name": "Morphine hydrochloride",
+    "aliases": [
+      "Morphine hydrochloride"
+    ]
+  },
+  {
+    "asset_id": "asset:fc3c234c7b6027986a0a",
+    "name": "moxidectin",
+    "canonical_name": "moxidectin",
+    "aliases": [
+      "moxidectin"
+    ]
+  },
+  {
+    "asset_id": "asset:17d8631c0e0969d21a9e",
+    "name": "myricetin",
+    "canonical_name": "myricetin",
+    "aliases": [
+      "myricetin"
+    ]
+  },
+  {
+    "asset_id": "asset:3bf317d96dd32809ed1c",
+    "name": "naphthoquinone",
+    "canonical_name": "naphthoquinone",
+    "aliases": [
+      "naphthoquinone"
+    ]
+  },
+  {
+    "asset_id": "asset:2d5102bae14d0e575e67",
+    "name": "naringenin",
+    "canonical_name": "naringenin",
+    "aliases": [
+      "naringenin"
+    ]
+  },
+  {
+    "asset_id": "asset:c5599ce7d435e89104bd",
+    "name": "naringin",
+    "canonical_name": "naringin",
+    "aliases": [
+      "naringin"
+    ]
+  },
+  {
+    "asset_id": "asset:5f11ca956f4e9cb4b428",
+    "name": "Neferine",
+    "canonical_name": "Neferine",
+    "aliases": [
+      "Neferine",
+      "neferine"
+    ]
+  },
+  {
+    "asset_id": "asset:4277b33e9873a8034d5e",
+    "name": "nefopam",
+    "canonical_name": "nefopam",
+    "aliases": [
+      "nefopam"
+    ]
+  },
+  {
+    "asset_id": "asset:e6b5a8e746bf7f8df923",
+    "name": "Nemifitide ditriflutate",
+    "canonical_name": "Nemifitide ditriflutate",
+    "aliases": [
+      "Nemifitide ditriflutate"
+    ]
+  },
+  {
+    "asset_id": "asset:df1d76f558860e601cd1",
+    "name": "neohesperidin dihydrochalcone",
+    "canonical_name": "neohesperidin dihydrochalcone",
+    "aliases": [
+      "neohesperidin dihydrochalcone",
+      "Neohesperidin dihydrochalcone"
+    ]
+  },
+  {
+    "asset_id": "asset:b54582d4498928d720cc",
+    "name": "neomycin",
+    "canonical_name": "neomycin",
+    "aliases": [
+      "neomycin"
+    ]
+  },
+  {
+    "asset_id": "asset:40e898f52850cce0c480",
+    "name": "nifuroxazide",
+    "canonical_name": "nifuroxazide",
+    "aliases": [
+      "nifuroxazide"
+    ]
+  },
+  {
+    "asset_id": "asset:0dbe1d1f08c2876cfcb1",
+    "name": "nirmatrelvir",
+    "canonical_name": "nirmatrelvir",
+    "aliases": [
+      "nirmatrelvir"
+    ]
+  },
+  {
+    "asset_id": "asset:fc4d60d28c030bf051cd",
+    "name": "Nisotirostide",
+    "canonical_name": "Nisotirostide",
+    "aliases": [
+      "Nisotirostide",
+      "nisotirostide",
+      "LY3457263"
+    ]
+  },
+  {
+    "asset_id": "asset:21d785245f101ac6cd53",
+    "name": "nitazoxanide",
+    "canonical_name": "nitazoxanide",
+    "aliases": [
+      "nitazoxanide"
+    ]
+  },
+  {
+    "asset_id": "asset:69d9ef4d761e2eb51373",
+    "name": "nitrofurantoin",
+    "canonical_name": "nitrofurantoin",
+    "aliases": [
+      "nitrofurantoin"
+    ]
+  },
+  {
+    "asset_id": "asset:e1a3c55706d1e23e2bf4",
+    "name": "nitrous oxide",
+    "canonical_name": "nitrous oxide",
+    "aliases": [
+      "nitrous oxide"
+    ]
+  },
+  {
+    "asset_id": "asset:de8c19c254d6c5d50eef",
+    "name": "nivalenol",
+    "canonical_name": "nivalenol",
+    "aliases": [
+      "nivalenol"
+    ]
+  },
+  {
+    "asset_id": "asset:bc3e9a490a57170bdcf2",
+    "name": "norfloxacin",
+    "canonical_name": "norfloxacin",
+    "aliases": [
+      "norfloxacin"
+    ]
+  },
+  {
+    "asset_id": "asset:df27b826f9b9301e4513",
+    "name": "norketamine",
+    "canonical_name": "norketamine",
+    "aliases": [
+      "norketamine"
+    ]
+  },
+  {
+    "asset_id": "asset:3a969f10788c90cb6a1f",
+    "name": "nuciferine",
+    "canonical_name": "nuciferine",
+    "aliases": [
+      "nuciferine",
+      "Nuciferine"
+    ]
+  },
+  {
+    "asset_id": "asset:b0a3b9e59779f3f37536",
+    "name": "NX-2127",
+    "canonical_name": "NX-2127",
+    "aliases": [
+      "NX-2127"
+    ]
+  },
+  {
+    "asset_id": "asset:77cddbfb2554ef2c4883",
+    "name": "ocinaplon",
+    "canonical_name": "ocinaplon",
+    "aliases": [
+      "ocinaplon"
+    ]
+  },
+  {
+    "asset_id": "asset:59c0e718788871274341",
+    "name": "octane",
+    "canonical_name": "octane",
+    "aliases": [
+      "octane"
+    ]
+  },
+  {
+    "asset_id": "asset:a65898770a3973626ae6",
+    "name": "octanol",
+    "canonical_name": "octanol",
+    "aliases": [
+      "octanol"
+    ]
+  },
+  {
+    "asset_id": "asset:6077305a47a59fd70a91",
+    "name": "octocrylene",
+    "canonical_name": "octocrylene",
+    "aliases": [
+      "octocrylene"
+    ]
+  },
+  {
+    "asset_id": "asset:ae4db2b6d28d7cd6a237",
+    "name": "octopamine",
+    "canonical_name": "octopamine",
+    "aliases": [
+      "octopamine"
+    ]
+  },
+  {
+    "asset_id": "asset:26888d747c89b7510083",
+    "name": "oleuropein",
+    "canonical_name": "oleuropein",
+    "aliases": [
+      "oleuropein"
+    ]
+  },
+  {
+    "asset_id": "asset:4a0f6ae0243fce47a7bd",
+    "name": "ombitasvir",
+    "canonical_name": "ombitasvir",
+    "aliases": [
+      "ombitasvir"
+    ]
+  },
+  {
+    "asset_id": "asset:74fcc2d6b9bac290222f",
+    "name": "ononin",
+    "canonical_name": "ononin",
+    "aliases": [
+      "ononin"
+    ]
+  },
+  {
+    "asset_id": "asset:eb4606df6b43bddcf3b7",
+    "name": "orismilast",
+    "canonical_name": "orismilast",
+    "aliases": [
+      "orismilast"
+    ]
+  },
+  {
+    "asset_id": "asset:a67ea0af274fcd4e1ffa",
+    "name": "ortataxel",
+    "canonical_name": "ortataxel",
+    "aliases": [
+      "ortataxel"
+    ]
+  },
+  {
+    "asset_id": "asset:f649eab7be33e10357a7",
+    "name": "oxaliplatin",
+    "canonical_name": "oxaliplatin",
+    "aliases": [
+      "oxaliplatin",
+      "Oxaliplatin"
+    ]
+  },
+  {
+    "asset_id": "asset:9f2a7044f5a41ca5aa3e",
+    "name": "oxytetracycline",
+    "canonical_name": "oxytetracycline",
+    "aliases": [
+      "oxytetracycline"
+    ]
+  },
+  {
+    "asset_id": "asset:b95a553e8f9eae1fe986",
+    "name": "ozone",
+    "canonical_name": "ozone",
+    "aliases": [
+      "ozone",
+      "Ozone"
+    ]
+  },
+  {
+    "asset_id": "asset:da0e1dd16bed473fad4c",
+    "name": "pancrelipase",
+    "canonical_name": "pancrelipase",
+    "aliases": [
+      "pancrelipase"
+    ]
+  },
+  {
+    "asset_id": "asset:0f98398227cee2dfba39",
+    "name": "Papain",
+    "canonical_name": "Papain",
+    "aliases": [
+      "Papain",
+      "papain"
+    ]
+  },
+  {
+    "asset_id": "asset:df8a09cd2052d14a3d59",
+    "name": "Paraben",
+    "canonical_name": "Paraben",
+    "aliases": [
+      "Paraben"
+    ]
+  },
+  {
+    "asset_id": "asset:5b5fa11727615ca8cc14",
+    "name": "paraquat",
+    "canonical_name": "paraquat",
+    "aliases": [
+      "paraquat",
+      "Paraquat"
+    ]
+  },
+  {
+    "asset_id": "asset:8b1ec41b8f343f7e6fab",
+    "name": "paritaprevir",
+    "canonical_name": "paritaprevir",
+    "aliases": [
+      "paritaprevir"
+    ]
+  },
+  {
+    "asset_id": "asset:ba1b99b47d84bf6bff8d",
+    "name": "Patiromer",
+    "canonical_name": "Patiromer",
+    "aliases": [
+      "Patiromer"
+    ]
+  },
+  {
+    "asset_id": "asset:1f142646f1982c76c771",
+    "name": "paxilline",
+    "canonical_name": "paxilline",
+    "aliases": [
+      "paxilline"
+    ]
+  },
+  {
+    "asset_id": "asset:b037a47326a5f6dcbd06",
+    "name": "pectin",
+    "canonical_name": "pectin",
+    "aliases": [
+      "pectin"
+    ]
+  },
+  {
+    "asset_id": "asset:fce723d1688dc5016b10",
+    "name": "pegloticase",
+    "canonical_name": "pegloticase",
+    "aliases": [
+      "pegloticase"
+    ]
+  },
+  {
+    "asset_id": "asset:a2dbbc8766808203c500",
+    "name": "pegozafermin",
+    "canonical_name": "pegozafermin",
+    "aliases": [
+      "pegozafermin",
+      "Pegozafermin"
+    ]
+  },
+  {
+    "asset_id": "asset:d928245bc0147f8c6be9",
+    "name": "pelargonidin",
+    "canonical_name": "pelargonidin",
+    "aliases": [
+      "pelargonidin"
+    ]
+  },
+  {
+    "asset_id": "asset:887cc6170c68a3989a4e",
+    "name": "pemvidutide",
+    "canonical_name": "pemvidutide",
+    "aliases": [
+      "pemvidutide",
+      "Pemvidutide"
+    ]
+  },
+  {
+    "asset_id": "asset:e426ff0de2ca7dd125e9",
+    "name": "periodate",
+    "canonical_name": "periodate",
+    "aliases": [
+      "periodate"
+    ]
+  },
+  {
+    "asset_id": "asset:0f3df18a1b78786436b8",
+    "name": "permethrin",
+    "canonical_name": "permethrin",
+    "aliases": [
+      "permethrin"
+    ]
+  },
+  {
+    "asset_id": "asset:9ad564de0355cd05d77f",
+    "name": "petrelintide",
+    "canonical_name": "petrelintide",
+    "aliases": [
+      "petrelintide",
+      "Petrelintide"
+    ]
+  },
+  {
+    "asset_id": "asset:e8e2b57c980aafd04d61",
+    "name": "PEX168",
+    "canonical_name": "PEX168",
+    "aliases": [
+      "PEX168"
+    ]
+  },
+  {
+    "asset_id": "asset:818aea33027d2f13e75c",
+    "name": "phalloidin",
+    "canonical_name": "phalloidin",
+    "aliases": [
+      "phalloidin"
+    ]
+  },
+  {
+    "asset_id": "asset:13d2e258b67fcb7e3e3c",
+    "name": "phenacetin",
+    "canonical_name": "phenacetin",
+    "aliases": [
+      "phenacetin"
+    ]
+  },
+  {
+    "asset_id": "asset:b058e365e0956bd3dd4d",
+    "name": "phenanthrene",
+    "canonical_name": "phenanthrene",
+    "aliases": [
+      "phenanthrene"
+    ]
+  },
+  {
+    "asset_id": "asset:8101e63e98b0f3ec5dd2",
+    "name": "phenanthroline",
+    "canonical_name": "phenanthroline",
+    "aliases": [
+      "phenanthroline"
+    ]
+  },
+  {
+    "asset_id": "asset:59a5c4afa932f2feb38d",
+    "name": "phenformin",
+    "canonical_name": "phenformin",
+    "aliases": [
+      "phenformin"
+    ]
+  },
+  {
+    "asset_id": "asset:ea492ba921ea166b4e9d",
+    "name": "phenoxyethanol",
+    "canonical_name": "phenoxyethanol",
+    "aliases": [
+      "phenoxyethanol"
+    ]
+  },
+  {
+    "asset_id": "asset:6c80e2a4fdef6840094d",
+    "name": "phenoxymethylpenicillin",
+    "canonical_name": "phenoxymethylpenicillin",
+    "aliases": [
+      "phenoxymethylpenicillin"
+    ]
+  },
+  {
+    "asset_id": "asset:ab550e1d5a107d422a2c",
+    "name": "phenylacetaldehyde",
+    "canonical_name": "phenylacetaldehyde",
+    "aliases": [
+      "phenylacetaldehyde"
+    ]
+  },
+  {
+    "asset_id": "asset:5abe48912ac37415fd4c",
+    "name": "Phenylhydrazine",
+    "canonical_name": "Phenylhydrazine",
+    "aliases": [
+      "Phenylhydrazine",
+      "phenylhydrazine"
+    ]
+  },
+  {
+    "asset_id": "asset:887c2ccf935d1db24112",
+    "name": "phosmet",
+    "canonical_name": "phosmet",
+    "aliases": [
+      "phosmet"
+    ]
+  },
+  {
+    "asset_id": "asset:8d93e18fbbde5f3caae4",
+    "name": "piclamilast",
+    "canonical_name": "piclamilast",
+    "aliases": [
+      "piclamilast"
+    ]
+  },
+  {
+    "asset_id": "asset:07dffaf669f19a03b165",
+    "name": "pimobendan",
+    "canonical_name": "pimobendan",
+    "aliases": [
+      "pimobendan",
+      "Pimobendan"
+    ]
+  },
+  {
+    "asset_id": "asset:1e3b706659b0e6a6215b",
+    "name": "pimonidazole",
+    "canonical_name": "pimonidazole",
+    "aliases": [
+      "pimonidazole"
+    ]
+  },
+  {
+    "asset_id": "asset:80a86f00092169996e47",
+    "name": "piperacillin",
+    "canonical_name": "piperacillin",
+    "aliases": [
+      "piperacillin"
+    ]
+  },
+  {
+    "asset_id": "asset:1f66c763261640b99a76",
+    "name": "piperidine",
+    "canonical_name": "piperidine",
+    "aliases": [
+      "piperidine"
+    ]
+  },
+  {
+    "asset_id": "asset:26ee2ba9a24d5f5db196",
+    "name": "piperonyl butoxide",
+    "canonical_name": "piperonyl butoxide",
+    "aliases": [
+      "piperonyl butoxide"
+    ]
+  },
+  {
+    "asset_id": "asset:dcc0d78506b65a1e5647",
+    "name": "piracetam",
+    "canonical_name": "piracetam",
+    "aliases": [
+      "piracetam"
+    ]
+  },
+  {
+    "asset_id": "asset:5696d5149e90ee216684",
+    "name": "pirfenidone",
+    "canonical_name": "pirfenidone",
+    "aliases": [
+      "pirfenidone"
+    ]
+  },
+  {
+    "asset_id": "asset:06477aee07f33274efdc",
+    "name": "PNU-200577",
+    "canonical_name": "PNU-200577",
+    "aliases": [
+      "PNU-200577"
+    ]
+  },
+  {
+    "asset_id": "asset:d400b9a0a03cebc3cce6",
+    "name": "Poloxamer",
+    "canonical_name": "Poloxamer",
+    "aliases": [
+      "Poloxamer",
+      "poloxamer"
+    ]
+  },
+  {
+    "asset_id": "asset:763b33b051213b87a8ad",
+    "name": "Polyethylene glycol",
+    "canonical_name": "Polyethylene glycol",
+    "aliases": [
+      "Polyethylene glycol",
+      "polyethylene glycol",
+      "Polyethylene Glycol",
+      "Macrogol"
+    ]
+  },
+  {
+    "asset_id": "asset:8f5de6a8948000ff2d32",
+    "name": "polypropylene glycol",
+    "canonical_name": "polypropylene glycol",
+    "aliases": [
+      "polypropylene glycol"
+    ]
+  },
+  {
+    "asset_id": "asset:849c1a0fd089a6488d92",
+    "name": "porphyrin",
+    "canonical_name": "porphyrin",
+    "aliases": [
+      "porphyrin"
+    ]
+  },
+  {
+    "asset_id": "asset:5f5c592c7c83ee6ff63a",
+    "name": "Potassium bromate",
+    "canonical_name": "Potassium bromate",
+    "aliases": [
+      "Potassium bromate"
+    ]
+  },
+  {
+    "asset_id": "asset:8e1d9749ea5f6674f06a",
+    "name": "potassium metabisulfite",
+    "canonical_name": "potassium metabisulfite",
+    "aliases": [
+      "potassium metabisulfite"
+    ]
+  },
+  {
+    "asset_id": "asset:9b06c9490359a75fc06c",
+    "name": "Povidone Iodine",
+    "canonical_name": "Povidone Iodine",
+    "aliases": [
+      "Povidone Iodine",
+      "povidone-iodine"
+    ]
+  },
+  {
+    "asset_id": "asset:9b7443f7cee038f46062",
+    "name": "povorcitinib",
+    "canonical_name": "povorcitinib",
+    "aliases": [
+      "povorcitinib"
+    ]
+  },
+  {
+    "asset_id": "asset:7c3801d2545b146735d6",
+    "name": "praziquantel",
+    "canonical_name": "praziquantel",
+    "aliases": [
+      "praziquantel",
+      "Praziquantel"
+    ]
+  },
+  {
+    "asset_id": "asset:68ac2ec88ce12efc6a87",
+    "name": "procalcitonin",
+    "canonical_name": "procalcitonin",
+    "aliases": [
+      "procalcitonin"
+    ]
+  },
+  {
+    "asset_id": "asset:d63179958e46e23b1ec4",
+    "name": "propiconazole",
+    "canonical_name": "propiconazole",
+    "aliases": [
+      "propiconazole"
+    ]
+  },
+  {
+    "asset_id": "asset:028229a4efe12f2dbf7d",
+    "name": "propiverine",
+    "canonical_name": "propiverine",
+    "aliases": [
+      "propiverine"
+    ]
+  },
+  {
+    "asset_id": "asset:02b71d5a392da4fe2723",
+    "name": "propoxate",
+    "canonical_name": "propoxate",
+    "aliases": [
+      "propoxate"
+    ]
+  },
+  {
+    "asset_id": "asset:88c06b3ab64b8b1391c3",
+    "name": "propylene carbonate",
+    "canonical_name": "propylene carbonate",
+    "aliases": [
+      "propylene carbonate"
+    ]
+  },
+  {
+    "asset_id": "asset:bf300db519a86a46ab06",
+    "name": "propylene glycol",
+    "canonical_name": "propylene glycol",
+    "aliases": [
+      "propylene glycol"
+    ]
+  },
+  {
+    "asset_id": "asset:0daaf58c35deb446814a",
+    "name": "prothioconazole",
+    "canonical_name": "prothioconazole",
+    "aliases": [
+      "prothioconazole"
+    ]
+  },
+  {
+    "asset_id": "asset:9c1b550dfd0d293690c6",
+    "name": "Puerarin",
+    "canonical_name": "Puerarin",
+    "aliases": [
+      "Puerarin",
+      "puerarin"
+    ]
+  },
+  {
+    "asset_id": "asset:395f2440583b8f1dbf6e",
+    "name": "pyocyanin",
+    "canonical_name": "pyocyanin",
+    "aliases": [
+      "pyocyanin"
+    ]
+  },
+  {
+    "asset_id": "asset:8bcb76e35d00c12d2da8",
+    "name": "Pyrazole",
+    "canonical_name": "Pyrazole",
+    "aliases": [
+      "Pyrazole",
+      "pyrazole"
+    ]
+  },
+  {
+    "asset_id": "asset:3265b826114b712d8af2",
+    "name": "pyrene",
+    "canonical_name": "pyrene",
+    "aliases": [
+      "pyrene"
+    ]
+  },
+  {
+    "asset_id": "asset:77206b83a5a97235e4d3",
+    "name": "pyrethrin",
+    "canonical_name": "pyrethrin",
+    "aliases": [
+      "pyrethrin"
+    ]
+  },
+  {
+    "asset_id": "asset:4665f0737a6429a4e151",
+    "name": "pyrethrum",
+    "canonical_name": "pyrethrum",
+    "aliases": [
+      "pyrethrum"
+    ]
+  },
+  {
+    "asset_id": "asset:a0d768ce1335a5ea44cc",
+    "name": "pyriproxyfen",
+    "canonical_name": "pyriproxyfen",
+    "aliases": [
+      "pyriproxyfen"
+    ]
+  },
+  {
+    "asset_id": "asset:879c51bde7813402447b",
+    "name": "pyrogallol",
+    "canonical_name": "pyrogallol",
+    "aliases": [
+      "pyrogallol"
+    ]
+  },
+  {
+    "asset_id": "asset:36e2faf2c5f2c7dd53a0",
+    "name": "pyrrolidine",
+    "canonical_name": "pyrrolidine",
+    "aliases": [
+      "pyrrolidine"
+    ]
+  },
+  {
+    "asset_id": "asset:283a47ee0c5d1a4d974f",
+    "name": "quinacrine",
+    "canonical_name": "quinacrine",
+    "aliases": [
+      "quinacrine"
+    ]
+  },
+  {
+    "asset_id": "asset:06b18bc22d63afcf671f",
+    "name": "quinaldine",
+    "canonical_name": "quinaldine",
+    "aliases": [
+      "quinaldine"
+    ]
+  },
+  {
+    "asset_id": "asset:cc12f48d1e2384aa181c",
+    "name": "raffinose",
+    "canonical_name": "raffinose",
+    "aliases": [
+      "raffinose"
+    ]
+  },
+  {
+    "asset_id": "asset:26a80df7aeb7baf3c5c4",
+    "name": "rasburicase",
+    "canonical_name": "rasburicase",
+    "aliases": [
+      "rasburicase"
+    ]
+  },
+  {
+    "asset_id": "asset:382a83dcd3495a17c104",
+    "name": "rebamipide",
+    "canonical_name": "rebamipide",
+    "aliases": [
+      "rebamipide"
+    ]
+  },
+  {
+    "asset_id": "asset:91600805ace405e866ad",
+    "name": "remdesivir",
+    "canonical_name": "remdesivir",
+    "aliases": [
+      "remdesivir"
+    ]
+  },
+  {
+    "asset_id": "asset:df8f8b2a814444e92d90",
+    "name": "remibrutinib",
+    "canonical_name": "remibrutinib",
+    "aliases": [
+      "remibrutinib"
+    ]
+  },
+  {
+    "asset_id": "asset:07d0639601d3cd12e219",
+    "name": "remogliflozin",
+    "canonical_name": "remogliflozin",
+    "aliases": [
+      "remogliflozin"
+    ]
+  },
+  {
+    "asset_id": "asset:10198aaa6bd3423c755a",
+    "name": "Rhodamine",
+    "canonical_name": "Rhodamine",
+    "aliases": [
+      "Rhodamine"
+    ]
+  },
+  {
+    "asset_id": "asset:fc963e5b5da1ef935900",
+    "name": "rifampicin",
+    "canonical_name": "rifampicin",
+    "aliases": [
+      "rifampicin"
+    ]
+  },
+  {
+    "asset_id": "asset:83d131bc64a661425b0c",
+    "name": "rifamycin",
+    "canonical_name": "rifamycin",
+    "aliases": [
+      "rifamycin"
+    ]
+  },
+  {
+    "asset_id": "asset:c105d21c5d2e1a4bbf5c",
+    "name": "Rotenone",
+    "canonical_name": "Rotenone",
+    "aliases": [
+      "Rotenone"
+    ]
+  },
+  {
+    "asset_id": "asset:da64be303b4e86b384cd",
+    "name": "Rutin",
+    "canonical_name": "Rutin",
+    "aliases": [
+      "Rutin",
+      "rutin"
+    ]
+  },
+  {
+    "asset_id": "asset:cb4a7461d8c941992efe",
+    "name": "saccharin sodium",
+    "canonical_name": "saccharin sodium",
+    "aliases": [
+      "saccharin sodium"
+    ]
+  },
+  {
+    "asset_id": "asset:75d032e3b2fbaabe724a",
+    "name": "salcaprozate sodium",
+    "canonical_name": "salcaprozate sodium",
+    "aliases": [
+      "salcaprozate sodium"
+    ]
+  },
+  {
+    "asset_id": "asset:5cad3038c99116691c5a",
+    "name": "salsalate",
+    "canonical_name": "salsalate",
+    "aliases": [
+      "salsalate"
+    ]
+  },
+  {
+    "asset_id": "asset:53f5b5a80db8d3230eea",
+    "name": "saponin",
+    "canonical_name": "saponin",
+    "aliases": [
+      "saponin"
+    ]
+  },
+  {
+    "asset_id": "asset:d42c3ef19c05f281bcc0",
+    "name": "sax-agliptin",
+    "canonical_name": "sax-agliptin",
+    "aliases": [
+      "sax-agliptin"
+    ]
+  },
+  {
+    "asset_id": "asset:112d1d10e90ce4de3215",
+    "name": "SD 25",
+    "canonical_name": "SD 25",
+    "aliases": [
+      "SD 25"
+    ]
+  },
+  {
+    "asset_id": "asset:26b99a1e11700ad569b1",
+    "name": "shanzhiside",
+    "canonical_name": "shanzhiside",
+    "aliases": [
+      "shanzhiside"
+    ]
+  },
+  {
+    "asset_id": "asset:5390bd6692d0bc6a57ef",
+    "name": "shellac",
+    "canonical_name": "shellac",
+    "aliases": [
+      "shellac"
+    ]
+  },
+  {
+    "asset_id": "asset:ce27e07a63b97980c382",
+    "name": "silicate",
+    "canonical_name": "silicate",
+    "aliases": [
+      "silicate"
+    ]
+  },
+  {
+    "asset_id": "asset:93a20bf017143462dd5f",
+    "name": "silver sulfadiazine",
+    "canonical_name": "silver sulfadiazine",
+    "aliases": [
+      "silver sulfadiazine",
+      "Silver sulfadiazine"
+    ]
+  },
+  {
+    "asset_id": "asset:e2af183d30ff8363ac73",
+    "name": "Sinomenine",
+    "canonical_name": "Sinomenine",
+    "aliases": [
+      "Sinomenine",
+      "sinomenine"
+    ]
+  },
+  {
+    "asset_id": "asset:79b32f703220da0dd842",
+    "name": "SNF472",
+    "canonical_name": "SNF472",
+    "aliases": [
+      "SNF472"
+    ]
+  },
+  {
+    "asset_id": "asset:8603fc152af62a5fb2ed",
+    "name": "sodium alginate",
+    "canonical_name": "sodium alginate",
+    "aliases": [
+      "sodium alginate"
+    ]
+  },
+  {
+    "asset_id": "asset:feb2f6b14169117e89ad",
+    "name": "sodium cyclamate",
+    "canonical_name": "sodium cyclamate",
+    "aliases": [
+      "sodium cyclamate"
+    ]
+  },
+  {
+    "asset_id": "asset:038cb45027147d1dae3f",
+    "name": "sodium deoxycholate",
+    "canonical_name": "sodium deoxycholate",
+    "aliases": [
+      "sodium deoxycholate"
+    ]
+  },
+  {
+    "asset_id": "asset:b28887c38bd5b405bc33",
+    "name": "Sodium Hypochlorite",
+    "canonical_name": "Sodium Hypochlorite",
+    "aliases": [
+      "Sodium Hypochlorite",
+      "sodium hypochlorite"
+    ]
+  },
+  {
+    "asset_id": "asset:ce8ecbf53e6fe0f8e352",
+    "name": "solriamfetol",
+    "canonical_name": "solriamfetol",
+    "aliases": [
+      "solriamfetol"
+    ]
+  },
+  {
+    "asset_id": "asset:82bc7bab2a7ab3f10df7",
+    "name": "SOM3355",
+    "canonical_name": "SOM3355",
+    "aliases": [
+      "SOM3355"
+    ]
+  },
+  {
+    "asset_id": "asset:46211a9022467aabc589",
+    "name": "spinosad",
+    "canonical_name": "spinosad",
+    "aliases": [
+      "spinosad"
+    ]
+  },
+  {
+    "asset_id": "asset:5543da71572a6adfe5d7",
+    "name": "SR 27897",
+    "canonical_name": "SR 27897",
+    "aliases": [
+      "SR 27897"
+    ]
+  },
+  {
+    "asset_id": "asset:44fb7af0dcf3652cc7e0",
+    "name": "SS-31",
+    "canonical_name": "SS-31",
+    "aliases": [
+      "SS-31"
+    ]
+  },
+  {
+    "asset_id": "asset:b447a8e7b24c96770722",
+    "name": "ST101",
+    "canonical_name": "ST101",
+    "aliases": [
+      "ST101"
+    ]
+  },
+  {
+    "asset_id": "asset:31cf8b9bcab48f947301",
+    "name": "Stapokibart",
+    "canonical_name": "Stapokibart",
+    "aliases": [
+      "Stapokibart",
+      "stapokibart",
+      "CM310"
+    ]
+  },
+  {
+    "asset_id": "asset:eb83c93eee24055843e3",
+    "name": "steviol",
+    "canonical_name": "steviol",
+    "aliases": [
+      "steviol",
+      "Steviol"
+    ]
+  },
+  {
+    "asset_id": "asset:a039f9243871c1ee5385",
+    "name": "stevioside",
+    "canonical_name": "stevioside",
+    "aliases": [
+      "stevioside"
+    ]
+  },
+  {
+    "asset_id": "asset:a4a2f182f4fac8151494",
+    "name": "STM2457",
+    "canonical_name": "STM2457",
+    "aliases": [
+      "STM2457"
+    ]
+  },
+  {
+    "asset_id": "asset:d20a6f6b4363b089858f",
+    "name": "streptomycin",
+    "canonical_name": "streptomycin",
+    "aliases": [
+      "streptomycin"
+    ]
+  },
+  {
+    "asset_id": "asset:6aa8524d6b919dc75ccb",
+    "name": "strontium",
+    "canonical_name": "strontium",
+    "aliases": [
+      "strontium"
+    ]
+  },
+  {
+    "asset_id": "asset:1dd90be6cc05adc09424",
+    "name": "strontium ranelate",
+    "canonical_name": "strontium ranelate",
+    "aliases": [
+      "strontium ranelate"
+    ]
+  },
+  {
+    "asset_id": "asset:e884d9229b8e1d646e7d",
+    "name": "Sulbactam",
+    "canonical_name": "Sulbactam",
+    "aliases": [
+      "Sulbactam"
+    ]
+  },
+  {
+    "asset_id": "asset:9498b74cf39ea432400f",
+    "name": "sulfadiazine",
+    "canonical_name": "sulfadiazine",
+    "aliases": [
+      "sulfadiazine"
+    ]
+  },
+  {
+    "asset_id": "asset:617bc1a133aa925fb7a0",
+    "name": "sulfamate",
+    "canonical_name": "sulfamate",
+    "aliases": [
+      "sulfamate"
+    ]
+  },
+  {
+    "asset_id": "asset:ebc60fb6dd13a4a50c7e",
+    "name": "sulfamethoxazole",
+    "canonical_name": "sulfamethoxazole",
+    "aliases": [
+      "sulfamethoxazole",
+      "Sulfamethoxazole"
+    ]
+  },
+  {
+    "asset_id": "asset:1dc8a9e8c05d602cf402",
+    "name": "Swertiamarin",
+    "canonical_name": "Swertiamarin",
+    "aliases": [
+      "Swertiamarin"
+    ]
+  },
+  {
+    "asset_id": "asset:ed40139e892019bc28df",
+    "name": "swietenine",
+    "canonical_name": "swietenine",
+    "aliases": [
+      "swietenine"
+    ]
+  },
+  {
+    "asset_id": "asset:c66dc9338e5159b0718a",
+    "name": "syrup",
+    "canonical_name": "syrup",
+    "aliases": [
+      "syrup"
+    ]
+  },
+  {
+    "asset_id": "asset:9cebab781622584cfdd7",
+    "name": "tagatose",
+    "canonical_name": "tagatose",
+    "aliases": [
+      "tagatose"
+    ]
+  },
+  {
+    "asset_id": "asset:b6a6c4feddd2878a376d",
+    "name": "talabostat",
+    "canonical_name": "talabostat",
+    "aliases": [
+      "talabostat",
+      "Talabostat"
+    ]
+  },
+  {
+    "asset_id": "asset:05b3f3aa23c17ebfe33e",
+    "name": "tazobactam",
+    "canonical_name": "tazobactam",
+    "aliases": [
+      "tazobactam"
+    ]
+  },
+  {
+    "asset_id": "asset:9a378841d63a33310621",
+    "name": "tebuconazole",
+    "canonical_name": "tebuconazole",
+    "aliases": [
+      "tebuconazole"
+    ]
+  },
+  {
+    "asset_id": "asset:2882e04597aeec6ba6e1",
+    "name": "telitacicept",
+    "canonical_name": "telitacicept",
+    "aliases": [
+      "telitacicept",
+      "Telitacicept"
+    ]
+  },
+  {
+    "asset_id": "asset:33f4c32ded4e238a8a2b",
+    "name": "tempol",
+    "canonical_name": "tempol",
+    "aliases": [
+      "tempol"
+    ]
+  },
+  {
+    "asset_id": "asset:39b0ff557778e83591e5",
+    "name": "tenofovir alafenamide",
+    "canonical_name": "tenofovir alafenamide",
+    "aliases": [
+      "tenofovir alafenamide"
+    ]
+  },
+  {
+    "asset_id": "asset:ed4fd23638c4d0b839be",
+    "name": "tenofovir disoproxil",
+    "canonical_name": "tenofovir disoproxil",
+    "aliases": [
+      "tenofovir disoproxil"
+    ]
+  },
+  {
+    "asset_id": "asset:873324f0871a7880cee5",
+    "name": "terbinafine",
+    "canonical_name": "terbinafine",
+    "aliases": [
+      "terbinafine"
+    ]
+  },
+  {
+    "asset_id": "asset:3519402720414bd2d827",
+    "name": "Tetrahydrofuran",
+    "canonical_name": "Tetrahydrofuran",
+    "aliases": [
+      "Tetrahydrofuran",
+      "tetrahydrofuran"
+    ]
+  },
+  {
+    "asset_id": "asset:e06eaa3ede94afaceb2c",
+    "name": "tetrazole",
+    "canonical_name": "tetrazole",
+    "aliases": [
+      "tetrazole"
+    ]
+  },
+  {
+    "asset_id": "asset:4026b207a6f0cb124bcb",
+    "name": "thapsigargin",
+    "canonical_name": "thapsigargin",
+    "aliases": [
+      "thapsigargin"
+    ]
+  },
+  {
+    "asset_id": "asset:33d1777880844069e595",
+    "name": "theobromine",
+    "canonical_name": "theobromine",
+    "aliases": [
+      "theobromine"
+    ]
+  },
+  {
+    "asset_id": "asset:2346bddc127a6d95a9a6",
+    "name": "thiamethoxam",
+    "canonical_name": "thiamethoxam",
+    "aliases": [
+      "thiamethoxam"
+    ]
+  },
+  {
+    "asset_id": "asset:49546791350a5b08351e",
+    "name": "thiazolidinone",
+    "canonical_name": "thiazolidinone",
+    "aliases": [
+      "thiazolidinone"
+    ]
+  },
+  {
+    "asset_id": "asset:798f920f21005bf4b9fc",
+    "name": "thioacetamide",
+    "canonical_name": "thioacetamide",
+    "aliases": [
+      "thioacetamide"
+    ]
+  },
+  {
+    "asset_id": "asset:4a84aa8878179bbc42a2",
+    "name": "thiobarbituric",
+    "canonical_name": "thiobarbituric",
+    "aliases": [
+      "thiobarbituric",
+      "Thiobarbituric"
+    ]
+  },
+  {
+    "asset_id": "asset:f75184a3bfb11b1a83e8",
+    "name": "thiocolchicoside",
+    "canonical_name": "thiocolchicoside",
+    "aliases": [
+      "thiocolchicoside"
+    ]
+  },
+  {
+    "asset_id": "asset:8b274ad89ecaa01e0e9e",
+    "name": "tigecycline",
+    "canonical_name": "tigecycline",
+    "aliases": [
+      "tigecycline",
+      "Tigecycline"
+    ]
+  },
+  {
+    "asset_id": "asset:3c13577165e9947289b0",
+    "name": "tigloidine",
+    "canonical_name": "tigloidine",
+    "aliases": [
+      "tigloidine"
+    ]
+  },
+  {
+    "asset_id": "asset:955e8d61ac4fe982498b",
+    "name": "tipranavir",
+    "canonical_name": "tipranavir",
+    "aliases": [
+      "tipranavir"
+    ]
+  },
+  {
+    "asset_id": "asset:e6e98d6c1efdf675f151",
+    "name": "topixantrone",
+    "canonical_name": "topixantrone",
+    "aliases": [
+      "topixantrone"
+    ]
+  },
+  {
+    "asset_id": "asset:8307bde1a6eb1f02989f",
+    "name": "tozorakimab",
+    "canonical_name": "tozorakimab",
+    "aliases": [
+      "tozorakimab"
+    ]
+  },
+  {
+    "asset_id": "asset:4afb012b797b0e07e190",
+    "name": "trabectedin",
+    "canonical_name": "trabectedin",
+    "aliases": [
+      "trabectedin"
+    ]
+  },
+  {
+    "asset_id": "asset:102dd3d1e207f338f7ea",
+    "name": "trenbolone",
+    "canonical_name": "trenbolone",
+    "aliases": [
+      "trenbolone"
+    ]
+  },
+  {
+    "asset_id": "asset:f3bfe1cadf69dcd9cdc5",
+    "name": "tributyrin",
+    "canonical_name": "tributyrin",
+    "aliases": [
+      "tributyrin"
+    ]
+  },
+  {
+    "asset_id": "asset:ca6bc26f3aa919280289",
+    "name": "trichlorfon",
+    "canonical_name": "trichlorfon",
+    "aliases": [
+      "trichlorfon"
+    ]
+  },
+  {
+    "asset_id": "asset:1fb4144d49e4c6cf7c52",
+    "name": "Tricin",
+    "canonical_name": "Tricin",
+    "aliases": [
+      "Tricin"
+    ]
+  },
+  {
+    "asset_id": "asset:ef26d82c2203deb331dd",
+    "name": "triclosan",
+    "canonical_name": "triclosan",
+    "aliases": [
+      "triclosan"
+    ]
+  },
+  {
+    "asset_id": "asset:a55f43c5c15c863eb14b",
+    "name": "trifluoroethanol",
+    "canonical_name": "trifluoroethanol",
+    "aliases": [
+      "trifluoroethanol"
+    ]
+  },
+  {
+    "asset_id": "asset:5f1b83fe126fd9c4bab8",
+    "name": "trimethoprim",
+    "canonical_name": "trimethoprim",
+    "aliases": [
+      "trimethoprim"
+    ]
+  },
+  {
+    "asset_id": "asset:aa087d63c8e6bf56c116",
+    "name": "Trolox",
+    "canonical_name": "Trolox",
+    "aliases": [
+      "Trolox"
+    ]
+  },
+  {
+    "asset_id": "asset:01beaf3cecca67038ba1",
+    "name": "TT-232",
+    "canonical_name": "TT-232",
+    "aliases": [
+      "TT-232"
+    ]
+  },
+  {
+    "asset_id": "asset:474bc1fa1bfce8c23638",
+    "name": "Tuberculin",
+    "canonical_name": "Tuberculin",
+    "aliases": [
+      "Tuberculin"
+    ]
+  },
+  {
+    "asset_id": "asset:4e3b5afd429733d23cb1",
+    "name": "ulinastatin",
+    "canonical_name": "ulinastatin",
+    "aliases": [
+      "ulinastatin"
+    ]
+  },
+  {
+    "asset_id": "asset:fff4807df6e77c2727f4",
+    "name": "urethane",
+    "canonical_name": "urethane",
+    "aliases": [
+      "urethane"
+    ]
+  },
+  {
+    "asset_id": "asset:872b060ee66679efe64e",
+    "name": "vaborbactam",
+    "canonical_name": "vaborbactam",
+    "aliases": [
+      "vaborbactam"
+    ]
+  },
+  {
+    "asset_id": "asset:67196666f93b63716252",
+    "name": "vancomycin",
+    "canonical_name": "vancomycin",
+    "aliases": [
+      "vancomycin"
+    ]
+  },
+  {
+    "asset_id": "asset:a38d00cea6ce462c7f97",
+    "name": "Vanilla",
+    "canonical_name": "Vanilla",
+    "aliases": [
+      "Vanilla",
+      "vanilla"
+    ]
+  },
+  {
+    "asset_id": "asset:97138eca64835765fd28",
+    "name": "vanillin",
+    "canonical_name": "vanillin",
+    "aliases": [
+      "vanillin"
+    ]
+  },
+  {
+    "asset_id": "asset:66049f081bf11cbc4a69",
+    "name": "veratridine",
+    "canonical_name": "veratridine",
+    "aliases": [
+      "veratridine"
+    ]
+  },
+  {
+    "asset_id": "asset:2cafd4b623b9a145c251",
+    "name": "vicadrostat",
+    "canonical_name": "vicadrostat",
+    "aliases": [
+      "vicadrostat"
+    ]
+  },
+  {
+    "asset_id": "asset:b6d2a7aa4e7872c4150f",
+    "name": "Visepegenatide",
+    "canonical_name": "Visepegenatide",
+    "aliases": [
+      "Visepegenatide",
+      "visepegenatide"
+    ]
+  },
+  {
+    "asset_id": "asset:9f999fbbaf108cbd8ab0",
+    "name": "Voxilaprevir",
+    "canonical_name": "Voxilaprevir",
+    "aliases": [
+      "Voxilaprevir"
+    ]
+  },
+  {
+    "asset_id": "asset:363753c7150494d208f6",
+    "name": "xanthoangelol",
+    "canonical_name": "xanthoangelol",
+    "aliases": [
+      "xanthoangelol"
+    ]
+  },
+  {
+    "asset_id": "asset:591298737f40d8d35106",
+    "name": "xenon",
+    "canonical_name": "xenon",
+    "aliases": [
+      "xenon",
+      "Xenon"
+    ]
+  },
+  {
+    "asset_id": "asset:dc352bda5fa6f3fa6661",
+    "name": "yersiniabactin",
+    "canonical_name": "yersiniabactin",
+    "aliases": [
+      "yersiniabactin"
+    ]
+  },
+  {
+    "asset_id": "asset:03886c7d1c1c53fccba1",
+    "name": "yttrium",
+    "canonical_name": "yttrium",
+    "aliases": [
+      "yttrium",
+      "Yttrium"
+    ]
+  },
+  {
+    "asset_id": "asset:df4816cb84fe5bcc5d75",
+    "name": "zacopride",
+    "canonical_name": "zacopride",
+    "aliases": [
+      "zacopride"
+    ]
+  },
+  {
+    "asset_id": "asset:5b1a3ec8804087d81e4f",
+    "name": "zalfermin",
+    "canonical_name": "zalfermin",
+    "aliases": [
+      "zalfermin"
+    ]
+  },
+  {
+    "asset_id": "asset:f7217f15b7cb6268776d",
+    "name": "zearalenone",
+    "canonical_name": "zearalenone",
+    "aliases": [
+      "zearalenone"
+    ]
+  },
+  {
+    "asset_id": "asset:c1bd742fdd6bc6836a0f",
+    "name": "zidebactam",
+    "canonical_name": "zidebactam",
+    "aliases": [
+      "zidebactam"
+    ]
+  },
+  {
+    "asset_id": "asset:976f3bd126e970412428",
+    "name": "Zilebesiran",
+    "canonical_name": "Zilebesiran",
+    "aliases": [
+      "Zilebesiran",
+      "zilebesiran"
+    ]
+  },
+  {
+    "asset_id": "asset:172a76b09e347c70db6a",
+    "name": "Glucagon (Native glucagon)",
+    "canonical_name": "Glucagon (Native glucagon)",
+    "aliases": [
+      "Glucagon (Native glucagon)"
+    ]
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "program": "bve-se-search",
+  "argv": [
+    "--query",
+    "Find clinical-stage factor XI inhibitors for prevention of thrombosis.",
+    "--as-of",
+    "2026-10-11",
+    "--source-index",
+    "/home/djmann/se_runs/aacr_probe5/source_index.yaml",
+    "--output-dir",
+    "/home/djmann/se_runs/heldout_h20_v4",
+    "--format",
+    "shortlist",
+    "--top",
+    "20",
+    "--progress",
+    "--allow-incomplete"
+  ]
+}
