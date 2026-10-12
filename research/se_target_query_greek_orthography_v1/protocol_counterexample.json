@@ -1,0 +1,50 @@
+[
+  {
+    "source": "open_targets",
+    "source_id": "ENSG00000198752",
+    "symbol": "CDC42BPB",
+    "aliases": [
+      {
+        "alias_type": "SYNONYM",
+        "value": "MRCK beta"
+      },
+      {
+        "alias_type": "SYMBOL",
+        "value": "MRCK beta"
+      }
+    ],
+    "xrefs": {
+      "ensembl": [
+        "ENSG00000198752"
+      ],
+      "uniprot": [
+        "Q9Y5S2",
+        "A0A0U1RRC3",
+        "H0YLY0",
+        "A9JR72",
+        "Q2L7A5",
+        "Q86TJ1",
+        "Q9ULU5"
+      ]
+    }
+  },
+  {
+    "source": "chembl",
+    "source_id": "CHEMBL5052",
+    "symbol": "CDC42BPB",
+    "aliases": [
+      {
+        "alias_type": "SYNONYM",
+        "value": "MRCK beta"
+      }
+    ],
+    "xrefs": {
+      "chembl": [
+        "CHEMBL5052"
+      ],
+      "uniprot": [
+        "Q9Y5S2"
+      ]
+    }
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "README.md": "b013026dcd9783eae076bcc48005c9526d51272d9791e9ab424b7286e9f7cc06",
+  "authority_oracle.json": "a97817e168e82efbf4d1f02ce4afedc043792e7ee9e67b1bc305bacbbd410e86",
+  "authority_oracle_manifest.json": "516edfb6dacba5c12bcac0e22db2a6049b084b0f1fd70108eff7040bca979582",
+  "freeze_greek_query_oracle.py": "5f682d1388f23e83366ad52b40082ac5aeae46ff0c02fcac6c5e3ab7792d7e1d",
+  "freeze_greek_synthetic_controls.py": "761e34cd8ee40e5e245c5dde821bf67d063e8c675e5965373972313364719989",
+  "preregistration_error.json": "0eaf417d8ae85450a51b8d269bb217b1543a899553b9d2839afd4774ff5731b2",
+  "protocol_counterexample.json": "b1188b8c1180273c6843f5a3d9ece5142c481d2092c095ef0ac4ad8cee641907",
+  "synthetic_authority.json": "57f8c5955b38b685a6f324ce209834957c4f5845191dc885dab4cf4f9a70edad",
+  "synthetic_controls.json": "3d7f44ea3e6d45af910f05854d74e548ae482fbe4c9e041e7b90af30011e79d8",
+  "synthetic_manifest.json": "d157ac891ebab662538196110ebac7b39d2c10071b69a4834f853ce32ecc7b6a"
+}

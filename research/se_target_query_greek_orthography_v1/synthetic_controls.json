@@ -1,0 +1,711 @@
+{
+  "raw_cases": [
+    {
+      "query": "Anchoraseα",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ01",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Α",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ01",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase α",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ01",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseβ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ02",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Β",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ02",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase β",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ02",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseγ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ03",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Γ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ03",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase γ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ03",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseδ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ04",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Δ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ04",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase δ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ04",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseε",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ05",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Ε",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ05",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase ε",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ05",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseζ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ06",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Ζ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ06",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase ζ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ06",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseη",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ07",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Η",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ07",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase η",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ07",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseθ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ08",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Θ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ08",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase θ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ08",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseι",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ09",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Ι",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ09",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase ι",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ09",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseκ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ10",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Κ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ10",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase κ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ10",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseλ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ11",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Λ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ11",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase λ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ11",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseμ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ12",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Μ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ12",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase μ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ12",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseν",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ13",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Ν",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ13",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase ν",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ13",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseξ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ14",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Ξ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ14",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase ξ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ14",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseο",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ15",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Ο",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ15",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase ο",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ15",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseπ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ16",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Π",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ16",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase π",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ16",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseρ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ17",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Ρ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ17",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase ρ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ17",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseσ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ18",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Σ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ18",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase σ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ18",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseτ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ19",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Τ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ19",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase τ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ19",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseυ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ20",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Υ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ20",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase υ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ20",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseφ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ21",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Φ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ21",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase φ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ21",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseχ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ22",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Χ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ22",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase χ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ22",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseψ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ23",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Ψ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ23",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase ψ",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ23",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchoraseω",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ24",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase-Ω",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ24",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "Anchorase ω",
+      "status": "RESOLVED",
+      "entity": "TARGET:GQ24",
+      "candidates": [],
+      "boundary": "authority_spelling_equivalence"
+    },
+    {
+      "query": "α",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "no_biological_anchor"
+    },
+    {
+      "query": "α2",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "no_biological_anchor"
+    },
+    {
+      "query": "Anchoraseα2",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "number_preserved"
+    },
+    {
+      "query": "Anchoraseа",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "cyrillic_confusable"
+    },
+    {
+      "query": "AnchoraseA",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "latin_confusable"
+    },
+    {
+      "query": "Anchoraseµ",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "micro_sign"
+    },
+    {
+      "query": "Anchoraseϕ",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "variant_glyph"
+    },
+    {
+      "query": "Alphabetaseα",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "embedded_english_substring"
+    },
+    {
+      "query": "Anchorase/α",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "separator_boundary"
+    },
+    {
+      "query": "Anchoraseα×unknown",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "separator_boundary"
+    },
+    {
+      "query": "Compositeβ",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "multiple_genes"
+    },
+    {
+      "query": "Disagreementγ",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "multiple_symbols"
+    },
+    {
+      "query": "Missingδ",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "missing_gene_identity"
+    },
+    {
+      "query": "Aα",
+      "status": "UNRESOLVED",
+      "entity": null,
+      "candidates": [],
+      "boundary": "existing_fragment_veto"
+    },
+    {
+      "query": "Sharingα",
+      "status": "AMBIGUOUS",
+      "entity": null,
+      "candidates": [
+        "TARGET:GQ01",
+        "TARGET:GQ02"
+      ],
+      "boundary": "multiple_eligible_claimants"
+    },
+    {
+      "query": "Contestedα",
+      "status": "AMBIGUOUS",
+      "entity": null,
+      "candidates": [
+        "TARGET:GQ01",
+        "TARGET:GQ32"
+      ],
+      "boundary": "ineligible_competitor_is_not_removed"
+    }
+  ],
+  "queries": [
+    {
+      "query": "Find clinical-stage Anchoraseα antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01 antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01"
+      ]
+    },
+    {
+      "query": "Find clinical-stage anti-Anchoraseα antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage anti-GQ01 antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01"
+      ]
+    },
+    {
+      "query": "Find clinical-stage Anchoraseα-directed antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01-directed antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01"
+      ]
+    },
+    {
+      "query": "Find clinical-stage Anchoraseα-targeting antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01-targeting antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01"
+      ]
+    },
+    {
+      "query": "Find clinical-stage Anchoraseα-blocking antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01-blocking antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01"
+      ]
+    },
+    {
+      "query": "Find clinical-stage Anchoraseα-binding antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01-binding antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01"
+      ]
+    },
+    {
+      "query": "Find clinical-stage Anchoraseα-specific antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01-specific antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01"
+      ]
+    },
+    {
+      "query": "Find clinical-stage Anchorase alpha or Anchoraseα antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01 or GQ01 antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01"
+      ]
+    },
+    {
+      "query": "Find clinical-stage Anchoraseα/Anchoraseβ antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01/GQ02 antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01",
+        "GQ02"
+      ]
+    },
+    {
+      "query": "Find clinical-stage Anchoraseα×Anchoraseβ antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01×GQ02 antibodies for lung cancer.",
+      "expected_targets": [
+        "GQ01",
+        "GQ02"
+      ]
+    },
+    {
+      "query": "Find clinical-stage Anchoraseα/NotATarget antibodies for lung cancer.",
+      "baseline_query": "Find clinical-stage GQ01/NotATarget antibodies for lung cancer.",
+      "expected_targets": []
+    }
+  ],
+  "additional_state_controls": [
+    "missing snapshot returns existing None",
+    "existing raw results unchanged",
+    "new provenance names original asserted alias and source records",
+    "seeds 0, 1, 42 identical"
+  ]
+}

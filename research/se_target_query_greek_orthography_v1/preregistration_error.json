@@ -1,0 +1,26 @@
+{
+  "milestone": "TARGET_QUERY_GREEK_ORTHOGRAPHY v1",
+  "preregistration": "ebff4b4",
+  "status": "FAILED_PREREGISTRATION_ERROR_BEFORE_IMPLEMENTATION",
+  "implementation": null,
+  "candidate_evaluations": 0,
+  "production_changes": 0,
+  "first_failure_boundary": "G5 used a whole-string orthography admission abstention as a no-target-in-query oracle. A slash-scoped whole-name refusal can still contain an independently certified shorter alias of the same gene.",
+  "counterexample": {
+    "whole_authority_name": "Serine/threonine-protein kinase MRCK beta",
+    "whole_proposal": "Serine/threonine-protein kinase MRCK \u03b2",
+    "independent_short_alias": "MRCK beta",
+    "gene": "CDC42BPB",
+    "sources": [
+      "open_targets:ENSG00000198752",
+      "chembl:CHEMBL5052"
+    ],
+    "expected_scientific_interpretation": "The shorter complete alias can establish the same gene; slash policy on the longer spelling does not negate that evidence."
+  },
+  "disposition": "Preserve v1 rules/oracle unchanged; no code to revert. Preregister v2 with independently grounded biological reference identities separate from raw spelling lookup eligibility. No candidate outcomes used for revision.",
+  "oracle_predictions_only": {
+    "RESOLVED": 85,
+    "AMBIGUOUS": 3,
+    "UNRESOLVED": 8
+  }
+}

@@ -53,3 +53,7 @@ G10: Production changes restricted to a new query-target orthography module, the
 ## Decision
 
 Commit rules, then frozen derived expectations before implementing. Focused development precedes one formal evaluation. On any formal criterion failure, record the failure and normally revert; no post-result patching or label changes. On all-pass, adopt and report exact admissions/abstentions, source coverage limitations and commits. Parent target-recognition work remains incomplete until common-name admission is separately adopted/reverted; do not run primary holdouts yet.
+
+## Pre-implementation disposition
+
+**FAILED PREREGISTRATION ERROR; no candidate code or evaluation.** Oracle review exposed that G5 conflated a whole-string spelling-policy abstention with biological absence of a target inside the query. See `research/se_target_query_greek_orthography_v1/preregistration_error.json`. Preserve these original rules and raw oracle; do not retroactively relabel v1 or report it adopted. A separately frozen v2 must derive query-level reference identity from the full original authority name while retaining raw alias admission as a different check.

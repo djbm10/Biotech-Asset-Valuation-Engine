@@ -1,0 +1,682 @@
+{
+  "sources": [
+    {
+      "source": "open_targets",
+      "release": "greek-fixture-v1",
+      "retrieved_at": "2026-10-12",
+      "locator": "fixture:greek-orthography:open_targets"
+    },
+    {
+      "source": "chembl",
+      "release": "greek-fixture-v1",
+      "retrieved_at": "2026-10-12",
+      "locator": "fixture:greek-orthography:chembl"
+    }
+  ],
+  "records": [
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000001",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ01",
+      "label": "GQ01",
+      "aliases": [
+        {
+          "value": "Anchorase alpha",
+          "alias_type": "SYNONYM"
+        },
+        {
+          "value": "alpha",
+          "alias_type": "SYNONYM"
+        },
+        {
+          "value": "Sharing alpha",
+          "alias_type": "SYNONYM"
+        },
+        {
+          "value": "Contested alpha",
+          "alias_type": "SYNONYM"
+        },
+        {
+          "value": "Alphabetasealpha",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00001"
+        ],
+        "ensembl": [
+          "ENSG00000000001"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000002",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ02",
+      "label": "GQ02",
+      "aliases": [
+        {
+          "value": "Anchorase beta",
+          "alias_type": "SYNONYM"
+        },
+        {
+          "value": "Sharing alpha",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00002"
+        ],
+        "ensembl": [
+          "ENSG00000000002"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000003",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ03",
+      "label": "GQ03",
+      "aliases": [
+        {
+          "value": "Anchorase gamma",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00003"
+        ],
+        "ensembl": [
+          "ENSG00000000003"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000004",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ04",
+      "label": "GQ04",
+      "aliases": [
+        {
+          "value": "Anchorase delta",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00004"
+        ],
+        "ensembl": [
+          "ENSG00000000004"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000005",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ05",
+      "label": "GQ05",
+      "aliases": [
+        {
+          "value": "Anchorase epsilon",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00005"
+        ],
+        "ensembl": [
+          "ENSG00000000005"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000006",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ06",
+      "label": "GQ06",
+      "aliases": [
+        {
+          "value": "Anchorase zeta",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00006"
+        ],
+        "ensembl": [
+          "ENSG00000000006"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000007",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ07",
+      "label": "GQ07",
+      "aliases": [
+        {
+          "value": "Anchorase eta",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00007"
+        ],
+        "ensembl": [
+          "ENSG00000000007"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000008",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ08",
+      "label": "GQ08",
+      "aliases": [
+        {
+          "value": "Anchorase theta",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00008"
+        ],
+        "ensembl": [
+          "ENSG00000000008"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000009",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ09",
+      "label": "GQ09",
+      "aliases": [
+        {
+          "value": "Anchorase iota",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00009"
+        ],
+        "ensembl": [
+          "ENSG00000000009"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000010",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ10",
+      "label": "GQ10",
+      "aliases": [
+        {
+          "value": "Anchorase kappa",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00010"
+        ],
+        "ensembl": [
+          "ENSG00000000010"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000011",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ11",
+      "label": "GQ11",
+      "aliases": [
+        {
+          "value": "Anchorase lambda",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00011"
+        ],
+        "ensembl": [
+          "ENSG00000000011"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000012",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ12",
+      "label": "GQ12",
+      "aliases": [
+        {
+          "value": "Anchorase mu",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00012"
+        ],
+        "ensembl": [
+          "ENSG00000000012"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000013",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ13",
+      "label": "GQ13",
+      "aliases": [
+        {
+          "value": "Anchorase nu",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00013"
+        ],
+        "ensembl": [
+          "ENSG00000000013"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000014",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ14",
+      "label": "GQ14",
+      "aliases": [
+        {
+          "value": "Anchorase xi",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00014"
+        ],
+        "ensembl": [
+          "ENSG00000000014"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000015",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ15",
+      "label": "GQ15",
+      "aliases": [
+        {
+          "value": "Anchorase omicron",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00015"
+        ],
+        "ensembl": [
+          "ENSG00000000015"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000016",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ16",
+      "label": "GQ16",
+      "aliases": [
+        {
+          "value": "Anchorase pi",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00016"
+        ],
+        "ensembl": [
+          "ENSG00000000016"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000017",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ17",
+      "label": "GQ17",
+      "aliases": [
+        {
+          "value": "Anchorase rho",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00017"
+        ],
+        "ensembl": [
+          "ENSG00000000017"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000018",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ18",
+      "label": "GQ18",
+      "aliases": [
+        {
+          "value": "Anchorase sigma",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00018"
+        ],
+        "ensembl": [
+          "ENSG00000000018"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000019",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ19",
+      "label": "GQ19",
+      "aliases": [
+        {
+          "value": "Anchorase tau",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00019"
+        ],
+        "ensembl": [
+          "ENSG00000000019"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000020",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ20",
+      "label": "GQ20",
+      "aliases": [
+        {
+          "value": "Anchorase upsilon",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00020"
+        ],
+        "ensembl": [
+          "ENSG00000000020"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000021",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ21",
+      "label": "GQ21",
+      "aliases": [
+        {
+          "value": "Anchorase phi",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00021"
+        ],
+        "ensembl": [
+          "ENSG00000000021"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000022",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ22",
+      "label": "GQ22",
+      "aliases": [
+        {
+          "value": "Anchorase chi",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00022"
+        ],
+        "ensembl": [
+          "ENSG00000000022"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000023",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ23",
+      "label": "GQ23",
+      "aliases": [
+        {
+          "value": "Anchorase psi",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00023"
+        ],
+        "ensembl": [
+          "ENSG00000000023"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000024",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ24",
+      "label": "GQ24",
+      "aliases": [
+        {
+          "value": "Anchorase omega",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00024"
+        ],
+        "ensembl": [
+          "ENSG00000000024"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000031",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ31",
+      "label": "GQ31",
+      "aliases": [
+        {
+          "value": "Composite beta",
+          "alias_type": "SYNONYM"
+        },
+        {
+          "value": "Contested alpha",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q90001"
+        ],
+        "ensembl": [
+          "ENSG00000000031"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000032",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ32",
+      "label": "GQ32",
+      "aliases": [
+        {
+          "value": "Composite beta",
+          "alias_type": "SYNONYM"
+        },
+        {
+          "value": "Contested alpha",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q90001"
+        ],
+        "ensembl": [
+          "ENSG00000000032"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000033",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ33",
+      "label": "GQ33",
+      "aliases": [
+        {
+          "value": "Disagreement gamma",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q90002"
+        ],
+        "ensembl": [
+          "ENSG00000000033"
+        ]
+      }
+    },
+    {
+      "source": "chembl",
+      "source_id": "CHEMBL34",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ34",
+      "label": "GQ34",
+      "aliases": [
+        {
+          "value": "Disagreement gamma",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q90002"
+        ],
+        "ensembl": [
+          "ENSG00000000033"
+        ]
+      }
+    },
+    {
+      "source": "chembl",
+      "source_id": "CHEMBL35",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ35",
+      "label": "GQ35",
+      "aliases": [
+        {
+          "value": "Missing delta",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00035"
+        ]
+      }
+    },
+    {
+      "source": "open_targets",
+      "source_id": "ENSG00000000036",
+      "entity_type": "TARGET",
+      "canonical_symbol": "GQ36",
+      "label": "GQ36",
+      "aliases": [
+        {
+          "value": "AΑ B",
+          "alias_type": "SYNONYM"
+        },
+        {
+          "value": "AΑ",
+          "alias_type": "SYNONYM"
+        },
+        {
+          "value": "B",
+          "alias_type": "SYNONYM"
+        }
+      ],
+      "xrefs": {
+        "uniprot": [
+          "Q00036"
+        ],
+        "ensembl": [
+          "ENSG00000000036"
+        ]
+      }
+    }
+  ],
+  "edges": []
+}
