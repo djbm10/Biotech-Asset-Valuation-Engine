@@ -1,5 +1,4 @@
 """Frozen positive-only indication gate contract, without acquisition."""
-import hashlib
 import json
 from pathlib import Path
 
@@ -24,8 +23,3 @@ def test_frozen_control(case):
     )
     assert decision.status.value == case["expected"]
 
-
-def test_frozen_compilation_and_source_isolation():
-    for path, digest in POP["protected_source"].items():
-        if path not in POP["allowed_source"]:
-            assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest, path

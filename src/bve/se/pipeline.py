@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from bve.se.ontology.target_reference import lookup_id
+
 import json
 from collections import defaultdict
 from pathlib import Path
@@ -420,7 +422,7 @@ def run_landscape_search(
         # two names denote one molecule. Identity classification is fail-closed without
         # it -- nothing merges on a source's say-so alone.
         attribution = attribution_for(
-            target.canonical_id
+            lookup_id(target)
             for target in problem.strategic_gap.target_expression.targets
         )
         registry = AssetRegistry(attribution, identity_authority=attribution)

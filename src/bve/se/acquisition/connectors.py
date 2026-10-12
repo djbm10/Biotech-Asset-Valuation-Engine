@@ -36,6 +36,11 @@ class TargetQuery:
     canonical_id: str
     aliases: Sequence[str]
 
+    def __post_init__(self) -> None:
+        if any(term.strip().casefold().startswith("target:")
+               for term in (self.canonical_id, *self.aliases)):
+            raise ValueError("TargetQuery requires biological retrieval terms, not ontology IDs")
+
     def or_group(self) -> str:
         terms = list(dict.fromkeys([self.canonical_id, *self.aliases]))
         return " OR ".join(terms)

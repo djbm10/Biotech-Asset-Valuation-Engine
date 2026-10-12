@@ -30,6 +30,7 @@ from bve.se.acquisition.policy import DeclaredSourceEntry, LiveSourcePolicy
 from bve.se.acquisition.source_health import SourceHealth, SourceHealthReport
 from bve.se.ontology.modality import modality_aliases
 from bve.se.ontology.targets import target_aliases
+from bve.se.ontology.target_reference import lookup_id, surface_id, surface_terms
 from bve.se.schemas.contracts import BuyerProblemV2, TemporalBasis
 
 
@@ -51,12 +52,10 @@ def target_queries_for(problem: BuyerProblemV2) -> list[TargetQuery]:
 
     queries: list[TargetQuery] = []
     for target in problem.strategic_gap.target_expression.targets:
-        aliases = list(
-            dict.fromkeys(
-                [target.label, *target.aliases, *target_aliases(target.canonical_id)]
-            )
+        aliases = surface_terms(
+            target, [target.label, *target.aliases, *target_aliases(lookup_id(target))]
         )
-        queries.append(TargetQuery(canonical_id=target.canonical_id, aliases=aliases))
+        queries.append(TargetQuery(canonical_id=surface_id(target), aliases=aliases))
     return queries
 
 

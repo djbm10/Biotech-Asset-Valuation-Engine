@@ -15,6 +15,7 @@ from datetime import date
 
 from bve.se.intent.intent import SearchIntent
 from bve.se.intent.indication_compilation import compilation_version, indication_spans
+from bve.se.ontology.target_reference import lookup_id, surface_id, surface_terms
 from bve.se.ontology.targets import target_aliases
 from bve.se.schemas.contracts import (
     BuyerIdentity,
@@ -76,7 +77,8 @@ def compile_intent(
         TargetTerm(
             canonical_id=target.canonical_id,
             label=target.label,
-            aliases=list(target_aliases(target.canonical_id)),
+            aliases=list(target_aliases(lookup_id(target))),
+            target_reference=target.target_reference,
         )
         for target in intent.targets
     ]
@@ -141,7 +143,7 @@ def intent_to_trial_query(intent: SearchIntent, *, as_of_date: date | None = Non
 
     terms: list[str] = []
     for target in intent.targets:
-        for term in (target.canonical_id, *target_aliases(target.canonical_id)):
+        for term in surface_terms(target, (surface_id(target), *target_aliases(lookup_id(target)))):
             if term and term not in terms:
                 terms.append(term)
 

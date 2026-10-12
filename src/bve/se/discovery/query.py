@@ -14,6 +14,7 @@ from bve.se.schemas.contracts import BuyerProblemV2, CompiledQuery, TargetOperat
 from bve.se.ontology.modality import modality_query_terms
 from bve.se.discovery.alias_admission import searchable_target_aliases
 from bve.se.ontology.targets import resolve_target
+from bve.se.ontology.target_reference import lookup_id, surface_id, surface_terms
 
 
 class AmbiguousTargetError(ValueError):
@@ -87,16 +88,10 @@ def compile_problem_queries(
     expression = problem.strategic_gap.target_expression
     modalities = problem.strategic_gap.modalities
     target_alias_groups = [
-        list(
-            dict.fromkeys(
-                [
-                    target.canonical_id,
-                    target.label,
-                    *target.aliases,
-                    *_ontology_terms(target.canonical_id),
-                ]
-            )
-        )
+        surface_terms(target, [
+            surface_id(target), target.label, *target.aliases,
+            *_ontology_terms(lookup_id(target)),
+        ])
         for target in expression.targets
     ]
 
@@ -181,7 +176,7 @@ def _seeded_asset_queries(expression, max_seeded_assets: int) -> list[CompiledQu
     queries: list[CompiledQuery] = []
     for target in expression.targets:
         seeds, _known = seeded_assets_for_target(
-            target.canonical_id, limit=max_seeded_assets
+            lookup_id(target), limit=max_seeded_assets
         )
         for drug_id, names in seeds:
             query = "(" + " OR ".join(f'"{name}"' for name in names) + ")"

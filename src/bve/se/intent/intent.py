@@ -12,17 +12,18 @@ from __future__ import annotations
 import hashlib
 from enum import Enum
 
-from pydantic import Field
+from pydantic import Field, model_serializer, model_validator
 
 from bve.se.schemas.contracts import (
     PhaseConstraint,
     PhaseConstraintOperator,
     StrictModel,
     TargetOperator,
+    TargetReference,
     TargetTerm,
 )
 
-INTENT_COMPILER_VERSION = "intent_v1"
+INTENT_COMPILER_VERSION = "intent_v1__target_reference_v1"
 
 
 class SpanKind(str, Enum):
@@ -59,6 +60,20 @@ class IntentSpan(StrictModel):
     candidates: list[str] = Field(default_factory=list)
     #: ``ResolutionBasis.explain`` output for target spans.
     explanation: str | None = None
+    target_reference: TargetReference | None = None
+
+    @model_validator(mode="after")
+    def reference_belongs_to_target(self):
+        if self.target_reference is not None and self.kind is not SpanKind.TARGET:
+            raise ValueError("only a resolved target span may carry a target reference")
+        return self
+
+    @model_serializer(mode="wrap")
+    def serialize_reference(self, handler):
+        data = handler(self)
+        if self.target_reference is None:
+            data.pop("target_reference", None)
+        return data
 
 
 class SearchIntent(StrictModel):

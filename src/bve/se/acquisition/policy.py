@@ -7,6 +7,8 @@ any network or filesystem boundary is crossed.
 
 from __future__ import annotations
 
+from bve.se.ontology.target_reference import surface_id
+
 import hashlib
 import ipaddress
 import json
@@ -300,7 +302,7 @@ class LiveSourcePolicy(BaseModel):
         """Fail when ``problem`` requests a target or modality outside this policy."""
 
         requested_targets = {
-            target.canonical_id.strip().upper()
+            surface_id(target).strip().upper()
             for target in problem.strategic_gap.target_expression.targets
         }
         requested_modalities = {

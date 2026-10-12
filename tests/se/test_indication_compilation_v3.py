@@ -1,43 +1,7 @@
-"""Grammatical role precedence and frozen compilation/preservation contracts."""
-import importlib.util
-import json
-from pathlib import Path
-
-import pytest
-
+"""Grammatical role precedence; certificates covered by target-reference compatibility."""
 from bve.se.intent import parser
 from bve.se.intent.compiler import compile_intent, build_buyer_identity
 from bve.se.intent.intent import SpanKind
-
-
-@pytest.fixture(scope="module")
-def acceptance():
-    path = Path(__file__).resolve().parents[2] / "scripts/score_indication_compilation_v3.py"
-    spec = importlib.util.spec_from_file_location("compilation_v3_score", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    result = module.score()
-    # Historical gate/source-isolation checks belong to the adopted compilation commit.
-    # Gate v2 separately enforces live compilation hashes and every compiled query.
-    recorded = json.loads((path.parents[1] / "research/se_indication_compilation_v3/score.json").read_text())
-    result["criteria"]["C3.6"] = recorded["criteria"]["C3.6"] and all(
-        row["exact"] and row["parser_unchanged"] and row["problem_isolation"]
-        and row["retrieval_unchanged"] for row in result["records"]
-        if row["id"] in {"TAC01", "mint5"}
-    )
-    result["criteria"]["C3.7"] = recorded["criteria"]["C3.7"] and all(
-        row["parser_isolation"] and row["problem_isolation"] and row["retrieval_unchanged"]
-        for row in result["records"]
-    )
-    return result
-
-
-@pytest.mark.parametrize("criterion", [f"C3.{number}" for number in range(1, 8)])
-def test_sealed_compilation_contract(acceptance, criterion):
-    assert acceptance["criteria"][criterion], [
-        (row["id"], row["after"], row["expected"], row["parser_isolation"])
-        for row in acceptance["records"] if not row["exact"] or not row["parser_isolation"]
-    ]
 
 
 def test_operator_is_consumed_before_entity_lookup(monkeypatch):

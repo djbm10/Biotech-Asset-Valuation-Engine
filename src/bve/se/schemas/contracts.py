@@ -10,7 +10,7 @@ from datetime import date, datetime, timezone
 from enum import Enum
 from typing import Any, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_serializer, model_validator
 
 
 class StrictModel(BaseModel):
@@ -502,10 +502,25 @@ class RunMode(str, Enum):
     EVALUATION = "EVALUATION"
 
 
+class TargetReference(StrictModel):
+    """A target identity pinned to the resolver that certified it, not search text."""
+
+    entity_id: str = Field(pattern=r"^TARGET:.+")
+    ontology_version: str = Field(min_length=1)
+
+
 class TargetTerm(StrictModel):
     canonical_id: str = Field(min_length=1)
     label: str = Field(min_length=1)
     aliases: list[str] = Field(default_factory=list)
+    target_reference: TargetReference | None = None
+
+    @model_serializer(mode="wrap")
+    def serialize_reference(self, handler):
+        data = handler(self)
+        if self.target_reference is None:
+            data.pop("target_reference", None)
+        return data
 
 
 class TargetExpression(StrictModel):
@@ -514,7 +529,11 @@ class TargetExpression(StrictModel):
 
     @model_validator(mode="after")
     def validate_expression(self) -> "TargetExpression":
-        ids = [target.canonical_id.casefold() for target in self.targets]
+        ids = [
+            (target.target_reference.entity_id if target.target_reference else target.canonical_id)
+            .casefold()
+            for target in self.targets
+        ]
         if len(ids) != len(set(ids)):
             raise ValueError("target_expression contains duplicate canonical target IDs")
         if self.operator == TargetOperator.EXACT_COMBINATION and len(ids) < 2:

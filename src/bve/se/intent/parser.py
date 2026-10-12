@@ -25,6 +25,7 @@ from bve.se.intent.intent import INTENT_COMPILER_VERSION, IntentSpan, SearchInte
 from bve.se.ontology.modality import known_modalities, modality_aliases, normalize_modality
 from bve.se.ontology.resolver import ResolutionStatus
 from bve.se.ontology.targets import ontology_version, resolve_target
+from bve.se.ontology.target_reference import reference_for
 from bve.se.schemas.contracts import PhaseConstraintOperator, TargetOperator, TargetTerm
 
 #: Longest phrase the vocabularies contain (``t cell redirecting bispecific``).
@@ -300,6 +301,7 @@ def _apply_separator_safety(query: str, spans: list[IntentSpan]) -> list[IntentS
                     end=t_start + offset + len(cleaned),
                     kind=SpanKind.TARGET,
                     resolved_to=whole.entity.canonical_symbol,
+                    target_reference=reference_for(whole),
                     rule="separator_whole_name",
                     explanation=(
                         whole.basis.explain(whole.entity.canonical_symbol)
@@ -326,6 +328,7 @@ def _apply_separator_safety(query: str, spans: list[IntentSpan]) -> list[IntentS
                     "kind": SpanKind.RESIDUAL,
                     "resolved_to": None,
                     "rule": "separator_fragment_unconfirmed",
+                    "target_reference": None,
                     "explanation": None,
                 }
             )
@@ -519,6 +522,7 @@ def parse_query(query: str) -> SearchIntent:
                         end=end,
                         kind=SpanKind.TARGET,
                         resolved_to=result.entity.canonical_symbol,
+                        target_reference=reference_for(result),
                         rule=result.rule,
                         explanation=(
                             result.basis.explain(result.entity.canonical_symbol)
@@ -566,10 +570,13 @@ def parse_query(query: str) -> SearchIntent:
     for span in spans:
         if span.kind is not SpanKind.TARGET or not span.resolved_to:
             continue
-        if span.resolved_to.casefold() in seen_targets:
+        identity = (span.target_reference.entity_id
+                    if span.target_reference else span.resolved_to).casefold()
+        if identity in seen_targets:
             continue
-        seen_targets.add(span.resolved_to.casefold())
-        targets.append(TargetTerm(canonical_id=span.resolved_to, label=span.resolved_to))
+        seen_targets.add(identity)
+        targets.append(TargetTerm(canonical_id=span.resolved_to, label=span.resolved_to,
+                                  target_reference=span.target_reference))
 
     modalities = list(
         dict.fromkeys(

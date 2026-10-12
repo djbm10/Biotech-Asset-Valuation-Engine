@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from bve.se.ontology.target_reference import lookup_id
+
 from collections.abc import Iterable
 from typing import Any
 
@@ -271,7 +273,7 @@ def evaluate_target_expression(
         # with none of the queried targets among its members is incompatible with the
         # query. A queried target inside an entity is not evidence either way: UNKNOWN.
         fact = compatibility_facts[0]
-        required = {_target_key(target.canonical_id) for target in expression.targets}
+        required = {_target_key(lookup_id(target)) for target in expression.targets}
         members = {
             _target_key(member)
             for entity in fact.value
@@ -312,7 +314,7 @@ def evaluate_target_expression(
         )
 
     observed = {_target_key(value) for value in target_fact.value}
-    required = {_target_key(target.canonical_id) for target in expression.targets}
+    required = {_target_key(lookup_id(target)) for target in expression.targets}
     if expression.operator == TargetOperator.ANY:
         passed = bool(observed & required)
     elif expression.operator == TargetOperator.ALL:
