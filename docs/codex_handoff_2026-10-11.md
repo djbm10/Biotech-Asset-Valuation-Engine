@@ -1,3 +1,37 @@
+# 2026-10-12 TREATMENT_COHORT_ATTRIBUTION_REPRESENTATION v1 — FAILED / REVERTED
+
+Policy: `docs/se_policies/treatment_cohort_attribution_representation_v1.md`.
+Result: `research/se_treatment_cohort_attribution_representation_v1/result/summary.md`.
+Preregistration **bbf52e5**; candidate **56513a2**; scoring freeze **a17d3af**;
+formal failure **97a82c0**; normal implementation revert **98ed522**.
+
+R1 failed because the new frozen receipt labels overclaimed receipt of each
+alternative in “prednisone or prednisolone.” Both controls were incorrectly
+labeled REGIMEN_RECEIPT. The 33 adopted attribution-audit labels were not changed.
+R7's exact reader-output comparison also failed on pre-existing hash-dependent
+case-variant alias selection (`human_poc.py:389`). Neither failure was patched or
+rescored. Supplementary probes preserve all 98 reader decisions across three
+hash seeds; only alias capitalization differs. The formal R7 failure stands.
+
+R2–R6, R8 and R9 passed. Full candidate tests: **1,824 passed / 3 existing xfails**;
+Ruff clean. Restoration tests: **87 passed**. All **1,707** pre-existing tracked
+src/tests/scripts files and all **seven original result files** retain baseline
+hashes. Diff of src/tests/scripts against **7103da1** is empty. C056 remains
+unchanged, including the existing reader defect. No live runs or replays.
+
+Failed-candidate counts: **15 ownership / 13 receipt / 26 regimen receipt /
+44 unresolved**; these are not adopted relationships (two receipt labels fail
+grounding). All 65 negative expectations remain non-owning. The previously
+unresolved 14 still yield **nine regimen receipt / five unresolved / zero new
+ownership**. No human-PoC fact, gate, shortlist membership or ranking changed.
+
+**STOP further human-PoC recovery of these 14 until stronger sources or explicit
+structured result attribution exist.** Do not implement another attribution
+rule, fix alias ordering, retry this representation, or move to the next root
+cause under this milestone. Historical materializer/scorer require the reverted
+candidate model; archived source and exact failure evidence are retained.
+H6–H10 remain **UNRUN**; H16–H20 remain development evidence.
+
 # 2026-10-12 HUMAN_EFFICACY_TREATMENT_ATTRIBUTION_CONTRACT v1 — DESIGN COMPLETE
 
 Contract: `docs/se_policies/human_efficacy_treatment_attribution_contract_v1.md`.

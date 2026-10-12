@@ -1,0 +1,26 @@
+{
+  "decision": "FAILED_AND_REVERTED",
+  "preregistration_commit": "bbf52e5",
+  "candidate_commit": "56513a2",
+  "scoring_freeze_commit": "a17d3af",
+  "failure_result_commit": "97a82c0",
+  "revert_commit": "98ed522",
+  "formal_failures": [
+    "R1",
+    "R7"
+  ],
+  "formal_score_unchanged": true,
+  "protected_files_restored": 1707,
+  "production_tests_scripts_diff_vs_7103da1": "EMPTY",
+  "original_result_hashes_unchanged": 7,
+  "frozen_input_hashes_unchanged": true,
+  "targeted_restoration_tests_passed": 87,
+  "restoration_pytest_exit_code": 0,
+  "ruff_exit_code": 0,
+  "C056_reader_defect_preserved": true,
+  "live_runs": 0,
+  "replays": 0,
+  "H6_H10": "UNRUN",
+  "new_certifiable_ownership_for_14": 0,
+  "human_poc_implementation_ready": false
+}

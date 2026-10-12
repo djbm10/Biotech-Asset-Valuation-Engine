@@ -1,3 +1,5 @@
+**FINAL DECISION: FAILED / REVERTED.** Formal R1 and R7 failed; no representation adoption. See [complete result](../../research/se_treatment_cohort_attribution_representation_v1/result/summary.md). The preregistration below is preserved unchanged. Candidate `56513a2` was normally reverted in `98ed522`; source/tests/scripts match `7103da1`. Human-PoC recovery remains stopped pending stronger result-specific evidence.
+
 # TREATMENT_COHORT_ATTRIBUTION_REPRESENTATION v1
 
 ## Preregistration — frozen before implementation
