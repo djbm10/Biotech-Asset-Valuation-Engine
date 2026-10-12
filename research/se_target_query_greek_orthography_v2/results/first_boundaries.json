@@ -1,0 +1,1335 @@
+[
+  {
+    "id": "6aef26b4bd89b458d0ffbd75715ad0b48e656dbdb2fea0c4947ee5a50462328e",
+    "query": "Find clinical-stage MHC class I antigen HLA-B α chain therapies.",
+    "original_authority_name": "MHC class I antigen HLA-B alpha chain",
+    "whole_greek_name": "MHC class I antigen HLA-B α chain",
+    "authority_record_key": "open_targets:ENSG00000234745",
+    "full_name_query_resolution": {
+      "status": "RESOLVED",
+      "entity_id": "TARGET:HLA-B",
+      "basis": {
+        "observed_query": "MHC class I antigen HLA-B α chain",
+        "matched_alias": "MHC class I antigen HLA-B alpha chain",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000234745"
+        ],
+        "identifier_edges": [
+          "uniprot:P01889"
+        ],
+        "rule": "target_query_greek_orthography_v2"
+      }
+    },
+    "original_full_name_resolution": {
+      "status": "RESOLVED",
+      "entity_id": "TARGET:HLA-B"
+    },
+    "resolver_calls": [
+      "Find clinical-stage",
+      "clinical-stage MHC",
+      "MHC class",
+      "class I",
+      "I antigen",
+      "antigen HLA-B",
+      "HLA-B α",
+      "α chain",
+      "MHC",
+      "class",
+      "I",
+      "antigen",
+      "HLA-B"
+    ],
+    "whole_name_was_offered_to_resolver": false,
+    "before": {
+      "frame": "{}",
+      "query": "Find clinical-stage MHC class I antigen HLA-B α chain therapies.",
+      "targets": [
+        "HLA-C",
+        "HLA-B"
+      ],
+      "operator": "ANY",
+      "ambiguous_terms": [],
+      "blockers": [],
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "MHC",
+          "start": 20,
+          "end": 23,
+          "kind": "TARGET",
+          "resolved_to": "HLA-C",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'MHC' -> symbol alias 'MHC' asserted by open_targets -> HLA-C -> merged on uniprot:P10321"
+        },
+        {
+          "text": "class",
+          "start": 24,
+          "end": 29,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "I",
+          "start": 30,
+          "end": 31,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "antigen",
+          "start": 32,
+          "end": 39,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "HLA-B",
+          "start": 40,
+          "end": 45,
+          "kind": "TARGET",
+          "resolved_to": "HLA-B",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'HLA-B' -> symbol alias 'HLA-B' asserted by chembl, open_targets -> HLA-B -> merged on uniprot:P01889"
+        },
+        {
+          "text": "α",
+          "start": 46,
+          "end": 47,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "chain",
+          "start": 48,
+          "end": 53,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        }
+      ]
+    },
+    "after": {
+      "original_query": "Find clinical-stage MHC class I antigen HLA-B α chain therapies.",
+      "compiler_version": "intent_v1__target_reference_v1__target_query_greek_v2",
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "MHC",
+          "start": 20,
+          "end": 23,
+          "kind": "TARGET",
+          "resolved_to": "HLA-C",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'MHC' -> symbol alias 'MHC' asserted by open_targets -> HLA-C -> merged on uniprot:P10321",
+          "target_reference": {
+            "entity_id": "TARGET:HLA-C",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "text": "class",
+          "start": 24,
+          "end": 29,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "I",
+          "start": 30,
+          "end": 31,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "antigen",
+          "start": 32,
+          "end": 39,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "HLA-B",
+          "start": 40,
+          "end": 45,
+          "kind": "TARGET",
+          "resolved_to": "HLA-B",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'HLA-B' -> symbol alias 'HLA-B' asserted by chembl, open_targets -> HLA-B -> merged on uniprot:P01889",
+          "target_reference": {
+            "entity_id": "TARGET:HLA-B",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "text": "α chain",
+          "start": 46,
+          "end": 53,
+          "kind": "TARGET",
+          "resolved_to": "FCGRT",
+          "rule": "target_query_greek_orthography_v2",
+          "candidates": [],
+          "explanation": "'α chain' -> symbol alias 'alpha-chain' asserted by open_targets -> FCGRT -> merged on uniprot:P55899",
+          "target_reference": {
+            "entity_id": "TARGET:FCGRT",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        }
+      ],
+      "targets": [
+        {
+          "canonical_id": "HLA-C",
+          "label": "HLA-C",
+          "aliases": [],
+          "target_reference": {
+            "entity_id": "TARGET:HLA-C",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "canonical_id": "HLA-B",
+          "label": "HLA-B",
+          "aliases": [],
+          "target_reference": {
+            "entity_id": "TARGET:HLA-B",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "canonical_id": "FCGRT",
+          "label": "FCGRT",
+          "aliases": [],
+          "target_reference": {
+            "entity_id": "TARGET:FCGRT",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        }
+      ],
+      "target_operator": "ANY",
+      "modalities": [],
+      "phases": [],
+      "phase_operator": "EXACT",
+      "conjunction_stated": false,
+      "statuses": [],
+      "human_poc_required": false,
+      "minimum_stage": "PHASE_1",
+      "unresolved_scientific_terms": [],
+      "residual_terms": [
+        "class",
+        "I",
+        "antigen"
+      ],
+      "ambiguous_terms": [],
+      "warnings": [
+        "target operator ANY inferred by default_disjunction",
+        "unrecognized terms carried as free text, not as resolved criteria: class, I, antigen"
+      ]
+    },
+    "source_records": [
+      {
+        "source": "chembl",
+        "source_id": "CHEMBL6066444",
+        "entity_type": "TARGET",
+        "canonical_symbol": "HLA-B",
+        "label": "HLA class I histocompatibility antigen, B alpha chain",
+        "aliases": [
+          {
+            "value": "HLA-B",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "HLA-B",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "HLAB",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "HLA class I histocompatibility antigen, B alpha chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Human leukocyte antigen B",
+            "alias_type": "SYNONYM"
+          }
+        ],
+        "xrefs": {
+          "chembl": [
+            "CHEMBL6066444"
+          ],
+          "uniprot": [
+            "P01889"
+          ]
+        }
+      },
+      {
+        "source": "open_targets",
+        "source_id": "ENSG00000234745",
+        "entity_type": "TARGET",
+        "canonical_symbol": "HLA-B",
+        "label": "major histocompatibility complex, class I, B",
+        "aliases": [
+          {
+            "value": "HLA class I histocompatibility antigen, B alpha chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "HLA-B",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "HLAB",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Human leukocyte antigen B",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "AS",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "B-4901",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "major histocompatibility complex, class I, B",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "HLA class I antigen HLA-B",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "MHC HLA-B cell surface glycoprotein",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "MHC HLA-B transmembrane glycoprotein",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "MHC class 1 antigen",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "MHC class I antigen HLA-B alpha chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "MHC class I antigen HLA-B heavy chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "MHC class I antigen SHCHA",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "MHC class I molecule",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "leukocyte antigen class I-B",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "HLA-B",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "HLAB",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "AS",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "B-4901",
+            "alias_type": "SYMBOL"
+          }
+        ],
+        "xrefs": {
+          "ensembl": [
+            "ENSG00000234745"
+          ],
+          "uniprot": [
+            "P01889",
+            "A0A1W2PP29",
+            "A0A8Q3SIV3",
+            "E5FQ95",
+            "A0A2I6Q7B5",
+            "B0V0B8",
+            "G3GN01",
+            "O02862",
+            "O02956",
+            "O02957",
+            "O02960",
+            "O19555",
+            "O19556",
+            "O19595",
+            "O19615",
+            "O19624",
+            "O19625",
+            "O19627",
+            "O19641",
+            "O19651",
+            "O19675",
+            "O19692",
+            "O19758",
+            "O19779",
+            "O19783",
+            "O46702",
+            "O62897",
+            "O62901",
+            "O62915",
+            "O62917",
+            "O62919",
+            "O77933",
+            "O77959",
+            "O78053",
+            "O78138",
+            "O78160",
+            "O78163",
+            "O78172",
+            "O78173",
+            "O78180",
+            "O78217",
+            "O95730",
+            "O98140",
+            "P01890",
+            "P03989",
+            "P10317",
+            "P10318",
+            "P10319",
+            "P10320",
+            "P18463",
+            "P18464",
+            "P18465",
+            "P19373",
+            "P30460",
+            "P30461",
+            "P30462",
+            "P30463",
+            "P30464",
+            "P30465",
+            "P30466",
+            "P30467",
+            "P30468",
+            "P30469",
+            "P30470",
+            "P30471",
+            "P30472",
+            "P30473",
+            "P30474",
+            "P30475",
+            "P30476",
+            "P30477",
+            "P30478",
+            "P30479",
+            "P30480",
+            "P30481",
+            "P30482",
+            "P30483",
+            "P30484",
+            "P30485",
+            "P30486",
+            "P30487",
+            "P30488",
+            "P30489",
+            "P30490",
+            "P30491",
+            "P30492",
+            "P30493",
+            "P30494",
+            "P30495",
+            "P30496",
+            "P30497",
+            "P30498",
+            "P30513",
+            "P30685",
+            "P79489",
+            "P79490",
+            "P79496",
+            "P79504",
+            "P79523",
+            "P79524",
+            "P79542",
+            "P79555",
+            "Q04826",
+            "Q08136",
+            "Q29633",
+            "Q29636",
+            "Q29638",
+            "Q29661",
+            "Q29665",
+            "Q29678",
+            "Q29679",
+            "Q29681",
+            "Q29693",
+            "Q29695",
+            "Q29697",
+            "Q29718",
+            "Q29742",
+            "Q29749",
+            "Q29762",
+            "Q29764",
+            "Q29829",
+            "Q29836",
+            "Q29842",
+            "Q29845",
+            "Q29846",
+            "Q29847",
+            "Q29848",
+            "Q29850",
+            "Q29851",
+            "Q29852",
+            "Q29854",
+            "Q29855",
+            "Q29857",
+            "Q29858",
+            "Q29861",
+            "Q29924",
+            "Q29925",
+            "Q29933",
+            "Q29935",
+            "Q29936",
+            "Q29940",
+            "Q29953",
+            "Q29961",
+            "Q29982",
+            "Q30173",
+            "Q30198",
+            "Q31603",
+            "Q31610",
+            "Q31612",
+            "Q31613",
+            "Q546L8",
+            "Q546M4",
+            "Q5JP37",
+            "Q5QT24",
+            "Q5RIP1",
+            "Q5SRJ2",
+            "Q5TK76",
+            "Q5TK77",
+            "Q860I4",
+            "Q861B5",
+            "Q8HWF0",
+            "Q8MGQ3",
+            "Q8MHN4",
+            "Q8SNC5",
+            "Q95343",
+            "Q95344",
+            "Q95365",
+            "Q95369",
+            "Q95392",
+            "Q95HA3",
+            "Q95HA8",
+            "Q95HM9",
+            "Q95IA6",
+            "Q95IB8",
+            "Q95IH5",
+            "Q95J00",
+            "Q96IT9",
+            "Q9BCM6",
+            "Q9BCM7",
+            "Q9BCM8",
+            "Q9BD06",
+            "Q9BD38",
+            "Q9BD43",
+            "Q9GIL3",
+            "Q9GIM3",
+            "Q9GIX1",
+            "Q9GIY5",
+            "Q9GIZ0",
+            "Q9GIZ9",
+            "Q9GJ00",
+            "Q9GJ17",
+            "Q9GJ20",
+            "Q9GJ23",
+            "Q9GJ31",
+            "Q9GJF0",
+            "Q9GJM7",
+            "Q9MX21",
+            "Q9MY37",
+            "Q9MY42",
+            "Q9MY43",
+            "Q9MY61",
+            "Q9MY75",
+            "Q9MY78",
+            "Q9MY79",
+            "Q9MY84",
+            "Q9MY92",
+            "Q9MY93",
+            "Q9MY94",
+            "Q9MYB8",
+            "Q9MYC3",
+            "Q9MYC7",
+            "Q9MYF4",
+            "Q9MYG1",
+            "Q9TP35",
+            "Q9TP36",
+            "Q9TP37",
+            "Q9TP95",
+            "Q9TPQ7",
+            "Q9TPQ9",
+            "Q9TPR2",
+            "Q9TPR4",
+            "Q9TPS6",
+            "Q9TPT2",
+            "Q9TPT4",
+            "Q9TPT6",
+            "Q9TPV2",
+            "Q9TQG1",
+            "Q9TQH3",
+            "Q9TQH6",
+            "Q9TQH7",
+            "Q9TQH8",
+            "Q9TQH9",
+            "Q9TQM2",
+            "Q9TQN4",
+            "Q9TQN6",
+            "Q9UQS8",
+            "Q9UQT0"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "ea1cfa8bfdb11793ecafddffd665c28103c3badbd5c933bd32c1fddb059601e9",
+    "query": "Find clinical-stage C3 and PZP-like α-2-macroglobulin domain-containing protein 4 therapies.",
+    "original_authority_name": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+    "whole_greek_name": "C3 and PZP-like α-2-macroglobulin domain-containing protein 4",
+    "authority_record_key": "open_targets:ENSG00000106804",
+    "full_name_query_resolution": {
+      "status": "RESOLVED",
+      "entity_id": "TARGET:C5",
+      "basis": {
+        "observed_query": "C3 and PZP-like α-2-macroglobulin domain-containing protein 4",
+        "matched_alias": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL2364163",
+          "open_targets:ENSG00000106804"
+        ],
+        "identifier_edges": [
+          "uniprot:P01031"
+        ],
+        "rule": "target_query_greek_orthography_v2"
+      }
+    },
+    "original_full_name_resolution": {
+      "status": "RESOLVED",
+      "entity_id": "TARGET:C5"
+    },
+    "resolver_calls": [
+      "Find clinical-stage",
+      "clinical-stage C3",
+      "C3 and",
+      "and PZP-like",
+      "PZP-like α-2-macroglobulin",
+      "α-2-macroglobulin domain-containing",
+      "domain-containing protein",
+      "protein 4",
+      "4 therapies",
+      "C3",
+      "PZP-like",
+      "α-2-macroglobulin",
+      "domain-containing",
+      "protein",
+      "4"
+    ],
+    "whole_name_was_offered_to_resolver": false,
+    "before": {
+      "frame": "{}",
+      "query": "Find clinical-stage C3 and PZP-like α-2-macroglobulin domain-containing protein 4 therapies.",
+      "targets": [
+        "C3",
+        "A2MP1"
+      ],
+      "operator": "ALL",
+      "ambiguous_terms": [],
+      "blockers": [],
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "C3",
+          "start": 20,
+          "end": 22,
+          "kind": "TARGET",
+          "resolved_to": "C3",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'C3' -> symbol alias 'C3' asserted by chembl, open_targets -> C3 -> merged on uniprot:P01024"
+        },
+        {
+          "text": "PZP-like",
+          "start": 27,
+          "end": 35,
+          "kind": "TARGET",
+          "resolved_to": "A2MP1",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'PZP-like' -> synonym alias 'PZP like' asserted by open_targets -> A2MP1"
+        },
+        {
+          "text": "α-2-macroglobulin",
+          "start": 36,
+          "end": 53,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "domain-containing",
+          "start": 54,
+          "end": 71,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "protein",
+          "start": 72,
+          "end": 79,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        }
+      ]
+    },
+    "after": {
+      "original_query": "Find clinical-stage C3 and PZP-like α-2-macroglobulin domain-containing protein 4 therapies.",
+      "compiler_version": "intent_v1__target_reference_v1__target_query_greek_v2",
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "C3",
+          "start": 20,
+          "end": 22,
+          "kind": "TARGET",
+          "resolved_to": "C3",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'C3' -> symbol alias 'C3' asserted by chembl, open_targets -> C3 -> merged on uniprot:P01024",
+          "target_reference": {
+            "entity_id": "TARGET:C3",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "text": "PZP-like",
+          "start": 27,
+          "end": 35,
+          "kind": "TARGET",
+          "resolved_to": "A2MP1",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'PZP-like' -> synonym alias 'PZP like' asserted by open_targets -> A2MP1",
+          "target_reference": {
+            "entity_id": "TARGET:A2MP1",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "text": "α-2-macroglobulin",
+          "start": 36,
+          "end": 53,
+          "kind": "TARGET",
+          "resolved_to": "A2M",
+          "rule": "target_query_greek_orthography_v2",
+          "candidates": [],
+          "explanation": "'α-2-macroglobulin' -> approved_name alias 'Alpha-2-macroglobulin' asserted by chembl, open_targets -> A2M -> merged on uniprot:P01023",
+          "target_reference": {
+            "entity_id": "TARGET:A2M",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "text": "domain-containing",
+          "start": 54,
+          "end": 71,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "protein",
+          "start": 72,
+          "end": 79,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        }
+      ],
+      "targets": [
+        {
+          "canonical_id": "C3",
+          "label": "C3",
+          "aliases": [],
+          "target_reference": {
+            "entity_id": "TARGET:C3",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "canonical_id": "A2MP1",
+          "label": "A2MP1",
+          "aliases": [],
+          "target_reference": {
+            "entity_id": "TARGET:A2MP1",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "canonical_id": "A2M",
+          "label": "A2M",
+          "aliases": [],
+          "target_reference": {
+            "entity_id": "TARGET:A2M",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        }
+      ],
+      "target_operator": "ALL",
+      "modalities": [],
+      "phases": [],
+      "phase_operator": "EXACT",
+      "conjunction_stated": false,
+      "statuses": [],
+      "human_poc_required": false,
+      "minimum_stage": "PHASE_1",
+      "unresolved_scientific_terms": [],
+      "residual_terms": [
+        "domain-containing",
+        "protein"
+      ],
+      "ambiguous_terms": [],
+      "warnings": [
+        "target operator ALL inferred by conjunctive_connector",
+        "unrecognized terms carried as free text, not as resolved criteria: domain-containing, protein"
+      ]
+    },
+    "source_records": [
+      {
+        "source": "chembl",
+        "source_id": "CHEMBL2364163",
+        "entity_type": "TARGET",
+        "canonical_symbol": "C5",
+        "label": "Complement C5",
+        "aliases": [
+          {
+            "value": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "C5",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "C5a anaphylatoxin",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Complement C5",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Complement C5 alpha chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Complement C5 alpha' chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Complement C5b",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Complement C5 beta chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "CPAMD4",
+            "alias_type": "SYNONYM"
+          }
+        ],
+        "xrefs": {
+          "chembl": [
+            "CHEMBL2364163"
+          ],
+          "uniprot": [
+            "P01031"
+          ]
+        }
+      },
+      {
+        "source": "open_targets",
+        "source_id": "ENSG00000106804",
+        "entity_type": "TARGET",
+        "canonical_symbol": "C5",
+        "label": "complement C5",
+        "aliases": [
+          {
+            "value": "Complement C5",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Complement C5 beta chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Complement C5 alpha chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "C5a anaphylatoxin",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Complement C5b",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "C5",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "CPAMD4",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "C5a",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "C5b",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "Complement C5 alpha' chain",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "prepro-C5",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "C5D",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "ECLZB",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "anaphylatoxin C5a analog",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "complement component 5",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "C5",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "CPAMD4",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "C5a",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "C5b",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "C5D",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "ECLZB",
+            "alias_type": "SYMBOL"
+          }
+        ],
+        "xrefs": {
+          "ensembl": [
+            "ENSG00000106804"
+          ],
+          "uniprot": [
+            "P01031",
+            "A0A8Q3SID6",
+            "A0A8Q3SIH6",
+            "A0A8V8TMU5",
+            "A0A8V8TN26",
+            "Q14CJ0",
+            "Q27I61"
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "d2696768a95cc7fba1b7513193a338b6ee39c3b39b150cb886320040c548dd0c",
+    "query": "Find clinical-stage CD8 β opposite therapies.",
+    "original_authority_name": "CD8 beta opposite",
+    "whole_greek_name": "CD8 β opposite",
+    "authority_record_key": "open_targets:ENSG00000115593",
+    "full_name_query_resolution": {
+      "status": "RESOLVED",
+      "entity_id": "TARGET:SMYD1",
+      "basis": {
+        "observed_query": "CD8 β opposite",
+        "matched_alias": "CD8 beta opposite",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000115593"
+        ],
+        "identifier_edges": [
+          "uniprot:Q8NB12"
+        ],
+        "rule": "target_query_greek_orthography_v2"
+      }
+    },
+    "original_full_name_resolution": {
+      "status": "RESOLVED",
+      "entity_id": "TARGET:SMYD1"
+    },
+    "resolver_calls": [
+      "Find clinical-stage",
+      "clinical-stage CD8",
+      "CD8 β",
+      "opposite therapies",
+      "opposite"
+    ],
+    "whole_name_was_offered_to_resolver": false,
+    "before": {
+      "frame": "{}",
+      "query": "Find clinical-stage CD8 β opposite therapies.",
+      "targets": [
+        "CD8A"
+      ],
+      "operator": "ANY",
+      "ambiguous_terms": [],
+      "blockers": [],
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "CD8",
+          "start": 20,
+          "end": 23,
+          "kind": "TARGET",
+          "resolved_to": "CD8A",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'CD8' -> symbol alias 'CD8' asserted by open_targets -> CD8A"
+        },
+        {
+          "text": "β",
+          "start": 24,
+          "end": 25,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "opposite",
+          "start": 26,
+          "end": 34,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        }
+      ]
+    },
+    "after": {
+      "original_query": "Find clinical-stage CD8 β opposite therapies.",
+      "compiler_version": "intent_v1__target_reference_v1__target_query_greek_v2",
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "CD8 β",
+          "start": 20,
+          "end": 25,
+          "kind": "TARGET",
+          "resolved_to": "CD8B",
+          "rule": "target_query_greek_orthography_v2",
+          "candidates": [],
+          "explanation": "'CD8 β' -> symbol alias 'CD8beta' asserted by open_targets -> CD8B",
+          "target_reference": {
+            "entity_id": "TARGET:CD8B",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        },
+        {
+          "text": "opposite",
+          "start": 26,
+          "end": 34,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        }
+      ],
+      "targets": [
+        {
+          "canonical_id": "CD8B",
+          "label": "CD8B",
+          "aliases": [],
+          "target_reference": {
+            "entity_id": "TARGET:CD8B",
+            "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+          }
+        }
+      ],
+      "target_operator": "ANY",
+      "modalities": [],
+      "phases": [],
+      "phase_operator": "EXACT",
+      "conjunction_stated": false,
+      "statuses": [],
+      "human_poc_required": false,
+      "minimum_stage": "PHASE_1",
+      "unresolved_scientific_terms": [],
+      "residual_terms": [
+        "opposite"
+      ],
+      "ambiguous_terms": [],
+      "warnings": [
+        "unrecognized terms carried as free text, not as resolved criteria: opposite"
+      ]
+    },
+    "source_records": [
+      {
+        "source": "chembl",
+        "source_id": "CHEMBL5465333",
+        "entity_type": "TARGET",
+        "canonical_symbol": "SMYD1",
+        "label": "Histone-lysine N-methyltransferase SMYD1",
+        "aliases": [
+          {
+            "value": "2.1.1.354",
+            "alias_type": "XREF"
+          },
+          {
+            "value": "Histone-lysine N-methyltransferase SMYD1",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "SET and MYND domain-containing protein 1",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "SMYD1",
+            "alias_type": "SYMBOL"
+          }
+        ],
+        "xrefs": {
+          "chembl": [
+            "CHEMBL5465333"
+          ],
+          "uniprot": [
+            "Q8NB12"
+          ]
+        }
+      },
+      {
+        "source": "open_targets",
+        "source_id": "ENSG00000115593",
+        "entity_type": "TARGET",
+        "canonical_symbol": "SMYD1",
+        "label": "SET and MYND domain containing 1",
+        "aliases": [
+          {
+            "value": "Histone-lysine N-methyltransferase SMYD1",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "SMYD1",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "BOP",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "ZMYND22",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "KMT3D",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "SET and MYND domain-containing protein 1",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "ZMYND18",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "CD8 beta opposite",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "zinc finger, MYND domain containing 18",
+            "alias_type": "SYNONYM"
+          },
+          {
+            "value": "SMYD1",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "BOP",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "ZMYND22",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "KMT3D",
+            "alias_type": "SYMBOL"
+          },
+          {
+            "value": "ZMYND18",
+            "alias_type": "SYMBOL"
+          }
+        ],
+        "xrefs": {
+          "ensembl": [
+            "ENSG00000115593"
+          ],
+          "uniprot": [
+            "Q8NB12",
+            "C9JUP3",
+            "E9PHG3",
+            "A0AV30",
+            "A6NE13"
+          ]
+        }
+      }
+    ]
+  }
+]

@@ -55,3 +55,7 @@ G10: Production changes restricted to a new query-target orthography module, the
 ## Decision
 
 Commit these rules and all pinned raw/biological expectations before implementing. Focused development precedes one formal evaluation. On any formal criterion failure, record the failure and normally revert; no post-result patching or label changes. On all-pass, adopt and report exact admissions/abstentions, source coverage limitations and commits. Parent target-recognition work remains incomplete until common-name admission is separately adopted/reverted; do not run primary holdouts yet.
+
+## Frozen outcome — FAILED
+
+Candidate **e3ad3fd** fails G3/G5/G6/G9. Full tests: **1,926 passed / three failed / three existing xfails**, Ruff clean. All 704 raw oracle outcomes and 4,032 non-proposal parser frames match, but 21 Greek query frames (three distinct names) gain an unrelated target from an internal phrase. Two separator controls also fail; one frozen synthetic expected candidate ID is erroneous. Exact source checks, traces, oracles and test output are preserved in `research/se_target_query_greek_orthography_v2/results/`. No post-result patch or relabeling. Normally revert the candidate, then prioritize diagnosis-only authority-name span ownership over further alias coverage. See the restoration record for the completed revert.

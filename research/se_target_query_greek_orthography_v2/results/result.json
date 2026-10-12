@@ -1,0 +1,70 @@
+{
+  "milestone": "TARGET_QUERY_GREEK_ORTHOGRAPHY v2",
+  "status": "FAILED \u2014 REVERT REQUIRED",
+  "preregistration": "8ee443a",
+  "candidate": "e3ad3fd",
+  "criteria": {
+    "G1": true,
+    "G2": true,
+    "G3": false,
+    "G4": true,
+    "G5": false,
+    "G6": false,
+    "G7": true,
+    "G8": true,
+    "G9": false,
+    "G10": true
+  },
+  "full_tests": {
+    "tests": 1932,
+    "failures": 3,
+    "errors": 0,
+    "skipped": 3
+  },
+  "passed": 1926,
+  "ruff_clean": true,
+  "raw_oracle_matches": 704,
+  "raw_oracle_total": 704,
+  "preserved_non_proposal_parses": 4032,
+  "unsafe_greek_frames": 21,
+  "unsafe_unique_names": 3,
+  "test_failures": [
+    {
+      "class": "tests.se.test_query_greek_orthography",
+      "name": "test_frozen_spelling_decisions[Contested\\u03b1]",
+      "failure": "authority = 'chembl_greek-fixture-v1__open_targets_greek-fixture-v1__resolver_v2'\ncase = {'boundary': 'ineligible_competitor_is_not_removed', 'candidates': ['TARGET:GQ01', 'TARGET:GQ32'], 'entity': None, 'query': 'Contested\u03b1', ...}\n\n    @pytest.mark.parametrize('case', CONTROLS['raw_cases'], ids=lambda r: r['query'])\n    def test_frozen_spelling_decisions(authority, case):\n        before = resolve_target(case['query']).model_dump(mode='json')\n        result = resolve_query_target(case['query'])\n>       assert decision(result) == {k: case[k] for k in ['status', 'entity', 'candidates']}\nE       AssertionError: assert {'candidates'...: 'AMBIGUOUS'} == {'candidates'...: 'AMBIGUOUS'}\nE         \nE         Omitting 2 identical items, use -vv to show\nE         Differing items:\nE         {'candidates': ['TARGET:GQ01', 'TARGET:GQ31']} != {'candidates': ['TARGET:GQ01', 'TARGET:GQ32']}\nE         Use -v to get more diff\n\ntests/se/test_query_greek_orthography.py:39: AssertionError"
+    },
+    {
+      "class": "tests.se.test_query_greek_orthography",
+      "name": "test_frozen_parser_boundaries[Find clinical-stage Anchorase\\u03b1/Anchorase\\u03b2 antibodies for lung cancer.]",
+      "failure": "authority = 'chembl_greek-fixture-v1__open_targets_greek-fixture-v1__resolver_v2'\ncase = {'baseline_query': 'Find clinical-stage GQ01/GQ02 antibodies for lung cancer.', 'expected_targets': ['GQ01', 'GQ02'], 'query': 'Find clinical-stage Anchorase\u03b1/Anchorase\u03b2 antibodies for lung cancer.'}\n\n    @pytest.mark.parametrize('case', CONTROLS['queries'], ids=lambda r: r['query'])\n    def test_frozen_parser_boundaries(authority, case):\n        original = parse_query(case['baseline_query'])\n        intent = parse_query(case['query'])\n>       assert [t.canonical_id for t in intent.targets] == case['expected_targets']\nE       AssertionError: assert [] == ['GQ01', 'GQ02']\nE         \nE         Right contains 2 more items, first extra item: 'GQ01'\nE         Use -v to get more diff\n\ntests/se/test_query_greek_orthography.py:53: AssertionError"
+    },
+    {
+      "class": "tests.se.test_query_greek_orthography",
+      "name": "test_frozen_parser_boundaries[Find clinical-stage Anchorase\\u03b1\\xd7Anchorase\\u03b2 antibodies for lung cancer.]",
+      "failure": "authority = 'chembl_greek-fixture-v1__open_targets_greek-fixture-v1__resolver_v2'\ncase = {'baseline_query': 'Find clinical-stage GQ01\u00d7GQ02 antibodies for lung cancer.', 'expected_targets': ['GQ01', 'GQ02'], 'query': 'Find clinical-stage Anchorase\u03b1\u00d7Anchorase\u03b2 antibodies for lung cancer.'}\n\n    @pytest.mark.parametrize('case', CONTROLS['queries'], ids=lambda r: r['query'])\n    def test_frozen_parser_boundaries(authority, case):\n        original = parse_query(case['baseline_query'])\n        intent = parse_query(case['query'])\n>       assert [t.canonical_id for t in intent.targets] == case['expected_targets']\nE       AssertionError: assert [] == ['GQ01', 'GQ02']\nE         \nE         Right contains 2 more items, first extra item: 'GQ01'\nE         Use -v to get more diff\n\ntests/se/test_query_greek_orthography.py:53: AssertionError"
+    }
+  ],
+  "frozen_inputs_unchanged": {
+    "research/se_target_query_greek_orthography_v1/authority_oracle.json": true,
+    "research/se_target_query_greek_orthography_v1/synthetic_authority.json": true,
+    "research/se_target_query_greek_orthography_v1/synthetic_controls.json": true,
+    "research/se_target_query_greek_orthography_v1/synthetic_manifest.json": true,
+    "research/se_target_query_greek_orthography_v1/authority_oracle_manifest.json": true,
+    "research/se_target_query_alias_coverage_v1/greek_authority_form_diagnosis.json": true,
+    "query_reference.json": true
+  },
+  "changed_files": [
+    "scripts/evaluate_target_reference_v1.py",
+    "src/bve/se/intent/intent.py",
+    "src/bve/se/intent/parser.py",
+    "src/bve/se/ontology/query_targets.py",
+    "tests/se/test_query_greek_orthography.py"
+  ],
+  "failure_boundaries": [
+    "G5: target lookup is capped at two tokens; three full authority names are never submitted and internal aliases introduce unrelated targets across 21 frames.",
+    "G6: separator lookbehind accepts ASCII only; Greek-ending slash/multiplication forms are not split. Parser changes were outside the frozen alias scope.",
+    "G3: one frozen synthetic candidate ID was wrong: source election keeps the first symbol per source, not the last. Expected GQ32 does not exist as a canonical entity; actual unsafe competitor is GQ31. No label correction was made."
+  ],
+  "disposition": "Normally revert e3ad3fd; preserve all labels, candidate code and observed outcomes. Diagnose authority-name span ownership before another alias attempt; Unicode separator handling stays separate."
+}

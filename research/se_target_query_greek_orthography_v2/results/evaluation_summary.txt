@@ -1,0 +1,34 @@
+{
+  "raw_matches": 704,
+  "raw_total": 704,
+  "global_changes": 0,
+  "non_proposal_parses": 4032,
+  "non_proposal_differences": 0,
+  "greek_parses": 672,
+  "unsafe_greek_parses": 21,
+  "changed_controls": [
+    {
+      "text": "IL-4R\u03b1",
+      "unchanged": false,
+      "targets": [
+        "IL4R"
+      ]
+    }
+  ],
+  "diagnostic": {
+    "query": "Find clinical-stage anti-IL-4R\u03b1 antibodies for atopic dermatitis.",
+    "targets": [
+      "TARGET:IL4R"
+    ],
+    "plan_count": 3,
+    "namespace_literals": false,
+    "source_targets": [
+      "IL4R"
+    ],
+    "factor_XI_status": {
+      "status": "UNRESOLVED",
+      "entity_id": null,
+      "candidates": []
+    }
+  }
+}

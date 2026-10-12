@@ -1,0 +1,16 @@
+{
+  "README.md": "6f22c43daceb7d0605ba49884d25a3344a3995af37e723f978b402db9bbd63ce",
+  "check_greek_query_determinism.py": "0a306854d060887f173e459135e1df61cd4eee47b070aecfd44ce9747ab79175",
+  "determinism.json": "7851fe402997b1e3f50965e67c2a5042bb12a6d20d20614f1d397d0ff66c693f",
+  "evaluate_greek_query_v2.py": "8ce59a1071aed76a2ee19352a6cf1cc79a6d6bb07bad314feee1997272a351bd",
+  "evaluation.json": "036269757c797e67c35eb3f2a5ca95a2f567b5c6311014a2e4822078f0a79107",
+  "evaluation_summary.txt": "7ad34499168d8c6f59c2de74e8efdfe14f68ce0bc9bc71fac7f8ba485626e031",
+  "first_boundaries.json": "b9efc2fda24dea26ecc3faa431f2a6b47ffc556fb0ce4698fc443f2b6ea11a48",
+  "first_boundaries_summary.txt": "e22c0a664f4950adc7788edeb5c952546389bef6aa0f8bed12aa7767befbc25f",
+  "focused_tests.txt": "4f313e1dc119def99ba75f592ce62fe7743eb9c568ccdca128f765c073bfdf05",
+  "full_tests.txt": "1c44dc518142695d3a7c97b913bfc395e67b6238ab8f8ba7d70f53e7efb216c7",
+  "full_tests.xml": "bcb0fdcc4375f743b2ad90d59f50d146321cc8b76a67de75237e65f738e13940",
+  "result.json": "8e7117a341a4a09563473d1834e528943594e0b2ed137aad6f5324a2627516ea",
+  "ruff.txt": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+  "trace_greek_query_boundaries.py": "cb4b67160d5eed416ee6ab7cbc94d407e6e416419c36e4bbf5bf6fa983b5f13c"
+}

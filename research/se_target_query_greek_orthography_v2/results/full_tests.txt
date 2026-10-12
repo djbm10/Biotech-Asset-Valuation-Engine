@@ -1,0 +1,88 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 11%]
+................................x....................................... [ 14%]
+........................................................................ [ 18%]
+........................................................................ [ 22%]
+........................................................................ [ 26%]
+........................................................................ [ 29%]
+........................................................................ [ 33%]
+........................................................................ [ 37%]
+...xx................................................................... [ 40%]
+........................................................................ [ 44%]
+........................................................................ [ 48%]
+........................................................................ [ 52%]
+........................................................................ [ 55%]
+........................................................................ [ 59%]
+........................................................................ [ 63%]
+........................................................................ [ 67%]
+.........................................................F........FF.... [ 70%]
+........................................................................ [ 74%]
+........................................................................ [ 78%]
+........................................................................ [ 81%]
+........................................................................ [ 85%]
+........................................................................ [ 89%]
+........................................................................ [ 93%]
+........................................................................ [ 96%]
+............................................................             [100%]
+=================================== FAILURES ===================================
+_______________ test_frozen_spelling_decisions[Contested\u03b1] ________________
+
+authority = 'chembl_greek-fixture-v1__open_targets_greek-fixture-v1__resolver_v2'
+case = {'boundary': 'ineligible_competitor_is_not_removed', 'candidates': ['TARGET:GQ01', 'TARGET:GQ32'], 'entity': None, 'query': 'Contestedα', ...}
+
+    @pytest.mark.parametrize('case', CONTROLS['raw_cases'], ids=lambda r: r['query'])
+    def test_frozen_spelling_decisions(authority, case):
+        before = resolve_target(case['query']).model_dump(mode='json')
+        result = resolve_query_target(case['query'])
+>       assert decision(result) == {k: case[k] for k in ['status', 'entity', 'candidates']}
+E       AssertionError: assert {'candidates'...: 'AMBIGUOUS'} == {'candidates'...: 'AMBIGUOUS'}
+E         
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'candidates': ['TARGET:GQ01', 'TARGET:GQ31']} != {'candidates': ['TARGET:GQ01', 'TARGET:GQ32']}
+E         Use -v to get more diff
+
+tests/se/test_query_greek_orthography.py:39: AssertionError
+_ test_frozen_parser_boundaries[Find clinical-stage Anchorase\u03b1/Anchorase\u03b2 antibodies for lung cancer.] _
+
+authority = 'chembl_greek-fixture-v1__open_targets_greek-fixture-v1__resolver_v2'
+case = {'baseline_query': 'Find clinical-stage GQ01/GQ02 antibodies for lung cancer.', 'expected_targets': ['GQ01', 'GQ02'], 'query': 'Find clinical-stage Anchoraseα/Anchoraseβ antibodies for lung cancer.'}
+
+    @pytest.mark.parametrize('case', CONTROLS['queries'], ids=lambda r: r['query'])
+    def test_frozen_parser_boundaries(authority, case):
+        original = parse_query(case['baseline_query'])
+        intent = parse_query(case['query'])
+>       assert [t.canonical_id for t in intent.targets] == case['expected_targets']
+E       AssertionError: assert [] == ['GQ01', 'GQ02']
+E         
+E         Right contains 2 more items, first extra item: 'GQ01'
+E         Use -v to get more diff
+
+tests/se/test_query_greek_orthography.py:53: AssertionError
+_ test_frozen_parser_boundaries[Find clinical-stage Anchorase\u03b1\xd7Anchorase\u03b2 antibodies for lung cancer.] _
+
+authority = 'chembl_greek-fixture-v1__open_targets_greek-fixture-v1__resolver_v2'
+case = {'baseline_query': 'Find clinical-stage GQ01×GQ02 antibodies for lung cancer.', 'expected_targets': ['GQ01', 'GQ02'], 'query': 'Find clinical-stage Anchoraseα×Anchoraseβ antibodies for lung cancer.'}
+
+    @pytest.mark.parametrize('case', CONTROLS['queries'], ids=lambda r: r['query'])
+    def test_frozen_parser_boundaries(authority, case):
+        original = parse_query(case['baseline_query'])
+        intent = parse_query(case['query'])
+>       assert [t.canonical_id for t in intent.targets] == case['expected_targets']
+E       AssertionError: assert [] == ['GQ01', 'GQ02']
+E         
+E         Right contains 2 more items, first extra item: 'GQ01'
+E         Use -v to get more diff
+
+tests/se/test_query_greek_orthography.py:53: AssertionError
+=============================== warnings summary ===============================
+tests/se/test_discovery_coverage.py::test_reference_aliases_measure_output_without_entering_discovery
+  /home/djmann/projects/bve-b8/src/bve/se/evaluation/discovery_coverage.py:67: UserWarning: run r records no trial universe, so its recall against reference set 'discovery_coverage' cannot be shown to be complete
+    require_untruncated_universe(result.run_manifest, reference_set="discovery_coverage")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/se/test_query_greek_orthography.py::test_frozen_spelling_decisions[Contested\u03b1]
+FAILED tests/se/test_query_greek_orthography.py::test_frozen_parser_boundaries[Find clinical-stage Anchorase\u03b1/Anchorase\u03b2 antibodies for lung cancer.]
+FAILED tests/se/test_query_greek_orthography.py::test_frozen_parser_boundaries[Find clinical-stage Anchorase\u03b1\xd7Anchorase\u03b2 antibodies for lung cancer.]

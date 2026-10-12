@@ -1,0 +1,30 @@
+[
+  {
+    "name": "MHC class I antigen HLA-B α chain",
+    "whole_name_offered": false,
+    "correct_whole_identity": "TARGET:HLA-B",
+    "emitted": [
+      "HLA-C",
+      "HLA-B",
+      "FCGRT"
+    ]
+  },
+  {
+    "name": "C3 and PZP-like α-2-macroglobulin domain-containing protein 4",
+    "whole_name_offered": false,
+    "correct_whole_identity": "TARGET:C5",
+    "emitted": [
+      "C3",
+      "A2MP1",
+      "A2M"
+    ]
+  },
+  {
+    "name": "CD8 β opposite",
+    "whole_name_offered": false,
+    "correct_whole_identity": "TARGET:SMYD1",
+    "emitted": [
+      "CD8B"
+    ]
+  }
+]
