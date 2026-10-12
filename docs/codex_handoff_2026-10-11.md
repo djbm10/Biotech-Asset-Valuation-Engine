@@ -1,3 +1,15 @@
+# 2026-10-12 TARGET REFERENCE INTERFACE — ADOPTED
+
+Preregistration **3ac5faa**; implementation **07d104b**. `TARGET_REFERENCE_IDENTITY_SURFACE v1` passed all T1–T12: **1,828 tests passed / three existing xfails**, Ruff clean. Exact identity now travels separately from biological retrieval text; wrong entity/version/symbol references fail closed. Qualified IDs cannot leak into connector literals. Legacy canonical symbols/labels and absent-reference serialization are preserved.
+
+Formal evidence: `research/se_target_reference_identity_surface_v1/`. **4,704 parses / zero scientific differences; 16 unchanged raw+intent controls; 103 complete scientific compatibility cases; 1,791 historical source checks; 36 source-request comparisons; nine gate comparisons; seeds 0/1/42 identical.** Historical tests now distinguish immutable acceptance provenance from current compatibility, exactly as preregistered; no historical artifacts/scorers were changed. The failed prior identity experiment remains recorded and reverted.
+
+FXI now carries TARGET:F11 through five plans with biological search literals. Bare F11 remains ambiguous. **IL-4Rα and factor XI still lack aliases.** This is diagnostic development evidence only, not validation.
+
+Next: resume `TARGET_QUERY_ALIAS_COVERAGE v1`. Read its policy and source packet, then diagnose/freeze general authority-backed Greek orthography and NCIt synonym semantics before implementing either. The bulk NCIt structural projection is not alias admission; validate protein forms and P90 annotation/source semantics. No fuzzy matching, substring inference, qualifier deletion, target-specific rules or trial-level inheritance.
+
+**H21–H25 remain frozen/unrun/unprobed; H6–H10 remain unrun. Human-PoC recovery stays STOPPED.** C056, capitalization nondeterminism and the failed prednisone/prednisolone preregistration remain separate. No live searches or replays in this milestone. Overall engine remains unvalidated. This supersedes the historical in-progress entries below.
+
 # 2026-10-12 TARGET REFERENCE INTERFACE DIAGNOSIS — IN PROGRESS
 
 Checkpoint **31cc721** records 25 direct consumer reads and the next design at
