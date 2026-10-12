@@ -129,6 +129,10 @@ def main():
             "buyer": {"buyer_id": "control", "name": "Control", "as_of_date": "2026-10-11"},
             "strategic_gap": {
                 "therapeutic_areas": ["UNSPECIFIED"],
+                "target_expression": {
+                    "operator": "ANY",
+                    "targets": [{"canonical_id": "CONTROL", "label": "Control", "aliases": []}],
+                },
                 "evidence_floor": {"human_poc_required": True},
             },
         }
