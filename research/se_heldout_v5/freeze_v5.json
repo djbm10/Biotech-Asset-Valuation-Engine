@@ -1,0 +1,20 @@
+{
+  "milestone": "HELDOUT_VALIDATION_SUITE v5",
+  "baseline_commit": "048b941d44f2a07bded0251e577aac907644d01f",
+  "exposure_audit": {
+    "scope": [
+      "docs/se_policies",
+      "tests/se",
+      "scripts"
+    ],
+    "pattern": "H21|H22|H23|H24|H25|TSLP|KLKB1|IL1RL2|MSTN|CFD|thymic stromal|plasma kallikrein|interleukin.?36|myostatin|factor D",
+    "case_insensitive": true,
+    "matches": [],
+    "limitation": "Checks prior explicit development artifacts, not bulk authority contents or every source capture."
+  },
+  "no_resolver_compilation_or_run": true,
+  "files": {
+    "primary_suite_v5.json": "43169d3f1b8d6bbbd2372442a3afc0f6d703e7c5f6096d77caa3d4be5ef5d6b1",
+    "docs/se_policies/heldout_validation_suite_v5.md": "c9c8a3e44525d89587df5e7eedfc49ca820c28e4a547f559b812a75dd9b27a26"
+  }
+}

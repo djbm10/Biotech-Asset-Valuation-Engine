@@ -1,0 +1,44 @@
+{
+  "status": "FROZEN_UNRUN",
+  "baseline_commit": "048b941",
+  "queries": [
+    {
+      "id": "H21",
+      "query": "Find clinical-stage antibodies against thymic stromal lymphopoietin for asthma.",
+      "expected_target": "TSLP",
+      "therapeutic_area": null,
+      "run_directory": "/home/djmann/se_runs/heldout_h21_v5"
+    },
+    {
+      "id": "H22",
+      "query": "Find clinical-stage plasma kallikrein inhibitors for hereditary angioedema.",
+      "expected_target": "KLKB1",
+      "therapeutic_area": null,
+      "run_directory": "/home/djmann/se_runs/heldout_h22_v5"
+    },
+    {
+      "id": "H23",
+      "query": "Find clinical-stage anti-interleukin-36 receptor antibodies for generalized pustular psoriasis.",
+      "expected_target": "IL1RL2",
+      "therapeutic_area": "AUTOIMMUNE",
+      "run_directory": "/home/djmann/se_runs/heldout_h23_v5"
+    },
+    {
+      "id": "H24",
+      "query": "Find clinical-stage myostatin inhibitors for spinal muscular atrophy.",
+      "expected_target": "MSTN",
+      "therapeutic_area": null,
+      "run_directory": "/home/djmann/se_runs/heldout_h24_v5"
+    },
+    {
+      "id": "H25",
+      "query": "Find clinical-stage complement factor D inhibitors for paroxysmal nocturnal hemoglobinuria.",
+      "expected_target": "CFD",
+      "therapeutic_area": null,
+      "run_directory": "/home/djmann/se_runs/heldout_h25_v5"
+    }
+  ],
+  "allow_incomplete": true,
+  "engine_commit_for_future_runs": null,
+  "runs_authorized": false
+}
