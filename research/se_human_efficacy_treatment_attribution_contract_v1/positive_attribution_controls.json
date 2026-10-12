@@ -1,0 +1,142 @@
+[
+  {
+    "id": "3b5d61558b0ea690c02e92fb9cec154c303cca8c19f729bfbd0851def0c2f483",
+    "route": "prose",
+    "inputs": {
+      "text": "Treatment with obecabtagene autoleucel achieved remission in 11 of 14 patients.",
+      "asset_names": [
+        "AUCATZYL",
+        "obecabtagene autoleucel"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "obecabtagene autoleucel",
+        "endpoint": "remission",
+        "sentence": "Treatment with obecabtagene autoleucel achieved remission in 11 of 14 patients.",
+        "value": "11 of 14",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc.py::TestEfficacyBelongsToOneAsset::test_a_result_reaches_the_asset_through_a_legitimate_alias"
+    ]
+  },
+  {
+    "id": "52e8b297009c59f6823348ac6de4c6132e82e90df13a739191aeaa7f1422dad5",
+    "route": "prose",
+    "inputs": {
+      "text": "CD19/BCMA dual CAR-T achieved complete remission in 10 of 12 patients.",
+      "asset_names": [
+        "CD19/BCMA dual CAR-T"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "CD19/BCMA dual CAR-T",
+        "endpoint": "complete remission",
+        "sentence": "CD19/BCMA dual CAR-T achieved complete remission in 10 of 12 patients.",
+        "value": "10 of 12",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc.py::TestEfficacyBelongsToOneAsset::test_a_defined_combination_product_may_carry_its_own_result",
+      "tests/se/test_human_poc_regimen_lists.py::TestAnIndividualResultIsKept::test_a_combination_product_name_keeps_its_result"
+    ]
+  },
+  {
+    "id": "ab8471f86ac5c366b2847685be2fff46652d5c85a9f335bd6f1457e6c459d869",
+    "route": "prose",
+    "inputs": {
+      "text": "Patients treated with XYZ-9 achieved an overall response rate of 70%.",
+      "asset_names": [
+        "XYZ-9"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "XYZ-9",
+        "endpoint": "response rate",
+        "sentence": "Patients treated with XYZ-9 achieved an overall response rate of 70%.",
+        "value": "70%",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_plain_three_item_list"
+    ]
+  },
+  {
+    "id": "d5d49a4190da395450575b0f3c83a899712f24254dcdbfb7bbba64a829daa064",
+    "route": "prose",
+    "inputs": {
+      "text": "In patients treated with ABC-123, the overall response rate was 83%.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "ABC-123",
+        "endpoint": "response rate",
+        "sentence": "In patients treated with ABC-123, the overall response rate was 83%.",
+        "value": "83%",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestAnIndividualResultIsKept::test_a_single_agent_comma_clause"
+    ]
+  },
+  {
+    "id": "7b6eedabfe4a497aef1f450659354681e7a39526003f90c54ea3b5ddb91e881c",
+    "route": "prose",
+    "inputs": {
+      "text": "The product, ABC-123, achieved complete remission in 10 of 12 patients.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "ABC-123",
+        "endpoint": "complete remission",
+        "sentence": "The product, ABC-123, achieved complete remission in 10 of 12 patients.",
+        "value": "10 of 12",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestAnIndividualResultIsKept::test_an_apposition_is_not_a_list"
+    ]
+  },
+  {
+    "id": "e9bd7177cd1ceda799b6720ada43f421a041c81605eae2062edbadafa655605d",
+    "route": "prose",
+    "inputs": {
+      "text": "ABC-123, a CD19 CAR-T, achieved an overall response rate of 83% in patients.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "ABC-123",
+        "endpoint": "response rate",
+        "sentence": "ABC-123, a CD19 CAR-T, achieved an overall response rate of 83% in patients.",
+        "value": "83%",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestAnIndividualResultIsKept::test_a_sentence_initial_name_with_an_appositive"
+    ]
+  }
+]

@@ -1,0 +1,98 @@
+[
+  {
+    "id": "S1",
+    "case": "Observed single-arm trial, accepted asset name, explicit result-cohort link",
+    "study_link": true,
+    "result_arm_link": true,
+    "same_asset": true,
+    "mapping_consistent": true,
+    "therapeutic_count": 1,
+    "scope": "SINGLE_ASSET",
+    "observed": true,
+    "expected": "CERTIFIED"
+  },
+  {
+    "id": "S2",
+    "case": "Outcome belongs to other intervention arm",
+    "study_link": true,
+    "result_arm_link": true,
+    "same_asset": false,
+    "mapping_consistent": true,
+    "therapeutic_count": 1,
+    "scope": "SINGLE_ASSET",
+    "observed": true,
+    "expected": "UNKNOWN"
+  },
+  {
+    "id": "S3",
+    "case": "Multi-arm trial, result group unassigned",
+    "study_link": true,
+    "result_arm_link": false,
+    "same_asset": true,
+    "mapping_consistent": true,
+    "therapeutic_count": 1,
+    "scope": "SINGLE_ASSET",
+    "observed": true,
+    "expected": "UNKNOWN"
+  },
+  {
+    "id": "S4",
+    "case": "Single intervention protocol planned endpoint",
+    "study_link": true,
+    "result_arm_link": true,
+    "same_asset": true,
+    "mapping_consistent": true,
+    "therapeutic_count": 1,
+    "scope": "SINGLE_ASSET",
+    "observed": false,
+    "expected": "UNKNOWN"
+  },
+  {
+    "id": "S5",
+    "case": "Known result arm contains combination, requested candidate is component",
+    "study_link": true,
+    "result_arm_link": true,
+    "same_asset": true,
+    "mapping_consistent": true,
+    "therapeutic_count": 2,
+    "scope": "COMPONENT",
+    "observed": true,
+    "expected": "UNKNOWN"
+  },
+  {
+    "id": "S6",
+    "case": "Generic therapy description lacks accepted same-asset bridge",
+    "study_link": true,
+    "result_arm_link": true,
+    "same_asset": false,
+    "mapping_consistent": true,
+    "therapeutic_count": 1,
+    "scope": "SINGLE_ASSET",
+    "observed": true,
+    "expected": "UNKNOWN"
+  },
+  {
+    "id": "S7",
+    "case": "Publication is cited only as background",
+    "study_link": false,
+    "result_arm_link": true,
+    "same_asset": true,
+    "mapping_consistent": true,
+    "therapeutic_count": 1,
+    "scope": "SINGLE_ASSET",
+    "observed": true,
+    "expected": "UNKNOWN"
+  },
+  {
+    "id": "S8",
+    "case": "Forward/reverse/arm-label linkage conflicts",
+    "study_link": true,
+    "result_arm_link": true,
+    "same_asset": true,
+    "mapping_consistent": false,
+    "therapeutic_count": 1,
+    "scope": "SINGLE_ASSET",
+    "observed": true,
+    "expected": "UNKNOWN"
+  }
+]

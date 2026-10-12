@@ -1,0 +1,15 @@
+{
+  "baseline": "867275c",
+  "rows": 33,
+  "emphasized_rows": 14,
+  "negative_controls": 65,
+  "positive_attribution_controls": 6,
+  "structured_cases": 8,
+  "frozen_before_contract_evaluation": true,
+  "files": {
+    "attribution_audit.json": "ec57df40c6b2af8f684c4dd7d56df9260211428ede0c6ac52b71a6e003803d0e",
+    "negative_controls.json": "c08bbc7c8e593edbd87c87f718200cbac3aeb52c405bc1f55f5d1ed43461a0af",
+    "positive_attribution_controls.json": "bd14853bd1ee57a68d64b024d87942dddb5f66e1ae05a1be127156f899b15392",
+    "structured_design_cases.json": "e9c89ae8eb647d649487f212a5a1c2e8e250802d9e20ea050ef8963e2a4edd15"
+  }
+}

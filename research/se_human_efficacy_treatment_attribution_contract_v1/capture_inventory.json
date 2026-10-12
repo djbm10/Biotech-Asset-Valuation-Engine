@@ -1,0 +1,72 @@
+{
+  "TAC01": {
+    "path": "/home/djmann/se_runs/tac01_protoid_v1/result.json",
+    "sha256": "2a423fb414d470cdfcb0677957f094c71fa6772ede90c43e51b6a0b2fa1df369",
+    "source_documents": 6768,
+    "registry_documents_scanned": 1511,
+    "selected_rows": 8,
+    "registry_with_arm_groups": 1481,
+    "registry_with_intervention_arm_labels": 1467,
+    "registry_with_results_section": 0
+  },
+  "mint5": {
+    "path": "/home/djmann/se_runs/mint5_protoid_v1/result.json",
+    "sha256": "085fd4f4c9078e8711d945a9f64570cd861cd7636f7471678bf5f7f033fae0f0",
+    "source_documents": 3816,
+    "registry_documents_scanned": 1584,
+    "selected_rows": 2,
+    "registry_with_arm_groups": 1564,
+    "registry_with_intervention_arm_labels": 1554,
+    "registry_with_results_section": 0
+  },
+  "AACR_accepted": {
+    "path": "/home/djmann/se_runs/aacr_design/result.json",
+    "sha256": "ce1eac5528ffb987a7a17ee0e09ff0770c5712750bf8cc45c32bc8edb6acb229",
+    "source_documents": 3816,
+    "registry_documents_scanned": 1577,
+    "selected_rows": 3,
+    "registry_with_arm_groups": 1557,
+    "registry_with_intervention_arm_labels": 1547,
+    "registry_with_results_section": 0
+  },
+  "TAC01_regimen_accepted": {
+    "path": "/home/djmann/se_runs/tac01_regimen_offline/result.json",
+    "sha256": "a8669293ca684dd172c30dde0862abb4966ca06d92c2041a3d9a1d09711535d0",
+    "source_documents": 6766,
+    "registry_documents_scanned": 1511,
+    "selected_rows": 1,
+    "registry_with_arm_groups": 1481,
+    "registry_with_intervention_arm_labels": 1467,
+    "registry_with_results_section": 0
+  },
+  "H16": {
+    "path": "/home/djmann/se_runs/heldout_h16_v4/result.json",
+    "sha256": "e6898356dc64eba983b24949b23b270409aa685fc895041eadf488302b80225b",
+    "source_documents": 5461,
+    "registry_documents_scanned": 849,
+    "selected_rows": 12,
+    "registry_with_arm_groups": 826,
+    "registry_with_intervention_arm_labels": 820,
+    "registry_with_results_section": 0
+  },
+  "H18": {
+    "path": "/home/djmann/se_runs/heldout_h18_v4_rerun1/result.json",
+    "sha256": "b29ccb5f94bf95260c9615517e628eb1cc84322b56326696f81dc97afdcc4c57",
+    "source_documents": 8293,
+    "registry_documents_scanned": 2167,
+    "selected_rows": 4,
+    "registry_with_arm_groups": 2101,
+    "registry_with_intervention_arm_labels": 2046,
+    "registry_with_results_section": 0
+  },
+  "H19": {
+    "path": "/home/djmann/se_runs/heldout_h19_v4/result.json",
+    "sha256": "5823bb18cea095dff4ecac2f5557e96ac8feaeb3ffd319cedbb71779d59e33e8",
+    "source_documents": 783,
+    "registry_documents_scanned": 160,
+    "selected_rows": 1,
+    "registry_with_arm_groups": 159,
+    "registry_with_intervention_arm_labels": 159,
+    "registry_with_results_section": 0
+  }
+}
