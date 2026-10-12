@@ -1,0 +1,149 @@
+{
+  "connectors": [
+    "ClinicalTrialsGovConnector",
+    "FdaLabelConnector",
+    "PubMedConnector",
+    "CrossrefConferenceConnector",
+    "SecEdgarConnector",
+    "SecFiledPressReleaseConnector"
+  ],
+  "negative_requirements": [
+    "Bare GAX1 remains ambiguous.",
+    "No GAX1 result may become GAX2 because the display symbol collides.",
+    "Wrong entity/surface pairs must fail future validation.",
+    "Missing/mismatched snapshots must not silently re-resolve a reference.",
+    "Namespace IDs must never become literal external search terms.",
+    "Alias-equivalent mentions yield one entity.",
+    "Separate targets retain conjunction semantics."
+  ],
+  "programmatic_reference_pairs": [
+    [
+      "GAX1",
+      "TARGET:GAX1"
+    ],
+    [
+      "GAX2",
+      "TARGET:GAX2"
+    ],
+    [
+      "GAX3",
+      "TARGET:GAX3"
+    ]
+  ],
+  "prohibited": [
+    "network",
+    "live search",
+    "live replay",
+    "primary/secondary holdout probes",
+    "production edits"
+  ],
+  "queries": [
+    {
+      "id": "unique_alias_homonymous_symbol",
+      "intended_entity_ids": [
+        "TARGET:GAX1"
+      ],
+      "query": "Find clinical-stage AXONE antibodies."
+    },
+    {
+      "id": "bare_homonym",
+      "intended_entity_ids": [],
+      "query": "Find clinical-stage GAX1 antibodies."
+    },
+    {
+      "id": "unambiguous_symbol",
+      "intended_entity_ids": [
+        "TARGET:GAX2"
+      ],
+      "query": "Find clinical-stage GAX2 antibodies."
+    },
+    {
+      "id": "equivalent_mentions",
+      "intended_entity_ids": [
+        "TARGET:GAX1"
+      ],
+      "query": "Find AXONE or AXTWO antibodies."
+    },
+    {
+      "id": "distinct_slash",
+      "intended_entity_ids": [
+        "TARGET:GAX1",
+        "TARGET:GAX3"
+      ],
+      "query": "Find AXONE/AXTHREE bispecifics."
+    },
+    {
+      "id": "distinct_times",
+      "intended_entity_ids": [
+        "TARGET:GAX1",
+        "TARGET:GAX3"
+      ],
+      "query": "Find AXONE\u00d7AXTHREE bispecifics."
+    },
+    {
+      "id": "unknown_fragment",
+      "intended_entity_ids": [],
+      "query": "Find AXONE/NOTATARGET antibodies."
+    },
+    {
+      "id": "affix_anti-{}",
+      "intended_entity_ids": [
+        "TARGET:GAX1"
+      ],
+      "query": "Find anti-AXONE antibodies."
+    },
+    {
+      "id": "affix_{}-directed",
+      "intended_entity_ids": [
+        "TARGET:GAX1"
+      ],
+      "query": "Find AXONE-directed antibodies."
+    },
+    {
+      "id": "affix_{}-targeted",
+      "intended_entity_ids": [
+        "TARGET:GAX1"
+      ],
+      "query": "Find AXONE-targeted antibodies."
+    },
+    {
+      "id": "affix_{}-targeting",
+      "intended_entity_ids": [
+        "TARGET:GAX1"
+      ],
+      "query": "Find AXONE-targeting antibodies."
+    },
+    {
+      "id": "affix_{}-blocking",
+      "intended_entity_ids": [
+        "TARGET:GAX1"
+      ],
+      "query": "Find AXONE-blocking antibodies."
+    },
+    {
+      "id": "affix_{}-binding",
+      "intended_entity_ids": [
+        "TARGET:GAX1"
+      ],
+      "query": "Find AXONE-binding antibodies."
+    },
+    {
+      "id": "affix_{}-specific",
+      "intended_entity_ids": [
+        "TARGET:GAX1"
+      ],
+      "query": "Find AXONE-specific antibodies."
+    }
+  ],
+  "source_policy": {
+    "supported_modalities": [
+      "MONOCLONAL_ANTIBODY"
+    ],
+    "supported_targets": [
+      "GAX1",
+      "GAX2",
+      "GAX3"
+    ]
+  },
+  "status": "FROZEN before baseline consumer execution; synthetic authority, not observed target examples"
+}

@@ -1,0 +1,151 @@
+{
+  "edges": [
+    {
+      "canonical_drug_id": "DRUG:DRUGA",
+      "canonical_target_id": "TARGET:GAX1",
+      "evidence_hash": "cdcd6bd6e9bede511c53ba2f1a9432eb778246695afac4aad96fa007bbb6c10f",
+      "relationship_type": "DIRECT_TARGET",
+      "source": "chembl",
+      "source_record_id": "fixture:DRUGA:GAX1",
+      "source_release": "fixture-v1",
+      "status": "USABLE"
+    },
+    {
+      "canonical_drug_id": "DRUG:DRUGB",
+      "canonical_target_id": "TARGET:GAX2",
+      "evidence_hash": "26cb54c77249a25d35ffecd349eb36b05dde628bbcfdd4a2088017d22b275d9e",
+      "relationship_type": "DIRECT_TARGET",
+      "source": "chembl",
+      "source_record_id": "fixture:DRUGB:GAX2",
+      "source_release": "fixture-v1",
+      "status": "USABLE"
+    },
+    {
+      "canonical_drug_id": "DRUG:DRUGC",
+      "canonical_target_id": "TARGET:GAX3",
+      "evidence_hash": "6c39cec65d55cad03a5453df741ceb1d6e4c87ac3e88e6a51a7c487da439798c",
+      "relationship_type": "DIRECT_TARGET",
+      "source": "chembl",
+      "source_record_id": "fixture:DRUGC:GAX3",
+      "source_release": "fixture-v1",
+      "status": "USABLE"
+    }
+  ],
+  "records": [
+    {
+      "aliases": [
+        {
+          "alias_type": "SYNONYM",
+          "value": "AXONE"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "AXTWO"
+        }
+      ],
+      "canonical_symbol": "GAX1",
+      "entity_type": "TARGET",
+      "label": "GAX1",
+      "source": "open_targets",
+      "source_id": "fixture:GAX1",
+      "xrefs": {
+        "uniprot": [
+          "Q00001"
+        ]
+      }
+    },
+    {
+      "aliases": [
+        {
+          "alias_type": "SYMBOL",
+          "value": "GAX1"
+        },
+        {
+          "alias_type": "SYNONYM",
+          "value": "BXTWO"
+        }
+      ],
+      "canonical_symbol": "GAX2",
+      "entity_type": "TARGET",
+      "label": "GAX2",
+      "source": "open_targets",
+      "source_id": "fixture:GAX2",
+      "xrefs": {
+        "uniprot": [
+          "Q00002"
+        ]
+      }
+    },
+    {
+      "aliases": [
+        {
+          "alias_type": "SYNONYM",
+          "value": "AXTHREE"
+        }
+      ],
+      "canonical_symbol": "GAX3",
+      "entity_type": "TARGET",
+      "label": "GAX3",
+      "source": "open_targets",
+      "source_id": "fixture:GAX3",
+      "xrefs": {
+        "uniprot": [
+          "Q00003"
+        ]
+      }
+    },
+    {
+      "aliases": [],
+      "canonical_symbol": "DRUGA",
+      "entity_type": "DRUG",
+      "label": "DRUGA",
+      "source": "chembl",
+      "source_id": "fixture:DRUGA",
+      "xrefs": {
+        "chembl": [
+          "fixture:DRUGA"
+        ]
+      }
+    },
+    {
+      "aliases": [],
+      "canonical_symbol": "DRUGB",
+      "entity_type": "DRUG",
+      "label": "DRUGB",
+      "source": "chembl",
+      "source_id": "fixture:DRUGB",
+      "xrefs": {
+        "chembl": [
+          "fixture:DRUGB"
+        ]
+      }
+    },
+    {
+      "aliases": [],
+      "canonical_symbol": "DRUGC",
+      "entity_type": "DRUG",
+      "label": "DRUGC",
+      "source": "chembl",
+      "source_id": "fixture:DRUGC",
+      "xrefs": {
+        "chembl": [
+          "fixture:DRUGC"
+        ]
+      }
+    }
+  ],
+  "sources": [
+    {
+      "locator": "fixture:target-reference:open_targets",
+      "release": "fixture-v1",
+      "retrieved_at": "2026-10-12",
+      "source": "open_targets"
+    },
+    {
+      "locator": "fixture:target-reference:chembl",
+      "release": "fixture-v1",
+      "retrieved_at": "2026-10-12",
+      "source": "chembl"
+    }
+  ]
+}

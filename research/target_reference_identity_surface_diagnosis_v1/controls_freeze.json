@@ -1,0 +1,12 @@
+{
+  "baseline": "50c9227",
+  "files": {
+    "synthetic_authority.json": "d88e0a0d7584333154eeb0a49c88b08c70f9afc30fc0e83fec55186af09cae95",
+    "controls.json": "65e128f259b08a4fbd13b1ec6d328a733808a1b837d8e21c9b2488f2da017d2c"
+  },
+  "counts": {
+    "queries": 14,
+    "reference_pairs": 3,
+    "connectors": 6
+  }
+}
