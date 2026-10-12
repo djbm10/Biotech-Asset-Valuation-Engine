@@ -1,0 +1,13 @@
+{
+  "baseline": "dadef78",
+  "input_hashes": {
+    "research/se_target_query_greek_orthography_v1/authority_oracle.json": "a97817e168e82efbf4d1f02ce4afedc043792e7ee9e67b1bc305bacbbd410e86",
+    "research/se_target_query_greek_orthography_v1/synthetic_authority.json": "57f8c5955b38b685a6f324ce209834957c4f5845191dc885dab4cf4f9a70edad",
+    "research/se_target_query_greek_orthography_v1/synthetic_controls.json": "3d7f44ea3e6d45af910f05854d74e548ae482fbe4c9e041e7b90af30011e79d8",
+    "research/se_target_query_greek_orthography_v1/synthetic_manifest.json": "d157ac891ebab662538196110ebac7b39d2c10071b69a4834f853ce32ecc7b6a",
+    "research/se_target_query_greek_orthography_v1/authority_oracle_manifest.json": "516edfb6dacba5c12bcac0e22db2a6049b084b0f1fd70108eff7040bca979582",
+    "research/se_target_query_alias_coverage_v1/greek_authority_form_diagnosis.json": "562209c3a00da7fe5b9f5c0955e42a2203a089f6e425dd1f1de69c7687cae780"
+  },
+  "query_reference_sha256": "0b497c0034aac8519896649e3eb7e1e8d799d4a9e0e4383f0b76f2c867ece3ea",
+  "no_candidate_code_or_scores": true
+}

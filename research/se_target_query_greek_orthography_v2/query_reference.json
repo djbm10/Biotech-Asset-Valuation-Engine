@@ -1,0 +1,1359 @@
+{
+  "rows": [
+    {
+      "id": "c9b1b331660164ea898b9625d8fec07b95f8daa08f552a08a8b9febc8e502928",
+      "query_name": "DNA polymerase β subunit",
+      "original_authority_name": "DNA polymerase beta subunit",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:POLB",
+      "query_reference_entity": "TARGET:POLB",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:POLB",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "2fc546bb0e784e9103d7787216abf68cd05bc83f03632af34be08ffe98064cbf",
+      "query_name": "β-site amyloid precursor protein cleaving enzyme 1",
+      "original_authority_name": "Beta-site amyloid precursor protein cleaving enzyme 1",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:BACE1",
+      "query_reference_entity": "TARGET:BACE1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:BACE1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "112f86ecd315538af7ebe2eefc47fa41cd2e4e4f8af76b1cb81c47e248d5e601",
+      "query_name": "H-IDH α",
+      "original_authority_name": "H-IDH alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:IDH3A",
+      "query_reference_entity": "TARGET:IDH3A",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:IDH3A",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "1a8343184701561ed0ddc241489589c761748acece3fdc91d78a55b65e212a44",
+      "query_name": "Alcohol dehydrogenase subunit γ",
+      "original_authority_name": "Alcohol dehydrogenase subunit gamma",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:ADH1C",
+      "query_reference_entity": "TARGET:ADH1C",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:ADH1C",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "19c1c7e61478162a1e0f6d56c8ed4a6e77d8da98bbd608e3a4138fcd883960cc",
+      "query_name": "CaMK-II subunit γ",
+      "original_authority_name": "CaMK-II subunit gamma",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CAMK2G",
+      "query_reference_entity": "TARGET:CAMK2G",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CAMK2G",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "55119fa169ba333433f90bd84b08b949f2a200d0a79576b03f432509ec82e342",
+      "query_name": "thyroid hormone receptor α 1",
+      "original_authority_name": "thyroid hormone receptor alpha 1",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:THRA",
+      "query_reference_entity": "TARGET:THRA",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:THRA",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "f2dbf0ee650f480851e0278dfedd585baf6e9fc06a6696926ada730e499d21b7",
+      "query_name": "nuclear factor of κ light chain gene enhancer in B-cells",
+      "original_authority_name": "nuclear factor of kappa light chain gene enhancer in B-cells",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:NFKBIA",
+      "query_reference_entity": "TARGET:NFKBIA",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:NFKBIA",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "28f8e7253ad1423230153be31aa682fe221b260c62c44585f9df546cab657622",
+      "query_name": "α-1-fetoprotein",
+      "original_authority_name": "Alpha-1-fetoprotein",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:AFP",
+      "query_reference_entity": "TARGET:AFP",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:AFP",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "6c8297c96842d9713466226b9260256b4d3ccb12a53c7a70a5ad938a7fb083d6",
+      "query_name": "calcium channel, cardic dihydropyridine-sensitive, α-1 subunit",
+      "original_authority_name": "calcium channel, cardic dihydropyridine-sensitive, alpha-1 subunit",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CACNA1C",
+      "query_reference_entity": "TARGET:CACNA1C",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CACNA1C",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "2265919fdf6fd68fd0ef5097e6f758a17948f627e367336083c10710a858a4a2",
+      "query_name": "intracellular phospholipase A1 γ",
+      "original_authority_name": "intracellular phospholipase A1 gamma",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:DDHD2",
+      "query_reference_entity": "TARGET:DDHD2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:DDHD2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "a4c3062e2cc9d5879ab9c5c9ad4586a2fdfd847effe042e0246e290a7e0e9207",
+      "query_name": "Catenin α-1",
+      "original_authority_name": "Catenin alpha-1",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CTNNA1",
+      "query_reference_entity": "TARGET:CTNNA1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CTNNA1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "d82879802647ea89cffa0f1b3f57c266e0dfe4be7ad4e2983a0bd318dc3e75d1",
+      "query_name": "immunoglobulin E receptor, high-affinity, of mast cells, α polypeptide",
+      "original_authority_name": "immunoglobulin E receptor, high-affinity, of mast cells, alpha polypeptide",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:FCER1A",
+      "query_reference_entity": "TARGET:FCER1A",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:FCER1A",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "6aef26b4bd89b458d0ffbd75715ad0b48e656dbdb2fea0c4947ee5a50462328e",
+      "query_name": "MHC class I antigen HLA-B α chain",
+      "original_authority_name": "MHC class I antigen HLA-B alpha chain",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:HLA-B",
+      "query_reference_entity": "TARGET:HLA-B",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:HLA-B",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "7d9f85f600b32bcafe53124dc02dd8925bfa5d1ad9ef101771a014084fe363ee",
+      "query_name": "casein kinase 2, β polypeptide",
+      "original_authority_name": "casein kinase 2, beta polypeptide",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CSNK2B",
+      "query_reference_entity": "TARGET:CSNK2B",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CSNK2B",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "5a9d1cae5878e9cdd0a6e28d2dbf95d029b13ca3bd41d740010cb8271e13a029",
+      "query_name": "ER α-1,2-mannosidase",
+      "original_authority_name": "ER alpha-1,2-mannosidase",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:MAN1B1",
+      "query_reference_entity": "TARGET:MAN1B1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:MAN1B1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "d038e02515c4faecb732508d17aee02127c41c6e442a944a0c78c8b1683b0a19",
+      "query_name": "protein kinase, cGMP-dependent, regulatory, type I, β",
+      "original_authority_name": "protein kinase, cGMP-dependent, regulatory, type I, beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PRKG1",
+      "query_reference_entity": "TARGET:PRKG1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:PRKG1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "ef1f5e854b6e94edf0f631cceaa59b98603eb7e7de2b56098d22763ec67193a0",
+      "query_name": "GDP-L-Fuc:N-acetylβ-D-glucosaminide alpha1,6-fucosyltransferase",
+      "original_authority_name": "GDP-L-Fuc:N-acetyl-beta-D-glucosaminide alpha1,6-fucosyltransferase",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:FUT8",
+      "query_reference_entity": "TARGET:FUT8",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:FUT8",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "90b1cabd30930827618c59b2a38668129d7254dc09ed3d41f72c82733ff89571",
+      "query_name": "DAG kinase ε",
+      "original_authority_name": "DAG kinase epsilon",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:DGKE",
+      "query_reference_entity": "TARGET:DGKE",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:DGKE",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "0c8a9574a1aa8d372397b3c9f89349391a3e00c18d5502bb4dc18ef990a9ef24",
+      "query_name": "proα-1 collagen type 1",
+      "original_authority_name": "pro-alpha-1 collagen type 1",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:COL1A1",
+      "query_reference_entity": "TARGET:COL1A1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:COL1A1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "dba787e41763b79fc6f784d12e9a924dcbe25d703dc70e2f35349aa8e4cbc49d",
+      "query_name": "5'-AMP-activated protein kinase, catalytic α-2 chain",
+      "original_authority_name": "5'-AMP-activated protein kinase, catalytic alpha-2 chain",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PRKAA2",
+      "query_reference_entity": "TARGET:PRKAA2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:PRKAA2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "05ee9485c6aba599079f6e97046282eeb4c7a1c13b4763d69a3008c9ae5150bf",
+      "query_name": "sodium channel protein, brain type 2 α subunit",
+      "original_authority_name": "sodium channel protein, brain type 2 alpha subunit",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:SCN2A",
+      "query_reference_entity": "TARGET:SCN2A",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:SCN2A",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "619d61612fdad708bdcd1835a209fb623da5ce8b2b0d07a84595d66b5e0af72d",
+      "query_name": "big potassium channel β subunit 4",
+      "original_authority_name": "big potassium channel beta subunit 4",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:KCNMB4",
+      "query_reference_entity": "TARGET:KCNMB4",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:KCNMB4",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "73231adf027c9b8739e14c370323fffd5e758158ec43a61a5fc27259a08e3e8a",
+      "query_name": "Sialoglycoprotein α",
+      "original_authority_name": "Sialoglycoprotein alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:GYPA",
+      "query_reference_entity": "TARGET:GYPA",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:GYPA",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "faac920bd236166fa0b1e26cf51cf00c5154593282b5d5c20c94f92956f5658d",
+      "query_name": "Hemoglobin β chain",
+      "original_authority_name": "Hemoglobin beta chain",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:HBB",
+      "query_reference_entity": "TARGET:HBB",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:HBB",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "693c7a195f66d41a4342c69da2144eab6b0d44e458daddb064060184e59a65c6",
+      "query_name": "Soluble APPβ",
+      "original_authority_name": "Soluble APP-beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:APP",
+      "query_reference_entity": "TARGET:APP",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:APP",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "e00c7d4784672c31d2412ad00240eefc3cb47b5cbcc574b86e84880e988b6a19",
+      "query_name": "β-type CGRP",
+      "original_authority_name": "Beta-type CGRP",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CALCB",
+      "query_reference_entity": "TARGET:CALCB",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CALCB",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "316ffde1979211e32b9f9ddef406b7cb509fd02a5578312b788f1628e5e80f23",
+      "query_name": "Detyrosinated tubulin α-1B chain",
+      "original_authority_name": "Detyrosinated tubulin alpha-1B chain",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:TUBA1B",
+      "query_reference_entity": null,
+      "raw_spelling_expected": {
+        "status": "UNRESOLVED",
+        "entity_id": null,
+        "candidates": []
+      },
+      "reason": "Authority identity ambiguous or multi-gene; no new target may be asserted for this name."
+    },
+    {
+      "id": "ea1cfa8bfdb11793ecafddffd665c28103c3badbd5c933bd32c1fddb059601e9",
+      "query_name": "C3 and PZP-like α-2-macroglobulin domain-containing protein 4",
+      "original_authority_name": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:C5",
+      "query_reference_entity": "TARGET:C5",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:C5",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "53b38330e8593080d84a82e97b066c53e39cb7de3d746d9d883c8f69fb8658c4",
+      "query_name": "α-2 type I collagen",
+      "original_authority_name": "Alpha-2 type I collagen",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:COL1A2",
+      "query_reference_entity": "TARGET:COL1A2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:COL1A2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "0653208d4d2598f1e7f44705b85b757dd9d96e6db456be9f4807274cbbeda812",
+      "query_name": "Isocitrate dehydrogenase [NAD] subunit α, mitochondrial",
+      "original_authority_name": "Isocitrate dehydrogenase [NAD] subunit alpha, mitochondrial",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:IDH3A",
+      "query_reference_entity": "TARGET:IDH3A",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:IDH3A",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "9a7ff9870388a1b9df8e79c9f57754d255af0cc0d495d17e49ce164d83aebb77",
+      "query_name": "Sodium channel protein brain I subunit α",
+      "original_authority_name": "Sodium channel protein brain I subunit alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:SCN1A",
+      "query_reference_entity": "TARGET:SCN1A",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:SCN1A",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "c62a1e48fe3b2b19b770c9a37a14862a4f0d0e7f67f840d6dcd621fa13a19263",
+      "query_name": "(R)β-hydroxybutyrate dehydrogenase",
+      "original_authority_name": "(R)-beta-hydroxybutyrate dehydrogenase",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:BDH2",
+      "query_reference_entity": "TARGET:BDH2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:BDH2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "30864c7e2463b7c419920413fec543186b153705121a742ac4050325e9c7b5d8",
+      "query_name": "thymosin, β 4, X chromosome",
+      "original_authority_name": "thymosin, beta 4, X chromosome",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:TMSB4X",
+      "query_reference_entity": "TARGET:TMSB4X",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:TMSB4X",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "326acf78e872431cb2ea701090a4a292039616a5becc5f1114db59d3ff36a943",
+      "query_name": "Phosphorylase kinase subunit β",
+      "original_authority_name": "Phosphorylase kinase subunit beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PHKB",
+      "query_reference_entity": "TARGET:PHKB",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:PHKB",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "372bf9395493eef0921f89f3d2d82502ea82df22d85c5c5fc2586a3d0c00c8a5",
+      "query_name": "GDNF family receptor α-3",
+      "original_authority_name": "GDNF family receptor alpha-3",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:GFRA3",
+      "query_reference_entity": "TARGET:GFRA3",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:GFRA3",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "9ade344cdf7b2c87925d6fd4ec2f5764938a4c6dba6c2c67cd46a04a5d904b1c",
+      "query_name": "COPI coat complex subunit ε",
+      "original_authority_name": "COPI coat complex subunit epsilon",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:COPE",
+      "query_reference_entity": "TARGET:COPE",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:COPE",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "bf361cb45d3d459d019eb41b9ce0491feb8ea55375b07538aa8256c9cd06e1b9",
+      "query_name": "protein kinase, cAMP-dependent, regulatory, type I, β",
+      "original_authority_name": "protein kinase, cAMP-dependent, regulatory, type I, beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PRKAR1B",
+      "query_reference_entity": "TARGET:PRKAR1B",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:PRKAR1B",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "39127bc911bdaa94d4d6955c3c7a8ea7ac791cd628acbab1938176ee5d8d63e4",
+      "query_name": "Brain-derived τ kinase",
+      "original_authority_name": "Brain-derived tau kinase",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:TTBK1",
+      "query_reference_entity": "TARGET:TTBK1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:TTBK1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "d1a0f782e8a8c26b7fa9cb535c94082d31e9cd709f2158db7c15b252ad31921d",
+      "query_name": "transforming growth factor β receptor I",
+      "original_authority_name": "transforming growth factor beta receptor I",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:TGFBR1",
+      "query_reference_entity": "TARGET:TGFBR1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:TGFBR1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "c754fc426036d00635105420bd60524f0051a3a3483a0445fb3167158b3c5598",
+      "query_name": "DAGLα",
+      "original_authority_name": "DAGL-alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:DAGLA",
+      "query_reference_entity": "TARGET:DAGLA",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:DAGLA",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "2ee3dfa084bb08ea8766150156c0d809a30e2363f38de56545d9d0785457bc1c",
+      "query_name": "TRβ",
+      "original_authority_name": "TR-BETA",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:TXNRD2",
+      "query_reference_entity": "TARGET:TXNRD2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:TXNRD2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "f3da7a59a8655615228337266d7e149f675b0896213cc162ba67eb07f8994598",
+      "query_name": "Serine/threonine-protein kinase MRCK β",
+      "original_authority_name": "Serine/threonine-protein kinase MRCK beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CDC42BPB",
+      "query_reference_entity": "TARGET:CDC42BPB",
+      "raw_spelling_expected": {
+        "status": "UNRESOLVED",
+        "entity_id": null,
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "6ad32bf49096d6bef4ccfa6aa6b714cc367168261fd9beefc38497b6a0907790",
+      "query_name": "CTP:phosphocholine cytidylyltransferaseα",
+      "original_authority_name": "CTP:phosphocholine cytidylyltransferase-alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PCYT1A",
+      "query_reference_entity": "TARGET:PCYT1A",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:PCYT1A",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "7810245370e5e26c416d267b82d8b43741737428345b5a314764550241bc1daf",
+      "query_name": "interleukin 2 receptor, α",
+      "original_authority_name": "interleukin 2 receptor, alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:IL2RA",
+      "query_reference_entity": "TARGET:IL2RA",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:IL2RA",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "01465f4f3ea435f7ce8a21c74bd6ec1845991bce37d303f292fc8711878964f3",
+      "query_name": "Lanosterol 14α demethylase",
+      "original_authority_name": "Lanosterol 14-alpha demethylase",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CYP51A1",
+      "query_reference_entity": "TARGET:CYP51A1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CYP51A1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "615f50072e9e979dd68ce9a733c78f418b9edd70e68c8d4c6af5cfff8ca92317",
+      "query_name": "RAC-PKγ",
+      "original_authority_name": "RAC-PK-gamma",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:AKT3",
+      "query_reference_entity": "TARGET:AKT3",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:AKT3",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "47df245c96c857565ecef59dcadf89590dbd1555c853072e3f1a5c66f46efa58",
+      "query_name": "Glycoprotein-fucosylgalactoside α-galactosyltransferase",
+      "original_authority_name": "Glycoprotein-fucosylgalactoside alpha-galactosyltransferase",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:ABO",
+      "query_reference_entity": "TARGET:ABO",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:ABO",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "f8123f8824020301bbe57673349ee76f4c4624939a147fdeed18a85312cd57da",
+      "query_name": "voltage-gated calcium channel α subunit Cav2.3",
+      "original_authority_name": "voltage-gated calcium channel alpha subunit Cav2.3",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CACNA1E",
+      "query_reference_entity": "TARGET:CACNA1E",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CACNA1E",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "97cc744511a2d8414630f02fee59581ad3830a62bc3e4c5ac26fc353c69d9a65",
+      "query_name": "sodium/potassium-dependent ATPase β-1 subunit",
+      "original_authority_name": "sodium/potassium-dependent ATPase beta-1 subunit",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:ATP1B1",
+      "query_reference_entity": "TARGET:ATP1B1",
+      "raw_spelling_expected": {
+        "status": "UNRESOLVED",
+        "entity_id": null,
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "4dd257833be272a5876e7f5ce42fe0b2334a5dc01380161b1d96b9a83b4faf0a",
+      "query_name": "GDNF receptor α 1e",
+      "original_authority_name": "GDNF receptor alpha 1e",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:GFRA1",
+      "query_reference_entity": "TARGET:GFRA1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:GFRA1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "c9c1477658d39031f3ded97b074ba104683bc7ed61aaf6c59f9d33a42c0fce6d",
+      "query_name": "large conductance Ca2+-activated K+ channel β 1 subunit",
+      "original_authority_name": "large conductance Ca2+-activated K+ channel beta 1 subunit",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:KCNMB1",
+      "query_reference_entity": "TARGET:KCNMB1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:KCNMB1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "5d95d20a908936facb1a5c3e7ed23fb0e4322e483d8b6d2b65665a31549cd9aa",
+      "query_name": "Steroid δ-isomerase",
+      "original_authority_name": "Steroid Delta-isomerase",
+      "original_lookup_status": "AMBIGUOUS",
+      "original_lookup_entity": null,
+      "query_reference_entity": null,
+      "raw_spelling_expected": {
+        "status": "AMBIGUOUS",
+        "entity_id": null,
+        "candidates": [
+          "TARGET:HSD3B1",
+          "TARGET:HSD3B2"
+        ]
+      },
+      "reason": "Authority identity ambiguous or multi-gene; no new target may be asserted for this name."
+    },
+    {
+      "id": "4e87e4131f989f5a138bff984ec437a9afcb0db0bf169309c60acf46c9880a1b",
+      "query_name": "acetylcholine receptor, nicotinic, δ (muscle)",
+      "original_authority_name": "acetylcholine receptor, nicotinic, delta (muscle)",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CHRND",
+      "query_reference_entity": "TARGET:CHRND",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CHRND",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "847ec181c4228d066680fb60c402679cdf45bf0e259bd15f6664ff78d6c6f092",
+      "query_name": "4-galactosyl-N-acetylglucosaminide 3α-L-fucosyltransferase",
+      "original_authority_name": "4-galactosyl-N-acetylglucosaminide 3-alpha-L-fucosyltransferase",
+      "original_lookup_status": "AMBIGUOUS",
+      "original_lookup_entity": null,
+      "query_reference_entity": null,
+      "raw_spelling_expected": {
+        "status": "AMBIGUOUS",
+        "entity_id": null,
+        "candidates": [
+          "TARGET:FUT3",
+          "TARGET:FUT4"
+        ]
+      },
+      "reason": "Authority identity ambiguous or multi-gene; no new target may be asserted for this name."
+    },
+    {
+      "id": "e8b897ea550a2359a6f81460c741190b29f563c0e2760b2b7b469b2bfd1f88fb",
+      "query_name": "PI3Kδ",
+      "original_authority_name": "PI3K-delta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PIK3CD",
+      "query_reference_entity": "TARGET:PIK3CD",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:PIK3CD",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "fb2c48169afbd186b5b887d6f9c40b97733ec0731a71a9f409f4ec5213c32ad7",
+      "query_name": "pro-interleukin-1β",
+      "original_authority_name": "pro-interleukin-1-beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:IL1B",
+      "query_reference_entity": "TARGET:IL1B",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:IL1B",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "01d029edfb670af2d50ed8fa778d04649d84b2dfc2bb3c6c4052b899eb41cc82",
+      "query_name": "Serine/threonine-protein phosphatase 2B catalytic subunit β isoform",
+      "original_authority_name": "Serine/threonine-protein phosphatase 2B catalytic subunit beta isoform",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PPP3CB",
+      "query_reference_entity": "TARGET:PPP3CB",
+      "raw_spelling_expected": {
+        "status": "UNRESOLVED",
+        "entity_id": null,
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "667ab85f588de77794b9540f94fa208fe77db72224000a2e5d41b7098b8c8750",
+      "query_name": "tumor necrosis factor, α, converting enzyme",
+      "original_authority_name": "tumor necrosis factor, alpha, converting enzyme",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:ADAM17",
+      "query_reference_entity": "TARGET:ADAM17",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:ADAM17",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "d919bb331ddeb473369f2ae5553e7502f541b4441c5086358e14900cf658415c",
+      "query_name": "MGSA β",
+      "original_authority_name": "MGSA beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CXCL2",
+      "query_reference_entity": "TARGET:CXCL2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CXCL2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "d35dc50ee3ffa49be57bcf8c38104397d12660d7762f6e1613b1e237aeb77525",
+      "query_name": "polymerase (DNA directed), δ 2, regulatory subunit 50kDa",
+      "original_authority_name": "polymerase (DNA directed), delta 2, regulatory subunit 50kDa",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:POLD2",
+      "query_reference_entity": "TARGET:POLD2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:POLD2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "3d6ba02953f018d49f7d74a2bae8ea4c36b74ec8d56cf368b30a6df993f5dfd8",
+      "query_name": "nascent-polypeptide-associated complex β polypeptide",
+      "original_authority_name": "nascent-polypeptide-associated complex beta polypeptide",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:BTF3",
+      "query_reference_entity": "TARGET:BTF3",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:BTF3",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "c22ce64109d4224825e4322943e9c412398f2535490882c609fd346ce4bf0fe6",
+      "query_name": "HNF-4γ",
+      "original_authority_name": "HNF-4-gamma",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:HNF4G",
+      "query_reference_entity": "TARGET:HNF4G",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:HNF4G",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "b41f5bac8665b6b5216488be9d8b98c7032176cf41d4a1983b6209baadbfb964",
+      "query_name": "tubulin γ complex associated protein 3",
+      "original_authority_name": "tubulin gamma complex associated protein 3",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:TUBGCP3",
+      "query_reference_entity": "TARGET:TUBGCP3",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:TUBGCP3",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "d2696768a95cc7fba1b7513193a338b6ee39c3b39b150cb886320040c548dd0c",
+      "query_name": "CD8 β opposite",
+      "original_authority_name": "CD8 beta opposite",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:SMYD1",
+      "query_reference_entity": "TARGET:SMYD1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:SMYD1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "7b77f4451d71479dffd63bdd563cc18c8e5c1c90c119e8560aba71a9a8f098b5",
+      "query_name": "Na(+)/K(+) ATPase α-1 subunit",
+      "original_authority_name": "Na(+)/K(+) ATPase alpha-1 subunit",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:ATP1A1",
+      "query_reference_entity": "TARGET:ATP1A1",
+      "raw_spelling_expected": {
+        "status": "UNRESOLVED",
+        "entity_id": null,
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "3f30bad016cc30ef0d1e252b35cbde71e3ec2fd42a91d321d2e132b7327bb339",
+      "query_name": "Fc fragment of IgE, high affinity I, receptor for; α polypeptide",
+      "original_authority_name": "Fc fragment of IgE, high affinity I, receptor for; alpha polypeptide",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:FCER1A",
+      "query_reference_entity": "TARGET:FCER1A",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:FCER1A",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "a7f3b268ce66a3abfb2b471de3e0b0919cfde0f754385f0a2def308551b3ee9f",
+      "query_name": "AchR ε subunit",
+      "original_authority_name": "AchR epsilon subunit",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CHRNE",
+      "query_reference_entity": "TARGET:CHRNE",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CHRNE",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "f559bace6f5f8b8e359e1f928527b0b23a286f43cc7a7f7edad12e07979c17c2",
+      "query_name": "Nuclear receptor RORγ",
+      "original_authority_name": "Nuclear receptor ROR-gamma",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:RORC",
+      "query_reference_entity": "TARGET:RORC",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:RORC",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "3105ead15b7d3eee787f6120db9c72c8cd70de9a5d3db7e7d4484752a08ba902",
+      "query_name": "MMIα",
+      "original_authority_name": "MMI-alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:MYO1B",
+      "query_reference_entity": "TARGET:MYO1B",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:MYO1B",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "82634bba2df524b4f9afd88431f3478430c4c6284184f766fd30eff239d01821",
+      "query_name": "interferon α 1b",
+      "original_authority_name": "interferon alpha 1b",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:IFNA1",
+      "query_reference_entity": null,
+      "raw_spelling_expected": {
+        "status": "UNRESOLVED",
+        "entity_id": null,
+        "candidates": []
+      },
+      "reason": "Authority identity ambiguous or multi-gene; no new target may be asserted for this name."
+    },
+    {
+      "id": "8c3826136deef833c469dbacb6218ca7025ea6a807080c073107431d96a25063",
+      "query_name": "Adaptor protein complex AP-2 subunit μ",
+      "original_authority_name": "Adaptor protein complex AP-2 subunit mu",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:AP2M1",
+      "query_reference_entity": "TARGET:AP2M1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:AP2M1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "f7ede70d3c05cecee8771793419c0049ce7e8cdfa2f0f1f4eac29a154d25531b",
+      "query_name": "COPI coat complex subunit γ 1",
+      "original_authority_name": "COPI coat complex subunit gamma 1",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:COPG1",
+      "query_reference_entity": "TARGET:COPG1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:COPG1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "ef01c57df4637ff36f5582ce9d865fc4a122913cf96579c34ba267b9de24f6ed",
+      "query_name": "p70(S6K)β",
+      "original_authority_name": "p70(S6K)-beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:RPS6KB2",
+      "query_reference_entity": "TARGET:RPS6KB2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:RPS6KB2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "9717e6bee5f8b0192fe49a4f9112db5914231fc428c466c5575f02a566d3aeab",
+      "query_name": "IL-5Rα",
+      "original_authority_name": "IL-5R-alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:IL5RA",
+      "query_reference_entity": "TARGET:IL5RA",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:IL5RA",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "04846c366ebb76abfee886c08eea9e911f3470b958de701150fa1a686e73bf0f",
+      "query_name": "γ-secretase-activating protein 16 kDa C-terminal form",
+      "original_authority_name": "Gamma-secretase-activating protein 16 kDa C-terminal form",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:GSAP",
+      "query_reference_entity": "TARGET:GSAP",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:GSAP",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "8de4dbef6c085fd6c3460f457a4587e417ecfd7d5ccc56cc8bd40d755a307242",
+      "query_name": "Cholesterylβ-glucosidase GBA2",
+      "original_authority_name": "Cholesteryl-beta-glucosidase GBA2",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:GBA2",
+      "query_reference_entity": "TARGET:GBA2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:GBA2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "fb9d6da5263bd14c184a9408e78edea59b8d66d6e4d30b2dab8f7ab736272030",
+      "query_name": "δ and Notch-like epidermal growth factor-related receptor",
+      "original_authority_name": "Delta and Notch-like epidermal growth factor-related receptor",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:DNER",
+      "query_reference_entity": "TARGET:DNER",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:DNER",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "2a5ddd1731cc66f2d6ac2eeda10f7ba9fd6d89d7874739605c96ad8ecb453cc3",
+      "query_name": "3β-hydroxy-5-ene steroid dehydrogenase",
+      "original_authority_name": "3-beta-hydroxy-5-ene steroid dehydrogenase",
+      "original_lookup_status": "AMBIGUOUS",
+      "original_lookup_entity": null,
+      "query_reference_entity": null,
+      "raw_spelling_expected": {
+        "status": "AMBIGUOUS",
+        "entity_id": null,
+        "candidates": [
+          "TARGET:HSD3B1",
+          "TARGET:HSD3B2"
+        ]
+      },
+      "reason": "Authority identity ambiguous or multi-gene; no new target may be asserted for this name."
+    },
+    {
+      "id": "d9e2faad283dd22b56f6d4b0a54ac19da8a0cbd54232e1bd4b1374f194b3fd30",
+      "query_name": "Soluble APPα",
+      "original_authority_name": "Soluble APP-alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:APP",
+      "query_reference_entity": "TARGET:APP",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:APP",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "cd22a8cc125401d65bc5faad8ac6ca51891087fbd4c414ebbd27c710444f6cd9",
+      "query_name": "Chondroitin β-1,4-N-acetylgalactosaminyltransferase 1",
+      "original_authority_name": "Chondroitin beta-1,4-N-acetylgalactosaminyltransferase 1",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CSGALNACT1",
+      "query_reference_entity": "TARGET:CSGALNACT1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CSGALNACT1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "a60b51df58fdea2f02b7d015a9f09beaaec8d62f95f21d62de3dda9343157c20",
+      "query_name": "LX receptor β",
+      "original_authority_name": "LX receptor beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:NR1H2",
+      "query_reference_entity": "TARGET:NR1H2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:NR1H2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "76fb294cdf7e7ffc3cdd8036f3f7a2e1db1dfcd1ab37beae7f8624304b4640a2",
+      "query_name": "ATPase, Na+/K+ transporting, β 3 polypeptide",
+      "original_authority_name": "ATPase, Na+/K+ transporting, beta 3 polypeptide",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:ATP1B3",
+      "query_reference_entity": "TARGET:ATP1B3",
+      "raw_spelling_expected": {
+        "status": "UNRESOLVED",
+        "entity_id": null,
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "cfa817a03029a6f1199c2d72638684fe7c93b58894a4c4b611249c64c788ec33",
+      "query_name": "3-galactosyl-N-acetylglucosaminide 4α-L-fucosyltransferase 3",
+      "original_authority_name": "3-galactosyl-N-acetylglucosaminide 4-alpha-L-fucosyltransferase 3",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:FUT3",
+      "query_reference_entity": "TARGET:FUT3",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:FUT3",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "11a027ce541f2bade3afaf99197dfb11448d6a274fb422b2ae31c39ffee6cdf9",
+      "query_name": "Protein transport protein Sec61 subunit β",
+      "original_authority_name": "Protein transport protein Sec61 subunit beta",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:SEC61B",
+      "query_reference_entity": "TARGET:SEC61B",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:SEC61B",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "4280236fb69281c4e217dbda5cc34a048f9908605e65c69282b0604685e44d0b",
+      "query_name": "3 β-HSD type II",
+      "original_authority_name": "3 beta-HSD type II",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:HSD3B2",
+      "query_reference_entity": "TARGET:HSD3B2",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:HSD3B2",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "1ca689af2f587d4e3f2cf63e8763fac77efe6885c557669f5d13acd1085fd87b",
+      "query_name": "CaMK-II subunit α",
+      "original_authority_name": "CaMK-II subunit alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CAMK2A",
+      "query_reference_entity": "TARGET:CAMK2A",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CAMK2A",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "e4e5808e7e78529cb94da837c685acd73ada12b797ba29f9282da13b0b81addd",
+      "query_name": "phosphorylase kinase, δ subunit",
+      "original_authority_name": "phosphorylase kinase, delta subunit",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CALM2",
+      "query_reference_entity": null,
+      "raw_spelling_expected": {
+        "status": "UNRESOLVED",
+        "entity_id": null,
+        "candidates": []
+      },
+      "reason": "Authority identity ambiguous or multi-gene; no new target may be asserted for this name."
+    },
+    {
+      "id": "e2221298cc0eeba4638116e71722d580f7a4814567bc8adc22bcb2856bfc2faf",
+      "query_name": "CMP-N-acetylneuraminate β-galactosamide alpha-2,6-sialyltransferase",
+      "original_authority_name": "CMP-N-acetylneuraminate beta-galactosamide alpha-2,6-sialyltransferase",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:ST6GAL1",
+      "query_reference_entity": "TARGET:ST6GAL1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:ST6GAL1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "441a301cf36f6bce900b482b705b8aaf237b617f837bd31160ea87d20ad3415e",
+      "query_name": "PIASγ",
+      "original_authority_name": "PIAS-gamma",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PIAS4",
+      "query_reference_entity": "TARGET:PIAS4",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:PIAS4",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "1a1b75ae78b9aeb37aab200b0f4aca9210ca634cc194248d1b5021411c832835",
+      "query_name": "α-galactosidase B",
+      "original_authority_name": "Alpha-galactosidase B",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:NAGA",
+      "query_reference_entity": "TARGET:NAGA",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:NAGA",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "c19b8111ae4c26e7d4782c1fc9badac6a35792d1b80bfeb7bc259a0be26db8d4",
+      "query_name": "Thymopoietin-related peptide isoform α",
+      "original_authority_name": "Thymopoietin-related peptide isoform alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:TMPO",
+      "query_reference_entity": "TARGET:TMPO",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:TMPO",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "4081d61f4c70fdead85e029427dd6751a2abcf6b539cb6bd20151fb6b5edf826",
+      "query_name": "PP2Cγ",
+      "original_authority_name": "PP2C-gamma",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PPM1G",
+      "query_reference_entity": "TARGET:PPM1G",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:PPM1G",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "b04540a4abf347bd970c732febaeadf8b0f811d83085c3a0bc79ee308950729d",
+      "query_name": "Guanine nucleotide-binding protein G(y) subunit α",
+      "original_authority_name": "Guanine nucleotide-binding protein G(y) subunit alpha",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:GNA11",
+      "query_reference_entity": "TARGET:GNA11",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:GNA11",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "c6599eaf9d4567265d0313f50aa621124c5ea2848fb3a4eb5025a5d086538fc7",
+      "query_name": "β-glucocerebrosidase",
+      "original_authority_name": "Beta-glucocerebrosidase",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:GBA1",
+      "query_reference_entity": "TARGET:GBA1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:GBA1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "f8c1401366cb352b52b4d14462977da68757e69c5f45a120e6d455624dbc288d",
+      "query_name": "collagen, type IV, α 3 (Goodpasture antigen) binding protein",
+      "original_authority_name": "collagen, type IV, alpha 3 (Goodpasture antigen) binding protein",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:CERT1",
+      "query_reference_entity": "TARGET:CERT1",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:CERT1",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    },
+    {
+      "id": "fd5b4299f77f7206328ee9393c936ee262127047e2605bed7ee491468e6d19df",
+      "query_name": "Proteasome subunit α type-6",
+      "original_authority_name": "Proteasome subunit alpha type-6",
+      "original_lookup_status": "RESOLVED",
+      "original_lookup_entity": "TARGET:PSMA6",
+      "query_reference_entity": "TARGET:PSMA6",
+      "raw_spelling_expected": {
+        "status": "RESOLVED",
+        "entity_id": "TARGET:PSMA6",
+        "candidates": []
+      },
+      "reason": "Unique coherent original authority gene identity; query may contain any complete independently certified alias of this same gene."
+    }
+  ],
+  "certified_reference_count": 90,
+  "abstention_count": 6
+}
