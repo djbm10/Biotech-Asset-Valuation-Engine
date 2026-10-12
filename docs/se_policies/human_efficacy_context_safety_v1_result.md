@@ -102,3 +102,15 @@ Revert the scorer-fixture commit and the implementation commit normally, verify 
 restoration against the preregistered clean baseline, update the handoff, and stop. A future
 v2 requires new diagnosis/preregistration; this result does not authorize it or any later
 target, qualification, identity, modality or ranking milestone.
+
+## Final restoration — REVERTED
+
+Failed result committed at `5b5eccf`; fixture normally reverted at `7abb0bc`, and the
+implementation normally reverted at `39bcef1`. Production source/tests/scripts are
+byte-identical to clean `c5bc865`, and the extractor is again `human_poc_v4`. All original
+run, preregistration and protected-file hashes remain unchanged. Restored targeted
+human-PoC tests: 87 passed; restored-source Ruff clean. The full suite was not rerun after
+reversion; the original full baseline was 1,701 passed / 3 expected xfails.
+
+No fix is adopted; the original false-positive defects remain unresolved. H6–H10 remain
+UNRUN. H16–H20 remain exposed diagnostic data. Stop before any further implementation.

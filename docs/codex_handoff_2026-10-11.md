@@ -1,5 +1,74 @@
 # Codex handoff — S&E engine, 2026-10-11
 
+## Current outcome — HUMAN_EFFICACY_CONTEXT_SAFETY v1 REVERTED
+
+Clean milestone baseline / primary diagnosis **c5bc865**. Preregistration **38ca6c8**;
+implementation **755e9c1**; scorer fixture completion **b1645a3** (before scoring);
+failed-result record **5b5eccf**; normal fixture revert **7abb0bc** and implementation
+revert **39bcef1**. Production source/tests/scripts are byte-identical to c5bc865;
+extractor is again `human_poc_v4`. No post-result behavior or label patch was made.
+
+Frozen rules: `docs/se_policies/human_efficacy_context_safety_v1.md`.
+First result: `docs/se_policies/human_efficacy_context_safety_v1_result.md`.
+Population, accepted/UNKNOWN examples, independent witness judgments, attempted code,
+all first-result scores/quality logs and byte-restoration proofs:
+`research/se_human_efficacy_context_safety_v1/` and its `result/` directory.
+Failed scorer is retained in the result packet and in b1645a3 history; it is removed
+from production scripts by the normal revert. Do not run it against restored source
+and overwrite the preserved failed attempt.
+
+**Frozen E1–E10:** E1 PASS; E2 PASS; E3 FAIL; E4 PASS; E5 FAIL; E6 FAIL;
+E7 PASS; E8 PASS; E9 FAIL; E10 FAIL. **Decision: FAILED_ACCEPTANCE / REVERTED.**
+Both exact H18/H19 false witnesses reject under the attempt, but that is not adoption.
+The structural quantity matcher preserves only **143/162** pre-adjudicated clinical
+claim/run witnesses, rejects **57/59** independently adjudicated false numerical witnesses,
+and preserves **94/96** legacy reader-call outcomes. The frozen population includes
+110 distinct admitted passages, 71 new semantic controls, 13 structured controls and
+all 96 existing reader inputs captured during the baseline full suite.
+
+Attempt quality: **1,971 passed / 20 failed / 3 expected xfails**, 1,994 total.
+Required Ruff checks clean (cache-write sandbox failure retried without cache, no code change).
+After normal reversion: all **87** old human-PoC tests pass; restored-source Ruff clean.
+Full tests/se was not rerun after reversal: exact source/tests/scripts restoration is
+independently verified against the baseline full run of **1,701 passed / 3 expected xfails**.
+Every protected policy/source and original selected run hash is unchanged.
+
+Failure details BEFORE any future preregistration:
+- Clinical grammar is over-restricted: `10/16 evaluable pts ... ongoing BM CR`, measured
+  flare-risk reduction, comparator ellipses and plain patient-count outcome formulations
+  lose valid admission. Some receptor/identifier ratios still masquerade as outcome values.
+- C056 was baseline PASS but frozen expected UNKNOWN: a first-item regimen attribution
+  weakness, outside the intended nonclinical-context scope. Do not retroactively remove
+  this failed control or silently change the v1 expectation.
+- Earlier `test_indication_gate_semantics_v3.py::test_frozen_compilation_and_source_isolation`
+  pins the old human-PoC source hash and rejects any authorized later module change. An
+  explicit historical-test lifecycle/ownership decision is needed before a new attempt.
+  No old hash oracle was edited or xfailed. Even without that conflict, E6/E9 fail.
+
+**No durable efficacy fix is adopted.** The two original false human-PoC defects remain
+unresolved under restored production. Context safety remains the first milestone priority,
+but a future v2 needs new diagnosis/preregistration; v1 may never be patched or rescued.
+Stop here. No target-alias, qualification, modality, identity, ranking or routing milestone
+was implemented. Later causes stay separate: H17/H20 aliases; H19 qualification/PEPTIDE/
+discovery; H18 trade names; H16 modality-before-target ordering.
+
+## Primary validation and diagnosis — preserved
+
+Primary H16–H20 validation is **FAIL 0/5**, label commit **eed63eb**, result **ab0f02b**,
+diagnosis **c5bc865**. `PRIMARY_VALIDATION_FAILURE_DIAGNOSIS v1` and the 66-entry failure
+boundary register remain frozen. H16/H18/H19 INCOMPLETE outputs are valid scoring inputs
+under preregistered `--allow-incomplete`; H17/H20 are frozen refusals, not rephrased.
+Original interrupted H17/H18 runs remain excluded. **H16–H20 are now exposed diagnostic /
+development data, never fresh generalization evidence. H6–H10 remain UNRUN.** No live search,
+corpus replay, top20 optimization or later root-cause implementation was launched.
+
+All older “untouched H16–H20” descriptions below are historical states, superseded here.
+The adopted indication stack remains intact. The previous outcomes are preserved verbatim.
+
+## Historical handoff — prior outcomes
+
+# Codex handoff — S&E engine, 2026-10-11
+
 ## Current outcome — INDICATION_GATE_SEMANTICS v3 ADOPTED (2026-10-11)
 
 Audit **ff2a69b**, preregistration **6b82d42**, implementation **625db7a**,

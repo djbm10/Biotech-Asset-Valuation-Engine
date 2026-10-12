@@ -1,0 +1,20 @@
+{
+  "status": "REVERTED",
+  "fixture_revert_commit": "7abb0bc",
+  "implementation_revert_commit": "39bcef1",
+  "source_tests_scripts_byte_identical_to": "c5bc865",
+  "preregistration_and_labels_unchanged": true,
+  "original_benchmark_and_diagnostic_run_hashes_unchanged": true,
+  "protected_files_unchanged": true,
+  "restored_extractor_version": "human_poc_v4",
+  "later_milestones_started": false,
+  "H6_H10": "UNRUN",
+  "restored_targeted_tests": {
+    "tests": 87,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "restored_ruff_exit_code": 0,
+  "post_revert_full_suite_rerun": false
+}
