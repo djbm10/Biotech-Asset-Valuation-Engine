@@ -1,0 +1,29 @@
+{
+  "decision": "DIAGNOSIS_ONLY_COMPLETE",
+  "known_false_claims": 4,
+  "clinical_loss_claim_run_rows": 19,
+  "changed_legacy_inputs": 2,
+  "accepted_representatives": 8,
+  "current_admits_all_selected": true,
+  "archived_v1_rejects_all_21_lost_inputs": true,
+  "all_21_archived_population_checks_true": true,
+  "all_21_archived_quantity_binding_returns_none": true,
+  "publication_source_matches": 31,
+  "snapshot_hashes_verified": 31,
+  "exact_match_offsets_verified": true,
+  "prior_packet_integrity": {
+    "preregistration_manifest.json": {
+      "checked_files": 17,
+      "mismatches": []
+    },
+    "result/result_manifest.json": {
+      "checked_files": 14,
+      "mismatches": []
+    }
+  },
+  "production_diff_from_c5bc865": [],
+  "new_implementation": false,
+  "new_preregistration": false,
+  "new_scores": false,
+  "tests_run": "None; diagnosis-only artifacts, no production/tests/scripts changes. Read-only assertions and hash checks executed."
+}

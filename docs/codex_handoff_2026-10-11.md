@@ -1,3 +1,34 @@
+# 2026-10-11 HUMAN_EFFICACY_BOUNDARY_DIAGNOSIS v2 — DIAGNOSIS ONLY / COMPLETE
+
+Frozen diagnosis: `docs/se_policies/human_efficacy_boundary_diagnosis_v2.md`.
+Evidence packet: `research/se_human_efficacy_boundary_diagnosis_v2/` (exact
+side-by-side passages, source context, offsets, current/archived predicate
+traces, selection and integrity checks).
+
+Compared all **4 false claim witnesses (3 distinct passages)**, all **19 v1
+clinical claim/run losses (12 distinct passages)**, both changed legacy
+positives, and 8 representative accepted claims. All 33 reproduce PASS under
+restored human_poc_v4. All 21 wrongly lost clinical/legacy inputs pass the
+archived population check but fail its quantity binder. This isolates the
+failed attempt's preservation defect to its clause/quantity-link mechanism.
+
+Supported semantic boundary: an observed clinical-result proposition must
+resolve clinical participants, disease outcome, outcome magnitude, and treated
+asset/arm roles. Those roles can span clauses and bounded comparison
+continuations. Identifiers, assay measurements, modeled entities/parameters,
+confidence levels, thresholds, baseline burden and cohort size have different
+roles. Clinical-content truth is separate from strict asset/regimen attribution;
+existing regimen and nonasset identity concerns are recorded without changing
+frozen labels.
+
+**No implementation-ready rule has been preregistered. No efficacy fix or other
+root-cause work is authorized by this diagnosis. Stop here.** The failed v1
+attempt remains REVERTED; all source/tests/scripts still match c5bc865 and the
+prior preregistered/first-result packet hashes remain intact. False human-PoC
+remains first priority; a later proposal must make the relational boundary
+concrete before changing behavior. H16–H20 remain diagnostic/development data,
+not future generalization evidence. **H6–H10 remain UNRUN.**
+
 # Codex handoff — S&E engine, 2026-10-11
 
 ## Current outcome — HUMAN_EFFICACY_CONTEXT_SAFETY v1 REVERTED

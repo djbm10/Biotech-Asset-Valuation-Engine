@@ -1,0 +1,11 @@
+{
+  "milestone": "HUMAN_EFFICACY_BOUNDARY_DIAGNOSIS v2",
+  "files": {
+    "collect_boundary_v2.py": "0eff93164bb6e871b0016322af2253d0385657541a56d79c858aadac2e1eeeba",
+    "input_manifest.json": "f58be77028db93164f4a541b382b4f32f20c7519a43bdb8d54f9f381276fa8c3",
+    "selection.json": "57aa008d5c4cda77a923704de2530e7af80cd635cb15ed317a2505a1b3cc5b4e",
+    "side_by_side.md": "640a7567349fca833fbc6cb048329043c32933fa82ba28ea4e7e220aa97a6d99",
+    "verification.json": "2ce25a7cd168fddae95516b4b49467dc40db9b76190cffbea818ce93b87e064a",
+    "witness_register.json": "8c4b3486905c7d35b96ccb640b397f0a7009d1a999cbe79cf3bc4a381674ac72"
+  }
+}
