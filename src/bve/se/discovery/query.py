@@ -13,7 +13,7 @@ from bve.se.discovery.seeding import (
 from bve.se.schemas.contracts import BuyerProblemV2, CompiledQuery, TargetOperator
 from bve.se.ontology.modality import modality_query_terms
 from bve.se.discovery.alias_admission import searchable_target_aliases
-from bve.se.ontology.targets import normalize_target, resolve_target
+from bve.se.ontology.targets import resolve_target
 
 
 class AmbiguousTargetError(ValueError):
@@ -90,7 +90,7 @@ def compile_problem_queries(
         list(
             dict.fromkeys(
                 [
-                    normalize_target(target.canonical_id) or target.canonical_id,
+                    target.canonical_id,
                     target.label,
                     *target.aliases,
                     *_ontology_terms(target.canonical_id),

@@ -23,7 +23,7 @@ import re
 from bve.se.intent.grammar import grammatical_negations
 from bve.se.intent.intent import INTENT_COMPILER_VERSION, IntentSpan, SearchIntent, SpanKind
 from bve.se.ontology.modality import known_modalities, modality_aliases, normalize_modality
-from bve.se.ontology.resolver import CanonicalEntity, ResolutionStatus
+from bve.se.ontology.resolver import ResolutionStatus
 from bve.se.ontology.targets import ontology_version, resolve_target
 from bve.se.schemas.contracts import PhaseConstraintOperator, TargetOperator, TargetTerm
 
@@ -262,19 +262,6 @@ def _match_modality(phrase: str) -> str | None:
     return None
 
 
-def _target_reference(entity: CanonicalEntity) -> str:
-    """Carry certified identity when the display symbol would lose it."""
-    symbol = entity.canonical_symbol
-    resolution = resolve_target(symbol) if symbol else None
-    if (
-        resolution is not None
-        and resolution.status is ResolutionStatus.RESOLVED
-        and resolution.canonical_id == entity.canonical_id
-    ):
-        return symbol
-    return entity.canonical_id
-
-
 def _apply_separator_safety(query: str, spans: list[IntentSpan]) -> list[IntentSpan]:
     """``dual_target_separator_safety_v1.md`` §7: never assert a target from a name fragment.
 
@@ -312,7 +299,7 @@ def _apply_separator_safety(query: str, spans: list[IntentSpan]) -> list[IntentS
                     start=t_start + offset,
                     end=t_start + offset + len(cleaned),
                     kind=SpanKind.TARGET,
-                    resolved_to=_target_reference(whole.entity),
+                    resolved_to=whole.entity.canonical_symbol,
                     rule="separator_whole_name",
                     explanation=(
                         whole.basis.explain(whole.entity.canonical_symbol)
@@ -531,7 +518,7 @@ def parse_query(query: str) -> SearchIntent:
                         start=start,
                         end=end,
                         kind=SpanKind.TARGET,
-                        resolved_to=_target_reference(result.entity),
+                        resolved_to=result.entity.canonical_symbol,
                         rule=result.rule,
                         explanation=(
                             result.basis.explain(result.entity.canonical_symbol)
@@ -582,13 +569,7 @@ def parse_query(query: str) -> SearchIntent:
         if span.resolved_to.casefold() in seen_targets:
             continue
         seen_targets.add(span.resolved_to.casefold())
-        resolution = resolve_target(span.resolved_to)
-        label = (
-            resolution.canonical_symbol
-            if resolution is not None and resolution.canonical_symbol
-            else span.resolved_to
-        )
-        targets.append(TargetTerm(canonical_id=span.resolved_to, label=label))
+        targets.append(TargetTerm(canonical_id=span.resolved_to, label=span.resolved_to))
 
     modalities = list(
         dict.fromkeys(
