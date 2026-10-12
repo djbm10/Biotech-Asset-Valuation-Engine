@@ -1,0 +1,1 @@
+Reproduce on unadopted candidate 612c088, not on the restored HEAD. Run scripts/evaluate_target_identity.py with PYTHONPATH=src and PYTHONDONTWRITEBYTECODE=1. Full test command: python -m pytest -p no:cacheprovider tests/se -q --tb=short. Determinism probe requires the candidate test fixture. Never run live sources or holdouts to reproduce this packet.

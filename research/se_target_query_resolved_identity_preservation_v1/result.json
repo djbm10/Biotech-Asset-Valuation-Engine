@@ -1,0 +1,55 @@
+{
+  "milestone": "TARGET_QUERY_RESOLVED_IDENTITY_PRESERVATION v1",
+  "decision": "FAIL / REVERT",
+  "preregistration": "533c699",
+  "candidate": "612c088",
+  "full_tests": {
+    "tests": 1718,
+    "failures": 6,
+    "errors": 0,
+    "skipped": 3
+  },
+  "failed_tests": [
+    {
+      "test": "tests.se.test_dual_target_separator_safety::test_the_whole_name_target_is_kept",
+      "message": "AssertionError: assert ['TARGET:AK6'] == ['AK6']\n  \n  At index 0 diff: 'TARGET:AK6' != 'AK6'\n  Use -v to get more diff"
+    },
+    {
+      "test": "tests.se.test_indication_compilation_v3::test_sealed_compilation_contract[C3.2]",
+      "message": "AssertionError: [('H11', ['non-small cell lung cancer'], ['non-small cell lung cancer'], False), ('H12', ['paroxysmal nocturnal hemogl...g cancer'], ['non-small cell lung cancer'], False), ('H4', ['ulcerative colitis'], ['ulcerative colitis'], False), ...]\nassert False"
+    },
+    {
+      "test": "tests.se.test_indication_compilation_v3::test_sealed_compilation_contract[C3.4]",
+      "message": "AssertionError: [('H11', ['non-small cell lung cancer'], ['non-small cell lung cancer'], False), ('H12', ['paroxysmal nocturnal hemogl...g cancer'], ['non-small cell lung cancer'], False), ('H4', ['ulcerative colitis'], ['ulcerative colitis'], False), ...]\nassert False"
+    },
+    {
+      "test": "tests.se.test_indication_compilation_v3::test_sealed_compilation_contract[C3.6]",
+      "message": "AssertionError: [('H11', ['non-small cell lung cancer'], ['non-small cell lung cancer'], False), ('H12', ['paroxysmal nocturnal hemogl...g cancer'], ['non-small cell lung cancer'], False), ('H4', ['ulcerative colitis'], ['ulcerative colitis'], False), ...]\nassert False"
+    },
+    {
+      "test": "tests.se.test_indication_compilation_v3::test_sealed_compilation_contract[C3.7]",
+      "message": "AssertionError: [('H11', ['non-small cell lung cancer'], ['non-small cell lung cancer'], False), ('H12', ['paroxysmal nocturnal hemogl...g cancer'], ['non-small cell lung cancer'], False), ('H4', ['ulcerative colitis'], ['ulcerative colitis'], False), ...]\nassert False"
+    },
+    {
+      "test": "tests.se.test_indication_gate_semantics_v3::test_frozen_compilation_and_source_isolation",
+      "message": "AssertionError: src/bve/se/discovery/query.py\nassert 'f188367d5dc1...e7317ff125b14' == '627bb006af64...1b72bd9036b26'\n  \n  - 627bb006af64906be1a84103663c19251b92bb7b84bdad7e8101b72bd9036b26\n  + f188367d5dc1dcb8bee44af2633eb7a71c8f80997847d8f5f8be7317ff125b14"
+    }
+  ],
+  "offline_parses": 4704,
+  "semantic_or_span_differences": 0,
+  "resolver_controls_preserved": 16,
+  "deterministic_seeds": [
+    0,
+    1,
+    42
+  ],
+  "focused_new_tests_passed": 14,
+  "ruff": "PASS",
+  "failure_criteria": [
+    "I6: internal ontology ID leaks into literal FDA description query",
+    "I8: full tests/se fails; legacy serialization/consumer contracts broken"
+  ],
+  "no_live_runs": true,
+  "no_holdout_probes": true,
+  "no_human_poc_changes": true
+}

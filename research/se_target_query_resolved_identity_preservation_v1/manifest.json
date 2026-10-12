@@ -1,0 +1,13 @@
+{
+  "consumer_boundary.json": "3d0c02067e58bd5c0c3f9a94355e96029fa9ae93b19d8eca0bf7d4e3b66a1aaa",
+  "determinism.json": "c77be0c0ade28c33f53c562e58bc9de3f3a865b6dae7ce48d38f085d1e4d97c1",
+  "determinism_probe.py": "e74dedf3edc4d5f232d6fbdc5c53f134e7106d84237a66bb6269c9918c52b1ee",
+  "frozen_evaluation.json": "a1de85c39e152d46a16ff7acb67a6bf5a856805c7f30c0e5c785ad2d75c49d76",
+  "full_tests.log": "6b472e01c66369918863fe974280c0603655cab971580e351371bdb61f790cb0",
+  "full_tests.xml": "a844a1353a6e3509304333e2c640b96f7bfc61ed383e12d0042392a98bd78a62",
+  "interface_diagnosis.md": "8df4f9357b0256eb375875f73a6e02b56e49bf820fa415bb3861331807a84a24",
+  "isolation.json": "b90f138ae54de9a6fbedaba90345eed2414fc2ca3da2716d0c5b0a98a0df9a4d",
+  "reproduction.md": "9afbdbec29ea8f26b7393ca87c6d99620c8686a085e3b79bd699d465b86bf9f3",
+  "result.json": "d92c66e056ca80c3713b4ee034e0a72131d5ca43d4d928ac201a3e07e4f14d43",
+  "summary.md": "25ea1562c38e95e12893f89d07cb47d1140431d6b5e528f6dda90d90ad773691"
+}

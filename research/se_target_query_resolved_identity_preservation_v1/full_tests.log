@@ -1,0 +1,73 @@
+........................................................................ [  4%]
+........................................................................ [  8%]
+........................................................................ [ 12%]
+................................x....................................... [ 16%]
+........................................................................ [ 20%]
+........................................................................ [ 25%]
+........................................................................ [ 29%]
+.......................................................................F [ 33%]
+........................................................................ [ 37%]
+........................................................................ [ 41%]
+...xx..................F.F.FF........................................... [ 46%]
+...................................F.................................... [ 50%]
+........................................................................ [ 54%]
+........................................................................ [ 58%]
+........................................................................ [ 62%]
+........................................................................ [ 67%]
+........................................................................ [ 71%]
+........................................................................ [ 75%]
+........................................................................ [ 79%]
+........................................................................ [ 83%]
+........................................................................ [ 88%]
+........................................................................ [ 92%]
+........................................................................ [ 96%]
+..............................................................           [100%]
+=================================== FAILURES ===================================
+______________________ test_the_whole_name_target_is_kept ______________________
+tests/se/test_dual_target_separator_safety.py:27: in test_the_whole_name_target_is_kept
+    assert _targets("Find clinical-stage AK/ATPase therapies for cancer.") == ["AK6"]
+E   AssertionError: assert ['TARGET:AK6'] == ['AK6']
+E     
+E     At index 0 diff: 'TARGET:AK6' != 'AK6'
+E     Use -v to get more diff
+____________________ test_sealed_compilation_contract[C3.2] ____________________
+tests/se/test_indication_compilation_v3.py:37: in test_sealed_compilation_contract
+    assert acceptance["criteria"][criterion], [
+E   AssertionError: [('H11', ['non-small cell lung cancer'], ['non-small cell lung cancer'], False), ('H12', ['paroxysmal nocturnal hemogl...g cancer'], ['non-small cell lung cancer'], False), ('H4', ['ulcerative colitis'], ['ulcerative colitis'], False), ...]
+E   assert False
+____________________ test_sealed_compilation_contract[C3.4] ____________________
+tests/se/test_indication_compilation_v3.py:37: in test_sealed_compilation_contract
+    assert acceptance["criteria"][criterion], [
+E   AssertionError: [('H11', ['non-small cell lung cancer'], ['non-small cell lung cancer'], False), ('H12', ['paroxysmal nocturnal hemogl...g cancer'], ['non-small cell lung cancer'], False), ('H4', ['ulcerative colitis'], ['ulcerative colitis'], False), ...]
+E   assert False
+____________________ test_sealed_compilation_contract[C3.6] ____________________
+tests/se/test_indication_compilation_v3.py:37: in test_sealed_compilation_contract
+    assert acceptance["criteria"][criterion], [
+E   AssertionError: [('H11', ['non-small cell lung cancer'], ['non-small cell lung cancer'], False), ('H12', ['paroxysmal nocturnal hemogl...g cancer'], ['non-small cell lung cancer'], False), ('H4', ['ulcerative colitis'], ['ulcerative colitis'], False), ...]
+E   assert False
+____________________ test_sealed_compilation_contract[C3.7] ____________________
+tests/se/test_indication_compilation_v3.py:37: in test_sealed_compilation_contract
+    assert acceptance["criteria"][criterion], [
+E   AssertionError: [('H11', ['non-small cell lung cancer'], ['non-small cell lung cancer'], False), ('H12', ['paroxysmal nocturnal hemogl...g cancer'], ['non-small cell lung cancer'], False), ('H4', ['ulcerative colitis'], ['ulcerative colitis'], False), ...]
+E   assert False
+_________________ test_frozen_compilation_and_source_isolation _________________
+tests/se/test_indication_gate_semantics_v3.py:31: in test_frozen_compilation_and_source_isolation
+    assert hashlib.sha256((ROOT / path).read_bytes()).hexdigest() == digest, path
+E   AssertionError: src/bve/se/discovery/query.py
+E   assert 'f188367d5dc1...e7317ff125b14' == '627bb006af64...1b72bd9036b26'
+E     
+E     - 627bb006af64906be1a84103663c19251b92bb7b84bdad7e8101b72bd9036b26
+E     + f188367d5dc1dcb8bee44af2633eb7a71c8f80997847d8f5f8be7317ff125b14
+=============================== warnings summary ===============================
+tests/se/test_discovery_coverage.py::test_reference_aliases_measure_output_without_entering_discovery
+  /home/djmann/projects/bve-b8/src/bve/se/evaluation/discovery_coverage.py:67: UserWarning: run r records no trial universe, so its recall against reference set 'discovery_coverage' cannot be shown to be complete
+    require_untruncated_universe(result.run_manifest, reference_set="discovery_coverage")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/se/test_dual_target_separator_safety.py::test_the_whole_name_target_is_kept
+FAILED tests/se/test_indication_compilation_v3.py::test_sealed_compilation_contract[C3.2]
+FAILED tests/se/test_indication_compilation_v3.py::test_sealed_compilation_contract[C3.4]
+FAILED tests/se/test_indication_compilation_v3.py::test_sealed_compilation_contract[C3.6]
+FAILED tests/se/test_indication_compilation_v3.py::test_sealed_compilation_contract[C3.7]
+FAILED tests/se/test_indication_gate_semantics_v3.py::test_frozen_compilation_and_source_isolation

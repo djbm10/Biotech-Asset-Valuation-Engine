@@ -1,0 +1,88 @@
+{
+  "baseline_sha256": "85733d15080965d076898addc3a8af611706eeab7f16cae91b85cd1f61ce99d8",
+  "comparisons": 4704,
+  "controls": [
+    {
+      "text": "IL-4R\u03b1",
+      "unchanged": true
+    },
+    {
+      "text": "factor XI",
+      "unchanged": true
+    },
+    {
+      "text": "F11",
+      "unchanged": true
+    },
+    {
+      "text": "PD-1",
+      "unchanged": true
+    },
+    {
+      "text": "CD20",
+      "unchanged": true
+    },
+    {
+      "text": "IL-4R\u03b2",
+      "unchanged": true
+    },
+    {
+      "text": "IL-4R\u0430",
+      "unchanged": true
+    },
+    {
+      "text": "factor XIa",
+      "unchanged": true
+    },
+    {
+      "text": "factor X",
+      "unchanged": true
+    },
+    {
+      "text": "factor XII",
+      "unchanged": true
+    },
+    {
+      "text": "factor XI deficiency",
+      "unchanged": true
+    },
+    {
+      "text": "Factor XI Measurement",
+      "unchanged": true
+    },
+    {
+      "text": "interleukin receptor",
+      "unchanged": true
+    },
+    {
+      "text": "CLDN18.2",
+      "unchanged": true
+    },
+    {
+      "text": "IL4R/IL13RA1",
+      "unchanged": true
+    },
+    {
+      "text": "AK/ATPase",
+      "unchanged": true
+    }
+  ],
+  "diagnostic": {
+    "bare_F11_status": "AMBIGUOUS",
+    "labels": [
+      "F11"
+    ],
+    "namespace_search_literal": false,
+    "plan_target_ids": [
+      "TARGET:F11"
+    ],
+    "plans": 5,
+    "query": "Find clinical-stage FXI inhibitors for prevention of thrombosis.",
+    "target_ids": [
+      "TARGET:F11"
+    ]
+  },
+  "differences": [],
+  "holdout_probes": 0,
+  "live_runs": 0
+}

@@ -1,0 +1,20 @@
+{
+  "probe": "offline injected empty search_fn; no network or corpus writes",
+  "cases": [
+    {
+      "reference": "GAX1",
+      "queries": [
+        "description:\"GAX1\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+      ],
+      "connector_succeeded": true
+    },
+    {
+      "reference": "TARGET:GAX1",
+      "queries": [
+        "description:\"TARGET:GAX1\" AND (description:\"antibody\" OR description:\"bispecific\" OR description:\"T-cell\")"
+      ],
+      "connector_succeeded": true
+    }
+  ],
+  "finding": "Namespace-qualified ontology identity leaks into FDA description search; source acquisition semantics are not preserved by the three-file candidate."
+}
