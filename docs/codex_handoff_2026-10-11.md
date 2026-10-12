@@ -1,3 +1,7 @@
+# 2026-10-12 ALIAS DIAGNOSIS RESUMED — AUTHORITY IDENTITY CHECK REQUIRED
+
+The target-reference interface is adopted (details below). New read-only diagnosis of the existing 96 Greek proposals is in `research/se_target_query_alias_coverage_v1/greek_authority_form_diagnosis.md` and JSON. Original authority spellings: **93 resolved / three ambiguous; 92 source-symbol agreements**. Three resolved groups have multiple canonical source-record symbols, but only one has a canonical-symbol disagreement flag. Inspect actual contributing identifiers before admitting new aliases; a raw RESOLVED flag alone is insufficient. Do not patch the resolver or choose a preferred gene in an alias milestone. No new alias implementation/preregistration yet. Next: diagnose those source groups and freeze a principled eligibility/abstention rule, then orthography; NCIt synonym admission remains separate. All holdout and human-PoC restrictions below persist.
+
 # 2026-10-12 TARGET REFERENCE INTERFACE — ADOPTED
 
 Preregistration **3ac5faa**; implementation **07d104b**. `TARGET_REFERENCE_IDENTITY_SURFACE v1` passed all T1–T12: **1,828 tests passed / three existing xfails**, Ruff clean. Exact identity now travels separately from biological retrieval text; wrong entity/version/symbol references fail closed. Qualified IDs cannot leak into connector literals. Legacy canonical symbols/labels and absent-reference serialization are preserved.

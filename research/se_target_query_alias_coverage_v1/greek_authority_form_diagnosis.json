@@ -1,0 +1,5152 @@
+{
+  "baseline": "7cece53",
+  "rows": [
+    {
+      "id": "c9b1b331660164ea898b9625d8fec07b95f8daa08f552a08a8b9febc8e502928",
+      "authority_alias": "DNA polymerase beta subunit",
+      "proposal": "DNA polymerase β subunit",
+      "authority_record_key": "open_targets:ENSG00000070501",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:POLB",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "DNA polymerase beta subunit",
+        "matched_alias": "DNA polymerase beta subunit",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000070501"
+        ],
+        "identifier_edges": [
+          "uniprot:P06746"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'ap lyase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:APEX1",
+            "TARGET:OGG1",
+            "TARGET:POLB"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias \"5' deoxyribose phosphate lyase\" is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:POLB",
+            "TARGET:POLG"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "POLB"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "2fc546bb0e784e9103d7787216abf68cd05bc83f03632af34be08ffe98064cbf",
+      "authority_alias": "Beta-site amyloid precursor protein cleaving enzyme 1",
+      "proposal": "β-site amyloid precursor protein cleaving enzyme 1",
+      "authority_record_key": "open_targets:ENSG00000186318",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:BACE1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Beta-site amyloid precursor protein cleaving enzyme 1",
+        "matched_alias": "Beta-site amyloid precursor protein cleaving enzyme 1",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL4822",
+          "open_targets:ENSG00000186318"
+        ],
+        "identifier_edges": [
+          "uniprot:P56817"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "BACE1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 7
+    },
+    {
+      "id": "112f86ecd315538af7ebe2eefc47fa41cd2e4e4f8af76b1cb81c47e248d5e601",
+      "authority_alias": "H-IDH alpha",
+      "proposal": "H-IDH α",
+      "authority_record_key": "open_targets:ENSG00000166411",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:IDH3A",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "H-IDH alpha",
+        "matched_alias": "H-IDH alpha",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000166411"
+        ],
+        "identifier_edges": [
+          "uniprot:P50213"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'nad+ specific icdh' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:IDH3A",
+            "TARGET:IDH3G"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "IDH3A"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "1a8343184701561ed0ddc241489589c761748acece3fdc91d78a55b65e212a44",
+      "authority_alias": "Alcohol dehydrogenase subunit gamma",
+      "proposal": "Alcohol dehydrogenase subunit γ",
+      "authority_record_key": "open_targets:ENSG00000248144",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:ADH1C",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Alcohol dehydrogenase subunit gamma",
+        "matched_alias": "Alcohol dehydrogenase subunit gamma",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3285",
+          "open_targets:ENSG00000248144"
+        ],
+        "identifier_edges": [
+          "uniprot:P00326"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'aldehyde reductase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ADH1A",
+            "TARGET:ADH1B",
+            "TARGET:ADH1C",
+            "TARGET:ADH4",
+            "TARGET:ADH6",
+            "TARGET:AKR1A1",
+            "TARGET:AKR1B1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "ADH1C"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "19c1c7e61478162a1e0f6d56c8ed4a6e77d8da98bbd608e3a4138fcd883960cc",
+      "authority_alias": "CaMK-II subunit gamma",
+      "proposal": "CaMK-II subunit γ",
+      "authority_record_key": "open_targets:ENSG00000148660",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CAMK2G",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "CaMK-II subunit gamma",
+        "matched_alias": "CaMK-II subunit gamma",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000148660"
+        ],
+        "identifier_edges": [
+          "uniprot:Q13555"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'camk' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CAMK2G",
+            "TARGET:CAMK4"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CAMK2G"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "55119fa169ba333433f90bd84b08b949f2a200d0a79576b03f432509ec82e342",
+      "authority_alias": "thyroid hormone receptor alpha 1",
+      "proposal": "thyroid hormone receptor α 1",
+      "authority_record_key": "open_targets:ENSG00000126351",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:THRA",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "thyroid hormone receptor alpha 1",
+        "matched_alias": "thyroid hormone receptor alpha 1",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000126351"
+        ],
+        "identifier_edges": [
+          "uniprot:P10827"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'thra1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:NR1D1",
+            "TARGET:THRA"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'thyroid hormone receptor alpha' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:SKAP1-AS2",
+            "TARGET:THRA"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "THRA"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 5
+    },
+    {
+      "id": "f2dbf0ee650f480851e0278dfedd585baf6e9fc06a6696926ada730e499d21b7",
+      "authority_alias": "nuclear factor of kappa light chain gene enhancer in B-cells",
+      "proposal": "nuclear factor of κ light chain gene enhancer in B-cells",
+      "authority_record_key": "open_targets:ENSG00000100906",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:NFKBIA",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "nuclear factor of kappa light chain gene enhancer in B-cells",
+        "matched_alias": "nuclear factor of kappa light chain gene enhancer in B-cells",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000100906"
+        ],
+        "identifier_edges": [
+          "uniprot:P25963"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'mad3' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:MXD3",
+            "TARGET:NFKBIA",
+            "TARGET:SMAD3"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "NFKBIA"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 10
+    },
+    {
+      "id": "28f8e7253ad1423230153be31aa682fe221b260c62c44585f9df546cab657622",
+      "authority_alias": "Alpha-1-fetoprotein",
+      "proposal": "α-1-fetoprotein",
+      "authority_record_key": "open_targets:ENSG00000081051",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:AFP",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Alpha-1-fetoprotein",
+        "matched_alias": "Alpha-1-fetoprotein",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3712864",
+          "open_targets:ENSG00000081051"
+        ],
+        "identifier_edges": [
+          "uniprot:P02771"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'feta' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:AFP",
+            "TARGET:ATP8B5P"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'afp' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:AFP",
+            "TARGET:TRIM26"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "AFP"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "6c8297c96842d9713466226b9260256b4d3ccb12a53c7a70a5ad938a7fb083d6",
+      "authority_alias": "calcium channel, cardic dihydropyridine-sensitive, alpha-1 subunit",
+      "proposal": "calcium channel, cardic dihydropyridine-sensitive, α-1 subunit",
+      "authority_record_key": "open_targets:ENSG00000151067",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CACNA1C",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "calcium channel, cardic dihydropyridine-sensitive, alpha-1 subunit",
+        "matched_alias": "calcium channel, cardic dihydropyridine-sensitive, alpha-1 subunit",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000151067"
+        ],
+        "identifier_edges": [
+          "uniprot:Q13936"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'ts' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CACNA1C",
+            "TARGET:TBXAS1",
+            "TARGET:TYMS"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CACNA1C"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "2265919fdf6fd68fd0ef5097e6f758a17948f627e367336083c10710a858a4a2",
+      "authority_alias": "intracellular phospholipase A1 gamma",
+      "proposal": "intracellular phospholipase A1 γ",
+      "authority_record_key": "open_targets:ENSG00000085788",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:DDHD2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "intracellular phospholipase A1 gamma",
+        "matched_alias": "intracellular phospholipase A1 gamma",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000085788"
+        ],
+        "identifier_edges": [
+          "uniprot:O94830"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'ipla1a' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:DDHD2",
+            "TARGET:SEC23IP"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "DDHD2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "a4c3062e2cc9d5879ab9c5c9ad4586a2fdfd847effe042e0246e290a7e0e9207",
+      "authority_alias": "Catenin alpha-1",
+      "proposal": "Catenin α-1",
+      "authority_record_key": "open_targets:ENSG00000044115",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CTNNA1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Catenin alpha-1",
+        "matched_alias": "Catenin alpha-1",
+        "matched_alias_type": "APPROVED_NAME",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL4295748",
+          "open_targets:ENSG00000044115"
+        ],
+        "identifier_edges": [
+          "uniprot:P35221"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'epididymis secretory sperm binding protein' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ABHD14B",
+            "TARGET:ABHD17B",
+            "TARGET:ACAA1",
+            "TARGET:ACADS",
+            "TARGET:ACO1",
+            "TARGET:ACTN1",
+            "TARGET:ACTR1A",
+            "TARGET:ADAM28",
+            "TARGET:ADAM29",
+            "TARGET:ADAM7",
+            "TARGET:ADAMTS4",
+            "TARGET:ADCY5",
+            "TARGET:ADSS2",
+            "TARGET:AGPAT1",
+            "TARGET:AHCY",
+            "TARGET:AHCYL1",
+            "TARGET:AK1",
+            "TARGET:AK4",
+            "TARGET:AKAP3",
+            "TARGET:AKAP4",
+            "TARGET:AKR7A3",
+            "TARGET:ALDH1B1",
+            "TARGET:ALDH2",
+            "TARGET:ALDH4A1",
+            "TARGET:ALDH7A1",
+            "TARGET:ALDOC",
+            "TARGET:ANKRD1",
+            "TARGET:ANKRD20A1",
+            "TARGET:ANKRD6",
+            "TARGET:ANP32A",
+            "TARGET:ANXA1",
+            "TARGET:ANXA11",
+            "TARGET:ANXA2",
+            "TARGET:AP3M2",
+            "TARGET:APC",
+            "TARGET:APOA1",
+            "TARGET:APOH",
+            "TARGET:ARFRP1",
+            "TARGET:ARHGAP25",
+            "TARGET:ARPC1A",
+            "TARGET:ARPC5L",
+            "TARGET:ARSA",
+            "TARGET:ASB15",
+            "TARGET:ASS1",
+            "TARGET:ATG4C",
+            "TARGET:ATP4A",
+            "TARGET:ATP6AP1",
+            "TARGET:B4GALT3",
+            "TARGET:BCAR3",
+            "TARGET:BDH1",
+            "TARGET:BKGD",
+            "TARGET:BTBD10",
+            "TARGET:BTBD6",
+            "TARGET:C1GALT1",
+            "TARGET:CA1",
+            "TARGET:CA10",
+            "TARGET:CAMP",
+            "TARGET:CAMSAP1",
+            "TARGET:CAND2",
+            "TARGET:CANX",
+            "TARGET:CAPNS1",
+            "TARGET:CAPS",
+            "TARGET:CAPZA2",
+            "TARGET:CAPZB",
+            "TARGET:CAT",
+            "TARGET:CBR1",
+            "TARGET:CCDC7",
+            "TARGET:CCDC74A",
+            "TARGET:CCN6",
+            "TARGET:CCNB1IP1",
+            "TARGET:CD5",
+            "TARGET:CDC7",
+            "TARGET:CDH1",
+            "TARGET:CDK5",
+            "TARGET:CLDN7",
+            "TARGET:CLIC4",
+            "TARGET:CLU",
+            "TARGET:COA7",
+            "TARGET:COL1A2",
+            "TARGET:COL6A1",
+            "TARGET:COL6A2",
+            "TARGET:COL6A3",
+            "TARGET:COTL1",
+            "TARGET:COX5B",
+            "TARGET:COX6C",
+            "TARGET:CPE",
+            "TARGET:CPLX3",
+            "TARGET:CPZ",
+            "TARGET:CRYZ",
+            "TARGET:CSE1L",
+            "TARGET:CSHL1",
+            "TARGET:CSRP1",
+            "TARGET:CSRP2",
+            "TARGET:CST11",
+            "TARGET:CST8",
+            "TARGET:CSTB",
+            "TARGET:CTNNA1",
+            "TARGET:CTSB",
+            "TARGET:CTTN",
+            "TARGET:CYB5A",
+            "TARGET:DBI",
+            "TARGET:DCPS",
+            "TARGET:DCTN2",
+            "TARGET:DCXR",
+            "TARGET:DDX25",
+            "TARGET:DDX55",
+            "TARGET:DEFB118",
+            "TARGET:DEFB121",
+            "TARGET:DEFB126",
+            "TARGET:DEFB129",
+            "TARGET:DES",
+            "TARGET:DLC1",
+            "TARGET:DLD",
+            "TARGET:DLL1",
+            "TARGET:DRC4",
+            "TARGET:DSTN",
+            "TARGET:DUSP22",
+            "TARGET:ECH1",
+            "TARGET:ECHS1",
+            "TARGET:ECI1",
+            "TARGET:EDDM3A",
+            "TARGET:EEF1A1",
+            "TARGET:EEF2",
+            "TARGET:EFCAB6",
+            "TARGET:EFNA1",
+            "TARGET:ELOB",
+            "TARGET:ELSPBP1",
+            "TARGET:EPHA5",
+            "TARGET:EPPIN",
+            "TARGET:ERLIN2",
+            "TARGET:ERP44",
+            "TARGET:ETFA",
+            "TARGET:EVI5L",
+            "TARGET:EVL",
+            "TARGET:EXTL3",
+            "TARGET:FABP3",
+            "TARGET:FAH",
+            "TARGET:FBN1",
+            "TARGET:FBXO27",
+            "TARGET:FBXW4",
+            "TARGET:FDXR",
+            "TARGET:FGD2",
+            "TARGET:FH",
+            "TARGET:FKBP2",
+            "TARGET:FLNA",
+            "TARGET:FMOD",
+            "TARGET:FN1",
+            "TARGET:FNTB",
+            "TARGET:FRS2",
+            "TARGET:FSCN1",
+            "TARGET:FTHL17",
+            "TARGET:FTL",
+            "TARGET:FUBP1",
+            "TARGET:G6PD",
+            "TARGET:GABARAP",
+            "TARGET:GALE",
+            "TARGET:GAN",
+            "TARGET:GAS2L1",
+            "TARGET:GIPC2",
+            "TARGET:GLP2R",
+            "TARGET:GLRX5",
+            "TARGET:GLUD1",
+            "TARGET:GLYAT",
+            "TARGET:GMPPA",
+            "TARGET:GNA15",
+            "TARGET:GNAQ",
+            "TARGET:GNB2",
+            "TARGET:GPC1",
+            "TARGET:GPD1",
+            "TARGET:GPX4",
+            "TARGET:GRB2",
+            "TARGET:GRHPR",
+            "TARGET:GSN",
+            "TARGET:GSTM2",
+            "TARGET:GSTM3",
+            "TARGET:GSTM5",
+            "TARGET:GTF2H1",
+            "TARGET:HAP1",
+            "TARGET:HDGF",
+            "TARGET:HDHD2",
+            "TARGET:HEXB",
+            "TARGET:HIBADH",
+            "TARGET:HINT1",
+            "TARGET:HNRNPA1",
+            "TARGET:HNRNPA2B1",
+            "TARGET:HNRNPA3",
+            "TARGET:HNRNPH1",
+            "TARGET:HNRNPH2",
+            "TARGET:HNRNPL",
+            "TARGET:HPGDS",
+            "TARGET:HPX",
+            "TARGET:HSCB",
+            "TARGET:HSD17B4",
+            "TARGET:HSPA1B",
+            "TARGET:HSPA1L",
+            "TARGET:HSPA2",
+            "TARGET:HSPA6",
+            "TARGET:HSPB6",
+            "TARGET:HSPD1",
+            "TARGET:HSPE1",
+            "TARGET:HTRA2",
+            "TARGET:HYOU1",
+            "TARGET:ICAM1",
+            "TARGET:IDH1",
+            "TARGET:IMPDH2",
+            "TARGET:IQSEC1",
+            "TARGET:ITM2B",
+            "TARGET:ITPA",
+            "TARGET:IVD",
+            "TARGET:KBTBD3",
+            "TARGET:KDM5D",
+            "TARGET:KHSRP",
+            "TARGET:KIF14",
+            "TARGET:KLF5",
+            "TARGET:KLHL15",
+            "TARGET:KPTN",
+            "TARGET:LCA5",
+            "TARGET:LCN12",
+            "TARGET:LCN6",
+            "TARGET:LCN8",
+            "TARGET:LETMD1",
+            "TARGET:LGALS1",
+            "TARGET:LGALS3",
+            "TARGET:LMAN2",
+            "TARGET:LMNA",
+            "TARGET:LMNB2",
+            "TARGET:LRR1",
+            "TARGET:LRRC31",
+            "TARGET:LRRC8B",
+            "TARGET:LSS",
+            "TARGET:LUM",
+            "TARGET:LZTR1",
+            "TARGET:MAN2B2",
+            "TARGET:MARK4",
+            "TARGET:MCEMP1",
+            "TARGET:MCUR1",
+            "TARGET:MED17",
+            "TARGET:MED27",
+            "TARGET:MIF",
+            "TARGET:MINDY4B",
+            "TARGET:MLANA",
+            "TARGET:MNDA",
+            "TARGET:MOGS",
+            "TARGET:MS4A4A",
+            "TARGET:MSH3",
+            "TARGET:MTAP",
+            "TARGET:MTHFD1",
+            "TARGET:MYH11",
+            "TARGET:MYL9",
+            "TARGET:MYO3A",
+            "TARGET:NAA60",
+            "TARGET:NAGK",
+            "TARGET:NDE1",
+            "TARGET:NET1",
+            "TARGET:NID1",
+            "TARGET:NME1",
+            "TARGET:NMRAL1",
+            "TARGET:NPC2",
+            "TARGET:NSDHL",
+            "TARGET:NSF",
+            "TARGET:NT5C",
+            "TARGET:NT5C2",
+            "TARGET:OXA1L",
+            "TARGET:OXCT1",
+            "TARGET:PAFAH1B2",
+            "TARGET:PAFAH1B3",
+            "TARGET:PAPSS2",
+            "TARGET:PBLD",
+            "TARGET:PCBP2",
+            "TARGET:PCK2",
+            "TARGET:PCMT1",
+            "TARGET:PDGFB",
+            "TARGET:PDHB",
+            "TARGET:PDIA6",
+            "TARGET:PDRG1",
+            "TARGET:PEBP4",
+            "TARGET:PEF1",
+            "TARGET:PGLS",
+            "TARGET:PLCD1",
+            "TARGET:PLEKHS1",
+            "TARGET:PLPP7",
+            "TARGET:PLXNA4",
+            "TARGET:PNPO",
+            "TARGET:POLQ",
+            "TARGET:PPP4C",
+            "TARGET:PPWD1",
+            "TARGET:PRAP1",
+            "TARGET:PRDX1",
+            "TARGET:PRDX3",
+            "TARGET:PRKAG2",
+            "TARGET:PRKAR1A",
+            "TARGET:PSMB3",
+            "TARGET:PSMB7",
+            "TARGET:PSORS1C1",
+            "TARGET:PTGR2",
+            "TARGET:RAB3D",
+            "TARGET:RANBP3",
+            "TARGET:RBM10",
+            "TARGET:RBM34",
+            "TARGET:RBM39",
+            "TARGET:RCC2",
+            "TARGET:RHOA",
+            "TARGET:RHOC",
+            "TARGET:RNASE4",
+            "TARGET:RNF10",
+            "TARGET:RPL13A",
+            "TARGET:RPS6KA3",
+            "TARGET:RUVBL1",
+            "TARGET:SALL3",
+            "TARGET:SAP18",
+            "TARGET:SAT1",
+            "TARGET:SCCPDH",
+            "TARGET:SCP2",
+            "TARGET:SCRN2",
+            "TARGET:SEPTIN11",
+            "TARGET:SEPTIN2",
+            "TARGET:SERPINA1",
+            "TARGET:SERPING1",
+            "TARGET:SFPQ",
+            "TARGET:SH3BGRL3",
+            "TARGET:SH3BP2",
+            "TARGET:SLC20A2",
+            "TARGET:SLC25A36",
+            "TARGET:SLC25A6",
+            "TARGET:SMC1A",
+            "TARGET:SOD2",
+            "TARGET:SPATA7",
+            "TARGET:SPDYA",
+            "TARGET:SPINT4",
+            "TARGET:SPRYD7",
+            "TARGET:SPTAN1",
+            "TARGET:SRSF3",
+            "TARGET:SSX9P",
+            "TARGET:ST6GALNAC6",
+            "TARGET:STAT5A",
+            "TARGET:STK3",
+            "TARGET:STRBP",
+            "TARGET:SUMF2",
+            "TARGET:SUN5",
+            "TARGET:SYCE1",
+            "TARGET:TADA3",
+            "TARGET:TAGLN",
+            "TARGET:TAGLN2",
+            "TARGET:TBC1D13",
+            "TARGET:TBCA",
+            "TARGET:TBL2",
+            "TARGET:TCEA1",
+            "TARGET:TCEAL4",
+            "TARGET:TDP2",
+            "TARGET:TDRD7",
+            "TARGET:TECR",
+            "TARGET:TEKT4",
+            "TARGET:THAP4",
+            "TARGET:THUMPD2",
+            "TARGET:TIMP1",
+            "TARGET:TK1",
+            "TARGET:TLCD3B",
+            "TARGET:TM9SF2",
+            "TARGET:TNFSF13B",
+            "TARGET:TOR3A",
+            "TARGET:TPSAB1",
+            "TARGET:TST",
+            "TARGET:TTC13",
+            "TARGET:TUBB",
+            "TARGET:TUBB2B",
+            "TARGET:TUBB4B",
+            "TARGET:TUFM",
+            "TARGET:TXNDC5",
+            "TARGET:UBE2M",
+            "TARGET:UQCRFS1",
+            "TARGET:VAPA",
+            "TARGET:VCL",
+            "TARGET:VDAC2",
+            "TARGET:VIM",
+            "TARGET:VPS29",
+            "TARGET:WARS1",
+            "TARGET:WBP1",
+            "TARGET:WDR17",
+            "TARGET:WDR25",
+            "TARGET:WFDC2",
+            "TARGET:WFDC8",
+            "TARGET:WNT2",
+            "TARGET:WNT5A",
+            "TARGET:WNT8B",
+            "TARGET:WRAP73",
+            "TARGET:XRCC2",
+            "TARGET:YBX2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cadherin associated protein' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CTNNA1",
+            "TARGET:CTNNA3"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CTNNA1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "d82879802647ea89cffa0f1b3f57c266e0dfe4be7ad4e2983a0bd318dc3e75d1",
+      "authority_alias": "immunoglobulin E receptor, high-affinity, of mast cells, alpha polypeptide",
+      "proposal": "immunoglobulin E receptor, high-affinity, of mast cells, α polypeptide",
+      "authority_record_key": "open_targets:ENSG00000179639",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:FCER1A",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "immunoglobulin E receptor, high-affinity, of mast cells, alpha polypeptide",
+        "matched_alias": "immunoglobulin E receptor, high-affinity, of mast cells, alpha polypeptide",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000179639"
+        ],
+        "identifier_edges": [
+          "uniprot:P12319"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'fceri' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:FCER1A",
+            "TARGET:MS4A2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "FCER1A"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 9
+    },
+    {
+      "id": "6aef26b4bd89b458d0ffbd75715ad0b48e656dbdb2fea0c4947ee5a50462328e",
+      "authority_alias": "MHC class I antigen HLA-B alpha chain",
+      "proposal": "MHC class I antigen HLA-B α chain",
+      "authority_record_key": "open_targets:ENSG00000234745",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:HLA-B",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "MHC class I antigen HLA-B alpha chain",
+        "matched_alias": "MHC class I antigen HLA-B alpha chain",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000234745"
+        ],
+        "identifier_edges": [
+          "uniprot:P01889"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'as' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:HLA-B",
+            "TARGET:UBE3A"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "HLA-B"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 7
+    },
+    {
+      "id": "7d9f85f600b32bcafe53124dc02dd8925bfa5d1ad9ef101771a014084fe363ee",
+      "authority_alias": "casein kinase 2, beta polypeptide",
+      "proposal": "casein kinase 2, β polypeptide",
+      "authority_record_key": "open_targets:ENSG00000204435",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CSNK2B",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "casein kinase 2, beta polypeptide",
+        "matched_alias": "casein kinase 2, beta polypeptide",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000204435"
+        ],
+        "identifier_edges": [
+          "uniprot:P67870"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'ckb1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CCL14",
+            "TARGET:CSNK2B"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CSNK2B"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 5
+    },
+    {
+      "id": "5a9d1cae5878e9cdd0a6e28d2dbf95d029b13ca3bd41d740010cb8271e13a029",
+      "authority_alias": "ER alpha-1,2-mannosidase",
+      "proposal": "ER α-1,2-mannosidase",
+      "authority_record_key": "open_targets:ENSG00000177239",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:MAN1B1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "ER alpha-1,2-mannosidase",
+        "matched_alias": "ER alpha-1,2-mannosidase",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL2308",
+          "open_targets:ENSG00000177239"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9UKM7"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "MAN1B1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "d038e02515c4faecb732508d17aee02127c41c6e442a944a0c78c8b1683b0a19",
+      "authority_alias": "protein kinase, cGMP-dependent, regulatory, type I, beta",
+      "proposal": "protein kinase, cGMP-dependent, regulatory, type I, β",
+      "authority_record_key": "open_targets:ENSG00000185532",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PRKG1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "protein kinase, cGMP-dependent, regulatory, type I, beta",
+        "matched_alias": "protein kinase, cGMP-dependent, regulatory, type I, beta",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000185532"
+        ],
+        "identifier_edges": [
+          "uniprot:Q13976"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "PRKG1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 7
+    },
+    {
+      "id": "ef1f5e854b6e94edf0f631cceaa59b98603eb7e7de2b56098d22763ec67193a0",
+      "authority_alias": "GDP-L-Fuc:N-acetyl-beta-D-glucosaminide alpha1,6-fucosyltransferase",
+      "proposal": "GDP-L-Fuc:N-acetylβ-D-glucosaminide alpha1,6-fucosyltransferase",
+      "authority_record_key": "open_targets:ENSG00000033170",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:FUT8",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "GDP-L-Fuc:N-acetyl-beta-D-glucosaminide alpha1,6-fucosyltransferase",
+        "matched_alias": "GDP-L-Fuc:N-acetyl-beta-D-glucosaminide alpha1,6-fucosyltransferase",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3596087",
+          "open_targets:ENSG00000033170"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9BYC5"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "FUT8"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "90b1cabd30930827618c59b2a38668129d7254dc09ed3d41f72c82733ff89571",
+      "authority_alias": "DAG kinase epsilon",
+      "proposal": "DAG kinase ε",
+      "authority_record_key": "open_targets:ENSG00000153933",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:DGKE",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "DAG kinase epsilon",
+        "matched_alias": "DAG kinase epsilon",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000153933"
+        ],
+        "identifier_edges": [
+          "uniprot:P52429"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'dagk5' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:DGKE",
+            "TARGET:DGKZ"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'dagk6' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:DGKE",
+            "TARGET:DGKZ"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'dgk' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:DGKB",
+            "TARGET:DGKE",
+            "TARGET:DGUOK"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "DGKE"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "0c8a9574a1aa8d372397b3c9f89349391a3e00c18d5502bb4dc18ef990a9ef24",
+      "authority_alias": "pro-alpha-1 collagen type 1",
+      "proposal": "proα-1 collagen type 1",
+      "authority_record_key": "open_targets:ENSG00000108821",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:COL1A1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "pro-alpha-1 collagen type 1",
+        "matched_alias": "pro-alpha-1 collagen type 1",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000108821"
+        ],
+        "identifier_edges": [
+          "uniprot:P02452"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'edsc' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:COL1A1",
+            "TARGET:COL5A1",
+            "TARGET:COL5A2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'oi4' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:COL1A1",
+            "TARGET:COL1A2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "COL1A1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "dba787e41763b79fc6f784d12e9a924dcbe25d703dc70e2f35349aa8e4cbc49d",
+      "authority_alias": "5'-AMP-activated protein kinase, catalytic alpha-2 chain",
+      "proposal": "5'-AMP-activated protein kinase, catalytic α-2 chain",
+      "authority_record_key": "open_targets:ENSG00000162409",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PRKAA2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "5'-AMP-activated protein kinase, catalytic alpha-2 chain",
+        "matched_alias": "5'-AMP-activated protein kinase, catalytic alpha-2 chain",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000162409"
+        ],
+        "identifier_edges": [
+          "uniprot:P54646"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'ampk' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PRKAA1",
+            "TARGET:PRKAA2",
+            "TARGET:PRKAB1"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'acaca kinase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PRKAA1",
+            "TARGET:PRKAA2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'hmgcr kinase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PRKAA1",
+            "TARGET:PRKAA2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'acetyl coa carboxylase kinase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PRKAA1",
+            "TARGET:PRKAA2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'hydroxymethylglutaryl coa reductase kinase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PRKAA1",
+            "TARGET:PRKAA2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "PRKAA2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "05ee9485c6aba599079f6e97046282eeb4c7a1c13b4763d69a3008c9ae5150bf",
+      "authority_alias": "sodium channel protein, brain type 2 alpha subunit",
+      "proposal": "sodium channel protein, brain type 2 α subunit",
+      "authority_record_key": "open_targets:ENSG00000136531",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:SCN2A",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "sodium channel protein, brain type 2 alpha subunit",
+        "matched_alias": "sodium channel protein, brain type 2 alpha subunit",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000136531"
+        ],
+        "identifier_edges": [
+          "uniprot:Q99250"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'nac2' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:NACC2",
+            "TARGET:SCN2A"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'hba' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:KRT90P",
+            "TARGET:SCN2A"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'hbsci' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:SCN1A",
+            "TARGET:SCN2A"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "SCN2A"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 8
+    },
+    {
+      "id": "619d61612fdad708bdcd1835a209fb623da5ce8b2b0d07a84595d66b5e0af72d",
+      "authority_alias": "big potassium channel beta subunit 4",
+      "proposal": "big potassium channel β subunit 4",
+      "authority_record_key": "open_targets:ENSG00000135643",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:KCNMB4",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "big potassium channel beta subunit 4",
+        "matched_alias": "big potassium channel beta subunit 4",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000135643"
+        ],
+        "identifier_edges": [
+          "uniprot:Q86W47"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "KCNMB4"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "73231adf027c9b8739e14c370323fffd5e758158ec43a61a5fc27259a08e3e8a",
+      "authority_alias": "Sialoglycoprotein alpha",
+      "proposal": "Sialoglycoprotein α",
+      "authority_record_key": "open_targets:ENSG00000170180",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:GYPA",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Sialoglycoprotein alpha",
+        "matched_alias": "Sialoglycoprotein alpha",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL5806",
+          "open_targets:ENSG00000170180"
+        ],
+        "identifier_edges": [
+          "uniprot:P02724"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'mns' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:FLNA",
+            "TARGET:GYPA",
+            "TARGET:GYPB",
+            "TARGET:GYPE"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'mn' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CA9",
+            "TARGET:GYPA"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'pas 2' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:GYPA",
+            "TARGET:GYPC"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "GYPA"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "faac920bd236166fa0b1e26cf51cf00c5154593282b5d5c20c94f92956f5658d",
+      "authority_alias": "Hemoglobin beta chain",
+      "proposal": "Hemoglobin β chain",
+      "authority_record_key": "open_targets:ENSG00000244734",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:HBB",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Hemoglobin beta chain",
+        "matched_alias": "Hemoglobin beta chain",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL4331",
+          "open_targets:ENSG00000244734"
+        ],
+        "identifier_edges": [
+          "uniprot:P68871"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'hbb' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ENSG00000290967",
+            "TARGET:HBB"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "HBB"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "693c7a195f66d41a4342c69da2144eab6b0d44e458daddb064060184e59a65c6",
+      "authority_alias": "Soluble APP-beta",
+      "proposal": "Soluble APPβ",
+      "authority_record_key": "open_targets:ENSG00000142192",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:APP",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Soluble APP-beta",
+        "matched_alias": "Soluble APP-beta",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL2487",
+          "open_targets:ENSG00000142192"
+        ],
+        "identifier_edges": [
+          "uniprot:P05067"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'aaa' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:AAAS",
+            "TARGET:APP"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'a4' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:APP",
+            "TARGET:ATP6V0A4",
+            "TARGET:PLP2",
+            "TARGET:SGCG"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'ad1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:APP",
+            "TARGET:CD63"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'c31' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:APP",
+            "TARGET:POLR3G"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'pn ii' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:APP",
+            "TARGET:NT5C"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "APP"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "e00c7d4784672c31d2412ad00240eefc3cb47b5cbcc574b86e84880e988b6a19",
+      "authority_alias": "Beta-type CGRP",
+      "proposal": "β-type CGRP",
+      "authority_record_key": "open_targets:ENSG00000175868",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CALCB",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Beta-type CGRP",
+        "matched_alias": "Beta-type CGRP",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3713541",
+          "open_targets:ENSG00000175868"
+        ],
+        "identifier_edges": [
+          "uniprot:P10092"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "CALCB"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "316ffde1979211e32b9f9ddef406b7cb509fd02a5578312b788f1628e5e80f23",
+      "authority_alias": "Detyrosinated tubulin alpha-1B chain",
+      "proposal": "Detyrosinated tubulin α-1B chain",
+      "authority_record_key": "open_targets:ENSG00000123416",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:TUBA1B",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Detyrosinated tubulin alpha-1B chain",
+        "matched_alias": "Detyrosinated tubulin alpha-1B chain",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3797010",
+          "open_targets:ENSG00000123416"
+        ],
+        "identifier_edges": [
+          "uniprot:P04687",
+          "uniprot:P05209",
+          "uniprot:P68363",
+          "uniprot:Q71U36"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "CANONICAL_SYMBOL_DISAGREEMENT",
+          "detail": "sources disagree on the canonical symbol; the authority order ('open_targets', 'chembl') decided the normalized value",
+          "record_keys": [
+            "chembl:CHEMBL3661",
+            "chembl:CHEMBL3797010",
+            "open_targets:ENSG00000123416",
+            "open_targets:ENSG00000167552"
+          ],
+          "values": [
+            "TUBA1A",
+            "TUBA1B"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "TUBA1A",
+        "TUBA1B"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "ea1cfa8bfdb11793ecafddffd665c28103c3badbd5c933bd32c1fddb059601e9",
+      "authority_alias": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+      "proposal": "C3 and PZP-like α-2-macroglobulin domain-containing protein 4",
+      "authority_record_key": "open_targets:ENSG00000106804",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:C5",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+        "matched_alias": "C3 and PZP-like alpha-2-macroglobulin domain-containing protein 4",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL2364163",
+          "open_targets:ENSG00000106804"
+        ],
+        "identifier_edges": [
+          "uniprot:P01031"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'c5a' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:C5",
+            "TARGET:C5AR1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "C5"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 7
+    },
+    {
+      "id": "53b38330e8593080d84a82e97b066c53e39cb7de3d746d9d883c8f69fb8658c4",
+      "authority_alias": "Alpha-2 type I collagen",
+      "proposal": "α-2 type I collagen",
+      "authority_record_key": "open_targets:ENSG00000164692",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:COL1A2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Alpha-2 type I collagen",
+        "matched_alias": "Alpha-2 type I collagen",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL2685",
+          "open_targets:ENSG00000164692"
+        ],
+        "identifier_edges": [
+          "uniprot:P08123"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'epididymis secretory sperm binding protein' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ABHD14B",
+            "TARGET:ABHD17B",
+            "TARGET:ACAA1",
+            "TARGET:ACADS",
+            "TARGET:ACO1",
+            "TARGET:ACTN1",
+            "TARGET:ACTR1A",
+            "TARGET:ADAM28",
+            "TARGET:ADAM29",
+            "TARGET:ADAM7",
+            "TARGET:ADAMTS4",
+            "TARGET:ADCY5",
+            "TARGET:ADSS2",
+            "TARGET:AGPAT1",
+            "TARGET:AHCY",
+            "TARGET:AHCYL1",
+            "TARGET:AK1",
+            "TARGET:AK4",
+            "TARGET:AKAP3",
+            "TARGET:AKAP4",
+            "TARGET:AKR7A3",
+            "TARGET:ALDH1B1",
+            "TARGET:ALDH2",
+            "TARGET:ALDH4A1",
+            "TARGET:ALDH7A1",
+            "TARGET:ALDOC",
+            "TARGET:ANKRD1",
+            "TARGET:ANKRD20A1",
+            "TARGET:ANKRD6",
+            "TARGET:ANP32A",
+            "TARGET:ANXA1",
+            "TARGET:ANXA11",
+            "TARGET:ANXA2",
+            "TARGET:AP3M2",
+            "TARGET:APC",
+            "TARGET:APOA1",
+            "TARGET:APOH",
+            "TARGET:ARFRP1",
+            "TARGET:ARHGAP25",
+            "TARGET:ARPC1A",
+            "TARGET:ARPC5L",
+            "TARGET:ARSA",
+            "TARGET:ASB15",
+            "TARGET:ASS1",
+            "TARGET:ATG4C",
+            "TARGET:ATP4A",
+            "TARGET:ATP6AP1",
+            "TARGET:B4GALT3",
+            "TARGET:BCAR3",
+            "TARGET:BDH1",
+            "TARGET:BKGD",
+            "TARGET:BTBD10",
+            "TARGET:BTBD6",
+            "TARGET:C1GALT1",
+            "TARGET:CA1",
+            "TARGET:CA10",
+            "TARGET:CAMP",
+            "TARGET:CAMSAP1",
+            "TARGET:CAND2",
+            "TARGET:CANX",
+            "TARGET:CAPNS1",
+            "TARGET:CAPS",
+            "TARGET:CAPZA2",
+            "TARGET:CAPZB",
+            "TARGET:CAT",
+            "TARGET:CBR1",
+            "TARGET:CCDC7",
+            "TARGET:CCDC74A",
+            "TARGET:CCN6",
+            "TARGET:CCNB1IP1",
+            "TARGET:CD5",
+            "TARGET:CDC7",
+            "TARGET:CDH1",
+            "TARGET:CDK5",
+            "TARGET:CLDN7",
+            "TARGET:CLIC4",
+            "TARGET:CLU",
+            "TARGET:COA7",
+            "TARGET:COL1A2",
+            "TARGET:COL6A1",
+            "TARGET:COL6A2",
+            "TARGET:COL6A3",
+            "TARGET:COTL1",
+            "TARGET:COX5B",
+            "TARGET:COX6C",
+            "TARGET:CPE",
+            "TARGET:CPLX3",
+            "TARGET:CPZ",
+            "TARGET:CRYZ",
+            "TARGET:CSE1L",
+            "TARGET:CSHL1",
+            "TARGET:CSRP1",
+            "TARGET:CSRP2",
+            "TARGET:CST11",
+            "TARGET:CST8",
+            "TARGET:CSTB",
+            "TARGET:CTNNA1",
+            "TARGET:CTSB",
+            "TARGET:CTTN",
+            "TARGET:CYB5A",
+            "TARGET:DBI",
+            "TARGET:DCPS",
+            "TARGET:DCTN2",
+            "TARGET:DCXR",
+            "TARGET:DDX25",
+            "TARGET:DDX55",
+            "TARGET:DEFB118",
+            "TARGET:DEFB121",
+            "TARGET:DEFB126",
+            "TARGET:DEFB129",
+            "TARGET:DES",
+            "TARGET:DLC1",
+            "TARGET:DLD",
+            "TARGET:DLL1",
+            "TARGET:DRC4",
+            "TARGET:DSTN",
+            "TARGET:DUSP22",
+            "TARGET:ECH1",
+            "TARGET:ECHS1",
+            "TARGET:ECI1",
+            "TARGET:EDDM3A",
+            "TARGET:EEF1A1",
+            "TARGET:EEF2",
+            "TARGET:EFCAB6",
+            "TARGET:EFNA1",
+            "TARGET:ELOB",
+            "TARGET:ELSPBP1",
+            "TARGET:EPHA5",
+            "TARGET:EPPIN",
+            "TARGET:ERLIN2",
+            "TARGET:ERP44",
+            "TARGET:ETFA",
+            "TARGET:EVI5L",
+            "TARGET:EVL",
+            "TARGET:EXTL3",
+            "TARGET:FABP3",
+            "TARGET:FAH",
+            "TARGET:FBN1",
+            "TARGET:FBXO27",
+            "TARGET:FBXW4",
+            "TARGET:FDXR",
+            "TARGET:FGD2",
+            "TARGET:FH",
+            "TARGET:FKBP2",
+            "TARGET:FLNA",
+            "TARGET:FMOD",
+            "TARGET:FN1",
+            "TARGET:FNTB",
+            "TARGET:FRS2",
+            "TARGET:FSCN1",
+            "TARGET:FTHL17",
+            "TARGET:FTL",
+            "TARGET:FUBP1",
+            "TARGET:G6PD",
+            "TARGET:GABARAP",
+            "TARGET:GALE",
+            "TARGET:GAN",
+            "TARGET:GAS2L1",
+            "TARGET:GIPC2",
+            "TARGET:GLP2R",
+            "TARGET:GLRX5",
+            "TARGET:GLUD1",
+            "TARGET:GLYAT",
+            "TARGET:GMPPA",
+            "TARGET:GNA15",
+            "TARGET:GNAQ",
+            "TARGET:GNB2",
+            "TARGET:GPC1",
+            "TARGET:GPD1",
+            "TARGET:GPX4",
+            "TARGET:GRB2",
+            "TARGET:GRHPR",
+            "TARGET:GSN",
+            "TARGET:GSTM2",
+            "TARGET:GSTM3",
+            "TARGET:GSTM5",
+            "TARGET:GTF2H1",
+            "TARGET:HAP1",
+            "TARGET:HDGF",
+            "TARGET:HDHD2",
+            "TARGET:HEXB",
+            "TARGET:HIBADH",
+            "TARGET:HINT1",
+            "TARGET:HNRNPA1",
+            "TARGET:HNRNPA2B1",
+            "TARGET:HNRNPA3",
+            "TARGET:HNRNPH1",
+            "TARGET:HNRNPH2",
+            "TARGET:HNRNPL",
+            "TARGET:HPGDS",
+            "TARGET:HPX",
+            "TARGET:HSCB",
+            "TARGET:HSD17B4",
+            "TARGET:HSPA1B",
+            "TARGET:HSPA1L",
+            "TARGET:HSPA2",
+            "TARGET:HSPA6",
+            "TARGET:HSPB6",
+            "TARGET:HSPD1",
+            "TARGET:HSPE1",
+            "TARGET:HTRA2",
+            "TARGET:HYOU1",
+            "TARGET:ICAM1",
+            "TARGET:IDH1",
+            "TARGET:IMPDH2",
+            "TARGET:IQSEC1",
+            "TARGET:ITM2B",
+            "TARGET:ITPA",
+            "TARGET:IVD",
+            "TARGET:KBTBD3",
+            "TARGET:KDM5D",
+            "TARGET:KHSRP",
+            "TARGET:KIF14",
+            "TARGET:KLF5",
+            "TARGET:KLHL15",
+            "TARGET:KPTN",
+            "TARGET:LCA5",
+            "TARGET:LCN12",
+            "TARGET:LCN6",
+            "TARGET:LCN8",
+            "TARGET:LETMD1",
+            "TARGET:LGALS1",
+            "TARGET:LGALS3",
+            "TARGET:LMAN2",
+            "TARGET:LMNA",
+            "TARGET:LMNB2",
+            "TARGET:LRR1",
+            "TARGET:LRRC31",
+            "TARGET:LRRC8B",
+            "TARGET:LSS",
+            "TARGET:LUM",
+            "TARGET:LZTR1",
+            "TARGET:MAN2B2",
+            "TARGET:MARK4",
+            "TARGET:MCEMP1",
+            "TARGET:MCUR1",
+            "TARGET:MED17",
+            "TARGET:MED27",
+            "TARGET:MIF",
+            "TARGET:MINDY4B",
+            "TARGET:MLANA",
+            "TARGET:MNDA",
+            "TARGET:MOGS",
+            "TARGET:MS4A4A",
+            "TARGET:MSH3",
+            "TARGET:MTAP",
+            "TARGET:MTHFD1",
+            "TARGET:MYH11",
+            "TARGET:MYL9",
+            "TARGET:MYO3A",
+            "TARGET:NAA60",
+            "TARGET:NAGK",
+            "TARGET:NDE1",
+            "TARGET:NET1",
+            "TARGET:NID1",
+            "TARGET:NME1",
+            "TARGET:NMRAL1",
+            "TARGET:NPC2",
+            "TARGET:NSDHL",
+            "TARGET:NSF",
+            "TARGET:NT5C",
+            "TARGET:NT5C2",
+            "TARGET:OXA1L",
+            "TARGET:OXCT1",
+            "TARGET:PAFAH1B2",
+            "TARGET:PAFAH1B3",
+            "TARGET:PAPSS2",
+            "TARGET:PBLD",
+            "TARGET:PCBP2",
+            "TARGET:PCK2",
+            "TARGET:PCMT1",
+            "TARGET:PDGFB",
+            "TARGET:PDHB",
+            "TARGET:PDIA6",
+            "TARGET:PDRG1",
+            "TARGET:PEBP4",
+            "TARGET:PEF1",
+            "TARGET:PGLS",
+            "TARGET:PLCD1",
+            "TARGET:PLEKHS1",
+            "TARGET:PLPP7",
+            "TARGET:PLXNA4",
+            "TARGET:PNPO",
+            "TARGET:POLQ",
+            "TARGET:PPP4C",
+            "TARGET:PPWD1",
+            "TARGET:PRAP1",
+            "TARGET:PRDX1",
+            "TARGET:PRDX3",
+            "TARGET:PRKAG2",
+            "TARGET:PRKAR1A",
+            "TARGET:PSMB3",
+            "TARGET:PSMB7",
+            "TARGET:PSORS1C1",
+            "TARGET:PTGR2",
+            "TARGET:RAB3D",
+            "TARGET:RANBP3",
+            "TARGET:RBM10",
+            "TARGET:RBM34",
+            "TARGET:RBM39",
+            "TARGET:RCC2",
+            "TARGET:RHOA",
+            "TARGET:RHOC",
+            "TARGET:RNASE4",
+            "TARGET:RNF10",
+            "TARGET:RPL13A",
+            "TARGET:RPS6KA3",
+            "TARGET:RUVBL1",
+            "TARGET:SALL3",
+            "TARGET:SAP18",
+            "TARGET:SAT1",
+            "TARGET:SCCPDH",
+            "TARGET:SCP2",
+            "TARGET:SCRN2",
+            "TARGET:SEPTIN11",
+            "TARGET:SEPTIN2",
+            "TARGET:SERPINA1",
+            "TARGET:SERPING1",
+            "TARGET:SFPQ",
+            "TARGET:SH3BGRL3",
+            "TARGET:SH3BP2",
+            "TARGET:SLC20A2",
+            "TARGET:SLC25A36",
+            "TARGET:SLC25A6",
+            "TARGET:SMC1A",
+            "TARGET:SOD2",
+            "TARGET:SPATA7",
+            "TARGET:SPDYA",
+            "TARGET:SPINT4",
+            "TARGET:SPRYD7",
+            "TARGET:SPTAN1",
+            "TARGET:SRSF3",
+            "TARGET:SSX9P",
+            "TARGET:ST6GALNAC6",
+            "TARGET:STAT5A",
+            "TARGET:STK3",
+            "TARGET:STRBP",
+            "TARGET:SUMF2",
+            "TARGET:SUN5",
+            "TARGET:SYCE1",
+            "TARGET:TADA3",
+            "TARGET:TAGLN",
+            "TARGET:TAGLN2",
+            "TARGET:TBC1D13",
+            "TARGET:TBCA",
+            "TARGET:TBL2",
+            "TARGET:TCEA1",
+            "TARGET:TCEAL4",
+            "TARGET:TDP2",
+            "TARGET:TDRD7",
+            "TARGET:TECR",
+            "TARGET:TEKT4",
+            "TARGET:THAP4",
+            "TARGET:THUMPD2",
+            "TARGET:TIMP1",
+            "TARGET:TK1",
+            "TARGET:TLCD3B",
+            "TARGET:TM9SF2",
+            "TARGET:TNFSF13B",
+            "TARGET:TOR3A",
+            "TARGET:TPSAB1",
+            "TARGET:TST",
+            "TARGET:TTC13",
+            "TARGET:TUBB",
+            "TARGET:TUBB2B",
+            "TARGET:TUBB4B",
+            "TARGET:TUFM",
+            "TARGET:TXNDC5",
+            "TARGET:UBE2M",
+            "TARGET:UQCRFS1",
+            "TARGET:VAPA",
+            "TARGET:VCL",
+            "TARGET:VDAC2",
+            "TARGET:VIM",
+            "TARGET:VPS29",
+            "TARGET:WARS1",
+            "TARGET:WBP1",
+            "TARGET:WDR17",
+            "TARGET:WDR25",
+            "TARGET:WFDC2",
+            "TARGET:WFDC8",
+            "TARGET:WNT2",
+            "TARGET:WNT5A",
+            "TARGET:WNT8B",
+            "TARGET:WRAP73",
+            "TARGET:XRCC2",
+            "TARGET:YBX2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'oi4' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:COL1A1",
+            "TARGET:COL1A2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "COL1A2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "0653208d4d2598f1e7f44705b85b757dd9d96e6db456be9f4807274cbbeda812",
+      "authority_alias": "Isocitrate dehydrogenase [NAD] subunit alpha, mitochondrial",
+      "proposal": "Isocitrate dehydrogenase [NAD] subunit α, mitochondrial",
+      "authority_record_key": "open_targets:ENSG00000166411",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:IDH3A",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Isocitrate dehydrogenase [NAD] subunit alpha, mitochondrial",
+        "matched_alias": "Isocitrate dehydrogenase [NAD] subunit alpha, mitochondrial",
+        "matched_alias_type": "APPROVED_NAME",
+        "asserted_by": [
+          "chembl"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL4296004"
+        ],
+        "identifier_edges": [
+          "uniprot:P50213"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'nad+ specific icdh' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:IDH3A",
+            "TARGET:IDH3G"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "IDH3A"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "9a7ff9870388a1b9df8e79c9f57754d255af0cc0d495d17e49ce164d83aebb77",
+      "authority_alias": "Sodium channel protein brain I subunit alpha",
+      "proposal": "Sodium channel protein brain I subunit α",
+      "authority_record_key": "open_targets:ENSG00000144285",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:SCN1A",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Sodium channel protein brain I subunit alpha",
+        "matched_alias": "Sodium channel protein brain I subunit alpha",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL1845",
+          "open_targets:ENSG00000144285"
+        ],
+        "identifier_edges": [
+          "uniprot:P35498"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'hbsci' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:SCN1A",
+            "TARGET:SCN2A"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'nac1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:NACC1",
+            "TARGET:SCN1A"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'scn1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ELANE",
+            "TARGET:SCN1A"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "SCN1A"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 7
+    },
+    {
+      "id": "c62a1e48fe3b2b19b770c9a37a14862a4f0d0e7f67f840d6dcd621fa13a19263",
+      "authority_alias": "(R)-beta-hydroxybutyrate dehydrogenase",
+      "proposal": "(R)β-hydroxybutyrate dehydrogenase",
+      "authority_record_key": "open_targets:ENSG00000164039",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:BDH2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "(R)-beta-hydroxybutyrate dehydrogenase",
+        "matched_alias": "(R)-beta-hydroxybutyrate dehydrogenase",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL5169190",
+          "open_targets:ENSG00000164039"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9BUT1"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'efa6r' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:BDH2",
+            "TARGET:PSD3"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "BDH2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "30864c7e2463b7c419920413fec543186b153705121a742ac4050325e9c7b5d8",
+      "authority_alias": "thymosin, beta 4, X chromosome",
+      "proposal": "thymosin, β 4, X chromosome",
+      "authority_record_key": "open_targets:ENSG00000205542",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:TMSB4X",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "thymosin, beta 4, X chromosome",
+        "matched_alias": "thymosin, beta 4, X chromosome",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000205542"
+        ],
+        "identifier_edges": [
+          "uniprot:P62328"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'fx' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:F10",
+            "TARGET:GFUS",
+            "TARGET:TMSB4X"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "TMSB4X"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 5
+    },
+    {
+      "id": "326acf78e872431cb2ea701090a4a292039616a5becc5f1114db59d3ff36a943",
+      "authority_alias": "Phosphorylase kinase subunit beta",
+      "proposal": "Phosphorylase kinase subunit β",
+      "authority_record_key": "open_targets:ENSG00000102893",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PHKB",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Phosphorylase kinase subunit beta",
+        "matched_alias": "Phosphorylase kinase subunit beta",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000102893"
+        ],
+        "identifier_edges": [
+          "uniprot:Q93100"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "PHKB"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "372bf9395493eef0921f89f3d2d82502ea82df22d85c5c5fc2586a3d0c00c8a5",
+      "authority_alias": "GDNF family receptor alpha-3",
+      "proposal": "GDNF family receptor α-3",
+      "authority_record_key": "open_targets:ENSG00000146013",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:GFRA3",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "GDNF family receptor alpha-3",
+        "matched_alias": "GDNF family receptor alpha-3",
+        "matched_alias_type": "APPROVED_NAME",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL6066221",
+          "open_targets:ENSG00000146013"
+        ],
+        "identifier_edges": [
+          "uniprot:O60609"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "GFRA3"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "9ade344cdf7b2c87925d6fd4ec2f5764938a4c6dba6c2c67cd46a04a5d904b1c",
+      "authority_alias": "COPI coat complex subunit epsilon",
+      "proposal": "COPI coat complex subunit ε",
+      "authority_record_key": "open_targets:ENSG00000105669",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:COPE",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "COPI coat complex subunit epsilon",
+        "matched_alias": "COPI coat complex subunit epsilon",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000105669"
+        ],
+        "identifier_edges": [
+          "uniprot:O14579"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "COPE"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 5
+    },
+    {
+      "id": "bf361cb45d3d459d019eb41b9ce0491feb8ea55375b07538aa8256c9cd06e1b9",
+      "authority_alias": "protein kinase, cAMP-dependent, regulatory, type I, beta",
+      "proposal": "protein kinase, cAMP-dependent, regulatory, type I, β",
+      "authority_record_key": "open_targets:ENSG00000188191",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PRKAR1B",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "protein kinase, cAMP-dependent, regulatory, type I, beta",
+        "matched_alias": "protein kinase, cAMP-dependent, regulatory, type I, beta",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000188191"
+        ],
+        "identifier_edges": [
+          "uniprot:P31321"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'prkar1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PRKAR1A",
+            "TARGET:PRKAR1B"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "PRKAR1B"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 7
+    },
+    {
+      "id": "39127bc911bdaa94d4d6955c3c7a8ea7ac791cd628acbab1938176ee5d8d63e4",
+      "authority_alias": "Brain-derived tau kinase",
+      "proposal": "Brain-derived τ kinase",
+      "authority_record_key": "open_targets:ENSG00000146216",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:TTBK1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Brain-derived tau kinase",
+        "matched_alias": "Brain-derived tau kinase",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL1926492",
+          "open_targets:ENSG00000146216"
+        ],
+        "identifier_edges": [
+          "uniprot:Q5TCY1"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "TTBK1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "d1a0f782e8a8c26b7fa9cb535c94082d31e9cd709f2158db7c15b252ad31921d",
+      "authority_alias": "transforming growth factor beta receptor I",
+      "proposal": "transforming growth factor β receptor I",
+      "authority_record_key": "open_targets:ENSG00000106799",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:TGFBR1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "transforming growth factor beta receptor I",
+        "matched_alias": "transforming growth factor beta receptor I",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000106799"
+        ],
+        "identifier_edges": [
+          "uniprot:P36897"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'acvrlk4' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ACVR1B",
+            "TARGET:TGFBR1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "TGFBR1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "c754fc426036d00635105420bd60524f0051a3a3483a0445fb3167158b3c5598",
+      "authority_alias": "DAGL-alpha",
+      "proposal": "DAGLα",
+      "authority_record_key": "open_targets:ENSG00000134780",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:DAGLA",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "DAGL-alpha",
+        "matched_alias": "DAGL-alpha",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000134780"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9Y4D2"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'noc2' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:DAGLA",
+            "TARGET:RPH3AL"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "DAGLA"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "2ee3dfa084bb08ea8766150156c0d809a30e2363f38de56545d9d0785457bc1c",
+      "authority_alias": "TR-BETA",
+      "proposal": "TRβ",
+      "authority_record_key": "open_targets:ENSG00000184470",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:TXNRD2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "TR-BETA",
+        "matched_alias": "TR-BETA",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000184470"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9NNW7"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'tr' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:F2R",
+            "TARGET:TERC",
+            "TARGET:TFRC",
+            "TARGET:TMEFF2",
+            "TARGET:TXNRD1",
+            "TARGET:TXNRD2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'thioredoxin reductase 3' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:TXNRD2",
+            "TARGET:TXNRD3"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'tr3' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:NR4A1",
+            "TARGET:TAS1R3",
+            "TARGET:TNFRSF25",
+            "TARGET:TXNRD2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "TXNRD2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "f3da7a59a8655615228337266d7e149f675b0896213cc162ba67eb07f8994598",
+      "authority_alias": "Serine/threonine-protein kinase MRCK beta",
+      "proposal": "Serine/threonine-protein kinase MRCK β",
+      "authority_record_key": "open_targets:ENSG00000198752",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CDC42BPB",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Serine/threonine-protein kinase MRCK beta",
+        "matched_alias": "Serine/threonine-protein kinase MRCK beta",
+        "matched_alias_type": "APPROVED_NAME",
+        "asserted_by": [
+          "chembl"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL5052"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9Y5S2"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cdc42 binding protein kinase beta' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CDC42BPA",
+            "TARGET:CDC42BPB"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CDC42BPB"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "6ad32bf49096d6bef4ccfa6aa6b714cc367168261fd9beefc38497b6a0907790",
+      "authority_alias": "CTP:phosphocholine cytidylyltransferase-alpha",
+      "proposal": "CTP:phosphocholine cytidylyltransferaseα",
+      "authority_record_key": "open_targets:ENSG00000161217",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PCYT1A",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "CTP:phosphocholine cytidylyltransferase-alpha",
+        "matched_alias": "CTP:phosphocholine cytidylyltransferase-alpha",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000161217"
+        ],
+        "identifier_edges": [
+          "uniprot:P49585"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'ccta' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PCYT1A",
+            "TARGET:TCP1"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'ct' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CALCA",
+            "TARGET:PCYT1A"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cta' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CERNA3",
+            "TARGET:PCYT1A"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cct alpha' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PCYT1A",
+            "TARGET:TCP1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "PCYT1A"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "7810245370e5e26c416d267b82d8b43741737428345b5a314764550241bc1daf",
+      "authority_alias": "interleukin 2 receptor, alpha",
+      "proposal": "interleukin 2 receptor, α",
+      "authority_record_key": "open_targets:ENSG00000134460",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:IL2RA",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "interleukin 2 receptor, alpha",
+        "matched_alias": "interleukin 2 receptor, alpha",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000134460"
+        ],
+        "identifier_edges": [
+          "uniprot:P01589"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'p55' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ERG",
+            "TARGET:FOS",
+            "TARGET:FSCN1",
+            "TARGET:H3P44",
+            "TARGET:IL2RA",
+            "TARGET:MPP1",
+            "TARGET:P4HB",
+            "TARGET:PIK3R3",
+            "TARGET:POLG2",
+            "TARGET:PSMD12",
+            "TARGET:TNFRSF1A"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cd25' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:IL2RA",
+            "TARGET:ISG20"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "IL2RA"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "01465f4f3ea435f7ce8a21c74bd6ec1845991bce37d303f292fc8711878964f3",
+      "authority_alias": "Lanosterol 14-alpha demethylase",
+      "proposal": "Lanosterol 14α demethylase",
+      "authority_record_key": "open_targets:ENSG00000001630",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CYP51A1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Lanosterol 14-alpha demethylase",
+        "matched_alias": "Lanosterol 14-alpha demethylase",
+        "matched_alias_type": "APPROVED_NAME",
+        "asserted_by": [
+          "chembl"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3849"
+        ],
+        "identifier_edges": [
+          "uniprot:Q16850"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cypl1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CYP51A1",
+            "TARGET:PPIL1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CYP51A1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "615f50072e9e979dd68ce9a733c78f418b9edd70e68c8d4c6af5cfff8ca92317",
+      "authority_alias": "RAC-PK-gamma",
+      "proposal": "RAC-PKγ",
+      "authority_record_key": "open_targets:ENSG00000117020",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:AKT3",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "RAC-PK-gamma",
+        "matched_alias": "RAC-PK-gamma",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000117020"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9Y243"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'mpph' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:AKT3",
+            "TARGET:PIK3R2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "AKT3"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "47df245c96c857565ecef59dcadf89590dbd1555c853072e3f1a5c66f46efa58",
+      "authority_alias": "Glycoprotein-fucosylgalactoside alpha-galactosyltransferase",
+      "proposal": "Glycoprotein-fucosylgalactoside α-galactosyltransferase",
+      "authority_record_key": "open_targets:ENSG00000175164",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:ABO",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Glycoprotein-fucosylgalactoside alpha-galactosyltransferase",
+        "matched_alias": "Glycoprotein-fucosylgalactoside alpha-galactosyltransferase",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL2321639",
+          "open_targets:ENSG00000175164"
+        ],
+        "identifier_edges": [
+          "uniprot:P16442"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'a3galnt' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ABO",
+            "TARGET:GBGT1"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'gta' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ABO",
+            "TARGET:ITGA2B"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'gtb' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ABO",
+            "TARGET:B4GALT1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "ABO"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "f8123f8824020301bbe57673349ee76f4c4624939a147fdeed18a85312cd57da",
+      "authority_alias": "voltage-gated calcium channel alpha subunit Cav2.3",
+      "proposal": "voltage-gated calcium channel α subunit Cav2.3",
+      "authority_record_key": "open_targets:ENSG00000198216",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CACNA1E",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "voltage-gated calcium channel alpha subunit Cav2.3",
+        "matched_alias": "voltage-gated calcium channel alpha subunit Cav2.3",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000198216"
+        ],
+        "identifier_edges": [
+          "uniprot:Q15878"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'calcium channel, l type, alpha 1 polypeptide' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CACNA1A",
+            "TARGET:CACNA1B",
+            "TARGET:CACNA1D",
+            "TARGET:CACNA1E"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CACNA1E"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "97cc744511a2d8414630f02fee59581ad3830a62bc3e4c5ac26fc353c69d9a65",
+      "authority_alias": "sodium/potassium-dependent ATPase beta-1 subunit",
+      "proposal": "sodium/potassium-dependent ATPase β-1 subunit",
+      "authority_record_key": "open_targets:ENSG00000143153",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:ATP1B1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "sodium/potassium-dependent ATPase beta-1 subunit",
+        "matched_alias": "sodium/potassium-dependent ATPase beta-1 subunit",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000143153"
+        ],
+        "identifier_edges": [
+          "uniprot:P05026"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "ATP1B1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "4dd257833be272a5876e7f5ce42fe0b2334a5dc01380161b1d96b9a83b4faf0a",
+      "authority_alias": "GDNF receptor alpha 1e",
+      "proposal": "GDNF receptor α 1e",
+      "authority_record_key": "open_targets:ENSG00000151892",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:GFRA1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "GDNF receptor alpha 1e",
+        "matched_alias": "GDNF receptor alpha 1e",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000151892"
+        ],
+        "identifier_edges": [
+          "uniprot:P56159"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'pi linked cell surface accessory protein' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:GFRA1",
+            "TARGET:GFRA2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "GFRA1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "c9c1477658d39031f3ded97b074ba104683bc7ed61aaf6c59f9d33a42c0fce6d",
+      "authority_alias": "large conductance Ca2+-activated K+ channel beta 1 subunit",
+      "proposal": "large conductance Ca2+-activated K+ channel β 1 subunit",
+      "authority_record_key": "open_targets:ENSG00000145936",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:KCNMB1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "large conductance Ca2+-activated K+ channel beta 1 subunit",
+        "matched_alias": "large conductance Ca2+-activated K+ channel beta 1 subunit",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000145936"
+        ],
+        "identifier_edges": [
+          "uniprot:Q16558"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "KCNMB1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 8
+    },
+    {
+      "id": "5d95d20a908936facb1a5c3e7ed23fb0e4322e483d8b6d2b65665a31549cd9aa",
+      "authority_alias": "Steroid Delta-isomerase",
+      "proposal": "Steroid δ-isomerase",
+      "authority_record_key": "open_targets:ENSG00000203857",
+      "source_status": "AMBIGUOUS",
+      "source_entity": null,
+      "source_candidates": [
+        "TARGET:HSD3B1",
+        "TARGET:HSD3B2"
+      ],
+      "agrees_with_source_symbol": false,
+      "source_basis": null,
+      "entity_conflicts": [],
+      "entity_record_symbols": [],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "4e87e4131f989f5a138bff984ec437a9afcb0db0bf169309c60acf46c9880a1b",
+      "authority_alias": "acetylcholine receptor, nicotinic, delta (muscle)",
+      "proposal": "acetylcholine receptor, nicotinic, δ (muscle)",
+      "authority_record_key": "open_targets:ENSG00000135902",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CHRND",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "acetylcholine receptor, nicotinic, delta (muscle)",
+        "matched_alias": "acetylcholine receptor, nicotinic, delta (muscle)",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000135902"
+        ],
+        "identifier_edges": [
+          "uniprot:Q07001"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'achrd' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNA1",
+            "TARGET:CHRND"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cms2a' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNA1",
+            "TARGET:CHRNB1",
+            "TARGET:CHRND",
+            "TARGET:CHRNE"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'fccms' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNA1",
+            "TARGET:CHRND",
+            "TARGET:CHRNE"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'sccms' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNA1",
+            "TARGET:CHRNB1",
+            "TARGET:CHRND",
+            "TARGET:CHRNE"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CHRND"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 5
+    },
+    {
+      "id": "847ec181c4228d066680fb60c402679cdf45bf0e259bd15f6664ff78d6c6f092",
+      "authority_alias": "4-galactosyl-N-acetylglucosaminide 3-alpha-L-fucosyltransferase",
+      "proposal": "4-galactosyl-N-acetylglucosaminide 3α-L-fucosyltransferase",
+      "authority_record_key": "open_targets:ENSG00000171124",
+      "source_status": "AMBIGUOUS",
+      "source_entity": null,
+      "source_candidates": [
+        "TARGET:FUT3",
+        "TARGET:FUT4"
+      ],
+      "agrees_with_source_symbol": false,
+      "source_basis": null,
+      "entity_conflicts": [],
+      "entity_record_symbols": [],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "e8b897ea550a2359a6f81460c741190b29f563c0e2760b2b7b469b2bfd1f88fb",
+      "authority_alias": "PI3K-delta",
+      "proposal": "PI3Kδ",
+      "authority_record_key": "open_targets:ENSG00000171608",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PIK3CD",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "PI3K-delta",
+        "matched_alias": "PI3K-delta",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000171608"
+        ],
+        "identifier_edges": [
+          "uniprot:O00329"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'pi3k' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PIK3CA",
+            "TARGET:PIK3CB",
+            "TARGET:PIK3CD",
+            "TARGET:PIK3CG"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'rochis' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:KNSTRN",
+            "TARGET:PIK3CD"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "PIK3CD"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "fb2c48169afbd186b5b887d6f9c40b97733ec0731a71a9f409f4ec5213c32ad7",
+      "authority_alias": "pro-interleukin-1-beta",
+      "proposal": "pro-interleukin-1β",
+      "authority_record_key": "open_targets:ENSG00000125538",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:IL1B",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "pro-interleukin-1-beta",
+        "matched_alias": "pro-interleukin-1-beta",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000125538"
+        ],
+        "identifier_edges": [
+          "uniprot:P01584"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "IL1B"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "01d029edfb670af2d50ed8fa778d04649d84b2dfc2bb3c6c4052b899eb41cc82",
+      "authority_alias": "Serine/threonine-protein phosphatase 2B catalytic subunit beta isoform",
+      "proposal": "Serine/threonine-protein phosphatase 2B catalytic subunit β isoform",
+      "authority_record_key": "open_targets:ENSG00000107758",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PPP3CB",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Serine/threonine-protein phosphatase 2B catalytic subunit beta isoform",
+        "matched_alias": "Serine/threonine-protein phosphatase 2B catalytic subunit beta isoform",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL5278",
+          "open_targets:ENSG00000107758"
+        ],
+        "identifier_edges": [
+          "uniprot:P16298"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cna2' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:KERA",
+            "TARGET:PPP3CB",
+            "TARGET:PPP3R1"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cam prp catalytic subunit' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PPP3CA",
+            "TARGET:PPP3CB",
+            "TARGET:PPP3CC"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "PPP3CB"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 7
+    },
+    {
+      "id": "667ab85f588de77794b9540f94fa208fe77db72224000a2e5d41b7098b8c8750",
+      "authority_alias": "tumor necrosis factor, alpha, converting enzyme",
+      "proposal": "tumor necrosis factor, α, converting enzyme",
+      "authority_record_key": "open_targets:ENSG00000151694",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:ADAM17",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "tumor necrosis factor, alpha, converting enzyme",
+        "matched_alias": "tumor necrosis factor, alpha, converting enzyme",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000151694"
+        ],
+        "identifier_edges": [
+          "uniprot:P78536"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'adam18' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ADAM17",
+            "TARGET:ADAM18"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'adam metallopeptidase domain 18' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ADAM17",
+            "TARGET:ADAM18"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "ADAM17"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "d919bb331ddeb473369f2ae5553e7502f541b4441c5086358e14900cf658415c",
+      "authority_alias": "MGSA beta",
+      "proposal": "MGSA β",
+      "authority_record_key": "open_targets:ENSG00000081041",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CXCL2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "MGSA beta",
+        "matched_alias": "MGSA beta",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000081041"
+        ],
+        "identifier_edges": [
+          "uniprot:P19875"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'mip2' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CXCL2",
+            "TARGET:WDR26"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'hsf' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CXCL2",
+            "TARGET:IL6"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'mip 2a' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CXCL2",
+            "TARGET:TRAPPC2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'mip2a' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CXCL2",
+            "TARGET:TRAPPC2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CXCL2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "d35dc50ee3ffa49be57bcf8c38104397d12660d7762f6e1613b1e237aeb77525",
+      "authority_alias": "polymerase (DNA directed), delta 2, regulatory subunit 50kDa",
+      "proposal": "polymerase (DNA directed), δ 2, regulatory subunit 50kDa",
+      "authority_record_key": "open_targets:ENSG00000106628",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:POLD2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "polymerase (DNA directed), delta 2, regulatory subunit 50kDa",
+        "matched_alias": "polymerase (DNA directed), delta 2, regulatory subunit 50kDa",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000106628"
+        ],
+        "identifier_edges": [
+          "uniprot:P49005"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "POLD2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 8
+    },
+    {
+      "id": "3d6ba02953f018d49f7d74a2bae8ea4c36b74ec8d56cf368b30a6df993f5dfd8",
+      "authority_alias": "nascent-polypeptide-associated complex beta polypeptide",
+      "proposal": "nascent-polypeptide-associated complex β polypeptide",
+      "authority_record_key": "open_targets:ENSG00000145741",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:BTF3",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "nascent-polypeptide-associated complex beta polypeptide",
+        "matched_alias": "nascent-polypeptide-associated complex beta polypeptide",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000145741"
+        ],
+        "identifier_edges": [
+          "uniprot:P20290"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'btf3' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:BTF3",
+            "TARGET:BTN3A2",
+            "TARGET:BTN3A3"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "BTF3"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "c22ce64109d4224825e4322943e9c412398f2535490882c609fd346ce4bf0fe6",
+      "authority_alias": "HNF-4-gamma",
+      "proposal": "HNF-4γ",
+      "authority_record_key": "open_targets:ENSG00000164749",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:HNF4G",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "HNF-4-gamma",
+        "matched_alias": "HNF-4-gamma",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000164749"
+        ],
+        "identifier_edges": [
+          "uniprot:Q14541"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "HNF4G"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "b41f5bac8665b6b5216488be9d8b98c7032176cf41d4a1983b6209baadbfb964",
+      "authority_alias": "tubulin gamma complex associated protein 3",
+      "proposal": "tubulin γ complex associated protein 3",
+      "authority_record_key": "open_targets:ENSG00000126216",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:TUBGCP3",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "tubulin gamma complex associated protein 3",
+        "matched_alias": "tubulin gamma complex associated protein 3",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000126216"
+        ],
+        "identifier_edges": [
+          "uniprot:Q96CW5"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'gcp3' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:NAALAD2",
+            "TARGET:TUBGCP3"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "TUBGCP3"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "d2696768a95cc7fba1b7513193a338b6ee39c3b39b150cb886320040c548dd0c",
+      "authority_alias": "CD8 beta opposite",
+      "proposal": "CD8 β opposite",
+      "authority_record_key": "open_targets:ENSG00000115593",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:SMYD1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "CD8 beta opposite",
+        "matched_alias": "CD8 beta opposite",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000115593"
+        ],
+        "identifier_edges": [
+          "uniprot:Q8NB12"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'bop' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:EYA1",
+            "TARGET:FIG4",
+            "TARGET:OPN1SW",
+            "TARGET:RTL10",
+            "TARGET:SMYD1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "SMYD1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "7b77f4451d71479dffd63bdd563cc18c8e5c1c90c119e8560aba71a9a8f098b5",
+      "authority_alias": "Na(+)/K(+) ATPase alpha-1 subunit",
+      "proposal": "Na(+)/K(+) ATPase α-1 subunit",
+      "authority_record_key": "open_targets:ENSG00000163399",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:ATP1A1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Na(+)/K(+) ATPase alpha-1 subunit",
+        "matched_alias": "Na(+)/K(+) ATPase alpha-1 subunit",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000163399"
+        ],
+        "identifier_edges": [
+          "uniprot:P05023"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "ATP1A1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "3f30bad016cc30ef0d1e252b35cbde71e3ec2fd42a91d321d2e132b7327bb339",
+      "authority_alias": "Fc fragment of IgE, high affinity I, receptor for; alpha polypeptide",
+      "proposal": "Fc fragment of IgE, high affinity I, receptor for; α polypeptide",
+      "authority_record_key": "open_targets:ENSG00000179639",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:FCER1A",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Fc fragment of IgE, high affinity I, receptor for; alpha polypeptide",
+        "matched_alias": "Fc fragment of IgE, high affinity I, receptor for; alpha polypeptide",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000179639"
+        ],
+        "identifier_edges": [
+          "uniprot:P12319"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'fceri' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:FCER1A",
+            "TARGET:MS4A2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "FCER1A"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 11
+    },
+    {
+      "id": "a7f3b268ce66a3abfb2b471de3e0b0919cfde0f754385f0a2def308551b3ee9f",
+      "authority_alias": "AchR epsilon subunit",
+      "proposal": "AchR ε subunit",
+      "authority_record_key": "open_targets:ENSG00000108556",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CHRNE",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "AchR epsilon subunit",
+        "matched_alias": "AchR epsilon subunit",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000108556"
+        ],
+        "identifier_edges": [
+          "uniprot:Q04844"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cms2a' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNA1",
+            "TARGET:CHRNB1",
+            "TARGET:CHRND",
+            "TARGET:CHRNE"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'fccms' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNA1",
+            "TARGET:CHRND",
+            "TARGET:CHRNE"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'sccms' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNA1",
+            "TARGET:CHRNB1",
+            "TARGET:CHRND",
+            "TARGET:CHRNE"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cms1d' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNB1",
+            "TARGET:CHRNE",
+            "TARGET:RAPSN"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cms1e' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNE",
+            "TARGET:RAPSN"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cms4c' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CHRNE",
+            "TARGET:RAPSN"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CHRNE"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "f559bace6f5f8b8e359e1f928527b0b23a286f43cc7a7f7edad12e07979c17c2",
+      "authority_alias": "Nuclear receptor ROR-gamma",
+      "proposal": "Nuclear receptor RORγ",
+      "authority_record_key": "open_targets:ENSG00000143365",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:RORC",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Nuclear receptor ROR-gamma",
+        "matched_alias": "Nuclear receptor ROR-gamma",
+        "matched_alias_type": "APPROVED_NAME",
+        "asserted_by": [
+          "chembl"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL1741186"
+        ],
+        "identifier_edges": [
+          "uniprot:P51449"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "RORC"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "3105ead15b7d3eee787f6120db9c72c8cd70de9a5d3db7e7d4484752a08ba902",
+      "authority_alias": "MMI-alpha",
+      "proposal": "MMIα",
+      "authority_record_key": "open_targets:ENSG00000128641",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:MYO1B",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "MMI-alpha",
+        "matched_alias": "MMI-alpha",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000128641"
+        ],
+        "identifier_edges": [
+          "uniprot:O43795"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "MYO1B"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "82634bba2df524b4f9afd88431f3478430c4c6284184f766fd30eff239d01821",
+      "authority_alias": "interferon alpha 1b",
+      "proposal": "interferon α 1b",
+      "authority_record_key": "open_targets:ENSG00000197919",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:IFNA1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "interferon alpha 1b",
+        "matched_alias": "interferon alpha 1b",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000197919"
+        ],
+        "identifier_edges": [
+          "uniprot:D4Q9M8",
+          "uniprot:P01562",
+          "uniprot:Q14605",
+          "uniprot:Q2M1L8",
+          "uniprot:Q52LB8",
+          "uniprot:Q5VYQ2",
+          "uniprot:Q7M4Q1",
+          "uniprot:Q8WZ68",
+          "uniprot:Q9UMJ3"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "IFNA1",
+        "IFNA13"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "8c3826136deef833c469dbacb6218ca7025ea6a807080c073107431d96a25063",
+      "authority_alias": "Adaptor protein complex AP-2 subunit mu",
+      "proposal": "Adaptor protein complex AP-2 subunit μ",
+      "authority_record_key": "open_targets:ENSG00000161203",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:AP2M1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Adaptor protein complex AP-2 subunit mu",
+        "matched_alias": "Adaptor protein complex AP-2 subunit mu",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL6067156",
+          "open_targets:ENSG00000161203"
+        ],
+        "identifier_edges": [
+          "uniprot:Q96CW1"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'mu2' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:AP1M2",
+            "TARGET:AP2M1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "AP2M1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "f7ede70d3c05cecee8771793419c0049ce7e8cdfa2f0f1f4eac29a154d25531b",
+      "authority_alias": "COPI coat complex subunit gamma 1",
+      "proposal": "COPI coat complex subunit γ 1",
+      "authority_record_key": "open_targets:ENSG00000181789",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:COPG1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "COPI coat complex subunit gamma 1",
+        "matched_alias": "COPI coat complex subunit gamma 1",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000181789"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9Y678"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "COPG1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "ef01c57df4637ff36f5582ce9d865fc4a122913cf96579c34ba267b9de24f6ed",
+      "authority_alias": "p70(S6K)-beta",
+      "proposal": "p70(S6K)β",
+      "authority_record_key": "open_targets:ENSG00000175634",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:RPS6KB2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "p70(S6K)-beta",
+        "matched_alias": "p70(S6K)-beta",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000175634"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9UBS0"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'srk' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:RPS6KB2",
+            "TARGET:ZAP70"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "RPS6KB2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "9717e6bee5f8b0192fe49a4f9112db5914231fc428c466c5575f02a566d3aeab",
+      "authority_alias": "IL-5R-alpha",
+      "proposal": "IL-5Rα",
+      "authority_record_key": "open_targets:ENSG00000091181",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:IL5RA",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "IL-5R-alpha",
+        "matched_alias": "IL-5R-alpha",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000091181"
+        ],
+        "identifier_edges": [
+          "uniprot:Q01344"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "IL5RA"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "04846c366ebb76abfee886c08eea9e911f3470b958de701150fa1a686e73bf0f",
+      "authority_alias": "Gamma-secretase-activating protein 16 kDa C-terminal form",
+      "proposal": "γ-secretase-activating protein 16 kDa C-terminal form",
+      "authority_record_key": "open_targets:ENSG00000186088",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:GSAP",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Gamma-secretase-activating protein 16 kDa C-terminal form",
+        "matched_alias": "Gamma-secretase-activating protein 16 kDa C-terminal form",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3638343",
+          "open_targets:ENSG00000186088"
+        ],
+        "identifier_edges": [
+          "uniprot:A4D1B5"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "GSAP"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "8de4dbef6c085fd6c3460f457a4587e417ecfd7d5ccc56cc8bd40d755a307242",
+      "authority_alias": "Cholesteryl-beta-glucosidase GBA2",
+      "proposal": "Cholesterylβ-glucosidase GBA2",
+      "authority_record_key": "open_targets:ENSG00000070610",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:GBA2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Cholesteryl-beta-glucosidase GBA2",
+        "matched_alias": "Cholesteryl-beta-glucosidase GBA2",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3761",
+          "open_targets:ENSG00000070610"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9HCG7"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "GBA2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "fb9d6da5263bd14c184a9408e78edea59b8d66d6e4d30b2dab8f7ab736272030",
+      "authority_alias": "Delta and Notch-like epidermal growth factor-related receptor",
+      "proposal": "δ and Notch-like epidermal growth factor-related receptor",
+      "authority_record_key": "open_targets:ENSG00000187957",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:DNER",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Delta and Notch-like epidermal growth factor-related receptor",
+        "matched_alias": "Delta and Notch-like epidermal growth factor-related receptor",
+        "matched_alias_type": "APPROVED_NAME",
+        "asserted_by": [
+          "chembl"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL5291567"
+        ],
+        "identifier_edges": [
+          "uniprot:Q8NFT8"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "DNER"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 7
+    },
+    {
+      "id": "2a5ddd1731cc66f2d6ac2eeda10f7ba9fd6d89d7874739605c96ad8ecb453cc3",
+      "authority_alias": "3-beta-hydroxy-5-ene steroid dehydrogenase",
+      "proposal": "3β-hydroxy-5-ene steroid dehydrogenase",
+      "authority_record_key": "open_targets:ENSG00000203859",
+      "source_status": "AMBIGUOUS",
+      "source_entity": null,
+      "source_candidates": [
+        "TARGET:HSD3B1",
+        "TARGET:HSD3B2"
+      ],
+      "agrees_with_source_symbol": false,
+      "source_basis": null,
+      "entity_conflicts": [],
+      "entity_record_symbols": [],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "d9e2faad283dd22b56f6d4b0a54ac19da8a0cbd54232e1bd4b1374f194b3fd30",
+      "authority_alias": "Soluble APP-alpha",
+      "proposal": "Soluble APPα",
+      "authority_record_key": "open_targets:ENSG00000142192",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:APP",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Soluble APP-alpha",
+        "matched_alias": "Soluble APP-alpha",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL2487",
+          "open_targets:ENSG00000142192"
+        ],
+        "identifier_edges": [
+          "uniprot:P05067"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'aaa' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:AAAS",
+            "TARGET:APP"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'a4' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:APP",
+            "TARGET:ATP6V0A4",
+            "TARGET:PLP2",
+            "TARGET:SGCG"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'ad1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:APP",
+            "TARGET:CD63"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'c31' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:APP",
+            "TARGET:POLR3G"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'pn ii' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:APP",
+            "TARGET:NT5C"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "APP"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "cd22a8cc125401d65bc5faad8ac6ca51891087fbd4c414ebbd27c710444f6cd9",
+      "authority_alias": "Chondroitin beta-1,4-N-acetylgalactosaminyltransferase 1",
+      "proposal": "Chondroitin β-1,4-N-acetylgalactosaminyltransferase 1",
+      "authority_record_key": "open_targets:ENSG00000147408",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CSGALNACT1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Chondroitin beta-1,4-N-acetylgalactosaminyltransferase 1",
+        "matched_alias": "Chondroitin beta-1,4-N-acetylgalactosaminyltransferase 1",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL2040705",
+          "open_targets:ENSG00000147408"
+        ],
+        "identifier_edges": [
+          "uniprot:Q8TDX6"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'beta4galnact' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CSGALNACT1",
+            "TARGET:CSGALNACT2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CSGALNACT1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "a60b51df58fdea2f02b7d015a9f09beaaec8d62f95f21d62de3dda9343157c20",
+      "authority_alias": "LX receptor beta",
+      "proposal": "LX receptor β",
+      "authority_record_key": "open_targets:ENSG00000131408",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:NR1H2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "LX receptor beta",
+        "matched_alias": "LX receptor beta",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000131408"
+        ],
+        "identifier_edges": [
+          "uniprot:P55055"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'unr' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CSDE1",
+            "TARGET:NR1H2",
+            "TARGET:P2RY4"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "NR1H2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "76fb294cdf7e7ffc3cdd8036f3f7a2e1db1dfcd1ab37beae7f8624304b4640a2",
+      "authority_alias": "ATPase, Na+/K+ transporting, beta 3 polypeptide",
+      "proposal": "ATPase, Na+/K+ transporting, β 3 polypeptide",
+      "authority_record_key": "open_targets:ENSG00000069849",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:ATP1B3",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "ATPase, Na+/K+ transporting, beta 3 polypeptide",
+        "matched_alias": "ATPase, Na+/K+ transporting, beta 3 polypeptide",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000069849"
+        ],
+        "identifier_edges": [
+          "uniprot:P54709"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "ATP1B3"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "cfa817a03029a6f1199c2d72638684fe7c93b58894a4c4b611249c64c788ec33",
+      "authority_alias": "3-galactosyl-N-acetylglucosaminide 4-alpha-L-fucosyltransferase 3",
+      "proposal": "3-galactosyl-N-acetylglucosaminide 4α-L-fucosyltransferase 3",
+      "authority_record_key": "open_targets:ENSG00000171124",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:FUT3",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "3-galactosyl-N-acetylglucosaminide 4-alpha-L-fucosyltransferase 3",
+        "matched_alias": "3-galactosyl-N-acetylglucosaminide 4-alpha-L-fucosyltransferase 3",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000171124"
+        ],
+        "identifier_edges": [
+          "uniprot:P21217"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'le' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:FUT3",
+            "TARGET:HPS4"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias '4 galactosyl n acetylglucosaminide 3 alpha l fucosyltransferase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:FUT3",
+            "TARGET:FUT4"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "FUT3"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "11a027ce541f2bade3afaf99197dfb11448d6a274fb422b2ae31c39ffee6cdf9",
+      "authority_alias": "Protein transport protein Sec61 subunit beta",
+      "proposal": "Protein transport protein Sec61 subunit β",
+      "authority_record_key": "open_targets:ENSG00000106803",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:SEC61B",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Protein transport protein Sec61 subunit beta",
+        "matched_alias": "Protein transport protein Sec61 subunit beta",
+        "matched_alias_type": "APPROVED_NAME",
+        "asserted_by": [
+          "chembl"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL6067175"
+        ],
+        "identifier_edges": [
+          "uniprot:P60468"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "SEC61B"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "4280236fb69281c4e217dbda5cc34a048f9908605e65c69282b0604685e44d0b",
+      "authority_alias": "3 beta-HSD type II",
+      "proposal": "3 β-HSD type II",
+      "authority_record_key": "open_targets:ENSG00000203859",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:HSD3B2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "3 beta-HSD type II",
+        "matched_alias": "3 beta-HSD type II",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000203859"
+        ],
+        "identifier_edges": [
+          "uniprot:P26439"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'hsd3b' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:HSD3B1",
+            "TARGET:HSD3B2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias '3 beta hydroxy 5 ene steroid dehydrogenase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:HSD3B1",
+            "TARGET:HSD3B2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias '3 beta hydroxy delta(5) steroid dehydrogenase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:HSD3B1",
+            "TARGET:HSD3B2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'delta 5 3 ketosteroid isomerase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:HSD3B1",
+            "TARGET:HSD3B2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'progesterone reductase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:HSD3B1",
+            "TARGET:HSD3B2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'steroid delta isomerase' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:HSD3B1",
+            "TARGET:HSD3B2"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "HSD3B2"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "1ca689af2f587d4e3f2cf63e8763fac77efe6885c557669f5d13acd1085fd87b",
+      "authority_alias": "CaMK-II subunit alpha",
+      "proposal": "CaMK-II subunit α",
+      "authority_record_key": "open_targets:ENSG00000070808",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CAMK2A",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "CaMK-II subunit alpha",
+        "matched_alias": "CaMK-II subunit alpha",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000070808"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9UQM7"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'camkiinalpha' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CAMK2A",
+            "TARGET:CAMK2N1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CAMK2A"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "e4e5808e7e78529cb94da837c685acd73ada12b797ba29f9282da13b0b81addd",
+      "authority_alias": "phosphorylase kinase, delta subunit",
+      "proposal": "phosphorylase kinase, δ subunit",
+      "authority_record_key": "open_targets:ENSG00000198668",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CALM2",
+      "source_candidates": [],
+      "agrees_with_source_symbol": false,
+      "source_basis": {
+        "observed_query": "phosphorylase kinase, delta subunit",
+        "matched_alias": "phosphorylase kinase, delta subunit",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000198668"
+        ],
+        "identifier_edges": [
+          "uniprot:B4DJ51",
+          "uniprot:P02593",
+          "uniprot:P0DP23",
+          "uniprot:P0DP24",
+          "uniprot:P62158",
+          "uniprot:P70667",
+          "uniprot:P99014",
+          "uniprot:Q13942",
+          "uniprot:Q53S29",
+          "uniprot:Q61379",
+          "uniprot:Q61380",
+          "uniprot:Q96HK3",
+          "uniprot:Q96HY3"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'calm' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CALM2",
+            "TARGET:PICALM",
+            "TARGET:SNAP91"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cam' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CALM2",
+            "TARGET:CAMKMT",
+            "TARGET:KRIT1"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'cam2' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CALM2",
+            "TARGET:CAMK2B"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CALM1",
+        "CALM2",
+        "CALM3"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "e2221298cc0eeba4638116e71722d580f7a4814567bc8adc22bcb2856bfc2faf",
+      "authority_alias": "CMP-N-acetylneuraminate beta-galactosamide alpha-2,6-sialyltransferase",
+      "proposal": "CMP-N-acetylneuraminate β-galactosamide alpha-2,6-sialyltransferase",
+      "authority_record_key": "open_targets:ENSG00000073849",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:ST6GAL1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "CMP-N-acetylneuraminate beta-galactosamide alpha-2,6-sialyltransferase",
+        "matched_alias": "CMP-N-acetylneuraminate beta-galactosamide alpha-2,6-sialyltransferase",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000073849"
+        ],
+        "identifier_edges": [
+          "uniprot:P15907"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'st6 n acetylgalactosaminide alpha 2,6 sialyltransferase 1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ST6GAL1",
+            "TARGET:ST6GALNAC1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "ST6GAL1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 3
+    },
+    {
+      "id": "441a301cf36f6bce900b482b705b8aaf237b617f837bd31160ea87d20ad3415e",
+      "authority_alias": "PIAS-gamma",
+      "proposal": "PIASγ",
+      "authority_record_key": "open_targets:ENSG00000105229",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PIAS4",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "PIAS-gamma",
+        "matched_alias": "PIAS-gamma",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000105229"
+        ],
+        "identifier_edges": [
+          "uniprot:Q8N2W9"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "PIAS4"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "1a1b75ae78b9aeb37aab200b0f4aca9210ca634cc194248d1b5021411c832835",
+      "authority_alias": "Alpha-galactosidase B",
+      "proposal": "α-galactosidase B",
+      "authority_record_key": "open_targets:ENSG00000198951",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:NAGA",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Alpha-galactosidase B",
+        "matched_alias": "Alpha-galactosidase B",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3132",
+          "open_targets:ENSG00000198951"
+        ],
+        "identifier_edges": [
+          "uniprot:P17050"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "NAGA"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 2
+    },
+    {
+      "id": "c19b8111ae4c26e7d4782c1fc9badac6a35792d1b80bfeb7bc259a0be26db8d4",
+      "authority_alias": "Thymopoietin-related peptide isoform alpha",
+      "proposal": "Thymopoietin-related peptide isoform α",
+      "authority_record_key": "open_targets:ENSG00000120802",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:TMPO",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Thymopoietin-related peptide isoform alpha",
+        "matched_alias": "Thymopoietin-related peptide isoform alpha",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL5725102",
+          "open_targets:ENSG00000120802"
+        ],
+        "identifier_edges": [
+          "uniprot:P42166",
+          "uniprot:P42167"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'lap2' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:ERBIN",
+            "TARGET:HSP90AA1",
+            "TARGET:TMPO"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'tp' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:LCN1",
+            "TARGET:SCO2",
+            "TARGET:TMPO",
+            "TARGET:TYMP"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'tp alpha' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:HADHA",
+            "TARGET:TMPO"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "TMPO"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    },
+    {
+      "id": "4081d61f4c70fdead85e029427dd6751a2abcf6b539cb6bd20151fb6b5edf826",
+      "authority_alias": "PP2C-gamma",
+      "proposal": "PP2Cγ",
+      "authority_record_key": "open_targets:ENSG00000115241",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PPM1G",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "PP2C-gamma",
+        "matched_alias": "PP2C-gamma",
+        "matched_alias_type": "SYMBOL",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000115241"
+        ],
+        "identifier_edges": [
+          "uniprot:O15355"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "PPM1G"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "b04540a4abf347bd970c732febaeadf8b0f811d83085c3a0bc79ee308950729d",
+      "authority_alias": "Guanine nucleotide-binding protein G(y) subunit alpha",
+      "proposal": "Guanine nucleotide-binding protein G(y) subunit α",
+      "authority_record_key": "open_targets:ENSG00000088256",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:GNA11",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Guanine nucleotide-binding protein G(y) subunit alpha",
+        "matched_alias": "Guanine nucleotide-binding protein G(y) subunit alpha",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL4295740",
+          "open_targets:ENSG00000088256"
+        ],
+        "identifier_edges": [
+          "uniprot:P29992"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [],
+      "entity_record_symbols": [
+        "GNA11"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 6
+    },
+    {
+      "id": "c6599eaf9d4567265d0313f50aa621124c5ea2848fb3a4eb5025a5d086538fc7",
+      "authority_alias": "Beta-glucocerebrosidase",
+      "proposal": "β-glucocerebrosidase",
+      "authority_record_key": "open_targets:ENSG00000177628",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:GBA1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Beta-glucocerebrosidase",
+        "matched_alias": "Beta-glucocerebrosidase",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL2179",
+          "open_targets:ENSG00000177628"
+        ],
+        "identifier_edges": [
+          "uniprot:P04062"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'gc' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:GBA1",
+            "TARGET:GC",
+            "TARGET:GGCX"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'gcb' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:GBA1",
+            "TARGET:NPR2"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'gluc' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:GBA1",
+            "TARGET:GBA3"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "GBA1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 1
+    },
+    {
+      "id": "f8c1401366cb352b52b4d14462977da68757e69c5f45a120e6d455624dbc288d",
+      "authority_alias": "collagen, type IV, alpha 3 (Goodpasture antigen) binding protein",
+      "proposal": "collagen, type IV, α 3 (Goodpasture antigen) binding protein",
+      "authority_record_key": "open_targets:ENSG00000113163",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:CERT1",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "collagen, type IV, alpha 3 (Goodpasture antigen) binding protein",
+        "matched_alias": "collagen, type IV, alpha 3 (Goodpasture antigen) binding protein",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000113163"
+        ],
+        "identifier_edges": [
+          "uniprot:Q9Y5P4"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'gpbp' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:CERT1",
+            "TARGET:GPBP1"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "CERT1"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 9
+    },
+    {
+      "id": "fd5b4299f77f7206328ee9393c936ee262127047e2605bed7ee491468e6d19df",
+      "authority_alias": "Proteasome subunit alpha type-6",
+      "proposal": "Proteasome subunit α type-6",
+      "authority_record_key": "open_targets:ENSG00000100902",
+      "source_status": "RESOLVED",
+      "source_entity": "TARGET:PSMA6",
+      "source_candidates": [],
+      "agrees_with_source_symbol": true,
+      "source_basis": {
+        "observed_query": "Proteasome subunit alpha type-6",
+        "matched_alias": "Proteasome subunit alpha type-6",
+        "matched_alias_type": "APPROVED_NAME",
+        "asserted_by": [
+          "chembl"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL6067562"
+        ],
+        "identifier_edges": [
+          "uniprot:P60900"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "entity_conflicts": [
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'proteasome subunit alpha 1' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PSMA1",
+            "TARGET:PSMA6"
+          ]
+        },
+        {
+          "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+          "detail": "the target alias 'proteasome subunit alpha 6' is also used by another entity in this snapshot",
+          "record_keys": [],
+          "values": [
+            "TARGET:PSMA1",
+            "TARGET:PSMA6"
+          ]
+        }
+      ],
+      "entity_record_symbols": [
+        "PSMA6"
+      ],
+      "proposal_status": "UNRESOLVED",
+      "proposal_entity": null,
+      "whitespace_tokens": 4
+    }
+  ],
+  "source_status_counts": {
+    "RESOLVED": 93,
+    "AMBIGUOUS": 3
+  },
+  "source_symbol_agreement": 92,
+  "resolved_with_conflicts": 63,
+  "proposal_status_counts": {
+    "UNRESOLVED": 96
+  },
+  "more_than_five_whitespace_tokens": 29,
+  "note": "Token count is descriptive only; parser uses its own segmentation. No candidate rule implemented or scored.",
+  "live_runs": 0,
+  "holdout_probes": 0,
+  "resolved_multiple_record_symbols": 3,
+  "resolved_symbol_disagreement_flags": 1
+}

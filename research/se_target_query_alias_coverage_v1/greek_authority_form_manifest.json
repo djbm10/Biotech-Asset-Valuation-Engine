@@ -1,0 +1,9 @@
+{
+  "baseline": "7cece53",
+  "population_sha256": "fbe1bbf43fefb7feac37f1a94ed242dff22897663a0c778211abc9cde7b761c1",
+  "files": {
+    "diagnose_greek_authority_forms.py": "7c247159b969ca8438e43a4eaeb645be8217416597ce0dd59545438909f3685f",
+    "greek_authority_form_diagnosis.json": "562209c3a00da7fe5b9f5c0955e42a2203a089f6e425dd1f1de69c7687cae780",
+    "greek_authority_form_diagnosis.md": "3f15dd3e0a6e80026522412b4a96dc71df2e74f5f0434ff3c05dbd2f6a4536c2"
+  }
+}
