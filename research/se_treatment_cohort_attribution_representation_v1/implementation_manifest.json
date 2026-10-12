@@ -1,0 +1,10 @@
+{
+  "candidate_commit": "56513a2a98f653b377f0ef89026a294b54e47e34",
+  "files": {
+    "src/bve/se/schemas/treatment_cohort.py": "65f38eb576db3619f2b2a4159b1f9385b6ea97f319aa0080d4ecd197f14149c9",
+    "tests/se/test_treatment_cohort_representation.py": "4d4734c2ae6029a55f311d484c8b06b7dea09eb52bbb6d76753c94da6953f646",
+    "research/se_treatment_cohort_attribution_representation_v1/materialize.py": "201fb931465c318663748f74395748ede0c63a7c0f0767ccbbf9ff14bba1c023",
+    "research/se_treatment_cohort_attribution_representation_v1/evaluate.py": "94660c12d35ee625f1dd123e8f4faab36cf28297b22ec53a9c25ab9d3fb1e08d",
+    "research/se_treatment_cohort_attribution_representation_v1/scientific_grounding_review.json": "1eefcf378648f8b344f9707176f29a7f18c7a4272008a27473d1c507a5fda3c0"
+  }
+}

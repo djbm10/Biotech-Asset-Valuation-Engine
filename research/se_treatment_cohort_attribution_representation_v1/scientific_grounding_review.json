@@ -1,0 +1,31 @@
+{
+  "review_stage": "Before formal scoring; frozen labels are not amended",
+  "unsupported_receipt_annotations": [
+    {
+      "witness_id": "negative:1f493682033f5e394c4543419b2c8b59630eebdb1e9814163fb8edcb84be6aaf",
+      "candidate": "prednisone",
+      "frozen_relation": "REGIMEN_RECEIPT",
+      "supported_relation": "UNRESOLVED",
+      "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+      "source_reference": {
+        "path": "research/se_human_efficacy_treatment_attribution_contract_v1/negative_controls.json",
+        "sha256": "c08bbc7c8e593edbd87c87f718200cbac3aeb52c405bc1f55f5d1ed43461a0af",
+        "json_pointer": "/39"
+      },
+      "reason": "The complete regimen explicitly offers prednisone OR prednisolone. It does not establish that the outcome cohort received this particular alternative. Listing both alternatives as regimen components with a qualifier cannot certify actual receipt of either candidate."
+    },
+    {
+      "witness_id": "negative:b7a3708267677126c17d588a1522e697c3cc9c8bc8970189aa415e3ca990b475",
+      "candidate": "prednisolone",
+      "frozen_relation": "REGIMEN_RECEIPT",
+      "supported_relation": "UNRESOLVED",
+      "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+      "source_reference": {
+        "path": "research/se_human_efficacy_treatment_attribution_contract_v1/negative_controls.json",
+        "sha256": "c08bbc7c8e593edbd87c87f718200cbac3aeb52c405bc1f55f5d1ed43461a0af",
+        "json_pointer": "/40"
+      },
+      "reason": "The complete regimen explicitly offers prednisone OR prednisolone. It does not establish that the outcome cohort received this particular alternative. Listing both alternatives as regimen components with a qualifier cannot certify actual receipt of either candidate."
+    }
+  ]
+}
