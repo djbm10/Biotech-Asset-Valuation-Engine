@@ -119,3 +119,13 @@ architectural boundary and stop before implementation. Do not deploy a partial
 alias fix that resolves the displayed target but fails or changes its identity
 downstream. If an implemented, fully preregistered candidate fails acceptance,
 record and revert normally without post-result rule changes.
+
+## Dependency outcome (2026-10-12)
+
+The separate resolved-identity preservation dependency was preregistered in
+533c699, implemented in 612c088, failed in ed33b7d, and reverted in 7e8f58e.
+Its three-file approach changes legacy target serialization and leaks internal IDs
+into source-query text. Alias coverage remains OPEN; no new alias behavior was
+adopted. Next: diagnose an explicit identity-versus-retrieval interface and frozen
+consumer migration contract. Do not patch the failed candidate or revise its
+acceptance. NCIt bulk structural survey is diagnosis only, not alias admission.

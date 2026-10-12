@@ -57,3 +57,13 @@ One formal evaluation after implementation. If any criterion fails, record it,
 normally revert behavior changes and retain evidence. Do not change this contract
 or patch a failed candidate after formal results. Mechanical implementation errors
 may be corrected during focused development before the formal evaluation.
+
+## Frozen result — FAIL / REVERTED (2026-10-12)
+
+Preregistration 533c699; candidate 612c088; failure record ed33b7d; normal revert
+7e8f58e. Full tests: 1,709 passed, six failed, three existing xfails; Ruff clean.
+I6 and I8 fail. The successful 4,704-parse/16-control audit and FXI plan diagnostic
+do not override those failures. No post-result rule changes. See
+research/se_target_query_resolved_identity_preservation_v1/summary.md and
+interface_diagnosis.md. Restoration: 106 tests pass; src/tests/scripts exactly
+match preregistration HEAD. This dependency is not adopted.

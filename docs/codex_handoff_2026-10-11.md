@@ -1,3 +1,50 @@
+# 2026-10-12 TARGET QUERY COVERAGE — FROZEN SUITE; IDENTITY DEPENDENCY REVERTED
+
+Human-PoC recovery remains STOPPED. H6–H10 remain UNRUN. Fresh H21–H25 primary
+suite frozen first in **1e1705c**; still unrun/unprobed. No new holdout answers were
+used for target development. Parent **TARGET_QUERY_ALIAS_COVERAGE v1** opened in
+**e4a5b8d** with 672 authority forms / 276 entities / seven frames / 16 controls.
+
+Diagnosis: IL-4Rα lacks Greek spelling equivalence to installed IL-4R-alpha;
+authorities establish approved IL4R (IL4RA is a synonym). Factor XI has an NCIt
+protein -> UniProt -> encoded HGNC gene relationship to F11; raw name matching
+also finds a measurement concept and is insufficient. Bare F11 is ambiguous
+with ZNF160. Unique FXI recognition subsequently loses identity by serializing
+only F11, causing discovery compilation refusal. No new aliases implemented.
+
+**TARGET_QUERY_RESOLVED_IDENTITY_PRESERVATION v1: FAILED / REVERTED.**
+Preregistration **533c699**, candidate **612c088**, failure **ed33b7d**, revert
+**7e8f58e**. Frozen audit: 4,704 parses with zero compared biological-target or
+span/provenance differences; 16/16 resolver controls unchanged. FXI compiled five
+plans; bare F11 remained ambiguous. New focused tests 14 pass; three hash seeds
+produce identical JSON. Full tests: **1,709 pass / 6 fail / 3 existing xfails**;
+Ruff clean. Failure I8 includes legacy AK6 serialization, sealed parser-output
+contracts and a protected discovery-source hash. I6 independently fails: a
+stubbed FDA connector searches `description:"TARGET:GAX1"` rather than GAX1.
+No candidate changes after results. Restoration **106 tests pass** and full
+src/tests/scripts diff against 533c699 is empty. Human-PoC bytes unchanged.
+
+Evidence: `research/se_target_query_resolved_identity_preservation_v1/`.
+Next justified work is an identity-versus-search-surface interface diagnosis,
+including every consumer and historical frozen-contract migration semantics,
+before preregistering another implementation. The shared canonical_id field
+currently serves incompatible roles. Preserve historical failed results; never
+change old frozen populations/source hashes to make a successor pass.
+
+NCIt 26.09d public bulk structure survey: 13,032 identifier records; 6,060 satisfy
+unique protein-accession/encoded-HGNC structural checks. This is NOT alias
+admission; protein-form and P90 synonym semantics still require a contract.
+Receipt and extracted assertions are preserved under the parent alias packet.
+No target-specific source selection, new source calls at runtime, live runs or
+replays. Alias capitalization nondeterminism and the failed prednisone/prednisolone
+receipt oracle remain separate and unchanged; C056 remains unchanged.
+
+Source reconciliation: connected GitHub m11-identity-graph was **979ba4d**, an
+ancestor 237 commits behind local e4a5b8d when inspected. Checked Biotech Tool
+Context Drive material was older (entity-layer design August); targeted handoff/
+alias searches found no newer project policy. Newer local October evidence
+governs. No private advice/meeting-preparation material was copied.
+
 # 2026-10-12 TREATMENT_COHORT_ATTRIBUTION_REPRESENTATION v1 — FAILED / REVERTED
 
 Policy: `docs/se_policies/treatment_cohort_attribution_representation_v1.md`.
