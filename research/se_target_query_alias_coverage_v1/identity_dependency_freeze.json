@@ -1,0 +1,16 @@
+{
+  "baseline_head": "e4a5b8d",
+  "files": {
+    "survey_baseline.json": "85733d15080965d076898addc3a8af611706eeab7f16cae91b85cd1f61ce99d8",
+    "survey_population.json": "fbe1bbf43fefb7feac37f1a94ed242dff22897663a0c778211abc9cde7b761c1",
+    "survey_controls.json": "0f58cc3537224a6f9a3f2e8069bbe4e54f3a26af09d05f991a57d203dd06835d"
+  },
+  "source_reconciliation": {
+    "github_branch": "979ba4daaaa425c83a0fb00e1ef918a3e91c6f38",
+    "local_ahead": 237,
+    "local_clean": true,
+    "drive_folder": "145TlBX7_x0CySde17ReZwZSWC34fSXtc",
+    "drive_checked": "2026-10-12",
+    "finding": "Checked root/docs/tests/research and Tool Updates metadata; no newer direct handoffs/tests found. Read August entity-layer design. Local October policies and diagnoses take precedence. No private advice/meeting files copied."
+  }
+}
