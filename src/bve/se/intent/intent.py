@@ -23,7 +23,7 @@ from bve.se.schemas.contracts import (
     TargetTerm,
 )
 
-INTENT_COMPILER_VERSION = "intent_v1__target_reference_v1__target_query_greek_v2"
+INTENT_COMPILER_VERSION = "intent_v1__target_reference_v1"
 
 
 class SpanKind(str, Enum):

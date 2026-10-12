@@ -8,8 +8,7 @@ from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
 PACKET = ROOT / 'research/target_reference_identity_surface_diagnosis_v1'
-NEW_VERSIONS = ('intent_v1__target_reference_v1__target_query_greek_v2',
-                'intent_v1__target_reference_v1')
+NEW_VERSION = 'intent_v1__target_reference_v1'
 
 
 def project_metadata(value):
@@ -30,17 +29,15 @@ def project_metadata(value):
             term = TargetTerm(canonical_id=value['resolved_to'], label=value['resolved_to'],
                               target_reference=reference)
         assert lookup_id(term) == reference.entity_id
-    if value.get('compiler_version') in NEW_VERSIONS:
+    if value.get('compiler_version') == NEW_VERSION:
         value['compiler_version'] = 'intent_v1'
-    for version in NEW_VERSIONS:
-        if isinstance(value.get('version'), str) and value['version'].startswith(version + '__'):
-            value['version'] = 'intent_v1__' + value['version'][len(version + '__'):]
-            break
+    if isinstance(value.get('version'), str) and value['version'].startswith(NEW_VERSION + '__'):
+        value['version'] = 'intent_v1__' + value['version'][len(NEW_VERSION + '__'):]
     return {k: project_metadata(v) for k, v in value.items()}
 
 
 def validate_intent(intent):
-    from bve.se.ontology.query_targets import resolve_query_target as resolve_target
+    from bve.se.ontology.targets import resolve_target
     for span in intent.spans:
         if span.kind.value == 'TARGET':
             assert span.target_reference is not None
