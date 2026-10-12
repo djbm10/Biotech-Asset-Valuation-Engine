@@ -1,0 +1,218 @@
+[
+  {
+    "file": "hgnc_CALM1_identity.json",
+    "url": "https://rest.genenames.org/fetch/symbol/CALM1",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "207a24f227e5df4cb1ac5c015da6bd2533344f5ff629592093fa933777685565"
+  },
+  {
+    "file": "hgnc_CALM2_identity.json",
+    "url": "https://rest.genenames.org/fetch/symbol/CALM2",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "0dba412ab0a87dbf0df4011749b7d7e0c249c641a8861594811305d13af281d3"
+  },
+  {
+    "file": "hgnc_CALM3_identity.json",
+    "url": "https://rest.genenames.org/fetch/symbol/CALM3",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "9763e8a29afab86bdcb5888942d1881bae212b00035f7ae2bdcb2af1a3a97c3f"
+  },
+  {
+    "file": "hgnc_IFNA13_identity.json",
+    "url": "https://rest.genenames.org/fetch/symbol/IFNA13",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "6d263f64b2ada78ac3bf2bb790532778df6ca96225f4c387c4b1d14ca4771d70"
+  },
+  {
+    "file": "hgnc_IFNA1_identity.json",
+    "url": "https://rest.genenames.org/fetch/symbol/IFNA1",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "9fbb58c28f53bfb6e5caa8e84dfa8c9920d60bf84911546c7c1f84ea44e4aff7"
+  },
+  {
+    "file": "hgnc_TUBA1A_identity.json",
+    "url": "https://rest.genenames.org/fetch/symbol/TUBA1A",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "8fbd6bb80da4991a67c7c845d80c358cb048c3403c788d14925e281226fe1c8c"
+  },
+  {
+    "file": "hgnc_TUBA1B_identity.json",
+    "url": "https://rest.genenames.org/fetch/symbol/TUBA1B",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b737541bbf28796ab809bde10e46538edf4bfed4a0f466f895c61e3a49c8e128"
+  },
+  {
+    "file": "uniprot_A0A087WWS6_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/A0A087WWS6.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "148ea005841821b6403fc944fe404334f5786ba83cb62ff7edcc93c6dfb4eef6"
+  },
+  {
+    "file": "uniprot_B4DJ51_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/B4DJ51.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "8a97f6e0abc9ea351d44d335ebf316aca530fcfcce9f30b3e11059dab9447797"
+  },
+  {
+    "file": "uniprot_D4Q9M8_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/D4Q9M8.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b8fbd29a9581c5587e8ac6afe1caf7451111f4909f96641b3b5e73aaaa1eca92"
+  },
+  {
+    "file": "uniprot_P01562_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P01562.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b8fbd29a9581c5587e8ac6afe1caf7451111f4909f96641b3b5e73aaaa1eca92"
+  },
+  {
+    "file": "uniprot_P02593_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P02593.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "8a902c75c9086be81522a084171e4cc2d44b69f0caf37d96e8b08eef4bb82439"
+  },
+  {
+    "file": "uniprot_P04687_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P04687.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "2bc7317429a9d95f30568d915d34f5b5c076bafda13ea8ba6a56a1264605ba23"
+  },
+  {
+    "file": "uniprot_P05209_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P05209.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "ce36c0f5deaf9b94f58a26682f596e7f4953838fca4af0e88e013c5865c36755"
+  },
+  {
+    "file": "uniprot_P0DP23_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P0DP23.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "d74d35b0b1788bae211da2cbb44f74b0ff08721bbeb5b51c2466c865cc3287e2"
+  },
+  {
+    "file": "uniprot_P0DP24_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P0DP24.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "20b24829069bc97be3cd55770a3f6465df91586757faba99d9aa30c785bf72ef"
+  },
+  {
+    "file": "uniprot_P0DP25_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P0DP25.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "61e45268d4e76fd5e902f17445b55491587f2d709f9ad87227685e35b0db024c"
+  },
+  {
+    "file": "uniprot_P0DY56_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P0DY56.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "7852446d71c562171b071b66eeed3dc68f8dc3d13c47a2ef9c134383dd343570"
+  },
+  {
+    "file": "uniprot_P62158_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P62158.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "a940dbae51963f5114a40791a648eb78fb168117ab79d42660a6f1f93c1e1b58"
+  },
+  {
+    "file": "uniprot_P68363_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P68363.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "840006c1c7c35fc8cef46f3d9d6a3610d6d3ef3b2a63eb556f117a0b6a7ad5f7"
+  },
+  {
+    "file": "uniprot_P70667_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P70667.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "dd13599264ec8ee3e7c0a0facd2a364132a206ac2bc425ab6bc97459281312d8"
+  },
+  {
+    "file": "uniprot_P99014_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/P99014.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "d690707a7ee68e0524fb844169d4cb8372796d333f71f36a1f75a663412ba79a"
+  },
+  {
+    "file": "uniprot_Q13942_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q13942.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "a940dbae51963f5114a40791a648eb78fb168117ab79d42660a6f1f93c1e1b58"
+  },
+  {
+    "file": "uniprot_Q14605_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q14605.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b8fbd29a9581c5587e8ac6afe1caf7451111f4909f96641b3b5e73aaaa1eca92"
+  },
+  {
+    "file": "uniprot_Q2M1L8_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q2M1L8.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b8fbd29a9581c5587e8ac6afe1caf7451111f4909f96641b3b5e73aaaa1eca92"
+  },
+  {
+    "file": "uniprot_Q52LB8_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q52LB8.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b8fbd29a9581c5587e8ac6afe1caf7451111f4909f96641b3b5e73aaaa1eca92"
+  },
+  {
+    "file": "uniprot_Q53S29_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q53S29.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "a940dbae51963f5114a40791a648eb78fb168117ab79d42660a6f1f93c1e1b58"
+  },
+  {
+    "file": "uniprot_Q5VYQ2_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q5VYQ2.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b8fbd29a9581c5587e8ac6afe1caf7451111f4909f96641b3b5e73aaaa1eca92"
+  },
+  {
+    "file": "uniprot_Q61379_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q61379.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "ca05d319f7147c6c78ea221f3c30c43131bfae93c500ab28610f3931201f0a26"
+  },
+  {
+    "file": "uniprot_Q61380_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q61380.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "f2bd7c67edd1cb4611b623476cf01893fcb518d7c055ba6830d6f0613bee6a31"
+  },
+  {
+    "file": "uniprot_Q71U36_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q71U36.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "267ccc1c8f973919103f1ed46509cb3ddd9f6b4fa144985faf000be313c34693"
+  },
+  {
+    "file": "uniprot_Q7M4Q1_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q7M4Q1.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b8fbd29a9581c5587e8ac6afe1caf7451111f4909f96641b3b5e73aaaa1eca92"
+  },
+  {
+    "file": "uniprot_Q8WZ68_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q8WZ68.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b8fbd29a9581c5587e8ac6afe1caf7451111f4909f96641b3b5e73aaaa1eca92"
+  },
+  {
+    "file": "uniprot_Q96HK3_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q96HK3.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "a940dbae51963f5114a40791a648eb78fb168117ab79d42660a6f1f93c1e1b58"
+  },
+  {
+    "file": "uniprot_Q96HY3_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q96HY3.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "953b67d5f1a252e6fe3707ba8d48c07af2208a7453cd1329e3729d8bc96f0524"
+  },
+  {
+    "file": "uniprot_Q9UMJ3_identity.json",
+    "url": "https://rest.uniprot.org/uniprotkb/Q9UMJ3.json",
+    "retrieved_date_utc": "2026-10-12",
+    "sha256": "b8fbd29a9581c5587e8ac6afe1caf7451111f4909f96641b3b5e73aaaa1eca92"
+  }
+]

@@ -1,0 +1,1088 @@
+{
+  "baseline": "f7bcaa8",
+  "status": "DIAGNOSIS COMPLETE; NO PRODUCTION CHANGE",
+  "groups": [
+    {
+      "witness_id": "316ffde1979211e32b9f9ddef406b7cb509fd02a5578312b788f1628e5e80f23",
+      "installed_entity": "TARGET:TUBA1B",
+      "alias": "Detyrosinated tubulin alpha-1B chain",
+      "identities": [
+        {
+          "symbol": "TUBA1A",
+          "hgnc_id": "HGNC:20766",
+          "status": "Approved",
+          "ensembl": "ENSG00000167552",
+          "proteins": [
+            {
+              "accession": "Q71U36",
+              "status": "UniProtKB reviewed (Swiss-Prot)",
+              "human_taxon": 9606,
+              "gene_symbols": [
+                "TUBA1A"
+              ],
+              "hgnc_xrefs": [
+                "HGNC:20766"
+              ],
+              "length": 451,
+              "sequence_sha256": "e7f6864850c7d758bf40a05afd603a93f1cf62e18438fd9360a3535e70d74b09"
+            }
+          ]
+        },
+        {
+          "symbol": "TUBA1B",
+          "hgnc_id": "HGNC:18809",
+          "status": "Approved",
+          "ensembl": "ENSG00000123416",
+          "proteins": [
+            {
+              "accession": "P68363",
+              "status": "UniProtKB reviewed (Swiss-Prot)",
+              "human_taxon": 9606,
+              "gene_symbols": [
+                "TUBA1B"
+              ],
+              "hgnc_xrefs": [
+                "HGNC:18809"
+              ],
+              "length": 451,
+              "sequence_sha256": "d10df0f783c8c6f5aab6e092565a793bb713a5e9b647542f09791c5fbb377a9a"
+            }
+          ]
+        }
+      ],
+      "shared_cross_gene_edges": [
+        {
+          "from": "open_targets:ENSG00000123416",
+          "to": "open_targets:ENSG00000167552",
+          "shared_accession": "P04687",
+          "returned_primary_accession": "P04687",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P05209",
+              "P68360",
+              "P68361",
+              "P68363",
+              "Q71U36"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000123416",
+          "to": "open_targets:ENSG00000167552",
+          "shared_accession": "P05209",
+          "returned_primary_accession": "P05209",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "Q71U36",
+              "P68361",
+              "P68363",
+              "P68360"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        }
+      ],
+      "distinct_hgnc_genes": 2,
+      "distinct_protein_sequences": 2,
+      "new_alias_single_gene_certification": "UNRESOLVED",
+      "reason": "Distinct approved HGNC/Ensembl genes and distinct reviewed primary accessions. Shared secondary/demerged or multi-gene records do not certify interchangeable gene identities; sequence identity does not establish gene equivalence."
+    },
+    {
+      "witness_id": "82634bba2df524b4f9afd88431f3478430c4c6284184f766fd30eff239d01821",
+      "installed_entity": "TARGET:IFNA1",
+      "alias": "interferon alpha 1b",
+      "identities": [
+        {
+          "symbol": "IFNA1",
+          "hgnc_id": "HGNC:5417",
+          "status": "Approved",
+          "ensembl": "ENSG00000197919",
+          "proteins": [
+            {
+              "accession": "P0DY56",
+              "status": "UniProtKB reviewed (Swiss-Prot)",
+              "human_taxon": 9606,
+              "gene_symbols": [
+                "IFNA1"
+              ],
+              "hgnc_xrefs": [
+                "HGNC:5417"
+              ],
+              "length": 189,
+              "sequence_sha256": "f64ccb7c3ea059c6603736f6cf4ddb2d77be13f85a4c26137e277319aba27561"
+            }
+          ]
+        },
+        {
+          "symbol": "IFNA13",
+          "hgnc_id": "HGNC:5419",
+          "status": "Approved",
+          "ensembl": "ENSG00000233816",
+          "proteins": [
+            {
+              "accession": "A0A087WWS6",
+              "status": "UniProtKB reviewed (Swiss-Prot)",
+              "human_taxon": 9606,
+              "gene_symbols": [
+                "IFNA13"
+              ],
+              "hgnc_xrefs": [
+                "HGNC:5419"
+              ],
+              "length": 190,
+              "sequence_sha256": "055b1f1e4fb7a4ba777cc476a3bd366771862785cd118d3e97c9d24fef8c13d3"
+            }
+          ]
+        }
+      ],
+      "shared_cross_gene_edges": [
+        {
+          "from": "chembl:CHEMBL3713007",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "P01562",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000197919",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "D4Q9M8",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000197919",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "P01562",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000197919",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "Q14605",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000197919",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "Q2M1L8",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000197919",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "Q52LB8",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000197919",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "Q5VYQ2",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000197919",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "Q7M4Q1",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000197919",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "Q8WZ68",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000197919",
+          "to": "open_targets:ENSG00000233816",
+          "shared_accession": "Q9UMJ3",
+          "returned_primary_accession": "P01562",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "A0A087WWS6",
+              "P0DY56"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        }
+      ],
+      "distinct_hgnc_genes": 2,
+      "distinct_protein_sequences": 2,
+      "new_alias_single_gene_certification": "UNRESOLVED",
+      "reason": "Distinct approved HGNC/Ensembl genes and distinct reviewed primary accessions. Shared secondary/demerged or multi-gene records do not certify interchangeable gene identities; sequence identity does not establish gene equivalence."
+    },
+    {
+      "witness_id": "e4e5808e7e78529cb94da837c685acd73ada12b797ba29f9282da13b0b81addd",
+      "installed_entity": "TARGET:CALM2",
+      "alias": "phosphorylase kinase, delta subunit",
+      "identities": [
+        {
+          "symbol": "CALM1",
+          "hgnc_id": "HGNC:1442",
+          "status": "Approved",
+          "ensembl": "ENSG00000198668",
+          "proteins": [
+            {
+              "accession": "P0DP23",
+              "status": "UniProtKB reviewed (Swiss-Prot)",
+              "human_taxon": 9606,
+              "gene_symbols": [
+                "CALM1"
+              ],
+              "hgnc_xrefs": [
+                "HGNC:1442"
+              ],
+              "length": 149,
+              "sequence_sha256": "4a9f2f38a0afe61f9cd35d05788764536c1b394551a521687d0e537ad2760ff5"
+            }
+          ]
+        },
+        {
+          "symbol": "CALM2",
+          "hgnc_id": "HGNC:1445",
+          "status": "Approved",
+          "ensembl": "ENSG00000143933",
+          "proteins": [
+            {
+              "accession": "P0DP24",
+              "status": "UniProtKB reviewed (Swiss-Prot)",
+              "human_taxon": 9606,
+              "gene_symbols": [
+                "CALM2"
+              ],
+              "hgnc_xrefs": [
+                "HGNC:1445"
+              ],
+              "length": 149,
+              "sequence_sha256": "4a9f2f38a0afe61f9cd35d05788764536c1b394551a521687d0e537ad2760ff5"
+            }
+          ]
+        },
+        {
+          "symbol": "CALM3",
+          "hgnc_id": "HGNC:1449",
+          "status": "Approved",
+          "ensembl": "ENSG00000160014",
+          "proteins": [
+            {
+              "accession": "P0DP25",
+              "status": "UniProtKB reviewed (Swiss-Prot)",
+              "human_taxon": 9606,
+              "gene_symbols": [
+                "CALM3"
+              ],
+              "hgnc_xrefs": [
+                "HGNC:1449"
+              ],
+              "length": 149,
+              "sequence_sha256": "4a9f2f38a0afe61f9cd35d05788764536c1b394551a521687d0e537ad2760ff5"
+            }
+          ]
+        }
+      ],
+      "shared_cross_gene_edges": [
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "B4DJ51",
+          "returned_primary_accession": "B4DJ51",
+          "entry_type": "UniProtKB unreviewed (TrEMBL)",
+          "inactive_reason": null,
+          "gene_symbols": [
+            "HEL-S-72"
+          ],
+          "gene_synonyms": [
+            "CALM1",
+            "CALM3"
+          ]
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "P02593",
+          "returned_primary_accession": "P02593",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62157",
+              "P62156",
+              "P62155",
+              "P62151",
+              "P62150",
+              "P62149",
+              "P62146",
+              "P62144",
+              "P62158",
+              "P62160",
+              "P62204",
+              "P62161"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "P62158",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "P70667",
+          "returned_primary_accession": "P70667",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62156",
+              "P02593",
+              "P62144",
+              "P62146",
+              "P62149",
+              "P62150",
+              "P62151",
+              "P62155",
+              "P62204",
+              "P62161",
+              "P62160",
+              "P62158",
+              "P62157"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "P99014",
+          "returned_primary_accession": "P99014",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62151",
+              "P62150",
+              "P62149",
+              "P62146",
+              "P62157",
+              "P62158",
+              "P62160",
+              "P62161",
+              "P62204",
+              "P62155",
+              "P62144",
+              "P62156",
+              "P02593"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "Q13942",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "Q53S29",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "Q61379",
+          "returned_primary_accession": "Q61379",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62146",
+              "P62144",
+              "P02593",
+              "P62149",
+              "P62204",
+              "P62161",
+              "P62160",
+              "P62158",
+              "P62157",
+              "P62156",
+              "P62155",
+              "P62151",
+              "P62150"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "Q61380",
+          "returned_primary_accession": "Q61380",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P02593",
+              "P62144",
+              "P62158",
+              "P62160",
+              "P62161",
+              "P62204",
+              "P62157",
+              "P62146",
+              "P62149",
+              "P62150",
+              "P62151",
+              "P62155",
+              "P62156"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "Q96HK3",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000160014",
+          "shared_accession": "Q96HY3",
+          "returned_primary_accession": "Q96HY3",
+          "entry_type": "UniProtKB unreviewed (TrEMBL)",
+          "inactive_reason": null,
+          "gene_symbols": [
+            "CALM1"
+          ],
+          "gene_synonyms": [
+            "CALM2",
+            "CALM3"
+          ]
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "B4DJ51",
+          "returned_primary_accession": "B4DJ51",
+          "entry_type": "UniProtKB unreviewed (TrEMBL)",
+          "inactive_reason": null,
+          "gene_symbols": [
+            "HEL-S-72"
+          ],
+          "gene_synonyms": [
+            "CALM1",
+            "CALM3"
+          ]
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "P02593",
+          "returned_primary_accession": "P02593",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62157",
+              "P62156",
+              "P62155",
+              "P62151",
+              "P62150",
+              "P62149",
+              "P62146",
+              "P62144",
+              "P62158",
+              "P62160",
+              "P62204",
+              "P62161"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "P62158",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "P70667",
+          "returned_primary_accession": "P70667",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62156",
+              "P02593",
+              "P62144",
+              "P62146",
+              "P62149",
+              "P62150",
+              "P62151",
+              "P62155",
+              "P62204",
+              "P62161",
+              "P62160",
+              "P62158",
+              "P62157"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "P99014",
+          "returned_primary_accession": "P99014",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62151",
+              "P62150",
+              "P62149",
+              "P62146",
+              "P62157",
+              "P62158",
+              "P62160",
+              "P62161",
+              "P62204",
+              "P62155",
+              "P62144",
+              "P62156",
+              "P02593"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q13942",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q53S29",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q61379",
+          "returned_primary_accession": "Q61379",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62146",
+              "P62144",
+              "P02593",
+              "P62149",
+              "P62204",
+              "P62161",
+              "P62160",
+              "P62158",
+              "P62157",
+              "P62156",
+              "P62155",
+              "P62151",
+              "P62150"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q61380",
+          "returned_primary_accession": "Q61380",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P02593",
+              "P62144",
+              "P62158",
+              "P62160",
+              "P62161",
+              "P62204",
+              "P62157",
+              "P62146",
+              "P62149",
+              "P62150",
+              "P62151",
+              "P62155",
+              "P62156"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q96HK3",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000143933",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q96HY3",
+          "returned_primary_accession": "Q96HY3",
+          "entry_type": "UniProtKB unreviewed (TrEMBL)",
+          "inactive_reason": null,
+          "gene_symbols": [
+            "CALM1"
+          ],
+          "gene_synonyms": [
+            "CALM2",
+            "CALM3"
+          ]
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "B4DJ51",
+          "returned_primary_accession": "B4DJ51",
+          "entry_type": "UniProtKB unreviewed (TrEMBL)",
+          "inactive_reason": null,
+          "gene_symbols": [
+            "HEL-S-72"
+          ],
+          "gene_synonyms": [
+            "CALM1",
+            "CALM3"
+          ]
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "P02593",
+          "returned_primary_accession": "P02593",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62157",
+              "P62156",
+              "P62155",
+              "P62151",
+              "P62150",
+              "P62149",
+              "P62146",
+              "P62144",
+              "P62158",
+              "P62160",
+              "P62204",
+              "P62161"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "P62158",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "P70667",
+          "returned_primary_accession": "P70667",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62156",
+              "P02593",
+              "P62144",
+              "P62146",
+              "P62149",
+              "P62150",
+              "P62151",
+              "P62155",
+              "P62204",
+              "P62161",
+              "P62160",
+              "P62158",
+              "P62157"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "P99014",
+          "returned_primary_accession": "P99014",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62151",
+              "P62150",
+              "P62149",
+              "P62146",
+              "P62157",
+              "P62158",
+              "P62160",
+              "P62161",
+              "P62204",
+              "P62155",
+              "P62144",
+              "P62156",
+              "P02593"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q13942",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q53S29",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q61379",
+          "returned_primary_accession": "Q61379",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P62146",
+              "P62144",
+              "P02593",
+              "P62149",
+              "P62204",
+              "P62161",
+              "P62160",
+              "P62158",
+              "P62157",
+              "P62156",
+              "P62155",
+              "P62151",
+              "P62150"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q61380",
+          "returned_primary_accession": "Q61380",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P02593",
+              "P62144",
+              "P62158",
+              "P62160",
+              "P62161",
+              "P62204",
+              "P62157",
+              "P62146",
+              "P62149",
+              "P62150",
+              "P62151",
+              "P62155",
+              "P62156"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q96HK3",
+          "returned_primary_accession": "P62158",
+          "entry_type": "Inactive",
+          "inactive_reason": {
+            "inactiveReasonType": "DEMERGED",
+            "mergeDemergeTo": [
+              "P0DP25",
+              "P0DP23",
+              "P0DP24"
+            ]
+          },
+          "gene_symbols": [],
+          "gene_synonyms": []
+        },
+        {
+          "from": "open_targets:ENSG00000160014",
+          "to": "open_targets:ENSG00000198668",
+          "shared_accession": "Q96HY3",
+          "returned_primary_accession": "Q96HY3",
+          "entry_type": "UniProtKB unreviewed (TrEMBL)",
+          "inactive_reason": null,
+          "gene_symbols": [
+            "CALM1"
+          ],
+          "gene_synonyms": [
+            "CALM2",
+            "CALM3"
+          ]
+        }
+      ],
+      "distinct_hgnc_genes": 3,
+      "distinct_protein_sequences": 1,
+      "new_alias_single_gene_certification": "UNRESOLVED",
+      "reason": "Distinct approved HGNC/Ensembl genes and distinct reviewed primary accessions. Shared secondary/demerged or multi-gene records do not certify interchangeable gene identities; sequence identity does not establish gene equivalence."
+    }
+  ],
+  "live_asset_runs": 0,
+  "holdout_probes": 0,
+  "authority_reads_only": true
+}

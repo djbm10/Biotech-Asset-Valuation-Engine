@@ -1,0 +1,2753 @@
+[
+  {
+    "witness_id": "316ffde1979211e32b9f9ddef406b7cb509fd02a5578312b788f1628e5e80f23",
+    "alias": "Detyrosinated tubulin alpha-1B chain",
+    "result": {
+      "query": "Detyrosinated tubulin alpha-1B chain",
+      "status": "RESOLVED",
+      "entity": {
+        "canonical_id": "TARGET:TUBA1B",
+        "entity_type": "TARGET",
+        "canonical_symbol": "TUBA1B",
+        "label": "Tubulin alpha-1A chain",
+        "aliases": [
+          {
+            "value": "B-ALPHA-1",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "FLJ25113",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "K-ALPHA-1",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "LIS3",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "TUBA1A",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3661",
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "TUBA1B",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3797010",
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "TUBA3",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "tubulin alpha 1a",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "tubulin alpha 1b",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "Tubulin alpha-1A chain",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "chembl"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3661"
+            ]
+          },
+          {
+            "value": "Tubulin alpha-1B chain",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "chembl"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3797010"
+            ]
+          },
+          {
+            "value": "alpha tubulin",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "Alpha-tubulin 3",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3661",
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "Alpha-tubulin ubiquitous",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3797010",
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "B-ALPHA-1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "Detyrosinated tubulin alpha-1A chain",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3661",
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "Detyrosinated tubulin alpha-1B chain",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3797010",
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "FLJ25113",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "hum-a-tub1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "hum-a-tub2",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "K-ALPHA-1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "LIS3",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "TUBA1A",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "TUBA1B",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "TUBA3",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3661",
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "Tubulin alpha-1A chain",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3661",
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "Tubulin alpha-1B chain",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3797010",
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "Tubulin alpha-3 chain",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3661",
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "Tubulin alpha-ubiquitous chain",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3797010",
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "Tubulin B-alpha-1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3661",
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "Tubulin K-alpha-1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3797010",
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "tubulin, alpha, brain-specific",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000167552"
+            ]
+          },
+          {
+            "value": "tubulin, alpha, ubiquitous",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000123416"
+            ]
+          },
+          {
+            "value": "3.6.5.-",
+            "alias_type": "XREF",
+            "sources": [
+              "chembl"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3661",
+              "chembl:CHEMBL3797010"
+            ]
+          }
+        ],
+        "source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3661",
+            "entity_type": "TARGET",
+            "canonical_symbol": "TUBA1A",
+            "label": "Tubulin alpha-1A chain",
+            "aliases": [
+              {
+                "value": "3.6.5.-",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "Alpha-tubulin 3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Detyrosinated tubulin alpha-1A chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "TUBA1A",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "TUBA3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Tubulin alpha-1A chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Tubulin alpha-3 chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Tubulin B-alpha-1",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3661"
+              ],
+              "uniprot": [
+                "Q71U36"
+              ]
+            }
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3797010",
+            "entity_type": "TARGET",
+            "canonical_symbol": "TUBA1B",
+            "label": "Tubulin alpha-1B chain",
+            "aliases": [
+              {
+                "value": "3.6.5.-",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "Alpha-tubulin ubiquitous",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Detyrosinated tubulin alpha-1B chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "TUBA1B",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Tubulin alpha-1B chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Tubulin alpha-ubiquitous chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Tubulin K-alpha-1",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3797010"
+              ],
+              "uniprot": [
+                "P68363"
+              ]
+            }
+          },
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000123416",
+            "entity_type": "TARGET",
+            "canonical_symbol": "TUBA1B",
+            "label": "tubulin alpha 1b",
+            "aliases": [
+              {
+                "value": "Tubulin alpha-1B chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Detyrosinated tubulin alpha-1B chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "TUBA1B",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "K-ALPHA-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Alpha-tubulin ubiquitous",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Tubulin K-alpha-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Tubulin alpha-ubiquitous chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "tubulin, alpha, ubiquitous",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "alpha tubulin",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "TUBA1B",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "K-ALPHA-1",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000123416"
+              ],
+              "uniprot": [
+                "P68363",
+                "F8VRK0",
+                "F8VU66",
+                "F8VVB9",
+                "F8VWV9",
+                "F8VX09",
+                "P04687",
+                "P05209",
+                "Q27I68",
+                "Q8WU19"
+              ]
+            }
+          },
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000167552",
+            "entity_type": "TARGET",
+            "canonical_symbol": "TUBA1A",
+            "label": "tubulin alpha 1a",
+            "aliases": [
+              {
+                "value": "Tubulin alpha-1A chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Detyrosinated tubulin alpha-1A chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "TUBA1A",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "TUBA3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "B-ALPHA-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "FLJ25113",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Alpha-tubulin 3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Tubulin B-alpha-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Tubulin alpha-3 chain",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "tubulin, alpha, brain-specific",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LIS3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "hum-a-tub1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "hum-a-tub2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "TUBA1A",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "TUBA3",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "B-ALPHA-1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "FLJ25113",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "LIS3",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000167552"
+              ],
+              "uniprot": [
+                "Q71U36",
+                "A0A7P0Z4A1",
+                "F8VQQ4",
+                "F8VRZ4",
+                "F8W0F6",
+                "A8K0B8",
+                "G3V1U9",
+                "P04687",
+                "P05209"
+              ]
+            }
+          }
+        ],
+        "conflicts": [
+          {
+            "conflict_type": "CANONICAL_SYMBOL_DISAGREEMENT",
+            "detail": "sources disagree on the canonical symbol; the authority order ('open_targets', 'chembl') decided the normalized value",
+            "record_keys": [
+              "chembl:CHEMBL3661",
+              "chembl:CHEMBL3797010",
+              "open_targets:ENSG00000123416",
+              "open_targets:ENSG00000167552"
+            ],
+            "values": [
+              "TUBA1A",
+              "TUBA1B"
+            ]
+          }
+        ],
+        "identifier_edges": [
+          "uniprot:P04687",
+          "uniprot:P05209",
+          "uniprot:P68363",
+          "uniprot:Q71U36"
+        ]
+      },
+      "candidates": [],
+      "rule": "unique_alias_match",
+      "basis": {
+        "observed_query": "Detyrosinated tubulin alpha-1B chain",
+        "matched_alias": "Detyrosinated tubulin alpha-1B chain",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "chembl",
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "chembl:CHEMBL3797010",
+          "open_targets:ENSG00000123416"
+        ],
+        "identifier_edges": [
+          "uniprot:P04687",
+          "uniprot:P05209",
+          "uniprot:P68363",
+          "uniprot:Q71U36"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+    }
+  },
+  {
+    "witness_id": "82634bba2df524b4f9afd88431f3478430c4c6284184f766fd30eff239d01821",
+    "alias": "interferon alpha 1b",
+    "result": {
+      "query": "interferon alpha 1b",
+      "status": "RESOLVED",
+      "entity": {
+        "canonical_id": "TARGET:IFNA1",
+        "entity_type": "TARGET",
+        "canonical_symbol": "IFNA1",
+        "label": "Interferon alpha-1/13",
+        "aliases": [
+          {
+            "value": "IFL",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFN",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFN-ALPHA",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFN-alpha-1",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFN-alphaD",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFNA1",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3713007",
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFNA13",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3713007",
+              "open_targets:ENSG00000197919",
+              "open_targets:ENSG00000233816"
+            ]
+          },
+          {
+            "value": "IFNA@",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "LeIF D",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "interferon alpha 1",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "interferon alpha 13",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000233816"
+            ]
+          },
+          {
+            "value": "Interferon alpha-1/13",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "chembl"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3713007"
+            ]
+          },
+          {
+            "value": "IFL",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFN",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFN-ALPHA",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFN-alpha 1b",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFN-alpha-1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFN-alpha-1/13",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3713007",
+              "open_targets:ENSG00000197919",
+              "open_targets:ENSG00000233816"
+            ]
+          },
+          {
+            "value": "IFN-alphaD",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFNA1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "IFNA13",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919",
+              "open_targets:ENSG00000233816"
+            ]
+          },
+          {
+            "value": "IFNA@",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "interferon alpha 1b",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "Interferon alpha-1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "Interferon alpha-1/13",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3713007",
+              "open_targets:ENSG00000197919",
+              "open_targets:ENSG00000233816"
+            ]
+          },
+          {
+            "value": "Interferon alpha-13",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000233816"
+            ]
+          },
+          {
+            "value": "Interferon alpha-D",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3713007",
+              "open_targets:ENSG00000197919",
+              "open_targets:ENSG00000233816"
+            ]
+          },
+          {
+            "value": "interferon-alpha1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000197919"
+            ]
+          },
+          {
+            "value": "LeIF D",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL3713007",
+              "open_targets:ENSG00000197919",
+              "open_targets:ENSG00000233816"
+            ]
+          }
+        ],
+        "source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3713007",
+            "entity_type": "TARGET",
+            "canonical_symbol": "IFNA1",
+            "label": "Interferon alpha-1/13",
+            "aliases": [
+              {
+                "value": "IFNA1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "IFNA13",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "IFN-alpha-1/13",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Interferon alpha-1/13",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Interferon alpha-D",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LeIF D",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3713007"
+              ],
+              "uniprot": [
+                "P01562"
+              ]
+            }
+          },
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000197919",
+            "entity_type": "TARGET",
+            "canonical_symbol": "IFNA1",
+            "label": "interferon alpha 1",
+            "aliases": [
+              {
+                "value": "Interferon alpha-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFN-alpha-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LeIF D",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFNA1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFNA@",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFL",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFN",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFN-ALPHA",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFNA13",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFN-alphaD",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Interferon alpha-D",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFN-alpha 1b",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "interferon alpha 1b",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFN-alpha-1/13",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "interferon alpha-1/13",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "interferon-alpha1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFN-alpha-1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "LeIF D",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "IFNA1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "IFNA@",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "IFL",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "IFN",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "IFN-ALPHA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "IFNA13",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "IFN-alphaD",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000197919"
+              ],
+              "uniprot": [
+                "P01562",
+                "L0N195",
+                "D4Q9M8",
+                "P0DY56",
+                "Q14605",
+                "Q2M1L8",
+                "Q52LB8",
+                "Q5VYQ2",
+                "Q7M4Q1",
+                "Q8WZ68",
+                "Q9UMJ3"
+              ]
+            }
+          },
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000233816",
+            "entity_type": "TARGET",
+            "canonical_symbol": "IFNA13",
+            "label": "interferon alpha 13",
+            "aliases": [
+              {
+                "value": "Interferon alpha-13",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFNA13",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFN-alpha-1/13",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "interferon alpha-1/13",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "interferon alpha-D",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "leIF D",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "IFNA13",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000233816"
+              ],
+              "uniprot": [
+                "P01562",
+                "A0A087WWS6",
+                "D4Q9M8",
+                "Q14605",
+                "Q2M1L8",
+                "Q52LB8",
+                "Q5VYQ2",
+                "Q7M4Q1",
+                "Q8WZ68",
+                "Q9UMJ3"
+              ]
+            }
+          }
+        ],
+        "conflicts": [],
+        "identifier_edges": [
+          "uniprot:D4Q9M8",
+          "uniprot:P01562",
+          "uniprot:Q14605",
+          "uniprot:Q2M1L8",
+          "uniprot:Q52LB8",
+          "uniprot:Q5VYQ2",
+          "uniprot:Q7M4Q1",
+          "uniprot:Q8WZ68",
+          "uniprot:Q9UMJ3"
+        ]
+      },
+      "candidates": [],
+      "rule": "unique_alias_match",
+      "basis": {
+        "observed_query": "interferon alpha 1b",
+        "matched_alias": "interferon alpha 1b",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000197919"
+        ],
+        "identifier_edges": [
+          "uniprot:D4Q9M8",
+          "uniprot:P01562",
+          "uniprot:Q14605",
+          "uniprot:Q2M1L8",
+          "uniprot:Q52LB8",
+          "uniprot:Q5VYQ2",
+          "uniprot:Q7M4Q1",
+          "uniprot:Q8WZ68",
+          "uniprot:Q9UMJ3"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+    }
+  },
+  {
+    "witness_id": "e4e5808e7e78529cb94da837c685acd73ada12b797ba29f9282da13b0b81addd",
+    "alias": "phosphorylase kinase, delta subunit",
+    "result": {
+      "query": "phosphorylase kinase, delta subunit",
+      "status": "RESOLVED",
+      "entity": {
+        "canonical_id": "TARGET:CALM2",
+        "entity_type": "TARGET",
+        "canonical_symbol": "CALM2",
+        "label": "Calmodulin-2",
+        "aliases": [
+          {
+            "value": "CALM",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CALM1",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL6093",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CALM2",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL4296043",
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "CALM3",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "CALML2",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "caM",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAM1",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAM2",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAM3",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAMB",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAMC",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAMI",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAMII",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "CAMIII",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CPVT4",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CPVT6",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "DD132",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "HEL-S-72",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "LQT14",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "LQT15",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "LQT16",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "PHKD",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "PHKD1",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "PHKD2",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "PHKD3",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "calmodulin 3",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "Calmodulin-1",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL6093",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "Calmodulin-2",
+            "alias_type": "APPROVED_NAME",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL4296043",
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "CALM",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL6093",
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CALM1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CALM2",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "CALM3",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "CALML2",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "calmodulin 1 (phosphorylase kinase, delta)",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "calmodulin 2 (phosphorylase kinase, delta)",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "Calmodulin-1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL6093",
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "Calmodulin-2",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL4296043",
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "Calmodulin-3",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAM",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL6093",
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAM1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL6093",
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAM2",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL4296043",
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAM3",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAMB",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "chembl",
+              "open_targets"
+            ],
+            "record_keys": [
+              "chembl:CHEMBL4296043",
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAMC",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAMI",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CAMII",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "CAMIII",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CPVT4",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "CPVT6",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "DD132",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "epididymis secretory protein Li 72",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "HEL-S-72",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "LP7057 protein",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "LQT14",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "LQT15",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "LQT16",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "PHKD",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "PHKD1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "PHKD2",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "PHKD3",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "phosphorylase kinase delta",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "phosphorylase kinase subunit delta",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933",
+              "open_targets:ENSG00000160014",
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "phosphorylase kinase subunit delta 1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "phosphorylase kinase subunit delta 2",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "phosphorylase kinase subunit delta 3",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          },
+          {
+            "value": "phosphorylase kinase, delta subunit",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "prepro-calmodulin 1",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000198668"
+            ]
+          },
+          {
+            "value": "prepro-calmodulin 2",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143933"
+            ]
+          },
+          {
+            "value": "prepro-calmodulin 3",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000160014"
+            ]
+          }
+        ],
+        "source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL4296043",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CALM2",
+            "label": "Calmodulin-2",
+            "aliases": [
+              {
+                "value": "CALM2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Calmodulin-2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMB",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM2",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL4296043"
+              ],
+              "uniprot": [
+                "P0DP24"
+              ]
+            }
+          },
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL6093",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CALM1",
+            "label": "Calmodulin-1",
+            "aliases": [
+              {
+                "value": "CALM1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Calmodulin-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL6093"
+              ],
+              "uniprot": [
+                "P0DP23"
+              ]
+            }
+          },
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000143933",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CALM2",
+            "label": "calmodulin 2",
+            "aliases": [
+              {
+                "value": "Calmodulin-2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMB",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "PHKD",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "PHKD2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMII",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "prepro-calmodulin 2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "phosphorylase kinase subunit delta",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "phosphorylase kinase subunit delta 2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALML2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMC",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMIII",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LQT15",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "caM",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Calmodulin-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Calmodulin-3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LP7057 protein",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "calmodulin 2 (phosphorylase kinase, delta)",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "phosphorylase kinase delta",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMB",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "PHKD",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "PHKD2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMII",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CALM",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CALML2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM3",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMC",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMIII",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "LQT15",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "caM",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000143933"
+              ],
+              "uniprot": [
+                "P0DP24",
+                "A0A590UJC0",
+                "A0A590UJE2",
+                "A0A590UJI2",
+                "B4DJ51",
+                "E7EMB3",
+                "F8WBR5",
+                "Q96HY3",
+                "P02593",
+                "P62158",
+                "P70667",
+                "P99014",
+                "Q13942",
+                "Q53S29",
+                "Q61379",
+                "Q61380",
+                "Q96HK3"
+              ]
+            }
+          },
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000160014",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CALM3",
+            "label": "calmodulin 3",
+            "aliases": [
+              {
+                "value": "Calmodulin-3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALML2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMC",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMIII",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "PHKD",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "PHKD3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "prepro-calmodulin 3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "phosphorylase kinase subunit delta",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "phosphorylase kinase subunit delta 3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMB",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CPVT6",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CaM",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "HEL-S-72",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LQT16",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Calmodulin-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Calmodulin-2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "epididymis secretory protein Li 72",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM3",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CALML2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM3",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMC",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMIII",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "PHKD",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "PHKD3",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CALM",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMB",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CPVT6",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CaM",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "HEL-S-72",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "LQT16",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000160014"
+              ],
+              "uniprot": [
+                "P0DP25",
+                "A0A590UJD7",
+                "B4DJ51",
+                "M0QZ52",
+                "Q96HY3",
+                "P02593",
+                "P62158",
+                "P70667",
+                "P99014",
+                "Q13942",
+                "Q53S29",
+                "Q61379",
+                "Q61380",
+                "Q96HK3"
+              ]
+            }
+          },
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000198668",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CALM1",
+            "label": "calmodulin 1",
+            "aliases": [
+              {
+                "value": "Calmodulin-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMI",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "PHKD",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "DD132",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "PHKD1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "prepro-calmodulin 1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "phosphorylase kinase subunit delta",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "phosphorylase kinase subunit delta 1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALML2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAM3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMB",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMC",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CAMIII",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CPVT4",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LQT14",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Calmodulin-2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Calmodulin-3",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "calmodulin 1 (phosphorylase kinase, delta)",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "phosphorylase kinase, delta subunit",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CALM1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CALM",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMI",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "PHKD",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "DD132",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "PHKD1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CALML2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAM3",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMB",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMC",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CAMIII",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CPVT4",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "LQT14",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000198668"
+              ],
+              "uniprot": [
+                "P0DP23",
+                "B4DJ51",
+                "G3V226",
+                "G3V361",
+                "G3V479",
+                "Q96HY3",
+                "P02593",
+                "P62158",
+                "P70667",
+                "P99014",
+                "Q13942",
+                "Q53S29",
+                "Q61379",
+                "Q61380",
+                "Q96HK3"
+              ]
+            }
+          }
+        ],
+        "conflicts": [
+          {
+            "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+            "detail": "the target alias 'calm' is also used by another entity in this snapshot",
+            "record_keys": [],
+            "values": [
+              "TARGET:CALM2",
+              "TARGET:PICALM",
+              "TARGET:SNAP91"
+            ]
+          },
+          {
+            "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+            "detail": "the target alias 'cam' is also used by another entity in this snapshot",
+            "record_keys": [],
+            "values": [
+              "TARGET:CALM2",
+              "TARGET:CAMKMT",
+              "TARGET:KRIT1"
+            ]
+          },
+          {
+            "conflict_type": "ALIAS_SHARED_ACROSS_ENTITIES",
+            "detail": "the target alias 'cam2' is also used by another entity in this snapshot",
+            "record_keys": [],
+            "values": [
+              "TARGET:CALM2",
+              "TARGET:CAMK2B"
+            ]
+          }
+        ],
+        "identifier_edges": [
+          "uniprot:B4DJ51",
+          "uniprot:P02593",
+          "uniprot:P0DP23",
+          "uniprot:P0DP24",
+          "uniprot:P62158",
+          "uniprot:P70667",
+          "uniprot:P99014",
+          "uniprot:Q13942",
+          "uniprot:Q53S29",
+          "uniprot:Q61379",
+          "uniprot:Q61380",
+          "uniprot:Q96HK3",
+          "uniprot:Q96HY3"
+        ]
+      },
+      "candidates": [],
+      "rule": "unique_alias_match",
+      "basis": {
+        "observed_query": "phosphorylase kinase, delta subunit",
+        "matched_alias": "phosphorylase kinase, delta subunit",
+        "matched_alias_type": "SYNONYM",
+        "asserted_by": [
+          "open_targets"
+        ],
+        "asserting_record_keys": [
+          "open_targets:ENSG00000198668"
+        ],
+        "identifier_edges": [
+          "uniprot:B4DJ51",
+          "uniprot:P02593",
+          "uniprot:P0DP23",
+          "uniprot:P0DP24",
+          "uniprot:P62158",
+          "uniprot:P70667",
+          "uniprot:P99014",
+          "uniprot:Q13942",
+          "uniprot:Q53S29",
+          "uniprot:Q61379",
+          "uniprot:Q61380",
+          "uniprot:Q96HK3",
+          "uniprot:Q96HY3"
+        ],
+        "rule": "unique_alias_match"
+      },
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2"
+    }
+  }
+]
