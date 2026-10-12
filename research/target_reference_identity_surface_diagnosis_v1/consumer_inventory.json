@@ -1,0 +1,170 @@
+{
+  "baseline": "5da4fdf",
+  "scope": "AST reads on target/term variables plus manually audited TargetQuery and attribution_for; not a claim of whole-repository dataflow completeness",
+  "source_hashes": {
+    "src/bve/se/intent/parser.py": "2f5c3c7c392f1ab578b81dacb670596e89da3623d92c1c2f8711827b9e3c4e82",
+    "src/bve/se/intent/intent.py": "099c1211ddd4d0af7487f947deb3f27b843e04d6151f06afc75e58428b241625",
+    "src/bve/se/intent/compiler.py": "d1c0bdef200f488bcada309a7c645437937d11645943b3049c958fd7be613326",
+    "src/bve/se/schemas/contracts.py": "fa598702859cb4e5d70ee2203d1cdad462078e3f992738d1ffcdab01fc56bf9b",
+    "src/bve/se/discovery/query.py": "627bb006af64906be1a84103663c19251b92bb7b84bdad7e8101b72bd9036b26",
+    "src/bve/se/discovery/seeding.py": "b08156c8a701dafa5ac2dafdc7d92a9990fb6f8688dea5e3fa8b92beff39ec61",
+    "src/bve/se/acquisition/runner.py": "3e44cd35cc15cc2061b97b08f660c491ff9b91c46ca46ba778660e18e4c4f027",
+    "src/bve/se/acquisition/connectors.py": "eefaf796cde159b46f4d0da6bb4e02e973bb25922a803929b5172619794440fb",
+    "src/bve/se/acquisition/policy.py": "0229e92c60a9de08d7505b0ed3f07c48bab06eff4c6a9a4369ed66e4cba88cfc",
+    "src/bve/se/pipeline.py": "8260ea97075c75f0323ecbc414530ac3f4b651ef85d67bbf613032c02e0650e2",
+    "src/bve/se/gates/evaluator.py": "2b1f4d09cc057e85d511af4fd8a2e294a35d9e93b16b073824a1cd5126d6bfce",
+    "src/bve/se/resolution/target_attribution.py": "27de9f44f9867ffe48e8330dc921c60b1949b1408e2b3601602b02c928065b9b"
+  },
+  "reads": [
+    {
+      "file": "src/bve/se/acquisition/connectors.py",
+      "line": 272,
+      "function": "acquire",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/acquisition/connectors.py",
+      "line": 387,
+      "function": "acquire",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/acquisition/connectors.py",
+      "line": 715,
+      "function": "acquire",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/acquisition/connectors.py",
+      "line": 945,
+      "function": "acquire",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/acquisition/connectors.py",
+      "line": 1132,
+      "function": "_search_phrases",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/acquisition/connectors.py",
+      "line": 1245,
+      "function": "acquire",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/acquisition/connectors.py",
+      "line": 1474,
+      "function": "acquire",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/acquisition/policy.py",
+      "line": 303,
+      "function": "validate_problem",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/acquisition/runner.py",
+      "line": 56,
+      "function": "target_queries_for",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/acquisition/runner.py",
+      "line": 59,
+      "function": "target_queries_for",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/discovery/query.py",
+      "line": 93,
+      "function": "compile_problem_queries",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/discovery/query.py",
+      "line": 96,
+      "function": "compile_problem_queries",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/discovery/query.py",
+      "line": 115,
+      "function": "compile_problem_queries",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/discovery/query.py",
+      "line": 125,
+      "function": "compile_problem_queries",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/discovery/query.py",
+      "line": 184,
+      "function": "_seeded_asset_queries",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/discovery/query.py",
+      "line": 192,
+      "function": "_seeded_asset_queries",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/gates/evaluator.py",
+      "line": 274,
+      "function": "evaluate_target_expression",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/gates/evaluator.py",
+      "line": 315,
+      "function": "evaluate_target_expression",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/intent/compiler.py",
+      "line": 77,
+      "function": "compile_intent",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/intent/compiler.py",
+      "line": 79,
+      "function": "compile_intent",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/intent/compiler.py",
+      "line": 144,
+      "function": "intent_to_trial_query",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/intent/compiler.py",
+      "line": 144,
+      "function": "intent_to_trial_query",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/intent/intent.py",
+      "line": 213,
+      "function": "explain_constraints",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/pipeline.py",
+      "line": 423,
+      "function": "run_landscape_search",
+      "expression": "target.canonical_id"
+    },
+    {
+      "file": "src/bve/se/schemas/contracts.py",
+      "line": 517,
+      "function": "validate_expression",
+      "expression": "target.canonical_id"
+    }
+  ]
+}
