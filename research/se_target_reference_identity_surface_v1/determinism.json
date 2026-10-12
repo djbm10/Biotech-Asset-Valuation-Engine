@@ -1,0 +1,17 @@
+{
+  "results": [
+    {
+      "seed": "0",
+      "sha256": "d09fab57b95c0cbd2708c70a010ad5eb58b253f71ff6486ce74103b561ecfd62"
+    },
+    {
+      "seed": "1",
+      "sha256": "d09fab57b95c0cbd2708c70a010ad5eb58b253f71ff6486ce74103b561ecfd62"
+    },
+    {
+      "seed": "42",
+      "sha256": "d09fab57b95c0cbd2708c70a010ad5eb58b253f71ff6486ce74103b561ecfd62"
+    }
+  ],
+  "identical": true
+}

@@ -1,0 +1,48 @@
+{
+  "milestone": "TARGET_REFERENCE_IDENTITY_SURFACE v1",
+  "status": "ADOPTED",
+  "preregistration": "3ac5faa",
+  "implementation": "07d104b",
+  "criteria": {
+    "T1": true,
+    "T2": true,
+    "T3": true,
+    "T4": true,
+    "T5": true,
+    "T6": true,
+    "T7": true,
+    "T8": true,
+    "T9": true,
+    "T10": true,
+    "T11": true,
+    "T12": true
+  },
+  "full_tests": {
+    "tests": 1831,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3
+  },
+  "passed": 1828,
+  "frozen_queries": 14,
+  "positive_queries": 12,
+  "refusal_controls": 2,
+  "unique_source_request_oracles": 18,
+  "source_comparisons": 36,
+  "asset_target_pairs": 9,
+  "scientific_compatibility_cases": 103,
+  "historical_source_checks": 1791,
+  "frozen_parse_comparisons": 4704,
+  "raw_and_intent_controls": 16,
+  "hash_seeds": [
+    0,
+    1,
+    42
+  ],
+  "limitations": [
+    "No new aliases admitted: IL-4R\u03b1 and factor XI remain unresolved.",
+    "FXI improvement is diagnostic/development evidence only.",
+    "No live or untouched holdout validation; overall engine is not validated.",
+    "Separate capitalization nondeterminism remains unresolved; fixture determinism does not certify it."
+  ]
+}

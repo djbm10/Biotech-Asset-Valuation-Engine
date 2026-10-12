@@ -1,0 +1,65 @@
+[
+  {
+    "requested": "TARGET:GAX1",
+    "observed": "TARGET:GAX1",
+    "actual": "PASS",
+    "expected": "PASS",
+    "matches": true
+  },
+  {
+    "requested": "TARGET:GAX1",
+    "observed": "TARGET:GAX2",
+    "actual": "FAIL",
+    "expected": "FAIL",
+    "matches": true
+  },
+  {
+    "requested": "TARGET:GAX1",
+    "observed": "TARGET:GAX3",
+    "actual": "FAIL",
+    "expected": "FAIL",
+    "matches": true
+  },
+  {
+    "requested": "TARGET:GAX2",
+    "observed": "TARGET:GAX1",
+    "actual": "FAIL",
+    "expected": "FAIL",
+    "matches": true
+  },
+  {
+    "requested": "TARGET:GAX2",
+    "observed": "TARGET:GAX2",
+    "actual": "PASS",
+    "expected": "PASS",
+    "matches": true
+  },
+  {
+    "requested": "TARGET:GAX2",
+    "observed": "TARGET:GAX3",
+    "actual": "FAIL",
+    "expected": "FAIL",
+    "matches": true
+  },
+  {
+    "requested": "TARGET:GAX3",
+    "observed": "TARGET:GAX1",
+    "actual": "FAIL",
+    "expected": "FAIL",
+    "matches": true
+  },
+  {
+    "requested": "TARGET:GAX3",
+    "observed": "TARGET:GAX2",
+    "actual": "FAIL",
+    "expected": "FAIL",
+    "matches": true
+  },
+  {
+    "requested": "TARGET:GAX3",
+    "observed": "TARGET:GAX3",
+    "actual": "PASS",
+    "expected": "PASS",
+    "matches": true
+  }
+]

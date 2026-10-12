@@ -1,0 +1,106 @@
+{
+  "comparisons": 4704,
+  "differences": [],
+  "controls": [
+    {
+      "text": "IL-4R\u03b1",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "factor XI",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "F11",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "PD-1",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "CD20",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "IL-4R\u03b2",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "IL-4R\u0430",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "factor XIa",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "factor X",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "factor XII",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "factor XI deficiency",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "Factor XI Measurement",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "interleukin receptor",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "CLDN18.2",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "IL4R/IL13RA1",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    },
+    {
+      "text": "AK/ATPase",
+      "raw_unchanged": true,
+      "intent_unchanged": true
+    }
+  ],
+  "diagnostic": {
+    "reference_ids": [
+      "TARGET:F11"
+    ],
+    "legacy_symbols": [
+      "F11"
+    ],
+    "plan_count": 5,
+    "plan_target_ids": [
+      "F11"
+    ],
+    "namespace_literal": false,
+    "source_targets": [
+      "F11"
+    ],
+    "bare_F11_status": "AMBIGUOUS"
+  },
+  "live_runs": 0,
+  "holdout_probes": 0,
+  "baseline_sha256": "85733d15080965d076898addc3a8af611706eeab7f16cae91b85cd1f61ce99d8"
+}

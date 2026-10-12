@@ -1,0 +1,75 @@
+{
+  "frozen_artifact_checks": [
+    {
+      "file": "capture_current_target_contracts.py",
+      "matches": true
+    },
+    {
+      "file": "capture_historical_target_contracts.py",
+      "matches": true
+    },
+    {
+      "file": "consumer_baseline.json",
+      "matches": true
+    },
+    {
+      "file": "current_scientific_baseline.json",
+      "matches": true
+    },
+    {
+      "file": "freeze_target_surface_oracle.py",
+      "matches": true
+    },
+    {
+      "file": "historical_source_verification.json",
+      "matches": true
+    },
+    {
+      "file": "probe_target_reference_consumers.py",
+      "matches": true
+    },
+    {
+      "file": "se_indication_compilation_v3_implementation_src.tar.gz",
+      "matches": true
+    },
+    {
+      "file": "se_indication_gate_semantics_v3_implementation_src.tar.gz",
+      "matches": true
+    },
+    {
+      "file": "surface_request_oracle.json",
+      "matches": true
+    },
+    {
+      "file": "synthetic_authority.json",
+      "matches": true
+    },
+    {
+      "file": "controls.json",
+      "matches": true
+    }
+  ],
+  "changed_files": [
+    "scripts/check_target_reference_determinism.py",
+    "scripts/evaluate_target_reference_v1.py",
+    "scripts/score_target_reference_v1.py",
+    "src/bve/se/acquisition/connectors.py",
+    "src/bve/se/acquisition/policy.py",
+    "src/bve/se/acquisition/runner.py",
+    "src/bve/se/discovery/query.py",
+    "src/bve/se/gates/evaluator.py",
+    "src/bve/se/intent/compiler.py",
+    "src/bve/se/intent/intent.py",
+    "src/bve/se/intent/parser.py",
+    "src/bve/se/ontology/target_reference.py",
+    "src/bve/se/pipeline.py",
+    "src/bve/se/schemas/contracts.py",
+    "tests/se/test_indication_compilation_v3.py",
+    "tests/se/test_indication_gate_semantics_v3.py",
+    "tests/se/test_target_reference_compatibility.py",
+    "tests/se/test_target_reference_interface.py"
+  ],
+  "source_scope_violations": [],
+  "preregistration": "3ac5faa",
+  "candidate": "07d104b"
+}

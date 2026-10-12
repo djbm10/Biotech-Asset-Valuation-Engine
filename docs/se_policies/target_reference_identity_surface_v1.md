@@ -1,6 +1,6 @@
 # TARGET_REFERENCE_IDENTITY_SURFACE v1
 
-Status: PREREGISTERED before production changes. This is a new cross-consumer
+Status: ADOPTED after preregistration and one formal evaluation. Original rules follow unchanged. This is a new cross-consumer
 interface design, not an amendment or retry-score of failed candidate 612c088.
 That candidate remains failed and reverted. Baseline production is 50c9227 /
 dea4fdb (identical src/tests/scripts to 533c699).
@@ -154,3 +154,7 @@ candidate; do not patch it or revise the rules after formal results. If all pass
 adopt, update the handoff, and resume the separate authority-backed alias milestone.
 Stop before implementation if the reference cannot be propagated safely within
 this declared interface; do not silently expand scientific or source behavior.
+
+## Formal outcome — ADOPTED (2026-10-12)
+
+Preregistration **3ac5faa**; candidate **07d104b**. All T1–T12 passed. Full suite: **1,828 passed, three existing xfails**; Ruff clean. Frozen audit: 4,704 parses with zero scientific differences, 16 unchanged controls, 103 complete current compatibility cases, 1,791 preserved historical source checks, 36 source-request comparisons, nine actual gate outcomes and three identical hash-seed outputs. Evidence: `research/se_target_reference_identity_surface_v1/acceptance.json` and accompanying immutable outputs. No post-result behavior changes. No alias admission, live runs, replay or holdout probes. Parent alias coverage remains open; this dependency does not establish generalization.
