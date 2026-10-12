@@ -1,3 +1,17 @@
+# 2026-10-12 GREEK QUERY CANDIDATE — FAILED AND REVERTED
+
+Source-identity checks completed in **0fcfa5a**: the three multi-gene groups cannot support a single-gene alias. The adopted identity/retrieval separation remains intact.
+
+Greek v1 rules **ebff4b4** failed during oracle review before implementation (**dadef78**). Its raw spelling abstention was incorrectly used as a no-target-in-query oracle. V2 separately froze biological references in **8ee443a**, candidate **e3ad3fd**, failure evidence **00ab163**, normal revert **9a7cdeb**. Do not patch or relabel either failed study.
+
+V2: **704/704 raw lookup expectations; 4,032 preserved non-proposal parses; 21 unsafe Greek query frames across three names**. Full tests **1,926 passed / three failed / three existing xfails**, Ruff clean. The exact H17 query compiled offline to IL4R with three plans; that does not outweigh new false target assignments. All three unsafe merged groups abstained. Full evidence and traces: `research/se_target_query_greek_orthography_v2/results/`.
+
+First scientific boundary: the parser skips target lookup for `size > 2`; complete names never reach the correct whole-name resolver. It instead adds FCGRT from “α chain” inside an HLA-B name, A2M from the domain description in a C5 name, and CD8B from “CD8 β” inside the SMYD1 alias “CD8 β opposite”. Prioritize **TARGET_QUERY_AUTHORITY_SPAN_BOUNDARY_DIAGNOSIS v1**, diagnosis/design only, before another alias implementation. Inspect whole-name ownership, embedded aliases, and existing grammar/modality/indication/family safeguards; do not simply raise a token limit or blacklist phrases.
+
+Separate: `_TARGET_JOIN` has an ASCII-only lookbehind, blocking Greek-ending dual names. Also, I misread source election: it keeps the FIRST symbol per source, not the last. One synthetic expected ambiguous candidate ID was therefore wrong (GQ32 versus actual GQ31). This remains a failed preregistration error. Future fixture oracles must validate expected canonical IDs against the frozen baseline before implementation.
+
+Restored src/tests/scripts are byte-identical to **8ee443a** (the adopted target-reference implementation). Restored full tests are running; record their result before treating restoration verification as complete. No aliases from the failed candidate remain active. Human-PoC recovery stays STOPPED. No ranking, qualification or duplicate changes. H21–H25 remain untouched; H6–H10 secondary/unrun. Engine remains unvalidated. This supersedes older next-step instructions below.
+
 # 2026-10-12 SOURCE IDENTITY CHECKS — COMPLETE; THREE GROUPS ABSTAIN
 
 `research/se_target_source_identity_checks_v1/` captures all seven HGNC genes, current reviewed UniProt entries and every shared cross-gene accession in the three suspect groups. **None certifies a single interchangeable gene identity.** Tubulin and interferon have distinct sequences and inactive/demerged shared identifiers; calmodulin has identical sequences but three distinct genes/accessions plus ambiguous unreviewed/historical bridges. New aliases for these groups must remain unresolved. Existing graph repair is separate; no production changes here.
