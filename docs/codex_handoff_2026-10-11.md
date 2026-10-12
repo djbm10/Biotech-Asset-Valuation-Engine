@@ -1,3 +1,38 @@
+# 2026-10-11 HUMAN_EFFICACY_QUANTITY_BINDING_CONTRACT v1 — NOT IMPLEMENTATION-READY
+
+Design: `docs/se_policies/human_efficacy_quantity_binding_contract_v1.md`.
+Packet: `research/se_human_efficacy_quantity_binding_contract_v1/` (every-witness
+relation table, exact spans/edges, unchanged expected labels, offline results,
+and smallest proposed local ResultBinding extension). Design inputs plus three
+necessary discourse ambiguity cases were frozen in **120b669 before evaluation**.
+
+**No production change or implementation preregistration.** The offline check
+operates on manually grounded semantic records, not a new text extractor.
+Clinical-content binding matches all **33/33** labels: four false witnesses
+reject; all 19 removed clinical rows, both legacy positives and all eight
+controls retain positive content. Full asset-specific binding matches only
+**19/33**, preserving **5/19** removed clinical rows, both legacy positives and
+all controls, while rejecting the four false numerical cases. The remaining
+14 positive-content rows cannot certify their candidate treatment edge under
+strict identity/regimen policy (PET30/though, regimen components/pooled arms,
+and unresolved compound-treatment identity). Labels remain frozen; this is
+not a holdout rescore or a declaration that their clinical outcomes are false.
+
+**Required full-chain acceptance target FAILED; stop before implementation.**
+The proposed representation is local typed treatment/cohort/outcome/quantity
+spans and relation kinds, with existing fact routing and attribution guards
+retained. It is not coded. A minimal grammar/grounder and boundary provenance
+are absent from the current flat EfficacyStatement. Implementation readiness
+requires reconciling positive clinical-content expectations with asset-specific
+emission, plus specifying/test-grounding automatic edges and multi-span limits.
+A representation cannot make a conjunction or response stratum into a drug.
+
+Previous efficacy v1 remains REVERTED. Source/tests/scripts still match c5bc865;
+v1 and diagnosis-v2 packet hashes are intact. No target/indication/qualification/
+identity/modality/ranking/routing changes, searches or replays. False human-PoC
+remains first priority. H16–H20 are diagnostic/development data, never future
+generalization evidence; **H6–H10 remain UNRUN**.
+
 # 2026-10-11 HUMAN_EFFICACY_BOUNDARY_DIAGNOSIS v2 — DIAGNOSIS ONLY / COMPLETE
 
 Frozen diagnosis: `docs/se_policies/human_efficacy_boundary_diagnosis_v2.md`.

@@ -1,0 +1,627 @@
+{
+  "milestone": "HUMAN_EFFICACY_QUANTITY_BINDING_CONTRACT v1",
+  "decision": "NOT_IMPLEMENTATION_READY",
+  "acceptance_target_met": false,
+  "evaluation_kind": "Deterministic contract predicate on frozen manually grounded semantic records; no raw-text extraction or end-to-end fact-generation test.",
+  "groups": {
+    "accepted_representative": {
+      "rows": 8,
+      "expected_accept": 8,
+      "content_only_matches": 8,
+      "full_chain_matches": 8,
+      "full_chain_accept": 8
+    },
+    "changed_legacy": {
+      "rows": 2,
+      "expected_accept": 2,
+      "content_only_matches": 2,
+      "full_chain_matches": 2,
+      "full_chain_accept": 2
+    },
+    "known_false": {
+      "rows": 4,
+      "expected_accept": 0,
+      "content_only_matches": 4,
+      "full_chain_matches": 4,
+      "full_chain_accept": 0
+    },
+    "v1_removed_clinical": {
+      "rows": 19,
+      "expected_accept": 19,
+      "content_only_matches": 19,
+      "full_chain_matches": 5,
+      "full_chain_accept": 5
+    }
+  },
+  "content_only_matches": 33,
+  "full_chain_matches": 19,
+  "original_rows": 33,
+  "full_chain_target_failures": [
+    {
+      "id": "v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106",
+      "group": "v1_removed_clinical",
+      "name": "Venetoclax",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:AACR_accepted:claim:2ab7b26095caafbfad9b",
+      "group": "v1_removed_clinical",
+      "name": "PET30",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: NON_TREATMENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106",
+      "group": "v1_removed_clinical",
+      "name": "Venetoclax",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c",
+      "group": "v1_removed_clinical",
+      "name": "though",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: NON_TREATMENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:dfa26674a43723ab9e68",
+      "group": "v1_removed_clinical",
+      "name": "Relugolix",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: UNRESOLVED_COMPOUND"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4",
+      "group": "v1_removed_clinical",
+      "name": "Glecaprevir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:f93f85d51368a0574d97",
+      "group": "v1_removed_clinical",
+      "name": "pibrentasvir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:1672c26a362bce427334",
+      "group": "v1_removed_clinical",
+      "name": "bevacizumab",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e",
+      "group": "v1_removed_clinical",
+      "name": "atazanavir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:e02f9edf1a088951bfae",
+      "group": "v1_removed_clinical",
+      "name": "ritonavir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9",
+      "group": "v1_removed_clinical",
+      "name": "Lopinavir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca",
+      "group": "v1_removed_clinical",
+      "name": "Fosamprenavir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:5104ef3bd86e3a7f4e83",
+      "group": "v1_removed_clinical",
+      "name": "Lamivudine",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:07de85a540078d3b5cec",
+      "group": "v1_removed_clinical",
+      "name": "Lamivudine",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "known_false:H16:claim:fda8d13dfda69b782423",
+      "group": "known_false",
+      "name": "Ivermectin",
+      "expected": "REJECT",
+      "content_only": "REJECT",
+      "full_chain": "REJECT",
+      "matches_full_target": true,
+      "reasons": [
+        "no numerical clinical efficacy measure",
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "known_false:H16:claim:6fe84fe83a76085b6cb1",
+      "group": "known_false",
+      "name": "Dupilumab",
+      "expected": "REJECT",
+      "content_only": "REJECT",
+      "full_chain": "REJECT",
+      "matches_full_target": true,
+      "reasons": [
+        "no numerical clinical efficacy measure",
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "known_false:H18:claim:9954996062248331a551",
+      "group": "known_false",
+      "name": "Tirzepatide",
+      "expected": "REJECT",
+      "content_only": "REJECT",
+      "full_chain": "REJECT",
+      "matches_full_target": true,
+      "reasons": [
+        "not an observed clinical population",
+        "no numerical clinical efficacy measure",
+        "treatment edge unproved: NAMED_LAB_INTERVENTION"
+      ]
+    },
+    {
+      "id": "known_false:H19:claim:6c5b35e2a5871015f940",
+      "group": "known_false",
+      "name": "Sacituzumab Tirumotecan",
+      "expected": "REJECT",
+      "content_only": "REJECT",
+      "full_chain": "REJECT",
+      "matches_full_target": true,
+      "reasons": [
+        "not an observed clinical population",
+        "no numerical clinical efficacy measure",
+        "treatment edge unproved: MODELED_COMPARISON"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:TAC01:claim:d873e0fa9c925007ee4e",
+      "group": "v1_removed_clinical",
+      "name": "Bevacizumab",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106",
+      "group": "v1_removed_clinical",
+      "name": "Venetoclax",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:AACR_accepted:claim:2ab7b26095caafbfad9b",
+      "group": "v1_removed_clinical",
+      "name": "PET30",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: NON_TREATMENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106",
+      "group": "v1_removed_clinical",
+      "name": "Venetoclax",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c",
+      "group": "v1_removed_clinical",
+      "name": "though",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: NON_TREATMENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:TAC01_regimen_accepted:claim:d873e0fa9c925007ee4e",
+      "group": "v1_removed_clinical",
+      "name": "Bevacizumab",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:dfa26674a43723ab9e68",
+      "group": "v1_removed_clinical",
+      "name": "Relugolix",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: UNRESOLVED_COMPOUND"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4",
+      "group": "v1_removed_clinical",
+      "name": "Glecaprevir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:f93f85d51368a0574d97",
+      "group": "v1_removed_clinical",
+      "name": "pibrentasvir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:1672c26a362bce427334",
+      "group": "v1_removed_clinical",
+      "name": "bevacizumab",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e",
+      "group": "v1_removed_clinical",
+      "name": "atazanavir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:e02f9edf1a088951bfae",
+      "group": "v1_removed_clinical",
+      "name": "ritonavir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9",
+      "group": "v1_removed_clinical",
+      "name": "Lopinavir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca",
+      "group": "v1_removed_clinical",
+      "name": "Fosamprenavir",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:5104ef3bd86e3a7f4e83",
+      "group": "v1_removed_clinical",
+      "name": "Lamivudine",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: COMPONENT"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:07de85a540078d3b5cec",
+      "group": "v1_removed_clinical",
+      "name": "Lamivudine",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "REJECT",
+      "matches_full_target": false,
+      "reasons": [
+        "treatment edge unproved: POOLED_REGIMENS"
+      ]
+    },
+    {
+      "id": "v1_removed_clinical:H18:claim:b420098f328b37ad2838",
+      "group": "v1_removed_clinical",
+      "name": "ROSE-010",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "v1_removed_clinical:H18:claim:0c74e255816f9655f5cf",
+      "group": "v1_removed_clinical",
+      "name": "glepaglutide",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "v1_removed_clinical:H18:claim:13f922afecbd81303713",
+      "group": "v1_removed_clinical",
+      "name": "survodutide",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "accepted_representative:TAC01:claim:a5c42d3cc5f5e7b3d5b5",
+      "group": "accepted_representative",
+      "name": "Obexelimab",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "accepted_representative:TAC01:claim:57b21b05d4b3850512c0",
+      "group": "accepted_representative",
+      "name": "CNCT19",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "accepted_representative:TAC01:claim:f677e265dc0aec09a7b7",
+      "group": "accepted_representative",
+      "name": "CNCT19",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "accepted_representative:TAC01:claim:f1534ba1833cfaa25f4d",
+      "group": "accepted_representative",
+      "name": "ruxolitinib",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "accepted_representative:TAC01:claim:cf42310f09d4a0cf6dd2",
+      "group": "accepted_representative",
+      "name": "Glofitamab",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5",
+      "group": "accepted_representative",
+      "name": "Blinatumomab",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "accepted_representative:TAC01:claim:f1920a0e1c36a5da8d0c",
+      "group": "accepted_representative",
+      "name": "ICG318",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "accepted_representative:mint5:claim:117c546558458970e8da",
+      "group": "accepted_representative",
+      "name": "Cevostamab",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "6d78dc914bd1f5210d52ebcd432011ae63c50cd3abe0c0ce11fb89539878b2ea",
+      "group": "changed_legacy",
+      "name": "CTL019",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    },
+    {
+      "id": "be39eb3f78e48cd8e18e5a3d8ba3f1e0eea265ec153153d2d2dd47f63d3bd13f",
+      "group": "changed_legacy",
+      "name": "drugx",
+      "expected": "ACCEPT",
+      "content_only": "ACCEPT",
+      "full_chain": "ACCEPT",
+      "matches_full_target": true,
+      "reasons": []
+    }
+  ],
+  "additional_discourse_designs": [
+    {
+      "id": "D1",
+      "text": "Twenty patients received X. Among these evaluable patients, 12 achieved complete responses.",
+      "expected": "ACCEPT",
+      "treatments": [
+        "X"
+      ],
+      "cohort_reference": "these evaluable patients",
+      "number": "12",
+      "reason": "Single previous-sentence treatment cohort; explicit demonstrative evaluable subset.",
+      "actual": "ACCEPT",
+      "scope_checked_only": true
+    },
+    {
+      "id": "D2",
+      "text": "Twenty patients received X, and twenty patients received Y. Among evaluable patients, 12 achieved complete responses.",
+      "expected": "REJECT",
+      "treatments": [
+        "X",
+        "Y"
+      ],
+      "cohort_reference": "evaluable patients",
+      "number": "12",
+      "reason": "Two potential antecedent arms; no response-to-arm assignment.",
+      "actual": "REJECT",
+      "scope_checked_only": true
+    },
+    {
+      "id": "D3",
+      "text": "Twenty patients received X. A separate cohort received Y. Twelve patients achieved complete responses.",
+      "expected": "REJECT",
+      "treatments": [
+        "X",
+        "Y"
+      ],
+      "cohort_reference": null,
+      "number": "Twelve",
+      "reason": "X is not in the immediately preceding sentence; no explicit reference establishes the requested X cohort.",
+      "actual": "REJECT",
+      "scope_checked_only": true
+    }
+  ],
+  "labels_changed": false
+}

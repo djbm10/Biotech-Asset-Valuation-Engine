@@ -1,0 +1,24 @@
+{
+  "decision": "NOT_IMPLEMENTATION_READY",
+  "input_freeze_commit": "120b669",
+  "production_diff_from_c5bc865": [],
+  "v1_integrity": {
+    "preregistration_manifest.json": {
+      "files": 17,
+      "mismatches": []
+    },
+    "result/result_manifest.json": {
+      "files": 14,
+      "mismatches": []
+    }
+  },
+  "v2_packet_files_verified": 6,
+  "offline_checker_exit_code": 0,
+  "offline_evaluation": "Manual semantic-record predicates only; no automatic raw-text grounding, fact emission, live search or replay.",
+  "full_acceptance_target_met": false,
+  "labels_changed": false,
+  "production_changed": false,
+  "implementation_preregistered": false,
+  "h6_h10": "UNRUN",
+  "quality_gate": "No production code/test changes; full tests/se and Ruff not rerun. Offline span/hash/assertion checks executed."
+}

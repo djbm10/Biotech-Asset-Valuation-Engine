@@ -1,0 +1,14 @@
+{
+  "milestone": "HUMAN_EFFICACY_QUANTITY_BINDING_CONTRACT v1",
+  "input_freeze_commit": "120b669",
+  "files": {
+    "additional_discourse_cases.json": "d7e9f17cc2b42e26b14a6907d3f317721f73cced06ea0fdab115b91e01ffb296",
+    "build_quantity_contract_population.py": "e162510a2d1cd4ca59a31e197850d3761b77d9dff8b3efc1748f6b129e8327b2",
+    "check_quantity_binding_contract_v1.py": "53e53fd5ad9fdb9e59969e8bcf4867719c6e29486944e2ed1de3ac0c2e22fc98",
+    "offline_result.json": "245aaae7e949990492de4c98f28096be2a53809e5f5d46514bd38a5b9335de13",
+    "population_freeze.json": "e132ef5adf46869d9d74401c78dc962f3b9e72686416e757649bd2309a9d00a3",
+    "relation_population.json": "c4530f5b8410970ec24d79b8395b16c9fe060f924a9cd7c00cbc9922e1b7ed00",
+    "relation_table.md": "8b56bcd36cea29ab762918be67453cba3d56d7230041ad143011b8d4d4c7e051",
+    "verification.json": "09a226ec8ddc39073e4d93d69b81060af48982649cf12b6efbc73fdb8b5d8ee6"
+  }
+}
