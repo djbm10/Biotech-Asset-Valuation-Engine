@@ -1,0 +1,16 @@
+{
+  "baseline": "92e8f56",
+  "seed": 0,
+  "rows": 6199,
+  "input_sha256": {
+    "research/se_target_authority_span_query_role_contract_v1/results/audit.json": "f7746636259f8d296c1691dde762590a00f45a15a3c19475bb76f8d796e8a7ce",
+    "research/se_target_authority_span_query_role_contract_v1/structural_controls.json": "af25cd4284bf93c1ff3af41e0f6c3a19fd1ec88a3fe7abde58197498e004faf0",
+    "research/se_target_query_alias_coverage_v1/survey_baseline.json": "85733d15080965d076898addc3a8af611706eeab7f16cae91b85cd1f61ce99d8",
+    "research/target_reference_identity_surface_diagnosis_v1/current_scientific_baseline.json": "3b0333066a6ebc5588c2a6b71ff27240d7649e7aaff933bcf7a686b7e07efb5f"
+  },
+  "files": {
+    "baseline.json": "0b099fb2ee14de56801b45bf2e28c74d861123f1e5ac412106ac795c7e211aa3",
+    "required_mentions.json": "9f1b15e570b56386b07dc18863a4cb0af074872d5f853946a942bcb2fa76308e",
+    "freeze_baseline.py": "155a310369e7574a591dfc7f850b26b6c8affa90cb7f6d5d31aab16ebf6fd64a"
+  }
+}
