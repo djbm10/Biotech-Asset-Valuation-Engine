@@ -1,0 +1,1767 @@
+[
+  {
+    "id": 0,
+    "passage": "flares were reported in 26 patients (26.8%) in the obexelimab group and in 53 patients (54.6%) in the placebo group.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Obexelimab",
+        "claim_id": "claim:a5c42d3cc5f5e7b3d5b5"
+      },
+      {
+        "run": "mint5",
+        "name": "obexelimab",
+        "claim_id": "claim:a5c42d3cc5f5e7b3d5b5"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "obexelimab",
+        "claim_id": "claim:a5c42d3cc5f5e7b3d5b5"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Obexelimab",
+        "claim_id": "claim:a5c42d3cc5f5e7b3d5b5"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "passage": "Data from our study suggested that 90% of the 20 patients treated with infusions of CNCT19 cells reached complete remission or complete remission with incomplete count recovery (CR/CRi) within 28 days.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "CNCT19",
+        "claim_id": "claim:57b21b05d4b3850512c0"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "CNCT19",
+        "claim_id": "claim:57b21b05d4b3850512c0"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "passage": "After a median follow-up of 10.09 months (range, 0.49-24.02 months), the median overall survival and relapse-free survival for the 20 patients treated with CNCT19 cells was 12.91 months (95% confidence interval [CI], 7.74-18.08 months) and 6.93 months (95% CI, 3.13-10.73 months), respectively.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "CNCT19",
+        "claim_id": "claim:f677e265dc0aec09a7b7"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "CNCT19",
+        "claim_id": "claim:f677e265dc0aec09a7b7"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "passage": "Ofatumumab resulted in near-complete suppression of MRI lesions, and 90.9% of participants achieved no evidence of disease activity, regardless of prior DMT.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Ofatumumab",
+        "claim_id": "claim:d4427a1399d764b58284"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Ofatumumab",
+        "claim_id": "claim:d4427a1399d764b58284"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "passage": "Of these patients with mild and moderate disease activity, most were switched to ofatumumab (79.4%) and ocrelizumab (75.9%), respectively, when disease progression occurred.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Ofatumumab",
+        "claim_id": "claim:33f1caf74cde4c1c133c"
+      },
+      {
+        "run": "TAC01",
+        "name": "Ocrelizumab",
+        "claim_id": "claim:ad72fc8a73f606378560"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Ofatumumab",
+        "claim_id": "claim:33f1caf74cde4c1c133c"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Ocrelizumab",
+        "claim_id": "claim:ad72fc8a73f606378560"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "passage": "We observed that, in patients with MBD4-mutated mUM, ICIs achieved a 50% response rate and prolonged survival, demonstrating strong and sustained clinical activity in this distinct molecular subgroup and exceeding outcomes reported with ICIs or tebentafusp.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Tebentafusp",
+        "claim_id": "claim:cfda5d150808454352aa"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Tebentafusp",
+        "claim_id": "claim:cfda5d150808454352aa"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "passage": "Across 814 patients, pirtobrutinib demonstrated efficacy comparable to acalabrutinib and zanubrutinib, with no significant differences in progression-free survival (PFS) (vs acalabrutinib: HR 0.73, 95% CrI 0.44-1.20 vs zanubrutinib: HR 1.12, 95% CrI 0.67-1.89), overall survival (OS), or overall response rate (ORR).",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "zanubrutinib",
+        "claim_id": "claim:3da50b9d8b9d3d0f3aea"
+      },
+      {
+        "run": "TAC01",
+        "name": "Pirtobrutinib",
+        "claim_id": "claim:28321a0a852380a98a17"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "zanubrutinib",
+        "claim_id": "claim:3da50b9d8b9d3d0f3aea"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Pirtobrutinib",
+        "claim_id": "claim:28321a0a852380a98a17"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "passage": "\"abstract\": \"MEK inhibitors (selumetinib, mirdametinib) are the only approved class of targeted therapy for neurofibromatosis type 1 (NF1)-associated plexiform neurofibroma (PN), producing partial responses in a substantial proportion of patients (up to 63.6% in adults;",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "mirdametinib",
+        "claim_id": "claim:8f6c7d8f5d0fad0f2011"
+      },
+      {
+        "run": "TAC01",
+        "name": "selumetinib",
+        "claim_id": "claim:7844746bbd020559dc05"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "mirdametinib",
+        "claim_id": "claim:8f6c7d8f5d0fad0f2011"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "selumetinib",
+        "claim_id": "claim:7844746bbd020559dc05"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "passage": "We observed overall low efficacy with 1/10 patients receiving ruxolitinib achieving complete remission with incomplete platelet count recovery.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "ruxolitinib",
+        "claim_id": "claim:f1534ba1833cfaa25f4d"
+      },
+      {
+        "run": "mint5",
+        "name": "ruxolitinib",
+        "claim_id": "claim:f1534ba1833cfaa25f4d"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "ruxolitinib",
+        "claim_id": "claim:f1534ba1833cfaa25f4d"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "ruxolitinib",
+        "claim_id": "claim:f1534ba1833cfaa25f4d"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "passage": "Patients were treated with atezolizumab monotherapy (n=12) or atezolizumab in combination with radiotherapy (n=20, 33 fractions of 1.5-1.8 Gy) for locoregional disease control.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "atezolizumab",
+        "claim_id": "claim:89e116ed311a6e6d880d"
+      },
+      {
+        "run": "mint5",
+        "name": "atezolizumab",
+        "claim_id": "claim:89e116ed311a6e6d880d"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "atezolizumab",
+        "claim_id": "claim:89e116ed311a6e6d880d"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "atezolizumab",
+        "claim_id": "claim:89e116ed311a6e6d880d"
+      },
+      {
+        "run": "H16",
+        "name": "atezolizumab",
+        "claim_id": "claim:89e116ed311a6e6d880d"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "passage": "After 10 cycles of bevacizumab, all patients exhibited marked lesion reduction, with complete remission in 76.9%.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Bevacizumab",
+        "claim_id": "claim:695990bfcf56db55dc3e"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Bevacizumab",
+        "claim_id": "claim:695990bfcf56db55dc3e"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "passage": "The objective response rates for patients with measurable diseases treated with and without bevacizumab were 84.5% and 73.0%, respectively (P\\u2009=\\u20090.0066).",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Bevacizumab",
+        "claim_id": "claim:d873e0fa9c925007ee4e"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Bevacizumab",
+        "claim_id": "claim:d873e0fa9c925007ee4e"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "passage": "Ribavirin therapy, started in 40 patients with chronic infection, resulted in a sustained virological response in 78%.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "ribavirin",
+        "claim_id": "claim:9a9cbe45326d5cc61db3"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "ribavirin",
+        "claim_id": "claim:9a9cbe45326d5cc61db3"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "passage": "Cohort 5 of the CheckMate 040 nivolumab trial included selected patients with CTP-B7/B8 disease and demonstrated modest efficacy, with an objective response rate of 12% and a median overall survival of 7.6 months.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "nivolumab",
+        "claim_id": "claim:f31bd57d107d2a57d477"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "nivolumab",
+        "claim_id": "claim:f31bd57d107d2a57d477"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "passage": "The ORR was 47.6% and the complete response rate (CRR) was 14.3% in 21 evaluable patients among 25 patients who received glofitamab as salvage therapy.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Glofitamab",
+        "claim_id": "claim:cf42310f09d4a0cf6dd2"
+      },
+      {
+        "run": "mint5",
+        "name": "Glofitamab",
+        "claim_id": "claim:cf42310f09d4a0cf6dd2"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Glofitamab",
+        "claim_id": "claim:cf42310f09d4a0cf6dd2"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Glofitamab",
+        "claim_id": "claim:cf42310f09d4a0cf6dd2"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "passage": "Following one cycle, blinatumomab induced MRD-negative remission in all six patients with persistent disease before treatment (four with MRD positivity and two with >5% residual bone marrow blasts).",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Blinatumomab",
+        "claim_id": "claim:8eacd0edc94fcbcf9be5"
+      },
+      {
+        "run": "mint5",
+        "name": "Blinatumomab",
+        "claim_id": "claim:8eacd0edc94fcbcf9be5"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Blinatumomab",
+        "claim_id": "claim:8eacd0edc94fcbcf9be5"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Blinatumomab",
+        "claim_id": "claim:8eacd0edc94fcbcf9be5"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "passage": "\"abstract\": \"In a real-world analysis of brexucabtagene autoleucel recipients with relapsed/refractory B-cell acute lymphoblastic leukemia (N = 278), lack of response to prior blinatumomab correlates with significantly worse following chimeric antigen receptor T-cell therapy outcomes.\",",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Blinatumomab",
+        "claim_id": "claim:7a81028418d81b0738a1"
+      },
+      {
+        "run": "TAC01",
+        "name": "Brexucabtagene Autoleucel",
+        "claim_id": "claim:b9f57e8f520e43eab4db"
+      },
+      {
+        "run": "mint5",
+        "name": "Blinatumomab",
+        "claim_id": "claim:7a81028418d81b0738a1"
+      },
+      {
+        "run": "mint5",
+        "name": "brexucabtagene autoleucel",
+        "claim_id": "claim:b9f57e8f520e43eab4db"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Blinatumomab",
+        "claim_id": "claim:7a81028418d81b0738a1"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Brexucabtagene Autoleucel",
+        "claim_id": "claim:b9f57e8f520e43eab4db"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Blinatumomab",
+        "claim_id": "claim:7a81028418d81b0738a1"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "passage": "Furthermore, the addition of blinatumomab following chemotherapy in the frontline setting in patients with patients with Philadelphia chromosome (Ph)-negative B-ALL who achieved negative MRD was showing to improve outcomes with a 3-year overall survival rate of 85% compared to 68% with chemotherapy alone.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Blinatumomab",
+        "claim_id": "claim:748996ac8b93a87aee89"
+      },
+      {
+        "run": "mint5",
+        "name": "Blinatumomab",
+        "claim_id": "claim:748996ac8b93a87aee89"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Blinatumomab",
+        "claim_id": "claim:748996ac8b93a87aee89"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "frontline",
+        "claim_id": "claim:52428cecb2d5fe1c8429"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Blinatumomab",
+        "claim_id": "claim:748996ac8b93a87aee89"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "passage": "In the second-line setting (n\\u00a0=\\u00a072), most patients were POD24 (89%) and 56% received ibrutinib, yet outcomes remained poor (CR 24%, ORR 35%, median EFS and OS of 6.3 and 25.6\\u00a0months, respectively).",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "ibrutinib",
+        "claim_id": "claim:8db55aa8258f4d9fa289"
+      },
+      {
+        "run": "mint5",
+        "name": "ibrutinib",
+        "claim_id": "claim:8db55aa8258f4d9fa289"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "ibrutinib",
+        "claim_id": "claim:8db55aa8258f4d9fa289"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "passage": "Results:  An ACRpedi50 response was achieved in 78/100 (78%) patients by month 3 of rituximab therapy, and inactive disease status was reached in 48/93 (52%) patients by month 6.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Rituximab",
+        "claim_id": "claim:4f79ef0549a533c10a7e"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Rituximab",
+        "claim_id": "claim:4f79ef0549a533c10a7e"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "passage": "Additionally, patients receiving VO showed the highest survival rates at 12 months (95% confidence interval [CI]) at 97.6% (94.5, 100.0), followed by fludarabine, cyclophosphamide, and rituximab (FCR) at 96.6% (94.0, 99.3).",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Rituximab",
+        "claim_id": "claim:c4339d4dcf551caaa93c"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "rituximab",
+        "claim_id": "claim:c4339d4dcf551caaa93c"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Rituximab",
+        "claim_id": "claim:c4339d4dcf551caaa93c"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "passage": "Among 238 patients responders after induction, rituximab maintenance (RM) use was frequent but lower in older patients (88% vs.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Rituximab",
+        "claim_id": "claim:95bf25b5c9e48cba9e4c"
+      },
+      {
+        "run": "mint5",
+        "name": "rituximab",
+        "claim_id": "claim:95bf25b5c9e48cba9e4c"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Rituximab",
+        "claim_id": "claim:95bf25b5c9e48cba9e4c"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "passage": "Data of 3615 patients were included.The use of Erenumab was associated with increased rates of achieving > 50% responder rate as compared with placebo.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Erenumab",
+        "claim_id": "claim:1530ba0c551e2a9c245c"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Erenumab",
+        "claim_id": "claim:1530ba0c551e2a9c245c"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "passage": "\"abstract\": \"Treatment with brexucabtagene autoleucel (brexu-cel), an autologous anti-CD19 chimeric antigen receptor (CAR) T-cell therapy, demonstrated a high objective response rate (93%) and complete response rate (67%) in 60 patients with relapsed/refractory mantle cell lymphoma (R/R MCL) treated in the pivotal ZUMA-2 Cohort 1 study.",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "Brexucabtagene Autoleucel",
+        "claim_id": "claim:cd4e07aeeb051ee553e7"
+      },
+      {
+        "run": "mint5",
+        "name": "brexucabtagene autoleucel",
+        "claim_id": "claim:cd4e07aeeb051ee553e7"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "Brexucabtagene Autoleucel",
+        "claim_id": "claim:cd4e07aeeb051ee553e7"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "passage": "Herein, we present 12 patients with refractory SLE, including 10 with lupus nephritis (LN), who received ICG318 CAR T-cells resulting in 10 of 12 achieving stringent complete remission (sCR) defined by medication-free DORIS CR and complete renal response (CRR).",
+    "rows": [
+      {
+        "run": "TAC01",
+        "name": "ICG318",
+        "claim_id": "claim:f1920a0e1c36a5da8d0c"
+      },
+      {
+        "run": "mint5",
+        "name": "ICG318",
+        "claim_id": "claim:f1920a0e1c36a5da8d0c"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "ICG318",
+        "claim_id": "claim:f1920a0e1c36a5da8d0c"
+      },
+      {
+        "run": "TAC01_regimen_accepted",
+        "name": "ICG318",
+        "claim_id": "claim:f1920a0e1c36a5da8d0c"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "passage": "\"abstract\": \"To evaluate and compare the clinical and microbiological efficacy of locally administered 1.2% Rosuvastatin (RSV) gel and 1.2% Simvastatin (SMV) gel as an adjunct to scaling and root planing (SRP) in the treatment of patients with chronic periodontitis.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "rosuvastatin",
+        "claim_id": "claim:727cd4d319ae726bbbcf"
+      },
+      {
+        "run": "mint5",
+        "name": "simvastatin",
+        "claim_id": "claim:860114b3abeaabf38f2e"
+      },
+      {
+        "run": "H16",
+        "name": "Rosuvastatin",
+        "claim_id": "claim:727cd4d319ae726bbbcf"
+      },
+      {
+        "run": "H16",
+        "name": "simvastatin",
+        "claim_id": "claim:860114b3abeaabf38f2e"
+      },
+      {
+        "run": "H18",
+        "name": "rosuvastatin",
+        "claim_id": "claim:727cd4d319ae726bbbcf"
+      },
+      {
+        "run": "H18",
+        "name": "simvastatin",
+        "claim_id": "claim:860114b3abeaabf38f2e"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "passage": "Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "Venetoclax",
+        "claim_id": "claim:5ededd17eb739d2e1106"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Venetoclax",
+        "claim_id": "claim:5ededd17eb739d2e1106"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "passage": "Biologic therapy appeared to induce durable responses in 3 of the 5 patients (2/2 vedolizumab;",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "vedolizumab",
+        "claim_id": "claim:58c2c01554d277ddb226"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "vedolizumab",
+        "claim_id": "claim:58c2c01554d277ddb226"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "passage": "Mezigdomide (MEZI, CELMoD) showed an 85.7% overall response rate and 17.5-month progression-free survival in Lenalidomide-refractory patients.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "mezigdomide",
+        "claim_id": "claim:f1cd0d19f0ebe5c9b16c"
+      },
+      {
+        "run": "mint5",
+        "name": "lenalidomide",
+        "claim_id": "claim:dbcec01d4d893908ef80"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "mezigdomide",
+        "claim_id": "claim:f1cd0d19f0ebe5c9b16c"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "lenalidomide",
+        "claim_id": "claim:dbcec01d4d893908ef80"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "passage": "Key updates include: Cevostamab (FcRH5\\u00d7CD3) demonstrated a 30.2% overall response rate in patients who underwent BCMA-targeted treatment and 60.6% in BCMA-targeted na\\u00efve patients;the triple-step dosing strategy reduced cytokine release syndrome.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "Cevostamab",
+        "claim_id": "claim:117c546558458970e8da"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Cevostamab",
+        "claim_id": "claim:117c546558458970e8da"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "passage": "The DeNi study confirms the clinical benefits of nirogacestat in patients with desmoid tumors, with improvements in pain and tumor shrinkage observed in 60% of patients and PFS consistent with that reported in the phase III DeFi trial.\",",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "Nirogacestat",
+        "claim_id": "claim:a07876f8449346d3cc94"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Nirogacestat",
+        "claim_id": "claim:a07876f8449346d3cc94"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "passage": "In the phase 3 DeFi trial, nirogacestat treatment improved progression-free survival (how long the patient lived without disease progressing, DT-symptoms or health status getting worse, or dying from any cause) and objective response rate (when tumors shrink by at least 30% or disappear) when compared with a sugar pill placebo.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "Nirogacestat",
+        "claim_id": "claim:2ccd060cf6018a9e6bda"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Nirogacestat",
+        "claim_id": "claim:2ccd060cf6018a9e6bda"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "passage": "Inobrodib (CCS1477, p300/CBP inhibitor) plus lenalidomide achieved a 71% overall response rate in pomalidomide-refractory patients, marking the first oral epigenetic modulator to reverse immunomodulatory drug resistance.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "pomalidomide",
+        "claim_id": "claim:402aef043baec79934d9"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "CCS1477",
+        "claim_id": "claim:d69b0f2d4ca172ac0913"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Inobrodib",
+        "claim_id": "claim:93d331648bcada3d5c47"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "pomalidomide",
+        "claim_id": "claim:402aef043baec79934d9"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "passage": "Talquetamab achieved an ORR of 68.3% among BDT-exposed patients, with significantly lower response rates when administered < 6 months post-BDT or when BDT was the immediate preceding treatment (56.8% vs.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "Talquetamab",
+        "claim_id": "claim:1a32fe935671c597a7af"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Talquetamab",
+        "claim_id": "claim:1a32fe935671c597a7af"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "passage": "Teclistamab treatment induced a CR in 77.8% patients versus 0% with Rd, and minimal residual disease negativity at 10 -5  in 82.2% patients.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "teclistamab",
+        "claim_id": "claim:7eff55482be804d3a223"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "teclistamab",
+        "claim_id": "claim:7eff55482be804d3a223"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "passage": "Teclistamab was associated with major clinical responses in 11 (61%) and minimal-to-moderate responses in 4 (22%) patients, despite discontinuation of immunosuppressive therapy.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "teclistamab",
+        "claim_id": "claim:94cf318c14942aea953f"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "teclistamab",
+        "claim_id": "claim:94cf318c14942aea953f"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "passage": "In the pivotal MagnetisMM-3 study, in patients with BCMA-naive RRMM, elranatamab resulted in a 61.0% overall response rate;",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "elranatamab",
+        "claim_id": "claim:e82ea9ec13b90747f598"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "elranatamab",
+        "claim_id": "claim:e82ea9ec13b90747f598"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "passage": "In KarMMa-3, a subgroup analysis of older patients (\\u2265\\u200970 years) showed idecabtagene vicleucel significantly improved outcomes versus standard care: overall response rate (ORR) 81.6% vs.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "Abecma",
+        "claim_id": "claim:0000c65d178e56f531cb"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "Vicleucel",
+        "claim_id": "claim:3d590804d107bb511e24"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "passage": "Over a median follow-up of 5.8\\u00a0months, among patients with a response assessment (81.7%), the overall response rate (ORR) to cilta-cel was 98.0%, including 72.4% with complete response.",
+    "rows": [
+      {
+        "run": "mint5",
+        "name": "Carvykti",
+        "claim_id": "claim:a7501a7e4ce333dee057"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "passage": "All patients achieved a stringent complete response, and all patients achieved minimal residual discase (MRD) negativity by Euroflow (10-6) at 1 month, with MRD negativity rates of 100% among evaluable patients at month 6 (n = 7) and month 12 (n = 2).",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "discase",
+        "claim_id": "claim:bf8f0eb06438661af074"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "passage": "The efficacy cohort of PLAT-02 (n = 72 patients;",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "PLAT-02",
+        "claim_id": "claim:571e9888c924493b80c5"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "passage": "Post-CAR-T, 10 out of 14 patients (71.4%) with PET30-CR remained in disease remission, while 12 out of 16 patients (75%) with incomplete metabolic remission (PET30-nCR) relapsed after CAR-T.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "PET30",
+        "claim_id": "claim:25467ab00f0210b2f807"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "passage": "28.6% of patients with PET30-CR ultimately progressed.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "PET30",
+        "claim_id": "claim:2ab7b26095caafbfad9b"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "passage": "Complete remission (CR) rate and MRD negativity probability were higher among patients receiving CPX-351 (MRD negative CR rate of 40/64, 62.5%, compared to 25/55, 45% in patients who received FLAG-Ida, p\\u00a0<\\u00a00.05).",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "CPX351",
+        "claim_id": "claim:14c79f952b3dbfaf6fbd"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "passage": "Notably, 21/64 (32.8%) CR patients treated with CPX 351 underwent allogeneic stem cell transplantation (HSCT), compared to 5/55 with FLAG-Ida (9%, p\\u00a0<\\u00a00.05).",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "CPX351",
+        "claim_id": "claim:ab7056ccb72b53d3e5ee"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "passage": "We conducted a retrospective review of 47 children and young adults with B-ALL who underwent first HCT for post-CAR19 remission consolidation (preemptive cohort, N=26) or relapse therapy (relapse cohort, N=21).",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "CAR19",
+        "claim_id": "claim:2fb4055bb4311d165da8"
+      }
+    ]
+  },
+  {
+    "id": 46,
+    "passage": "\"abstract\": \"Over 50% of patients with relapsed or refractory large B-cell lymphoma (r/r LBCL) receiving CD19-targeted chimeric antigen receptor (CAR19) T-cell therapy fail to achieve durable remission.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "CAR19",
+        "claim_id": "claim:42b09ed680ea90c46b48"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "passage": "Through single cell CITE-seq of pre-CART19 samples from CR (n = 3) or CD19neg relapsed (n = 3) tumors, we confirmed that patients that underwent CD19neg relapse bear a subset of pro-B like tumor cells with lower expression of IKZF1, IKAROS gene.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "CART19",
+        "claim_id": "claim:9dace9dd1d5b04d926be"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "passage": "In one patient with a progression-free survival of 10.1 years, CART19 cells comprised 1.2% of circulating T cells 9.3 years after infusion.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "CART19",
+        "claim_id": "claim:fc90f270b7f1ed8aeeb3"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "passage": "CART-19 yield 70% response rates in patients with B-ALL, but also produce escape variants.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "CART19",
+        "claim_id": "claim:4a1b8a9080c349f38d78"
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "passage": "However, durable remission of CART19 cell therapy is still lacking, and 30%-60% of patients will eventually relapse after CART19 infusion.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "CART19",
+        "claim_id": "claim:62f74cab8c603d371c3d"
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "passage": "\"abstract\": \"In the era of immunochemotherapy, approximately 60%-70% of diffuse large B-cell lymphoma (DLBCL) patients achieve remission with first-line rituximab-based chemoimmunotherapy.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "rituximab-based",
+        "claim_id": "claim:d58d6dd408a48ba17bb7"
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "passage": "Despite cessation of immunosuppressive treatments, disease activity improved in all patients (median 34% DAS28-CRP reduction at the latest follow-up with DAS28-CRP remission and American College of Rheumatology 70% response in 3 of 6 patients).",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "DAS28",
+        "claim_id": "claim:52371a46abf6cfed92ba"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "passage": "For referred patients, efficacy of therapy (76.5%) and good performance status/low frailty (64.7%) were top reasons for referral, whereas patient choice (52.9%), poor performance status/high frailty (47.1%), comorbidity burden (41.2%), and older age (41.2%) were primary reasons for nonreferral.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "choice",
+        "claim_id": "claim:f10a1030b19a9a4fe4c7"
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "passage": "At 6\\u2009months, 79% of patients were alive, though this declined to 60% by 12\\u2009months, and progression-free survival dropped more sharply, from 52% to 42% over the same period\\u2014suggesting many responses did not last.Side effects were generally manageable.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "though",
+        "claim_id": "claim:95e146d23911c954540c"
+      }
+    ]
+  },
+  {
+    "id": 55,
+    "passage": "Among 24 patients with three prior bDMARD switches before genetic diagnosis, 17 (70.8%) achieved remission: 7 on tocilizumab, 6 on canakinumab, 2 on adalimumab, 1 on infliximab, and 1 on rituximab.",
+    "rows": [
+      {
+        "run": "AACR_accepted",
+        "name": "canakinumab",
+        "claim_id": "claim:5d518a2fae6cf537a259"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "infliximab",
+        "claim_id": "claim:8b1529e068e365c2e939"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "rituximab",
+        "claim_id": "claim:f75246dc376d8532dea8"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "adalimumab",
+        "claim_id": "claim:68db70e4366482b7f23c"
+      },
+      {
+        "run": "AACR_accepted",
+        "name": "tocilizumab",
+        "claim_id": "claim:87da73d9546d46937204"
+      }
+    ]
+  },
+  {
+    "id": 56,
+    "passage": "\"abstract\": \"Aclidinium bromide/formoterol fumarate (AB/FF) 400/12\\u00a0\\u03bcg efficacy and safety was demonstrated in two 6-month Phase III studies (AUGMENT and ACLIFORM) and a 12-month study in patients with moderate to severe chronic obstructive pulmonary disease (COPD).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "aclidinium bromide",
+        "claim_id": "claim:7e520e49b2cd0717146e"
+      },
+      {
+        "run": "H16",
+        "name": "Aclidinium",
+        "claim_id": "claim:5bff66e406e73ab329f3"
+      },
+      {
+        "run": "H16",
+        "name": "formoterol",
+        "claim_id": "claim:600b01666fda0ad46dc6"
+      },
+      {
+        "run": "H16",
+        "name": "Formoterol Fumarate",
+        "claim_id": "claim:f8a167a1f9d47298fbf5"
+      }
+    ]
+  },
+  {
+    "id": 57,
+    "passage": "Treatment of patients with G6PD activity of 30% or higher with 0\\u00b725-0\\u00b75 mg/kg per day primaquine regimens and patients with G6PD activity of 70% or higher with 0\\u00b725-1 mg/kg per day regimens were associated with similar risks of haemolysis to those in patients treated without primaquine, supporting the safe use of primaquine radical cure at these doses.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "primaquine",
+        "claim_id": "claim:9bc7685c0312be79b379"
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "passage": "Clinical or parasitological cure within 2 weeks of initial blood film was achieved in 91% (99/109) of patients receiving outpatient artemether-lumefantrine therapy with appropriate follow-up.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Artemether-lumefantrine",
+        "claim_id": "claim:28cc42274f2527d269de"
+      }
+    ]
+  },
+  {
+    "id": 59,
+    "passage": "In a responder analysis using the new threshold, 60% of aficamten-treated vs 31% of placebo- or metoprolol-treated patients achieved \\u0394pVO 2  \\u22650.35 (odds ratio [OR], 3.4 [95% CI: 2.3, 4.9];",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Aficamten",
+        "claim_id": "claim:114058ee669d5c03476f"
+      },
+      {
+        "run": "H16",
+        "name": "Metoprolol",
+        "claim_id": "claim:fb273e811080a34c1d1a"
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "passage": "Most patients (97.7%) received metoclopramide as first-line treatment, with an efficacy rate of 55.3%.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "metoclopramide",
+        "claim_id": "claim:3c848a64fe949dc1e438"
+      },
+      {
+        "run": "H18",
+        "name": "Metoclopramide",
+        "claim_id": "claim:3c848a64fe949dc1e438"
+      }
+    ]
+  },
+  {
+    "id": 61,
+    "passage": "Most patients (96.8%) received metoclopramide as first-line treatment, and the efficacy of the first medication was confirmed in 59.6% of patients.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "metoclopramide",
+        "claim_id": "claim:a5ae903b1bc05b704b3b"
+      }
+    ]
+  },
+  {
+    "id": 62,
+    "passage": "Relugolix-CT demonstrated sustained efficacy in controlling HMB, with responder rates of 87.7%, amenorrhea in 70% of patients, and significant improvements in hemoglobin and QoL after 52\\u00a0weeks of treatment.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Relugolix",
+        "claim_id": "claim:dfa26674a43723ab9e68"
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "passage": "It is of note that we recorded a 20\\u00a0% decrease in fentanyl users among those who were cured compared to the baseline evaluation of the overall study cohort (73.5\\u00a0% vs 94.9\\u00a0%, p\\u00a0<\\u00a00.000001).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "fentanyl",
+        "claim_id": "claim:9cd3e0c1fef1417bf889"
+      }
+    ]
+  },
+  {
+    "id": 64,
+    "passage": "After an initial induction treatment with a low-to-moderate dose of corticosteroid, this patient achieved complete remission with a combination therapy of dupilumab (a monoclonal antibody targeting the interleukin-4/13 signaling pathway) and ivermectin.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Ivermectin",
+        "claim_id": "claim:fda8d13dfda69b782423"
+      },
+      {
+        "run": "H16",
+        "name": "Dupilumab",
+        "claim_id": "claim:6fe84fe83a76085b6cb1"
+      }
+    ]
+  },
+  {
+    "id": 65,
+    "passage": "\"abstract\": \"The sofosbuvir (SOF) / velpatasvir (VEL) / voxilaprevir (VOX) combination has been evaluated in more than 800 patients enrolled in phase II and phase III studies, where it demonstrated excellent safety and efficacy, achieving overall sustained viral response (SVR) rates of more than 95%.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Voxilaprevir",
+        "claim_id": "claim:2376a1bb482e04d293f4"
+      },
+      {
+        "run": "H16",
+        "name": "Velpatasvir",
+        "claim_id": "claim:18143d3f3ec1d87538a4"
+      },
+      {
+        "run": "H16",
+        "name": "Sofosbuvir",
+        "claim_id": "claim:b490c5410a8d40cdfce0"
+      }
+    ]
+  },
+  {
+    "id": 66,
+    "passage": "\"abstract\": \"In phase III studies, the fixed dose combination of sofosbuvir/velpatasvir/voxilaprevir (SOF/VEL/VOX) administered for 12\\u202fweeks led to a sustained virologic response at 12\\u202fweeks (SVR12) in 96% of NS5A inhibitor-experienced patients, and an SVR12 rate of 98% in DAA-experienced patients who had not previously received an NS5A inhibitor.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Voxilaprevir",
+        "claim_id": "claim:e325d213b77e13e392dd"
+      },
+      {
+        "run": "H16",
+        "name": "Velpatasvir",
+        "claim_id": "claim:a3cc1d129decb585c3b3"
+      },
+      {
+        "run": "H16",
+        "name": "Sofosbuvir",
+        "claim_id": "claim:c92dabfc719bf6ff536b"
+      }
+    ]
+  },
+  {
+    "id": 67,
+    "passage": "In phase III studies, 12\\u202fweeks of treatment with the combination of sofosbuvir, velpatasvir and voxilaprevir (SOF/VEL/VOX) cured 97% of patients with hepatitis C virus who failed prior treatment with direct-acting antiviral drugs.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Voxilaprevir",
+        "claim_id": "claim:e60d144ce953e2385ea6"
+      },
+      {
+        "run": "H16",
+        "name": "Sofosbuvir",
+        "claim_id": "claim:87f32a1723b3e736c248"
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "passage": "\"abstract\": \"The EXPEDITION-8 clinical trial has demonstrated that treatment-na\\u00efve patients with compensated cirrhosis (TN/CC) of HCV genotypes 1-6 can achieve a 98% intent-to-treat sustained virologic response rate 12\\u00a0weeks post-treatment with an 8-week glecaprevir/pibrentasvir (G/P) regimen.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Glecaprevir",
+        "claim_id": "claim:0219092a4738aaca9361"
+      },
+      {
+        "run": "H16",
+        "name": "pibrentasvir",
+        "claim_id": "claim:aa790e555f2d6f5d32f3"
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "passage": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-na\\u00efve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Glecaprevir",
+        "claim_id": "claim:888e9c2c9ce421d305e4"
+      },
+      {
+        "run": "H16",
+        "name": "pibrentasvir",
+        "claim_id": "claim:f93f85d51368a0574d97"
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "passage": "\"abstract\": \"In clinical trials with hepatitis C virus-infected treatment-na\\u00efve (TN) patients with compensated cirrhosis (CC), glecaprevir/pibrentasvir (G/P), a fixed-dose, once-daily, pangenotypic regimen, has demonstrated sustained virologic response at posttreatment Week 12 (SVR12)\\u2009>\\u200995%.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Glecaprevir",
+        "claim_id": "claim:07539f2cb4f40c7a4424"
+      },
+      {
+        "run": "H16",
+        "name": "pibrentasvir",
+        "claim_id": "claim:92a84714c7d9bb1632ff"
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "passage": "\"abstract\": \"Retreatment with glecaprevir/pibrentasvir (G/P) resulted in a rate of sustained virologic response 12 weeks after treatment completion (SVR12) of >90% in HCV genotype 1 (GT1) patients who previously failed a regimen of sofosbuvir plus an NS5A inhibitor (NS5Ai).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Glecaprevir",
+        "claim_id": "claim:c533cda140093daecb30"
+      },
+      {
+        "run": "H16",
+        "name": "pibrentasvir",
+        "claim_id": "claim:b65265b4d5af7311c2a9"
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "passage": "Patients were divided among mild, advanced, and post-liver transplant as 320 (64%), 150 (30%), and 30 (6%), respectively.\\u00a0Among the DAA regimens, sofosbuvir-based therapies had the highest sustained virologic response (SVR) rate of 95%, followed by glecaprevir/pibrentasvir at 93%.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "pibrentasvir",
+        "claim_id": "claim:2d7307fff5abf3a93f2d"
+      },
+      {
+        "run": "H16",
+        "name": "Sofosbuvir",
+        "claim_id": "claim:16bf0b26feb0a6bd98ba"
+      }
+    ]
+  },
+  {
+    "id": 73,
+    "passage": "Of 1134 participants with active HCV who started treatment with sofosbuvir-velpatasvir, 939 (82.8%) achieved a sustained virological response.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Velpatasvir",
+        "claim_id": "claim:822be7769e36b698a419"
+      },
+      {
+        "run": "H16",
+        "name": "Sofosbuvir",
+        "claim_id": "claim:42edd659d3a10654683b"
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "passage": "For sodium oxybate, selective NRIs, SNRIs, and cyclobenzaprine, responder analyses indicated that a potentially important proportion of patients achieved a reduction in pain of at least 30% (risk difference 111 to 202 more per 1000\\u2009patients).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "cyclobenzaprine",
+        "claim_id": "claim:e8eca6cc6b9add89a6ff"
+      },
+      {
+        "run": "H16",
+        "name": "sodium oxybate",
+        "claim_id": "claim:6d22e5e91ebe21c46af3"
+      },
+      {
+        "run": "H18",
+        "name": "sodium oxybate",
+        "claim_id": "claim:6d22e5e91ebe21c46af3"
+      },
+      {
+        "run": "H18",
+        "name": "cyclobenzaprine",
+        "claim_id": "claim:e8eca6cc6b9add89a6ff"
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "passage": "The efficacy of tiotropium/olodaterol 5/5\\u00a0\\u03bcg/day in patients with COPD was evaluated in phase\\u00a0III or IV trials of 6-52\\u00a0weeks' duration.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "tiotropium",
+        "claim_id": "claim:4701eb076cd771413b4f"
+      },
+      {
+        "run": "H16",
+        "name": "olodaterol",
+        "claim_id": "claim:2ec04584f3556dbcbd2a"
+      }
+    ]
+  },
+  {
+    "id": 76,
+    "passage": "The efficacy of the pegylated interferon, sofosbuvir, and ribavirin regimen was lower, with sustained virologic response achieved in 86.2 % of patients.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "ribavirin",
+        "claim_id": "claim:f1eeb9fb4b43e89578e9"
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "passage": "The lowest efficacy was observed with the sofosbuvir and ribavirin regimen - sustained virologic response achieved in 75.0 % of patients.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "ribavirin",
+        "claim_id": "claim:1c7bc787d0d6473942fd"
+      }
+    ]
+  },
+  {
+    "id": 78,
+    "passage": "In patients with RAS wild-type tumors, outcomes were comparable between the anti-EGFR antibody (n = 17) and bevacizumab (n = 9) groups (progression-free survival: 15.6 vs.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "bevacizumab",
+        "claim_id": "claim:1672c26a362bce427334"
+      }
+    ]
+  },
+  {
+    "id": 79,
+    "passage": "A treatment response of HbA1c <7.0% was achieved by 61 and 40% of patients in the linagliptin/metformin and linagliptin groups, respectively.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Linagliptin",
+        "claim_id": "claim:b721643f01a11308b67f"
+      }
+    ]
+  },
+  {
+    "id": 80,
+    "passage": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "atazanavir",
+        "claim_id": "claim:e9f5d18fea7bd5531e0e"
+      },
+      {
+        "run": "H16",
+        "name": "ritonavir",
+        "claim_id": "claim:e02f9edf1a088951bfae"
+      },
+      {
+        "run": "H16",
+        "name": "Lopinavir",
+        "claim_id": "claim:ad115c2cb6291b6ce2e9"
+      },
+      {
+        "run": "H16",
+        "name": "Fosamprenavir",
+        "claim_id": "claim:d6109ffeff6ee4cfadca"
+      },
+      {
+        "run": "H16",
+        "name": "Lamivudine",
+        "claim_id": "claim:07de85a540078d3b5cec"
+      }
+    ]
+  },
+  {
+    "id": 81,
+    "passage": "Among 65 evaluable patients, CR rates were 85.3%, 70.6%, and 70.6% in the lower netupitant dose group, and 87.1%, 71.0%, and 67.7% in the higher dose group, for the acute, delayed, and overall phases, respectively.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "netupitant",
+        "claim_id": "claim:35b80340ddd67327f8f9"
+      }
+    ]
+  },
+  {
+    "id": 82,
+    "passage": "Molnupiravir efficacy in RMs (95% in nasal and 99% in the lungs) is estimated to be similar to efficacy in humans against omicron variants.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "molnupiravir",
+        "claim_id": "claim:31df6d2c2c18b3256e2c"
+      }
+    ]
+  },
+  {
+    "id": 83,
+    "passage": "\"abstract\": \"A Phase II trial demonstrated that neoadjuvant cemiplimab was associated with pathologic complete response (pCR) in 51% of patients with locoregionally advanced cutaneous squamous cell carcinoma (cuSCC).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "cemiplimab",
+        "claim_id": "claim:0d46006dca855bc8cee6"
+      }
+    ]
+  },
+  {
+    "id": 84,
+    "passage": "All patients were treated with cemiplimab, and 4/10 patients experienced a response by composite assessment of clinical, radiographic, and pathologic data.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "cemiplimab",
+        "claim_id": "claim:3c40c3481bb21d021693"
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "passage": "Cemiplimab, an anti-PD-1 antibody, has been shown to induce a response rate of 31% and 22% in patients with locally advanced basal cell carcinoma (BCC) and metastatic BCC respectively, who have progressed or are intolerant to Hedgehog Inhibitors (HHi).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "cemiplimab",
+        "claim_id": "claim:386519e05c9be8abfa2f"
+      }
+    ]
+  },
+  {
+    "id": 86,
+    "passage": "JAK inhibitors (tofacitinib, upadacitinib) represent the newest class, offering oral administration with ASAS40 responses of 40%-52%  versus  13%-26% for placebo in both biologic-na\\u00efve and biologic-experienced AS, though cardiovascular safety considerations necessitate careful patient selection.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "upadacitinib",
+        "claim_id": "claim:27b19cc00a77ed5e9c48"
+      },
+      {
+        "run": "H16",
+        "name": "tofacitinib",
+        "claim_id": "claim:c3eb458590fe2b375d76"
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "passage": "exposure\\u2013response analyses demonstrated similar or greater efficacy (JIA-ACR30/50/70), and consistent safety (reduction in absolute neutrophil count) in patients with pcJIA compared with adult patients with RA at similar sarilumab exposure.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Sarilumab",
+        "claim_id": "claim:6db4bbfde1eaf7c39170"
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "passage": "An overall response rate (ORR) of 33% was observed in patients partly with pembrolizumab-refractory of part A and ORR of 50% was observed in patients with PD-1 na\\u00efve of part B.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "pembrolizumab",
+        "claim_id": "claim:0821491c7548fab035ed"
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "passage": "Major pathological (\\u226410% viable tumor cells) and objective radiographic responses were achieved in 27% and 10% (nivolumab) and in 30% and 27% (nivolumab and relatlimab) of patients, respectively.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Relatlimab",
+        "claim_id": "claim:c50c60857944c4adf7b3"
+      },
+      {
+        "run": "H16",
+        "name": "nivolumab",
+        "claim_id": "claim:997388042fc779b12ef5"
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "passage": "Relatlimab, a LAG-3 blocking antibody, was investigated in combination with nivolumab in a phase 2/3 randomized double-blind trial (RELATIVITY-047) and could demonstrate significantly improved progression-free survival in treatment-naive advanced melanoma patients compared with nivolumab monotherapy.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Relatlimab",
+        "claim_id": "claim:f16ad65d46519c39999b"
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "passage": "At week 48, DTG/3TC demonstrated noninferior efficacy to BIC/FTC/TAF, with HIV-1 RNA <50\\u2005copies/mL achieved in 89% and 92% of participants, respectively (adjusted difference, -3% [95% CI, -8%, 2%]).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Lamivudine",
+        "claim_id": "claim:4798012d2db8649220a2"
+      }
+    ]
+  },
+  {
+    "id": 92,
+    "passage": "After 12\\u2009months, virological efficacy was comparable: HIV RNA <20 copies ml -1  was obtained in 40\\u2009patients (93%) in the BIC/F/TAF group and in 31 (89\\u200a%) in the DOR/3TC/TDF group.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "Lamivudine",
+        "claim_id": "claim:5104ef3bd86e3a7f4e83"
+      }
+    ]
+  },
+  {
+    "id": 93,
+    "passage": "Average nirmatrelvir antiviral efficacy in RM (30% in nasal passages and 46% in the lungs) was estimated to be less than in humans (82%) due to shorter plasma drug half-life.",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "nirmatrelvir",
+        "claim_id": "claim:a2f96fee5ea51a13f87d"
+      }
+    ]
+  },
+  {
+    "id": 94,
+    "passage": "Tumor growth was reduced and progression-free survival was better in those patients receiving higher doses (>6 mg) of IMP321: 7 of 8 evaluable patients treated at the higher doses experienced stable disease at 3 months compared with only 3 of 11 in the lower dose group (P = 0.015).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "IMP321",
+        "claim_id": "claim:26774add54cb04c6f9f1"
+      }
+    ]
+  },
+  {
+    "id": 95,
+    "passage": "Among the first 28 enrolled patients treated with ASTX727, disease-free survival at 1 year after HSCT was 70\\u00b74% (95% CI 55\\u00b71-89\\u00b79).",
+    "rows": [
+      {
+        "run": "H16",
+        "name": "ASTX727",
+        "claim_id": "claim:e32720191bf1ba07ff89"
+      }
+    ]
+  },
+  {
+    "id": 96,
+    "passage": "The aim of the study was to compare the anesthetic efficacy of BLT cream (benzocaine 20%, lidocaine 10%, and tetracaine 4%) and 1% lidocaine local injection in patients undergoing cannula-based facial aesthetic treatments.",
+    "rows": [
+      {
+        "run": "H18",
+        "name": "tetracaine",
+        "claim_id": "claim:6190416d1d9248c5c8d4"
+      },
+      {
+        "run": "H18",
+        "name": "Benzocaine",
+        "claim_id": "claim:0ca0f63a3e5cf50dff96"
+      },
+      {
+        "run": "H18",
+        "name": "lidocaine",
+        "claim_id": "claim:de631a93a41dbfb76c11"
+      }
+    ]
+  },
+  {
+    "id": 97,
+    "passage": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (\\u219330%-62%, p\\u2009<\\u20090.05) at 48\\u2009h and a significant improvement in maximal respiration for tirzepatide at 5\\u2009days (\\u219142%-52%, p\\u2009=\\u20090.0022).",
+    "rows": [
+      {
+        "run": "H18",
+        "name": "Cagrilintide",
+        "claim_id": "claim:3b81d9c14529004ce3db"
+      },
+      {
+        "run": "H18",
+        "name": "Tirzepatide",
+        "claim_id": "claim:9954996062248331a551"
+      }
+    ]
+  },
+  {
+    "id": 98,
+    "passage": "Given SIRT1's linkage to drug response, we explored the predictive value of combined TDM and SIRT1 detection.Methods: In total, 27 treatment-naive depressed patients receiving 8-week standard paroxetine therapy were stratified into drug-sensitive (reduction rate \\u226550%) and drug-resistant groups (reduction rate <50%) according to Hamilton Depression Rating Scale score reduction rates.",
+    "rows": [
+      {
+        "run": "H18",
+        "name": "Paroxetine",
+        "claim_id": "claim:89c0442645ec85736cc7"
+      }
+    ]
+  },
+  {
+    "id": 99,
+    "passage": "Twice as many patients were responders in the primary efficacy endpoint after both ROSE-010 injections compared to placebo (24%P = 0.011, 23%P = 0.005, and 12% after 300 microg, 100 microg and placebo injections, respectively).",
+    "rows": [
+      {
+        "run": "H18",
+        "name": "ROSE-010",
+        "claim_id": "claim:b420098f328b37ad2838"
+      }
+    ]
+  },
+  {
+    "id": 100,
+    "passage": "Following roflumilast cream treatment, physician-documented clinical improvement was reported in 83% (25/30) of these patients.",
+    "rows": [
+      {
+        "run": "H18",
+        "name": "Roflumilast",
+        "claim_id": "claim:c9e3a9eb40cfe7f10f2f"
+      }
+    ]
+  },
+  {
+    "id": 101,
+    "passage": "Here we report the case of an adult patient with skin of color treated with roflumilast cream 0.3% following an unsatisfactory response to typical treatments.",
+    "rows": [
+      {
+        "run": "H18",
+        "name": "Roflumilast",
+        "claim_id": "claim:87f94970ac25a7316fc8"
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "passage": "Teduglutide demonstrated a positive and incremental effect on the proportion of short bowel syndrome-associated intestinal failure patients achieving a \\u226520 % reduction in PS requirements, with response rates increasing from 64 % (95 % CI: 51 %-75 %) at 6 months to 73 % (95 % CI: 65 %-80 %) after \\u22652 years of therapy.",
+    "rows": [
+      {
+        "run": "H18",
+        "name": "teduglutide",
+        "claim_id": "claim:3d3ef664fe05b033de2e"
+      }
+    ]
+  },
+  {
+    "id": 103,
+    "passage": "Glepaglutide twice weekly was also superior to placebo for key secondary end points of proportion of patients achieving clinical response, defined as \\u226520% PS volume reduction from baseline to weeks 20 and 24 (65.7% vs 38.9%;",
+    "rows": [
+      {
+        "run": "H18",
+        "name": "glepaglutide",
+        "claim_id": "claim:0c74e255816f9655f5cf"
+      }
+    ]
+  },
+  {
+    "id": 104,
+    "passage": "In total, 84.2% of survodutide-treated patients versus 24.3% of placebo-treated patients had \\u226530% reduction in LFC using the efficacy estimand (P\\u2009<\\u20090.0001;",
+    "rows": [
+      {
+        "run": "H18",
+        "name": "survodutide",
+        "claim_id": "claim:13f922afecbd81303713"
+      }
+    ]
+  },
+  {
+    "id": 105,
+    "passage": "\"title\": \"Progression-free survival 3 of 22 months achieved through third-line therapy with adebrelimab in patient with recurrent chordoma: a case report.\"",
+    "rows": [
+      {
+        "run": "H19",
+        "name": "adebrelimab",
+        "claim_id": "claim:29812e0f43bfc43f1c2e"
+      }
+    ]
+  },
+  {
+    "id": 106,
+    "passage": "A total of 41.2% of patients achieved complete remission off oral immunosuppressive therapy after the first rituximab cycle, with a maximum complete remission off oral immunosuppressive therapy prevalence of 52.8% at month 36, including multiple rituximab cycles.",
+    "rows": [
+      {
+        "run": "H19",
+        "name": "rituximab",
+        "claim_id": "claim:4bea809ff9d3b9f6eba9"
+      }
+    ]
+  },
+  {
+    "id": 107,
+    "passage": "In metastatic spread, among all CDK (cyclin-dependent kinase) 4/6 inhibitors used for first-line therapy, only ribociclib improved overall survival in pre and postmenopausal patients.",
+    "rows": [
+      {
+        "run": "H19",
+        "name": "ribociclib",
+        "claim_id": "claim:1749a74aa47d76718831"
+      }
+    ]
+  },
+  {
+    "id": 108,
+    "passage": "This case report describes a 41-year-old male patient with stage IVA LUAD (PD-L1 tumor proportion score: 5%, next-generation sequencing: no mutation) who achieved a partial response (PR) with first-line camrelizumab plus pemetrexed and carboplatin, but later experienced disease progression.",
+    "rows": [
+      {
+        "run": "H19",
+        "name": "carboplatin",
+        "claim_id": "claim:02aee745560d65ae7401"
+      }
+    ]
+  },
+  {
+    "id": 109,
+    "passage": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+    "rows": [
+      {
+        "run": "H19",
+        "name": "Sacituzumab Tirumotecan",
+        "claim_id": "claim:6c5b35e2a5871015f940"
+      }
+    ]
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "base_commit": "c5bc86578d6db58b3ba1fd0cc869bc84d225ad34",
+  "human_poc_sha256": "6259b51f7ad7ecba7d48f0d3a7577caca136e4555ab2c39b8ea6340dbe3b6f66",
+  "protected_files": {
+    "src/bve/se/intent/parser.py": "2f5c3c7c392f1ab578b81dacb670596e89da3623d92c1c2f8711827b9e3c4e82",
+    "src/bve/se/gates/evaluator.py": "2b1f4d09cc057e85d511af4fd8a2e294a35d9e93b16b073824a1cd5126d6bfce",
+    "src/bve/se/discovery/asset_qualification.py": "c710f1149bdf121f94e58fa66c35a47cb7e43ea9d5ed3ebdb975edc93853a4fe",
+    "src/bve/se/resolution/registry.py": "154c31e626696d7edf43b18d6adfb685388d65be65b21bc6f7621da1f47c1fa8",
+    "src/bve/se/evidence/clinicaltrials.py": "52742577378560f0a0e15dba4ad6c42d80a6700fa81773b1e67d63af635c9291",
+    "src/bve/se/ontology/drug_modality.py": "a9a6c8080d4a38df34cadb1c6c8a48b460e38133e8d2906c98993f4c4545224a",
+    "src/bve/se/reporting/shortlist.py": "112904512939e25f20009072e317429ccd23ead551a026b304ac57b08ecdc12f",
+    "src/bve/se/pipeline.py": "8260ea97075c75f0323ecbc414530ac3f4b651ef85d67bbf613032c02e0650e2",
+    "src/bve/se/evidence/source_capability.py": "84421c6cc0e9c932b918e715896847cea389dcbddb39efc71366e0d843a9dcb2",
+    "src/bve/se/evidence/snapshot_cache.py": "96aba3b1c7c1d6617a66e43cd0ba4c982fb360c3ffde1137ebb00c6bc3cce8b1",
+    "docs/se_policies/heldout_validation_suite_v4.md": "f22140be07093c342708f3db3cbc49e5f9d873b73840bdb92d06a6c8957cb12e",
+    "research/se_heldout/v4_primary_validation/labels.json": "8365835093310e69ff3c725f741272836fdd403e32923e71480ebf09391c4fb3",
+    "research/se_heldout/v4_primary_validation/score.json": "5cbe3a439e0482b8e5ff189029f39a17f2e1faa6f7b1a6b2c50d4117f9e3bbdb"
+  }
+}

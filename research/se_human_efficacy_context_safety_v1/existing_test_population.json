@@ -1,0 +1,1871 @@
+[
+  {
+    "id": "0e4c1ae3f9985a6a9cb1105a4a53de02f96cfbbd6a731c76731e04c84d764f1d",
+    "route": "prose",
+    "inputs": {
+      "text": "Of 26 evaluable patients treated with CTL019, 18 of 26 achieved a complete response.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "CTL019",
+        "endpoint": "complete response",
+        "sentence": "Of 26 evaluable patients treated with CTL019, 18 of 26 achieved a complete response.",
+        "value": "18 of 26",
+        "document_id": "doc:1"
+      }
+    ],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheObservedOutcomeRequirement::test_an_observed_complete_response_passes"
+    ]
+  },
+  {
+    "id": "86ad1d998d5bf046eed7cb5867d936a946df703115edbd039d24232a67bd79ff",
+    "route": "prose",
+    "inputs": {
+      "text": "The primary endpoint was safety and the secondary endpoints were ORR, progression free survival (PFS), and overall survival (OS) in 11 patients treated with CART19/20.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheObservedOutcomeRequirement::test_a_planned_endpoint_alone_does_not_pass"
+    ]
+  },
+  {
+    "id": "5b8919ca2f0e05849a80c4568ac488a1535beb91ac1a6252611706547af25bef",
+    "route": "prose",
+    "inputs": {
+      "text": "Efficacy of CTL019 will be evaluated in 40 patients using overall response rate.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheObservedOutcomeRequirement::test_a_future_evaluation_does_not_pass"
+    ]
+  },
+  {
+    "id": "90505e06b6b61d6078d6c869a30839ea4fe0e998dade438f5f27bce9843145a1",
+    "route": "prose",
+    "inputs": {
+      "text": "Patients treated with CTL019 achieved durable complete remission.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheObservedOutcomeRequirement::test_an_efficacy_claim_without_a_reported_value_does_not_pass"
+    ]
+  },
+  {
+    "id": "5cdf2303c6d08478c2c4f9d60d4d43659b3bf6186ea1c0bdc072eeff72395cd5",
+    "route": "prose",
+    "inputs": {
+      "text": "Among 26 patients treated with CTL019, 12 of 26 experienced grade 3 cytokine release syndrome and the regimen was well tolerated.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestWhatTheOutcomeHasToBe::test_a_safety_only_human_study_does_not_pass"
+    ]
+  },
+  {
+    "id": "69a331169d4bd3fbf3c701522bf320a2acb2648ffa59f7582cc84985c13c92c0",
+    "route": "prose",
+    "inputs": {
+      "text": "In 26 patients treated with CTL019, peak biomarker expansion correlated with response in 18 of 26 cases.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestWhatTheOutcomeHasToBe::test_a_correlative_biomarker_result_does_not_pass"
+    ]
+  },
+  {
+    "id": "81d3ec762b1df68cd8cb1b5bd4daee262a0922e1a09d8ba52d4de25d7f9902a1",
+    "route": "prose",
+    "inputs": {
+      "text": "CTL019 showed promising clinical benefit in 26 of 30 patients in this first-in-human experience.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestWhatTheOutcomeHasToBe::test_a_sponsor_adjective_is_not_a_result"
+    ]
+  },
+  {
+    "id": "af4dd8f6a66f24990ca9c41b167fff858d848a841cdecf8f2884a202de870de8",
+    "route": "prose",
+    "inputs": {
+      "text": "CTL019 produced complete tumor regression in 8 of 10 xenograft-bearing mice, with responses in 80% of animals.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheResultHasToBeHumanAndAttributable::test_animal_efficacy_does_not_pass"
+    ]
+  },
+  {
+    "id": "1deece1bca3c4e9d208698af04f8fba97b398218ce7c776ff55245adeb6c5611",
+    "route": "prose",
+    "inputs": {
+      "text": "CTL019 was manufactured to specification. Separately, 18 of 26 patients achieved a complete response.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheResultHasToBeHumanAndAttributable::test_a_result_for_an_unnamed_asset_does_not_pass"
+    ]
+  },
+  {
+    "id": "dca4a09ab185c4ce121c5795201145b1526d2edc091b8063b8e6e884e1c20f25",
+    "route": "prose",
+    "inputs": {
+      "text": "CTL019 plus ibrutinib produced a complete response in 18 of 26 patients.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheResultHasToBeHumanAndAttributable::test_combination_efficacy_does_not_transfer_to_a_component"
+    ]
+  },
+  {
+    "id": "7e6db301873ed892800ab62950591bc3c4480ee74212f2c384b99c7677cf2e9d",
+    "route": "prose",
+    "inputs": {
+      "text": "Patients receiving CTL019 and axicabtagene ciloleucel achieved a complete response in 18 of 26 cases.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheResultHasToBeHumanAndAttributable::test_a_second_named_asset_in_the_sentence_blocks_attribution"
+    ]
+  },
+  {
+    "id": "c9cd64d4f726ce270f5656b397093d2f08faff522a9d61a1304af6fa8443cdf5",
+    "route": "prose",
+    "inputs": {
+      "text": "Of 26 evaluable patients treated with CTL019, 18 of 26 achieved a complete response.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "conf:1"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "CTL019",
+        "endpoint": "complete response",
+        "sentence": "Of 26 evaluable patients treated with CTL019, 18 of 26 achieved a complete response.",
+        "value": "18 of 26",
+        "document_id": "conf:1"
+      }
+    ],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheStandardIsUnchangedForSourcesThatAlreadyHadIt::test_the_same_sentence_reads_identically_whatever_document_it_came_from"
+    ]
+  },
+  {
+    "id": "55a6d7e420c118e621437f951d98a82849ddc12d676fd666266222a4855d93f9",
+    "route": "prose",
+    "inputs": {
+      "text": "Of 26 evaluable patients treated with CTL019, 18 of 26 achieved a complete response.",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "pubmed:1"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "CTL019",
+        "endpoint": "complete response",
+        "sentence": "Of 26 evaluable patients treated with CTL019, 18 of 26 achieved a complete response.",
+        "value": "18 of 26",
+        "document_id": "pubmed:1"
+      }
+    ],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheStandardIsUnchangedForSourcesThatAlreadyHadIt::test_the_same_sentence_reads_identically_whatever_document_it_came_from"
+    ]
+  },
+  {
+    "id": "a3f9eb7795efd94ed47c14cee6138a1b6b66d74bbf34c34a10d7e75a0c5b53e3",
+    "route": "prose",
+    "inputs": {
+      "text": "Abstract CT204: CTL019 in relapsed B-cell malignancies",
+      "asset_names": [
+        "CTL019",
+        "axicabtagene ciloleucel",
+        "CART19/20"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_conference_human_poc_admissibility.py::TestTheSourceExclusionIsLifted::test_title_only_conference_records_are_also_admissible_and_harmless"
+    ]
+  },
+  {
+    "id": "db6ae0a9879042fb0ab486aed83fd281e61b2a07eeec4a52a16e86f50239491b",
+    "route": "structured",
+    "inputs": {
+      "result_id": "res:1",
+      "subject_id": "asset:a",
+      "indication": "systemic lupus erythematosus",
+      "population": "refractory SLE",
+      "treatment_line": "",
+      "development_stage": "PHASE1",
+      "endpoint": "Overall response rate",
+      "endpoint_family": "response",
+      "effect_size": 0.75,
+      "effect_unit": null,
+      "confidence_interval_low": null,
+      "confidence_interval_high": null,
+      "evaluable_patients": 12,
+      "follow_up_days": null,
+      "comparator": null,
+      "analysis_set": null,
+      "safety_grade3plus_rate": null,
+      "discontinuation_rate": null,
+      "uncontrolled": true,
+      "selected_subgroup": false,
+      "endpoint_switched": false,
+      "incomplete_reporting": false,
+      "supporting_claim_ids": [
+        "claim:1"
+      ]
+    },
+    "baseline_outputs": true,
+    "tests": [
+      "tests/se/test_human_poc.py::TestAReportedEfficacyResultIsProofOfConcept::test_a_reported_response_rate_passes_the_gate",
+      "tests/se/test_human_poc.py::TestAReportedEfficacyResultIsProofOfConcept::test_the_fact_carries_what_a_reader_would_have_to_check",
+      "tests/se/test_human_poc.py::TestBothRoutesMeanTheSameThing::test_a_prose_result_and_a_structured_result_produce_the_same_fact"
+    ]
+  },
+  {
+    "id": "3ad40fa2a9680d90bb193d2fb547a2c71fac21f42fbec4b5e2bbe5e2803fa1d2",
+    "route": "structured",
+    "inputs": {
+      "result_id": "res:1",
+      "subject_id": "asset:a",
+      "indication": "systemic lupus erythematosus",
+      "population": "refractory SLE",
+      "treatment_line": "",
+      "development_stage": "PHASE1",
+      "endpoint": "Overall response rate",
+      "endpoint_family": "response",
+      "effect_size": null,
+      "effect_unit": null,
+      "confidence_interval_low": null,
+      "confidence_interval_high": null,
+      "evaluable_patients": 12,
+      "follow_up_days": null,
+      "comparator": null,
+      "analysis_set": null,
+      "safety_grade3plus_rate": null,
+      "discontinuation_rate": null,
+      "uncontrolled": true,
+      "selected_subgroup": false,
+      "endpoint_switched": false,
+      "incomplete_reporting": true,
+      "supporting_claim_ids": [
+        "claim:1"
+      ]
+    },
+    "baseline_outputs": false,
+    "tests": [
+      "tests/se/test_human_poc.py::TestBeingInTheClinicIsNotEfficacy::test_a_trial_with_no_reported_result_is_unknown"
+    ]
+  },
+  {
+    "id": "3890327e75c43219461f656a36494f9ceeffe7c1f09a0d3f33d09debef93f627",
+    "route": "structured",
+    "inputs": {
+      "result_id": "res:1",
+      "subject_id": "asset:a",
+      "indication": "systemic lupus erythematosus",
+      "population": "refractory SLE",
+      "treatment_line": "",
+      "development_stage": "PHASE1",
+      "endpoint": "Overall response rate",
+      "endpoint_family": "response",
+      "effect_size": null,
+      "effect_unit": null,
+      "confidence_interval_low": null,
+      "confidence_interval_high": null,
+      "evaluable_patients": 12,
+      "follow_up_days": null,
+      "comparator": null,
+      "analysis_set": null,
+      "safety_grade3plus_rate": null,
+      "discontinuation_rate": null,
+      "uncontrolled": true,
+      "selected_subgroup": false,
+      "endpoint_switched": false,
+      "incomplete_reporting": false,
+      "supporting_claim_ids": [
+        "claim:1"
+      ]
+    },
+    "baseline_outputs": false,
+    "tests": [
+      "tests/se/test_human_poc.py::TestBeingInTheClinicIsNotEfficacy::test_a_protocol_endpoint_without_a_value_is_unknown"
+    ]
+  },
+  {
+    "id": "d27f9f91cd35d4a9e331cbfd70f82ad74cd507bd93d5ea74967ed797167485f1",
+    "route": "structured",
+    "inputs": {
+      "result_id": "res:1",
+      "subject_id": "asset:a",
+      "indication": "systemic lupus erythematosus",
+      "population": "refractory SLE",
+      "treatment_line": "",
+      "development_stage": "PHASE1",
+      "endpoint": "Incidence of treatment-emergent adverse events",
+      "endpoint_family": "safety",
+      "effect_size": 0.75,
+      "effect_unit": null,
+      "confidence_interval_low": null,
+      "confidence_interval_high": null,
+      "evaluable_patients": 12,
+      "follow_up_days": null,
+      "comparator": null,
+      "analysis_set": null,
+      "safety_grade3plus_rate": null,
+      "discontinuation_rate": null,
+      "uncontrolled": true,
+      "selected_subgroup": false,
+      "endpoint_switched": false,
+      "incomplete_reporting": false,
+      "supporting_claim_ids": [
+        "claim:1"
+      ]
+    },
+    "baseline_outputs": false,
+    "tests": [
+      "tests/se/test_human_poc.py::TestBeingInTheClinicIsNotEfficacy::test_safety_data_is_not_efficacy"
+    ]
+  },
+  {
+    "id": "cfc547f616ad39682943099525f433009ddd26456471ed4fac551430182cfe3e",
+    "route": "structured",
+    "inputs": {
+      "result_id": "res:1",
+      "subject_id": "asset:a",
+      "indication": "systemic lupus erythematosus",
+      "population": "refractory SLE",
+      "treatment_line": "",
+      "development_stage": "PHASE1",
+      "endpoint": "Maximum plasma concentration (Cmax)",
+      "endpoint_family": "",
+      "effect_size": 0.75,
+      "effect_unit": null,
+      "confidence_interval_low": null,
+      "confidence_interval_high": null,
+      "evaluable_patients": 12,
+      "follow_up_days": null,
+      "comparator": null,
+      "analysis_set": null,
+      "safety_grade3plus_rate": null,
+      "discontinuation_rate": null,
+      "uncontrolled": true,
+      "selected_subgroup": false,
+      "endpoint_switched": false,
+      "incomplete_reporting": false,
+      "supporting_claim_ids": [
+        "claim:1"
+      ]
+    },
+    "baseline_outputs": false,
+    "tests": [
+      "tests/se/test_human_poc.py::TestBeingInTheClinicIsNotEfficacy::test_pharmacology_and_tolerability_endpoints_are_not_efficacy[Maximum plasma concentration (Cmax)]"
+    ]
+  },
+  {
+    "id": "2e44274405ae33bde9c173fb66be3e84cf228fe0ffe3881b2bbe3f6dab4b7f73",
+    "route": "structured",
+    "inputs": {
+      "result_id": "res:1",
+      "subject_id": "asset:a",
+      "indication": "systemic lupus erythematosus",
+      "population": "refractory SLE",
+      "treatment_line": "",
+      "development_stage": "PHASE1",
+      "endpoint": "Area under the curve (AUC)",
+      "endpoint_family": "",
+      "effect_size": 0.75,
+      "effect_unit": null,
+      "confidence_interval_low": null,
+      "confidence_interval_high": null,
+      "evaluable_patients": 12,
+      "follow_up_days": null,
+      "comparator": null,
+      "analysis_set": null,
+      "safety_grade3plus_rate": null,
+      "discontinuation_rate": null,
+      "uncontrolled": true,
+      "selected_subgroup": false,
+      "endpoint_switched": false,
+      "incomplete_reporting": false,
+      "supporting_claim_ids": [
+        "claim:1"
+      ]
+    },
+    "baseline_outputs": false,
+    "tests": [
+      "tests/se/test_human_poc.py::TestBeingInTheClinicIsNotEfficacy::test_pharmacology_and_tolerability_endpoints_are_not_efficacy[Area under the curve (AUC)]"
+    ]
+  },
+  {
+    "id": "1c72ff3dbc2c324a6ef724061088b80fbba7fbfc8aa371d9bbeb2c72e3d9aac9",
+    "route": "structured",
+    "inputs": {
+      "result_id": "res:1",
+      "subject_id": "asset:a",
+      "indication": "systemic lupus erythematosus",
+      "population": "refractory SLE",
+      "treatment_line": "",
+      "development_stage": "PHASE1",
+      "endpoint": "Dose-limiting toxicities",
+      "endpoint_family": "",
+      "effect_size": 0.75,
+      "effect_unit": null,
+      "confidence_interval_low": null,
+      "confidence_interval_high": null,
+      "evaluable_patients": 12,
+      "follow_up_days": null,
+      "comparator": null,
+      "analysis_set": null,
+      "safety_grade3plus_rate": null,
+      "discontinuation_rate": null,
+      "uncontrolled": true,
+      "selected_subgroup": false,
+      "endpoint_switched": false,
+      "incomplete_reporting": false,
+      "supporting_claim_ids": [
+        "claim:1"
+      ]
+    },
+    "baseline_outputs": false,
+    "tests": [
+      "tests/se/test_human_poc.py::TestBeingInTheClinicIsNotEfficacy::test_pharmacology_and_tolerability_endpoints_are_not_efficacy[Dose-limiting toxicities]"
+    ]
+  },
+  {
+    "id": "f9f00331968863f0370dbfa392616ec997d6eb8af34854cb9a82d7d2d2f08534",
+    "route": "structured",
+    "inputs": {
+      "result_id": "res:1",
+      "subject_id": "asset:a",
+      "indication": "systemic lupus erythematosus",
+      "population": "refractory SLE",
+      "treatment_line": "",
+      "development_stage": "PHASE1",
+      "endpoint": "Number of participants with cytokine release syndrome",
+      "endpoint_family": "",
+      "effect_size": 0.75,
+      "effect_unit": null,
+      "confidence_interval_low": null,
+      "confidence_interval_high": null,
+      "evaluable_patients": 12,
+      "follow_up_days": null,
+      "comparator": null,
+      "analysis_set": null,
+      "safety_grade3plus_rate": null,
+      "discontinuation_rate": null,
+      "uncontrolled": true,
+      "selected_subgroup": false,
+      "endpoint_switched": false,
+      "incomplete_reporting": false,
+      "supporting_claim_ids": [
+        "claim:1"
+      ]
+    },
+    "baseline_outputs": false,
+    "tests": [
+      "tests/se/test_human_poc.py::TestBeingInTheClinicIsNotEfficacy::test_pharmacology_and_tolerability_endpoints_are_not_efficacy[Number of participants with cytokine release syndrome]"
+    ]
+  },
+  {
+    "id": "5c9c876fe8c2489b6219cf5e8b8812102f493b88bdbe5601ec4b032bcceb48b6",
+    "route": "structured",
+    "inputs": {
+      "result_id": "res:1",
+      "subject_id": "asset:a",
+      "indication": "systemic lupus erythematosus",
+      "population": "refractory SLE",
+      "treatment_line": "",
+      "development_stage": "PHASE1",
+      "endpoint": "Peak CAR-T cell expansion in peripheral blood",
+      "endpoint_family": "",
+      "effect_size": 0.75,
+      "effect_unit": null,
+      "confidence_interval_low": null,
+      "confidence_interval_high": null,
+      "evaluable_patients": 12,
+      "follow_up_days": null,
+      "comparator": null,
+      "analysis_set": null,
+      "safety_grade3plus_rate": null,
+      "discontinuation_rate": null,
+      "uncontrolled": true,
+      "selected_subgroup": false,
+      "endpoint_switched": false,
+      "incomplete_reporting": false,
+      "supporting_claim_ids": [
+        "claim:1"
+      ]
+    },
+    "baseline_outputs": false,
+    "tests": [
+      "tests/se/test_human_poc.py::TestBeingInTheClinicIsNotEfficacy::test_pharmacology_and_tolerability_endpoints_are_not_efficacy[Peak CAR-T cell expansion in peripheral blood]"
+    ]
+  },
+  {
+    "id": "511d2ef937b018d6894db247501c83b34c7e34d0c9b404d2628efc278c373232",
+    "route": "prose",
+    "inputs": {
+      "text": "In a murine model of lupus nephritis, treatment with ABC-123 produced complete remission in 8 of 10 mice.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestOnlyHumanEvidenceCounts::test_animal_efficacy_is_not_human_proof_of_concept"
+    ]
+  },
+  {
+    "id": "d5b3394d462a0e16b5edd056fc0066ea2376c465be18807cb6dfac59ffb65c11",
+    "route": "prose",
+    "inputs": {
+      "text": "ABC-123 lysed 95% of CD19-positive target cells in vitro.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestOnlyHumanEvidenceCounts::test_in_vitro_activity_is_not_human_proof_of_concept"
+    ]
+  },
+  {
+    "id": "b36bcdbdb0630917a575473e288f0231a1c34b8fc82e4f8f12956fe13eb8482e",
+    "route": "prose",
+    "inputs": {
+      "text": "Patients treated with ABC-123 plus dexamethasone achieved an overall response rate of 75% (9 of 12).",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestEfficacyBelongsToOneAsset::test_a_combination_result_does_not_prove_either_component_alone"
+    ]
+  },
+  {
+    "id": "a8011679a17da3b4a56625d69d21a3e75bf35ce2d5a5f05ea1848f2d138593df",
+    "route": "prose",
+    "inputs": {
+      "text": "Among patients receiving teclistamab, the overall response rate was 63%. ABC-123 was administered as bridging therapy.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestEfficacyBelongsToOneAsset::test_a_co_administered_assets_result_does_not_transfer"
+    ]
+  },
+  {
+    "id": "3b5d61558b0ea690c02e92fb9cec154c303cca8c19f729bfbd0851def0c2f483",
+    "route": "prose",
+    "inputs": {
+      "text": "Treatment with obecabtagene autoleucel achieved remission in 11 of 14 patients.",
+      "asset_names": [
+        "AUCATZYL",
+        "obecabtagene autoleucel"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "obecabtagene autoleucel",
+        "endpoint": "remission",
+        "sentence": "Treatment with obecabtagene autoleucel achieved remission in 11 of 14 patients.",
+        "value": "11 of 14",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc.py::TestEfficacyBelongsToOneAsset::test_a_result_reaches_the_asset_through_a_legitimate_alias"
+    ]
+  },
+  {
+    "id": "52e8b297009c59f6823348ac6de4c6132e82e90df13a739191aeaa7f1422dad5",
+    "route": "prose",
+    "inputs": {
+      "text": "CD19/BCMA dual CAR-T achieved complete remission in 10 of 12 patients.",
+      "asset_names": [
+        "CD19/BCMA dual CAR-T"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "CD19/BCMA dual CAR-T",
+        "endpoint": "complete remission",
+        "sentence": "CD19/BCMA dual CAR-T achieved complete remission in 10 of 12 patients.",
+        "value": "10 of 12",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc.py::TestEfficacyBelongsToOneAsset::test_a_defined_combination_product_may_carry_its_own_result",
+      "tests/se/test_human_poc_regimen_lists.py::TestAnIndividualResultIsKept::test_a_combination_product_name_keeps_its_result"
+    ]
+  },
+  {
+    "id": "b325976800d6e1788096f7fa64ec36de61976791670864b6a35920c5b56ff050",
+    "route": "prose",
+    "inputs": {
+      "text": "The primary endpoint is overall response rate at 3 months. Enrollment of 40 patients is planned.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestAStatementHasToReportSomething::test_an_intention_to_measure_is_not_a_measurement"
+    ]
+  },
+  {
+    "id": "18507ee1800a35b3af5bc7fc2f67fef78877a1f53f64b182fa420d001e29b236",
+    "route": "prose",
+    "inputs": {
+      "text": "ABC-123 is a promising therapy with the potential to improve response rates.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestAStatementHasToReportSomething::test_a_sponsor_claim_without_a_result_is_not_a_result"
+    ]
+  },
+  {
+    "id": "154d519ba62b5fec0585c612f0c0b9f220c141af68b7434a6538b3232f5b5850",
+    "route": "prose",
+    "inputs": {
+      "text": "MoAbs offer the potential to improve efficacy by reducing toxicity. However, there is a huge need for clinical trials exploring response duration.",
+      "asset_names": [
+        "MoAbs"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestAStatementHasToReportSomething::test_a_review_article_calling_for_trials_reports_nothing"
+    ]
+  },
+  {
+    "id": "8bdfb48c87a0be0eafd1b888c7fe33ce20d71d1e39fedd677acefd0568e569fc",
+    "route": "prose",
+    "inputs": {
+      "text": "Active symptoms with inadequate response to at least one immunomodulatory therapy in 40% of patients.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestAStatementHasToReportSomething::test_eligibility_criteria_are_not_results"
+    ]
+  },
+  {
+    "id": "e3abebdf19a0916dfe165381069168af8a9ee277cf85f3f52f27120fd5eb625a",
+    "route": "prose",
+    "inputs": {
+      "text": "ABC-123 study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail study procedures and administrative detail response 40% somewhere in patients",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestAStatementHasToReportSomething::test_a_concatenated_field_is_not_a_sentence"
+    ]
+  },
+  {
+    "id": "b6c10edfbef8c14137a36d4ab82d27868f8be3898f0875f49ef6382a1c538fe7",
+    "route": "prose",
+    "inputs": {
+      "text": "The primary outcome was the response rate at 16 weeks after ABC-123 initiation, defined as the proportion of patients achieving a 50% reduction in seizures.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestAStatementHasToReportSomething::test_an_endpoint_definition_in_the_past_tense_is_not_a_result"
+    ]
+  },
+  {
+    "id": "d0e44750a712b01cea9d6641eeb95b9de63418ec58de38fd17e445aba2e77b23",
+    "route": "prose",
+    "inputs": {
+      "text": "Treatment with ABC-123 produced an overall response rate of 75% (9 of 12 patients).",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "ABC-123",
+        "endpoint": "response rate",
+        "sentence": "Treatment with ABC-123 produced an overall response rate of 75% (9 of 12 patients).",
+        "value": "75%",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc.py::TestAStatementHasToReportSomething::test_a_reported_response_rate_is_a_result",
+      "tests/se/test_human_poc.py::TestBothRoutesMeanTheSameThing::test_a_prose_result_and_a_structured_result_produce_the_same_fact"
+    ]
+  },
+  {
+    "id": "f31f171086e64e0cd48ad5d51005bc05315fb7c68fb30d828ed070e52f19e567",
+    "route": "prose",
+    "inputs": {
+      "text": "Treatment with ABC-123 produced an overall response rate of 75% (9 of 12 patients).",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": "doc:1"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "ABC-123",
+        "endpoint": "response rate",
+        "sentence": "Treatment with ABC-123 produced an overall response rate of 75% (9 of 12 patients).",
+        "value": "75%",
+        "document_id": "doc:1"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc.py::TestAClaimIsAStatementByASource::test_the_same_sentence_in_two_documents_is_two_claims"
+    ]
+  },
+  {
+    "id": "caeb01f641a8f53863ef122f93a701e0dc908913e7707fd106c05a81311bdc14",
+    "route": "prose",
+    "inputs": {
+      "text": "Treatment with ABC-123 produced an overall response rate of 75% (9 of 12 patients).",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": "doc:2"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "ABC-123",
+        "endpoint": "response rate",
+        "sentence": "Treatment with ABC-123 produced an overall response rate of 75% (9 of 12 patients).",
+        "value": "75%",
+        "document_id": "doc:2"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc.py::TestAClaimIsAStatementByASource::test_the_same_sentence_in_two_documents_is_two_claims"
+    ]
+  },
+  {
+    "id": "a176bad0bf3e18d27bcd9a2bcd7193b9dc3051594b1419275f57e4f9fac191ae",
+    "route": "prose",
+    "inputs": {
+      "text": "A phase 1 study of ABC-123 in patients with systemic lupus erythematosus.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc.py::TestTheQuestionCannotAnswerItself::test_query_context_cannot_create_human_poc"
+    ]
+  },
+  {
+    "id": "0ae81b76967f8da8745fd4a2784fed6a0f867fe3d9b93cf3264bde61819ecbeb",
+    "route": "prose",
+    "inputs": {
+      "text": "13 patients (81%) achieved a CR on CTL019, including the patient with CD19+ T ALL, 3 did not respond.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "CTL019",
+        "endpoint": "CR",
+        "sentence": "13 patients (81%) achieved a CR on CTL019, including the patient with CD19+ T ALL, 3 did not respond.",
+        "value": "81%",
+        "document_id": "doc"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestAbbreviationsOfTermsTheStandardAlreadyAccepts::test_bare_cr_reports_efficacy"
+    ]
+  },
+  {
+    "id": "6d78dc914bd1f5210d52ebcd432011ae63c50cd3abe0c0ce11fb89539878b2ea",
+    "route": "prose",
+    "inputs": {
+      "text": "10/16 evaluable pts treated with CTL019 have ongoing BM CR with median follow up 3.4 mo.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "CTL019",
+        "endpoint": "CR",
+        "sentence": "10/16 evaluable pts treated with CTL019 have ongoing BM CR with median follow up 3.4 mo.",
+        "value": "10/16",
+        "document_id": "doc"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestAbbreviationsOfTermsTheStandardAlreadyAccepts::test_abbreviated_patients_are_people"
+    ]
+  },
+  {
+    "id": "36c936e482350de7f8047d182599050add9ba90200b6663634e5aac86debb2a5",
+    "route": "prose",
+    "inputs": {
+      "text": "CRS and CRP increased across all CTL019 cohorts of patients (40%).",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestAbbreviationsOfTermsTheStandardAlreadyAccepts::test_cr_does_not_match_inside_a_longer_token"
+    ]
+  },
+  {
+    "id": "0d9bebdadaa0ec403db2dac9090b7c8e9409cef49cef4ae9049a5a6d31bad8e3",
+    "route": "prose",
+    "inputs": {
+      "text": "CTL019 CRi was reported in 3 of 12 patients.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestAbbreviationsOfTermsTheStandardAlreadyAccepts::test_cr_does_not_match_inside_a_longer_token"
+    ]
+  },
+  {
+    "id": "338243dadf291e7bfb3a5f6e5d303d9d3aa0ed12b601fd3552c09e4da641ba78",
+    "route": "prose",
+    "inputs": {
+      "text": "The cr value for CTL019 was 40% in 20 patients.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestAbbreviationsOfTermsTheStandardAlreadyAccepts::test_lowercase_cr_in_prose_is_not_an_endpoint"
+    ]
+  },
+  {
+    "id": "2ccc538a4650eb1c0672a99d3722ed264a076c695968750060ccf30e184f0fbf",
+    "route": "prose",
+    "inputs": {
+      "text": "Abstract PR06: CTL019 was given to 20 patients (50%) at the stated dose.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestAbbreviationsOfTermsTheStandardAlreadyAccepts::test_pr_is_not_an_efficacy_abbreviation"
+    ]
+  },
+  {
+    "id": "5d7df50de7a45a4b48a5450dc7fec5ebe951a2c220a9f7d44eb8e0e9a930d49e",
+    "route": "prose",
+    "inputs": {
+      "text": "Safety was evaluated in 40 patients and the CTL019 overall response rate was 62%.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "CTL019",
+        "endpoint": "response rate",
+        "sentence": "Safety was evaluated in 40 patients and the CTL019 overall response rate was 62%.",
+        "value": "62%",
+        "document_id": "doc"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestASafetyTermDoesNotEraseAnEfficacyResult::test_a_result_survives_an_adverse_event_in_the_same_sentence"
+    ]
+  },
+  {
+    "id": "ad1749f662ee914bc1e5821f1120783a00300a4aa641bc46dde96369b12236d3",
+    "route": "prose",
+    "inputs": {
+      "text": "Among 20 patients (50%), we measured CTL019 response to treatment and incidence of cytokine release syndrome.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestASafetyTermDoesNotEraseAnEfficacyResult::test_an_account_of_what_was_measured_is_still_refused"
+    ]
+  },
+  {
+    "id": "5d956cd688ef59f75d2f2d40d5ab8b06cf0dc5f9ed648afbd458f026fab77018",
+    "route": "prose",
+    "inputs": {
+      "text": "CTL019 was well tolerated with grade 3 adverse events in 5 of 20 patients.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestASafetyTermDoesNotEraseAnEfficacyResult::test_a_safety_only_sentence_is_still_refused"
+    ]
+  },
+  {
+    "id": "d821db77ef6c4a073739e046292fe28b42f37d20fde1c356477f4d149d6c2832",
+    "route": "prose",
+    "inputs": {
+      "text": "The primary endpoint was safety and the secondary endpoints were ORR, progression free survival (PFS), overall survival (OS), and CTL019 transgene persistence.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestThePreregisteredNegativeControls::test_ct023_planned_endpoints_are_refused_without_the_safety_veto"
+    ]
+  },
+  {
+    "id": "7bfec0a46e595d84b224fa0433222a2e7fdaccaaa756362f32c9884a70047046",
+    "route": "prose",
+    "inputs": {
+      "text": "Safety, pharmacokinetic profiles and primary efficacy parameters for CTL019 in 10 patients will be evaluated over 48 weeks.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestThePreregisteredNegativeControls::test_5389_future_tense_evaluation_is_refused"
+    ]
+  },
+  {
+    "id": "f76d9c850bae97a8d5f07e37c8208d848dd60dab02c4faf3ab826abfa6948d0e",
+    "route": "prose",
+    "inputs": {
+      "text": "Primary efficacy endpoint is SLE Responder Index 4 (SRI-4) criteria for CTL019 in 10 patients.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestThePreregisteredNegativeControls::test_5389_named_endpoint_is_refused"
+    ]
+  },
+  {
+    "id": "58576bca47c2fdc9a69cc54ca386d87a3e2bdc06e272e10931498d1b0b3d8975",
+    "route": "prose",
+    "inputs": {
+      "text": "This primary objective is to determine the maximum tolerated dose of CTL019 in 5 patients, and the key secondary objective is to investigate the anti-myeloma activity.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestThePreregisteredNegativeControls::test_ct071_stated_objectives_are_refused"
+    ]
+  },
+  {
+    "id": "ebcaad515f46ba1838665b4613e839e6889bbb14367e36b22d33db911a3eeea0",
+    "route": "prose",
+    "inputs": {
+      "text": "Pt 1 achieved a complete response (CR) on CTL019 and experienced Gr 3 fever and Gr 2 hypotension consistent with mild cytokine release syndrome (CRS).",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestTheRequirementsThisMilestoneDidNotTouch::test_a_result_with_no_number_is_still_refused"
+    ]
+  },
+  {
+    "id": "d93a0e27dbbd10b4c484f0936b5443bcdcc24e5f9fd7860daaea5d35a12c89a7",
+    "route": "prose",
+    "inputs": {
+      "text": "Patients were treated with CTL019. The overall response rate was 62%.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestTheRequirementsThisMilestoneDidNotTouch::test_a_result_in_another_sentence_is_still_not_attributed"
+    ]
+  },
+  {
+    "id": "8c9d82379bcb939b6177699abeaf52644c6b14b91b26ae5a5cc8b2ff993ba6f8",
+    "route": "prose",
+    "inputs": {
+      "text": "CTL019 produced a CR in 8 of 10 xenograft-bearing mice and in treated patients.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestTheRequirementsThisMilestoneDidNotTouch::test_an_animal_result_is_still_refused"
+    ]
+  },
+  {
+    "id": "f43494394dab9be954c2a934d0552ff8c0e747662c775fde322b8cc7b5f3da8b",
+    "route": "prose",
+    "inputs": {
+      "text": "Patients must have had an inadequate response to CTL019 in at least 2 of 3 prior lines to be eligible.",
+      "asset_names": [
+        "CTL019"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_abbreviations_and_mixed_sentences.py::TestTheRequirementsThisMilestoneDidNotTouch::test_eligibility_prose_is_still_refused"
+    ]
+  },
+  {
+    "id": "a19238aca0eaa9ba65f873d23c2b111bae4bf660cb669fd506033dc1512bd4f4",
+    "route": "prose",
+    "inputs": {
+      "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+      "asset_names": [
+        "cyclophosphamide"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_parenthetical_regimen_expansion"
+    ]
+  },
+  {
+    "id": "d26537fa8016c9b0f369b9222e18a4377080266986b99fb83af6a50c2cef0b63",
+    "route": "prose",
+    "inputs": {
+      "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+      "asset_names": [
+        "vincristine"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_parenthetical_regimen_expansion"
+    ]
+  },
+  {
+    "id": "7df532b1b49090cc3ea999e3b122994a9e18954fc54431d33f7468b9b21204b5",
+    "route": "prose",
+    "inputs": {
+      "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+      "asset_names": [
+        "doxorubicin"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_parenthetical_regimen_expansion"
+    ]
+  },
+  {
+    "id": "1f493682033f5e394c4543419b2c8b59630eebdb1e9814163fb8edcb84be6aaf",
+    "route": "prose",
+    "inputs": {
+      "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+      "asset_names": [
+        "prednisone"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_final_item_of_alternatives"
+    ]
+  },
+  {
+    "id": "b7a3708267677126c17d588a1522e697c3cc9c8bc8970189aa415e3ca990b475",
+    "route": "prose",
+    "inputs": {
+      "text": "Approximately 40% of patients with high-risk diffuse large B-cell lymphoma (DLBCL) are not cured with first-line R-CHOP (rituximab, cyclophosphamide, doxorubicin, vincristine, and prednisone or prednisolone).",
+      "asset_names": [
+        "prednisolone"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_final_item_of_alternatives"
+    ]
+  },
+  {
+    "id": "55055f935d81634434acfd3412a8fe1c5f425a5e5bc98875d8fa4c24564bc9e3",
+    "route": "prose",
+    "inputs": {
+      "text": "Additionally, patients receiving VO showed the highest survival rates at 12 months (95% confidence interval [CI]) at 97.6% (94.5, 100.0), followed by fludarabine, cyclophosphamide, and rituximab (FCR) at 96.6% (94.0, 99.3).",
+      "asset_names": [
+        "cyclophosphamide"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_serial_list_with_a_final_and"
+    ]
+  },
+  {
+    "id": "5983f7f674df4422331216bb2e0ecb02292111da6c4115b8dbd6a2e5fd78fc33",
+    "route": "prose",
+    "inputs": {
+      "text": "Additionally, patients receiving VO showed the highest survival rates at 12 months (95% confidence interval [CI]) at 97.6% (94.5, 100.0), followed by fludarabine, cyclophosphamide, and rituximab (FCR) at 96.6% (94.0, 99.3).",
+      "asset_names": [
+        "fludarabine"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_serial_list_with_a_final_and"
+    ]
+  },
+  {
+    "id": "13487d9081f13a9a318bec1f3ded41faa35cf93e17ebc04a32412a289c1cb2ed",
+    "route": "prose",
+    "inputs": {
+      "text": "N = 395) demonstrated improved overall minimal residual disease (MRD) negativity rates among patients achieving complete response and progression-free survival (PFS) with daratumumab plus bortezomib, lenalidomide, and dexamethasone (DVRd) versus VRd.",
+      "asset_names": [
+        "lenalidomide"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_list_item_after_a_plus_joined_lead"
+    ]
+  },
+  {
+    "id": "ab8471f86ac5c366b2847685be2fff46652d5c85a9f335bd6f1457e6c459d869",
+    "route": "prose",
+    "inputs": {
+      "text": "Patients treated with XYZ-9 achieved an overall response rate of 70%.",
+      "asset_names": [
+        "XYZ-9"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "XYZ-9",
+        "endpoint": "response rate",
+        "sentence": "Patients treated with XYZ-9 achieved an overall response rate of 70%.",
+        "value": "70%",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_plain_three_item_list"
+    ]
+  },
+  {
+    "id": "372912e80af8b6ab45a06c62032042570bc6708e65a5a76be7f4ab0c567d6592",
+    "route": "prose",
+    "inputs": {
+      "text": "Patients treated with ABC-123, XYZ-9, and dexamethasone achieved an overall response rate of 70%.",
+      "asset_names": [
+        "XYZ-9"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestARegimenListItemIsNotCredited::test_a_plain_three_item_list"
+    ]
+  },
+  {
+    "id": "d5d49a4190da395450575b0f3c83a899712f24254dcdbfb7bbba64a829daa064",
+    "route": "prose",
+    "inputs": {
+      "text": "In patients treated with ABC-123, the overall response rate was 83%.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "ABC-123",
+        "endpoint": "response rate",
+        "sentence": "In patients treated with ABC-123, the overall response rate was 83%.",
+        "value": "83%",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestAnIndividualResultIsKept::test_a_single_agent_comma_clause"
+    ]
+  },
+  {
+    "id": "7b6eedabfe4a497aef1f450659354681e7a39526003f90c54ea3b5ddb91e881c",
+    "route": "prose",
+    "inputs": {
+      "text": "The product, ABC-123, achieved complete remission in 10 of 12 patients.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "ABC-123",
+        "endpoint": "complete remission",
+        "sentence": "The product, ABC-123, achieved complete remission in 10 of 12 patients.",
+        "value": "10 of 12",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestAnIndividualResultIsKept::test_an_apposition_is_not_a_list"
+    ]
+  },
+  {
+    "id": "e9bd7177cd1ceda799b6720ada43f421a041c81605eae2062edbadafa655605d",
+    "route": "prose",
+    "inputs": {
+      "text": "ABC-123, a CD19 CAR-T, achieved an overall response rate of 83% in patients.",
+      "asset_names": [
+        "ABC-123"
+      ],
+      "document_id": ""
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "ABC-123",
+        "endpoint": "response rate",
+        "sentence": "ABC-123, a CD19 CAR-T, achieved an overall response rate of 83% in patients.",
+        "value": "83%",
+        "document_id": ""
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_regimen_lists.py::TestAnIndividualResultIsKept::test_a_sentence_initial_name_with_an_appositive"
+    ]
+  },
+  {
+    "id": "7ee70e107890633ebdb233c7d6c06dc6c7ae1b9e80cbae07b1f0ace07cd47f04",
+    "route": "prose",
+    "inputs": {
+      "text": "For VSTs, the principal early complications are tumor flare reaction (in approximately 20% of tabelecleucel recipients), GVHD (below 5% with enriched products), acute infusion reactions, and low-grade CRS-like cytokine release.",
+      "asset_names": [
+        "tabelecleucel"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_safety_context.py::TestTheFalsePositiveThisMilestoneExistsToRefuse::test_a_tumor_flare_reaction_among_complications_is_not_an_efficacy_flare"
+    ]
+  },
+  {
+    "id": "a493a98a1f19122baed4fe67969629afe024a75302eb218e180f943cc05cd4c7",
+    "route": "prose",
+    "inputs": {
+      "text": "Tumor flare reaction occurred in 20% of patients treated with drugx.",
+      "asset_names": [
+        "drugx"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_safety_context.py::TestTheFalsePositiveThisMilestoneExistsToRefuse::test_a_tumor_flare_reaction_is_refused_with_no_complications_word_present"
+    ]
+  },
+  {
+    "id": "c6c61246fd9379275b9c9969a3a1e6aa605bdd589d4d4b8999b290b39b41acfe",
+    "route": "prose",
+    "inputs": {
+      "text": "The principal complications of drugx were infusion reactions in 8 of 20 patients.",
+      "asset_names": [
+        "drugx"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_safety_context.py::TestTheFalsePositiveThisMilestoneExistsToRefuse::test_complications_framing_refuses_whatever_the_finding_is_called"
+    ]
+  },
+  {
+    "id": "c9d864f85c6d9fd6a3b3040e824bc46ea50dcafe8f649cb4301a058f8e271d52",
+    "route": "prose",
+    "inputs": {
+      "text": "flares were reported in 26 patients (26.8%) in the obexelimab group and in 53 patients (54.6%) in the placebo group.",
+      "asset_names": [
+        "obexelimab"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "obexelimab",
+        "endpoint": "flare",
+        "sentence": "flares were reported in 26 patients (26.8%) in the obexelimab group and in 53 patients (54.6%) in the placebo group.",
+        "value": "26.8%",
+        "document_id": "doc"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_safety_context.py::TestTheEfficacyReadingOfFlareSurvives::test_a_disease_flare_count_against_placebo_is_a_result",
+      "tests/se/test_human_poc_trial_design_register.py::TestTheLivePassesThisMustNotDisturb::test_obexelimab_still_passes"
+    ]
+  },
+  {
+    "id": "474672ec3796b9bb7088e4c5db12fb583f2b7e8b4f6323a19c4b18667a26d443",
+    "route": "prose",
+    "inputs": {
+      "text": "Although 14 of 15 patients flared, disease activity remained lower, and responsiveness lasting >3 months to abatacept observed in 7 of 15 patients.",
+      "asset_names": [
+        "abatacept"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "abatacept",
+        "endpoint": "disease activity",
+        "sentence": "Although 14 of 15 patients flared, disease activity remained lower, and responsiveness lasting >3 months to abatacept observed in 7 of 15 patients.",
+        "value": "14 of 15",
+        "document_id": "doc"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_safety_context.py::TestTheEfficacyReadingOfFlareSurvives::test_flared_is_not_caught_by_flare_reaction"
+    ]
+  },
+  {
+    "id": "54570d301ef70d8a1510fb6177713887a63e09fb44fa67d8511cf591ebba3e7f",
+    "route": "prose",
+    "inputs": {
+      "text": "Cevostamab (FcRH5xCD3) demonstrated a 30.2% overall response rate in patients who underwent BCMA-targeted treatment and 60.6% in BCMA-targeted naive patients;the triple-step dosing strategy reduced cytokine release syndrome.",
+      "asset_names": [
+        "Cevostamab"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "Cevostamab",
+        "endpoint": "response rate",
+        "sentence": "Cevostamab (FcRH5xCD3) demonstrated a 30.2% overall response rate in patients who underwent BCMA-targeted treatment and 60.6% in BCMA-targeted naive patients;the triple-step dosing strategy reduced cytokine release syndrome.",
+        "value": "30.2%",
+        "document_id": "doc"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_safety_context.py::TestTheResultThePredecessorWasBuiltToFind::test_a_response_rate_still_passes_beside_a_safety_clause",
+      "tests/se/test_human_poc_trial_design_register.py::TestTheLivePassesThisMustNotDisturb::test_cevostamab_still_passes"
+    ]
+  },
+  {
+    "id": "63ddb8b6c942f01de3e0028efb3e46a1e55198507e761d7ccb63f4e13a5c4d6e",
+    "route": "prose",
+    "inputs": {
+      "text": "The drugx overall response rate was 62% in 40 patients, and the principal early complications were infusion reactions.",
+      "asset_names": [
+        "drugx"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "drugx",
+        "endpoint": "response rate",
+        "sentence": "The drugx overall response rate was 62% in 40 patients, and the principal early complications were infusion reactions.",
+        "value": "62%",
+        "document_id": "doc"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_safety_context.py::TestTheResultThePredecessorWasBuiltToFind::test_a_complications_clause_does_not_veto_a_clean_quantified_clause"
+    ]
+  },
+  {
+    "id": "4a68b84a8e28c23071bab68619e4d9c8786ff7cc0605668b27ec7401d81168b6",
+    "route": "prose",
+    "inputs": {
+      "text": "drugx was well tolerated with grade 3 adverse events in 5 of 20 patients.",
+      "asset_names": [
+        "drugx"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_safety_context.py::TestTheConservatismThisMilestoneDidNotRelax::test_tolerability_alone_is_still_not_efficacy"
+    ]
+  },
+  {
+    "id": "8b617d69a10941befa9ad319402badebcaa42589494e83b4a0fa8f4c0d55ff2a",
+    "route": "prose",
+    "inputs": {
+      "text": "The INDIGO trial achieved its global enrollment goal with 194 patients, making it the largest phase 3 trial in IgG4-RD to date and providing 90% power to detect a clinically meaningful reduction in flare risk.",
+      "asset_names": [
+        "INDIGO"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_trial_design_register.py::TestADesignStatementIsNotAResult::test_the_indigo_sentence_is_refused"
+    ]
+  },
+  {
+    "id": "6e0808f17f12d5e898798414a18577dcc8525df46bf4daf57c056251d1ec7a47",
+    "route": "prose",
+    "inputs": {
+      "text": "The study enrolled 194 patients and had 90% power to detect a 30% reduction in flare risk with drugx.",
+      "asset_names": [
+        "drugx"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_trial_design_register.py::TestADesignStatementIsNotAResult::test_statistical_power_alone_is_refused"
+    ]
+  },
+  {
+    "id": "0c72bb9698056d473e1875f84ee1e4891da5acfb827b14c629c7a85aafcb504a",
+    "route": "prose",
+    "inputs": {
+      "text": "drugx reached its enrollment goal of 194 patients, 40% of whom were in remission at baseline.",
+      "asset_names": [
+        "drugx"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_human_poc_trial_design_register.py::TestADesignStatementIsNotAResult::test_a_recruitment_target_alone_is_refused"
+    ]
+  },
+  {
+    "id": "77dd47c48d62451f0c0305141732b301cd60ff1f3771e1d1a7583672c13d3bb0",
+    "route": "prose",
+    "inputs": {
+      "text": "drugx achieved its primary endpoint, with a 62% response rate in 40 patients.",
+      "asset_names": [
+        "drugx"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "drugx",
+        "endpoint": "response rate",
+        "sentence": "drugx achieved its primary endpoint, with a 62% response rate in 40 patients.",
+        "value": "62%",
+        "document_id": "doc"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_trial_design_register.py::TestTheResultsThisVocabularyBelongsTo::test_achieving_a_primary_endpoint_is_still_a_result"
+    ]
+  },
+  {
+    "id": "be39eb3f78e48cd8e18e5a3d8ba3f1e0eea265ec153153d2d2dd47f63d3bd13f",
+    "route": "prose",
+    "inputs": {
+      "text": "Treatment with drugx produced a 30% reduction in flare risk, observed in 194 patients.",
+      "asset_names": [
+        "drugx"
+      ],
+      "document_id": "doc"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "drugx",
+        "endpoint": "flare",
+        "sentence": "Treatment with drugx produced a 30% reduction in flare risk, observed in 194 patients.",
+        "value": "30%",
+        "document_id": "doc"
+      }
+    ],
+    "tests": [
+      "tests/se/test_human_poc_trial_design_register.py::TestTheResultsThisVocabularyBelongsTo::test_an_observed_reduction_in_flare_risk_is_still_a_result"
+    ]
+  },
+  {
+    "id": "4114c9e00dee1dfeddb3e18adfd2a22882d591478ead19b4daadec47e715a1ba",
+    "route": "prose",
+    "inputs": {
+      "text": "{\n  \"document_id\": \"doc:pr:1\",\n  \"publication_date\": \"2026-04-01\",\n  \"text\": \"Of 26 evaluable patients treated with CLN-978, 18 of 26 achieved a complete response. CLN-978 is a CD19-directed T-cell engager in Phase 1.\",\n  \"title\": \"Example Bio reports data for CLN-978\",\n  \"url\": \"https://example-bio.test/1\"\n}\n",
+      "asset_names": [
+        "CLN-978",
+        "CLN-978"
+      ],
+      "document_id": "document:272c56f4c9be9ee98e8b"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "CLN-978",
+        "endpoint": "complete response",
+        "sentence": "\"text\": \"Of 26 evaluable patients treated with CLN-978, 18 of 26 achieved a complete response.",
+        "value": "18 of 26",
+        "document_id": "document:272c56f4c9be9ee98e8b"
+      }
+    ],
+    "tests": [
+      "tests/se/test_replay_determinism.py::TestTheSameInputGivesTheSameAnswerInOneProcess::test_the_scientific_state_is_identical",
+      "tests/se/test_replay_determinism.py::TestTheSameInputGivesTheSameAnswerInOneProcess::test_the_state_is_not_vacuously_empty",
+      "tests/se/test_replay_determinism.py::TestTheSameInputGivesTheSameAnswerInOneProcess::test_the_run_identifier_is_the_thing_that_differs"
+    ]
+  },
+  {
+    "id": "d078f21dba2e2d4b17ca5b73b360b62df83a866c0f1c11c2606f9c1c6260e1d2",
+    "route": "prose",
+    "inputs": {
+      "text": "{\n  \"document_id\": \"doc:pr:2\",\n  \"publication_date\": \"2026-04-02\",\n  \"text\": \"Teclistamab is a BCMA-directed CD3 bispecific antibody. In 40 patients, 24 of 40 achieved a partial response. Elranatamab is under study in Phase 2.\",\n  \"title\": \"Teclistamab and elranatamab in relapsed myeloma\",\n  \"url\": \"https://example-bio.test/2\"\n}\n",
+      "asset_names": [
+        "Teclistamab",
+        "Teclistamab"
+      ],
+      "document_id": "document:7f77d9866b998af213ba"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_replay_determinism.py::TestTheSameInputGivesTheSameAnswerInOneProcess::test_the_scientific_state_is_identical",
+      "tests/se/test_replay_determinism.py::TestTheSameInputGivesTheSameAnswerInOneProcess::test_the_state_is_not_vacuously_empty",
+      "tests/se/test_replay_determinism.py::TestTheSameInputGivesTheSameAnswerInOneProcess::test_the_run_identifier_is_the_thing_that_differs"
+    ]
+  },
+  {
+    "id": "a3476d1c0b0790d93daa375f02f4255b1c6fcdb17da3d90fab9984a2d69b68af",
+    "route": "prose",
+    "inputs": {
+      "text": "{\n  \"document_id\": \"doc:pr:2\",\n  \"publication_date\": \"2026-04-02\",\n  \"text\": \"Teclistamab is a BCMA-directed CD3 bispecific antibody. In 40 patients, 24 of 40 achieved a partial response. Elranatamab is under study in Phase 2.\",\n  \"title\": \"Teclistamab and elranatamab in relapsed myeloma\",\n  \"url\": \"https://example-bio.test/2\"\n}\n",
+      "asset_names": [
+        "Elranatamab",
+        "Elranatamab",
+        "elranatamab"
+      ],
+      "document_id": "document:7f77d9866b998af213ba"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_replay_determinism.py::TestTheSameInputGivesTheSameAnswerInOneProcess::test_the_scientific_state_is_identical",
+      "tests/se/test_replay_determinism.py::TestTheSameInputGivesTheSameAnswerInOneProcess::test_the_state_is_not_vacuously_empty",
+      "tests/se/test_replay_determinism.py::TestTheSameInputGivesTheSameAnswerInOneProcess::test_the_run_identifier_is_the_thing_that_differs"
+    ]
+  },
+  {
+    "id": "e45fb60dc65007e5c4e87eba09874113846cdb51e32bc8e6d200092c19668ef8",
+    "route": "prose",
+    "inputs": {
+      "text": "Exhibit 99.1. FOR IMMEDIATE RELEASE. The Company announced today that it is advancing HPN217 through its clinical program.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestDeliveryIsNotEvidence::test_sec_delivery_alone_does_not_establish_human_efficacy"
+    ]
+  },
+  {
+    "id": "9c9b1097f689bae3820903dd3699b477f8f780d1711d8fad2c2b938c5f691782",
+    "route": "prose",
+    "inputs": {
+      "text": "The Company reported promising results for HPN217.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestDeliveryIsNotEvidence::test_sponsor_enthusiasm_alone_does_not_establish_human_efficacy[The Company reported promising results for HPN217.]"
+    ]
+  },
+  {
+    "id": "1cb939e2ca6a09fcd6270b94d975e856f133dc1917274a8a7113b0b9859501c4",
+    "route": "prose",
+    "inputs": {
+      "text": "Data for HPN217 were encouraging.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestDeliveryIsNotEvidence::test_sponsor_enthusiasm_alone_does_not_establish_human_efficacy[Data for HPN217 were encouraging.]"
+    ]
+  },
+  {
+    "id": "8e632620a8ca97ff5ae3c403e9c372bb28fca7f465605657a8b8379074202760",
+    "route": "prose",
+    "inputs": {
+      "text": "HPN217 delivered positive data in the ongoing study.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestDeliveryIsNotEvidence::test_sponsor_enthusiasm_alone_does_not_establish_human_efficacy[HPN217 delivered positive data in the ongoing study.]"
+    ]
+  },
+  {
+    "id": "e69a546a24aea52e1b06759ef3ec03a3efa1db0e81e835c106cd8fe46e11db6d",
+    "route": "prose",
+    "inputs": {
+      "text": "HPN217 is potentially transformative for patients.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestDeliveryIsNotEvidence::test_sponsor_enthusiasm_alone_does_not_establish_human_efficacy[HPN217 is potentially transformative for patients.]"
+    ]
+  },
+  {
+    "id": "b6b594bb11d754aa4e842b241d5659b238509ac23937e5a64a264c40b14e30f9",
+    "route": "prose",
+    "inputs": {
+      "text": "We are highly encouraged by the HPN217 profile observed to date.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestDeliveryIsNotEvidence::test_sponsor_enthusiasm_alone_does_not_establish_human_efficacy[We are highly encouraged by the HPN217 profile observed to date.]"
+    ]
+  },
+  {
+    "id": "4adba3e7e8426df97226df10405f676ba87535d5b103509c15706d0057a5e9eb",
+    "route": "prose",
+    "inputs": {
+      "text": "The Phase 2 study of HPN217 will enroll 120 patients with relapsed or refractory multiple myeloma. The primary endpoint is overall response rate.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestDeliveryIsNotEvidence::test_protocol_and_design_language_without_results_stays_silent"
+    ]
+  },
+  {
+    "id": "85bbbcbafc7783ce9cb76723adb8fb5224b98fc732fbc876efbd82f5efa9f5d7",
+    "route": "prose",
+    "inputs": {
+      "text": "HPN217 achieved an overall response rate of 63% in 30 patients with myeloma.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "HPN217",
+        "endpoint": "response rate",
+        "sentence": "HPN217 achieved an overall response rate of 63% in 30 patients with myeloma.",
+        "value": "63%",
+        "document_id": "doc:test"
+      }
+    ],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestAConcreteHumanResultStillFlowsThrough::test_a_reported_response_rate_is_admissible",
+      "tests/se/test_sec_filed_press_release_wiring.py::TestAConcreteHumanResultStillFlowsThrough::test_the_source_span_is_retained"
+    ]
+  },
+  {
+    "id": "978fed3321b81296f21d940d002160df556c20dc8ae57e282e89876f6154aa69",
+    "route": "prose",
+    "inputs": {
+      "text": "The Company is developing HPN217 for multiple myeloma. An overall response rate of 63% was observed in the study.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestAConcreteHumanResultStillFlowsThrough::test_attribution_is_sentence_scoped"
+    ]
+  },
+  {
+    "id": "7df3039ec3753f9d621946c270dd00add92d39fc4567b028000e2b6393e8961f",
+    "route": "prose",
+    "inputs": {
+      "text": "HPN217 in combination with dexamethasone achieved an overall response rate of 63% in 30 patients.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestCombinationEfficacyDoesNotTransfer::test_a_regimen_result_is_not_each_component"
+    ]
+  },
+  {
+    "id": "0f12eb281b824cec92c06ce38dd285e94509aec87fcf9c828337c3c03c750c36",
+    "route": "prose",
+    "inputs": {
+      "text": "HPN217 achieved an overall response rate of 63% in 30 patients.",
+      "asset_names": [
+        "HPN217",
+        "CC-95266"
+      ],
+      "document_id": "doc:test"
+    },
+    "baseline_outputs": [
+      {
+        "asset_name": "HPN217",
+        "endpoint": "response rate",
+        "sentence": "HPN217 achieved an overall response rate of 63% in 30 patients.",
+        "value": "63%",
+        "document_id": "doc:test"
+      }
+    ],
+    "tests": [
+      "tests/se/test_sec_filed_press_release_wiring.py::TestCombinationEfficacyDoesNotTransfer::test_the_same_result_stated_of_the_asset_alone_does_qualify"
+    ]
+  }
+]

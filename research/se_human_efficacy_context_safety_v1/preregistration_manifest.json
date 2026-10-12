@@ -1,0 +1,22 @@
+{
+  "files": {
+    "accepted_witness_survey.json": "8854c4605587a257b4267799c33d5462183166d8f07db1c653ecdbb14c425d95",
+    "baseline_test_result.json": "239b0115551714e71233ce722875173b679077a64d60a0d6e9cd4fa072918c08",
+    "baseline_tests.xml": "f242e9dd43ff1b6c052fd606673185dd96d0511e21b3fa78e3ce2964abbbb5f2",
+    "benchmark_population.json": "fd72d1e405d286ded0ceb479bf0de0378d98e0bf024d0930891f618ae4db9ace",
+    "capture_test_population.py": "c011fee06ee73a971b53d842a3e01c0f5da612a79a54fa6f5718a43e141648c6",
+    "collect_benchmark_population.py": "fe7dfbf5403fd4624312570b24cd08c6b09ed978a5ca6f7c628b0676a527434e",
+    "existing_test_population.json": "853bcd858c8ef917a7ee21432d9d89c4f3c1a2515b255f2067ca4cc67bf8c370",
+    "input_manifest.json": "9c86cab6d467cc14597dfa1d60a18b2034b96aec59fab858da975222dbbb0b81",
+    "isolation_manifest.json": "7bb06df1671c7d05f209abb1af8547b81ec76d92a4f93a13c1c4a5d245a5249b",
+    "original_human_poc.py": "6259b51f7ad7ecba7d48f0d3a7577caca136e4555ab2c39b8ea6340dbe3b6f66",
+    "prepare_population.py": "733cf0bfe409eb5c9995433e948d14cf1a7fbc717fd6728f042d9e9655411461",
+    "preregistration.md": "96d2d78a02bb3312ad78906cabbfc9564e9afd3c9fcb4272483c347b450409b3",
+    "semantic_controls.json": "5b34bef5c05d4b4a7497f973184383c362fed84492a5c63eeef5d71eea444e2c",
+    "structured_controls.json": "789174b7f787efbd86d7ef76b328ea0f69b14bf906b731b143905548c9a9569d",
+    "unique_witness_survey.json": "91181a4b694ca85b4d3f73189c32e789e628ecbd85705922900adbee48b5e95e",
+    "unknown_asset_population.json": "b47b471b8204bd1131f7e006ecc5916d288e2a052b5f2f34f646bb661fb2cf85",
+    "witness_adjudications.json": "c376a98d6ac90da5d0df3c1b4c340e0cfbf1098eb07a09a3487c0c861a1b8ad3"
+  },
+  "implementation_started": false
+}

@@ -1,0 +1,496 @@
+[
+  {
+    "run": "mint5",
+    "asset_id": "asset:d4bc13b892d80bfa265e",
+    "name": "anti-CD19/BCMA U CAR T",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "UNKNOWN",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:d3452eca6c9b9e1e4eba",
+    "name": "KT501",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:1c713c8eeef9da66c565",
+    "name": "IL-15-armored CAR-T cells",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "FAIL",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:b373036ed6bcf0953dc4",
+    "name": "BCMA/CD19 dual-target CAR-T cell immunotherapy",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "FAIL",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:b023ea33fef9e3f84c83",
+    "name": "allogeneic cord blood-derived, dual-targeting CD19/BCMA CAR-T cells",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "FAIL",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:ac551940ff9492dd71f6",
+    "name": "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:0c1b829be6173d0fd5a9",
+    "name": "OriV508 Injection",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "FAIL",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:0145d662a5acee527414",
+    "name": "CAR-T Autologous T cell injection",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "FAIL",
+      "evidence.minimum_stage": "UNKNOWN",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:89ecacb5d88393ff26ff",
+    "name": "Anti-BCMA and CD19 CART cells will be injected intravenously on a one-time basis",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "UNKNOWN",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:1384072a681cde8c22cc",
+    "name": "CD19/BCMA-targeted CAR-T lentiviral vector drug",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "UNKNOWN",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:620571de7131c8fd4344",
+    "name": "umbilical cord blood CD19-BCMA CAR-T cells infusion",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:6bce06e2cb1396b1d7e4",
+    "name": "anti-CD19/BCMA-UCAR-T cells",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "UNKNOWN",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:81b227b1393173413241",
+    "name": "CD19/BCMA Lupus Nephritis Targeted CAR T-cells injection",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:63a9eb55422e3fbc6178",
+    "name": "Allogeneic CD19/BCMA-targeted CAR-\u03b3\u03b4T cell injection",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:8d4fa58cc47bee4c6b45",
+    "name": "FIT-(BCMA+CD19)-CAR-T Cells",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:db81fdf95a821e7828a4",
+    "name": "CD19/BCMA in vivo CAR-T",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:4b6d3e95eae7377d55a5",
+    "name": "anti-CD19/BCMA U CAR T cells",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:ed7a153d1a2fecd5bd29",
+    "name": "UCAR T-cell",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:e0606b695de4a669cb09",
+    "name": "UCAR T-cell group",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:8a4ef325c481300e1e1f",
+    "name": "CD19-BCMA dual nanobody based CAR-T Cells",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "UNKNOWN",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:f58ae0a9111c1469c7de",
+    "name": "PRG-2311",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:2e7c4459543976b6e57b",
+    "name": "KSVCBD injection",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:665311d66a82a77f3faa",
+    "name": "universal allogeneic anti-CD19/BCMA CAR T-cells",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:e6c8423588e50c840c2a",
+    "name": "Autologous BCMA/CD19 dual-target CAR-T module",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "FAIL",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:7a46f3309cf39ffaab57",
+    "name": "allogenic anti-CD19/BCMA CAR-T",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:e5f8ee1caac095e3ace3",
+    "name": "CD19/BCMA-Targeted Universal Chimeric Antigen Receptor T Cells (UCAR-T) infusing",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "UNKNOWN",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:90d9ebb13a19d76f6334",
+    "name": "KN5601",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:d12718d7c66724ff2a6a",
+    "name": "QT-219CX",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:a4b30ac3efa981e7f9cf",
+    "name": "Anti-CD19/BCMA CAR gene vector injection will be injected intravenously on a one-time basis",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "UNKNOWN",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:ad8b9dfd529a7a8a882f",
+    "name": "Fast Dual CAR-T Injection",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "FAIL",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:be2c3fda82741e749f3a",
+    "name": "FKC289",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:3789cb6eba0780f32bac",
+    "name": "Assigned Interventions CD19/BCMA CAR T-cells",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:1261b361421d8abdb744",
+    "name": "QT-019C",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:b85b8504c51fc8276e84",
+    "name": "ARI0003",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "FAIL",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:9eda96c266e5f5525b98",
+    "name": "CD19-BCMA Targeted CAR-T Dose 1",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:5701df8d3d8d7363bd5e",
+    "name": "AZD0120",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:9b80fb74334e7365d2be",
+    "name": "BZE2204",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  },
+  {
+    "run": "mint5",
+    "asset_id": "asset:e231b8db8ee4aff93bd2",
+    "name": "BCMA-CD19 cCAR T cells",
+    "gate": {
+      "identity.distinct_asset": "PASS",
+      "target.expression": "PASS",
+      "strategy.therapeutic_area": "PASS",
+      "evidence.minimum_stage": "PASS",
+      "evidence.human_poc": "UNKNOWN"
+    },
+    "clinical_results": []
+  }
+]

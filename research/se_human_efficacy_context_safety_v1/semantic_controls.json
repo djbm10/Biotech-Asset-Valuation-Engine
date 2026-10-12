@@ -1,0 +1,713 @@
+[
+  {
+    "id": "C001",
+    "category": "laboratory",
+    "text": "RX-001 produced a response of 63% in human cells.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C002",
+    "category": "laboratory",
+    "text": "RX-001 produced a response of 63% in human tissue.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C003",
+    "category": "laboratory",
+    "text": "RX-001 produced a response of 63% in patient-derived cells.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C004",
+    "category": "laboratory",
+    "text": "RX-001 produced a response of 63% in cells isolated from patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C005",
+    "category": "laboratory",
+    "text": "RX-001 produced a response of 63% in human organoids.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C006",
+    "category": "laboratory",
+    "text": "RX-001 produced a response of 63% in human plasma samples.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C007",
+    "category": "laboratory",
+    "text": "RX-001 produced a response of 63% in patient tissue specimens.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C008",
+    "category": "laboratory",
+    "text": "In human cells, RX-001 increased respiration by 63% and improved response.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C009",
+    "category": "laboratory",
+    "text": "In human cells, RX-001 increased metabolism by 63% and improved response.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C010",
+    "category": "laboratory",
+    "text": "In human cells, RX-001 increased receptor occupancy by 63% and improved response.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C011",
+    "category": "laboratory",
+    "text": "In human cells, RX-001 increased target engagement by 63% and improved response.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C012",
+    "category": "laboratory",
+    "text": "In human cells, RX-001 increased cytokine secretion by 63% and improved response.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C013",
+    "category": "pharmacodynamic",
+    "text": "In patients treated with RX-001, the biomarker response was 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C014",
+    "category": "pharmacodynamic",
+    "text": "In patients treated with RX-001, the pharmacodynamic response was 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C015",
+    "category": "pharmacodynamic",
+    "text": "In patients treated with RX-001, the plasma concentration response was 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C016",
+    "category": "pharmacodynamic",
+    "text": "In patients treated with RX-001, the receptor occupancy response was 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C017",
+    "category": "pharmacodynamic",
+    "text": "In patients treated with RX-001, the target engagement response was 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C018",
+    "category": "simulation",
+    "text": "RX-001 achieved a response rate of 63% in simulated patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C019",
+    "category": "simulation",
+    "text": "RX-001 achieved a response rate of 63% in virtual patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C020",
+    "category": "simulation",
+    "text": "RX-001 achieved a response rate of 63% in synthetic patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C021",
+    "category": "simulation",
+    "text": "RX-001 achieved a response rate of 63% in computer-generated patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C022",
+    "category": "model",
+    "text": "A simulation predicted that RX-001 would achieve a response rate of 63% in patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C023",
+    "category": "model",
+    "text": "A mathematical model predicted that RX-001 would achieve a response rate of 63% in patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C024",
+    "category": "model",
+    "text": "A economic model predicted that RX-001 would achieve a response rate of 63% in patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C025",
+    "category": "model",
+    "text": "A decision model predicted that RX-001 would achieve a response rate of 63% in patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C026",
+    "category": "economic",
+    "text": "A survival model evaluated RX-001 for patients, using an annual discount rate of 7%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C027",
+    "category": "economic",
+    "text": "In patients receiving RX-001, economic response was a 63% reduction in costs.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C028",
+    "category": "economic",
+    "text": "Cost-effectiveness of RX-001 was evaluated in patients, with a 7% survival-model discount rate.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C029",
+    "category": "statistical",
+    "text": "A study of RX-001 had 90% power to detect a response in patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C030",
+    "category": "statistical",
+    "text": "RX-001 response was measured in patients using a 95% confidence interval.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C031",
+    "category": "sample_size",
+    "text": "The RX-001 efficacy cohort included n=36 patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C032",
+    "category": "sample_size",
+    "text": "Patients received RX-001 (n=36) for disease control.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C033",
+    "category": "treatment_use",
+    "text": "Among patient responders, 63% received RX-001 maintenance therapy.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C034",
+    "category": "dose",
+    "text": "RX-001 at 0.7% concentration was administered to patients to assess efficacy.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C035",
+    "category": "definition",
+    "text": "The response endpoint in patients treated with RX-001 was defined as a 63% reduction.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C036",
+    "category": "safety",
+    "text": "Patients treated with RX-001 had adverse events in 63% of cases.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C037",
+    "category": "safety",
+    "text": "RX-001 was tolerated in patients with adverse reactions in 4 of 18.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C038",
+    "category": "pk",
+    "text": "RX-001 exposure in patients increased by 63%, with a pharmacokinetic response.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C039",
+    "category": "pk",
+    "text": "The half-life of RX-001 in patients was 14 hours with 63% bioavailability.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C040",
+    "category": "planned",
+    "text": "The response rate for RX-001 in 36 patients will be evaluated.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C041",
+    "category": "planned",
+    "text": "The study will report RX-001 remission in 63% of patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C042",
+    "category": "eligibility",
+    "text": "Patients must have had a response to RX-001 in 4 of 18 prior treatments.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C043",
+    "category": "qualitative",
+    "text": "RX-001 improved survival in patients enrolled in phase 2/3.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C044",
+    "category": "clinical_response",
+    "text": "RX-001 produced an overall response rate of 63% in patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C045",
+    "category": "clinical_response",
+    "text": "RX-001 produced an overall response rate of 63% in participants.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C046",
+    "category": "clinical_response",
+    "text": "RX-001 produced an overall response rate of 63% in subjects.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C047",
+    "category": "clinical_response",
+    "text": "RX-001 produced an overall response rate of 63% in recipients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C048",
+    "category": "clinical_response",
+    "text": "RX-001 produced an overall response rate of 63% in volunteers.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C049",
+    "category": "clinical_response",
+    "text": "RX-001 produced an overall response rate of 63% in evaluable pts.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C050",
+    "category": "clinical_remission",
+    "text": "RX-001 achieved complete remission in 4 of 18 treated patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C051",
+    "category": "clinical_progression",
+    "text": "RX-001 achieved progression-free survival of 63% at one year in patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C052",
+    "category": "clinical_symptom",
+    "text": "RX-001 produced symptom improvement in 63% of treated patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C053",
+    "category": "clinical_flare",
+    "text": "RX-001 produced a 63% reduction in disease flare risk in treated patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C054",
+    "category": "clinical_alias",
+    "text": "Treatment with the active name achieved complete remission in 4 of 18 patients.",
+    "asset_names": [
+      "RX-001",
+      "the active name"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C055",
+    "category": "regimen",
+    "text": "RX-001 plus RX-002 achieved an overall response rate of 63% in patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C056",
+    "category": "regimen",
+    "text": "Patients treated with RX-001, RX-002, and RX-003 achieved a response rate of 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C057",
+    "category": "cross_sentence",
+    "text": "Patients received RX-001. The response rate was 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C058",
+    "category": "mixed_positive",
+    "text": "RX-001 achieved a response rate of 63% in treated patients; an economic model used a 7% discount rate.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C059",
+    "category": "mixed_positive",
+    "text": "In patients treated with RX-001, the response rate was 63%, and the analysis used a 95% confidence interval.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C060",
+    "category": "mixed_positive",
+    "text": "RX-001 achieved complete remission in 4 of 18 patients, while a simulation predicted survival of 7%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C061",
+    "category": "mixed_positive",
+    "text": "Safety was evaluated in 36 patients and the RX-001 overall response rate was 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C062",
+    "category": "mixed_positive",
+    "text": "In patients treated with RX-001, the response rate was 63%, and plasma concentrations increased by 7%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C063",
+    "category": "mixed_negative",
+    "text": "In patients treated with RX-001, an economic analysis used a 7% discount rate, and clinical response was discussed.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C064",
+    "category": "mixed_negative",
+    "text": "Human-cell assays of RX-001 had a 63% response, and simulated patients had remission.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C065",
+    "category": "mixed_negative",
+    "text": "In patients treated with RX-001, plasma concentrations increased 63%, and response was assessed.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C066",
+    "category": "mixed_negative",
+    "text": "The overall response rate for RX-001 was discussed in patients, and 63% experienced adverse events.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": false
+  },
+  {
+    "id": "C067",
+    "category": "model_adjustment",
+    "text": "A statistical model adjusted for age; RX-001 had an observed response rate of 63% in treated patients.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  },
+  {
+    "id": "C068",
+    "category": "modeled_outcome",
+    "text": "A model predicted RX-001 response in 63% of patients without observed clinical results.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C069",
+    "category": "material_cohort",
+    "text": "A cohort of human cells treated with RX-001 achieved a response rate of 63%.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C070",
+    "category": "ambiguous_cohort",
+    "text": "RX-001 achieved a response rate of 63% in a cohort.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": false,
+    "baseline_pass": true
+  },
+  {
+    "id": "C071",
+    "category": "clinical_cohort",
+    "text": "RX-001 achieved a response rate of 63% in the treated clinical cohort.",
+    "asset_names": [
+      "RX-001"
+    ],
+    "expected_pass": true,
+    "baseline_pass": true
+  }
+]
