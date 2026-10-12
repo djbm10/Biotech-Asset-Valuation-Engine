@@ -1,0 +1,424 @@
+{
+  "Find clinical-stage FXI inhibitors for prevention of thrombosis.": {
+    "intent": {
+      "original_query": "Find clinical-stage FXI inhibitors for prevention of thrombosis.",
+      "compiler_version": "intent_v1",
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "FXI",
+          "start": 20,
+          "end": 23,
+          "kind": "TARGET",
+          "resolved_to": "F11",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'FXI' -> symbol alias 'FXI' asserted by open_targets -> F11 -> merged on uniprot:P03951"
+        },
+        {
+          "text": "inhibitors",
+          "start": 24,
+          "end": 34,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "prevention",
+          "start": 39,
+          "end": 49,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "thrombosis",
+          "start": 53,
+          "end": 64,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        }
+      ],
+      "targets": [
+        {
+          "canonical_id": "F11",
+          "label": "F11",
+          "aliases": []
+        }
+      ],
+      "target_operator": "ANY",
+      "modalities": [],
+      "phases": [],
+      "phase_operator": "EXACT",
+      "conjunction_stated": false,
+      "statuses": [],
+      "human_poc_required": false,
+      "minimum_stage": "PHASE_1",
+      "unresolved_scientific_terms": [],
+      "residual_terms": [
+        "inhibitors",
+        "prevention",
+        "thrombosis"
+      ],
+      "ambiguous_terms": [],
+      "warnings": [
+        "unrecognized terms carried as free text, not as resolved criteria: inhibitors, prevention, thrombosis"
+      ]
+    },
+    "problem": {
+      "schema_version": "se_buyer_problem_v2",
+      "problem_id": "nlq_a1039d45aba34691",
+      "version": "intent_v1__chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b",
+      "buyer": {
+        "buyer_id": "nl_query",
+        "name": "Offline diagnosis",
+        "as_of_date": "2026-10-12"
+      },
+      "strategic_gap": {
+        "therapeutic_areas": [
+          "UNSPECIFIED"
+        ],
+        "indications": [
+          "thrombosis"
+        ],
+        "target_expression": {
+          "operator": "ANY",
+          "targets": [
+            {
+              "canonical_id": "F11",
+              "label": "F11",
+              "aliases": []
+            }
+          ]
+        },
+        "modalities": [],
+        "required_biology": [],
+        "capability_constraints": {
+          "manufacturing": [],
+          "delivery": [],
+          "clinical_operations": [],
+          "commercial": [],
+          "integration": []
+        },
+        "evidence_floor": {
+          "minimum_stage": "PHASE_1",
+          "human_poc_required": false,
+          "evaluable_patients_minimum": null,
+          "follow_up_minimum_days": null,
+          "required_evidence_types": []
+        },
+        "phase_constraint": null,
+        "clinical_effect_bar": {
+          "indication": null,
+          "population": null,
+          "treatment_line": null,
+          "endpoint": null,
+          "minimum_effect": null,
+          "effect_unit": null,
+          "comparator": null,
+          "durability_minimum_days": null,
+          "safety_ceiling": null
+        },
+        "acceptable_deal_routes": [],
+        "geographic_rights_requirements": [],
+        "missing_evidence_policy": "REVIEW"
+      },
+      "output": {
+        "landscape_mode": "COMBINED",
+        "group_by": "COHORT"
+      },
+      "ranking_cohort_required": true
+    },
+    "discovery_error": {
+      "type": "AmbiguousTargetError",
+      "message": "target 'F11' is ambiguous in this ontology; it could mean TARGET:F11, TARGET:ZNF160. Declare the canonical id you mean -- an ambiguous target may not be searched literally."
+    }
+  },
+  "Find clinical-stage IL4RA antibodies for atopic dermatitis.": {
+    "intent": {
+      "original_query": "Find clinical-stage IL4RA antibodies for atopic dermatitis.",
+      "compiler_version": "intent_v1",
+      "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+      "spans": [
+        {
+          "text": "clinical-stage",
+          "start": 5,
+          "end": 19,
+          "kind": "EVIDENCE",
+          "resolved_to": "minimum_stage",
+          "rule": "evidence_clinical_stage_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "IL4RA",
+          "start": 20,
+          "end": 25,
+          "kind": "TARGET",
+          "resolved_to": "IL4R",
+          "rule": "unique_alias_match",
+          "candidates": [],
+          "explanation": "'IL4RA' -> symbol alias 'IL4RA' asserted by open_targets -> IL4R -> merged on uniprot:P24394"
+        },
+        {
+          "text": "antibodies",
+          "start": 26,
+          "end": 36,
+          "kind": "MODALITY",
+          "resolved_to": "MONOCLONAL_ANTIBODY",
+          "rule": "modality_vocabulary",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "atopic",
+          "start": 41,
+          "end": 47,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        },
+        {
+          "text": "dermatitis",
+          "start": 48,
+          "end": 59,
+          "kind": "RESIDUAL",
+          "resolved_to": null,
+          "rule": "no_vocabulary_match",
+          "candidates": [],
+          "explanation": null
+        }
+      ],
+      "targets": [
+        {
+          "canonical_id": "IL4R",
+          "label": "IL4R",
+          "aliases": []
+        }
+      ],
+      "target_operator": "ANY",
+      "modalities": [
+        "MONOCLONAL_ANTIBODY"
+      ],
+      "phases": [],
+      "phase_operator": "EXACT",
+      "conjunction_stated": false,
+      "statuses": [],
+      "human_poc_required": false,
+      "minimum_stage": "PHASE_1",
+      "unresolved_scientific_terms": [],
+      "residual_terms": [
+        "atopic",
+        "dermatitis"
+      ],
+      "ambiguous_terms": [],
+      "warnings": [
+        "unrecognized terms carried as free text, not as resolved criteria: atopic, dermatitis"
+      ]
+    },
+    "problem": {
+      "schema_version": "se_buyer_problem_v2",
+      "problem_id": "nlq_c443846f6dbd4d19",
+      "version": "intent_v1__chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2__indication_compilation_v3_fd11482f834b",
+      "buyer": {
+        "buyer_id": "nl_query",
+        "name": "Offline diagnosis",
+        "as_of_date": "2026-10-12"
+      },
+      "strategic_gap": {
+        "therapeutic_areas": [
+          "UNSPECIFIED"
+        ],
+        "indications": [
+          "atopic dermatitis"
+        ],
+        "target_expression": {
+          "operator": "ANY",
+          "targets": [
+            {
+              "canonical_id": "IL4R",
+              "label": "IL4R",
+              "aliases": [
+                "582J2.1",
+                "CD124",
+                "IL-4 receptor subunit alpha",
+                "IL-4R subunit alpha",
+                "IL-4R-alpha",
+                "IL-4RA",
+                "IL4-BP",
+                "IL4R",
+                "IL4RA",
+                "sIL4Ralpha/prot",
+                "Soluble IL-4 receptor subunit alpha",
+                "Soluble IL-4R-alpha",
+                "interleukin 4 receptor",
+                "Interleukin-4 receptor subunit alpha",
+                "582J2.1",
+                "CD124",
+                "IL-4 receptor subunit alpha",
+                "IL-4-binding protein",
+                "IL-4R subunit alpha",
+                "IL-4R-alpha",
+                "IL-4RA",
+                "IL4-BP",
+                "IL4R",
+                "IL4RA",
+                "interleukin 13 receptor",
+                "interleukin-4 receptor alpha chain",
+                "Interleukin-4 receptor subunit alpha",
+                "sIL4Ralpha/prot",
+                "Soluble IL-4 receptor subunit alpha",
+                "Soluble IL-4R-alpha",
+                "Soluble interleukin-4 receptor subunit alpha"
+              ]
+            }
+          ]
+        },
+        "modalities": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "required_biology": [],
+        "capability_constraints": {
+          "manufacturing": [],
+          "delivery": [],
+          "clinical_operations": [],
+          "commercial": [],
+          "integration": []
+        },
+        "evidence_floor": {
+          "minimum_stage": "PHASE_1",
+          "human_poc_required": false,
+          "evaluable_patients_minimum": null,
+          "follow_up_minimum_days": null,
+          "required_evidence_types": []
+        },
+        "phase_constraint": null,
+        "clinical_effect_bar": {
+          "indication": null,
+          "population": null,
+          "treatment_line": null,
+          "endpoint": null,
+          "minimum_effect": null,
+          "effect_unit": null,
+          "comparator": null,
+          "durability_minimum_days": null,
+          "safety_ceiling": null
+        },
+        "acceptable_deal_routes": [],
+        "geographic_rights_requirements": [],
+        "missing_evidence_policy": "REVIEW"
+      },
+      "output": {
+        "landscape_mode": "COMBINED",
+        "group_by": "COHORT"
+      },
+      "ranking_cohort_required": true
+    },
+    "discovery_queries": [
+      {
+        "query_id": "query:663ad8545165a92b",
+        "query": "(\"IL4R\" OR \"582J2.1\" OR \"CD124\" OR \"IL-4 receptor subunit alpha\" OR \"IL-4R subunit alpha\" OR \"IL-4R-alpha\" OR \"IL-4RA\" OR \"IL4-BP\" OR \"IL4RA\" OR \"sIL4Ralpha/prot\" OR \"Soluble IL-4 receptor subunit alpha\" OR \"Soluble IL-4R-alpha\" OR \"interleukin 4 receptor\" OR \"Interleukin-4 receptor subunit alpha\" OR \"IL-4-binding protein\" OR \"interleukin 13 receptor\" OR \"interleukin-4 receptor alpha chain\" OR \"Soluble interleukin-4 receptor subunit alpha\")",
+        "target_ids": [
+          "IL4R"
+        ],
+        "modality_ids": [],
+        "aliases": [
+          "IL4R",
+          "582J2.1",
+          "CD124",
+          "IL-4 receptor subunit alpha",
+          "IL-4R subunit alpha",
+          "IL-4R-alpha",
+          "IL-4RA",
+          "IL4-BP",
+          "IL4RA",
+          "sIL4Ralpha/prot",
+          "Soluble IL-4 receptor subunit alpha",
+          "Soluble IL-4R-alpha",
+          "interleukin 4 receptor",
+          "Interleukin-4 receptor subunit alpha",
+          "IL-4-binding protein",
+          "interleukin 13 receptor",
+          "interleukin-4 receptor alpha chain",
+          "Soluble interleukin-4 receptor subunit alpha"
+        ],
+        "expansion_depth": 0,
+        "seed_provenance": "TARGET_VOCABULARY",
+        "seed_drug_id": null
+      },
+      {
+        "query_id": "query:9ea6d32e15e6501b",
+        "query": "(\"IL4R\" OR \"582J2.1\" OR \"CD124\" OR \"IL-4 receptor subunit alpha\" OR \"IL-4R subunit alpha\" OR \"IL-4R-alpha\" OR \"IL-4RA\" OR \"IL4-BP\" OR \"IL4RA\" OR \"sIL4Ralpha/prot\" OR \"Soluble IL-4 receptor subunit alpha\" OR \"Soluble IL-4R-alpha\" OR \"interleukin 4 receptor\" OR \"Interleukin-4 receptor subunit alpha\" OR \"IL-4-binding protein\" OR \"interleukin 13 receptor\" OR \"interleukin-4 receptor alpha chain\" OR \"Soluble interleukin-4 receptor subunit alpha\") AND (\"MONOCLONAL_ANTIBODY\" OR \"antibody\" OR \"fully human antibody\" OR \"humanized antibody\" OR \"igg\" OR \"mab\" OR \"monoclonal antibody\")",
+        "target_ids": [
+          "IL4R"
+        ],
+        "modality_ids": [
+          "MONOCLONAL_ANTIBODY"
+        ],
+        "aliases": [
+          "IL4R",
+          "582J2.1",
+          "CD124",
+          "IL-4 receptor subunit alpha",
+          "IL-4R subunit alpha",
+          "IL-4R-alpha",
+          "IL-4RA",
+          "IL4-BP",
+          "IL4RA",
+          "sIL4Ralpha/prot",
+          "Soluble IL-4 receptor subunit alpha",
+          "Soluble IL-4R-alpha",
+          "interleukin 4 receptor",
+          "Interleukin-4 receptor subunit alpha",
+          "IL-4-binding protein",
+          "interleukin 13 receptor",
+          "interleukin-4 receptor alpha chain",
+          "Soluble interleukin-4 receptor subunit alpha"
+        ],
+        "expansion_depth": 0,
+        "seed_provenance": "TARGET_VOCABULARY",
+        "seed_drug_id": null
+      },
+      {
+        "query_id": "query:cf32690f23ec00c0",
+        "query": "(\"DUPILUMAB\" OR \"REGN-668\" OR \"REGN668\" OR \"SAR-231893\" OR \"SAR231893\" OR \"Dupixent\" OR \"Regn668, sar231893\" OR \"Dupilumab\")",
+        "target_ids": [
+          "IL4R"
+        ],
+        "modality_ids": [],
+        "aliases": [
+          "DUPILUMAB",
+          "REGN-668",
+          "REGN668",
+          "SAR-231893",
+          "SAR231893",
+          "Dupixent",
+          "Regn668, sar231893",
+          "Dupilumab"
+        ],
+        "expansion_depth": 0,
+        "seed_provenance": "AUTHORITY_SEEDED_ASSET",
+        "seed_drug_id": "DRUG:DUPILUMAB"
+      }
+    ]
+  }
+}

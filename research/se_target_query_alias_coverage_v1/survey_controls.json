@@ -1,0 +1,82 @@
+[
+  {
+    "text": "IL-4Rα",
+    "kind": "H17_diagnostic",
+    "expected_entity": "TARGET:IL4R"
+  },
+  {
+    "text": "factor XI",
+    "kind": "H20_diagnostic",
+    "expected_entity": "TARGET:F11"
+  },
+  {
+    "text": "F11",
+    "kind": "existing_homonym",
+    "expected": "AMBIGUOUS; do not override ZNF160 claimant"
+  },
+  {
+    "text": "PD-1",
+    "kind": "existing_homonym",
+    "expected": "preserve existing ambiguity"
+  },
+  {
+    "text": "CD20",
+    "kind": "existing_homonym",
+    "expected": "preserve existing ambiguity"
+  },
+  {
+    "text": "IL-4Rβ",
+    "kind": "different_subunit",
+    "expected": "no IL4R equivalence"
+  },
+  {
+    "text": "IL-4Rа",
+    "kind": "Cyrillic_confusable",
+    "expected": "no IL4R equivalence"
+  },
+  {
+    "text": "factor XIa",
+    "kind": "activation_state",
+    "expected": "no unqualified new F11 equivalence"
+  },
+  {
+    "text": "factor X",
+    "kind": "different_factor",
+    "expected": "no F11 equivalence"
+  },
+  {
+    "text": "factor XII",
+    "kind": "different_factor",
+    "expected": "no F11 equivalence"
+  },
+  {
+    "text": "factor XI deficiency",
+    "kind": "disease_not_protein",
+    "expected": "no whole-phrase protein equivalence"
+  },
+  {
+    "text": "Factor XI Measurement",
+    "kind": "measurement_not_protein",
+    "expected": "no whole-phrase protein equivalence"
+  },
+  {
+    "text": "interleukin receptor",
+    "kind": "family",
+    "expected": "no specific IL4R equivalence"
+  },
+  {
+    "text": "CLDN18.2",
+    "kind": "isoform",
+    "expected": "no new parent-gene collapse"
+  },
+  {
+    "text": "IL4R/IL13RA1",
+    "kind": "separator",
+    "expected": "preserve dual-target semantics"
+  },
+  {
+    "text": "AK/ATPase",
+    "kind": "separator_negative",
+    "expected": "preserve existing semantics"
+  }
+]

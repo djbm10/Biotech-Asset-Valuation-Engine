@@ -1,0 +1,7 @@
+{
+  "uniprot_IL4R": "https://rest.uniprot.org/uniprotkb/P24394.json",
+  "uniprot_F11": "https://rest.uniprot.org/uniprotkb/P03951.json",
+  "hgnc_IL4R": "https://rest.genenames.org/fetch/hgnc_id/HGNC:6015",
+  "hgnc_F11": "https://rest.genenames.org/fetch/hgnc_id/HGNC:3529",
+  "ncit_factor_xi": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/search?term=Factor%20XI&include=full&pageSize=20"
+}

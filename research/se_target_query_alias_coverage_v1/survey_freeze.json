@@ -1,0 +1,35 @@
+{
+  "baseline_commit": "1e1705c",
+  "selection": "First 192 Open Targets records with ChEMBL-linked UniProt identifiers ordered by SHA256 of source:source_id; plus first 96 distinct authority-backed Greek spelling proposals ordered by SHA256 of source_id:alias. No resolver outputs used for selection.",
+  "authority_scope": "Existing pinned source records, not invented phrase-to-symbol labels.",
+  "source_path": "/home/djmann/projects/bve-b8/data/se/ontology/current/records.jsonl",
+  "source_sha256": "986fa262e3c275424968996b78703614563304cf22f5e2a2f1d3c39e0fc6f50b",
+  "heldout_concepts_excluded_before_selection": [
+    "CFD",
+    "DLL3",
+    "ERBB2",
+    "IL1RL2",
+    "IL23A",
+    "KLKB1",
+    "LRRK2",
+    "MSTN",
+    "PCSK9",
+    "TSLP"
+  ],
+  "population_rows": 672,
+  "selected_entities": 276,
+  "frames_for_offline_survey": [
+    "bare phrase",
+    "anti-X",
+    "X-directed",
+    "X-targeting",
+    "X-blocking",
+    "X-binding",
+    "X-specific"
+  ],
+  "files": {
+    "survey_population.json": "fbe1bbf43fefb7feac37f1a94ed242dff22897663a0c778211abc9cde7b761c1",
+    "survey_authority_records.json": "e1262f3e82a9b3d5ea44bce2cb2344348201dd4765574187a9aad56c1afb5726",
+    "survey_controls.json": "0f58cc3537224a6f9a3f2e8069bbe4e54f3a26af09d05f991a57d203dd06835d"
+  }
+}
