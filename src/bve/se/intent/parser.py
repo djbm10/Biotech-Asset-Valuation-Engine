@@ -24,7 +24,8 @@ from bve.se.intent.grammar import grammatical_negations
 from bve.se.intent.intent import INTENT_COMPILER_VERSION, IntentSpan, SearchIntent, SpanKind
 from bve.se.ontology.modality import known_modalities, modality_aliases, normalize_modality
 from bve.se.ontology.resolver import ResolutionStatus
-from bve.se.ontology.targets import ontology_version, resolve_target
+from bve.se.ontology.targets import ontology_version
+from bve.se.ontology.query_targets import resolve_query_target as resolve_target
 from bve.se.ontology.target_reference import reference_for
 from bve.se.schemas.contracts import PhaseConstraintOperator, TargetOperator, TargetTerm
 
