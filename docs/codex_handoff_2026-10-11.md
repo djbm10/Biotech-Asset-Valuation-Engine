@@ -1,3 +1,14 @@
+# 2026-10-12 TARGET REFERENCE INTERFACE DIAGNOSIS — IN PROGRESS
+
+Checkpoint **31cc721** records 25 direct consumer reads and the next design at
+`research/target_reference_identity_surface_diagnosis_v1/design.md`. No new
+implementation preregistered yet. Investigate additive exact ontology references
+separate from biological retrieval surfaces, and historical/current contract-test
+separation without changing frozen evidence. Production remains restored to
+533c699. Continue with baseline stubbed source-request/attribution controls before
+freezing any successor implementation. All holdout and human-PoC restrictions below
+remain in force.
+
 # 2026-10-12 TARGET QUERY COVERAGE — FROZEN SUITE; IDENTITY DEPENDENCY REVERTED
 
 Human-PoC recovery remains STOPPED. H6–H10 remain UNRUN. Fresh H21–H25 primary
