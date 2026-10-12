@@ -22,7 +22,7 @@ from bve.se.schemas.contracts import (
     TargetTerm,
 )
 
-INTENT_COMPILER_VERSION = "intent_v1"
+INTENT_COMPILER_VERSION = "intent_v1__resolved_target_identity_v1"
 
 
 class SpanKind(str, Enum):
