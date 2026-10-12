@@ -38,7 +38,7 @@ from bve.se.schemas.contracts import (
     VerificationStatus,
 )
 
-EXTRACTOR_VERSION = "human_poc_v5"
+EXTRACTOR_VERSION = "human_poc_v4"
 
 #: Endpoint vocabulary that describes a disease outcome. Deliberately about the *kind* of
 #: measurement, never about a particular disease or drug.
@@ -77,7 +77,9 @@ _EFFICACY_TERMS = (
 #: bibliographic identifier has already been mistaken for a molecule once in this pipeline.
 #: ``ORR`` is excluded because "objective response" and "overall response" already cover it.
 #: ``CRS``, ``CRP`` and ``CRi`` do not match ``\bCR\b``.
-_EFFICACY_ABBREVIATIONS: tuple[tuple[re.Pattern[str], str], ...] = ((re.compile(r"\bCR\b"), "CR"),)
+_EFFICACY_ABBREVIATIONS: tuple[tuple[re.Pattern[str], str], ...] = (
+    (re.compile(r"\bCR\b"), "CR"),
+)
 
 #: Abbreviations of ``_HUMAN_TERMS``. "pts" is not an English word, so case does not matter.
 _HUMAN_ABBREVIATIONS: tuple[re.Pattern[str], ...] = (re.compile(r"\bpts?\b", re.IGNORECASE),)
@@ -310,150 +312,9 @@ def _efficacy_term(text: str) -> str | None:
 
 
 def _mentions_humans(text: str) -> bool:
-    existing = _contains(text, _HUMAN_TERMS) is not None or any(
-        pattern.search(text) for pattern in _HUMAN_ABBREVIATIONS
-    )
-    return existing and _clinical_population(_analysis_text(text))
-
-
-# People are a population; human-derived material and virtual people are not one.
-_PEOPLE = re.compile(
-    r"\b(?:patients?|participants?|subjects?|recipients?|volunteers?|pts?)\b", re.I
-)
-_CLINICAL_GROUP = re.compile(
-    r"\b(?:clinical|treated|evaluable|trial)\s+(?:human\s+)?(?:cohort|individuals|people)\b", re.I
-)
-_MATERIAL_POPULATION = re.compile(
-    r"\b(?:human|patient(?:s|-derived)?)\s+(?:cells?|tissues?|samples?|specimens?|organoids?)\b"
-    r"|\b(?:cells?|tissues?|samples?|specimens?|organoids?)\s+(?:\w+\s+){0,3}"
-    r"(?:from|of)\s+(?:\w+\s+){0,2}patients?\b",
-    re.I,
-)
-_PROJECTED = re.compile(
-    r"\b(?:simulat\w*|model(?:led|ed|ing)?|predict\w*|project\w*|virtual|synthetic"
-    r"|computer-generated|will|would)\b|\bin\s+silico\b",
-    re.I,
-)
-_NONCLINICAL_MEASURE = re.compile(
-    r"\b(?:economic\w*|cost\w*|pharmacodynam\w*|pharmacokinet\w*|biomarker\w*"
-    r"|occupancy|target engagement|drug exposure|cellular|assays?|cultures?)\b",
-    re.I,
-)
-_METHOD = re.compile(
-    r"\bmethods?\b|\b(?:aim|objective|purpose)\b.{0,50}\b(?:compare|evaluate|assess)\b"
-    r"|\b(?:stratified|power to detect|study design)\b",
-    re.I,
-)
-_CONTEXT_CLAUSE = re.compile(r"[,;]|\b(?:and|but|while|yet)\s+(?=[a-z])", re.I)
-_OUTCOME = re.compile(
-    r"\b(?:respons\w*|remission|survival|progression(?:-free)?|disease activity|disease control"
-    r"|clinical (?:improvement|benefit)|symptom improvement|relapse\w*|flare\w*|cure\w*"
-    r"|healing|stable disease|shrinkage|achiev\w*|reached|improved|alive|CR)\b"
-    r"|\befficacy\s+(?:rate|of the first medication)\b",
-    re.I,
-)
-_OUTCOME_ACTION = re.compile(
-    r"\b(?:achiev\w*|reached|respond\w*|remained|experienced|improved|progressed|relapsed"
-    r"|were alive|was alive)\b",
-    re.I,
-)
-_QUANTITY = re.compile(
-    r"(?P<percent>\d+(?:\.\d+)?\s*%)"
-    r"|(?P<count>\b\d+\s*(?:of(?:\s+the)?|/|out\s+of)\s*\d+\b)"
-    r"|(?P<duration>\b\d+(?:\.\d+)?\s*(?:days?|weeks?|months?|years?)\b)"
-    r"|(?P<hazard>\bHR\s*\d+(?:\.\d+)?)"
-    r"|(?P<all>\ball\s+(?:(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten)\s+)?"
-    r"(?:patients?|participants?|subjects?|recipients?)\b)",
-    re.I,
-)
-_INTERVAL_LEVEL = re.compile(
-    r"\s*(?:(?:confidence|credible|prediction)\s+interval|CI\b|CrI\b)", re.I
-)
-_QUANTITY_UNIT = re.compile(
-    r"\s*(?:mg|mcg|μg|ng|g|ml|copies|inhibitors?|(?:viable\s+)?(?:tumou?r\s+)?cells?)\b",
-    re.I,
-)
-_NUMBER_DEFINITION = re.compile(
-    r"(?:defined as|definition of|according to|cut-?off)\b[^()%]{0,100}$"
-    r"|\([^)]*\bwhen\b[^)]*$|\bachieving\s*[>≥]\s*$"
-    r"|\bresponse\s+(?:of\s+)?[a-z0-9]+\s*[<>≤≥]\s*$",
-    re.I,
-)
-
-
-def _analysis_text(text: str) -> str:
-    """Analyze decoded typography, while claims retain the original source sentence."""
-    text = re.sub(r"\\u([0-9a-fA-F]{4})", lambda m: chr(int(m[1], 16)), text)
-    return re.sub(r"(?<=\d)[·∙](?=\d)", ".", text)
-
-
-def _clinical_population(text: str) -> bool:
-    if _MATERIAL_POPULATION.search(text):
-        return False
-    return bool(_PEOPLE.search(text) or _CLINICAL_GROUP.search(text))
-
-
-def _clinical_outcome_value(sentence: str) -> str | None:
-    """Bind a number to an observed clinical outcome, not a sentence-wide coincidence.
-
-    This is an additional guard, never an alternative admission or attribution route.
-    Clinical time-to-event and explicit all-patient counts can identify the real quantity
-    in an already admitted sentence whose first percentage was incidental.
-    """
-    text = _analysis_text(sentence)
-    if not _clinical_population(text):
-        return None
-    mixed_nonclinical = bool(_PROJECTED.search(text) or _MATERIAL_POPULATION.search(text))
-    for clause in _CONTEXT_CLAUSE.split(text):
-        if _PROJECTED.search(clause) or _METHOD.search(clause):
-            continue
-        if _NONCLINICAL_MEASURE.search(clause) or _contains(clause, _NON_EFFICACY_TERMS):
-            continue
-        if mixed_nonclinical and not _clinical_population(clause):
-            continue
-        outcomes = list(_OUTCOME.finditer(clause))
-        if "efficacy estimand" in text.casefold():
-            outcomes.extend(re.finditer(r"\breduction\b", clause, re.I))
-        for quantity in _QUANTITY.finditer(clause):
-            prefix, suffix = clause[: quantity.start()], clause[quantity.end() :]
-            if _INTERVAL_LEVEL.match(suffix) or _QUANTITY_UNIT.match(suffix):
-                continue
-            if _NUMBER_DEFINITION.search(prefix):
-                continue
-            if quantity.lastgroup == "count" and re.search(r"\bphase\s*$", prefix, re.I):
-                continue
-            for outcome in outcomes:
-                distance = max(
-                    quantity.start() - outcome.end(), outcome.start() - quantity.end(), 0
-                )
-                if distance > 160:
-                    continue
-                if quantity.lastgroup in {"duration", "hazard"}:
-                    if re.search(r"survival|progression|relapse|response|remission", clause, re.I):
-                        return quantity.group()
-                    continue
-                if quantity.start() >= outcome.end():
-                    link = clause[outcome.end() : quantity.start()]
-                    # The clinical label must own the quantity, not merely precede it.
-                    if re.search(
-                        r"\b(?:cohort|enroll\w*|maintenance|referral|switch\w*|underwent)\b",
-                        link,
-                        re.I,
-                    ):
-                        continue
-                    if re.search(
-                        r"\b(?:rate|in|of|was|were|at|from|to|reported|observed|achieved|confirmed)\b",
-                        link,
-                        re.I,
-                    ) or not link.strip(" ():-"):
-                        return quantity.group()
-                else:
-                    link = clause[quantity.end() : outcome.start()]
-                    if _OUTCOME_ACTION.search(link) or _OUTCOME_ACTION.fullmatch(outcome.group()):
-                        return quantity.group()
-                    if re.search(r"\brate[s]?\b", clause[outcome.end() : outcome.end() + 20], re.I):
-                        return quantity.group()
-    return None
+    if _contains(text, _HUMAN_TERMS) is not None:
+        return True
+    return any(pattern.search(text) for pattern in _HUMAN_ABBREVIATIONS)
 
 
 #: Clause boundaries. Only punctuation and the coordinators that join two independent
@@ -502,19 +363,6 @@ def result_supports_human_poc(result: ClinicalResult) -> bool:
     """
 
     endpoint = f"{result.endpoint} {result.endpoint_family or ''}"
-    context = f"{result.population or ''} {endpoint}"
-    if (
-        _MATERIAL_POPULATION.search(context)
-        or _PROJECTED.search(context)
-        or _NONCLINICAL_MEASURE.search(context)
-        or _contains(context, _NONHUMAN_TERMS)
-    ):
-        return False
-    if not (
-        (result.evaluable_patients is not None and result.evaluable_patients > 0)
-        or _clinical_population(result.population or "")
-    ):
-        return False
     if _contains(endpoint, _NON_EFFICACY_TERMS):
         return False
     if _efficacy_term(endpoint) is None:
@@ -571,15 +419,12 @@ def efficacy_statements(
             continue
         if _is_regimen_list_item(sentence, named):
             continue
-        clinical_value = _clinical_outcome_value(sentence)
-        if clinical_value is None:
-            continue
         statements.append(
             EfficacyStatement(
                 asset_name=named,
                 endpoint=endpoint,
                 sentence=sentence,
-                value=clinical_value,
+                value=value.group(0),
                 document_id=document_id,
             )
         )
@@ -683,11 +528,7 @@ def human_poc_evidence(
         if not result_supports_human_poc(result):
             continue
         source_document_id = next(
-            (
-                documents[claim_id]
-                for claim_id in result.supporting_claim_ids
-                if claim_id in documents
-            ),
+            (documents[claim_id] for claim_id in result.supporting_claim_ids if claim_id in documents),
             "",
         )
         passage = (
@@ -723,11 +564,7 @@ def human_poc_evidence(
                 # The document is part of the identity: two papers can report the same
                 # sentence, and a claim is a statement *by a source*, not a string.
                 claim_id=_id(
-                    "claim",
-                    asset_id,
-                    "human_poc_present",
-                    statement.document_id,
-                    statement.sentence,
+                    "claim", asset_id, "human_poc_present", statement.document_id, statement.sentence
                 ),
                 subject_id=asset_id,
                 predicate="human_poc_present",
