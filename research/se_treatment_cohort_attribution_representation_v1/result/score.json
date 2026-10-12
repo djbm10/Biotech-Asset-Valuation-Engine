@@ -1,0 +1,191 @@
+{
+  "milestone": "TREATMENT_COHORT_ATTRIBUTION_REPRESENTATION v1",
+  "decision": "FAIL_REVERT_IMPLEMENTATION",
+  "evaluation_kind": "Grounded annotation representation, not extraction/generalization",
+  "checks": {
+    "R1": {
+      "pass": false,
+      "error": "98/98 match their frozen labels, but independent grounding review found 2 unsupported receipt labels: negative:1f493682033f5e394c4543419b2c8b59630eebdb1e9814163fb8edcb84be6aaf, negative:b7a3708267677126c17d588a1522e697c3cc9c8bc8970189aa415e3ca990b475"
+    },
+    "R2": {
+      "pass": true,
+      "detail": {
+        "nonowning_records": 83
+      }
+    },
+    "R3": {
+      "pass": true,
+      "detail": {
+        "nonowning": 65,
+        "C056": "REGIMEN_RECEIPT; old reader defect preserved"
+      }
+    },
+    "R4": {
+      "pass": true,
+      "detail": {
+        "traceable": 98,
+        "unique_verified_snapshots": 24,
+        "invented_result_arm_links": 0
+      }
+    },
+    "R5": {
+      "pass": true,
+      "detail": {
+        "component_records_nonowning": 29,
+        "previous_14": {
+          "REGIMEN_RECEIPT": 9,
+          "UNRESOLVED": 5
+        }
+      }
+    },
+    "R6": {
+      "pass": true,
+      "detail": {
+        "records": 98,
+        "canonical_sha256": "5b5b07271de0867fbc75408079fcc5981757b2e538f3a7e6be0c66c1ce6e23ea"
+      }
+    },
+    "R7": {
+      "pass": false,
+      "error": "known_false:H16:claim:6fe84fe83a76085b6cb1"
+    },
+    "R8": {
+      "pass": true,
+      "detail": {
+        "new_production_modules": 1,
+        "existing_production_consumers": 0
+      }
+    },
+    "R9": {
+      "pass": true,
+      "detail": {
+        "pytest_exit_code": 0,
+        "ruff_exit_code": 0,
+        "passed": 1824,
+        "failed": 0,
+        "errors": 0,
+        "xfail": 3,
+        "xfail_cases": [
+          "tests.se.test_bibliographic_id_boundary.TestNominationSkipsTheIdentifierAndKeepsTheAsset::test_the_asset_the_title_is_actually_about_is_reachable",
+          "tests.se.test_identity_evidence_model.TestImprovementTargets::test_smt112_and_ak112_resolve_to_one_asset",
+          "tests.se.test_identity_evidence_model.TestImprovementTargets::test_budigalimab_and_abbv_181_resolve_to_one_asset"
+        ],
+        "baseline_full_suite_exit_code": 0,
+        "new_representation_tests": 123,
+        "evidence_sha256": {
+          "/home/djmann/projects/bve-b8/research/se_treatment_cohort_attribution_representation_v1/result/tests.xml": "63a96c960fef848340c7a29de9a68b36e913dce1556f75b95db65d9fd4736e08",
+          "/home/djmann/projects/bve-b8/research/se_treatment_cohort_attribution_representation_v1/result/tests.log": "93b61d1ea52c2bcc33e125a075c1d629711ec92c1e6cb6bfce3b572b6101fa9c",
+          "/home/djmann/projects/bve-b8/research/se_treatment_cohort_attribution_representation_v1/result/ruff.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+          "/home/djmann/projects/bve-b8/research/se_treatment_cohort_attribution_representation_v1/result/baseline_tests.log": "eb05665bbea54d408bc6c6e9ae23d3165ca7b82b89724ef80f75c13dfab200d2"
+        }
+      }
+    }
+  },
+  "counts": {
+    "REGIMEN_RECEIPT": 26,
+    "UNRESOLVED": 44,
+    "RESULT_OWNERSHIP": 15,
+    "RECEIPT": 13
+  },
+  "counts_by_population": {
+    "contract_33": {
+      "REGIMEN_RECEIPT": 11,
+      "UNRESOLVED": 7,
+      "RESULT_OWNERSHIP": 15
+    },
+    "negative_65": {
+      "UNRESOLVED": 37,
+      "RECEIPT": 13,
+      "REGIMEN_RECEIPT": 15
+    }
+  },
+  "previously_unresolved_14": [
+    {
+      "id": "v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106",
+      "candidate": "Venetoclax",
+      "relationship": "REGIMEN_RECEIPT",
+      "reason": "Exact induction subgroup received VEN/AZA/IVO. The 3 CRs belong to that regimen; no VEN-specific or incremental contrast in this witness. Other IVO-only/subgroup results must not transfer."
+    },
+    {
+      "id": "v1_removed_clinical:AACR_accepted:claim:2ab7b26095caafbfad9b",
+      "candidate": "PET30",
+      "relationship": "UNRESOLVED",
+      "reason": "PET30 denotes a PET response assessment at day 30, not administered treatment. CAR-T elsewhere in the paper cannot be renamed PET30."
+    },
+    {
+      "id": "v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106",
+      "candidate": "Venetoclax",
+      "relationship": "REGIMEN_RECEIPT",
+      "reason": "Exact induction subgroup received VEN/AZA/IVO. The 3 CRs belong to that regimen; no VEN-specific or incremental contrast in this witness. Other IVO-only/subgroup results must not transfer."
+    },
+    {
+      "id": "v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c",
+      "candidate": "though",
+      "relationship": "UNRESOLVED",
+      "reason": "though is a conjunction in a CAR-T meta-analysis, not a therapeutic intervention or accepted treatment alias."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:dfa26674a43723ab9e68",
+      "candidate": "Relugolix",
+      "relationship": "REGIMEN_RECEIPT",
+      "reason": "Source defines relugolix-CT as relugolix 40 mg + estradiol 1 mg + norethindrone acetate 0.5 mg. Captured NCT04714554 separately lists Relugolix/E2/NETA FDC (Rel-CT) and Relugolix (MVT-601/TAK-385), and is a PK interaction study, not this efficacy cohort."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4",
+      "candidate": "Glecaprevir",
+      "relationship": "REGIMEN_RECEIPT",
+      "reason": "Observed SVR is assigned to G/P as a combination. Neither component has a separately attributed outcome here."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:f93f85d51368a0574d97",
+      "candidate": "pibrentasvir",
+      "relationship": "REGIMEN_RECEIPT",
+      "reason": "Observed SVR is assigned to G/P as a combination. Neither component has a separately attributed outcome here."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:1672c26a362bce427334",
+      "candidate": "bevacizumab",
+      "relationship": "REGIMEN_RECEIPT",
+      "reason": "The bevacizumab arm received first-line chemotherapy too. Its 12.0-month PFS belongs to the arm/regimen comparison with anti-EGFR plus chemotherapy, not an isolated bevacizumab effect or a with/without-bevacizumab contrast."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e",
+      "candidate": "atazanavir",
+      "relationship": "UNRESOLVED",
+      "reason": "Response proportions compare ABC/3TC versus TDF/FTC across pooled boosted-PI regimens. No individual PI-stratified result or same-asset result-group bridge is captured."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:e02f9edf1a088951bfae",
+      "candidate": "ritonavir",
+      "relationship": "REGIMEN_RECEIPT",
+      "reason": "Response proportions compare ABC/3TC versus TDF/FTC across pooled boosted-PI regimens. No individual PI-stratified result or same-asset result-group bridge is captured. Receipt is supported only as common ritonavir boosting or the ABC/3TC backbone component; no component-specific efficacy ownership follows."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9",
+      "candidate": "Lopinavir",
+      "relationship": "UNRESOLVED",
+      "reason": "Response proportions compare ABC/3TC versus TDF/FTC across pooled boosted-PI regimens. No individual PI-stratified result or same-asset result-group bridge is captured."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca",
+      "candidate": "Fosamprenavir",
+      "relationship": "UNRESOLVED",
+      "reason": "Response proportions compare ABC/3TC versus TDF/FTC across pooled boosted-PI regimens. No individual PI-stratified result or same-asset result-group bridge is captured."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:5104ef3bd86e3a7f4e83",
+      "candidate": "Lamivudine",
+      "relationship": "REGIMEN_RECEIPT",
+      "reason": "89% belongs to DOR/3TC/TDF; 93% belongs to BIC/F/TAF. 3TC identifies a received component, not a separately estimated component outcome."
+    },
+    {
+      "id": "v1_removed_clinical:H16:claim:07de85a540078d3b5cec",
+      "candidate": "Lamivudine",
+      "relationship": "REGIMEN_RECEIPT",
+      "reason": "Response proportions compare ABC/3TC versus TDF/FTC across pooled boosted-PI regimens. No individual PI-stratified result or same-asset result-group bridge is captured. Receipt is supported only as common ritonavir boosting or the ABC/3TC backbone component; no component-specific efficacy ownership follows."
+    }
+  ],
+  "new_result_ownership_edges_for_14": 0,
+  "human_poc_implementation_ready": false,
+  "recommendation": "STOP recovery of these 14 until stronger sources or structured result attribution exist."
+}

@@ -1,0 +1,21 @@
+{
+  "pytest_exit_code": 0,
+  "ruff_exit_code": 0,
+  "passed": 1824,
+  "failed": 0,
+  "errors": 0,
+  "xfail": 3,
+  "xfail_cases": [
+    "tests.se.test_bibliographic_id_boundary.TestNominationSkipsTheIdentifierAndKeepsTheAsset::test_the_asset_the_title_is_actually_about_is_reachable",
+    "tests.se.test_identity_evidence_model.TestImprovementTargets::test_smt112_and_ak112_resolve_to_one_asset",
+    "tests.se.test_identity_evidence_model.TestImprovementTargets::test_budigalimab_and_abbv_181_resolve_to_one_asset"
+  ],
+  "baseline_full_suite_exit_code": 0,
+  "new_representation_tests": 123,
+  "evidence_sha256": {
+    "/home/djmann/projects/bve-b8/research/se_treatment_cohort_attribution_representation_v1/result/tests.xml": "63a96c960fef848340c7a29de9a68b36e913dce1556f75b95db65d9fd4736e08",
+    "/home/djmann/projects/bve-b8/research/se_treatment_cohort_attribution_representation_v1/result/tests.log": "93b61d1ea52c2bcc33e125a075c1d629711ec92c1e6cb6bfce3b572b6101fa9c",
+    "/home/djmann/projects/bve-b8/research/se_treatment_cohort_attribution_representation_v1/result/ruff.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "/home/djmann/projects/bve-b8/research/se_treatment_cohort_attribution_representation_v1/result/baseline_tests.log": "eb05665bbea54d408bc6c6e9ae23d3165ca7b82b89724ef80f75c13dfab200d2"
+  }
+}

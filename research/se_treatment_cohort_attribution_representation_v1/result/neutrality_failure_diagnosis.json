@@ -1,0 +1,570 @@
+{
+  "formal_R7": "FAIL; unchanged, not rescored",
+  "cause": "Existing human_poc.py line 389 sorts a set of aliases by length only. Equal-length case variants inherit process-dependent hash iteration order.",
+  "probes": [
+    {
+      "pythonhashseed": "0",
+      "reader_decisions_unchanged": 98,
+      "exact_output_mismatches": 8,
+      "changed_fields": [
+        "asset_name"
+      ],
+      "all_alias_differences_case_only": true,
+      "differences": [
+        {
+          "id": "v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106",
+          "actual": [
+            {
+              "asset_name": "Venetoclax",
+              "endpoint": "complete remission",
+              "sentence": "Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.",
+              "value": "31.2%",
+              "document_id": "frozen:v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "venetoclax",
+              "endpoint": "complete remission",
+              "sentence": "Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.",
+              "value": "31.2%",
+              "document_id": "frozen:v1_removed_clinical:mint5:claim:5ededd17eb739d2e1106"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106",
+          "actual": [
+            {
+              "asset_name": "Venetoclax",
+              "endpoint": "complete remission",
+              "sentence": "Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.",
+              "value": "31.2%",
+              "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "venetoclax",
+              "endpoint": "complete remission",
+              "sentence": "Among 5 patients (31.2%) receiving venetoclax (VEN) plus azacitidine (AZA) combined with IVO for induction, 3 achieved complete remission (CR), including 2 with measurable residual disease (MRD) -negative and IDH1 dPCR-negative status.",
+              "value": "31.2%",
+              "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:5ededd17eb739d2e1106"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c",
+          "actual": [
+            {
+              "asset_name": "though",
+              "endpoint": "response",
+              "sentence": "At 6\u2009months, 79% of patients were alive, though this declined to 60% by 12\u2009months, and progression-free survival dropped more sharply, from 52% to 42% over the same period\u2014suggesting many responses did not last.Side effects were generally manageable.",
+              "value": "79%",
+              "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Though",
+              "endpoint": "response",
+              "sentence": "At 6\u2009months, 79% of patients were alive, though this declined to 60% by 12\u2009months, and progression-free survival dropped more sharply, from 52% to 42% over the same period\u2014suggesting many responses did not last.Side effects were generally manageable.",
+              "value": "79%",
+              "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:f93f85d51368a0574d97",
+          "actual": [
+            {
+              "asset_name": "pibrentasvir",
+              "endpoint": "response",
+              "sentence": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-na\u00efve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+              "value": "95%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:f93f85d51368a0574d97"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Pibrentasvir",
+              "endpoint": "response",
+              "sentence": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-na\u00efve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+              "value": "95%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:f93f85d51368a0574d97"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca",
+          "actual": [
+            {
+              "asset_name": "fosamprenavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Fosamprenavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca"
+            }
+          ]
+        },
+        {
+          "id": "accepted_representative:TAC01:claim:f1534ba1833cfaa25f4d",
+          "actual": [
+            {
+              "asset_name": "ruxolitinib",
+              "endpoint": "complete remission",
+              "sentence": "We observed overall low efficacy with 1/10 patients receiving ruxolitinib achieving complete remission with incomplete platelet count recovery.",
+              "value": "1/10",
+              "document_id": "frozen:accepted_representative:TAC01:claim:f1534ba1833cfaa25f4d"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Ruxolitinib",
+              "endpoint": "complete remission",
+              "sentence": "We observed overall low efficacy with 1/10 patients receiving ruxolitinib achieving complete remission with incomplete platelet count recovery.",
+              "value": "1/10",
+              "document_id": "frozen:accepted_representative:TAC01:claim:f1534ba1833cfaa25f4d"
+            }
+          ]
+        },
+        {
+          "id": "accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5",
+          "actual": [
+            {
+              "asset_name": "blinatumomab",
+              "endpoint": "remission",
+              "sentence": "Following one cycle, blinatumomab induced MRD-negative remission in all six patients with persistent disease before treatment (four with MRD positivity and two with >5% residual bone marrow blasts).",
+              "value": "5%",
+              "document_id": "frozen:accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "BLINATUMOMAB",
+              "endpoint": "remission",
+              "sentence": "Following one cycle, blinatumomab induced MRD-negative remission in all six patients with persistent disease before treatment (four with MRD positivity and two with >5% residual bone marrow blasts).",
+              "value": "5%",
+              "document_id": "frozen:accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5"
+            }
+          ]
+        },
+        {
+          "id": "accepted_representative:mint5:claim:117c546558458970e8da",
+          "actual": [
+            {
+              "asset_name": "cevostamab",
+              "endpoint": "response rate",
+              "sentence": "Key updates include: Cevostamab (FcRH5\u00d7CD3) demonstrated a 30.2% overall response rate in patients who underwent BCMA-targeted treatment and 60.6% in BCMA-targeted na\u00efve patients;the triple-step dosing strategy reduced cytokine release syndrome.",
+              "value": "30.2%",
+              "document_id": "frozen:accepted_representative:mint5:claim:117c546558458970e8da"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Cevostamab",
+              "endpoint": "response rate",
+              "sentence": "Key updates include: Cevostamab (FcRH5\u00d7CD3) demonstrated a 30.2% overall response rate in patients who underwent BCMA-targeted treatment and 60.6% in BCMA-targeted na\u00efve patients;the triple-step dosing strategy reduced cytokine release syndrome.",
+              "value": "30.2%",
+              "document_id": "frozen:accepted_representative:mint5:claim:117c546558458970e8da"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pythonhashseed": "1",
+      "reader_decisions_unchanged": 98,
+      "exact_output_mismatches": 6,
+      "changed_fields": [
+        "asset_name"
+      ],
+      "all_alias_differences_case_only": true,
+      "differences": [
+        {
+          "id": "v1_removed_clinical:H16:claim:f93f85d51368a0574d97",
+          "actual": [
+            {
+              "asset_name": "pibrentasvir",
+              "endpoint": "response",
+              "sentence": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-na\u00efve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+              "value": "95%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:f93f85d51368a0574d97"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Pibrentasvir",
+              "endpoint": "response",
+              "sentence": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-na\u00efve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+              "value": "95%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:f93f85d51368a0574d97"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e",
+          "actual": [
+            {
+              "asset_name": "Atazanavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "atazanavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:e9f5d18fea7bd5531e0e"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:e02f9edf1a088951bfae",
+          "actual": [
+            {
+              "asset_name": "ritonavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:e02f9edf1a088951bfae"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Ritonavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:e02f9edf1a088951bfae"
+            }
+          ]
+        },
+        {
+          "id": "accepted_representative:TAC01:claim:a5c42d3cc5f5e7b3d5b5",
+          "actual": [
+            {
+              "asset_name": "Obexelimab",
+              "endpoint": "flare",
+              "sentence": "flares were reported in 26 patients (26.8%) in the obexelimab group and in 53 patients (54.6%) in the placebo group.",
+              "value": "26.8%",
+              "document_id": "frozen:accepted_representative:TAC01:claim:a5c42d3cc5f5e7b3d5b5"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "obexelimab",
+              "endpoint": "flare",
+              "sentence": "flares were reported in 26 patients (26.8%) in the obexelimab group and in 53 patients (54.6%) in the placebo group.",
+              "value": "26.8%",
+              "document_id": "frozen:accepted_representative:TAC01:claim:a5c42d3cc5f5e7b3d5b5"
+            }
+          ]
+        },
+        {
+          "id": "accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5",
+          "actual": [
+            {
+              "asset_name": "Blinatumomab",
+              "endpoint": "remission",
+              "sentence": "Following one cycle, blinatumomab induced MRD-negative remission in all six patients with persistent disease before treatment (four with MRD positivity and two with >5% residual bone marrow blasts).",
+              "value": "5%",
+              "document_id": "frozen:accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "BLINATUMOMAB",
+              "endpoint": "remission",
+              "sentence": "Following one cycle, blinatumomab induced MRD-negative remission in all six patients with persistent disease before treatment (four with MRD positivity and two with >5% residual bone marrow blasts).",
+              "value": "5%",
+              "document_id": "frozen:accepted_representative:TAC01:claim:8eacd0edc94fcbcf9be5"
+            }
+          ]
+        },
+        {
+          "id": "accepted_representative:mint5:claim:117c546558458970e8da",
+          "actual": [
+            {
+              "asset_name": "cevostamab",
+              "endpoint": "response rate",
+              "sentence": "Key updates include: Cevostamab (FcRH5\u00d7CD3) demonstrated a 30.2% overall response rate in patients who underwent BCMA-targeted treatment and 60.6% in BCMA-targeted na\u00efve patients;the triple-step dosing strategy reduced cytokine release syndrome.",
+              "value": "30.2%",
+              "document_id": "frozen:accepted_representative:mint5:claim:117c546558458970e8da"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Cevostamab",
+              "endpoint": "response rate",
+              "sentence": "Key updates include: Cevostamab (FcRH5\u00d7CD3) demonstrated a 30.2% overall response rate in patients who underwent BCMA-targeted treatment and 60.6% in BCMA-targeted na\u00efve patients;the triple-step dosing strategy reduced cytokine release syndrome.",
+              "value": "30.2%",
+              "document_id": "frozen:accepted_representative:mint5:claim:117c546558458970e8da"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "pythonhashseed": "2",
+      "reader_decisions_unchanged": 98,
+      "exact_output_mismatches": 11,
+      "changed_fields": [
+        "asset_name"
+      ],
+      "all_alias_differences_case_only": true,
+      "differences": [
+        {
+          "id": "known_false:H18:claim:9954996062248331a551",
+          "actual": [
+            {
+              "asset_name": "TIRZEPATIDE",
+              "endpoint": "response",
+              "sentence": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (\u219330%-62%, p\u2009<\u20090.05) at 48\u2009h and a significant improvement in maximal respiration for tirzepatide at 5\u2009days (\u219142%-52%, p\u2009=\u20090.0022).",
+              "value": "30%",
+              "document_id": "frozen:known_false:H18:claim:9954996062248331a551"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "tirzepatide",
+              "endpoint": "response",
+              "sentence": "Similar responses were noted in human myotubes, with a transient reduction in respiration for semaglutide and cagrilintide (\u219330%-62%, p\u2009<\u20090.05) at 48\u2009h and a significant improvement in maximal respiration for tirzepatide at 5\u2009days (\u219142%-52%, p\u2009=\u20090.0022).",
+              "value": "30%",
+              "document_id": "frozen:known_false:H18:claim:9954996062248331a551"
+            }
+          ]
+        },
+        {
+          "id": "known_false:H19:claim:6c5b35e2a5871015f940",
+          "actual": [
+            {
+              "asset_name": "Sacituzumab Tirumotecan",
+              "endpoint": "survival",
+              "sentence": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+              "value": "5%",
+              "document_id": "frozen:known_false:H19:claim:6c5b35e2a5871015f940"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Sacituzumab tirumotecan",
+              "endpoint": "survival",
+              "sentence": "A partitioned survival model (PSM) was developed to simulate 3-week patients in 10-year time horizon to access the disease course and cost-effectiveness of sacituzumab tirumotecan compared with chemotherapy for metastatic TNBC patients, cost and utility values were gathered from the dataset and published studies, annual discount rate of 5% was used.",
+              "value": "5%",
+              "document_id": "frozen:known_false:H19:claim:6c5b35e2a5871015f940"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c",
+          "actual": [
+            {
+              "asset_name": "though",
+              "endpoint": "response",
+              "sentence": "At 6\u2009months, 79% of patients were alive, though this declined to 60% by 12\u2009months, and progression-free survival dropped more sharply, from 52% to 42% over the same period\u2014suggesting many responses did not last.Side effects were generally manageable.",
+              "value": "79%",
+              "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Though",
+              "endpoint": "response",
+              "sentence": "At 6\u2009months, 79% of patients were alive, though this declined to 60% by 12\u2009months, and progression-free survival dropped more sharply, from 52% to 42% over the same period\u2014suggesting many responses did not last.Side effects were generally manageable.",
+              "value": "79%",
+              "document_id": "frozen:v1_removed_clinical:AACR_accepted:claim:95e146d23911c954540c"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:dfa26674a43723ab9e68",
+          "actual": [
+            {
+              "asset_name": "relugolix",
+              "endpoint": "responder",
+              "sentence": "Relugolix-CT demonstrated sustained efficacy in controlling HMB, with responder rates of 87.7%, amenorrhea in 70% of patients, and significant improvements in hemoglobin and QoL after 52\u00a0weeks of treatment.",
+              "value": "87.7%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:dfa26674a43723ab9e68"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Relugolix",
+              "endpoint": "responder",
+              "sentence": "Relugolix-CT demonstrated sustained efficacy in controlling HMB, with responder rates of 87.7%, amenorrhea in 70% of patients, and significant improvements in hemoglobin and QoL after 52\u00a0weeks of treatment.",
+              "value": "87.7%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:dfa26674a43723ab9e68"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4",
+          "actual": [
+            {
+              "asset_name": "glecaprevir",
+              "endpoint": "response",
+              "sentence": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-na\u00efve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+              "value": "95%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Glecaprevir",
+              "endpoint": "response",
+              "sentence": "\"abstract\": \"Glecaprevir/pibrentasvir (G/P) has demonstrated high rates (>95%) of sustained virologic response at posttreatment Week 12 (SVR12) in treatment-na\u00efve (TN) patients with hepatitis C virus (HCV) infection and compensated cirrhosis (CC).",
+              "value": "95%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:888e9c2c9ce421d305e4"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:1672c26a362bce427334",
+          "actual": [
+            {
+              "asset_name": "bevacizumab",
+              "endpoint": "survival",
+              "sentence": "In patients with RAS wild-type tumors, outcomes were comparable between the anti-EGFR antibody (n = 17) and bevacizumab (n = 9) groups (progression-free survival: 15.6 vs.",
+              "value": "n = 17",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:1672c26a362bce427334"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Bevacizumab",
+              "endpoint": "survival",
+              "sentence": "In patients with RAS wild-type tumors, outcomes were comparable between the anti-EGFR antibody (n = 17) and bevacizumab (n = 9) groups (progression-free survival: 15.6 vs.",
+              "value": "n = 17",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:1672c26a362bce427334"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:e02f9edf1a088951bfae",
+          "actual": [
+            {
+              "asset_name": "ritonavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:e02f9edf1a088951bfae"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Ritonavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:e02f9edf1a088951bfae"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9",
+          "actual": [
+            {
+              "asset_name": "Lopinavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "lopinavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:ad115c2cb6291b6ce2e9"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca",
+          "actual": [
+            {
+              "asset_name": "fosamprenavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Fosamprenavir",
+              "endpoint": "response",
+              "sentence": "For the trials of lopinavir/ritonavir (LPV/r), atazanavir/ritonavir (ATV/r) and fosamprenavir/ritonavir (FAPV/r) using either TDF/FTC or ABC/3TC, the HIV RNA responses were significantly lower when ABC/3TC was used, relative to TDF/FTC, for all patients (P=0.0015) and for patients with baseline viral load <100,000 copies/mL (70.1%vs.",
+              "value": "70.1%",
+              "document_id": "frozen:v1_removed_clinical:H16:claim:d6109ffeff6ee4cfadca"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H18:claim:0c74e255816f9655f5cf",
+          "actual": [
+            {
+              "asset_name": "glepaglutide",
+              "endpoint": "response",
+              "sentence": "Glepaglutide twice weekly was also superior to placebo for key secondary end points of proportion of patients achieving clinical response, defined as \u226520% PS volume reduction from baseline to weeks 20 and 24 (65.7% vs 38.9%;",
+              "value": "20%",
+              "document_id": "frozen:v1_removed_clinical:H18:claim:0c74e255816f9655f5cf"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Glepaglutide",
+              "endpoint": "response",
+              "sentence": "Glepaglutide twice weekly was also superior to placebo for key secondary end points of proportion of patients achieving clinical response, defined as \u226520% PS volume reduction from baseline to weeks 20 and 24 (65.7% vs 38.9%;",
+              "value": "20%",
+              "document_id": "frozen:v1_removed_clinical:H18:claim:0c74e255816f9655f5cf"
+            }
+          ]
+        },
+        {
+          "id": "v1_removed_clinical:H18:claim:13f922afecbd81303713",
+          "actual": [
+            {
+              "asset_name": "survodutide",
+              "endpoint": "efficacy",
+              "sentence": "In total, 84.2% of survodutide-treated patients versus 24.3% of placebo-treated patients had \u226530% reduction in LFC using the efficacy estimand (P\u2009<\u20090.0001;",
+              "value": "84.2%",
+              "document_id": "frozen:v1_removed_clinical:H18:claim:13f922afecbd81303713"
+            }
+          ],
+          "baseline": [
+            {
+              "asset_name": "Survodutide",
+              "endpoint": "efficacy",
+              "sentence": "In total, 84.2% of survodutide-treated patients versus 24.3% of placebo-treated patients had \u226530% reduction in LFC using the efficacy estimand (P\u2009<\u20090.0001;",
+              "value": "84.2%",
+              "document_id": "frozen:v1_removed_clinical:H18:claim:13f922afecbd81303713"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "protected_file_changes": [],
+  "original_result_changes": [],
+  "original_result_files_verified": 7,
+  "protected_files_verified": 1707,
+  "replays": 0,
+  "interpretation": "Decision booleans and all seven recorded runs are unchanged. Exact cross-process alias spelling is not deterministic in the pre-existing reader. This diagnosis does not repair the defect, change the frozen baseline, or turn the formal R7 failure into a pass."
+}
