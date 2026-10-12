@@ -1,0 +1,296 @@
+{
+  "protocol": "Frozen heldout_validation_suite_v4 (inherited v2 labels, v1 metrics)",
+  "labels_commit": "eed63eb7dd5c3ea4387a2b9789c6d886229bbaf5",
+  "primary_validation": true,
+  "queries": [
+    {
+      "query_id": "H16",
+      "engine_outcome": "RESULT",
+      "target_recognition": {
+        "intended": "LAG3",
+        "compiled": [
+          "LAG3"
+        ],
+        "exact": true
+      },
+      "P@20": 0.5,
+      "precision_numerator": 10,
+      "precision_denominator": 20,
+      "recall_all": 1.0,
+      "recall_20": 0.8333333333333334,
+      "reference_size": 6,
+      "found_all": [
+        "relatlimab",
+        "fianlimab",
+        "favezelimab",
+        "ieramilimab",
+        "encelimab",
+        "tebotelimab"
+      ],
+      "found_top20": [
+        "relatlimab",
+        "fianlimab",
+        "favezelimab",
+        "ieramilimab",
+        "tebotelimab"
+      ],
+      "all_shortlist_size": 1133,
+      "NON_ASSET": 0,
+      "DUPLICATE": 0,
+      "WRONG_TARGET": 10,
+      "UNVERIFIABLE": 0,
+      "false_human_poc": 0,
+      "human_poc_rows": [
+        {
+          "position": 1,
+          "name": "Relatlimab",
+          "false_human_poc": false,
+          "rationale": "One cited passage reports numerical pathological and radiographic response rates in patients receiving nivolumab plus relatlimab. The additional nonnumerical PFS passage alone would not qualify."
+        }
+      ],
+      "source_coverage": {
+        "clinicaltrials_gov": "SUCCESS",
+        "pubmed": "SUCCESS",
+        "conference_aacr": "SUCCESS",
+        "company_pipeline_or_presentation": "NOT_CONFIGURED",
+        "company_press_release": "NOT_CONFIGURED",
+        "sec_edgar": "NOT_CONFIGURED",
+        "conference_ash": "NOT_CONFIGURED",
+        "conference_asco": "NOT_CONFIGURED",
+        "conference_eha": "NOT_CONFIGURED"
+      },
+      "run_status": "INCOMPLETE",
+      "incomplete_reasons": [
+        "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_asco, conference_ash, conference_eha, sec_edgar"
+      ],
+      "exit_code": 0,
+      "engine_commit": "5feee853c8a15d8c92ef632f82a07c32e1d0e038",
+      "thresholds": {
+        "target_recognition": true,
+        "P@20>=0.70": false,
+        "recall_all>=0.60": true,
+        "NON_ASSET<=1": true,
+        "DUPLICATE<=2": true,
+        "false_human_poc=0": true
+      },
+      "failed_criteria": [
+        "P@20>=0.70"
+      ],
+      "verdict": "FAIL",
+      "completeness_note": "Scored under preregistered --allow-incomplete; source-configuration INCOMPLETE is reported, not an added exclusion criterion."
+    },
+    {
+      "query_id": "H17",
+      "engine_outcome": "REFUSED",
+      "target_recognition": {
+        "intended": "IL4R",
+        "compiled": [],
+        "exact": false
+      },
+      "refusal_reason": "blocked: no biological target recognized in the query",
+      "P@20": null,
+      "recall_all": null,
+      "recall_20": null,
+      "NON_ASSET": null,
+      "DUPLICATE": null,
+      "false_human_poc": null,
+      "source_coverage": null,
+      "run_status": "REFUSED",
+      "verdict": "FAIL",
+      "failed_criteria": [
+        "query refused / no target recognition"
+      ],
+      "metric_note": "N/A: no shortlist exists. Frozen suite refusal rule sets query-level FAIL; no synthetic zero-valued shortlist."
+    },
+    {
+      "query_id": "H18",
+      "engine_outcome": "RESULT",
+      "target_recognition": {
+        "intended": "GLP1R",
+        "compiled": [
+          "GLP1R"
+        ],
+        "exact": true
+      },
+      "P@20": 0.75,
+      "precision_numerator": 15,
+      "precision_denominator": 20,
+      "recall_all": 1.0,
+      "recall_20": 0.625,
+      "reference_size": 8,
+      "found_all": [
+        "semaglutide",
+        "tirzepatide",
+        "liraglutide",
+        "orforglipron",
+        "survodutide",
+        "retatrutide",
+        "mazdutide",
+        "danuglipron"
+      ],
+      "found_top20": [
+        "semaglutide",
+        "tirzepatide",
+        "liraglutide",
+        "survodutide",
+        "retatrutide"
+      ],
+      "all_shortlist_size": 937,
+      "NON_ASSET": 0,
+      "DUPLICATE": 5,
+      "WRONG_TARGET": 0,
+      "UNVERIFIABLE": 0,
+      "false_human_poc": 1,
+      "human_poc_rows": [
+        {
+          "position": 1,
+          "name": "Tirzepatide",
+          "false_human_poc": true,
+          "rationale": "Cited passage reports respiration changes in human myotubes in vitro, not efficacy in human patients."
+        },
+        {
+          "position": 2,
+          "name": "survodutide",
+          "false_human_poc": false,
+          "rationale": "Cited passage reports the numerical proportion of treated patients with a liver-fat-content reduction versus placebo."
+        }
+      ],
+      "source_coverage": {
+        "clinicaltrials_gov": "SUCCESS",
+        "pubmed": "SUCCESS",
+        "conference_aacr": "SUCCESS",
+        "company_pipeline_or_presentation": "NOT_CONFIGURED",
+        "company_press_release": "NOT_CONFIGURED",
+        "sec_edgar": "NOT_CONFIGURED",
+        "conference_ash": "NOT_CONFIGURED",
+        "conference_asco": "NOT_CONFIGURED",
+        "conference_eha": "NOT_CONFIGURED"
+      },
+      "run_status": "INCOMPLETE",
+      "incomplete_reasons": [
+        "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_asco, conference_ash, conference_eha, sec_edgar"
+      ],
+      "exit_code": 0,
+      "engine_commit": "5feee853c8a15d8c92ef632f82a07c32e1d0e038",
+      "thresholds": {
+        "target_recognition": true,
+        "P@20>=0.70": true,
+        "recall_all>=0.60": true,
+        "NON_ASSET<=1": true,
+        "DUPLICATE<=2": false,
+        "false_human_poc=0": false
+      },
+      "failed_criteria": [
+        "DUPLICATE<=2",
+        "false_human_poc=0"
+      ],
+      "verdict": "FAIL",
+      "completeness_note": "Scored under preregistered --allow-incomplete; source-configuration INCOMPLETE is reported, not an added exclusion criterion."
+    },
+    {
+      "query_id": "H19",
+      "engine_outcome": "RESULT",
+      "target_recognition": {
+        "intended": "TACSTD2",
+        "compiled": [
+          "TACSTD2"
+        ],
+        "exact": true
+      },
+      "P@20": 0.4,
+      "precision_numerator": 8,
+      "precision_denominator": 20,
+      "recall_all": 0.4,
+      "recall_20": 0.4,
+      "reference_size": 5,
+      "found_all": [
+        "sacituzumab govitecan",
+        "sacituzumab tirumotecan"
+      ],
+      "found_top20": [
+        "sacituzumab govitecan",
+        "sacituzumab tirumotecan"
+      ],
+      "all_shortlist_size": 117,
+      "NON_ASSET": 3,
+      "DUPLICATE": 2,
+      "WRONG_TARGET": 7,
+      "UNVERIFIABLE": 0,
+      "false_human_poc": 1,
+      "human_poc_rows": [
+        {
+          "position": 1,
+          "name": "Sacituzumab Tirumotecan",
+          "false_human_poc": true,
+          "rationale": "Cited passage describes a partitioned-survival cost-effectiveness simulation, not numerical observed human efficacy."
+        }
+      ],
+      "source_coverage": {
+        "clinicaltrials_gov": "SUCCESS",
+        "pubmed": "SUCCESS",
+        "conference_aacr": "SUCCESS",
+        "company_pipeline_or_presentation": "NOT_CONFIGURED",
+        "company_press_release": "NOT_CONFIGURED",
+        "sec_edgar": "NOT_CONFIGURED",
+        "conference_ash": "NOT_CONFIGURED",
+        "conference_asco": "NOT_CONFIGURED",
+        "conference_eha": "NOT_CONFIGURED"
+      },
+      "run_status": "INCOMPLETE",
+      "incomplete_reasons": [
+        "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_asco, conference_ash, conference_eha, sec_edgar"
+      ],
+      "exit_code": 0,
+      "engine_commit": "5feee853c8a15d8c92ef632f82a07c32e1d0e038",
+      "thresholds": {
+        "target_recognition": true,
+        "P@20>=0.70": false,
+        "recall_all>=0.60": false,
+        "NON_ASSET<=1": false,
+        "DUPLICATE<=2": true,
+        "false_human_poc=0": false
+      },
+      "failed_criteria": [
+        "P@20>=0.70",
+        "recall_all>=0.60",
+        "NON_ASSET<=1",
+        "false_human_poc=0"
+      ],
+      "verdict": "FAIL",
+      "completeness_note": "Scored under preregistered --allow-incomplete; source-configuration INCOMPLETE is reported, not an added exclusion criterion."
+    },
+    {
+      "query_id": "H20",
+      "engine_outcome": "REFUSED",
+      "target_recognition": {
+        "intended": "F11",
+        "compiled": [],
+        "exact": false
+      },
+      "refusal_reason": "blocked: no biological target recognized in the query",
+      "P@20": null,
+      "recall_all": null,
+      "recall_20": null,
+      "NON_ASSET": null,
+      "DUPLICATE": null,
+      "false_human_poc": null,
+      "source_coverage": null,
+      "run_status": "REFUSED",
+      "verdict": "FAIL",
+      "failed_criteria": [
+        "query refused / no target recognition"
+      ],
+      "metric_note": "N/A: no shortlist exists. Frozen suite refusal rule sets query-level FAIL; no synthetic zero-valued shortlist."
+    }
+  ],
+  "passed_queries": 0,
+  "total_queries": 5,
+  "false_human_poc_total_defined_runs": 2,
+  "suite_decision": "FAIL",
+  "H6_H10": "UNRUN; not executed or scored",
+  "excluded_interrupted_runs": [
+    "heldout_h17_v4",
+    "heldout_h18_v4"
+  ],
+  "verification": "Committed label bytes, all label-freeze hashes, all original artifact hashes, exact top20 identity/order, and complete human-PoC audit coverage verified."
+}
