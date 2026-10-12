@@ -1,0 +1,15 @@
+{
+  "decision": "RESTORED",
+  "candidate_revert": "9a7cdeb",
+  "comparison_baseline": "8ee443a",
+  "verified_head": "4409c68",
+  "src_tests_scripts_git_diff_exit": 0,
+  "tests": 1831,
+  "passed": 1828,
+  "existing_xfails": 3,
+  "failures": 0,
+  "errors": 0,
+  "pytest_exit_code": 0,
+  "ruff": "PASS",
+  "new_behavior_adopted": false
+}

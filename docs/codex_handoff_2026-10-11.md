@@ -1,3 +1,15 @@
+# 2026-10-12 AUTHORITY-SPAN DIAGNOSIS — NO NEW IMPLEMENTATION
+
+Scope freeze **2ff9604**; read-only trace/audit **4409c68**. Packet: `research/se_target_query_authority_span_boundary_diagnosis_v1/`.
+
+All 96 frozen authority-name pairs were parsed on the restored baseline in seven existing frames: **1,344 traces**. 67/96 complete names exceed the target-specific two-token cap; another has scientific parentheses changed by edge stripping. Only 28 complete names are offered in every frame. Against the existing certified whole-name references, original English names emit outside-reference targets for **32 names / 224 frames**; Greek names do so for **31 names / 217 frames**. These are baseline diagnostic mismatches, not new candidate failures. Six uncertified identities are excluded from that comparison.
+
+The three failed Greek cases already have English nested-alias analogues. One additional role conflict: the name `Thymopoietin-related peptide isoform alpha` (TMPO reference) produces PEPTIDE modality. Do not fix modality in this milestone. The original cap rationale is documented in `be41c23` and `docs/se_search_intent_layer.md`: avoid protein-family inference. Merely raising the n-gram cap is not justified.
+
+**Next:** finish diagnosis/design for atomic complete authority spans and separate query-role ownership. Freeze structural controls for nested/overlapping names, ambiguous longer claimants, family/complex descriptors, true dual-target requests, scientific punctuation and clinical-role collisions before preregistering any behavior change. Preserve all ambiguity claimants; no name-specific suppression or broad substring inference. No implementation contract is ready yet. Unicode separator coverage and NCIt common-name semantics remain separate pending work.
+
+Greek v2 remains failed/reverted (**00ab163 / 9a7cdeb**). Source/tests/scripts are byte-identical to pre-candidate **8ee443a**. Restored full suite: **1,828 passed / three existing xfails / zero failures**, exit 0; Ruff clean. Restoration evidence: `research/se_target_query_greek_orthography_v2/restoration/`. Existing identity/retrieval separation remains adopted. Human-PoC recovery STOPPED; ranking/qualification/duplicates untouched. H21–H25 untouched; H6–H10 secondary/unrun. Engine remains unvalidated.
+
 # 2026-10-12 GREEK QUERY CANDIDATE — FAILED AND REVERTED
 
 Source-identity checks completed in **0fcfa5a**: the three multi-gene groups cannot support a single-gene alias. The adopted identity/retrieval separation remains intact.
