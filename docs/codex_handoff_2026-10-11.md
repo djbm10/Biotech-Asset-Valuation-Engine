@@ -1,3 +1,23 @@
+# 2026-10-13 — H19_CANDIDATE_QUALIFICATION_DIAGNOSIS v1 COMPLETE
+
+Freeze **4d628ec**; diagnosis/results **c29ffa2**. No production behavior changes. Read `research/se_h19_candidate_qualification_diagnosis_v1/README.md`, `results/row_table.md`, and policy `docs/se_policies/h19_candidate_qualification_diagnosis_v1.md`.
+
+All 20 emitted rows and all five reference assets are accounted for in 23 first-boundary rows. A non-asset admission: 3; B false product-type exclusion: 1; C nomination: 1; D source coverage: 1; E duplicate identity: 2; F target evidence/review routing: 7; no qualification failure: 8. Frozen metrics and labels unchanged.
+
+Key correction: datopotamab already qualifies DIRECT_APPROVED_NAME. PEPTIDE is not an erroneous ontology identity/type record: the current lexical modality extractor sees `peptide` inside the description's `tetrapeptide linker`, selects it over ADC, and emits claim:2022030306a59db4acec / fact:71c28d48f9461eb004d3 from NCT07720284. That fact causes modality.required FAIL, while the separate ChEMBL CHEMBL4297939 product type is Antibody drug conjugate and authority annotation is ADC/MATCH. First boundary is product-versus-component scope in modality extraction. Do not fix through qualification or an asset exception.
+
+All three NON_ASSET rows use STRUCTURED_THERAPEUTIC from DRUG typing plus experimental-arm membership. None has a direct molecule-name route or NCIt veto. [68Ga]Ga-TTP's own source is a diagnostic PET tracer in a DIAGNOSTIC trial; the two rescue-medication names denote generic premedication categories. Current code separately permits approved-name qualification before the non-product veto; a synthetic route probe confirms this risk, but it is not the cause of these three admissions. Do not collapse the two defects.
+
+ESG401: one raw leaf hit in NCT06145308 armsInterventionsModule.armGroups[3].description, listing alternative drugs; zero candidates/identity mentions. Generic TROP2 ADC is the intervention name. BL-M02D1: zero supplied-form/separator-normalized hits across 779 captured snapshots, zero candidates/mentions. Four ontology source records have no query snapshot. No reacquisition; captured absence does not establish global absence or connector cause.
+
+Validation: all 818 pinned inputs unchanged, exact claim/document links verified, existing helper controls preserved; 215 qualification tests pass, Ruff clean. No source/production/ontology modifications or live replay. Full tests/se not needed for diagnosis-only work. Twelve synthetic semantic design controls are frozen, not scored against a new classifier.
+
+Next highest-value work is **THERAPEUTIC_PRODUCT_ROLE_QUALIFICATION_CONTRACT v1**, design only. There is no implementation-ready general rule yet. Separate product identity, intrinsic kind, observation-specific use, and query eligibility. Protect named therapeutic products used supportively; do not inherit trial purpose into every intervention or treat experimental-arm membership as therapeutic identity. Product/component modality, name nomination, coverage, duplicates, ranking and authority precedence remain independent workstreams. Preregister the design before deriving a rule; no production change authorized by this diagnosis.
+
+The 86 target-role identity cases remain CLOSED/evidence-blocked. Human-PoC recovery stopped. H21–H25 untouched; H6–H10 unrun; H19 development data only.
+
+---
+
 # 2026-10-13 — TARGET_COMPONENT_IDENTITY_CERTIFICATE v2 ADOPTED
 
 Current milestone: independently adopted offline biological identity certificates, with no production consumer or target decision changes.
