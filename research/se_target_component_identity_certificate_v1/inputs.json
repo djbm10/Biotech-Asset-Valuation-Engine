@@ -1,0 +1,9 @@
+{
+  "data/se/ontology/current/manifest.json": "a4206a6d8772c5300cf195b807b7345fb5bc00951f1232eaf293f0384cab4ca2",
+  "data/se/ontology/current/records.jsonl": "986fa262e3c275424968996b78703614563304cf22f5e2a2f1d3c39e0fc6f50b",
+  "population.json": "09c1e0477b45ffbbc239dd872474b1c5eb14625a2494cd4bbb530d45f875cb16",
+  "research/se_authority_assertion_provenance_sidecar_v1/results/artifact_manifest.json": "728759efc64f21437322e5e89169e6c297f171f4d8d807c58c45ba7c9f799088",
+  "research/se_target_mention_role_decision_v1/candidate_component_audit.json.gz": "c24cdebffb024c199bfba2fdab35025d4cc3fca7f46d00a0b74c1097eaf66ff5",
+  "research/se_target_mention_role_decision_v1/multiple_source_components.json": "a6452dbd6ce155772181f9e5f1916ec71e0ea8d7f60cf56db8ff6a463ef16909",
+  "research/se_target_mention_role_representation_v1/baseline.json": "0b099fb2ee14de56801b45bf2e28c74d861123f1e5ac412106ac795c7e211aa3"
+}
