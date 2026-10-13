@@ -1,3 +1,21 @@
+# 2026-10-13 — THERAPEUTIC_PRODUCT_ROLE_QUALIFICATION_CONTRACT v1: STOP AT REPRESENTATION BOUNDARY
+
+Used the exact design preregistration **d22f6b8**. Its policy, preregistration and original input manifest are unchanged. Additional paired structural controls were frozen under its explicit allowance in **99e9c06**; completed boundary audit and red-first evidence are **feebefc**. No replacement contract was written.
+
+Read `research/se_therapeutic_product_role_qualification_contract_v1/README.md` and `results/decision.json`. Status: **NOT IMPLEMENTATION-READY; production implementation NOT_STARTED**. The existing contract defines a design exercise and scientific constraints, not a fully specified replacement predicate or implementation delta. Its D8 stop condition permits a precise evidence/representation gap; that boundary is now demonstrated.
+
+AssetEvidence loses the distinction between whole-product identity/kind and observation-specific intervention use: it receives a name, coarse identity flags and DRUG/arm counters, without source-field/product-subject/role assertions. Two frozen records with distinct therapeutic versus diagnostic source semantics yield identical complete qualification inputs and both return STRUCTURED_THERAPEUTIC. A qualification-only function cannot separate them. Reading/interpreting raw descriptions inside it would introduce a new evidence-binding/extraction rule not supplied by the contract and outside the current implementation scope.
+
+All 46 design rows are audited: 23 H19 entities, 21 original controls, two additional structural witnesses. The three H19 non-assets still qualify; no claim of remediation. Red-first baseline: 8 tests, four expected failures (three non-assets and synthetic diagnostic), four protected-positive passes, zero errors. All 215 existing qualification regressions pass. Semantic fixtures remain distinct from executable historical regressions; no expectations modified. Independent seed-0/seed-42 audit artifacts are byte-identical; Ruff clean.
+
+All 1,181 saved candidate qualification decisions remain unchanged. Total implementation deltas 0; therapeutic losses 0; out-of-scope changes 0, because no production behavior changed. Full tests/se was not run: no production changes; the complete frozen qualification regression set was run. No adoption or revert applies.
+
+Minimum prerequisite, not implemented: subject-scoped qualification assertions retaining exact candidate/intervention identity, product-kind versus observation-use scope, explicit value/UNKNOWN/CONFLICT, source artifact and field/span provenance, interpretation rule/version, and conflicting assertions before aggregation. A source-to-assertion binding rule and positive-evidence sufficiency contract must be frozen before any consumer can use that representation. This is a documented architecture requirement, not a replacement contract or permission to invent new evidence types.
+
+STOP here as instructed when the existing contract is not implementation-ready. Do not delete the structured route blindly, add name vetoes, expand scope into extraction, or treat a zero-change audit as qualification adoption. Consequently do not advance to PRODUCT_VS_COMPONENT_MODALITY under the conditional post-adoption plan. Datopotamab, ESG401, BL-M02D1 paths remain untouched. The 86 target-component cases remain closed; human-PoC recovery stopped; H21–H25 untouched; H6–H10 unrun.
+
+---
+
 # 2026-10-13 — H19_CANDIDATE_QUALIFICATION_DIAGNOSIS v1 COMPLETE
 
 Freeze **4d628ec**; diagnosis/results **c29ffa2**. No production behavior changes. Read `research/se_h19_candidate_qualification_diagnosis_v1/README.md`, `results/row_table.md`, and policy `docs/se_policies/h19_candidate_qualification_diagnosis_v1.md`.
