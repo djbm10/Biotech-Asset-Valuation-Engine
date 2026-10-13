@@ -1,0 +1,114 @@
+[
+  {
+    "id": "P_PEPTIDE",
+    "text": "Novel Product is a peptide therapeutic.",
+    "focus": "peptide",
+    "expected_scope": "PRODUCT_LEVEL",
+    "permits_alone": true,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "P_ADC",
+    "text": "Novel Product is an antibody-drug conjugate.",
+    "focus": "antibody-drug conjugate",
+    "expected_scope": "PRODUCT_LEVEL",
+    "permits_alone": true,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "P_CELL",
+    "text": "Novel Product is a cell therapy.",
+    "focus": "cell therapy",
+    "expected_scope": "PRODUCT_LEVEL",
+    "permits_alone": true,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "P_GENE",
+    "text": "Novel Product is a gene therapy.",
+    "focus": "gene therapy",
+    "expected_scope": "PRODUCT_LEVEL",
+    "permits_alone": true,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "P_ANTIBODY",
+    "text": "Novel Product is an antibody.",
+    "focus": "antibody",
+    "expected_scope": "PRODUCT_LEVEL",
+    "permits_alone": true,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "P_SMALL",
+    "text": "Novel Product is a small molecule.",
+    "focus": "small molecule",
+    "expected_scope": "PRODUCT_LEVEL",
+    "permits_alone": true,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "MODIFIER_PEPTIDE",
+    "text": "Novel Product is a peptide-linked antibody-drug conjugate.",
+    "focus": "peptide",
+    "expected_scope": "NON_PRODUCT",
+    "permits_alone": false,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "MODIFIER_ANTIBODY",
+    "text": "Novel Product is an antibody-derived cell therapy.",
+    "focus": "antibody",
+    "expected_scope": "NON_PRODUCT",
+    "permits_alone": false,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "MODIFIER_PAYLOAD",
+    "text": "Novel Product is a small-molecule-loaded nanoparticle.",
+    "focus": "small-molecule",
+    "expected_scope": "NON_PRODUCT",
+    "permits_alone": false,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "MISSING_SCOPE",
+    "text": "Other Product is a peptide therapeutic.",
+    "focus": "peptide",
+    "expected_scope": "AMBIGUOUS",
+    "permits_alone": false,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "NO_COREFERENCE",
+    "text": "Novel Product is an ADC. It is a peptide therapeutic.",
+    "focus": "peptide",
+    "expected_scope": "AMBIGUOUS",
+    "permits_alone": false,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "COMPOSITE",
+    "text": "Novel Product is an antibody conjugated to a radionuclide.",
+    "focus": "antibody",
+    "expected_scope": "RELATIONAL_COMPOSITE",
+    "permits_alone": false,
+    "source_relation": "independent fixture"
+  },
+  {
+    "id": "CONFLICT_A",
+    "text": "Novel Product is a peptide therapeutic.",
+    "focus": "peptide",
+    "expected_scope": "PRODUCT_LEVEL",
+    "permits_alone": false,
+    "source_relation": "equal-authority conflicting product assertions"
+  },
+  {
+    "id": "CONFLICT_B",
+    "text": "Novel Product is an antibody.",
+    "focus": "antibody",
+    "expected_scope": "PRODUCT_LEVEL",
+    "permits_alone": false,
+    "source_relation": "equal-authority conflicting product assertions"
+  }
+]
