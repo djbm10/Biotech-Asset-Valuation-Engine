@@ -1,0 +1,51 @@
+[
+  {
+    "fixture_id": "CHEMBL1",
+    "raw_molecule_type": "Gene",
+    "scope": "PRODUCT_LEVEL",
+    "provenance": "tests/se/test_authority_modality.py::_MOLECULE_TYPES",
+    "qualification": "synthetic existing fixture; scope denotes field subject, not validation of source category or adopted INN refinements"
+  },
+  {
+    "fixture_id": "CHEMBL2",
+    "raw_molecule_type": "Cell",
+    "scope": "PRODUCT_LEVEL",
+    "provenance": "tests/se/test_authority_modality.py::_MOLECULE_TYPES",
+    "qualification": "synthetic existing fixture; scope denotes field subject, not validation of source category or adopted INN refinements"
+  },
+  {
+    "fixture_id": "CHEMBL3",
+    "raw_molecule_type": "Small molecule",
+    "scope": "PRODUCT_LEVEL",
+    "provenance": "tests/se/test_authority_modality.py::_MOLECULE_TYPES",
+    "qualification": "synthetic existing fixture; scope denotes field subject, not validation of source category or adopted INN refinements"
+  },
+  {
+    "fixture_id": "CHEMBL4",
+    "raw_molecule_type": "Antibody drug conjugate",
+    "scope": "PRODUCT_LEVEL",
+    "provenance": "tests/se/test_authority_modality.py::_MOLECULE_TYPES",
+    "qualification": "synthetic existing fixture; scope denotes field subject, not validation of source category or adopted INN refinements"
+  },
+  {
+    "fixture_id": "CHEMBL5",
+    "raw_molecule_type": "Gene",
+    "scope": "PRODUCT_LEVEL",
+    "provenance": "tests/se/test_authority_modality.py::_MOLECULE_TYPES",
+    "qualification": "synthetic existing fixture; scope denotes field subject, not validation of source category or adopted INN refinements"
+  },
+  {
+    "fixture_id": "CHEMBL6",
+    "raw_molecule_type": "Antibody",
+    "scope": "PRODUCT_LEVEL",
+    "provenance": "tests/se/test_authority_modality.py::_MOLECULE_TYPES",
+    "qualification": "synthetic existing fixture; scope denotes field subject, not validation of source category or adopted INN refinements"
+  },
+  {
+    "fixture_id": "CHEMBL7",
+    "raw_molecule_type": "Unknown",
+    "scope": "AMBIGUOUS",
+    "provenance": "tests/se/test_authority_modality.py::_MOLECULE_TYPES",
+    "qualification": "synthetic existing fixture; scope denotes field subject, not validation of source category or adopted INN refinements"
+  }
+]

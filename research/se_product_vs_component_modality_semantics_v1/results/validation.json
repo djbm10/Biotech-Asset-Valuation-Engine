@@ -1,0 +1,12 @@
+{
+  "architecture_gate": "STOP_SCOPE_RELATION_ABSENT",
+  "decision_changes": 0,
+  "focus_spans_round_tripped": 21,
+  "full_tests_se": "NOT_RUN_NO_PRODUCTION_CHANGE",
+  "independent_builds_identical": true,
+  "production_changes": 0,
+  "raw_h19_description_round_tripped": true,
+  "ruff": "PASS",
+  "test_failures": 0,
+  "tests": 105
+}
