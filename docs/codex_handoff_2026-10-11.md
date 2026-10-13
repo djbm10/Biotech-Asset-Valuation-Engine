@@ -1,3 +1,39 @@
+# 2026-10-13 TARGET MENTION ROLE REPRESENTATION v2 — ADOPTED
+
+Preregistration **dec7b2c**; red tests **d8880b4**; candidate **4aca4d1**; final schema
+identifier/evaluator **20ddc7e**; adoption/evidence **679557d**. All R1–R11 passed; no post-scoring patch. Representation
+and sidecar access only: existing target/parser/compiler and all scientific decisions
+remain unchanged. The analysis API is not called by the production target-decision path.
+
+**Evidence:** 6,199/6,199 frozen decisions unchanged, 1,687/1,687 required spans retained,
+77/77 historical provenance failures closed using exact sidecar IDs. Independent streaming
+of adopted raw-assertion artifacts verifies every emitted provenance match. All 1,392
+complete diagnostic/structural rows byte-identical across seeds 0/1/42. All 245 English/
+protected-Greek explanations retained (35 spelling families, seven frames each).
+Full tests/se **1,839 passed, 3 existing xfails**; four focused controls pass; Ruff clean.
+
+**Diagnostic state:** 1,344 queries, 3,164 mentions; 364 single-mention, 980 multiple,
+448 overlapping queries. Roles: 2,422 ambiguous, 735 embedded, seven contextual.
+Fourteen mention occurrences have no recoverable raw match; no provenance or therapeutic
+role is guessed. Overlaps do not force ownership. Canonical IDs and source component IDs
+remain separate, with all matching raw assertion IDs preserved. Missing historical
+ChEMBL origins remain missing. No source reconstruction from canonical IDs or labels.
+
+Policy: `docs/se_policies/target_mention_role_representation_v2.md`.
+Frozen inputs, evaluator, README and full acceptance evidence:
+`research/se_target_mention_role_representation_v2/`.
+Derived index/output: `/home/djmann/se_runs/target_mention_role_representation_v2/`.
+The index is a read-only access aid, not a new authority; expected adopted hashes are
+required and independent sidecar verification is part of the evaluator.
+
+**Next:** separately preregister TARGET_MENTION_ROLE_DECISION v1. It may evaluate whole-
+name/query-role corrections using this representation, but must first establish a general
+rule and freeze controls. No semantic target-role rule or new alias was implemented here.
+Known separator oracle defects remain frozen. Human-PoC stopped; H21–H25 untouched;
+H6–H10 unrun. Other known reliability milestones remain separate.
+
+---
+
 # 2026-10-13 AUTHORITY ASSERTION PROVENANCE SIDECAR v1 — ADOPTED
 
 Preregistration **0bb2e7a**; red tests **f634e8e**; implementation **2f74f93**; adoption/evidence **d8cb1b2**.
