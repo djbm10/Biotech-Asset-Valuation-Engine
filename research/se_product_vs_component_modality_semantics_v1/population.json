@@ -1,0 +1,186 @@
+{
+  "text_controls": [
+    {
+      "id": "H19_DATO",
+      "origin": "/home/djmann/projects/bve-b8/research/se_h19_candidate_qualification_diagnosis_v1/results/datopotamab_exact_field.json",
+      "text": "Dato-DXd is an ADC comprised of a recombinant humanised anti-TROP2 IgG1 mAb, MAAP-9001a, which is covalently conjugated via a cleavable drug-linker, MAAA1162a (the complex of MAAA-1181a and a maleimide tetrapeptide linker), using thioether bonds to the topoisomerase I inhibitor DXd.",
+      "focus_term": "peptide",
+      "artifact": {
+        "authority_field_path": [
+          "molecule_types",
+          "CHEMBL4297939"
+        ],
+        "authority_product_type": "Antibody drug conjugate",
+        "authority_release": "ChEMBL_37",
+        "authority_source_sha256": "4be13df3b68e25dcd0bff44bf094033b5aebe98f415acdc8c1cdf380e0c15142",
+        "canonical_ontology_identity": "DRUG:DATOPOTAMAB DERUXTECAN",
+        "chembl_identity": "CHEMBL4297939",
+        "claim_id": "claim:2022030306a59db4acec",
+        "document": {
+          "content_hash": "4828b8f5fbd71186fa071a4b54ba423670dbea52ac962fb367adf091931dc35e",
+          "document_id": "document:463268b43ea527c591e7",
+          "document_type": "trial_registry_record",
+          "public_only": true,
+          "publication_date": null,
+          "publisher": "ClinicalTrials.gov",
+          "retrieval_date": "2026-10-12T00:11:03.627839Z",
+          "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4828b8f5fbd71186fa071a4b54ba423670dbea52ac962fb367adf091931dc35e.json",
+          "source_tier": "REGISTRY",
+          "source_url": "https://clinicaltrials.gov/study/NCT07720284"
+        },
+        "exact_field_path": [
+          "armsInterventionsModule",
+          "interventions",
+          0,
+          "description"
+        ],
+        "fact_id": "fact:71c28d48f9461eb004d3",
+        "first_failure": "Lexical modality assignment confuses component description with product type, before modality.required exclusion.",
+        "not_an_ontology_peptide_assertion": true,
+        "qualified_route": "DIRECT_APPROVED_NAME",
+        "raw_description": "Dato-DXd is an ADC comprised of a recombinant humanised anti-TROP2 IgG1 mAb, MAAP-9001a, which is covalently conjugated via a cleavable drug-linker, MAAA1162a (the complex of MAAA-1181a and a maleimide tetrapeptide linker), using thioether bonds to the topoisomerase I inhibitor DXd.",
+        "semantic_subject": "LINKER_COMPONENT"
+      }
+    },
+    {
+      "id": "S01",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product is a peptide therapeutic.",
+      "focus_term": "peptide",
+      "pair_position": "product"
+    },
+    {
+      "id": "S02",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product contains a peptide linker.",
+      "focus_term": "peptide",
+      "pair_position": "other"
+    },
+    {
+      "id": "S03",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product is an antibody.",
+      "focus_term": "antibody",
+      "pair_position": "product"
+    },
+    {
+      "id": "S04",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product contains an antibody-derived binding domain.",
+      "focus_term": "antibody",
+      "pair_position": "other"
+    },
+    {
+      "id": "S05",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product is a small molecule.",
+      "focus_term": "small molecule",
+      "pair_position": "product"
+    },
+    {
+      "id": "S06",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product carries a small molecule payload.",
+      "focus_term": "small molecule",
+      "pair_position": "other"
+    },
+    {
+      "id": "S07",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product is a cell therapy.",
+      "focus_term": "cell therapy",
+      "pair_position": "product"
+    },
+    {
+      "id": "S08",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product is mentioned in a cell therapy assay.",
+      "focus_term": "cell therapy",
+      "pair_position": "other"
+    },
+    {
+      "id": "S09",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product is a gene therapy.",
+      "focus_term": "gene therapy",
+      "pair_position": "product"
+    },
+    {
+      "id": "S10",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product is mentioned in a gene therapy manufacturing study.",
+      "focus_term": "gene therapy",
+      "pair_position": "other"
+    },
+    {
+      "id": "S11",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product is an ADC.",
+      "focus_term": "ADC",
+      "pair_position": "product"
+    },
+    {
+      "id": "S12",
+      "origin": "SYNTHETIC_PAIRED_STRUCTURAL_CONTROL",
+      "text": "Novel Product was compared with an ADC.",
+      "focus_term": "ADC",
+      "pair_position": "other"
+    },
+    {
+      "id": "S13",
+      "origin": "SYNTHETIC_STRUCTURAL_CONTROL",
+      "text": "Novel Product is an ADC with a tetrapeptide linker and cytotoxic payload.",
+      "focus_term": "peptide"
+    },
+    {
+      "id": "S14",
+      "origin": "SYNTHETIC_STRUCTURAL_CONTROL",
+      "text": "Novel Product is an ADC with a small molecule payload.",
+      "focus_term": "small molecule"
+    },
+    {
+      "id": "S15",
+      "origin": "SYNTHETIC_STRUCTURAL_CONTROL",
+      "text": "Novel Product is CAR-T containing an antibody-derived binding domain.",
+      "focus_term": "antibody"
+    },
+    {
+      "id": "S16",
+      "origin": "SYNTHETIC_STRUCTURAL_CONTROL",
+      "text": "Novel Product is a gene therapy delivered using a viral vector.",
+      "focus_term": "viral vector"
+    },
+    {
+      "id": "S17",
+      "origin": "SYNTHETIC_STRUCTURAL_CONTROL",
+      "text": "Novel Product is an antibody conjugated to a radionuclide.",
+      "focus_term": "antibody"
+    },
+    {
+      "id": "S18",
+      "origin": "SYNTHETIC_STRUCTURAL_CONTROL",
+      "text": "Novel Product contains a radionuclide component.",
+      "focus_term": "radionuclide"
+    },
+    {
+      "id": "S19",
+      "origin": "SYNTHETIC_STRUCTURAL_CONTROL",
+      "text": "Novel Product: peptide; antibody; mechanism under investigation.",
+      "focus_term": "peptide"
+    },
+    {
+      "id": "S20",
+      "origin": "SYNTHETIC_STRUCTURAL_CONTROL",
+      "text": "Novel Product was administered; an unrelated peptide assay was performed.",
+      "focus_term": "peptide"
+    }
+  ],
+  "existing_controls": [
+    "tests/se/test_authority_modality.py",
+    "tests/se/test_ncit_modality.py",
+    "tests/se/test_modality_optional_and_dual_targets.py",
+    "tests/se/test_gates.py",
+    "tests/se/test_asset_qualification.py"
+  ],
+  "h19_rows": "ALL frozen row_audit.json.gz rows; no relabeling"
+}
