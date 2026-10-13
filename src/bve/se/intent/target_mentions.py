@@ -81,7 +81,7 @@ class MentionSpanRelation(StrictModel):
 
 
 class TargetMentionAnalysis(StrictModel):
-    representation_version: str = "target_mention_role_v1"
+    representation_version: str = "target_mention_role_v2"
     original_query: str
     intent_ontology_version: str
     ontology_version: str | None
