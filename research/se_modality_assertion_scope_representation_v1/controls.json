@@ -1,0 +1,200 @@
+[
+  {
+    "id": "H19_DATO",
+    "text": "Dato-DXd is an ADC comprised of a recombinant humanised anti-TROP2 IgG1 mAb, MAAP-9001a, which is covalently conjugated via a cleavable drug-linker, MAAA1162a (the complex of MAAA-1181a and a maleimide tetrapeptide linker), using thioether bonds to the topoisomerase I inhibitor DXd.",
+    "focus_term": "peptide",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "S01",
+    "text": "Novel Product is a peptide therapeutic.",
+    "focus_term": "peptide",
+    "expected_scope": "PRODUCT_LEVEL"
+  },
+  {
+    "id": "S02",
+    "text": "Novel Product contains a peptide linker.",
+    "focus_term": "peptide",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "S03",
+    "text": "Novel Product is an antibody.",
+    "focus_term": "antibody",
+    "expected_scope": "PRODUCT_LEVEL"
+  },
+  {
+    "id": "S04",
+    "text": "Novel Product contains an antibody-derived binding domain.",
+    "focus_term": "antibody",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "S05",
+    "text": "Novel Product is a small molecule.",
+    "focus_term": "small molecule",
+    "expected_scope": "PRODUCT_LEVEL"
+  },
+  {
+    "id": "S06",
+    "text": "Novel Product carries a small molecule payload.",
+    "focus_term": "small molecule",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "S07",
+    "text": "Novel Product is a cell therapy.",
+    "focus_term": "cell therapy",
+    "expected_scope": "PRODUCT_LEVEL"
+  },
+  {
+    "id": "S08",
+    "text": "Novel Product is mentioned in a cell therapy assay.",
+    "focus_term": "cell therapy",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "S09",
+    "text": "Novel Product is a gene therapy.",
+    "focus_term": "gene therapy",
+    "expected_scope": "PRODUCT_LEVEL"
+  },
+  {
+    "id": "S10",
+    "text": "Novel Product is mentioned in a gene therapy manufacturing study.",
+    "focus_term": "gene therapy",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "S11",
+    "text": "Novel Product is an ADC.",
+    "focus_term": "ADC",
+    "expected_scope": "PRODUCT_LEVEL"
+  },
+  {
+    "id": "S12",
+    "text": "Novel Product was compared with an ADC.",
+    "focus_term": "ADC",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "S13",
+    "text": "Novel Product is an ADC with a tetrapeptide linker and cytotoxic payload.",
+    "focus_term": "peptide",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "S14",
+    "text": "Novel Product is an ADC with a small molecule payload.",
+    "focus_term": "small molecule",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "S15",
+    "text": "Novel Product is CAR-T containing an antibody-derived binding domain.",
+    "focus_term": "antibody",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "S16",
+    "text": "Novel Product is a gene therapy delivered using a viral vector.",
+    "focus_term": "viral vector",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "S17",
+    "text": "Novel Product is an antibody conjugated to a radionuclide.",
+    "focus_term": "antibody",
+    "expected_scope": "RELATIONAL_COMPOSITE"
+  },
+  {
+    "id": "S18",
+    "text": "Novel Product contains a radionuclide component.",
+    "focus_term": "radionuclide",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "S19",
+    "text": "Novel Product: peptide; antibody; mechanism under investigation.",
+    "focus_term": "peptide",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "S20",
+    "text": "Novel Product was administered; an unrelated peptide assay was performed.",
+    "focus_term": "peptide",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "X01",
+    "text": "Novel Product is not a peptide therapeutic.",
+    "focus_term": "peptide",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "X02",
+    "text": "Novel Product may be a peptide therapeutic.",
+    "focus_term": "peptide",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "X03",
+    "text": "Other Product is a peptide therapeutic.",
+    "focus_term": "peptide",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "X04",
+    "text": "Novel Product and Other Product are peptide therapeutics.",
+    "focus_term": "peptide",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "X05",
+    "text": "Novel Product is an ADC. Other Product has a peptide linker.",
+    "focus_term": "peptide",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "X06",
+    "text": "Novel Product is an ADC with a cytotoxic payload.",
+    "focus_term": "cytotoxic",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "X07",
+    "text": "Novel Product is a peptide therapeutic with a peptide linker.",
+    "focus_term": "peptide",
+    "expected_scope": "PRODUCT_LEVEL"
+  },
+  {
+    "id": "X08",
+    "text": "Novel Product is a small-molecule product.",
+    "focus_term": "small-molecule",
+    "expected_scope": "PRODUCT_LEVEL"
+  },
+  {
+    "id": "X09",
+    "text": "Novel Product is an antibody with a viral vector component.",
+    "focus_term": "viral vector",
+    "expected_scope": "COMPONENT_LEVEL"
+  },
+  {
+    "id": "X10",
+    "text": "Novel Product is being compared with an antibody.",
+    "focus_term": "antibody",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "X11",
+    "text": "Novel Product is an ADC without a peptide linker.",
+    "focus_term": "peptide",
+    "expected_scope": "AMBIGUOUS"
+  },
+  {
+    "id": "X12",
+    "text": "Novel Product is an ADC; peptide assay results are pending.",
+    "focus_term": "peptide",
+    "expected_scope": "AMBIGUOUS"
+  }
+]
