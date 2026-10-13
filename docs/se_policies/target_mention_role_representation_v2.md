@@ -88,3 +88,39 @@ Commit before implementation, then red tests, smallest candidate, full frozen sc
 Any failed criterion is recorded and candidate normally reverted; no post-result patch.
 On success adopt independently, update handoff; TARGET_MENTION_ROLE_DECISION v1 remains
 a separate preregistration. Human-PoC stopped. H21–H25 untouched; H6–H10 unrun.
+
+## Frozen result — ADOPTED
+
+Preregistration **dec7b2c**; red controls **d8880b4**; candidate **4aca4d1**;
+final v2 schema identifier and frozen evaluator **20ddc7e**. All R1–R11 passed.
+No post-scoring code or acceptance changes.
+
+- **6,199/6,199** full frozen decisions unchanged before/after analysis.
+- **1,687/1,687** required spans represented with unchanged native states.
+- **77/77** former failures closed with exact adopted sidecar assertion IDs.
+- Independent sidecar streaming confirms complete assertion/component/source/type
+  equality for every emitted lookup key. No resolver-derived provenance fallback.
+- **1,392** complete diagnostic/structural records byte-identical at seeds 0, 1, 42;
+  all 6,199 analyses also repeat identically in the full seed-0 evaluation.
+- **245** full explanations cover all 32 English and three protected Greek spelling
+  families, seven frames each. Known separator oracle defects remain unchanged.
+- Full tests/se: **1,839 passed, 3 existing xfails**, no failures/errors; four focused
+  controls pass; required Ruff clean.
+
+Among 1,344 diagnostic queries: 364 have one mention, 980 multiple, 448 overlapping.
+The 3,164 mentions comprise 2,422 AMBIGUOUS_ROLE, 735 EMBEDDED_BIOLOGICAL_MENTION and
+seven CONTEXTUAL_BIOLOGICAL_MENTION; no independent target-role certificate is invented.
+Fourteen mention occurrences lack a recoverable raw match and remain explicitly
+uncertified. These are diagnostic counts, not targets optimized by this milestone.
+
+Committed evidence is under `research/se_target_mention_role_representation_v2/results/`.
+The derived index and independent generated outputs remain at
+`/home/djmann/se_runs/target_mention_role_representation_v2/`.
+Adopted assertion source remains the independently adopted authority sidecar. Its missing
+historical ChEMBL origins are not reconstructed. Representation is available only through
+an explicit analysis call; no existing parser/compiler or target-selection path consumes it.
+
+Next milestone: separately preregister TARGET_MENTION_ROLE_DECISION v1. V2 supplies
+structure and provenance; it does not establish a rule for therapeutic query-role
+selection, recover aliases, fix H17/H20, or validate generalization. Human-PoC remains
+stopped, H21–H25 untouched, H6–H10 unrun.

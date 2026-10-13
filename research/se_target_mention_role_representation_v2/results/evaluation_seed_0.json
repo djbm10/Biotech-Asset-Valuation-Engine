@@ -1,0 +1,21 @@
+{
+  "seed": "0",
+  "seed_only": false,
+  "rows": 6199,
+  "counts": {
+    "decisions": 6199,
+    "required_spans": 1687,
+    "diagnostic_queries": 1344,
+    "one_mention_queries": 364,
+    "multiple_mention_queries": 980,
+    "overlapping_queries": 448,
+    "AMBIGUOUS_ROLE": 2422,
+    "mentions_without_raw_match": 14,
+    "EMBEDDED_BIOLOGICAL_MENTION": 735,
+    "CONTEXTUAL_BIOLOGICAL_MENTION": 7,
+    "former_failures_checked": 77,
+    "explanation_rows": 245
+  },
+  "failures": [],
+  "ledger_sha256": "c3d6d576afaa4347e0eb6a8bae32ae5f4462e1c508858244b0d9d12fc4435ef3"
+}

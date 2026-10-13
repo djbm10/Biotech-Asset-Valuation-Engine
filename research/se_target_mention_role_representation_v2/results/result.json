@@ -1,0 +1,57 @@
+{
+  "milestone": "TARGET_MENTION_ROLE_REPRESENTATION v2",
+  "decision": "ADOPT",
+  "baseline": "27a2548",
+  "preregistration": "dec7b2c",
+  "red_tests": "d8880b4",
+  "implementation": "4aca4d1",
+  "evaluation_and_schema": "20ddc7e",
+  "criteria": {
+    "R1": "PASS",
+    "R2": "PASS",
+    "R3": "PASS",
+    "R4": "PASS",
+    "R5": "PASS",
+    "R6": "PASS",
+    "R7": "PASS",
+    "R8": "PASS",
+    "R9": "PASS",
+    "R10": "PASS",
+    "R11": "PASS"
+  },
+  "metrics": {
+    "decisions": 6199,
+    "required_spans": 1687,
+    "diagnostic_queries": 1344,
+    "one_mention_queries": 364,
+    "multiple_mention_queries": 980,
+    "overlapping_queries": 448,
+    "AMBIGUOUS_ROLE": 2422,
+    "mentions_without_raw_match": 14,
+    "EMBEDDED_BIOLOGICAL_MENTION": 735,
+    "CONTEXTUAL_BIOLOGICAL_MENTION": 7,
+    "former_failures_checked": 77,
+    "explanation_rows": 245
+  },
+  "diagnostic_ledger_sha256": "c3d6d576afaa4347e0eb6a8bae32ae5f4462e1c508858244b0d9d12fc4435ef3",
+  "seeds": [
+    0,
+    1,
+    42
+  ],
+  "all_ledger_bytes_identical": true,
+  "tests": {
+    "tests": 1842,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3,
+    "passed": 1839,
+    "existing_xfails": 3
+  },
+  "focused_passed": 4,
+  "ruff": "PASS",
+  "limitations": [
+    "14 diagnostic mentions have no recoverable raw match; no provenance synthesized.",
+    "Query role remains uncertified except the preregistered structural annotations; no target-selection change."
+  ]
+}
