@@ -1,0 +1,12 @@
+{
+  "data/se/ontology/current/manifest.json": "a4206a6d8772c5300cf195b807b7345fb5bc00951f1232eaf293f0384cab4ca2",
+  "data/se/ontology/current/records.jsonl": "986fa262e3c275424968996b78703614563304cf22f5e2a2f1d3c39e0fc6f50b",
+  "research/se_authority_assertion_provenance_sidecar_v1/input_hashes.json": "ae119272782b3e977f50b3850ebb5066f6c3a6690080f050bab2a132951ade89",
+  "research/se_authority_assertion_provenance_sidecar_v1/results/artifact_manifest.json": "728759efc64f21437322e5e89169e6c297f171f4d8d807c58c45ba7c9f799088",
+  "research/se_target_component_identity_certificate_v1/population.json": "09c1e0477b45ffbbc239dd872474b1c5eb14625a2494cd4bbb530d45f875cb16",
+  "research/se_target_component_identity_certificate_v1/results/blocked_86_audit.json": "ad29f4c9f978f5766514b747971b027dd93afc75b10e5c95273454350b53040f",
+  "research/se_target_component_identity_certificate_v1/results/component_audit.json.gz": "e2e0b6cfa00f9c6f2cb729cfbbec5f9a26cd65954ce5d38bdb1bc00fcaeaadd1",
+  "research/se_target_component_identity_certificate_v1/results/minimum_source_contract.md": "f8abfe9627184b1acde48547ef1012e6687223695870225dd35cce10c53a0a25",
+  "research/se_target_component_identity_certificate_v1/results/summary.json": "ec4a6e85c62b02dd7a2d3412e5f0070562a5cc8bc9d472f7c8689f90c47bcdda",
+  "research/se_target_mention_role_representation_v1/baseline.json": "0b099fb2ee14de56801b45bf2e28c74d861123f1e5ac412106ac795c7e211aa3"
+}
