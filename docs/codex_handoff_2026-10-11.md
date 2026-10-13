@@ -1,3 +1,36 @@
+# 2026-10-12 AUTHORITY LOOKUP SOURCE COMPONENT PROVENANCE DIAGNOSIS v1 — STOP B
+
+Population freeze **5aa8fdd**; baseline **cc609b1**. Diagnosis/design only; no production
+or snapshot changes. Policy: `docs/se_policies/authority_lookup_source_component_provenance_diagnosis_v1.md`.
+Audit: `research/se_authority_lookup_source_component_provenance_diagnosis_v1/`.
+
+All **77** failed observations recover exact stored snapshot assertions. The broader
+frozen population has **124 observations / 443 assertion locators**; all raw fields and
+query offsets round-trip. Audit output is byte-identical in an independent seed-42 process.
+Current outcomes: **60 RESOLVED, 62 AMBIGUOUS, 2 UNRESOLVED**. These are diagnostic counts,
+not target recovery. No parser decisions changed or new aliases admitted.
+
+The substrate has two levels: snapshot field/component provenance is reconstructible,
+but original upstream synonym spelling/field and ChEMBL component-to-alias ownership
+were discarded by ingestion cleanup, flattening and deduplication. A snapshot locator
+must not masquerade as original authority lineage. **Boundary B:** minimum extension is
+an ingestion source-assertion sidecar binding raw artifact digest + field path + component
++ transforms to snapshot assertions. No snapshot regeneration or implementation here.
+
+A separate resolver-component key and match-assertion ledger can preserve colliding
+canonical IDs without changing or merging their identities. Design is documented, but
+full upstream provenance implementation is not ready on current snapshot schema.
+Next narrow work, if resumed: preregister captured-source assertion lineage/schema design;
+first check retained upstream artifacts, with no identity or decision changes. Do not
+reattempt target-mention representation or target-role decisions yet.
+
+Diagnostic scripts pass Ruff. Production src/tests/scripts and snapshots match cc609b1;
+full tests/se were not rerun for this documentation/offline diagnostic change. Prior
+failed representation evidence and reversions remain intact. Human-PoC stopped;
+H21–H25 untouched; H6–H10 unrun. All other semantic milestones remain separate.
+
+---
+
 # 2026-10-12 TARGET MENTION ROLE REPRESENTATION v1 — FAILED / REVERTED
 
 Preregistration **d26949f**; red-first tests **cbdb8d2**; candidate **1bbfceb**;

@@ -1,0 +1,11 @@
+{
+  "rows": 124,
+  "prior_failures": 77,
+  "all_failed_rows_recoverable": true,
+  "status_counts": {
+    "AMBIGUOUS": 62,
+    "RESOLVED": 60,
+    "UNRESOLVED": 2
+  },
+  "snapshot_sha256": "986fa262e3c275424968996b78703614563304cf22f5e2a2f1d3c39e0fc6f50b"
+}

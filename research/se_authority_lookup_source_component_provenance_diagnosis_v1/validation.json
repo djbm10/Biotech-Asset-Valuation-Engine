@@ -1,0 +1,17 @@
+{
+  "rows": 124,
+  "prior_failures": 77,
+  "all_failed_rows_recoverable": true,
+  "status_counts": {
+    "AMBIGUOUS": 62,
+    "RESOLVED": 60,
+    "UNRESOLVED": 2
+  },
+  "snapshot_sha256": "986fa262e3c275424968996b78703614563304cf22f5e2a2f1d3c39e0fc6f50b",
+  "raw_field_roundtrips": 443,
+  "all_span_candidates_roundtrip": true,
+  "upstream_raw_alias_recovery": "NOT_CERTIFIABLE_FROM_SNAPSHOT",
+  "upstream_component_alias_ownership": "NOT_CERTIFIABLE_FROM_SNAPSHOT",
+  "repeat_audit_seed_42_byte_identical": true,
+  "audit_sha256": "a55e145db71401b4e600e5019882351c92f155ddaa8eac5c9f343db0173497e0"
+}
