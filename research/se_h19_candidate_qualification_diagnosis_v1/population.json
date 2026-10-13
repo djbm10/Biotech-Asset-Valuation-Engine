@@ -1,0 +1,357 @@
+{
+  "controls": [
+    {
+      "description": "A monoclonal antibody therapeutic administered to treat disease.",
+      "id": "S01",
+      "kind": "antibody",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": true,
+      "synthetic": true
+    },
+    {
+      "description": "An antibody-drug conjugate with a peptide linker and cytotoxic payload.",
+      "id": "S02",
+      "kind": "ADC",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": true,
+      "synthetic": true
+    },
+    {
+      "description": "A peptide therapeutic administered to treat disease.",
+      "id": "S03",
+      "kind": "peptide",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": true,
+      "synthetic": true
+    },
+    {
+      "description": "A recombinant protein therapeutic administered to treat disease.",
+      "id": "S04",
+      "kind": "protein",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": true,
+      "synthetic": true
+    },
+    {
+      "description": "A diagnostic substance used to identify disease, without therapeutic intent.",
+      "id": "S05",
+      "kind": "diagnostic",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": false,
+      "synthetic": true
+    },
+    {
+      "description": "A radiotracer used only for PET imaging; no anticancer treatment.",
+      "id": "S06",
+      "kind": "imaging",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": false,
+      "synthetic": true
+    },
+    {
+      "description": "Unspecified rescue medications: antihistamines, acetaminophen, and steroids.",
+      "id": "S07",
+      "kind": "supportive",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": false,
+      "synthetic": true
+    },
+    {
+      "description": "A list of two independently named drugs, not one fixed-dose product.",
+      "id": "S08",
+      "kind": "regimen",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": false,
+      "synthetic": true
+    },
+    {
+      "description": "A diagnostic imaging procedure, not a substance or therapeutic product.",
+      "id": "S09",
+      "kind": "procedure",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": false,
+      "synthetic": true
+    },
+    {
+      "description": "A measured biomarker expression level, not an administered product.",
+      "id": "S10",
+      "kind": "biomarker",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": false,
+      "synthetic": true
+    },
+    {
+      "description": "A laboratory assay reagent used only ex vivo.",
+      "id": "S11",
+      "kind": "reagent",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": false,
+      "synthetic": true
+    },
+    {
+      "description": "One named therapeutic drug used as supportive care in this trial.",
+      "id": "S12",
+      "kind": "supportive_real_product",
+      "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+      "stipulated_product_identity": true,
+      "synthetic": true
+    },
+    {
+      "evidence": {
+        "entity_specific_link": true,
+        "name": "benzhexol",
+        "pharmacologic_context": true,
+        "pharmacologic_documents": 2,
+        "support": 1
+      },
+      "expected_current_qualifies": true,
+      "id": "P_benzhexol",
+      "kind": "existing_positive"
+    },
+    {
+      "evidence": {
+        "entity_specific_link": true,
+        "name": "ibritumomab",
+        "pharmacologic_context": true,
+        "pharmacologic_documents": 2,
+        "support": 1
+      },
+      "expected_current_qualifies": true,
+      "id": "P_ibritumomab",
+      "kind": "existing_positive"
+    },
+    {
+      "evidence": {
+        "entity_specific_link": true,
+        "name": "lestaurinib",
+        "pharmacologic_context": true,
+        "pharmacologic_documents": 2,
+        "support": 1
+      },
+      "expected_current_qualifies": true,
+      "id": "P_lestaurinib",
+      "kind": "existing_positive"
+    },
+    {
+      "evidence": {
+        "name": "although",
+        "support": 100
+      },
+      "expected_current_qualifies": false,
+      "id": "N_although",
+      "kind": "existing_negative"
+    },
+    {
+      "evidence": {
+        "name": "before",
+        "support": 100
+      },
+      "expected_current_qualifies": false,
+      "id": "N_before",
+      "kind": "existing_negative"
+    },
+    {
+      "evidence": {
+        "name": "baseline",
+        "support": 100
+      },
+      "expected_current_qualifies": false,
+      "id": "N_baseline",
+      "kind": "existing_negative"
+    },
+    {
+      "evidence": {
+        "name": "Euroflow",
+        "support": 100
+      },
+      "expected_current_qualifies": false,
+      "id": "N_Euroflow",
+      "kind": "existing_negative"
+    },
+    {
+      "evidence": {
+        "name": "IQR",
+        "support": 100
+      },
+      "expected_current_qualifies": false,
+      "id": "N_IQR",
+      "kind": "existing_negative"
+    },
+    {
+      "direct_name_authority": true,
+      "expected_current_route": "DIRECT_APPROVED_NAME",
+      "explicit_non_product_veto": true,
+      "id": "PRECEDENCE",
+      "kind": "synthetic_route_probe",
+      "name": "synthetic authority molecule",
+      "note": "Controlled route-order observation only; does not decide future conflict policy."
+    }
+  ],
+  "emitted": [
+    {
+      "asset_id": "asset:cf362b6bc18a7577433e",
+      "label": "RELEVANT",
+      "name": "Sacituzumab Tirumotecan",
+      "position": 1,
+      "rationale": "TROP2 ADC sacituzumab tirumotecan."
+    },
+    {
+      "asset_id": "asset:a4e8d5e9526a71ca9926",
+      "label": "RELEVANT",
+      "name": "Sacituzumab govitecan",
+      "position": 2,
+      "rationale": "TROP2 ADC sacituzumab govitecan."
+    },
+    {
+      "asset_id": "asset:55156988e1caf7540012",
+      "label": "WRONG_TARGET",
+      "name": "Izalontamab brengitecan",
+      "position": 3,
+      "rationale": "EGFR/HER3 ADC BL-B01D1."
+    },
+    {
+      "asset_id": "asset:ebb191faef21e4ff891a",
+      "label": "WRONG_TARGET",
+      "name": "becotatug vedotin",
+      "position": 4,
+      "rationale": "EGFR ADC MRG003."
+    },
+    {
+      "asset_id": "asset:4851f243ea1b874fc72c",
+      "label": "WRONG_TARGET",
+      "name": "BMS-986148",
+      "position": 5,
+      "rationale": "Mesothelin ADC."
+    },
+    {
+      "asset_id": "asset:9eebbd99c1a9aaccbbf6",
+      "label": "WRONG_TARGET",
+      "name": "Farletuzumab ecteribulin",
+      "position": 6,
+      "rationale": "Folate receptor alpha ADC MORAb-202."
+    },
+    {
+      "asset_id": "asset:c6b579c637778982425a",
+      "label": "WRONG_TARGET",
+      "name": "ifinatamab deruxtecan",
+      "position": 7,
+      "rationale": "B7H3 ADC DS-7300."
+    },
+    {
+      "asset_id": "asset:8454195f6696f70f9341",
+      "label": "WRONG_TARGET",
+      "name": "trastuzumab rezetecan",
+      "position": 8,
+      "rationale": "HER2 ADC SHR-A1811."
+    },
+    {
+      "asset_id": "asset:31c594ce16901413184d",
+      "label": "RELEVANT",
+      "name": "LCB84",
+      "position": 9,
+      "rationale": "TROP2 ADC LCB84."
+    },
+    {
+      "asset_id": "asset:cc8870dce46a89ae8491",
+      "label": "RELEVANT",
+      "name": "SHR-A1921",
+      "position": 10,
+      "rationale": "TROP2 ADC SHR-A1921."
+    },
+    {
+      "asset_id": "asset:7e46ff9cac55621121b6",
+      "label": "RELEVANT",
+      "name": "T60c injection",
+      "position": 11,
+      "rationale": "TROP2 CAR-transduced PD1-positive T cells T60c; target-based frozen labels do not impose an ADC-only gate."
+    },
+    {
+      "asset_id": "asset:c745a7778d72ccd0530f",
+      "label": "RELEVANT",
+      "name": "Super Hi-TCR-T cells",
+      "position": 12,
+      "rationale": "Multiplex therapeutic T cells with TROP2 among their declared targets; target-based frozen labels."
+    },
+    {
+      "asset_id": "asset:71c4c66835554a77dee4",
+      "label": "RELEVANT",
+      "name": "JSKN016HC",
+      "position": 13,
+      "rationale": "Subcutaneous JSKN016 TROP2/HER3 bispecific ADC."
+    },
+    {
+      "asset_id": "asset:d8acad65baca22c63bc4",
+      "label": "RELEVANT",
+      "name": "TGFBR2 KO iC9/TROP2.CAR/IL-15 NK cells",
+      "position": 14,
+      "rationale": "CB-derived TROP2 CAR/IL15 TGFBR2KO NK therapeutic product. Detailed objectives and intervention identify TROP2 despite conflicting CD70 wording in brief summary."
+    },
+    {
+      "asset_id": "asset:238fe29ae046e79a2abd",
+      "label": "DUPLICATE",
+      "name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells",
+      "position": 15,
+      "rationale": "Abbreviated same MD Anderson CB-derived TROP2 CAR/IL15 TGFBR2KO NK construct as position 14, in another indication; not a distinct named product."
+    },
+    {
+      "asset_id": "asset:7e251ce2a0c8acfe2d6c",
+      "label": "DUPLICATE",
+      "name": "TRODELVY",
+      "position": 16,
+      "rationale": "Trodelvy is sacituzumab govitecan; duplicates position 2."
+    },
+    {
+      "asset_id": "asset:26203a4710a9a1ef4a66",
+      "label": "NON_ASSET",
+      "name": "[68Ga]Ga-TTP",
+      "position": 17,
+      "rationale": "Diagnostic PET tracer, not a therapeutic product; registry explicitly describes imaging, not treatment."
+    },
+    {
+      "asset_id": "asset:20c427deaf4630b016e5",
+      "label": "NON_ASSET",
+      "name": "Rescue Medications",
+      "position": 18,
+      "rationale": "Unspecified supportive-care category, not a named product."
+    },
+    {
+      "asset_id": "asset:5d4d083034e81aa9b191",
+      "label": "NON_ASSET",
+      "name": "Rescue Medication",
+      "position": 19,
+      "rationale": "Unspecified supportive-care category, not a named product."
+    },
+    {
+      "asset_id": "asset:c5a8f2c8daf746c0683a",
+      "label": "WRONG_TARGET",
+      "name": "9MW2821",
+      "position": 20,
+      "rationale": "Nectin4 ADC, not TROP2."
+    }
+  ],
+  "references": [
+    [
+      "sacituzumab govitecan",
+      "Trodelvy",
+      "IMMU-132"
+    ],
+    [
+      "datopotamab deruxtecan",
+      "Datroway",
+      "Dato-DXd",
+      "DS-1062"
+    ],
+    [
+      "sacituzumab tirumotecan",
+      "sac-TMT",
+      "MK-2870",
+      "SKB264"
+    ],
+    [
+      "ESG401"
+    ],
+    [
+      "BL-M02D1"
+    ]
+  ]
+}
