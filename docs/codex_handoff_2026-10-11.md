@@ -1,3 +1,43 @@
+# 2026-10-13 TARGET COMPONENT IDENTITY CERTIFICATE v1 — SOURCE GATE FAILED
+
+Preregistration **5af5775**; source-gate failure/evidence **a1ff1b0**. **No production implementation or adoption.**
+Stopped at the preregistered G0 source-readiness gate; no candidate exists to revert.
+
+Audited 48 frozen components, all nine implicated groups and all 86 blocked proposals.
+Retained evidence: 72 raw Open Targets gene records, 3,534 exact assertion-sidecar rows,
+four raw Greek-form labels. Twenty-nine ChEMBL raw member records are missing. Each of
+the nine groups includes missing ChEMBL component evidence; normalized rows cannot recover
+original target type, member ownership or biological relationships. Counting graph members
+is not an authority certificate of a biological multi-entity target.
+
+**86 diagnostic results:** 0 certified single; 0 certified multi; 0 certified relational;
+35 primary gene-ID mapping conflicts; 51 ambiguous. All 86 lack a permitting certificate.
+All nine whole-group identities remain AMBIGUOUS. Five approved-name gene mismatches, each
+in seven frames: H4C1→H4C8, BOLA2→BOLA2B, UBA52→RPS27A, ALK→EML4, JMJD7→PLA2G4B. These are
+explicit gene-identity conflicts, not a claim that every encoded/mature protein differs.
+Nineteen broader clean primary gene mappings have raw support; this does not certify all
+synonyms in their records or settle gene/protein/complex granularity.
+
+Evidence: `research/se_target_component_identity_certificate_v1/results/`; policy:
+`docs/se_policies/target_component_identity_certificate_v1.md`. Three audit seeds
+0/1/42 byte-identical. All 6,199 parser/compiler/trial/buyer hashes recomputed unchanged.
+Ruff clean. Production src/tests/scripts and accepted ontology bytes unchanged from e2b31bf.
+Full tests/se not rerun because source gate failed before implementation; no C10 claim.
+
+**Next prerequisite:** a separately preregistered structured target-component authority
+source contract; see `results/minimum_source_contract.md`. It must preserve typed target
+and component membership/relations at explicit gene/protein/complex granularity, include
+real complex/fusion/relational positive controls, and retain raw structural-field lineage.
+Use a frozen release-addressed evidence bundle; distinguish new independent evidence from
+unrecoverable historical HTTP origin. No new source was acquired in this milestone.
+Do not infer equivalence from shared accession, spelling, record membership or sequence.
+Do not repair the authority graph, admit aliases, or implement target-role decision v2 yet.
+
+H21–H25 untouched; H6–H10 unrun; human-PoC stopped. Existing mappings and separator oracle
+defects unchanged. No private advice/meeting material included, no push.
+
+---
+
 # 2026-10-13 TARGET MENTION ROLE DECISION v1 — DESIGN BOUNDARY
 
 Diagnosis/evidence **8ec028c**. **No implementation preregistration, production change,
