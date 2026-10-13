@@ -1,5 +1,27 @@
 # 2026-10-13 TARGET COMPONENT IDENTITY CERTIFICATE v1 — SOURCE GATE FAILED
 
+## 2026-10-13 — TARGET_COMPONENT_IDENTITY_AUTHORITY_EVIDENCE v1 ADOPTED
+
+Decision-neutral source/evidence infrastructure is independently adopted. No certificates, aliases, parser semantics, or production code changed.
+
+Commits: preregistration `a8938d6`; frozen acquisition/controls `b37b476`; offline evidence implementation `1889503`; adoption/results `3aafe01`.
+
+Policy: `docs/se_policies/target_component_identity_authority_evidence_v1.md`. Reproduction, source comparison, limitations and results: `research/se_target_component_identity_authority_evidence_v1/README.md` and `results/`.
+
+Frozen sources are ChEMBL 37 SQLite, the exact HGNC GCS object generation 1791894733877675, and UniProtKB release 2026_03. Raw artifacts and both deterministic builds are retained under `/home/djmann/se_runs/target_component_identity_authority_evidence_v1/`. This is additive independent source evidence, not reconstruction of historical ChEMBL HTTP payloads. Existing accepted authority snapshots and assertion provenance artifacts remain byte-identical.
+
+Validation: 5,102 source records and 1,291,485 field assertions independently round-trip to frozen raw sources; two builds are byte-identical. All 6,199 parser decisions remain unchanged. Six focused tests pass; Ruff passes across source, SE tests and this study. Full `tests/se` was not run: S11 requires it if production code changes, and none changed. Isolation was verified against `d47b810` for `src`, `tests`, `scripts`, and `data/se/ontology`.
+
+All 48 audited components, nine implicated groups, and 86 proposed changes are retained. All 29 formerly missing ChEMBL target records are recovered. Structured controls preserve fusion, complex, family, multi-subunit and relationship membership. Evidence coverage for the 86 remains 35 CONFLICTING and 51 AMBIGUOUS; uniquely supported, multi-entity, relational and no-evidence counts are each zero under the frozen precedence. These are diagnostic source-evidence classes, not certificates, and do not override the prior failed certificate result.
+
+Limitations remain explicit: 12 historical Ensembl IDs have no selected HGNC match; UniProt includes two unreviewed and one inactive record; four ChEMBL RNA components have no protein accession and retain native identity. No substitute identifiers or inferred equivalences were invented. Source claims, canonical-ID collisions and different biological levels remain separately visible in `results/source_claim_comparison.json`.
+
+Next: separately preregister `TARGET_COMPONENT_IDENTITY_CERTIFICATE v2` using the frozen additive structured evidence plus existing ChEMBL provenance. Do not implement certificates or target-role decisions as part of this adopted milestone. Evidence availability does not itself certify component-to-canonical equivalence. Preserve conflicts and fail closed when typed evidence cannot establish identity.
+
+H21–H25 remain untouched; H6–H10 remain unrun; H17/H20 remain development diagnostics only. Human-PoC recovery remains stopped.
+
+---
+
 Preregistration **5af5775**; source-gate failure/evidence **a1ff1b0**. **No production implementation or adoption.**
 Stopped at the preregistered G0 source-readiness gate; no candidate exists to revert.
 
