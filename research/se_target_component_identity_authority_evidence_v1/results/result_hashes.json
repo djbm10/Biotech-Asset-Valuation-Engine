@@ -1,0 +1,11 @@
+{
+  "adoption.json": "2984621d3eae457919a344c2979371247d6cbe99f7c6db91d585bf44f1b79b80",
+  "baseline_check.json": "3b8928295ede9e33689046f972cb0336e1cc8e31b4dfb8003fce575d74efcf5e",
+  "coverage.json": "e3080d6cca266c3a2b83ceb73eed173c845bade57319f3f152c2d4a8e3f2540b",
+  "focused_tests.log": "700bc0322b00f8e8db3ce495047983b54ab27ab59ed1fedac05f3aeba47dae24",
+  "hashes.json": "31ed8896fd1ec3c945c1f3a1d7224900632b9562f3970c10fc278e69dc545b7a",
+  "ruff.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+  "source_claim_comparison.json": "8aa7cb5ed5cedcd43b6256c4fc3ad76edc2ea733c0c1d0f5af3ca5ac7c589346",
+  "summary.json": "0028cae8e1f9d57dd8e88ed955be9ff1bc5d825a9ab99f045a18d7d25ea33bf2",
+  "validation.json": "01e7d25ebf1fc56a12f70cf86eb4a127ba13f4eb5da52c9474151dc8fe76599f"
+}

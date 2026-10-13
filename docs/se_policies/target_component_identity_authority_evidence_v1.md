@@ -121,3 +121,23 @@ code changes. Proposed implementation is offline research evidence tooling only.
 If a gate fails, preserve evidence and stop; no post-result source substitutions/patch loop.
 If all pass, adopt evidence only, update handoff; certificate v2 is a separately preregistered
 future milestone. H21–H25 untouched, H6–H10 unrun, human-PoC stopped.
+
+## Recorded outcome — ADOPTED
+
+Preregistration a8938d6; source freeze/red controls b37b476; implementation 1889503.
+All preregistered gates pass; no post-result patch. The independent verifier replays
+5,102 source records and 1,291,485 assertions exactly; seeds 0/42 byte-identical; all
+6,199 decisions unchanged. Six focused tests and Ruff pass. No production code changes,
+so conditional full tests/se gate does not apply. Accepted snapshots/sidecar unchanged.
+
+All 29 missing ChEMBL records recovered from release 37; evidence includes 332 targets,
+341 components, 917 memberships, 2,133 component synonyms, 625 typed relations, 367 HGNC
+records, and 348 UniProt responses. Two are unreviewed and one inactive; 12 historical
+Ensembl IDs remain unmatched in HGNC. Four RNA components correctly have no protein
+accession. No evidence gap is filled with an inferred identity.
+
+The 86 diagnostic outcomes remain 35 conflicting / 51 ambiguous / zero permitting
+certificates. Evidence is adopted independently at
+`/home/djmann/se_runs/target_component_identity_authority_evidence_v1/`. Full results and
+source-claim comparison are in the research study directory. Next is a separately
+preregistered certificate v2; no certificate or target-role semantics in this adoption.

@@ -1,0 +1,90 @@
+{
+  "checks": {
+    "S1_all_29_targets": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_constituents_CHIMERIC PROTEIN": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_constituents_PROTEIN COMPLEX": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_constituents_PROTEIN-PROTEIN INTERACTION": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_control_types": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_gene_fields": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_gene_protein_links": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_reviewed_protein_fields": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_structural_fields": {
+      "detail": null,
+      "pass": true
+    },
+    "S2_database_hash": {
+      "detail": null,
+      "pass": true
+    },
+    "S2_raw_hashes": {
+      "detail": null,
+      "pass": true
+    },
+    "S2_release": {
+      "detail": null,
+      "pass": true
+    },
+    "S3_assertion_replay": {
+      "detail": 1291485,
+      "pass": true
+    },
+    "S3_record_replay": {
+      "detail": 5102,
+      "pass": true
+    },
+    "S4_membership_preserved": {
+      "detail": 917,
+      "pass": true
+    },
+    "S5_prior_conflicts": {
+      "detail": null,
+      "pass": true
+    },
+    "S6_86_coverage": {
+      "detail": {
+        "AMBIGUOUS": 51,
+        "CONFLICTING": 35
+      },
+      "pass": true
+    },
+    "S7_determinism": {
+      "detail": null,
+      "pass": true
+    },
+    "S9_sidecar_protection": {
+      "detail": null,
+      "pass": true
+    },
+    "S9_snapshot_protection": {
+      "detail": null,
+      "pass": true
+    }
+  },
+  "failures": [],
+  "implementation_scope": "offline evidence only; no certificates or production imports",
+  "pass": true
+}

@@ -1,0 +1,127 @@
+{
+  "S10": {
+    "pass": true,
+    "production_diff": []
+  },
+  "S11": {
+    "focused_tests_passed": 6,
+    "full_tests_se": "not required: no production code changed",
+    "pass": true,
+    "ruff": "clean"
+  },
+  "S1_to_S7_S9": {
+    "S1_all_29_targets": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_constituents_CHIMERIC PROTEIN": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_constituents_PROTEIN COMPLEX": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_constituents_PROTEIN-PROTEIN INTERACTION": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_control_types": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_gene_fields": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_gene_protein_links": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_reviewed_protein_fields": {
+      "detail": null,
+      "pass": true
+    },
+    "S1_structural_fields": {
+      "detail": null,
+      "pass": true
+    },
+    "S2_database_hash": {
+      "detail": null,
+      "pass": true
+    },
+    "S2_raw_hashes": {
+      "detail": null,
+      "pass": true
+    },
+    "S2_release": {
+      "detail": null,
+      "pass": true
+    },
+    "S3_assertion_replay": {
+      "detail": 1291485,
+      "pass": true
+    },
+    "S3_record_replay": {
+      "detail": 5102,
+      "pass": true
+    },
+    "S4_membership_preserved": {
+      "detail": 917,
+      "pass": true
+    },
+    "S5_prior_conflicts": {
+      "detail": null,
+      "pass": true
+    },
+    "S6_86_coverage": {
+      "detail": {
+        "AMBIGUOUS": 51,
+        "CONFLICTING": 35
+      },
+      "pass": true
+    },
+    "S7_determinism": {
+      "detail": null,
+      "pass": true
+    },
+    "S9_sidecar_protection": {
+      "detail": null,
+      "pass": true
+    },
+    "S9_snapshot_protection": {
+      "detail": null,
+      "pass": true
+    }
+  },
+  "S8": {
+    "pass": true,
+    "unchanged": 6199
+  },
+  "acquisition_freeze": "b37b476",
+  "canonical_id_collision_controls": {
+    "TARGET:CDC42BPA": 2,
+    "TARGET:SNORA62": 7
+  },
+  "certificates_issued": 0,
+  "coverage": {
+    "ambiguous": 51,
+    "conflicting": 35,
+    "multi_entity": 0,
+    "no_evidence": 0,
+    "relational": 0,
+    "uniquely_supported": 0
+  },
+  "decision": "ADOPT",
+  "evidence_bundle": "/home/djmann/se_runs/target_component_identity_authority_evidence_v1",
+  "implementation": "1889503",
+  "limitations": {
+    "RNA_components_without_protein_accessions": 4,
+    "inactive_uniprot_records": 1,
+    "unmatched_existing_ensembl_ids": 12,
+    "unreviewed_uniprot_records": 2
+  },
+  "milestone": "TARGET_COMPONENT_IDENTITY_AUTHORITY_EVIDENCE v1",
+  "population_components_preserved": 48,
+  "preregistration": "a8938d6"
+}
