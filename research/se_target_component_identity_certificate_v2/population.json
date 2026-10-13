@@ -1,0 +1,2381 @@
+[
+  {
+    "canonical_id": "TARGET:ENSG00000256084",
+    "component_id": "00008ecdd1e9048bfcbbb561f4deddd22e8710f5f234f2d0d02f7d45ab55c75a",
+    "expected": "AMBIGUOUS",
+    "id": "group:00008ecdd1e9048bfcbbb561f4deddd22e8710f5f234f2d0d02f7d45ab55c75a",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:ENSG00000300165",
+    "component_id": "00010507e33ac860d459521258df761b157510a90d64a5aa0231b32f5f973760",
+    "expected": "AMBIGUOUS",
+    "id": "group:00010507e33ac860d459521258df761b157510a90d64a5aa0231b32f5f973760",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:ENSG00000307956",
+    "component_id": "000368a2ae013a60afafe1408ad971a266fbecc8621190eb4673536321b49c4d",
+    "expected": "AMBIGUOUS",
+    "id": "group:000368a2ae013a60afafe1408ad971a266fbecc8621190eb4673536321b49c4d",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:ENSG00000304909",
+    "component_id": "00044b218740ffc71caa57fcfd48a6b4f1ed23e020dee8d58777341e9d70d82e",
+    "expected": "AMBIGUOUS",
+    "id": "group:00044b218740ffc71caa57fcfd48a6b4f1ed23e020dee8d58777341e9d70d82e",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:ENSG00000309791",
+    "component_id": "0004b39691798cf9f0aec99a1d2893774c48a4f2d2a874e8d74c486c2151cbe6",
+    "expected": "AMBIGUOUS",
+    "id": "group:0004b39691798cf9f0aec99a1d2893774c48a4f2d2a874e8d74c486c2151cbe6",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:HNRNPA1P55",
+    "component_id": "00062b2a9c4a5fd724f2de2b8f7fd6eca431d6afffd7cab3fe02f5c2f8575b0a",
+    "expected": "AMBIGUOUS",
+    "id": "group:00062b2a9c4a5fd724f2de2b8f7fd6eca431d6afffd7cab3fe02f5c2f8575b0a",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:MTND4P9",
+    "component_id": "000885c4043bc029814bc25453a02faf29d89c02cf31b4badadb4a5a306716c4",
+    "expected": "AMBIGUOUS",
+    "id": "group:000885c4043bc029814bc25453a02faf29d89c02cf31b4badadb4a5a306716c4",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:LINC01504",
+    "component_id": "000db0965b4b41453bdebc25e05909835c845e3ab5abc1f53de33701224fc6f7",
+    "expected": "AMBIGUOUS",
+    "id": "group:000db0965b4b41453bdebc25e05909835c845e3ab5abc1f53de33701224fc6f7",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:ASIC3",
+    "component_id": "000ed9b0f1b773c689b7c147db21b0ab47b2eeb3fe6b9f6b399f7ec72f34a1a3",
+    "expected": "AMBIGUOUS",
+    "id": "group:000ed9b0f1b773c689b7c147db21b0ab47b2eeb3fe6b9f6b399f7ec72f34a1a3",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SNORA14B",
+    "component_id": "0044a7c7f406b7b9c61dbe7577a1f87087b01134a3d67f01e4a88c2d1e6f6ea6",
+    "expected": "AMBIGUOUS",
+    "id": "group:0044a7c7f406b7b9c61dbe7577a1f87087b01134a3d67f01e4a88c2d1e6f6ea6",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:NACA",
+    "component_id": "0087a484d5116695d567e3af31dd061be44b993b1501bfb6503b0e9d2f94dae7",
+    "expected": "AMBIGUOUS",
+    "id": "group:0087a484d5116695d567e3af31dd061be44b993b1501bfb6503b0e9d2f94dae7",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:LNCTSI",
+    "component_id": "0092c01adaba109648cd9396d8a1d9d25d069ab4e3749ca9b2a8951dded8d0c4",
+    "expected": "AMBIGUOUS",
+    "id": "group:0092c01adaba109648cd9396d8a1d9d25d069ab4e3749ca9b2a8951dded8d0c4",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SPCS1",
+    "component_id": "00bd41ebc70b5d4d46649824f7860ead92117886408247e89208c40054867d4c",
+    "expected": "AMBIGUOUS",
+    "id": "group:00bd41ebc70b5d4d46649824f7860ead92117886408247e89208c40054867d4c",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SDHAF1",
+    "component_id": "00d842eb8515e91b7eb3faabf25f0116ec8f3de5c9606f687df2e2fed0eea7e5",
+    "expected": "AMBIGUOUS",
+    "id": "group:00d842eb8515e91b7eb3faabf25f0116ec8f3de5c9606f687df2e2fed0eea7e5",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:EMX2OS",
+    "component_id": "00f48e71ff0328b0172593cb041054feacb1babb6b94c7ad16689d7028349c12",
+    "expected": "AMBIGUOUS",
+    "id": "group:00f48e71ff0328b0172593cb041054feacb1babb6b94c7ad16689d7028349c12",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SYNCRIP",
+    "component_id": "066c9c28227da882382c7436270a951a6879d0139fcd9edbd616a54be20c2ba5",
+    "expected": "AMBIGUOUS",
+    "id": "group:066c9c28227da882382c7436270a951a6879d0139fcd9edbd616a54be20c2ba5",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:CCL19",
+    "component_id": "072cc6279dcea20f31906bf86211614ff8b61e5d401b6b34ad2417ac9760d399",
+    "expected": "AMBIGUOUS",
+    "id": "group:072cc6279dcea20f31906bf86211614ff8b61e5d401b6b34ad2417ac9760d399",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:CCL24",
+    "component_id": "082d6e0451cace19728bf483150735fca0fb45e67c669bec18cc31f2a158ea12",
+    "expected": "AMBIGUOUS",
+    "id": "group:082d6e0451cace19728bf483150735fca0fb45e67c669bec18cc31f2a158ea12",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:MYMX",
+    "component_id": "099dbc93e75bad413ef72c437a472c9549480c6cb8d6b7d5b39ac9e1aa21c836",
+    "expected": "AMBIGUOUS",
+    "id": "group:099dbc93e75bad413ef72c437a472c9549480c6cb8d6b7d5b39ac9e1aa21c836",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:UBA52P4",
+    "component_id": "0a4f14d80e5f65a2b104d8e80649cf9a24338d357f3c824dff7131beaac1946d",
+    "expected": "AMBIGUOUS",
+    "id": "group:0a4f14d80e5f65a2b104d8e80649cf9a24338d357f3c824dff7131beaac1946d",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:UBA52P8",
+    "component_id": "0c6bcae05820e9356e1111fcd273ffba4c72f540b75ddb0cd7ac4db201fb9e64",
+    "expected": "AMBIGUOUS",
+    "id": "group:0c6bcae05820e9356e1111fcd273ffba4c72f540b75ddb0cd7ac4db201fb9e64",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:CCL4",
+    "component_id": "117ac21d1a35fd8aaee949188ca6e5ed3e715e8518ba9a7c224bd4db8e8a89d7",
+    "expected": "AMBIGUOUS",
+    "id": "group:117ac21d1a35fd8aaee949188ca6e5ed3e715e8518ba9a7c224bd4db8e8a89d7",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "1b76b904030b3f014e14d5861a9322c6a431dc974c7c4ae3ec78d3d13bfebe33",
+    "expected": "AMBIGUOUS",
+    "id": "group:1b76b904030b3f014e14d5861a9322c6a431dc974c7c4ae3ec78d3d13bfebe33",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "2628590845ef822972371c053fc87a1d678c48bf3da9ad5a979e0bc8f01024a0",
+    "expected": "AMBIGUOUS",
+    "id": "group:2628590845ef822972371c053fc87a1d678c48bf3da9ad5a979e0bc8f01024a0",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:CALM2",
+    "component_id": "27ef428305be9044711e435c11d63b1cbf809ae120d2db4e9c8c13c9c8ef1e48",
+    "expected": "AMBIGUOUS",
+    "id": "group:27ef428305be9044711e435c11d63b1cbf809ae120d2db4e9c8c13c9c8ef1e48",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:THRA",
+    "component_id": "36e72ba865270d79e7cffd2f4b364ab64c2fa794dc2ed29b2573662f59c59469",
+    "expected": "AMBIGUOUS",
+    "id": "group:36e72ba865270d79e7cffd2f4b364ab64c2fa794dc2ed29b2573662f59c59469",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "39760580c0873c339405b3f7a1d5b7e368629b5c4bb2322e1efeb224cb97d320",
+    "expected": "AMBIGUOUS",
+    "id": "group:39760580c0873c339405b3f7a1d5b7e368629b5c4bb2322e1efeb224cb97d320",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:CDC42BPA",
+    "component_id": "3fb8eb4b873c8b57ab68cf43e39b5c79b8cf3c66bd755b8ed8fead36c653628e",
+    "expected": "AMBIGUOUS",
+    "id": "group:3fb8eb4b873c8b57ab68cf43e39b5c79b8cf3c66bd755b8ed8fead36c653628e",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:IL4R",
+    "component_id": "4c42362df804da55596fcc501ccf176c596733ffa29a5fcd6aa64e22a9b3836e",
+    "expected": "AMBIGUOUS",
+    "id": "group:4c42362df804da55596fcc501ccf176c596733ffa29a5fcd6aa64e22a9b3836e",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:CD19",
+    "component_id": "4ceabe8bc1145c90bc136ce81b66d918205c0a7741c3ddeb13acf4055ed2d7ed",
+    "expected": "AMBIGUOUS",
+    "id": "group:4ceabe8bc1145c90bc136ce81b66d918205c0a7741c3ddeb13acf4055ed2d7ed",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "51642d9965e5740bd1f182f3f9e3639d879e5e3e0b26a5161ed6e6dfe685a56a",
+    "expected": "AMBIGUOUS",
+    "id": "group:51642d9965e5740bd1f182f3f9e3639d879e5e3e0b26a5161ed6e6dfe685a56a",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:EML4",
+    "component_id": "527f86008536951eb077469784aa7a17016b6a9eb3926dad2e8d9b586946072d",
+    "expected": "AMBIGUOUS",
+    "id": "group:527f86008536951eb077469784aa7a17016b6a9eb3926dad2e8d9b586946072d",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:CDC42BPA",
+    "component_id": "5509c578b9198c04dfa03396067e3b84d0d12d7f6c0c70167835e2a69da652ca",
+    "expected": "AMBIGUOUS",
+    "id": "group:5509c578b9198c04dfa03396067e3b84d0d12d7f6c0c70167835e2a69da652ca",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:PLA2G4B",
+    "component_id": "586a6c1a61f27855fc0272a390ad75872d4e988ff9480f14e94e71831dabcfe5",
+    "expected": "AMBIGUOUS",
+    "id": "group:586a6c1a61f27855fc0272a390ad75872d4e988ff9480f14e94e71831dabcfe5",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:IFNA1",
+    "component_id": "68772ef575399f4e0664713b2b989a84a639fe74b0c2668defdd70c08cce972a",
+    "expected": "AMBIGUOUS",
+    "id": "group:68772ef575399f4e0664713b2b989a84a639fe74b0c2668defdd70c08cce972a",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "69b3fa33b5fa2aa1dffbaf0d622d717461ccf91c254f7cca4f2213d60e012b14",
+    "expected": "AMBIGUOUS",
+    "id": "group:69b3fa33b5fa2aa1dffbaf0d622d717461ccf91c254f7cca4f2213d60e012b14",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:PDCD1",
+    "component_id": "6f11791de356b8ade786fc6cb23f06c56ac3cbace29be8b2589bce66f17f0294",
+    "expected": "AMBIGUOUS",
+    "id": "group:6f11791de356b8ade786fc6cb23f06c56ac3cbace29be8b2589bce66f17f0294",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:RPS27A",
+    "component_id": "7371efdcf47b7ade14288737be1e25bda2d8f848df4d61453ec8df6b1970b63d",
+    "expected": "AMBIGUOUS",
+    "id": "group:7371efdcf47b7ade14288737be1e25bda2d8f848df4d61453ec8df6b1970b63d",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:TUBA1B",
+    "component_id": "8336007f323d0e03fedbc07e190600de59e62b159ae45b52f41fab16a0c990c6",
+    "expected": "AMBIGUOUS",
+    "id": "group:8336007f323d0e03fedbc07e190600de59e62b159ae45b52f41fab16a0c990c6",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:H4C8",
+    "component_id": "982799937b583cadd3c8d7a84e088570fb51c1800b70f38d8173b678d5acbbb4",
+    "expected": "AMBIGUOUS",
+    "id": "group:982799937b583cadd3c8d7a84e088570fb51c1800b70f38d8173b678d5acbbb4",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:BOLA2B",
+    "component_id": "99157db5b9d3ce415648eb071f246c049b4b4a95231c8121b14331a6bec507a8",
+    "expected": "AMBIGUOUS",
+    "id": "group:99157db5b9d3ce415648eb071f246c049b4b4a95231c8121b14331a6bec507a8",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:IL2RA",
+    "component_id": "af71600a7a64ffb7a77664a8fc2ea399d3d6e08b162471e461868c489e9a91ce",
+    "expected": "AMBIGUOUS",
+    "id": "group:af71600a7a64ffb7a77664a8fc2ea399d3d6e08b162471e461868c489e9a91ce",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:CAMK2A",
+    "component_id": "b8ee3b894fa51e48b2a47b2608f7f3ae2f3a465ca20c483ecedb8b8306d44212",
+    "expected": "AMBIGUOUS",
+    "id": "group:b8ee3b894fa51e48b2a47b2608f7f3ae2f3a465ca20c483ecedb8b8306d44212",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:GFRA1",
+    "component_id": "c4139f0b91ee446b6d1c8139d3782c9ec1d7dbb3f73af190fd998535a88caf77",
+    "expected": "AMBIGUOUS",
+    "id": "group:c4139f0b91ee446b6d1c8139d3782c9ec1d7dbb3f73af190fd998535a88caf77",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:HBB",
+    "component_id": "d5fd7696831b7efbd9020cdb03bb5f8b3fae32d732e91de98f7922bbffd47f42",
+    "expected": "AMBIGUOUS",
+    "id": "group:d5fd7696831b7efbd9020cdb03bb5f8b3fae32d732e91de98f7922bbffd47f42",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "d6bab7825be1d1012f2105d8f11759db387e3fc944f5639f60788324912ab9d9",
+    "expected": "AMBIGUOUS",
+    "id": "group:d6bab7825be1d1012f2105d8f11759db387e3fc944f5639f60788324912ab9d9",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "dde7c99db0018347554de95700aa19a8e3c3bbd71e6ff128fe10052e2bdfe96b",
+    "expected": "AMBIGUOUS",
+    "id": "group:dde7c99db0018347554de95700aa19a8e3c3bbd71e6ff128fe10052e2bdfe96b",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "canonical_id": "TARGET:EGFR",
+    "component_id": "e0dfac65de450ffa9a95bedca89e67520f2634d9b6a11ecd71f4ec60ead5d4bd",
+    "expected": "AMBIGUOUS",
+    "id": "group:e0dfac65de450ffa9a95bedca89e67520f2634d9b6a11ecd71f4ec60ead5d4bd",
+    "oracle_reason": "No authority types this ingestion union and every alias as one entity.",
+    "scope": "RESOLVER_GROUP"
+  },
+  {
+    "assertion_ids": [
+      "baa28d4829809819b891951a01f1382e852e94141a8caf5946f566bf36b62545",
+      "d4d06977d5b7fb09d599a524bad2e452d48e2210ec07e8b18e6bfd77c6210fb7"
+    ],
+    "canonical_id": "TARGET:TUBA1B",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0364",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "baa28d4829809819b891951a01f1382e852e94141a8caf5946f566bf36b62545",
+      "d4d06977d5b7fb09d599a524bad2e452d48e2210ec07e8b18e6bfd77c6210fb7"
+    ],
+    "canonical_id": "TARGET:TUBA1B",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0365",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "baa28d4829809819b891951a01f1382e852e94141a8caf5946f566bf36b62545",
+      "d4d06977d5b7fb09d599a524bad2e452d48e2210ec07e8b18e6bfd77c6210fb7"
+    ],
+    "canonical_id": "TARGET:TUBA1B",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0366",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "baa28d4829809819b891951a01f1382e852e94141a8caf5946f566bf36b62545",
+      "d4d06977d5b7fb09d599a524bad2e452d48e2210ec07e8b18e6bfd77c6210fb7"
+    ],
+    "canonical_id": "TARGET:TUBA1B",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0367",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "baa28d4829809819b891951a01f1382e852e94141a8caf5946f566bf36b62545",
+      "d4d06977d5b7fb09d599a524bad2e452d48e2210ec07e8b18e6bfd77c6210fb7"
+    ],
+    "canonical_id": "TARGET:TUBA1B",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0368",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "baa28d4829809819b891951a01f1382e852e94141a8caf5946f566bf36b62545",
+      "d4d06977d5b7fb09d599a524bad2e452d48e2210ec07e8b18e6bfd77c6210fb7"
+    ],
+    "canonical_id": "TARGET:TUBA1B",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0369",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "baa28d4829809819b891951a01f1382e852e94141a8caf5946f566bf36b62545",
+      "d4d06977d5b7fb09d599a524bad2e452d48e2210ec07e8b18e6bfd77c6210fb7"
+    ],
+    "canonical_id": "TARGET:TUBA1B",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0370",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9fb747a19facb63e0928a22c05e166ee8abb3b32a983f0da18355a4c29b87fa4",
+      "c32c7942d620e6676c5f52b2376c55f6ff657692d1078afe6fed785ecb0db31a",
+      "c336b9c0cc4656990ace903c3b4bb4b90c792be0d807bcbda8180b18a2bb3497",
+      "e33b853211e8728f6401e346967e0f0d5ff9f9d51d2ef7df542987e75cd2a6cf"
+    ],
+    "canonical_id": "TARGET:IFNA1",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0966",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9fb747a19facb63e0928a22c05e166ee8abb3b32a983f0da18355a4c29b87fa4",
+      "c32c7942d620e6676c5f52b2376c55f6ff657692d1078afe6fed785ecb0db31a",
+      "c336b9c0cc4656990ace903c3b4bb4b90c792be0d807bcbda8180b18a2bb3497",
+      "e33b853211e8728f6401e346967e0f0d5ff9f9d51d2ef7df542987e75cd2a6cf"
+    ],
+    "canonical_id": "TARGET:IFNA1",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0967",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9fb747a19facb63e0928a22c05e166ee8abb3b32a983f0da18355a4c29b87fa4",
+      "c32c7942d620e6676c5f52b2376c55f6ff657692d1078afe6fed785ecb0db31a",
+      "c336b9c0cc4656990ace903c3b4bb4b90c792be0d807bcbda8180b18a2bb3497",
+      "e33b853211e8728f6401e346967e0f0d5ff9f9d51d2ef7df542987e75cd2a6cf"
+    ],
+    "canonical_id": "TARGET:IFNA1",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0968",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9fb747a19facb63e0928a22c05e166ee8abb3b32a983f0da18355a4c29b87fa4",
+      "c32c7942d620e6676c5f52b2376c55f6ff657692d1078afe6fed785ecb0db31a",
+      "c336b9c0cc4656990ace903c3b4bb4b90c792be0d807bcbda8180b18a2bb3497",
+      "e33b853211e8728f6401e346967e0f0d5ff9f9d51d2ef7df542987e75cd2a6cf"
+    ],
+    "canonical_id": "TARGET:IFNA1",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0969",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9fb747a19facb63e0928a22c05e166ee8abb3b32a983f0da18355a4c29b87fa4",
+      "c32c7942d620e6676c5f52b2376c55f6ff657692d1078afe6fed785ecb0db31a",
+      "c336b9c0cc4656990ace903c3b4bb4b90c792be0d807bcbda8180b18a2bb3497",
+      "e33b853211e8728f6401e346967e0f0d5ff9f9d51d2ef7df542987e75cd2a6cf"
+    ],
+    "canonical_id": "TARGET:IFNA1",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0970",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9fb747a19facb63e0928a22c05e166ee8abb3b32a983f0da18355a4c29b87fa4",
+      "c32c7942d620e6676c5f52b2376c55f6ff657692d1078afe6fed785ecb0db31a",
+      "c336b9c0cc4656990ace903c3b4bb4b90c792be0d807bcbda8180b18a2bb3497",
+      "e33b853211e8728f6401e346967e0f0d5ff9f9d51d2ef7df542987e75cd2a6cf"
+    ],
+    "canonical_id": "TARGET:IFNA1",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0971",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9fb747a19facb63e0928a22c05e166ee8abb3b32a983f0da18355a4c29b87fa4",
+      "c32c7942d620e6676c5f52b2376c55f6ff657692d1078afe6fed785ecb0db31a",
+      "c336b9c0cc4656990ace903c3b4bb4b90c792be0d807bcbda8180b18a2bb3497",
+      "e33b853211e8728f6401e346967e0f0d5ff9f9d51d2ef7df542987e75cd2a6cf"
+    ],
+    "canonical_id": "TARGET:IFNA1",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:0972",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "916bffe782e409d6e8da3f61dcf543a5eebc33b2654f64dde08e2337f7bf1354",
+      "c0465881e92bfe56e5df12cbd0a299c804cb0e530aa1422e9c9b13d48bf74fb5"
+    ],
+    "canonical_id": "TARGET:CALM2",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:1204",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "916bffe782e409d6e8da3f61dcf543a5eebc33b2654f64dde08e2337f7bf1354",
+      "c0465881e92bfe56e5df12cbd0a299c804cb0e530aa1422e9c9b13d48bf74fb5"
+    ],
+    "canonical_id": "TARGET:CALM2",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:1205",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "916bffe782e409d6e8da3f61dcf543a5eebc33b2654f64dde08e2337f7bf1354",
+      "c0465881e92bfe56e5df12cbd0a299c804cb0e530aa1422e9c9b13d48bf74fb5"
+    ],
+    "canonical_id": "TARGET:CALM2",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:1206",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "916bffe782e409d6e8da3f61dcf543a5eebc33b2654f64dde08e2337f7bf1354",
+      "c0465881e92bfe56e5df12cbd0a299c804cb0e530aa1422e9c9b13d48bf74fb5"
+    ],
+    "canonical_id": "TARGET:CALM2",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:1207",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "916bffe782e409d6e8da3f61dcf543a5eebc33b2654f64dde08e2337f7bf1354",
+      "c0465881e92bfe56e5df12cbd0a299c804cb0e530aa1422e9c9b13d48bf74fb5"
+    ],
+    "canonical_id": "TARGET:CALM2",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:1208",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "916bffe782e409d6e8da3f61dcf543a5eebc33b2654f64dde08e2337f7bf1354",
+      "c0465881e92bfe56e5df12cbd0a299c804cb0e530aa1422e9c9b13d48bf74fb5"
+    ],
+    "canonical_id": "TARGET:CALM2",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:1209",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "916bffe782e409d6e8da3f61dcf543a5eebc33b2654f64dde08e2337f7bf1354",
+      "c0465881e92bfe56e5df12cbd0a299c804cb0e530aa1422e9c9b13d48bf74fb5"
+    ],
+    "canonical_id": "TARGET:CALM2",
+    "expected": "AMBIGUOUS",
+    "id": "diagnosis:1210",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "f700c1779e8205b832e7e6b5098cb3e950f85d864ee856a35b86c6e5fe6608bf"
+    ],
+    "canonical_id": "TARGET:H4C8",
+    "expected": "CONFLICT",
+    "id": "alias:136:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "f700c1779e8205b832e7e6b5098cb3e950f85d864ee856a35b86c6e5fe6608bf"
+    ],
+    "canonical_id": "TARGET:H4C8",
+    "expected": "CONFLICT",
+    "id": "alias:136:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "f700c1779e8205b832e7e6b5098cb3e950f85d864ee856a35b86c6e5fe6608bf"
+    ],
+    "canonical_id": "TARGET:H4C8",
+    "expected": "CONFLICT",
+    "id": "alias:136:2",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "f700c1779e8205b832e7e6b5098cb3e950f85d864ee856a35b86c6e5fe6608bf"
+    ],
+    "canonical_id": "TARGET:H4C8",
+    "expected": "CONFLICT",
+    "id": "alias:136:3",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "f700c1779e8205b832e7e6b5098cb3e950f85d864ee856a35b86c6e5fe6608bf"
+    ],
+    "canonical_id": "TARGET:H4C8",
+    "expected": "CONFLICT",
+    "id": "alias:136:4",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "f700c1779e8205b832e7e6b5098cb3e950f85d864ee856a35b86c6e5fe6608bf"
+    ],
+    "canonical_id": "TARGET:H4C8",
+    "expected": "CONFLICT",
+    "id": "alias:136:5",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "f700c1779e8205b832e7e6b5098cb3e950f85d864ee856a35b86c6e5fe6608bf"
+    ],
+    "canonical_id": "TARGET:H4C8",
+    "expected": "CONFLICT",
+    "id": "alias:136:6",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "8d7471a2e24324e0f758fd4a65f39d94883a4d6efcdc2d93882e7489777b44f7"
+    ],
+    "canonical_id": "TARGET:BOLA2B",
+    "expected": "CONFLICT",
+    "id": "alias:154:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "8d7471a2e24324e0f758fd4a65f39d94883a4d6efcdc2d93882e7489777b44f7"
+    ],
+    "canonical_id": "TARGET:BOLA2B",
+    "expected": "CONFLICT",
+    "id": "alias:154:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "8d7471a2e24324e0f758fd4a65f39d94883a4d6efcdc2d93882e7489777b44f7"
+    ],
+    "canonical_id": "TARGET:BOLA2B",
+    "expected": "CONFLICT",
+    "id": "alias:154:2",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "8d7471a2e24324e0f758fd4a65f39d94883a4d6efcdc2d93882e7489777b44f7"
+    ],
+    "canonical_id": "TARGET:BOLA2B",
+    "expected": "CONFLICT",
+    "id": "alias:154:3",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "8d7471a2e24324e0f758fd4a65f39d94883a4d6efcdc2d93882e7489777b44f7"
+    ],
+    "canonical_id": "TARGET:BOLA2B",
+    "expected": "CONFLICT",
+    "id": "alias:154:4",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "8d7471a2e24324e0f758fd4a65f39d94883a4d6efcdc2d93882e7489777b44f7"
+    ],
+    "canonical_id": "TARGET:BOLA2B",
+    "expected": "CONFLICT",
+    "id": "alias:154:5",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "8d7471a2e24324e0f758fd4a65f39d94883a4d6efcdc2d93882e7489777b44f7"
+    ],
+    "canonical_id": "TARGET:BOLA2B",
+    "expected": "CONFLICT",
+    "id": "alias:154:6",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "2d97a3ec3b852ca05d42f404f0ea433ff4d8b8e316524f9cc5160f64dc16f45a",
+      "4e32336ba601cafc1b66fe43a86445c51bb6ebc94ec56c11717028c6aed5fb95"
+    ],
+    "canonical_id": "TARGET:BOLA2B",
+    "expected": "AMBIGUOUS",
+    "id": "alias:155:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "2d97a3ec3b852ca05d42f404f0ea433ff4d8b8e316524f9cc5160f64dc16f45a",
+      "4e32336ba601cafc1b66fe43a86445c51bb6ebc94ec56c11717028c6aed5fb95"
+    ],
+    "canonical_id": "TARGET:BOLA2B",
+    "expected": "AMBIGUOUS",
+    "id": "alias:155:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "642dd0549b805827c5cbc24b0a60762b490770373b9177a8f558f954d35a5d3e"
+    ],
+    "canonical_id": "TARGET:SYNCRIP",
+    "expected": "AMBIGUOUS",
+    "id": "alias:187:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "642dd0549b805827c5cbc24b0a60762b490770373b9177a8f558f954d35a5d3e"
+    ],
+    "canonical_id": "TARGET:SYNCRIP",
+    "expected": "AMBIGUOUS",
+    "id": "alias:187:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "642dd0549b805827c5cbc24b0a60762b490770373b9177a8f558f954d35a5d3e"
+    ],
+    "canonical_id": "TARGET:SYNCRIP",
+    "expected": "AMBIGUOUS",
+    "id": "alias:187:2",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "642dd0549b805827c5cbc24b0a60762b490770373b9177a8f558f954d35a5d3e"
+    ],
+    "canonical_id": "TARGET:SYNCRIP",
+    "expected": "AMBIGUOUS",
+    "id": "alias:187:3",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "642dd0549b805827c5cbc24b0a60762b490770373b9177a8f558f954d35a5d3e"
+    ],
+    "canonical_id": "TARGET:SYNCRIP",
+    "expected": "AMBIGUOUS",
+    "id": "alias:187:4",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "642dd0549b805827c5cbc24b0a60762b490770373b9177a8f558f954d35a5d3e"
+    ],
+    "canonical_id": "TARGET:SYNCRIP",
+    "expected": "AMBIGUOUS",
+    "id": "alias:187:5",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "642dd0549b805827c5cbc24b0a60762b490770373b9177a8f558f954d35a5d3e"
+    ],
+    "canonical_id": "TARGET:SYNCRIP",
+    "expected": "AMBIGUOUS",
+    "id": "alias:187:6",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "090e0d0a84a987b470b302b06ed8d560cc8ab478b1b7d5248ff04f632afaa702",
+      "25d64d54a2230ab18cc09ad2d6e1ad8bd2a2a12a30427708dde0ca5f816d0d43",
+      "c785fbf5c69cd71102d955a6408c82d735e774ed1298c7c437a6a2c28c1c3cf0"
+    ],
+    "canonical_id": "TARGET:RPS27A",
+    "expected": "CONFLICT",
+    "id": "alias:238:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "090e0d0a84a987b470b302b06ed8d560cc8ab478b1b7d5248ff04f632afaa702",
+      "25d64d54a2230ab18cc09ad2d6e1ad8bd2a2a12a30427708dde0ca5f816d0d43",
+      "c785fbf5c69cd71102d955a6408c82d735e774ed1298c7c437a6a2c28c1c3cf0"
+    ],
+    "canonical_id": "TARGET:RPS27A",
+    "expected": "CONFLICT",
+    "id": "alias:238:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "090e0d0a84a987b470b302b06ed8d560cc8ab478b1b7d5248ff04f632afaa702",
+      "25d64d54a2230ab18cc09ad2d6e1ad8bd2a2a12a30427708dde0ca5f816d0d43",
+      "c785fbf5c69cd71102d955a6408c82d735e774ed1298c7c437a6a2c28c1c3cf0"
+    ],
+    "canonical_id": "TARGET:RPS27A",
+    "expected": "CONFLICT",
+    "id": "alias:238:2",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "090e0d0a84a987b470b302b06ed8d560cc8ab478b1b7d5248ff04f632afaa702",
+      "25d64d54a2230ab18cc09ad2d6e1ad8bd2a2a12a30427708dde0ca5f816d0d43",
+      "c785fbf5c69cd71102d955a6408c82d735e774ed1298c7c437a6a2c28c1c3cf0"
+    ],
+    "canonical_id": "TARGET:RPS27A",
+    "expected": "CONFLICT",
+    "id": "alias:238:3",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "090e0d0a84a987b470b302b06ed8d560cc8ab478b1b7d5248ff04f632afaa702",
+      "25d64d54a2230ab18cc09ad2d6e1ad8bd2a2a12a30427708dde0ca5f816d0d43",
+      "c785fbf5c69cd71102d955a6408c82d735e774ed1298c7c437a6a2c28c1c3cf0"
+    ],
+    "canonical_id": "TARGET:RPS27A",
+    "expected": "CONFLICT",
+    "id": "alias:238:4",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "090e0d0a84a987b470b302b06ed8d560cc8ab478b1b7d5248ff04f632afaa702",
+      "25d64d54a2230ab18cc09ad2d6e1ad8bd2a2a12a30427708dde0ca5f816d0d43",
+      "c785fbf5c69cd71102d955a6408c82d735e774ed1298c7c437a6a2c28c1c3cf0"
+    ],
+    "canonical_id": "TARGET:RPS27A",
+    "expected": "CONFLICT",
+    "id": "alias:238:5",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "090e0d0a84a987b470b302b06ed8d560cc8ab478b1b7d5248ff04f632afaa702",
+      "25d64d54a2230ab18cc09ad2d6e1ad8bd2a2a12a30427708dde0ca5f816d0d43",
+      "c785fbf5c69cd71102d955a6408c82d735e774ed1298c7c437a6a2c28c1c3cf0"
+    ],
+    "canonical_id": "TARGET:RPS27A",
+    "expected": "CONFLICT",
+    "id": "alias:238:6",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "6adc30d09ce16941d276a0264a3108290b90a2afae85bcf670d3808bcc922461"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "CONFLICT",
+    "id": "alias:286:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "6adc30d09ce16941d276a0264a3108290b90a2afae85bcf670d3808bcc922461"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "CONFLICT",
+    "id": "alias:286:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "6adc30d09ce16941d276a0264a3108290b90a2afae85bcf670d3808bcc922461"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "CONFLICT",
+    "id": "alias:286:2",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "6adc30d09ce16941d276a0264a3108290b90a2afae85bcf670d3808bcc922461"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "CONFLICT",
+    "id": "alias:286:3",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "6adc30d09ce16941d276a0264a3108290b90a2afae85bcf670d3808bcc922461"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "CONFLICT",
+    "id": "alias:286:4",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "6adc30d09ce16941d276a0264a3108290b90a2afae85bcf670d3808bcc922461"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "CONFLICT",
+    "id": "alias:286:5",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "6adc30d09ce16941d276a0264a3108290b90a2afae85bcf670d3808bcc922461"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "CONFLICT",
+    "id": "alias:286:6",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "cc4b69d95504cf2c8b3570ab94bcc9d2c7a50115a35c0668897abdcb2a9b8b3a"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "CONFLICT",
+    "id": "alias:394:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "cc4b69d95504cf2c8b3570ab94bcc9d2c7a50115a35c0668897abdcb2a9b8b3a"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "CONFLICT",
+    "id": "alias:394:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "cc4b69d95504cf2c8b3570ab94bcc9d2c7a50115a35c0668897abdcb2a9b8b3a"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "CONFLICT",
+    "id": "alias:394:2",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "cc4b69d95504cf2c8b3570ab94bcc9d2c7a50115a35c0668897abdcb2a9b8b3a"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "CONFLICT",
+    "id": "alias:394:3",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "cc4b69d95504cf2c8b3570ab94bcc9d2c7a50115a35c0668897abdcb2a9b8b3a"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "CONFLICT",
+    "id": "alias:394:4",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "cc4b69d95504cf2c8b3570ab94bcc9d2c7a50115a35c0668897abdcb2a9b8b3a"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "CONFLICT",
+    "id": "alias:394:5",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "cc4b69d95504cf2c8b3570ab94bcc9d2c7a50115a35c0668897abdcb2a9b8b3a"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "CONFLICT",
+    "id": "alias:394:6",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "50f41579b9b90e857830bcfe8c0c8ff903c6810b3bae5f26b65839749e2c1bab",
+      "760e66590c9ac2eb71189df461c50248da0dd91a1f2855248ef988bfd1794a6e",
+      "8937464976d08ff3047d1439effac45078c56ed5b9c8fa0eaf4aaa6b5f31d0a9",
+      "a919c5236a1fec376079d75f08c88d8f3212cf14352d57ea9b2ad54b80f251bb"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "AMBIGUOUS",
+    "id": "alias:395:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "50f41579b9b90e857830bcfe8c0c8ff903c6810b3bae5f26b65839749e2c1bab",
+      "760e66590c9ac2eb71189df461c50248da0dd91a1f2855248ef988bfd1794a6e",
+      "8937464976d08ff3047d1439effac45078c56ed5b9c8fa0eaf4aaa6b5f31d0a9",
+      "a919c5236a1fec376079d75f08c88d8f3212cf14352d57ea9b2ad54b80f251bb"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "AMBIGUOUS",
+    "id": "alias:395:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "50f41579b9b90e857830bcfe8c0c8ff903c6810b3bae5f26b65839749e2c1bab",
+      "760e66590c9ac2eb71189df461c50248da0dd91a1f2855248ef988bfd1794a6e",
+      "8937464976d08ff3047d1439effac45078c56ed5b9c8fa0eaf4aaa6b5f31d0a9",
+      "a919c5236a1fec376079d75f08c88d8f3212cf14352d57ea9b2ad54b80f251bb"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "AMBIGUOUS",
+    "id": "alias:395:2",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "50f41579b9b90e857830bcfe8c0c8ff903c6810b3bae5f26b65839749e2c1bab",
+      "760e66590c9ac2eb71189df461c50248da0dd91a1f2855248ef988bfd1794a6e",
+      "8937464976d08ff3047d1439effac45078c56ed5b9c8fa0eaf4aaa6b5f31d0a9",
+      "a919c5236a1fec376079d75f08c88d8f3212cf14352d57ea9b2ad54b80f251bb"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "AMBIGUOUS",
+    "id": "alias:395:3",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "50f41579b9b90e857830bcfe8c0c8ff903c6810b3bae5f26b65839749e2c1bab",
+      "760e66590c9ac2eb71189df461c50248da0dd91a1f2855248ef988bfd1794a6e",
+      "8937464976d08ff3047d1439effac45078c56ed5b9c8fa0eaf4aaa6b5f31d0a9",
+      "a919c5236a1fec376079d75f08c88d8f3212cf14352d57ea9b2ad54b80f251bb"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "AMBIGUOUS",
+    "id": "alias:395:4",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "50f41579b9b90e857830bcfe8c0c8ff903c6810b3bae5f26b65839749e2c1bab",
+      "760e66590c9ac2eb71189df461c50248da0dd91a1f2855248ef988bfd1794a6e",
+      "8937464976d08ff3047d1439effac45078c56ed5b9c8fa0eaf4aaa6b5f31d0a9",
+      "a919c5236a1fec376079d75f08c88d8f3212cf14352d57ea9b2ad54b80f251bb"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "AMBIGUOUS",
+    "id": "alias:395:5",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "50f41579b9b90e857830bcfe8c0c8ff903c6810b3bae5f26b65839749e2c1bab",
+      "760e66590c9ac2eb71189df461c50248da0dd91a1f2855248ef988bfd1794a6e",
+      "8937464976d08ff3047d1439effac45078c56ed5b9c8fa0eaf4aaa6b5f31d0a9",
+      "a919c5236a1fec376079d75f08c88d8f3212cf14352d57ea9b2ad54b80f251bb"
+    ],
+    "canonical_id": "TARGET:PLA2G4B",
+    "expected": "AMBIGUOUS",
+    "id": "alias:395:6",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9eb9304ea2029366e7ea30b6a57eccd232a9589bfca32afe7ba82eb0c9d7f0da"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:436:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9eb9304ea2029366e7ea30b6a57eccd232a9589bfca32afe7ba82eb0c9d7f0da"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:436:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9eb9304ea2029366e7ea30b6a57eccd232a9589bfca32afe7ba82eb0c9d7f0da"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:436:2",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9eb9304ea2029366e7ea30b6a57eccd232a9589bfca32afe7ba82eb0c9d7f0da"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:436:3",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9eb9304ea2029366e7ea30b6a57eccd232a9589bfca32afe7ba82eb0c9d7f0da"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:436:4",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9eb9304ea2029366e7ea30b6a57eccd232a9589bfca32afe7ba82eb0c9d7f0da"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:436:5",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "9eb9304ea2029366e7ea30b6a57eccd232a9589bfca32afe7ba82eb0c9d7f0da"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:436:6",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "4fa9b9714327f6985c99cb1e35b44754bc5fa2f926ed8b1cca9bd310743a5668",
+      "5bc2ace191d176c7a268d166e1e100f7c15543464daaf19d1cec1339e763645f",
+      "788725f054e381f5bdfb374f3641fc84cce99dee0b9dd8986b6fbc8eacffed79",
+      "82b371b9b65515d6a23352c99b12c45a344cdd279688e4b1e0237a13999852de",
+      "b0b90412bb8ef1c944ef2e52d129f00cffa9c9fce328747f7aa0e06eb7ae13e0",
+      "bada1f5fbbd22e18611be0df88871a0673d944ab5426066caa186c8ae1e8c85e"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:437:0",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "4fa9b9714327f6985c99cb1e35b44754bc5fa2f926ed8b1cca9bd310743a5668",
+      "5bc2ace191d176c7a268d166e1e100f7c15543464daaf19d1cec1339e763645f",
+      "788725f054e381f5bdfb374f3641fc84cce99dee0b9dd8986b6fbc8eacffed79",
+      "82b371b9b65515d6a23352c99b12c45a344cdd279688e4b1e0237a13999852de",
+      "b0b90412bb8ef1c944ef2e52d129f00cffa9c9fce328747f7aa0e06eb7ae13e0",
+      "bada1f5fbbd22e18611be0df88871a0673d944ab5426066caa186c8ae1e8c85e"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:437:1",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "4fa9b9714327f6985c99cb1e35b44754bc5fa2f926ed8b1cca9bd310743a5668",
+      "5bc2ace191d176c7a268d166e1e100f7c15543464daaf19d1cec1339e763645f",
+      "788725f054e381f5bdfb374f3641fc84cce99dee0b9dd8986b6fbc8eacffed79",
+      "82b371b9b65515d6a23352c99b12c45a344cdd279688e4b1e0237a13999852de",
+      "b0b90412bb8ef1c944ef2e52d129f00cffa9c9fce328747f7aa0e06eb7ae13e0",
+      "bada1f5fbbd22e18611be0df88871a0673d944ab5426066caa186c8ae1e8c85e"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:437:2",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "4fa9b9714327f6985c99cb1e35b44754bc5fa2f926ed8b1cca9bd310743a5668",
+      "5bc2ace191d176c7a268d166e1e100f7c15543464daaf19d1cec1339e763645f",
+      "788725f054e381f5bdfb374f3641fc84cce99dee0b9dd8986b6fbc8eacffed79",
+      "82b371b9b65515d6a23352c99b12c45a344cdd279688e4b1e0237a13999852de",
+      "b0b90412bb8ef1c944ef2e52d129f00cffa9c9fce328747f7aa0e06eb7ae13e0",
+      "bada1f5fbbd22e18611be0df88871a0673d944ab5426066caa186c8ae1e8c85e"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:437:3",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "4fa9b9714327f6985c99cb1e35b44754bc5fa2f926ed8b1cca9bd310743a5668",
+      "5bc2ace191d176c7a268d166e1e100f7c15543464daaf19d1cec1339e763645f",
+      "788725f054e381f5bdfb374f3641fc84cce99dee0b9dd8986b6fbc8eacffed79",
+      "82b371b9b65515d6a23352c99b12c45a344cdd279688e4b1e0237a13999852de",
+      "b0b90412bb8ef1c944ef2e52d129f00cffa9c9fce328747f7aa0e06eb7ae13e0",
+      "bada1f5fbbd22e18611be0df88871a0673d944ab5426066caa186c8ae1e8c85e"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:437:4",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "4fa9b9714327f6985c99cb1e35b44754bc5fa2f926ed8b1cca9bd310743a5668",
+      "5bc2ace191d176c7a268d166e1e100f7c15543464daaf19d1cec1339e763645f",
+      "788725f054e381f5bdfb374f3641fc84cce99dee0b9dd8986b6fbc8eacffed79",
+      "82b371b9b65515d6a23352c99b12c45a344cdd279688e4b1e0237a13999852de",
+      "b0b90412bb8ef1c944ef2e52d129f00cffa9c9fce328747f7aa0e06eb7ae13e0",
+      "bada1f5fbbd22e18611be0df88871a0673d944ab5426066caa186c8ae1e8c85e"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:437:5",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "4fa9b9714327f6985c99cb1e35b44754bc5fa2f926ed8b1cca9bd310743a5668",
+      "5bc2ace191d176c7a268d166e1e100f7c15543464daaf19d1cec1339e763645f",
+      "788725f054e381f5bdfb374f3641fc84cce99dee0b9dd8986b6fbc8eacffed79",
+      "82b371b9b65515d6a23352c99b12c45a344cdd279688e4b1e0237a13999852de",
+      "b0b90412bb8ef1c944ef2e52d129f00cffa9c9fce328747f7aa0e06eb7ae13e0",
+      "bada1f5fbbd22e18611be0df88871a0673d944ab5426066caa186c8ae1e8c85e"
+    ],
+    "canonical_id": "TARGET:EML4",
+    "expected": "AMBIGUOUS",
+    "id": "alias:437:6",
+    "oracle_reason": "Frozen v1 primary-ID conflict or unresolved merged-component identity.",
+    "scope": "PROPOSAL"
+  },
+  {
+    "assertion_ids": [
+      "10b2063f56b42c2065043f2f29464d77428e5a9201ab06f9d097992f0ed1d995"
+    ],
+    "canonical_id": "TARGET:ENSG00000256084",
+    "component_id": "00008ecdd1e9048bfcbbb561f4deddd22e8710f5f234f2d0d02f7d45ab55c75a",
+    "expected": "AMBIGUOUS",
+    "id": "primary:00008ecdd1e9048bfcbbb561f4deddd22e8710f5f234f2d0d02f7d45ab55c75a:10b2063f56b42c2065043f2f29464d77428e5a9201ab06f9d097992f0ed1d995",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "f8a8991ceb79a7532572a7c9c916afd066961fb08332345384ad610a34d61298"
+    ],
+    "canonical_id": "TARGET:ENSG00000256084",
+    "component_id": "00008ecdd1e9048bfcbbb561f4deddd22e8710f5f234f2d0d02f7d45ab55c75a",
+    "expected": "AMBIGUOUS",
+    "id": "primary:00008ecdd1e9048bfcbbb561f4deddd22e8710f5f234f2d0d02f7d45ab55c75a:f8a8991ceb79a7532572a7c9c916afd066961fb08332345384ad610a34d61298",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "60adeaa7b3b2d8b13b7fbf65b369e9d853d7393d59dbf175f09a76fbfdd31bf0"
+    ],
+    "canonical_id": "TARGET:ENSG00000300165",
+    "component_id": "00010507e33ac860d459521258df761b157510a90d64a5aa0231b32f5f973760",
+    "expected": "AMBIGUOUS",
+    "id": "primary:00010507e33ac860d459521258df761b157510a90d64a5aa0231b32f5f973760:60adeaa7b3b2d8b13b7fbf65b369e9d853d7393d59dbf175f09a76fbfdd31bf0",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "a8e39d5cd0bb0c3642705840a369a22feee786105671851914815e6e15439685"
+    ],
+    "canonical_id": "TARGET:ENSG00000300165",
+    "component_id": "00010507e33ac860d459521258df761b157510a90d64a5aa0231b32f5f973760",
+    "expected": "AMBIGUOUS",
+    "id": "primary:00010507e33ac860d459521258df761b157510a90d64a5aa0231b32f5f973760:a8e39d5cd0bb0c3642705840a369a22feee786105671851914815e6e15439685",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "1ea5bd6cd38ca8d6d65ce09fb9b0d79fe025c3a4b6aaf4534f2af7704ad12ea1"
+    ],
+    "canonical_id": "TARGET:ENSG00000307956",
+    "component_id": "000368a2ae013a60afafe1408ad971a266fbecc8621190eb4673536321b49c4d",
+    "expected": "AMBIGUOUS",
+    "id": "primary:000368a2ae013a60afafe1408ad971a266fbecc8621190eb4673536321b49c4d:1ea5bd6cd38ca8d6d65ce09fb9b0d79fe025c3a4b6aaf4534f2af7704ad12ea1",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "74786d4407e50cfa5f915e2a5f1d0d4cdbd34d38c5c759795bf18bb7b284adfb"
+    ],
+    "canonical_id": "TARGET:ENSG00000307956",
+    "component_id": "000368a2ae013a60afafe1408ad971a266fbecc8621190eb4673536321b49c4d",
+    "expected": "AMBIGUOUS",
+    "id": "primary:000368a2ae013a60afafe1408ad971a266fbecc8621190eb4673536321b49c4d:74786d4407e50cfa5f915e2a5f1d0d4cdbd34d38c5c759795bf18bb7b284adfb",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "69c3a0ae367ae607046ea0a34cef9c3f1a6c851611ac9bcaea462ecc80b46698"
+    ],
+    "canonical_id": "TARGET:ENSG00000304909",
+    "component_id": "00044b218740ffc71caa57fcfd48a6b4f1ed23e020dee8d58777341e9d70d82e",
+    "expected": "AMBIGUOUS",
+    "id": "primary:00044b218740ffc71caa57fcfd48a6b4f1ed23e020dee8d58777341e9d70d82e:69c3a0ae367ae607046ea0a34cef9c3f1a6c851611ac9bcaea462ecc80b46698",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "9b2000d565c592ae20e77118530fd13e435054c0edab8e557ab41854b047ca59"
+    ],
+    "canonical_id": "TARGET:ENSG00000304909",
+    "component_id": "00044b218740ffc71caa57fcfd48a6b4f1ed23e020dee8d58777341e9d70d82e",
+    "expected": "AMBIGUOUS",
+    "id": "primary:00044b218740ffc71caa57fcfd48a6b4f1ed23e020dee8d58777341e9d70d82e:9b2000d565c592ae20e77118530fd13e435054c0edab8e557ab41854b047ca59",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "16025dff812d8a8841aab6e63b9e0f2d49215d5511a100cc3f3b2e6fc4d594f9"
+    ],
+    "canonical_id": "TARGET:ENSG00000309791",
+    "component_id": "0004b39691798cf9f0aec99a1d2893774c48a4f2d2a874e8d74c486c2151cbe6",
+    "expected": "AMBIGUOUS",
+    "id": "primary:0004b39691798cf9f0aec99a1d2893774c48a4f2d2a874e8d74c486c2151cbe6:16025dff812d8a8841aab6e63b9e0f2d49215d5511a100cc3f3b2e6fc4d594f9",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "df50a2a9399b9fe624db1c47ac6cf6b1067a1829b10d0a92b98271d1b9ec2f76"
+    ],
+    "canonical_id": "TARGET:ENSG00000309791",
+    "component_id": "0004b39691798cf9f0aec99a1d2893774c48a4f2d2a874e8d74c486c2151cbe6",
+    "expected": "AMBIGUOUS",
+    "id": "primary:0004b39691798cf9f0aec99a1d2893774c48a4f2d2a874e8d74c486c2151cbe6:df50a2a9399b9fe624db1c47ac6cf6b1067a1829b10d0a92b98271d1b9ec2f76",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "c2c7483a5b7c2ec5a2b0161b4685605bfd8610d264596ef8faac2899d7d3dd0f"
+    ],
+    "canonical_id": "TARGET:HNRNPA1P55",
+    "component_id": "00062b2a9c4a5fd724f2de2b8f7fd6eca431d6afffd7cab3fe02f5c2f8575b0a",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:00062b2a9c4a5fd724f2de2b8f7fd6eca431d6afffd7cab3fe02f5c2f8575b0a:c2c7483a5b7c2ec5a2b0161b4685605bfd8610d264596ef8faac2899d7d3dd0f",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "d2a3f5b1b5309639d08c3772083be811e9d71590e89a6cd0178024392a6226b4"
+    ],
+    "canonical_id": "TARGET:HNRNPA1P55",
+    "component_id": "00062b2a9c4a5fd724f2de2b8f7fd6eca431d6afffd7cab3fe02f5c2f8575b0a",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:00062b2a9c4a5fd724f2de2b8f7fd6eca431d6afffd7cab3fe02f5c2f8575b0a:d2a3f5b1b5309639d08c3772083be811e9d71590e89a6cd0178024392a6226b4",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "70b285f5ff9a3ec41b2a8b816ff0eaea6ed8244ad49570e8b4c8280affa0f6e6"
+    ],
+    "canonical_id": "TARGET:MTND4P9",
+    "component_id": "000885c4043bc029814bc25453a02faf29d89c02cf31b4badadb4a5a306716c4",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:000885c4043bc029814bc25453a02faf29d89c02cf31b4badadb4a5a306716c4:70b285f5ff9a3ec41b2a8b816ff0eaea6ed8244ad49570e8b4c8280affa0f6e6",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "aef2bb042a943cea93c8a09889f4474628d9e6b473faf3d91fbf971282a696e8"
+    ],
+    "canonical_id": "TARGET:MTND4P9",
+    "component_id": "000885c4043bc029814bc25453a02faf29d89c02cf31b4badadb4a5a306716c4",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:000885c4043bc029814bc25453a02faf29d89c02cf31b4badadb4a5a306716c4:aef2bb042a943cea93c8a09889f4474628d9e6b473faf3d91fbf971282a696e8",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "7390dd1843a22a00cd2bd83ec4468ff6fbacbf6c858bd4f315f44438ce7b4a0a"
+    ],
+    "canonical_id": "TARGET:LINC01504",
+    "component_id": "000db0965b4b41453bdebc25e05909835c845e3ab5abc1f53de33701224fc6f7",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:000db0965b4b41453bdebc25e05909835c845e3ab5abc1f53de33701224fc6f7:7390dd1843a22a00cd2bd83ec4468ff6fbacbf6c858bd4f315f44438ce7b4a0a",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "c66bb02d5b0a6322dfc65f233deb05843ad7decd204a4e69512a6b0c6d14862d"
+    ],
+    "canonical_id": "TARGET:LINC01504",
+    "component_id": "000db0965b4b41453bdebc25e05909835c845e3ab5abc1f53de33701224fc6f7",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:000db0965b4b41453bdebc25e05909835c845e3ab5abc1f53de33701224fc6f7:c66bb02d5b0a6322dfc65f233deb05843ad7decd204a4e69512a6b0c6d14862d",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "96766df274dc87b013666e2a9c1f9b49501f6f2d6cbe94ec39f37b7ef432103d"
+    ],
+    "canonical_id": "TARGET:ASIC3",
+    "component_id": "000ed9b0f1b773c689b7c147db21b0ab47b2eeb3fe6b9f6b399f7ec72f34a1a3",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:000ed9b0f1b773c689b7c147db21b0ab47b2eeb3fe6b9f6b399f7ec72f34a1a3:96766df274dc87b013666e2a9c1f9b49501f6f2d6cbe94ec39f37b7ef432103d",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "e6801728331a26f81c017d97ffc7d2782e95efe501846642eac8ff1bbb3d162d"
+    ],
+    "canonical_id": "TARGET:ASIC3",
+    "component_id": "000ed9b0f1b773c689b7c147db21b0ab47b2eeb3fe6b9f6b399f7ec72f34a1a3",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:000ed9b0f1b773c689b7c147db21b0ab47b2eeb3fe6b9f6b399f7ec72f34a1a3:e6801728331a26f81c017d97ffc7d2782e95efe501846642eac8ff1bbb3d162d",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "7bdc4195c79279e2f830e1525073ec2b0e87a8c3d0c41db69fa3a3de022c59c2"
+    ],
+    "canonical_id": "TARGET:SNORA14B",
+    "component_id": "0044a7c7f406b7b9c61dbe7577a1f87087b01134a3d67f01e4a88c2d1e6f6ea6",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0044a7c7f406b7b9c61dbe7577a1f87087b01134a3d67f01e4a88c2d1e6f6ea6:7bdc4195c79279e2f830e1525073ec2b0e87a8c3d0c41db69fa3a3de022c59c2",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "fe4b03f064e68658e19c28d7951e9017e24780b1e2620f990dc2a35ad65ebb3e"
+    ],
+    "canonical_id": "TARGET:SNORA14B",
+    "component_id": "0044a7c7f406b7b9c61dbe7577a1f87087b01134a3d67f01e4a88c2d1e6f6ea6",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0044a7c7f406b7b9c61dbe7577a1f87087b01134a3d67f01e4a88c2d1e6f6ea6:fe4b03f064e68658e19c28d7951e9017e24780b1e2620f990dc2a35ad65ebb3e",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "174357fdc512605b4a611724caed9e2c0d8d4e97e315ad7fca8ced21b93ec20b"
+    ],
+    "canonical_id": "TARGET:NACA",
+    "component_id": "0087a484d5116695d567e3af31dd061be44b993b1501bfb6503b0e9d2f94dae7",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0087a484d5116695d567e3af31dd061be44b993b1501bfb6503b0e9d2f94dae7:174357fdc512605b4a611724caed9e2c0d8d4e97e315ad7fca8ced21b93ec20b",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "f91f81dafae6108eb7f8da7b10396594e7f8ef3a2cddbaed3dd332a5d9c1d92b"
+    ],
+    "canonical_id": "TARGET:NACA",
+    "component_id": "0087a484d5116695d567e3af31dd061be44b993b1501bfb6503b0e9d2f94dae7",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0087a484d5116695d567e3af31dd061be44b993b1501bfb6503b0e9d2f94dae7:f91f81dafae6108eb7f8da7b10396594e7f8ef3a2cddbaed3dd332a5d9c1d92b",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "dc7d123a0c9e909e5027bca4b4802a148abe1d4c2e2a272f82b2b1895ee32a70"
+    ],
+    "canonical_id": "TARGET:LNCTSI",
+    "component_id": "0092c01adaba109648cd9396d8a1d9d25d069ab4e3749ca9b2a8951dded8d0c4",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0092c01adaba109648cd9396d8a1d9d25d069ab4e3749ca9b2a8951dded8d0c4:dc7d123a0c9e909e5027bca4b4802a148abe1d4c2e2a272f82b2b1895ee32a70",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "e1adaa4217a9219f4c11fece36340a95f1bb3e4067163132843fdfbcc99c21af"
+    ],
+    "canonical_id": "TARGET:LNCTSI",
+    "component_id": "0092c01adaba109648cd9396d8a1d9d25d069ab4e3749ca9b2a8951dded8d0c4",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0092c01adaba109648cd9396d8a1d9d25d069ab4e3749ca9b2a8951dded8d0c4:e1adaa4217a9219f4c11fece36340a95f1bb3e4067163132843fdfbcc99c21af",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "6e17668d8030993040cce31fb182089008e551d6245f5af95f5b317b04b11f9e"
+    ],
+    "canonical_id": "TARGET:SPCS1",
+    "component_id": "00bd41ebc70b5d4d46649824f7860ead92117886408247e89208c40054867d4c",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:00bd41ebc70b5d4d46649824f7860ead92117886408247e89208c40054867d4c:6e17668d8030993040cce31fb182089008e551d6245f5af95f5b317b04b11f9e",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "e5c8522dbd85b86d8c2f50430bd007bc8182e22645c476a2c2d15aeaaf670b04"
+    ],
+    "canonical_id": "TARGET:SPCS1",
+    "component_id": "00bd41ebc70b5d4d46649824f7860ead92117886408247e89208c40054867d4c",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:00bd41ebc70b5d4d46649824f7860ead92117886408247e89208c40054867d4c:e5c8522dbd85b86d8c2f50430bd007bc8182e22645c476a2c2d15aeaaf670b04",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "08bfcf528e444f991e02772c37700e2d8a1065deb874c8b7464fbb64b16bfe6e"
+    ],
+    "canonical_id": "TARGET:SDHAF1",
+    "component_id": "00d842eb8515e91b7eb3faabf25f0116ec8f3de5c9606f687df2e2fed0eea7e5",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:00d842eb8515e91b7eb3faabf25f0116ec8f3de5c9606f687df2e2fed0eea7e5:08bfcf528e444f991e02772c37700e2d8a1065deb874c8b7464fbb64b16bfe6e",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "ca991d93e3bf3ebbfc77ed1190a7ff17bc05f74491c52c5023b20d3571ead7db"
+    ],
+    "canonical_id": "TARGET:SDHAF1",
+    "component_id": "00d842eb8515e91b7eb3faabf25f0116ec8f3de5c9606f687df2e2fed0eea7e5",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:00d842eb8515e91b7eb3faabf25f0116ec8f3de5c9606f687df2e2fed0eea7e5:ca991d93e3bf3ebbfc77ed1190a7ff17bc05f74491c52c5023b20d3571ead7db",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "6fa5993bbdb4f8467b33fa2fcf1def6afa3018e0daae4f1ad137261757228595"
+    ],
+    "canonical_id": "TARGET:EMX2OS",
+    "component_id": "00f48e71ff0328b0172593cb041054feacb1babb6b94c7ad16689d7028349c12",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:00f48e71ff0328b0172593cb041054feacb1babb6b94c7ad16689d7028349c12:6fa5993bbdb4f8467b33fa2fcf1def6afa3018e0daae4f1ad137261757228595",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "faafe2385cb9e34dde8a1071da602a70b5ccd0c0806f8e872ac23f0abf6e65d9"
+    ],
+    "canonical_id": "TARGET:EMX2OS",
+    "component_id": "00f48e71ff0328b0172593cb041054feacb1babb6b94c7ad16689d7028349c12",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:00f48e71ff0328b0172593cb041054feacb1babb6b94c7ad16689d7028349c12:faafe2385cb9e34dde8a1071da602a70b5ccd0c0806f8e872ac23f0abf6e65d9",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "3fb83de07b91b8548ce463de2c03252d8248f5145ae74ae220594b61f16ca480"
+    ],
+    "canonical_id": "TARGET:CCL19",
+    "component_id": "072cc6279dcea20f31906bf86211614ff8b61e5d401b6b34ad2417ac9760d399",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:072cc6279dcea20f31906bf86211614ff8b61e5d401b6b34ad2417ac9760d399:3fb83de07b91b8548ce463de2c03252d8248f5145ae74ae220594b61f16ca480",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "45b4dd89a7442f86cca0f50cb8bb609a027862c356483777ba9cedea9a3bbc77"
+    ],
+    "canonical_id": "TARGET:CCL19",
+    "component_id": "072cc6279dcea20f31906bf86211614ff8b61e5d401b6b34ad2417ac9760d399",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:072cc6279dcea20f31906bf86211614ff8b61e5d401b6b34ad2417ac9760d399:45b4dd89a7442f86cca0f50cb8bb609a027862c356483777ba9cedea9a3bbc77",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "7bb43d70fba28de3f26ae7d57b506171eb62b194e40b3a5c2f35ef2ad441eea4"
+    ],
+    "canonical_id": "TARGET:CCL24",
+    "component_id": "082d6e0451cace19728bf483150735fca0fb45e67c669bec18cc31f2a158ea12",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:082d6e0451cace19728bf483150735fca0fb45e67c669bec18cc31f2a158ea12:7bb43d70fba28de3f26ae7d57b506171eb62b194e40b3a5c2f35ef2ad441eea4",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "ed6dbc888d43e25e33e292bd4ae1ebe4cf4ed94130f233001a594b2d101de094"
+    ],
+    "canonical_id": "TARGET:CCL24",
+    "component_id": "082d6e0451cace19728bf483150735fca0fb45e67c669bec18cc31f2a158ea12",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:082d6e0451cace19728bf483150735fca0fb45e67c669bec18cc31f2a158ea12:ed6dbc888d43e25e33e292bd4ae1ebe4cf4ed94130f233001a594b2d101de094",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "ba853831cd1f9416c5aff28c096ca46ee684ba5466602a0fd4f73d149a7970a4"
+    ],
+    "canonical_id": "TARGET:MYMX",
+    "component_id": "099dbc93e75bad413ef72c437a472c9549480c6cb8d6b7d5b39ac9e1aa21c836",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:099dbc93e75bad413ef72c437a472c9549480c6cb8d6b7d5b39ac9e1aa21c836:ba853831cd1f9416c5aff28c096ca46ee684ba5466602a0fd4f73d149a7970a4",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "cf5dbb53d47696226fcb6f0c665d8a59ce56d15dc60e80f76495e250dc65e5b6"
+    ],
+    "canonical_id": "TARGET:MYMX",
+    "component_id": "099dbc93e75bad413ef72c437a472c9549480c6cb8d6b7d5b39ac9e1aa21c836",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:099dbc93e75bad413ef72c437a472c9549480c6cb8d6b7d5b39ac9e1aa21c836:cf5dbb53d47696226fcb6f0c665d8a59ce56d15dc60e80f76495e250dc65e5b6",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "9d91962ac062c3ca3b9eec902c4647cb1d60c91bc5674e6175b08528fbd6f3a9"
+    ],
+    "canonical_id": "TARGET:UBA52P4",
+    "component_id": "0a4f14d80e5f65a2b104d8e80649cf9a24338d357f3c824dff7131beaac1946d",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0a4f14d80e5f65a2b104d8e80649cf9a24338d357f3c824dff7131beaac1946d:9d91962ac062c3ca3b9eec902c4647cb1d60c91bc5674e6175b08528fbd6f3a9",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "a8921679f7c11ce8f99c271f2ab40221ce500bb4ce3a30584725c2bf3f4cf676"
+    ],
+    "canonical_id": "TARGET:UBA52P4",
+    "component_id": "0a4f14d80e5f65a2b104d8e80649cf9a24338d357f3c824dff7131beaac1946d",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0a4f14d80e5f65a2b104d8e80649cf9a24338d357f3c824dff7131beaac1946d:a8921679f7c11ce8f99c271f2ab40221ce500bb4ce3a30584725c2bf3f4cf676",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "524769dfa876af0ae0ca28de6c1a8ea1712467646b238ce2c03038763dc39363"
+    ],
+    "canonical_id": "TARGET:UBA52P8",
+    "component_id": "0c6bcae05820e9356e1111fcd273ffba4c72f540b75ddb0cd7ac4db201fb9e64",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0c6bcae05820e9356e1111fcd273ffba4c72f540b75ddb0cd7ac4db201fb9e64:524769dfa876af0ae0ca28de6c1a8ea1712467646b238ce2c03038763dc39363",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "a6fa25d252c33eee51b9df3ecc06e5619e12867163308c5f6ad9c6cf0ce492bc"
+    ],
+    "canonical_id": "TARGET:UBA52P8",
+    "component_id": "0c6bcae05820e9356e1111fcd273ffba4c72f540b75ddb0cd7ac4db201fb9e64",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:0c6bcae05820e9356e1111fcd273ffba4c72f540b75ddb0cd7ac4db201fb9e64:a6fa25d252c33eee51b9df3ecc06e5619e12867163308c5f6ad9c6cf0ce492bc",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "554cac0b2121caac06ff0d70324f791da41e739edff8806a4ae633f462ca0f75"
+    ],
+    "canonical_id": "TARGET:CCL4",
+    "component_id": "117ac21d1a35fd8aaee949188ca6e5ed3e715e8518ba9a7c224bd4db8e8a89d7",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:117ac21d1a35fd8aaee949188ca6e5ed3e715e8518ba9a7c224bd4db8e8a89d7:554cac0b2121caac06ff0d70324f791da41e739edff8806a4ae633f462ca0f75",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "7f4db8b1ae3c18b620965c6cce1920441ba5613a43e827564e33e8427a4ad43f"
+    ],
+    "canonical_id": "TARGET:CCL4",
+    "component_id": "117ac21d1a35fd8aaee949188ca6e5ed3e715e8518ba9a7c224bd4db8e8a89d7",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:117ac21d1a35fd8aaee949188ca6e5ed3e715e8518ba9a7c224bd4db8e8a89d7:7f4db8b1ae3c18b620965c6cce1920441ba5613a43e827564e33e8427a4ad43f",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "b02f4e2b161379351f451e6cf57461ef33d8b0efb9e587a1553cc0ceff70d7ce"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "1b76b904030b3f014e14d5861a9322c6a431dc974c7c4ae3ec78d3d13bfebe33",
+    "expected": "AMBIGUOUS",
+    "id": "primary:1b76b904030b3f014e14d5861a9322c6a431dc974c7c4ae3ec78d3d13bfebe33:b02f4e2b161379351f451e6cf57461ef33d8b0efb9e587a1553cc0ceff70d7ce",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "e6589620f72e96e85bb241b07affc5461ec680cfb5ee63420a8a3378576dcf2f"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "1b76b904030b3f014e14d5861a9322c6a431dc974c7c4ae3ec78d3d13bfebe33",
+    "expected": "AMBIGUOUS",
+    "id": "primary:1b76b904030b3f014e14d5861a9322c6a431dc974c7c4ae3ec78d3d13bfebe33:e6589620f72e96e85bb241b07affc5461ec680cfb5ee63420a8a3378576dcf2f",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "2376ad1f831a9a290b6bc975c6b93d7398190f2e84c8dc699536f04f2a1fbc13"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "2628590845ef822972371c053fc87a1d678c48bf3da9ad5a979e0bc8f01024a0",
+    "expected": "AMBIGUOUS",
+    "id": "primary:2628590845ef822972371c053fc87a1d678c48bf3da9ad5a979e0bc8f01024a0:2376ad1f831a9a290b6bc975c6b93d7398190f2e84c8dc699536f04f2a1fbc13",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "bcf986187f41e6ddf0f51eb368d4cb36f318d2f6d25bab0a39ebea3079603863"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "2628590845ef822972371c053fc87a1d678c48bf3da9ad5a979e0bc8f01024a0",
+    "expected": "AMBIGUOUS",
+    "id": "primary:2628590845ef822972371c053fc87a1d678c48bf3da9ad5a979e0bc8f01024a0:bcf986187f41e6ddf0f51eb368d4cb36f318d2f6d25bab0a39ebea3079603863",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "86134133588713b9f80c83b623ae1ed6efb848f008de21a839b88ae784dc4a43"
+    ],
+    "canonical_id": "TARGET:THRA",
+    "component_id": "36e72ba865270d79e7cffd2f4b364ab64c2fa794dc2ed29b2573662f59c59469",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:36e72ba865270d79e7cffd2f4b364ab64c2fa794dc2ed29b2573662f59c59469:86134133588713b9f80c83b623ae1ed6efb848f008de21a839b88ae784dc4a43",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "f976d8152022ba841e4fa82e343c66e1f1649e43f6648fda01593882d87099dc"
+    ],
+    "canonical_id": "TARGET:THRA",
+    "component_id": "36e72ba865270d79e7cffd2f4b364ab64c2fa794dc2ed29b2573662f59c59469",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:36e72ba865270d79e7cffd2f4b364ab64c2fa794dc2ed29b2573662f59c59469:f976d8152022ba841e4fa82e343c66e1f1649e43f6648fda01593882d87099dc",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "1a808e27d70753d0047ecfd252befc2e407e47fd5ef0e4cb55ec32e7b931ff7d"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "39760580c0873c339405b3f7a1d5b7e368629b5c4bb2322e1efeb224cb97d320",
+    "expected": "AMBIGUOUS",
+    "id": "primary:39760580c0873c339405b3f7a1d5b7e368629b5c4bb2322e1efeb224cb97d320:1a808e27d70753d0047ecfd252befc2e407e47fd5ef0e4cb55ec32e7b931ff7d",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "391058b47843d218291c596f2a27a7ee5517d43ba90914a2c79d981fb5a1501c"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "39760580c0873c339405b3f7a1d5b7e368629b5c4bb2322e1efeb224cb97d320",
+    "expected": "AMBIGUOUS",
+    "id": "primary:39760580c0873c339405b3f7a1d5b7e368629b5c4bb2322e1efeb224cb97d320:391058b47843d218291c596f2a27a7ee5517d43ba90914a2c79d981fb5a1501c",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "9439eb21bc3dd11064b3e9b93dd8050289c57324ea066ff50753ab094a7b00b6"
+    ],
+    "canonical_id": "TARGET:IL4R",
+    "component_id": "4c42362df804da55596fcc501ccf176c596733ffa29a5fcd6aa64e22a9b3836e",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:4c42362df804da55596fcc501ccf176c596733ffa29a5fcd6aa64e22a9b3836e:9439eb21bc3dd11064b3e9b93dd8050289c57324ea066ff50753ab094a7b00b6",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "d302b11dee471f918885551ac59e59ccc55c7689899e7b651e37100042eeed18"
+    ],
+    "canonical_id": "TARGET:IL4R",
+    "component_id": "4c42362df804da55596fcc501ccf176c596733ffa29a5fcd6aa64e22a9b3836e",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:4c42362df804da55596fcc501ccf176c596733ffa29a5fcd6aa64e22a9b3836e:d302b11dee471f918885551ac59e59ccc55c7689899e7b651e37100042eeed18",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "b6d82e6a54a16bc1abcd6f6ddfe94dd1bf8b562b5fe7356cef8a6dafed29613f"
+    ],
+    "canonical_id": "TARGET:CD19",
+    "component_id": "4ceabe8bc1145c90bc136ce81b66d918205c0a7741c3ddeb13acf4055ed2d7ed",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:4ceabe8bc1145c90bc136ce81b66d918205c0a7741c3ddeb13acf4055ed2d7ed:b6d82e6a54a16bc1abcd6f6ddfe94dd1bf8b562b5fe7356cef8a6dafed29613f",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "c91ec8e65807c9c6ee91259f8b8e2e22b68ba19b67b60d83d026f3827efb5ce7"
+    ],
+    "canonical_id": "TARGET:CD19",
+    "component_id": "4ceabe8bc1145c90bc136ce81b66d918205c0a7741c3ddeb13acf4055ed2d7ed",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:4ceabe8bc1145c90bc136ce81b66d918205c0a7741c3ddeb13acf4055ed2d7ed:c91ec8e65807c9c6ee91259f8b8e2e22b68ba19b67b60d83d026f3827efb5ce7",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "719b77054fe43fe3fc5cd7de4bc08eee9ad3d26c0033c60a209be02d0301a5eb"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "51642d9965e5740bd1f182f3f9e3639d879e5e3e0b26a5161ed6e6dfe685a56a",
+    "expected": "AMBIGUOUS",
+    "id": "primary:51642d9965e5740bd1f182f3f9e3639d879e5e3e0b26a5161ed6e6dfe685a56a:719b77054fe43fe3fc5cd7de4bc08eee9ad3d26c0033c60a209be02d0301a5eb",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "8a65cd70e95b69035ad708862d26433bdaa6c19721fa5a410be428871be3eeef"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "51642d9965e5740bd1f182f3f9e3639d879e5e3e0b26a5161ed6e6dfe685a56a",
+    "expected": "AMBIGUOUS",
+    "id": "primary:51642d9965e5740bd1f182f3f9e3639d879e5e3e0b26a5161ed6e6dfe685a56a:8a65cd70e95b69035ad708862d26433bdaa6c19721fa5a410be428871be3eeef",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "013a56f62cf76d498116d56eaaa56754748e13f175bfd3b5b7c0f1b01ca339c7"
+    ],
+    "canonical_id": "TARGET:CDC42BPA",
+    "component_id": "5509c578b9198c04dfa03396067e3b84d0d12d7f6c0c70167835e2a69da652ca",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:5509c578b9198c04dfa03396067e3b84d0d12d7f6c0c70167835e2a69da652ca:013a56f62cf76d498116d56eaaa56754748e13f175bfd3b5b7c0f1b01ca339c7",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "4ecca44cf0fb3f242266c0cc453b525dc9734f9ab7d6b5fcfb6ff950492fb2d4"
+    ],
+    "canonical_id": "TARGET:CDC42BPA",
+    "component_id": "5509c578b9198c04dfa03396067e3b84d0d12d7f6c0c70167835e2a69da652ca",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:5509c578b9198c04dfa03396067e3b84d0d12d7f6c0c70167835e2a69da652ca:4ecca44cf0fb3f242266c0cc453b525dc9734f9ab7d6b5fcfb6ff950492fb2d4",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "732f6941cc9668b3b4bb732402a3781bd811f4c28f847cf334c02f8d161c85a2"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "69b3fa33b5fa2aa1dffbaf0d622d717461ccf91c254f7cca4f2213d60e012b14",
+    "expected": "AMBIGUOUS",
+    "id": "primary:69b3fa33b5fa2aa1dffbaf0d622d717461ccf91c254f7cca4f2213d60e012b14:732f6941cc9668b3b4bb732402a3781bd811f4c28f847cf334c02f8d161c85a2",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "78f5c866e60d173107c8626f05839b75072173b70cf6e62bb1fccbfa1840e710"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "69b3fa33b5fa2aa1dffbaf0d622d717461ccf91c254f7cca4f2213d60e012b14",
+    "expected": "AMBIGUOUS",
+    "id": "primary:69b3fa33b5fa2aa1dffbaf0d622d717461ccf91c254f7cca4f2213d60e012b14:78f5c866e60d173107c8626f05839b75072173b70cf6e62bb1fccbfa1840e710",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "1114787d1cae8139c64b69964743bc0ea4c97ff8bd4ea3be7adabe6ffa7576ba"
+    ],
+    "canonical_id": "TARGET:PDCD1",
+    "component_id": "6f11791de356b8ade786fc6cb23f06c56ac3cbace29be8b2589bce66f17f0294",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:6f11791de356b8ade786fc6cb23f06c56ac3cbace29be8b2589bce66f17f0294:1114787d1cae8139c64b69964743bc0ea4c97ff8bd4ea3be7adabe6ffa7576ba",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "1300a230cd80fb80cbe32c6c9cd797891487053a785cf306eea9b3e1b306b93b"
+    ],
+    "canonical_id": "TARGET:PDCD1",
+    "component_id": "6f11791de356b8ade786fc6cb23f06c56ac3cbace29be8b2589bce66f17f0294",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:6f11791de356b8ade786fc6cb23f06c56ac3cbace29be8b2589bce66f17f0294:1300a230cd80fb80cbe32c6c9cd797891487053a785cf306eea9b3e1b306b93b",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "50ca1aa444cbe885f506b13ba78e94a2cbe9fc9e8444c1e7a7d1bd573adf6bb3"
+    ],
+    "canonical_id": "TARGET:IL2RA",
+    "component_id": "af71600a7a64ffb7a77664a8fc2ea399d3d6e08b162471e461868c489e9a91ce",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:af71600a7a64ffb7a77664a8fc2ea399d3d6e08b162471e461868c489e9a91ce:50ca1aa444cbe885f506b13ba78e94a2cbe9fc9e8444c1e7a7d1bd573adf6bb3",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "ef21b7c1c0c15727fac841099a6b8fb2b6d6646d36875e7dbb21b6c66ba68661"
+    ],
+    "canonical_id": "TARGET:IL2RA",
+    "component_id": "af71600a7a64ffb7a77664a8fc2ea399d3d6e08b162471e461868c489e9a91ce",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:af71600a7a64ffb7a77664a8fc2ea399d3d6e08b162471e461868c489e9a91ce:ef21b7c1c0c15727fac841099a6b8fb2b6d6646d36875e7dbb21b6c66ba68661",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "c7a93c2dae8ee31ce0d31b6b0c1b87722c7ee20933bdc05d37e5d1bdf455cff7"
+    ],
+    "canonical_id": "TARGET:CAMK2A",
+    "component_id": "b8ee3b894fa51e48b2a47b2608f7f3ae2f3a465ca20c483ecedb8b8306d44212",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:b8ee3b894fa51e48b2a47b2608f7f3ae2f3a465ca20c483ecedb8b8306d44212:c7a93c2dae8ee31ce0d31b6b0c1b87722c7ee20933bdc05d37e5d1bdf455cff7",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "e5d5ed0759b2c55689ed9a629749623934c83f36bdda93b6935424f89c9dff74"
+    ],
+    "canonical_id": "TARGET:CAMK2A",
+    "component_id": "b8ee3b894fa51e48b2a47b2608f7f3ae2f3a465ca20c483ecedb8b8306d44212",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:b8ee3b894fa51e48b2a47b2608f7f3ae2f3a465ca20c483ecedb8b8306d44212:e5d5ed0759b2c55689ed9a629749623934c83f36bdda93b6935424f89c9dff74",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "17261321455b8d7c2ec53971644cd6d58b25ae59410286f51b8437cf22ff2892"
+    ],
+    "canonical_id": "TARGET:GFRA1",
+    "component_id": "c4139f0b91ee446b6d1c8139d3782c9ec1d7dbb3f73af190fd998535a88caf77",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:c4139f0b91ee446b6d1c8139d3782c9ec1d7dbb3f73af190fd998535a88caf77:17261321455b8d7c2ec53971644cd6d58b25ae59410286f51b8437cf22ff2892",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "b5ccce06640f17f956fd45c2bf22ed2d390798501c185e75255fb9d3d366fdd2"
+    ],
+    "canonical_id": "TARGET:GFRA1",
+    "component_id": "c4139f0b91ee446b6d1c8139d3782c9ec1d7dbb3f73af190fd998535a88caf77",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:c4139f0b91ee446b6d1c8139d3782c9ec1d7dbb3f73af190fd998535a88caf77:b5ccce06640f17f956fd45c2bf22ed2d390798501c185e75255fb9d3d366fdd2",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "c42c250c47015c17ac87fa0ad60c58c8e09713bdc83012d44c9563876c31eaaa"
+    ],
+    "canonical_id": "TARGET:HBB",
+    "component_id": "d5fd7696831b7efbd9020cdb03bb5f8b3fae32d732e91de98f7922bbffd47f42",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:d5fd7696831b7efbd9020cdb03bb5f8b3fae32d732e91de98f7922bbffd47f42:c42c250c47015c17ac87fa0ad60c58c8e09713bdc83012d44c9563876c31eaaa",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "eba8281423abc7f0d1fe1df7ccae965943a41539641995d01e744d87773da71a"
+    ],
+    "canonical_id": "TARGET:HBB",
+    "component_id": "d5fd7696831b7efbd9020cdb03bb5f8b3fae32d732e91de98f7922bbffd47f42",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:d5fd7696831b7efbd9020cdb03bb5f8b3fae32d732e91de98f7922bbffd47f42:eba8281423abc7f0d1fe1df7ccae965943a41539641995d01e744d87773da71a",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "a1ba116b239b4c54b354a80ca09a345bd5b020501aa6ac9339a25663270e3d7e"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "d6bab7825be1d1012f2105d8f11759db387e3fc944f5639f60788324912ab9d9",
+    "expected": "AMBIGUOUS",
+    "id": "primary:d6bab7825be1d1012f2105d8f11759db387e3fc944f5639f60788324912ab9d9:a1ba116b239b4c54b354a80ca09a345bd5b020501aa6ac9339a25663270e3d7e",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "f495d40ec98cdeea94e98ffb01a168d11bc760482fb5e96de0b71c4a32885f3a"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "d6bab7825be1d1012f2105d8f11759db387e3fc944f5639f60788324912ab9d9",
+    "expected": "AMBIGUOUS",
+    "id": "primary:d6bab7825be1d1012f2105d8f11759db387e3fc944f5639f60788324912ab9d9:f495d40ec98cdeea94e98ffb01a168d11bc760482fb5e96de0b71c4a32885f3a",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "6d307792faa3e9fa226befb969172c9922eab377e0202308afc9262fb922917a"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "dde7c99db0018347554de95700aa19a8e3c3bbd71e6ff128fe10052e2bdfe96b",
+    "expected": "AMBIGUOUS",
+    "id": "primary:dde7c99db0018347554de95700aa19a8e3c3bbd71e6ff128fe10052e2bdfe96b:6d307792faa3e9fa226befb969172c9922eab377e0202308afc9262fb922917a",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "be56c1916d795b7e7e66e634a51557e594eb171d1f29c057e1e9adf80f90b5c6"
+    ],
+    "canonical_id": "TARGET:SNORA62",
+    "component_id": "dde7c99db0018347554de95700aa19a8e3c3bbd71e6ff128fe10052e2bdfe96b",
+    "expected": "AMBIGUOUS",
+    "id": "primary:dde7c99db0018347554de95700aa19a8e3c3bbd71e6ff128fe10052e2bdfe96b:be56c1916d795b7e7e66e634a51557e594eb171d1f29c057e1e9adf80f90b5c6",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "1751ac7493a8d035afb8703ae8aff22c662309cce0638144074613722704b01d"
+    ],
+    "canonical_id": "TARGET:EGFR",
+    "component_id": "e0dfac65de450ffa9a95bedca89e67520f2634d9b6a11ecd71f4ec60ead5d4bd",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:e0dfac65de450ffa9a95bedca89e67520f2634d9b6a11ecd71f4ec60ead5d4bd:1751ac7493a8d035afb8703ae8aff22c662309cce0638144074613722704b01d",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "assertion_ids": [
+      "d11e95cc861886e61217d476ed4329bf3f25afdeead497a0e331837f3260ebcc"
+    ],
+    "canonical_id": "TARGET:EGFR",
+    "component_id": "e0dfac65de450ffa9a95bedca89e67520f2634d9b6a11ecd71f4ec60ead5d4bd",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "primary:e0dfac65de450ffa9a95bedca89e67520f2634d9b6a11ecd71f4ec60ead5d4bd:d11e95cc861886e61217d476ed4329bf3f25afdeead497a0e331837f3260ebcc",
+    "oracle_reason": "Exact gene ID and approved symbol converge; collisions/missing gene evidence abstain.",
+    "scope": "PRIMARY_ASSERTION"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL6105",
+    "chembl_id": "CHEMBL6105",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL6105",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2096618",
+    "chembl_id": "CHEMBL2096618",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL2096618",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2111417",
+    "chembl_id": "CHEMBL2111417",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL2111417",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL612409",
+    "chembl_id": "CHEMBL612409",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL612409",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL1907588",
+    "chembl_id": "CHEMBL1907588",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL1907588",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL1907589",
+    "chembl_id": "CHEMBL1907589",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL1907589",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2093872",
+    "chembl_id": "CHEMBL2093872",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL2093872",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2094124",
+    "chembl_id": "CHEMBL2094124",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL2094124",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2094127",
+    "chembl_id": "CHEMBL2094127",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL2094127",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL1907606",
+    "chembl_id": "CHEMBL1907606",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL1907606",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2093863",
+    "chembl_id": "CHEMBL2093863",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL2093863",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2093865",
+    "chembl_id": "CHEMBL2093865",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL2093865",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL1907611",
+    "chembl_id": "CHEMBL1907611",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL1907611",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2093861",
+    "chembl_id": "CHEMBL2093861",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL2093861",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2093862",
+    "chembl_id": "CHEMBL2093862",
+    "expected": "CERTIFIED_RELATIONAL_ENTITY",
+    "id": "structure:CHEMBL2093862",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2095149",
+    "chembl_id": "CHEMBL2095149",
+    "expected": "CERTIFIED_MULTI_ENTITY",
+    "id": "structure:CHEMBL2095149",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2095151",
+    "chembl_id": "CHEMBL2095151",
+    "expected": "CERTIFIED_MULTI_ENTITY",
+    "id": "structure:CHEMBL2095151",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2095153",
+    "chembl_id": "CHEMBL2095153",
+    "expected": "CERTIFIED_MULTI_ENTITY",
+    "id": "structure:CHEMBL2095153",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL2074",
+    "chembl_id": "CHEMBL2074",
+    "expected": "AMBIGUOUS",
+    "id": "structure:CHEMBL2074",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL1971",
+    "chembl_id": "CHEMBL1971",
+    "expected": "AMBIGUOUS",
+    "id": "structure:CHEMBL1971",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "CHEMBL:CHEMBL1827",
+    "chembl_id": "CHEMBL1827",
+    "expected": "AMBIGUOUS",
+    "id": "structure:CHEMBL1827",
+    "oracle_reason": "Authority-typed target structure; no automatic protein-to-gene equivalence.",
+    "scope": "STRUCTURED_TARGET"
+  },
+  {
+    "canonical_id": "UNIPROT:O43451",
+    "chembl_id": "CHEMBL2074",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "protein:CHEMBL2074",
+    "oracle_reason": "Typed single protein, exact reviewed accession and reciprocal unique HGNC encoding relation.",
+    "scope": "PROTEIN_COMPONENT"
+  },
+  {
+    "canonical_id": "UNIPROT:O60706",
+    "chembl_id": "CHEMBL1971",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "protein:CHEMBL1971",
+    "oracle_reason": "Typed single protein, exact reviewed accession and reciprocal unique HGNC encoding relation.",
+    "scope": "PROTEIN_COMPONENT"
+  },
+  {
+    "canonical_id": "UNIPROT:O76074",
+    "chembl_id": "CHEMBL1827",
+    "expected": "CERTIFIED_SINGLE_ENTITY",
+    "id": "protein:CHEMBL1827",
+    "oracle_reason": "Typed single protein, exact reviewed accession and reciprocal unique HGNC encoding relation.",
+    "scope": "PROTEIN_COMPONENT"
+  }
+]
