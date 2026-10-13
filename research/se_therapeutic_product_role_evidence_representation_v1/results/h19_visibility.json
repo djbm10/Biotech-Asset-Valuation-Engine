@@ -1,0 +1,3230 @@
+[
+  {
+    "candidate": {
+      "arm_type_declarations": [
+        "EXPERIMENTAL"
+      ],
+      "asset_id": "asset:26203a4710a9a1ef4a66",
+      "authority_annotation_ids": [],
+      "availability": {
+        "explicit_intervention_use_assertion_present": false,
+        "explicit_product_kind_assertion_present": false,
+        "free_text_present_not_classified": true,
+        "mixed_arm_contexts": false,
+        "source_type_variation": false,
+        "sponsor_organisation_is_not_product_designation": true,
+        "structured_context_dropped_before_qualification": true
+      },
+      "entity_type_declarations": [
+        "DRUG"
+      ],
+      "intervention_links": [
+        {
+          "arm_links": [
+            {
+              "arm_index": 0,
+              "channels": [
+                "INTERVENTION_ARM_LABEL",
+                "ARM_INTERVENTION_NAME"
+              ]
+            },
+            {
+              "arm_index": 1,
+              "channels": [
+                "INTERVENTION_ARM_LABEL",
+                "ARM_INTERVENTION_NAME"
+              ]
+            }
+          ],
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "intervention_index": 1,
+          "link_basis": "EXISTING_NAME_OR_ALIAS_EXACT_CASEFOLD_WHITESPACE",
+          "normalized_intervention_names": [
+            "[68ga]ga-ttp"
+          ],
+          "raw_intervention_names": [
+            "[68Ga]Ga-TTP"
+          ],
+          "trial_id": "NCT06715020"
+        }
+      ],
+      "intervention_use": "UNKNOWN",
+      "name": "[68Ga]Ga-TTP",
+      "native_assertion_ids": [
+        "082c563ba7f014ed1c2e8950ee9d9c6458e488c2effa69c2c8add397f73845b9",
+        "0ddca1fa274b5d604f0e964fcab7ea2528b8be301db481da42b8ee89dd1d564a",
+        "14fcc4d899e6a46ef6887726d06852b6c0c8d2377b04cd88dad8cd360ee37881",
+        "17da67087aa6b8cc6593d0915d05776c535b3e6ef624439b595b23539383f7c7",
+        "28aed178d6d50baee0f6b999371eaf9783fa27242183e5a1d2d19c2966741744",
+        "314c6a3f7d3c0cd8f19caebe08610ca9d1d1a5de75a45b0cd6169ccb3868fe8c",
+        "35a31646a1181fefc8c26fff2de0b8e14f348958770396c47a30e863a14b3e22",
+        "393804b95cf6f12d8ae7f2846926d50eb34270b304ceba986f52c47a9f293504",
+        "3956efe05bd9839d75f7928d59975ce72fc9d6df58dc218caa1162b18d281bea",
+        "3a6bbc1d1948df18b9bb8cce8618c8108559ce6aa98fed3fc3aa9fd728d8af7f",
+        "625d60d6343c0e0261ac2d15447f423a8e394deca84481d78bdda7d75f2fe8d5",
+        "6c918d1620e45bedd25fec9f72ff17573ea214ec5e9f1b0a1e90633c13122b58",
+        "81d505ce06d8ce21a8c0fd6b15a07f73c218bae25a0e44defde56ba1305b4102",
+        "88f648a6cb69910f048dd05d4f8fe0f70f552ddb3aa639ee25679ccc5e3cc044",
+        "a8b4871c67f53c8c38581334501cfdf6ed494198cc7d1d6268dc0559603353ae",
+        "ace0f7de3608b3c607e55f88c0aac2163f29f289d90ee303c863dbf94c310f38",
+        "ad8c1c9b304b88fc0a6bef16e3eaf4c84c790965f9a862d90e42833891e3d466",
+        "ae1ef4c75d246a9cf63076a901f19f00cee3b4a8269313771824aabe916264be",
+        "b12206b9e01d868ac88e2e34606b9609934bc96733e99f9ab23e7e38223cc8e8",
+        "b6b70c94b29e991a8ddd969b703ad2e205d841f91dad3de24856981a6bba4d9e",
+        "c16566cedffa491060902a616885eb49fbe7f762ea07164fc69b1dd47210c0b3",
+        "cf76de1cf7e74124f44f9b89403bd41c7871fb6804f1f2f76deed9ca8348938e",
+        "d85053270328c8be9a9a104bfdc937f3e42f77d7b5770fa4d73b7652c6b795e1",
+        "d98c59614b35924c34b4ea4916db7f2cc4740edb084e1650c9342ce2e74606cc",
+        "db06f42aa9ceb21e79cd1327f30c82bf23eade12162743e3969440ca00c447d8"
+      ],
+      "note": "UNKNOWN denotes absent certified product/use semantics, not absence of raw evidence or nontherapeutic identity.",
+      "product_kind": "UNKNOWN",
+      "qualification_reason_after": "STRUCTURED_THERAPEUTIC",
+      "qualification_reason_before": "STRUCTURED_THERAPEUTIC",
+      "semantic_status": "NO_ADOPTED_CORRECT_SCOPE_STRUCTURED_ASSERTION",
+      "source_document_ids": [
+        "document:4a375fe6a9d7853f98f6"
+      ],
+      "study_purpose_declarations": [
+        "DIAGNOSTIC"
+      ],
+      "unmatched_ctgov_documents": []
+    },
+    "source_fields": [
+      {
+        "assertion_id": "082c563ba7f014ed1c2e8950ee9d9c6458e488c2effa69c2c8add397f73845b9",
+        "intervention_use_assertion": false,
+        "normalized_value": "[68Ga]Ga-TTP",
+        "raw_value": "[68Ga]Ga-TTP",
+        "semantic_scope": "IDENTITY_TEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            1,
+            "name"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "0ddca1fa274b5d604f0e964fcab7ea2528b8be301db481da42b8ee89dd1d564a",
+        "intervention_use_assertion": false,
+        "normalized_value": "Diagnostic Validation Cohort",
+        "raw_value": "Diagnostic Validation Cohort",
+        "semantic_scope": "INTERVENTION_ARM_LINK",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            1,
+            "armGroupLabels",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "14fcc4d899e6a46ef6887726d06852b6c0c8d2377b04cd88dad8cd360ee37881",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "investigatorAffiliation": "Peking University Cancer Hospital & Institute",
+          "investigatorFullName": "Hua Zhu",
+          "investigatorTitle": "Associate Professor",
+          "type": "PRINCIPAL_INVESTIGATOR"
+        },
+        "raw_value": {
+          "investigatorAffiliation": "Peking University Cancer Hospital & Institute",
+          "investigatorFullName": "Hua Zhu",
+          "investigatorTitle": "Associate Professor",
+          "type": "PRINCIPAL_INVESTIGATOR"
+        },
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "responsibleParty"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "17da67087aa6b8cc6593d0915d05776c535b3e6ef624439b595b23539383f7c7",
+        "intervention_use_assertion": false,
+        "normalized_value": "Patients with breast cancer who are planned to receive TROP2-directed ADC therapy will undergo paired \\[68Ga\\]Ga-TTP and \\[18F\\]FDG imaging at three time points: before treatment, after 2 cycles of ADC therapy(each cycle is 21 days), and at disease progression. This cohort is used to assess longitudinal imaging changes and their relationship with treatment response.",
+        "raw_value": "Patients with breast cancer who are planned to receive TROP2-directed ADC therapy will undergo paired \\[68Ga\\]Ga-TTP and \\[18F\\]FDG imaging at three time points: before treatment, after 2 cycles of ADC therapy(each cycle is 21 days), and at disease progression. This cohort is used to assess longitudinal imaging changes and their relationship with treatment response.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "28aed178d6d50baee0f6b999371eaf9783fa27242183e5a1d2d19c2966741744",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: 18F-FDG",
+        "raw_value": "Drug: 18F-FDG",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "314c6a3f7d3c0cd8f19caebe08610ca9d1d1a5de75a45b0cd6169ccb3868fe8c",
+        "intervention_use_assertion": false,
+        "normalized_value": "EXPERIMENTAL",
+        "raw_value": "EXPERIMENTAL",
+        "semantic_scope": "ARM_TYPE",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "35a31646a1181fefc8c26fff2de0b8e14f348958770396c47a30e863a14b3e22",
+        "intervention_use_assertion": false,
+        "normalized_value": "Establishment and Clinical Transformation of ADC Drug Efficacy Evaluation System for Breast Cancer Based on Molecular Imaging",
+        "raw_value": "Establishment and Clinical Transformation of ADC Drug Efficacy Evaluation System for Breast Cancer Based on Molecular Imaging",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "identificationModule",
+            "officialTitle"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "393804b95cf6f12d8ae7f2846926d50eb34270b304ceba986f52c47a9f293504",
+        "intervention_use_assertion": false,
+        "normalized_value": "\\[68Ga\\]Ga-TTP is a TROP2-targeted PET radiotracer administered intravenously for PET imaging. In the diagnostic validation cohort, participants undergo one \\[68Ga\\]Ga-TTP PET examination within 1 week of the comparator \\[18F\\]FDG scan. In the ADC response assessment cohort, participants undergo \\[68Ga\\]Ga-TTP PET imaging before ADC therapy, after 2 cycles of treatment(each cycle is 21 days), and at disease progression. The planned administered activity is approximately 0.05-0.1 mCi/kg.",
+        "raw_value": "\\[68Ga\\]Ga-TTP is a TROP2-targeted PET radiotracer administered intravenously for PET imaging. In the diagnostic validation cohort, participants undergo one \\[68Ga\\]Ga-TTP PET examination within 1 week of the comparator \\[18F\\]FDG scan. In the ADC response assessment cohort, participants undergo \\[68Ga\\]Ga-TTP PET imaging before ADC therapy, after 2 cycles of treatment(each cycle is 21 days), and at disease progression. The planned administered activity is approximately 0.05-0.1 mCi/kg.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            1,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "3956efe05bd9839d75f7928d59975ce72fc9d6df58dc218caa1162b18d281bea",
+        "intervention_use_assertion": false,
+        "normalized_value": "DRUG",
+        "raw_value": "DRUG",
+        "semantic_scope": "ENTITY_TYPE",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            1,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "3a6bbc1d1948df18b9bb8cce8618c8108559ce6aa98fed3fc3aa9fd728d8af7f",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "class": "OTHER",
+          "name": "Peking University Cancer Hospital & Institute"
+        },
+        "raw_value": {
+          "class": "OTHER",
+          "name": "Peking University Cancer Hospital & Institute"
+        },
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "leadSponsor"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "625d60d6343c0e0261ac2d15447f423a8e394deca84481d78bdda7d75f2fe8d5",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "class": "OTHER",
+          "fullName": "Peking University Cancer Hospital & Institute"
+        },
+        "raw_value": {
+          "class": "OTHER",
+          "fullName": "Peking University Cancer Hospital & Institute"
+        },
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "identificationModule",
+            "organization"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "6c918d1620e45bedd25fec9f72ff17573ea214ec5e9f1b0a1e90633c13122b58",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: [68Ga]Ga-TTP",
+        "raw_value": "Drug: [68Ga]Ga-TTP",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "81d505ce06d8ce21a8c0fd6b15a07f73c218bae25a0e44defde56ba1305b4102",
+        "intervention_use_assertion": false,
+        "normalized_value": "NCT06715020",
+        "raw_value": "NCT06715020",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "identificationModule",
+            "nctId"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "88f648a6cb69910f048dd05d4f8fe0f70f552ddb3aa639ee25679ccc5e3cc044",
+        "intervention_use_assertion": false,
+        "normalized_value": "Patients with newly diagnosed or suspected breast cancer will undergo one \\[68Ga\\]Ga-TTP scan and one \\[18F\\]FDG scan within 1 week, in randomized order, with no anticancer treatment administered between the two imaging examinations. This cohort is used to evaluate tumor targeting, compare diagnostic performance with \\[18F\\]FDG, and correlate imaging findings with pathology and TROP2 expression.",
+        "raw_value": "Patients with newly diagnosed or suspected breast cancer will undergo one \\[68Ga\\]Ga-TTP scan and one \\[18F\\]FDG scan within 1 week, in randomized order, with no anticancer treatment administered between the two imaging examinations. This cohort is used to evaluate tumor targeting, compare diagnostic performance with \\[18F\\]FDG, and correlate imaging findings with pathology and TROP2 expression.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "a8b4871c67f53c8c38581334501cfdf6ed494198cc7d1d6268dc0559603353ae",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: [68Ga]Ga-TTP",
+        "raw_value": "Drug: [68Ga]Ga-TTP",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "ace0f7de3608b3c607e55f88c0aac2163f29f289d90ee303c863dbf94c310f38",
+        "intervention_use_assertion": false,
+        "normalized_value": "ADC Response Assessment Cohort",
+        "raw_value": "ADC Response Assessment Cohort",
+        "semantic_scope": "INTERVENTION_ARM_LINK",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            1,
+            "armGroupLabels",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "ad8c1c9b304b88fc0a6bef16e3eaf4c84c790965f9a862d90e42833891e3d466",
+        "intervention_use_assertion": false,
+        "normalized_value": "Diagnostic Validation Cohort",
+        "raw_value": "Diagnostic Validation Cohort",
+        "semantic_scope": "ARM_LABEL",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "label"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "ae1ef4c75d246a9cf63076a901f19f00cee3b4a8269313771824aabe916264be",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: 18F-FDG",
+        "raw_value": "Drug: 18F-FDG",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "b12206b9e01d868ac88e2e34606b9609934bc96733e99f9ab23e7e38223cc8e8",
+        "intervention_use_assertion": false,
+        "normalized_value": "ADC Response Assessment Cohort",
+        "raw_value": "ADC Response Assessment Cohort",
+        "semantic_scope": "ARM_LABEL",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "label"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "b6b70c94b29e991a8ddd969b703ad2e205d841f91dad3de24856981a6bba4d9e",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "id": "2024KT140"
+        },
+        "raw_value": {
+          "id": "2024KT140"
+        },
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "identificationModule",
+            "orgStudyIdInfo"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "c16566cedffa491060902a616885eb49fbe7f762ea07164fc69b1dd47210c0b3",
+        "intervention_use_assertion": false,
+        "normalized_value": "Establishment and Clinical Transformation of ADC Drug Efficacy Evaluation System for Breast Cancer Based on Molecular Imaging",
+        "raw_value": "Establishment and Clinical Transformation of ADC Drug Efficacy Evaluation System for Breast Cancer Based on Molecular Imaging",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "identificationModule",
+            "briefTitle"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "cf76de1cf7e74124f44f9b89403bd41c7871fb6804f1f2f76deed9ca8348938e",
+        "intervention_use_assertion": false,
+        "normalized_value": "EXPERIMENTAL",
+        "raw_value": "EXPERIMENTAL",
+        "semantic_scope": "ARM_TYPE",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "d85053270328c8be9a9a104bfdc937f3e42f77d7b5770fa4d73b7652c6b795e1",
+        "intervention_use_assertion": false,
+        "normalized_value": "DIAGNOSTIC",
+        "raw_value": "DIAGNOSTIC",
+        "semantic_scope": "STUDY_PURPOSE",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "designModule",
+            "designInfo",
+            "primaryPurpose"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "d98c59614b35924c34b4ea4916db7f2cc4740edb084e1650c9342ce2e74606cc",
+        "intervention_use_assertion": false,
+        "normalized_value": "The objective of the study is to construct a noninvasive approach 68Ga-TTP PET/CT to detect the TROP2 expression of tumor lesions in patients with breast tumors and evaluate the efficacy of ADC drug therapy.",
+        "raw_value": "The objective of the study is to construct a noninvasive approach 68Ga-TTP PET/CT to detect the TROP2 expression of tumor lesions in patients with breast tumors and evaluate the efficacy of ADC drug therapy.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "descriptionModule",
+            "briefSummary"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "db06f42aa9ceb21e79cd1327f30c82bf23eade12162743e3969440ca00c447d8",
+        "intervention_use_assertion": false,
+        "normalized_value": [
+          {
+            "class": "OTHER",
+            "name": "Yunnan Cancer Hospital"
+          }
+        ],
+        "raw_value": [
+          {
+            "class": "OTHER",
+            "name": "Yunnan Cancer Hospital"
+          }
+        ],
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "collaborators"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "candidate": {
+      "arm_type_declarations": [
+        "EXPERIMENTAL"
+      ],
+      "asset_id": "asset:20c427deaf4630b016e5",
+      "authority_annotation_ids": [],
+      "availability": {
+        "explicit_intervention_use_assertion_present": false,
+        "explicit_product_kind_assertion_present": false,
+        "free_text_present_not_classified": true,
+        "mixed_arm_contexts": false,
+        "source_type_variation": false,
+        "sponsor_organisation_is_not_product_designation": true,
+        "structured_context_dropped_before_qualification": true
+      },
+      "entity_type_declarations": [
+        "DRUG"
+      ],
+      "intervention_links": [
+        {
+          "arm_links": [
+            {
+              "arm_index": 0,
+              "channels": [
+                "INTERVENTION_ARM_LABEL",
+                "ARM_INTERVENTION_NAME"
+              ]
+            }
+          ],
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "intervention_index": 4,
+          "link_basis": "EXISTING_NAME_OR_ALIAS_EXACT_CASEFOLD_WHITESPACE",
+          "normalized_intervention_names": [
+            "rescue medications"
+          ],
+          "raw_intervention_names": [
+            "Rescue medications"
+          ],
+          "trial_id": "NCT06132958"
+        },
+        {
+          "arm_links": [
+            {
+              "arm_index": 0,
+              "channels": [
+                "INTERVENTION_ARM_LABEL",
+                "ARM_INTERVENTION_NAME"
+              ]
+            },
+            {
+              "arm_index": 1,
+              "channels": [
+                "INTERVENTION_ARM_LABEL",
+                "ARM_INTERVENTION_NAME"
+              ]
+            }
+          ],
+          "document_id": "document:b3c584633bfff9c349b1",
+          "intervention_index": 6,
+          "link_basis": "EXISTING_NAME_OR_ALIAS_EXACT_CASEFOLD_WHITESPACE",
+          "normalized_intervention_names": [
+            "rescue medications"
+          ],
+          "raw_intervention_names": [
+            "Rescue Medications"
+          ],
+          "trial_id": "NCT07216703"
+        }
+      ],
+      "intervention_use": "UNKNOWN",
+      "name": "Rescue Medications",
+      "native_assertion_ids": [
+        "016b1f501527e154acf3c751754251b57ad0eac01cec9fcd2d0c106268cab8b8",
+        "069827f5ff8b6b1099d2b8e359c842b567b5bfdf91bdee0d55ab5173ef99010b",
+        "084ad5917c26b77c4a0ed94efa31157f241160fb99ff22bd94aa31c4a88cf681",
+        "1246c958a5f00852442a32bbcbaba6307fde966402fecdd7b5717779b8a9b701",
+        "131179f1f1a047abe42fc268910f2763c4f67301cd99f767eb1db96ecf9f5593",
+        "143f58b4c38916ce6be8e9ab720731076dd63da0eee037bf73564e4687b8348f",
+        "1baabecd9d7c40db589149500667c575c0aca2df48c20c4e0a583a4168f85623",
+        "1d93a93dbef377be82a1d637473674162af58db5c8f7ba488cedf59d97311e15",
+        "1f90ab05c848e5ef2e10a1404c5ebbf0a7ec6ec104c11b6ecf70a240afa1eace",
+        "2882a8b18bd2883406f3564b77752d342db10a9f4585ff32826ee5527c64b2f8",
+        "29adfece18ce5f41933514eaec629f8652bdd927c55e89579b8c857170da0e35",
+        "2ab094e2bbdbb3e96c00cd3afed67ed7d0b25f42384c2f848cf0d8b5c80ef0c2",
+        "324fbe3b3cfb69d349798018eb964a277d4ffc3e194d4c8dfa8d0587fb40ff11",
+        "39cfb3227cd418770b001118bd7cb834a976c7c73d7b185d4fc2d48205354ff8",
+        "3e0faf266bbfa353aae810deadac92f799dda1f3b669bebe0643232b1555173f",
+        "3e890bf83a6824a43e16e26b249f867cd997283b6da5f8b800aef7a7f0071154",
+        "44d9fa12a5b3529f9a208443720fc4b6d61efc672a56bf1fcebe78ca479379cc",
+        "45c61c932131b424a45046878b47953735abbc862e2cadb3a6a810ab2d90d146",
+        "4ab17bf5d29463ee18bb37c8105a16ba9c325a3c0289878c171fb925983f4363",
+        "4b97dfa3d3d7ea15d973f1eb64acd95686f74c22b0f19065f21ea8c7e7e5cb11",
+        "4cc8e25f607cbe129041593f4aab308d6131761ff89e36bdff72656e85e54193",
+        "50f1b32a0c4df06f69d86fa4e49688709a82acb1795fc87f87fb2752f161a9a9",
+        "539920252b5b5ffb360c17b7aed9dca588b4fdb69c93fecc7c03a10813ed83bc",
+        "5d3e54a057fb3db4cb93a237d1eacf6ae3867ddabffbfe2588fd8f8c08f6dd2f",
+        "5d40f2fcfc24492b02b7b37be64c29a33448d260dc81096d75fb6ee8a1c7c1f4",
+        "61dbf8f2a61dee7ebd4a3354c05906be4647b73145997d07460b2fd5c98cc1e3",
+        "6ba7e65e6a624562ab05ade4fdd65d4069c5d257f95bf5ee58b2175f2ef04ea1",
+        "6c32528471cb0dcf5033d189d43f24ad7fe70141fe9747d543280273f23c5f06",
+        "75b064f7987328beee710c74422bb4e579342741396238e9f18c361524c5399a",
+        "8604c8cfb4288a17b5239ad0cacce3534e21a12bd618857d3ca5d4ec635b47ea",
+        "8f5ff259de09ec916a14d576b201cd77dd4dc8c6d72915587d44c5e69fe044c0",
+        "8f6c6df4baae0158b58ef4f401a0eaf82136f3d5b33121db062cbc884201ccab",
+        "9880a709e6628bffb4d8244e8cf12e38010fdbade8fa6b607da26c283ab1c00c",
+        "9b66c591e10eb5cd85862f4263dc215f3a0bb88c113ac4975aff4bb57e556afe",
+        "9d7cdaa06b2bb263681bc6eb47c20fabd02cda427763ab9a5a09201ed9e47044",
+        "9f5122af5085dca95cebd28251445c9a9e1943b6f51e18fc4bbccccc3d00eb0c",
+        "a4d860e7740877c7546f7927b4f3a04172f324df1ced033fe3c0110716bf016b",
+        "b1ed4c9344b822838b317851a1312310c5b02648f651840108b69f17b9c05d33",
+        "b51e2c0ff03b0e26400ac0938eae5fc70fb4d869f232f83012481d7695f107a9",
+        "b58541067e432e0fd24b549402a774ad72601b7ca1f773a1ca2e958fd82420d0",
+        "b6402624b5813701163fae9617fcd19d0afc1775e99b6a9b9105a8f845fa18ab",
+        "bddbd59b215be391500e07388543872104070071d97a5d4b892cc13ccf3b7e1f",
+        "bfc3b82c5b86529d149bec0ce195dc41ce8f9ee613ba4f7792f68ccbbb12ea8b",
+        "c0414bcb022d5035f70de3b8d084b83c0cb0b5e7deef41c91b6e7b497f8063cc",
+        "c2bb5c29af00c9392a2fff49c920dbc3cc95d128d32f5822f060dd7c1e3efafc",
+        "c4ccc756fc9a94ba3543c87836d07b806dfcb455308f96d4d65dbe01a846df11",
+        "c7122cca09f650a2b6a6e7d205fa4f3cab1c3b8edd5a0395734e143f2c38f1fe",
+        "c854974ca777ee13f8e8490ff78a200a463bb737113e015e4cf374409622a8b2",
+        "d1dcd91a6bffc6dc829fd5c37301484a0d1c14a8d5c893002b50efa2b6bca02c",
+        "e18d5e9e0ac4f95331608f77485ee031eec39061fd0dda9cad95e0b2f0622d89",
+        "f2b653543770b34b03d52e384471e0222cecf061d6ef0a44b82fc79b78d4cdca",
+        "f68c47d89f622d6279553d4929cf7a42368782964f2c4d30c9d2869bd4d5384f",
+        "fbde4749796d7ef9ee9ed90a48cd2e01f73b081379551cb2c7493ac28eda73e7",
+        "fd94c25e8b3d1684c33a8ad2638fb2037114a5f0a25bfd349a873d9799f6c59b",
+        "fe07e3fc0db12240256fbee759fbee26be722ef0216d1754c535577c9c99a57c"
+      ],
+      "note": "UNKNOWN denotes absent certified product/use semantics, not absence of raw evidence or nontherapeutic identity.",
+      "product_kind": "UNKNOWN",
+      "qualification_reason_after": "STRUCTURED_THERAPEUTIC",
+      "qualification_reason_before": "STRUCTURED_THERAPEUTIC",
+      "semantic_status": "NO_ADOPTED_CORRECT_SCOPE_STRUCTURED_ASSERTION",
+      "source_document_ids": [
+        "document:9233f74c7e0c1f50e382",
+        "document:b3c584633bfff9c349b1"
+      ],
+      "study_purpose_declarations": [
+        "TREATMENT"
+      ],
+      "unmatched_ctgov_documents": []
+    },
+    "source_fields": [
+      {
+        "assertion_id": "016b1f501527e154acf3c751754251b57ad0eac01cec9fcd2d0c106268cab8b8",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Pembrolizumab",
+        "raw_value": "Biological: Pembrolizumab",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "069827f5ff8b6b1099d2b8e359c842b567b5bfdf91bdee0d55ab5173ef99010b",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: Rescue medications",
+        "raw_value": "Drug: Rescue medications",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "084ad5917c26b77c4a0ed94efa31157f241160fb99ff22bd94aa31c4a88cf681",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Pembrolizumab",
+        "raw_value": "Biological: Pembrolizumab",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "1246c958a5f00852442a32bbcbaba6307fde966402fecdd7b5717779b8a9b701",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Bevacizumab",
+        "raw_value": "Biological: Bevacizumab",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            2
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "131179f1f1a047abe42fc268910f2763c4f67301cd99f767eb1db96ecf9f5593",
+        "intervention_use_assertion": false,
+        "normalized_value": "TroFuse-005",
+        "raw_value": "TroFuse-005",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "identificationModule",
+            "acronym"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "143f58b4c38916ce6be8e9ab720731076dd63da0eee037bf73564e4687b8348f",
+        "intervention_use_assertion": false,
+        "normalized_value": "This is a 2-part study.\n\nIn Part 1 Safety Run-in, eligible participants will be allocated to treatment with sac-TMT + pembrolizumab + bevacizumab.\n\nIn Part 2, all participants receive standard of care induction treatment. Eligible participants whose cancer does not progress then begin maintenance treatment and are randomized to receive pembrolizumab or sac-TMT + pembrolizumab. All participants in Part 2 maintenance treatment may also receive bevacizumab at the investigator's discretion.",
+        "raw_value": "This is a 2-part study.\n\nIn Part 1 Safety Run-in, eligible participants will be allocated to treatment with sac-TMT + pembrolizumab + bevacizumab.\n\nIn Part 2, all participants receive standard of care induction treatment. Eligible participants whose cancer does not progress then begin maintenance treatment and are randomized to receive pembrolizumab or sac-TMT + pembrolizumab. All participants in Part 2 maintenance treatment may also receive bevacizumab at the investigator's discretion.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "descriptionModule",
+            "detailedDescription"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "1baabecd9d7c40db589149500667c575c0aca2df48c20c4e0a583a4168f85623",
+        "intervention_use_assertion": false,
+        "normalized_value": "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+        "raw_value": "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+        "semantic_scope": "ARM_LABEL",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "label"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "1d93a93dbef377be82a1d637473674162af58db5c8f7ba488cedf59d97311e15",
+        "intervention_use_assertion": false,
+        "normalized_value": [
+          {
+            "domain": "EU CT",
+            "id": "2023-504816-14-00",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "UTN",
+            "id": "U1111-1288-7581",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "Japan Registry of Clinical Trials (jRCT)",
+            "id": "jRCT2031240041",
+            "type": "REGISTRY"
+          },
+          {
+            "id": "2023",
+            "link": "https://reporter.nih.gov/quickSearch/2023",
+            "type": "NIH"
+          }
+        ],
+        "raw_value": [
+          {
+            "domain": "EU CT",
+            "id": "2023-504816-14-00",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "UTN",
+            "id": "U1111-1288-7581",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "Japan Registry of Clinical Trials (jRCT)",
+            "id": "jRCT2031240041",
+            "type": "REGISTRY"
+          },
+          {
+            "id": "2023",
+            "link": "https://reporter.nih.gov/quickSearch/2023",
+            "type": "NIH"
+          }
+        ],
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "identificationModule",
+            "secondaryIdInfos"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "1f90ab05c848e5ef2e10a1404c5ebbf0a7ec6ec104c11b6ecf70a240afa1eace",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "id": "2870-005"
+        },
+        "raw_value": {
+          "id": "2870-005"
+        },
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "identificationModule",
+            "orgStudyIdInfo"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "2882a8b18bd2883406f3564b77752d342db10a9f4585ff32826ee5527c64b2f8",
+        "intervention_use_assertion": false,
+        "normalized_value": "Researchers are looking for new ways to treat metastatic cervical cancer. Cervical cancer is cancer in the cervix, the lower part of the uterus (womb). Metastatic means the cancer has spread to other parts of the body.\n\nResearchers want to learn about giving the study medicine sacituzumab tirumotecan (also called sac-TMT or MK-2870) along with pembrolizumab and bevacizumab treatments. Sac-TMT is an antibody drug conjugate, which is a type of medicine that attaches to specific targets on cancer cells and delivers treatment to destroy those cells.\n\nThe goals of this study are to learn:\n\n* About the safety of sac-TMT with pembrolizumab and bevacizumab, and if people tolerate them when given together, and\n* If people who receive sac-TMT and pembrolizumab, with or without bevacizumab, live longer overall or without their cancer getting worse as compared to those who receive standard treatment",
+        "raw_value": "Researchers are looking for new ways to treat metastatic cervical cancer. Cervical cancer is cancer in the cervix, the lower part of the uterus (womb). Metastatic means the cancer has spread to other parts of the body.\n\nResearchers want to learn about giving the study medicine sacituzumab tirumotecan (also called sac-TMT or MK-2870) along with pembrolizumab and bevacizumab treatments. Sac-TMT is an antibody drug conjugate, which is a type of medicine that attaches to specific targets on cancer cells and delivers treatment to destroy those cells.\n\nThe goals of this study are to learn:\n\n* About the safety of sac-TMT with pembrolizumab and bevacizumab, and if people tolerate them when given together, and\n* If people who receive sac-TMT and pembrolizumab, with or without bevacizumab, live longer overall or without their cancer getting worse as compared to those who receive standard treatment",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "descriptionModule",
+            "briefSummary"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "29adfece18ce5f41933514eaec629f8652bdd927c55e89579b8c857170da0e35",
+        "intervention_use_assertion": false,
+        "normalized_value": [
+          {
+            "domain": "UTN",
+            "id": "U1111-1319-9926",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "EU CT",
+            "id": "2025-521514-26-00",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "MSD",
+            "id": "MK-2870-036",
+            "type": "OTHER"
+          },
+          {
+            "domain": "MSD",
+            "id": "TroFuse-036",
+            "type": "OTHER"
+          },
+          {
+            "domain": "Gynecologic Oncology Group",
+            "id": "GOG-3123",
+            "type": "OTHER"
+          },
+          {
+            "domain": "European Network for Gynaecological Oncological Trial groups",
+            "id": "ENGOT-cx22",
+            "type": "OTHER"
+          },
+          {
+            "domain": "jRCT (Japan Registry of Clinical Trials)",
+            "id": "jRCT2031250604",
+            "type": "REGISTRY"
+          },
+          {
+            "id": "2025",
+            "link": "https://reporter.nih.gov/quickSearch/2025",
+            "type": "NIH"
+          }
+        ],
+        "raw_value": [
+          {
+            "domain": "UTN",
+            "id": "U1111-1319-9926",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "EU CT",
+            "id": "2025-521514-26-00",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "MSD",
+            "id": "MK-2870-036",
+            "type": "OTHER"
+          },
+          {
+            "domain": "MSD",
+            "id": "TroFuse-036",
+            "type": "OTHER"
+          },
+          {
+            "domain": "Gynecologic Oncology Group",
+            "id": "GOG-3123",
+            "type": "OTHER"
+          },
+          {
+            "domain": "European Network for Gynaecological Oncological Trial groups",
+            "id": "ENGOT-cx22",
+            "type": "OTHER"
+          },
+          {
+            "domain": "jRCT (Japan Registry of Clinical Trials)",
+            "id": "jRCT2031250604",
+            "type": "REGISTRY"
+          },
+          {
+            "id": "2025",
+            "link": "https://reporter.nih.gov/quickSearch/2025",
+            "type": "NIH"
+          }
+        ],
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "identificationModule",
+            "secondaryIdInfos"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "2ab094e2bbdbb3e96c00cd3afed67ed7d0b25f42384c2f848cf0d8b5c80ef0c2",
+        "intervention_use_assertion": false,
+        "normalized_value": "Rescue Medications",
+        "raw_value": "Rescue Medications",
+        "semantic_scope": "IDENTITY_TEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            6,
+            "name"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "324fbe3b3cfb69d349798018eb964a277d4ffc3e194d4c8dfa8d0587fb40ff11",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Bevacizumab",
+        "raw_value": "Biological: Bevacizumab",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            2
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "39cfb3227cd418770b001118bd7cb834a976c7c73d7b185d4fc2d48205354ff8",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "class": "INDUSTRY",
+          "name": "Merck Sharp & Dohme LLC"
+        },
+        "raw_value": {
+          "class": "INDUSTRY",
+          "name": "Merck Sharp & Dohme LLC"
+        },
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "leadSponsor"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "3e0faf266bbfa353aae810deadac92f799dda1f3b669bebe0643232b1555173f",
+        "intervention_use_assertion": false,
+        "normalized_value": "Sacituzumab tirumotecan",
+        "raw_value": "Sacituzumab tirumotecan",
+        "semantic_scope": "ARM_LABEL",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "label"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "3e890bf83a6824a43e16e26b249f867cd997283b6da5f8b800aef7a7f0071154",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Sacituzumab tirumotecan",
+        "raw_value": "Biological: Sacituzumab tirumotecan",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "44d9fa12a5b3529f9a208443720fc4b6d61efc672a56bf1fcebe78ca479379cc",
+        "intervention_use_assertion": false,
+        "normalized_value": "TREATMENT",
+        "raw_value": "TREATMENT",
+        "semantic_scope": "STUDY_PURPOSE",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "designModule",
+            "designInfo",
+            "primaryPurpose"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "45c61c932131b424a45046878b47953735abbc862e2cadb3a6a810ab2d90d146",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: Cisplatin",
+        "raw_value": "Drug: Cisplatin",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            4
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "4ab17bf5d29463ee18bb37c8105a16ba9c325a3c0289878c171fb925983f4363",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "class": "INDUSTRY",
+          "name": "Merck Sharp & Dohme LLC"
+        },
+        "raw_value": {
+          "class": "INDUSTRY",
+          "name": "Merck Sharp & Dohme LLC"
+        },
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "leadSponsor"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "4b97dfa3d3d7ea15d973f1eb64acd95686f74c22b0f19065f21ea8c7e7e5cb11",
+        "intervention_use_assertion": false,
+        "normalized_value": "DRUG",
+        "raw_value": "DRUG",
+        "semantic_scope": "ENTITY_TYPE",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            6,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "4cc8e25f607cbe129041593f4aab308d6131761ff89e36bdff72656e85e54193",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Sacituzumab Tirumotecan",
+        "raw_value": "Biological: Sacituzumab Tirumotecan",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "50f1b32a0c4df06f69d86fa4e49688709a82acb1795fc87f87fb2752f161a9a9",
+        "intervention_use_assertion": false,
+        "normalized_value": "EXPERIMENTAL",
+        "raw_value": "EXPERIMENTAL",
+        "semantic_scope": "ARM_TYPE",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "539920252b5b5ffb360c17b7aed9dca588b4fdb69c93fecc7c03a10813ed83bc",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: Rescue Medications",
+        "raw_value": "Drug: Rescue Medications",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            6
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "5d3e54a057fb3db4cb93a237d1eacf6ae3867ddabffbfe2588fd8f8c08f6dd2f",
+        "intervention_use_assertion": false,
+        "normalized_value": "Participants will receive 4 mg/kg of sacituzumab tirumotecan via intravenous (IV) infusion on Day 1 of each 14-day cycle.",
+        "raw_value": "Participants will receive 4 mg/kg of sacituzumab tirumotecan via intravenous (IV) infusion on Day 1 of each 14-day cycle.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "5d40f2fcfc24492b02b7b37be64c29a33448d260dc81096d75fb6ee8a1c7c1f4",
+        "intervention_use_assertion": false,
+        "normalized_value": "DRUG",
+        "raw_value": "DRUG",
+        "semantic_scope": "ENTITY_TYPE",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            4,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "61dbf8f2a61dee7ebd4a3354c05906be4647b73145997d07460b2fd5c98cc1e3",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "class": "INDUSTRY",
+          "fullName": "Merck Sharp & Dohme LLC"
+        },
+        "raw_value": {
+          "class": "INDUSTRY",
+          "fullName": "Merck Sharp & Dohme LLC"
+        },
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "identificationModule",
+            "organization"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "6ba7e65e6a624562ab05ade4fdd65d4069c5d257f95bf5ee58b2175f2ef04ea1",
+        "intervention_use_assertion": false,
+        "normalized_value": "A Phase 3, Randomized, Open-label, Multicenter Study to Evaluate the Efficacy and Safety of Sacituzumab Tirumotecan (MK-2870) in Combination With Pembrolizumab With or Without Bevacizumab Compared With Standard of Care as Firstline Maintenance Treatment for Participants With Persistent, Recurrent, or Newly Diagnosed Metastatic Cervical Cancer With PD-L1 CPS Greater Than or Equal to 1 (TroFuse-036/GOG-3123/ENGOT-cx22)",
+        "raw_value": "A Phase 3, Randomized, Open-label, Multicenter Study to Evaluate the Efficacy and Safety of Sacituzumab Tirumotecan (MK-2870) in Combination With Pembrolizumab With or Without Bevacizumab Compared With Standard of Care as Firstline Maintenance Treatment for Participants With Persistent, Recurrent, or Newly Diagnosed Metastatic Cervical Cancer With PD-L1 CPS Greater Than or Equal to 1 (TroFuse-036/GOG-3123/ENGOT-cx22)",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "identificationModule",
+            "officialTitle"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "6c32528471cb0dcf5033d189d43f24ad7fe70141fe9747d543280273f23c5f06",
+        "intervention_use_assertion": false,
+        "normalized_value": "Participants will receive sac-TMT 4 mg/kg every 2 weeks (q2w) and pembrolizumab 400 mg every 6 weeks (q6w) for up to 14 cycles (up to approximately 20 months). Bevacizumab 15 mg/kg every 3 weeks (q3w) will be administered until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+        "raw_value": "Participants will receive sac-TMT 4 mg/kg every 2 weeks (q2w) and pembrolizumab 400 mg every 6 weeks (q6w) for up to 14 cycles (up to approximately 20 months). Bevacizumab 15 mg/kg every 3 weeks (q3w) will be administered until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "75b064f7987328beee710c74422bb4e579342741396238e9f18c361524c5399a",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "type": "SPONSOR"
+        },
+        "raw_value": {
+          "type": "SPONSOR"
+        },
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "responsibleParty"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "8604c8cfb4288a17b5239ad0cacce3534e21a12bd618857d3ca5d4ec635b47ea",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Sacituzumab Tirumotecan",
+        "raw_value": "Biological: Sacituzumab Tirumotecan",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "8f5ff259de09ec916a14d576b201cd77dd4dc8c6d72915587d44c5e69fe044c0",
+        "intervention_use_assertion": false,
+        "normalized_value": "Sacituzumab Tirumotecan (MK-2870) in Post Platinum and Post Immunotherapy Endometrial Cancer (MK-2870-005)",
+        "raw_value": "Sacituzumab Tirumotecan (MK-2870) in Post Platinum and Post Immunotherapy Endometrial Cancer (MK-2870-005)",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "identificationModule",
+            "briefTitle"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "8f6c6df4baae0158b58ef4f401a0eaf82136f3d5b33121db062cbc884201ccab",
+        "intervention_use_assertion": false,
+        "normalized_value": "A Phase 3, Randomized, Active-controlled, Open-label, Multicenter Study to Compare the Efficacy and Safety of MK-2870 Monotherapy Versus Treatment of Physician's Choice in Participants With Endometrial Cancer Who Have Received Prior Platinum-based Chemotherapy and Immunotherapy (MK-2870-005/ENGOT-en23/GOG-3095)",
+        "raw_value": "A Phase 3, Randomized, Active-controlled, Open-label, Multicenter Study to Compare the Efficacy and Safety of MK-2870 Monotherapy Versus Treatment of Physician's Choice in Participants With Endometrial Cancer Who Have Received Prior Platinum-based Chemotherapy and Immunotherapy (MK-2870-005/ENGOT-en23/GOG-3095)",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "identificationModule",
+            "officialTitle"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "9880a709e6628bffb4d8244e8cf12e38010fdbade8fa6b607da26c283ab1c00c",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "type": "SPONSOR"
+        },
+        "raw_value": {
+          "type": "SPONSOR"
+        },
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "responsibleParty"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "9b66c591e10eb5cd85862f4263dc215f3a0bb88c113ac4975aff4bb57e556afe",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "id": "2870-036"
+        },
+        "raw_value": {
+          "id": "2870-036"
+        },
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "identificationModule",
+            "orgStudyIdInfo"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "9d7cdaa06b2bb263681bc6eb47c20fabd02cda427763ab9a5a09201ed9e47044",
+        "intervention_use_assertion": false,
+        "normalized_value": "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab",
+        "raw_value": "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab",
+        "semantic_scope": "INTERVENTION_ARM_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            6,
+            "armGroupLabels",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "9f5122af5085dca95cebd28251445c9a9e1943b6f51e18fc4bbccccc3d00eb0c",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: Paclitaxel",
+        "raw_value": "Drug: Paclitaxel",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            3
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "a4d860e7740877c7546f7927b4f3a04172f324df1ced033fe3c0110716bf016b",
+        "intervention_use_assertion": false,
+        "normalized_value": [
+          {
+            "class": "OTHER",
+            "name": "European Network of Gynaecological Oncological Trial Groups (ENGOT)"
+          },
+          {
+            "class": "NETWORK",
+            "name": "GOG Foundation"
+          }
+        ],
+        "raw_value": [
+          {
+            "class": "OTHER",
+            "name": "European Network of Gynaecological Oncological Trial Groups (ENGOT)"
+          },
+          {
+            "class": "NETWORK",
+            "name": "GOG Foundation"
+          }
+        ],
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "collaborators"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "b1ed4c9344b822838b317851a1312310c5b02648f651840108b69f17b9c05d33",
+        "intervention_use_assertion": false,
+        "normalized_value": "Participants will receive the following rescue medications per approved product label before sacituzumab tirumotecan infusion: Histamine-1 (H1) receptor antagonist, histamine-2 (H2) receptor antagonist, acetaminophen or equivalent, dexamethasone or equivalent, and steroid mouthwash (dexamethasone or equivalent).",
+        "raw_value": "Participants will receive the following rescue medications per approved product label before sacituzumab tirumotecan infusion: Histamine-1 (H1) receptor antagonist, histamine-2 (H2) receptor antagonist, acetaminophen or equivalent, dexamethasone or equivalent, and steroid mouthwash (dexamethasone or equivalent).",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            4,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "b51e2c0ff03b0e26400ac0938eae5fc70fb4d869f232f83012481d7695f107a9",
+        "intervention_use_assertion": false,
+        "normalized_value": "TREATMENT",
+        "raw_value": "TREATMENT",
+        "semantic_scope": "STUDY_PURPOSE",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "designModule",
+            "designInfo",
+            "primaryPurpose"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "b58541067e432e0fd24b549402a774ad72601b7ca1f773a1ca2e958fd82420d0",
+        "intervention_use_assertion": false,
+        "normalized_value": "NCT06132958",
+        "raw_value": "NCT06132958",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "identificationModule",
+            "nctId"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "b6402624b5813701163fae9617fcd19d0afc1775e99b6a9b9105a8f845fa18ab",
+        "intervention_use_assertion": false,
+        "normalized_value": "Sacituzumab tirumotecan",
+        "raw_value": "Sacituzumab tirumotecan",
+        "semantic_scope": "INTERVENTION_ARM_LINK",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            4,
+            "armGroupLabels",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "bddbd59b215be391500e07388543872104070071d97a5d4b892cc13ccf3b7e1f",
+        "intervention_use_assertion": false,
+        "normalized_value": "A Clinical Study of Sacituzumab Tirumotecan (MK-2870) in Combination With Pembrolizumab (MK-3475) as First-line Maintenance Treatment of Cervical Cancer (MK-2870-036/TroFuse-036/GOG-3123/ENGOT-cx22)",
+        "raw_value": "A Clinical Study of Sacituzumab Tirumotecan (MK-2870) in Combination With Pembrolizumab (MK-3475) as First-line Maintenance Treatment of Cervical Cancer (MK-2870-036/TroFuse-036/GOG-3123/ENGOT-cx22)",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "identificationModule",
+            "briefTitle"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "bfc3b82c5b86529d149bec0ce195dc41ce8f9ee613ba4f7792f68ccbbb12ea8b",
+        "intervention_use_assertion": false,
+        "normalized_value": "During induction treatment, participants will receive pembrolizumab 200 mg q3w for up to 8 cycles, paclitaxel 175 mg/m\\^2 q3w for up to 6 cycles, and cisplatin 50 mg/m\\^2 q3w (or carboplatin area under the curve \\[AUC\\]5 mg/mL/min q3w) for up to 6 cycles. Participants may also receive bevacizumab 15 mg/kg q3w for up to 8 cycles at the investigator's discretion. Each cycle will be 3 weeks long.\n\nDuring maintenance treatment, participants will receive sac-TMT 4 mg/kg q2w and pembrolizumab 400 mg q6w for up to 14 cycles (up to approximately 20 months). Participants may also receive bevacizumab 15 mg/kg q3w, at the investigator's discretion, until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+        "raw_value": "During induction treatment, participants will receive pembrolizumab 200 mg q3w for up to 8 cycles, paclitaxel 175 mg/m\\^2 q3w for up to 6 cycles, and cisplatin 50 mg/m\\^2 q3w (or carboplatin area under the curve \\[AUC\\]5 mg/mL/min q3w) for up to 6 cycles. Participants may also receive bevacizumab 15 mg/kg q3w for up to 8 cycles at the investigator's discretion. Each cycle will be 3 weeks long.\n\nDuring maintenance treatment, participants will receive sac-TMT 4 mg/kg q2w and pembrolizumab 400 mg q6w for up to 14 cycles (up to approximately 20 months). Participants may also receive bevacizumab 15 mg/kg q3w, at the investigator's discretion, until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "c0414bcb022d5035f70de3b8d084b83c0cb0b5e7deef41c91b6e7b497f8063cc",
+        "intervention_use_assertion": false,
+        "normalized_value": "Researchers are looking for new ways to treat people with endometrial cancer (EC) who have previously received treatment with platinum based therapy (a type of chemotherapy) and immunotherapy. Immunotherapy is a treatment that helps the immune system fight cancer. This clinical study will compare sacituzumab tirumotecan to chemotherapy. The goal of the study is to learn if people who receive sacituzumab tirumotecan live longer overall and without the cancer getting worse compared to people who receive chemotherapy.",
+        "raw_value": "Researchers are looking for new ways to treat people with endometrial cancer (EC) who have previously received treatment with platinum based therapy (a type of chemotherapy) and immunotherapy. Immunotherapy is a treatment that helps the immune system fight cancer. This clinical study will compare sacituzumab tirumotecan to chemotherapy. The goal of the study is to learn if people who receive sacituzumab tirumotecan live longer overall and without the cancer getting worse compared to people who receive chemotherapy.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "descriptionModule",
+            "briefSummary"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "c2bb5c29af00c9392a2fff49c920dbc3cc95d128d32f5822f060dd7c1e3efafc",
+        "intervention_use_assertion": false,
+        "normalized_value": "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab",
+        "raw_value": "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab",
+        "semantic_scope": "ARM_LABEL",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "label"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "c4ccc756fc9a94ba3543c87836d07b806dfcb455308f96d4d65dbe01a846df11",
+        "intervention_use_assertion": false,
+        "normalized_value": "Participants will receive the following rescue medications prior to sac-TMT infusion, per approved product label: histamine-1 receptor antagonist, histamine-2 receptor antagonist, acetaminophen or equivalent, and dexamethasone or equivalent, prophylactic steroid mouthwash (dexamethasone or equivalent), and granulocyte colony-stimulating factor (G-CSF).",
+        "raw_value": "Participants will receive the following rescue medications prior to sac-TMT infusion, per approved product label: histamine-1 receptor antagonist, histamine-2 receptor antagonist, acetaminophen or equivalent, and dexamethasone or equivalent, prophylactic steroid mouthwash (dexamethasone or equivalent), and granulocyte colony-stimulating factor (G-CSF).",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            6,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "c7122cca09f650a2b6a6e7d205fa4f3cab1c3b8edd5a0395734e143f2c38f1fe",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "class": "INDUSTRY",
+          "fullName": "Merck Sharp & Dohme LLC"
+        },
+        "raw_value": {
+          "class": "INDUSTRY",
+          "fullName": "Merck Sharp & Dohme LLC"
+        },
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "identificationModule",
+            "organization"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "c854974ca777ee13f8e8490ff78a200a463bb737113e015e4cf374409622a8b2",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: Carboplatin",
+        "raw_value": "Drug: Carboplatin",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            5
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "d1dcd91a6bffc6dc829fd5c37301484a0d1c14a8d5c893002b50efa2b6bca02c",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: Rescue Medications",
+        "raw_value": "Drug: Rescue Medications",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            3
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "e18d5e9e0ac4f95331608f77485ee031eec39061fd0dda9cad95e0b2f0622d89",
+        "intervention_use_assertion": false,
+        "normalized_value": "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+        "raw_value": "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+        "semantic_scope": "INTERVENTION_ARM_LINK",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            6,
+            "armGroupLabels",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "f2b653543770b34b03d52e384471e0222cecf061d6ef0a44b82fc79b78d4cdca",
+        "intervention_use_assertion": false,
+        "normalized_value": "NCT07216703",
+        "raw_value": "NCT07216703",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "identificationModule",
+            "nctId"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "f68c47d89f622d6279553d4929cf7a42368782964f2c4d30c9d2869bd4d5384f",
+        "intervention_use_assertion": false,
+        "normalized_value": [
+          {
+            "class": "OTHER",
+            "name": "European Network of Gynaecological Oncological Trial Groups (ENGOT)"
+          },
+          {
+            "class": "NETWORK",
+            "name": "GOG Foundation"
+          }
+        ],
+        "raw_value": [
+          {
+            "class": "OTHER",
+            "name": "European Network of Gynaecological Oncological Trial Groups (ENGOT)"
+          },
+          {
+            "class": "NETWORK",
+            "name": "GOG Foundation"
+          }
+        ],
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "collaborators"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "fbde4749796d7ef9ee9ed90a48cd2e01f73b081379551cb2c7493ac28eda73e7",
+        "intervention_use_assertion": false,
+        "normalized_value": "Rescue medications",
+        "raw_value": "Rescue medications",
+        "semantic_scope": "IDENTITY_TEXT",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            4,
+            "name"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "fd94c25e8b3d1684c33a8ad2638fb2037114a5f0a25bfd349a873d9799f6c59b",
+        "intervention_use_assertion": false,
+        "normalized_value": "EXPERIMENTAL",
+        "raw_value": "EXPERIMENTAL",
+        "semantic_scope": "ARM_TYPE",
+        "source": {
+          "artifact_sha256": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "fe07e3fc0db12240256fbee759fbee26be722ef0216d1754c535577c9c99a57c",
+        "intervention_use_assertion": false,
+        "normalized_value": "EXPERIMENTAL",
+        "raw_value": "EXPERIMENTAL",
+        "semantic_scope": "ARM_TYPE",
+        "source": {
+          "artifact_sha256": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "candidate": {
+      "arm_type_declarations": [
+        "EXPERIMENTAL"
+      ],
+      "asset_id": "asset:5d4d083034e81aa9b191",
+      "authority_annotation_ids": [],
+      "availability": {
+        "explicit_intervention_use_assertion_present": false,
+        "explicit_product_kind_assertion_present": false,
+        "free_text_present_not_classified": true,
+        "mixed_arm_contexts": false,
+        "source_type_variation": false,
+        "sponsor_organisation_is_not_product_designation": true,
+        "structured_context_dropped_before_qualification": true
+      },
+      "entity_type_declarations": [
+        "DRUG"
+      ],
+      "intervention_links": [
+        {
+          "arm_links": [
+            {
+              "arm_index": 0,
+              "channels": [
+                "INTERVENTION_ARM_LABEL",
+                "ARM_INTERVENTION_NAME"
+              ]
+            },
+            {
+              "arm_index": 1,
+              "channels": [
+                "INTERVENTION_ARM_LABEL",
+                "ARM_INTERVENTION_NAME"
+              ]
+            }
+          ],
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "intervention_index": 2,
+          "link_basis": "EXISTING_NAME_OR_ALIAS_EXACT_CASEFOLD_WHITESPACE",
+          "normalized_intervention_names": [
+            "rescue medication"
+          ],
+          "raw_intervention_names": [
+            "Rescue Medication"
+          ],
+          "trial_id": "NCT06841354"
+        }
+      ],
+      "intervention_use": "UNKNOWN",
+      "name": "Rescue Medication",
+      "native_assertion_ids": [
+        "03e973ad9d55b9c81f9bfa1aea237a13adf2007e7f1f79208db3f65d300ed847",
+        "03fa8d5024d21d086dd897d2a171603d8f6ea990feb5065667800eef14805621",
+        "07b19d0153cba742f84ad6489214bcffd394740cf9fc28e0f113f2b485962b15",
+        "0a70ddef50b6636e189c42d7d5428741e8d4d74c476cc256a198e3e48b83d3ea",
+        "1a953b36a176d9299be2db336af6b45da9b5d7bed8dcc6f51706354c71f37b12",
+        "23c06b2a4794c1bd49337821cb85a07afe4bc5fadc62527c362ace474def648d",
+        "26dc34fc0a3da742bc600a1811c16d8227811be93cfc1efdb589594506e987a1",
+        "2d4fbec46be1e9310883420e7bebcd5cde7186143a0f89dd484fd96289906277",
+        "393dbe337d1f1e707b38f2f632e94bd3d5036b2e8f4d20497da9b89f519267fa",
+        "39b7b1b823facbd9d4c3e3209ecb789e97b21f1379cc37acaee6431009edd61b",
+        "473f9e77f4340746c716b781d2d2fd17f37f92dd4a44bcde8b23d78b599f739d",
+        "4e1e7ac180aa434e754da76e3e338d6c3d669808c11c26f144ba3854bd7b5655",
+        "57d9f32c48f6dadb1bf6b4693e3bac9f5e688c4ad184e7ca91c712a467ca5224",
+        "64d85c427d1f867a8f48cfef4a96fbb4baaef05e4b6e4635116e1f3d1d00d29c",
+        "670c9d6645f6217ddea6014d51b4e708ef4b97dc2facc7d76fc7387d72822dd2",
+        "6931caddc96b992f92c96db080e113757d9862c582c6c03ebf290cd9839be48b",
+        "6ec206d673e6c51cc1e915b9566510b76b8ba486b205dd70307c4bdc3cfd80e0",
+        "8aa50d0295c99bfdaa07584adfed7227cf24c69cf99ba47f0ff565f862a85929",
+        "9980479d749e42bb5977674d791d5d0e13d6a73217fd122c4f5818dcff25d07d",
+        "a580d0a7b715398a31382d414458a5697c0527108116e0eefc434ed4baac72a9",
+        "d1da7757224a17632439817dd9f589808f162bc2601b87b7cd0b51d38b7556ac",
+        "e7588ce5c48060e4cc1da91eea56878ddb5809cf31cbc6674e78c0b609548d3d",
+        "ea2080e55de8d91c8b5cacaa5fcd9dd6a7992aed0f52f89adc6efe02e774eee3",
+        "f63806ebc03aace74d5bdcd55f38c2355b0ac52b3151f9f2b8ff2b85fc03686e",
+        "fb8eeadad36c2cb4ee87a204130a5ed5b78c4c5bdbddfd6cdc6a2e1dddc2f42b",
+        "ff8a7b18ce7d236f4d8f58e953c1b7f09c280487cd80868726e91ddd20dd9266"
+      ],
+      "note": "UNKNOWN denotes absent certified product/use semantics, not absence of raw evidence or nontherapeutic identity.",
+      "product_kind": "UNKNOWN",
+      "qualification_reason_after": "STRUCTURED_THERAPEUTIC",
+      "qualification_reason_before": "STRUCTURED_THERAPEUTIC",
+      "semantic_status": "NO_ADOPTED_CORRECT_SCOPE_STRUCTURED_ASSERTION",
+      "source_document_ids": [
+        "document:e3ceed73de64f520eaf6"
+      ],
+      "study_purpose_declarations": [
+        "TREATMENT"
+      ],
+      "unmatched_ctgov_documents": []
+    },
+    "source_fields": [
+      {
+        "assertion_id": "03e973ad9d55b9c81f9bfa1aea237a13adf2007e7f1f79208db3f65d300ed847",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "class": "INDUSTRY",
+          "fullName": "Merck Sharp & Dohme LLC"
+        },
+        "raw_value": {
+          "class": "INDUSTRY",
+          "fullName": "Merck Sharp & Dohme LLC"
+        },
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "identificationModule",
+            "organization"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "03fa8d5024d21d086dd897d2a171603d8f6ea990feb5065667800eef14805621",
+        "intervention_use_assertion": false,
+        "normalized_value": [
+          {
+            "domain": "MSD",
+            "id": "MK-2870-011",
+            "type": "OTHER"
+          },
+          {
+            "domain": "MSD",
+            "id": "TroFuse-011",
+            "type": "OTHER"
+          },
+          {
+            "domain": "EU CT",
+            "id": "2024-516834-36-00",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "UTN",
+            "id": "U1111-1311-2310",
+            "type": "REGISTRY"
+          }
+        ],
+        "raw_value": [
+          {
+            "domain": "MSD",
+            "id": "MK-2870-011",
+            "type": "OTHER"
+          },
+          {
+            "domain": "MSD",
+            "id": "TroFuse-011",
+            "type": "OTHER"
+          },
+          {
+            "domain": "EU CT",
+            "id": "2024-516834-36-00",
+            "type": "REGISTRY"
+          },
+          {
+            "domain": "UTN",
+            "id": "U1111-1311-2310",
+            "type": "REGISTRY"
+          }
+        ],
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "identificationModule",
+            "secondaryIdInfos"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "07b19d0153cba742f84ad6489214bcffd394740cf9fc28e0f113f2b485962b15",
+        "intervention_use_assertion": false,
+        "normalized_value": "Participants receive the following pre-medications before sacituzumab tirumotecan infusion: Histamine-1 (H1) receptor agonist, histamine-2 (H2) receptor antagonist, acetaminophen or equivalent, dexamethasone or equivalent infusion. Participants are also recommended to receive prophylactic steroid mouthwash (dexamethasone or equivalent).",
+        "raw_value": "Participants receive the following pre-medications before sacituzumab tirumotecan infusion: Histamine-1 (H1) receptor agonist, histamine-2 (H2) receptor antagonist, acetaminophen or equivalent, dexamethasone or equivalent infusion. Participants are also recommended to receive prophylactic steroid mouthwash (dexamethasone or equivalent).",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            2,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "0a70ddef50b6636e189c42d7d5428741e8d4d74c476cc256a198e3e48b83d3ea",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "class": "INDUSTRY",
+          "name": "Merck Sharp & Dohme LLC"
+        },
+        "raw_value": {
+          "class": "INDUSTRY",
+          "name": "Merck Sharp & Dohme LLC"
+        },
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "leadSponsor"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "1a953b36a176d9299be2db336af6b45da9b5d7bed8dcc6f51706354c71f37b12",
+        "intervention_use_assertion": false,
+        "normalized_value": "Participants receive sacituzumab tirumotecan intravenously (IV) at a dose of 4 mg/kg every 2 weeks (Q2W) until disease progression, toxicity or discontinuation.",
+        "raw_value": "Participants receive sacituzumab tirumotecan intravenously (IV) at a dose of 4 mg/kg every 2 weeks (Q2W) until disease progression, toxicity or discontinuation.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "23c06b2a4794c1bd49337821cb85a07afe4bc5fadc62527c362ace474def648d",
+        "intervention_use_assertion": false,
+        "normalized_value": "TREATMENT",
+        "raw_value": "TREATMENT",
+        "semantic_scope": "STUDY_PURPOSE",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "designModule",
+            "designInfo",
+            "primaryPurpose"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "26dc34fc0a3da742bc600a1811c16d8227811be93cfc1efdb589594506e987a1",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Sacituzumab tirumotecan",
+        "raw_value": "Biological: Sacituzumab tirumotecan",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "2d4fbec46be1e9310883420e7bebcd5cde7186143a0f89dd484fd96289906277",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "id": "2870-011"
+        },
+        "raw_value": {
+          "id": "2870-011"
+        },
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "identificationModule",
+            "orgStudyIdInfo"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "393dbe337d1f1e707b38f2f632e94bd3d5036b2e8f4d20497da9b89f519267fa",
+        "intervention_use_assertion": false,
+        "normalized_value": "NCT06841354",
+        "raw_value": "NCT06841354",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "identificationModule",
+            "nctId"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "39b7b1b823facbd9d4c3e3209ecb789e97b21f1379cc37acaee6431009edd61b",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: Rescue Medication",
+        "raw_value": "Drug: Rescue Medication",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            2
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "473f9e77f4340746c716b781d2d2fd17f37f92dd4a44bcde8b23d78b599f739d",
+        "intervention_use_assertion": false,
+        "normalized_value": "A Study of Sacituzumab Tirumotecan (Sac-TMT, MK-2870) as Monotherapy and in Combination With Pembrolizumab (MK-3475) in Participants With Triple-Negative Breast Cancer (MK-2870-011/TroFuse-011)",
+        "raw_value": "A Study of Sacituzumab Tirumotecan (Sac-TMT, MK-2870) as Monotherapy and in Combination With Pembrolizumab (MK-3475) in Participants With Triple-Negative Breast Cancer (MK-2870-011/TroFuse-011)",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "identificationModule",
+            "briefTitle"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "4e1e7ac180aa434e754da76e3e338d6c3d669808c11c26f144ba3854bd7b5655",
+        "intervention_use_assertion": false,
+        "normalized_value": "A Phase 3, Randomized, Open-label Study Comparing Efficacy and Safety of Sacituzumab Tirumotecan (Sac-TMT, MK-2870) as a Monotherapy and in Combination With Pembrolizumab (MK-3475) Versus Treatment of Physician's Choice in Participants With Previously Untreated Locally Recurrent Unresectable or Metastatic Triple-Negative Breast Cancer Expressing PD-L1 at CPS Less Than 10 (TroFuse-011)",
+        "raw_value": "A Phase 3, Randomized, Open-label Study Comparing Efficacy and Safety of Sacituzumab Tirumotecan (Sac-TMT, MK-2870) as a Monotherapy and in Combination With Pembrolizumab (MK-3475) Versus Treatment of Physician's Choice in Participants With Previously Untreated Locally Recurrent Unresectable or Metastatic Triple-Negative Breast Cancer Expressing PD-L1 at CPS Less Than 10 (TroFuse-011)",
+        "semantic_scope": "STUDY_IDENTITY_CONTEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "identificationModule",
+            "officialTitle"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "57d9f32c48f6dadb1bf6b4693e3bac9f5e688c4ad184e7ca91c712a467ca5224",
+        "intervention_use_assertion": false,
+        "normalized_value": "EXPERIMENTAL",
+        "raw_value": "EXPERIMENTAL",
+        "semantic_scope": "ARM_TYPE",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "64d85c427d1f867a8f48cfef4a96fbb4baaef05e4b6e4635116e1f3d1d00d29c",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Pembrolizumab",
+        "raw_value": "Biological: Pembrolizumab",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "670c9d6645f6217ddea6014d51b4e708ef4b97dc2facc7d76fc7387d72822dd2",
+        "intervention_use_assertion": false,
+        "normalized_value": "Researchers want to know if sacituzumab tirumotecan given alone or with pembrolizumab can treat triple negative breast cancer (TNBC). The main goal of this study is to learn if people treated with sacituzumab tirumotecan alone or with pembrolizumab live longer overall or without the cancer growing or spreading compared to people treated with chemotherapy.",
+        "raw_value": "Researchers want to know if sacituzumab tirumotecan given alone or with pembrolizumab can treat triple negative breast cancer (TNBC). The main goal of this study is to learn if people treated with sacituzumab tirumotecan alone or with pembrolizumab live longer overall or without the cancer growing or spreading compared to people treated with chemotherapy.",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "descriptionModule",
+            "briefSummary"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "6931caddc96b992f92c96db080e113757d9862c582c6c03ebf290cd9839be48b",
+        "intervention_use_assertion": false,
+        "normalized_value": "Participants receive sacituzumab tirumotecan IV 4 mg/kg Q2W until disease progression, toxicity or discontinuation PLUS pembrolizumab IV 400 mg every 6 weeks (Q6W) for up to 18 administrations (up to \\~2 years).",
+        "raw_value": "Participants receive sacituzumab tirumotecan IV 4 mg/kg Q2W until disease progression, toxicity or discontinuation PLUS pembrolizumab IV 400 mg every 6 weeks (Q6W) for up to 18 administrations (up to \\~2 years).",
+        "semantic_scope": "FREE_TEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "description"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "6ec206d673e6c51cc1e915b9566510b76b8ba486b205dd70307c4bdc3cfd80e0",
+        "intervention_use_assertion": false,
+        "normalized_value": "Biological: Sacituzumab tirumotecan",
+        "raw_value": "Biological: Sacituzumab tirumotecan",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "interventionNames",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "8aa50d0295c99bfdaa07584adfed7227cf24c69cf99ba47f0ff565f862a85929",
+        "intervention_use_assertion": false,
+        "normalized_value": "DRUG",
+        "raw_value": "DRUG",
+        "semantic_scope": "ENTITY_TYPE",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            2,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "9980479d749e42bb5977674d791d5d0e13d6a73217fd122c4f5818dcff25d07d",
+        "intervention_use_assertion": false,
+        "normalized_value": "Arm B: Sacituzumab Tirumotecan + Pembrolizumab",
+        "raw_value": "Arm B: Sacituzumab Tirumotecan + Pembrolizumab",
+        "semantic_scope": "INTERVENTION_ARM_LINK",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            2,
+            "armGroupLabels",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "a580d0a7b715398a31382d414458a5697c0527108116e0eefc434ed4baac72a9",
+        "intervention_use_assertion": false,
+        "normalized_value": "Arm A: Sacituzumab Tirumotecan",
+        "raw_value": "Arm A: Sacituzumab Tirumotecan",
+        "semantic_scope": "INTERVENTION_ARM_LINK",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            2,
+            "armGroupLabels",
+            0
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "d1da7757224a17632439817dd9f589808f162bc2601b87b7cd0b51d38b7556ac",
+        "intervention_use_assertion": false,
+        "normalized_value": {
+          "type": "SPONSOR"
+        },
+        "raw_value": {
+          "type": "SPONSOR"
+        },
+        "semantic_scope": "SPONSOR_ORGANISATION_CONTEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "sponsorCollaboratorsModule",
+            "responsibleParty"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "e7588ce5c48060e4cc1da91eea56878ddb5809cf31cbc6674e78c0b609548d3d",
+        "intervention_use_assertion": false,
+        "normalized_value": "Rescue Medication",
+        "raw_value": "Rescue Medication",
+        "semantic_scope": "IDENTITY_TEXT",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "interventions",
+            2,
+            "name"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "ea2080e55de8d91c8b5cacaa5fcd9dd6a7992aed0f52f89adc6efe02e774eee3",
+        "intervention_use_assertion": false,
+        "normalized_value": "Arm B: Sacituzumab Tirumotecan + Pembrolizumab",
+        "raw_value": "Arm B: Sacituzumab Tirumotecan + Pembrolizumab",
+        "semantic_scope": "ARM_LABEL",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "label"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "f63806ebc03aace74d5bdcd55f38c2355b0ac52b3151f9f2b8ff2b85fc03686e",
+        "intervention_use_assertion": false,
+        "normalized_value": "Drug: Rescue Medication",
+        "raw_value": "Drug: Rescue Medication",
+        "semantic_scope": "ARM_INTERVENTION_LINK",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "interventionNames",
+            1
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "fb8eeadad36c2cb4ee87a204130a5ed5b78c4c5bdbddfd6cdc6a2e1dddc2f42b",
+        "intervention_use_assertion": false,
+        "normalized_value": "Arm A: Sacituzumab Tirumotecan",
+        "raw_value": "Arm A: Sacituzumab Tirumotecan",
+        "semantic_scope": "ARM_LABEL",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            0,
+            "label"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      },
+      {
+        "assertion_id": "ff8a7b18ce7d236f4d8f58e953c1b7f09c280487cd80868726e91ddd20dd9266",
+        "intervention_use_assertion": false,
+        "normalized_value": "EXPERIMENTAL",
+        "raw_value": "EXPERIMENTAL",
+        "semantic_scope": "ARM_TYPE",
+        "source": {
+          "artifact_sha256": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "field_path": [
+            "armsInterventionsModule",
+            "armGroups",
+            1,
+            "type"
+          ],
+          "snapshot": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json"
+        },
+        "status": "NATIVE_FIELD_ONLY",
+        "therapeutic_product_assertion": false,
+        "transformations": [
+          {
+            "operation": "identity"
+          }
+        ]
+      }
+    ]
+  }
+]
