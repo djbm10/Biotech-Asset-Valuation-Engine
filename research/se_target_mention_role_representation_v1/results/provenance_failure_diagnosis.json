@@ -1,0 +1,3376 @@
+[
+  {
+    "id": "diagnosis:0084",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0085",
+    "query": "Find clinical-stage anti-nuclear factor of kappa light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0086",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-directed therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0087",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-targeting therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0088",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-blocking therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0089",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-binding therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0090",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-specific therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0091",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0092",
+    "query": "Find clinical-stage anti-nuclear factor of κ light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0093",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-directed therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0094",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-targeting therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0095",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-blocking therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0096",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-binding therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0097",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-specific therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0574",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0575",
+    "query": "Find clinical-stage anti-Serine/threonine-protein kinase MRCK beta therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0576",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-directed therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0577",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-targeting therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0578",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-blocking therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0579",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-binding therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0580",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-specific therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0581",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0582",
+    "query": "Find clinical-stage anti-Serine/threonine-protein kinase MRCK β therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0583",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-directed therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0584",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-targeting therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0585",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-blocking therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0586",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-binding therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "diagnosis:0587",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-specific therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:010:0",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:010:1",
+    "query": "Find clinical-stage anti-ubiquitin conjugating enzyme E2 I therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:010:2",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-directed therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:010:3",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-targeting therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:010:4",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-blocking therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:010:5",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-binding therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:010:6",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-specific therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:035:0",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:035:1",
+    "query": "Find clinical-stage anti-Hypoxia-inducible gene 1 protein therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:035:2",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-directed therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:035:3",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-targeting therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:035:4",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-blocking therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:035:5",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-binding therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:035:6",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-specific therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:071:0",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:071:1",
+    "query": "Find clinical-stage anti-retinoic acid, EGF, NGF induced gene protein therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:071:2",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-directed therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:071:3",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-targeting therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:071:4",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-blocking therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:071:5",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-binding therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:071:6",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-specific therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:130:0",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:130:1",
+    "query": "Find clinical-stage anti-ubiquitin conjugating enzyme E2 M therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:130:2",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-directed therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:130:3",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-targeting therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:130:4",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-blocking therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:130:5",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-binding therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:130:6",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-specific therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:307:0",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:307:1",
+    "query": "Find clinical-stage anti-ubiquitin conjugating enzyme E2 N therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:307:2",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-directed therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:307:3",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-targeting therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:307:4",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-blocking therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:307:5",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-binding therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:307:6",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-specific therapies.",
+    "surface": "E2",
+    "lookup_text": "E2",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:SNORA62",
+        "entity_source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": null,
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000150768",
+          "open_targets:ENSG00000209042",
+          "open_targets:ENSG00000202363",
+          "open_targets:ENSG00000137992",
+          "open_targets:ENSG00000226344"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:582:0",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:582:1",
+    "query": "Find clinical-stage anti-nuclear factor of κ light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:582:2",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-directed therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:582:3",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-targeting therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:582:4",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-blocking therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:582:5",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-binding therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:582:6",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-specific therapies.",
+    "surface": "gene",
+    "lookup_text": "gene",
+    "findings": [
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000279284",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000279284",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      },
+      {
+        "reason": "reported_alias_is_transformed_source_field_without_transform_provenance",
+        "assertion": {
+          "record_key": "open_targets:ENSG00000280371",
+          "value": "gene",
+          "alias_type": "APPROVED_NAME"
+        },
+        "raw_label": " gene",
+        "raw_symbol": "ENSG00000280371",
+        "source_all_aliases": [
+          {
+            "value": "gene",
+            "alias_type": "APPROVED_NAME"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:617:0",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:617:1",
+    "query": "Find clinical-stage anti-Serine/threonine-protein kinase MRCK β therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:617:2",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-directed therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:617:3",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-targeting therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:617:4",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-blocking therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:617:5",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-binding therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alias:617:6",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-specific therapies.",
+    "surface": "MRCK",
+    "lookup_text": "MRCK",
+    "findings": [
+      {
+        "reason": "resolved_lookup_has_no_matching_source_assertion_in_retrieved_entity",
+        "entity_id": "TARGET:CDC42BPA",
+        "entity_source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ],
+        "resolver_basis": {
+          "observed_query": "MRCK",
+          "matched_alias": "TARGET:CDC42BPA",
+          "matched_alias_type": "SYMBOL",
+          "asserted_by": [],
+          "asserting_record_keys": [],
+          "identifier_edges": [],
+          "rule": "unique_alias_match"
+        },
+        "snapshot_exact_alias_records": [
+          "open_targets:ENSG00000143776"
+        ]
+      }
+    ]
+  }
+]

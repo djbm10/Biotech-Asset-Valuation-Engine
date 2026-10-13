@@ -1,0 +1,550 @@
+[
+  {
+    "lookup_text": "E2",
+    "canonical_id": "TARGET:SNORA62",
+    "components": [
+      {
+        "canonical_id": "TARGET:SNORA62",
+        "source_record_keys": [
+          "open_targets:ENSG00000201542"
+        ],
+        "matching_aliases": [],
+        "source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000201542",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [
+              {
+                "value": "LOC124900419",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LOC124900419",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000201542"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "canonical_id": "TARGET:SNORA62",
+        "source_record_keys": [
+          "open_targets:ENSG00000202374"
+        ],
+        "matching_aliases": [],
+        "source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000202374",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [
+              {
+                "value": "LOC124900175",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LOC124900175",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000202374"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "canonical_id": "TARGET:SNORA62",
+        "source_record_keys": [
+          "open_targets:ENSG00000201157"
+        ],
+        "matching_aliases": [],
+        "source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000201157",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [
+              {
+                "value": "LOC124900256",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LOC124900256",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000201157"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "canonical_id": "TARGET:SNORA62",
+        "source_record_keys": [
+          "open_targets:ENSG00000252443"
+        ],
+        "matching_aliases": [],
+        "source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000252443",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000252443"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "canonical_id": "TARGET:SNORA62",
+        "source_record_keys": [
+          "open_targets:ENSG00000202363"
+        ],
+        "matching_aliases": [
+          {
+            "value": "E2",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000202363"
+            ]
+          },
+          {
+            "value": "E2",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000202363"
+            ]
+          }
+        ],
+        "source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000202363",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "small nucleolar RNA, H/ACA box 62",
+            "aliases": [
+              {
+                "value": "E2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "E2-1",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "RNE2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "RNU108",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "RNA, U108 small nucleolar",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "RNA, small nucleolar E2",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "SNORA62",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "E2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "E2-1",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "RNE2",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "RNU108",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "SNORA62",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000202363"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "canonical_id": "TARGET:SNORA62",
+        "source_record_keys": [
+          "open_targets:ENSG00000201980"
+        ],
+        "matching_aliases": [],
+        "source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000201980",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [
+              {
+                "value": "LOC124900304",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "LOC124900304",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000201980"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "canonical_id": "TARGET:SNORA62",
+        "source_record_keys": [
+          "open_targets:ENSG00000272015"
+        ],
+        "matching_aliases": [],
+        "source_records": [
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000272015",
+            "entity_type": "TARGET",
+            "canonical_symbol": "SNORA62",
+            "label": "Small nucleolar RNA SNORA62/SNORA6 family ",
+            "aliases": [],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000272015"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "get_source_records": [
+      "open_targets:ENSG00000272015"
+    ]
+  },
+  {
+    "lookup_text": "MRCK",
+    "canonical_id": "TARGET:CDC42BPA",
+    "components": [
+      {
+        "canonical_id": "TARGET:CDC42BPA",
+        "source_record_keys": [
+          "chembl:CHEMBL4516",
+          "open_targets:ENSG00000143776"
+        ],
+        "matching_aliases": [
+          {
+            "value": "MRCK",
+            "alias_type": "SYMBOL",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143776"
+            ]
+          },
+          {
+            "value": "MRCK",
+            "alias_type": "SYNONYM",
+            "sources": [
+              "open_targets"
+            ],
+            "record_keys": [
+              "open_targets:ENSG00000143776"
+            ]
+          }
+        ],
+        "source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL4516",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "Serine/threonine-protein kinase MRCK alpha",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "DMPK-like alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "KIAA0451",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "MRCK alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Myotonic dystrophy kinase-related CDC42-binding kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Myotonic dystrophy protein kinase-like alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL4516"
+              ],
+              "uniprot": [
+                "Q5VT25"
+              ]
+            }
+          },
+          {
+            "source": "open_targets",
+            "source_id": "ENSG00000143776",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42 binding protein kinase alpha",
+            "aliases": [
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "MRCK alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Myotonic dystrophy protein kinase-like alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "KIAA0451",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "MRCKA",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "PK428",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "FLJ23347",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "MRCKalpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "DMPK-like alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "Myotonic dystrophy kinase-related CDC42-binding kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "myotonic dystrophy kinase-related Cdc42-binding kinase",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "MRCK",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42 binding protein kinase alpha (DMPK-like)",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42 binding protein kinase beta",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "myotonic dystrophy kinase-related CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "ser-thr protein kinase PK428",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "ser-thr protein kinase related to the myotonic dystrophy protein kinase",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "MRCK alpha",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Myotonic dystrophy protein kinase-like alpha",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "KIAA0451",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "MRCKA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "PK428",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "FLJ23347",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "MRCKalpha",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "MRCK",
+                "alias_type": "SYMBOL"
+              }
+            ],
+            "xrefs": {
+              "ensembl": [
+                "ENSG00000143776"
+              ],
+              "uniprot": [
+                "Q5VT25",
+                "A0A0A0MRJ0",
+                "A0A0A0MRJ1",
+                "A0A8I5QJM2",
+                "H0Y5V1",
+                "H0Y6R0",
+                "H0Y7V8",
+                "O75039",
+                "Q59GZ1",
+                "Q5H9N9",
+                "Q5T797",
+                "Q5VT26",
+                "Q5VT27",
+                "Q86XX2",
+                "Q86XX3",
+                "Q99646"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "canonical_id": "TARGET:CDC42BPA",
+        "source_record_keys": [
+          "chembl:CHEMBL3308982"
+        ],
+        "matching_aliases": [],
+        "source_records": [
+          {
+            "source": "chembl",
+            "source_id": "CHEMBL3308982",
+            "entity_type": "TARGET",
+            "canonical_symbol": "CDC42BPA",
+            "label": "CDC42BPA protein",
+            "aliases": [
+              {
+                "value": "2.7.11.1",
+                "alias_type": "XREF"
+              },
+              {
+                "value": "CDC42-binding protein kinase alpha",
+                "alias_type": "SYNONYM"
+              },
+              {
+                "value": "CDC42BPA",
+                "alias_type": "SYMBOL"
+              },
+              {
+                "value": "Serine/threonine-protein kinase MRCK alpha",
+                "alias_type": "SYNONYM"
+              }
+            ],
+            "xrefs": {
+              "chembl": [
+                "CHEMBL3308982"
+              ],
+              "uniprot": [
+                "B9EGA7"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "get_source_records": [
+      "chembl:CHEMBL3308982"
+    ]
+  }
+]

@@ -1,0 +1,416 @@
+{
+  "seed": "0",
+  "seed_only": false,
+  "rows": 6199,
+  "ledger_sha256": "79be0ce69cd03a1f18bfd313a5b5cc4bf66e8223ec8bf799a1ecd9ab4083fc9d",
+  "checks": {
+    "decisions_checked": 6199,
+    "repeat_checked": 6199,
+    "mentions_checked": 14949,
+    "required_spans_checked": 1687
+  },
+  "diagnostic_counts": {
+    "queries": 1344,
+    "mentions": 3164,
+    "zero_mentions": 0,
+    "one_mention": 364,
+    "multiple_mentions": 980,
+    "overlapping_mentions_queries": 448,
+    "crossing_overlap_queries": 7,
+    "ambiguous_roles": 0,
+    "ambiguous_roles_queries": 0,
+    "confirmed_target_roles": 0,
+    "confirmed_target_roles_queries": 0,
+    "embedded_mentions": 742,
+    "embedded_mentions_queries": 448,
+    "authority_conflicts": 294,
+    "authority_conflict_queries": 224
+  },
+  "failures": [
+    {
+      "id": "diagnosis:0084",
+      "mention": "mention_94a5fa7c2cc7e6e2677871696f63678e24c4d8a789c72dc5a6b752e1950e64a0",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0085",
+      "mention": "mention_adb56299663158a55f07fa18d81d3713e68f50d46e49cd770f9b8e17ae167be5",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0086",
+      "mention": "mention_cd395c7f99aa21e8491d8b3b6396e29d4b8bbff46ad743d057de0ca9322894d2",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0087",
+      "mention": "mention_52d3702f00475a67c3607da93af121972801f4b50aca10cb5d5cbf781aa6370f",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0088",
+      "mention": "mention_e81a0d8afe440ff53c836d7b84569751137827ee8f74c87b8700f199c06ed6d9",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0089",
+      "mention": "mention_7170d63c6381a4518d7a293af7e428ab747b3bd3b1e2eaa17a18c55fe7117ed9",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0090",
+      "mention": "mention_fe6625cd1a02baf1232c4f1da969b15bb6bedbdcbfdbb664bac2106c98627f7e",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0091",
+      "mention": "mention_478c5a84097b06fb1e367639336bcb2c385290288b7fe5a41b9ce85153d9c47a",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0092",
+      "mention": "mention_8e028f4d24dff639c4c73d63ed9c2756771d77bf6f758accef6ae2d5768f3a65",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0093",
+      "mention": "mention_9061ba84658d088135d2ccf12ff476a162b1905ca1b23e06d03139c7f7847113",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0094",
+      "mention": "mention_50733366fe156f90aa393e5d3fe4d265108f19f41ab9a868b782bdef546d9abd",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0095",
+      "mention": "mention_3544e3eb214ad237323d18809d1283331460a8ded614ef813d3de942c2bf4d70",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0096",
+      "mention": "mention_db2197f725bf80ddb4feb175f09cc21e6a3918e09e976119bb328c8e0c222af0",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0097",
+      "mention": "mention_7fa72771b9a6b77eb94315c588f4a0ef04958ec25851aa545c2931e87686f5ee",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0574",
+      "mention": "mention_5ba0629b71f92df0427e95261f67252f01774832f498e92e23bd413999ecabfd",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0575",
+      "mention": "mention_30c81cf1cef9f3234027d32a3b733da1ec127b14c80d4d2ddc58b303d618d95e",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0576",
+      "mention": "mention_b9c0fa2523307a662d338cf66513df13a94ef3ec6ab4fd4933a4b8a5cc94e5cb",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0577",
+      "mention": "mention_3bbce2d1a5f6cb0eefb3c5e604f80511153d1d7e1bdfcb689a7022d1c715e6e5",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0578",
+      "mention": "mention_a261456ce38dcfce8eb6bb446eadb89c4955837b234004afaf3b6710741d0866",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0579",
+      "mention": "mention_42fe74293695267a792da2d9eabb5f14bcb6d71436169f73f083df267b989e78",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0580",
+      "mention": "mention_9065c9af9bc478378549ba95e4e124352880c8fb7dc5cf69133dfa6fc3174906",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0581",
+      "mention": "mention_7430cfdd9b362c6d7a00cf572ec08e3f6f125bd8ea3776569b8cfa494bd4da71",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0582",
+      "mention": "mention_6518e7a32ca7f1ebe7cfe591e87ef098a98c1c4954b1974132f2e29f401c6f7f",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0583",
+      "mention": "mention_8704eda92dc5e47aaf8ed9cc93e282e503408956f6bd5f1f8688e5096e68cd65",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0584",
+      "mention": "mention_40a169701813761aa6c7a504cdd55231b708fc76b14b4236ccec4616ab6f288f",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0585",
+      "mention": "mention_129651d04ae278fbb8836c0c57e4e62ef7495c15b2b89def8ee0d538ddae9027",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0586",
+      "mention": "mention_f6af4ea029c2bb0b37e01f55cc660cc291a731be111a02d87da67208380bfc43",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "diagnosis:0587",
+      "mention": "mention_a170d2ce25310b6da5fecab482cdd5c991313d44bec73b28ded4d721497d9f1a",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:010:0",
+      "mention": "mention_ffc72ae6646c24b772b8115fe0cd701d38e9127a8eca8ab8d10b45f9b1c8b2e7",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:010:1",
+      "mention": "mention_e39404346b52c9c28a014e8afff52b25d750e8b2d1bb1edad3159bf393cd38bf",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:010:2",
+      "mention": "mention_af4085c64792098ec72797d67cf4f593a90527bf13054b6a85a65108924a7a5f",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:010:3",
+      "mention": "mention_e81a92260785bb690408d5e7a8209f2d197bfdb83b5e5aafe68a961104276228",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:010:4",
+      "mention": "mention_e0ca4aaa9e3d104f33eb95810c04868a8a4500881a3d175d089e768b018d85f3",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:010:5",
+      "mention": "mention_9ab79efd534c9a0bc33a3ee41e775e782537ce9fb3fd47e9ea93245336c9c724",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:010:6",
+      "mention": "mention_850212eaef4abbb713915f56a2d8b348a06ef9adb178444dbcae9b03ddf3c802",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:035:0",
+      "mention": "mention_fb0ade9a629402fabfe6b3e628efafd3f2edf812986789d26085d10a47119f9b",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:035:1",
+      "mention": "mention_498624c26abc398703ae74667ac2be4b46b62413a415901c8cf70c52f14407f3",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:035:2",
+      "mention": "mention_071933bb270edb1d742ac7dc005d3284eebfb50030cffb8e9da66eb04a806e38",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:035:3",
+      "mention": "mention_8f85ef405ca77c389950d60d7b31b925abe154456196289e6b28928a09974b0d",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:035:4",
+      "mention": "mention_f29c28434cb1e45ff3f75b3d9aa0937e09bf4c6a47878cee1e1fea4e2a0bc0fb",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:035:5",
+      "mention": "mention_ae5b599907f5344c4952b7cf2d2b01e890964b2a66f6fa6d9da74bfcaba72ede",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:035:6",
+      "mention": "mention_41d3e435fc0568fcff0a96fb2405af4f1d05eda0d5fc076daf717b87e3ee86e1",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:071:0",
+      "mention": "mention_66173d32b850b45f2ac1db948191f5c477e609005c10d5a19f5d93c33427c813",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:071:1",
+      "mention": "mention_783abc685a369b613a9ce8bcd63b92c3a2bb1ed26032bdf0d97435a0b2758719",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:071:2",
+      "mention": "mention_a2fc7512c56749611001cd052a2223ac68ca7a295c84ca0ef31a4c7fdd850db6",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:071:3",
+      "mention": "mention_783369fa94fe64b4bf80d5585ac5f6ce1e0fd11c3d5f69962b9bb9175dd2e3e5",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:071:4",
+      "mention": "mention_0205855c70d3732a8563d2ac9a5bb359e181d15235d2c17bd792c6cbcb111131",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:071:5",
+      "mention": "mention_fd831668a6f281d1434eda8b612f7238245521f0cd13b76f428d460873447505",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:071:6",
+      "mention": "mention_09811a6ca61c082f75f62dfed3b2305d8c5eacdbddb7122dd0cef66026eeece9",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:130:0",
+      "mention": "mention_a9c1e1655fcf145d2e5e9273a7c5a26e915fc25a7c252a186132123940bcffad",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:130:1",
+      "mention": "mention_c50639f6b6a9132ef7089ee4888518c29b8be237d9873f85c356f1e6a69decbb",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:130:2",
+      "mention": "mention_5a159d216d54a6459c532004e9c9f3e4eecd30c1420dfb19f614e71527645e0c",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:130:3",
+      "mention": "mention_3b7d4a666a97616113e657598200bf21a9d19fb9e26c62de494200fbd2c283b8",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:130:4",
+      "mention": "mention_2b78fdc3749cf91f7cc48abe94383c73362b8f4a6ce4031845373cff48629ee5",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:130:5",
+      "mention": "mention_77e94d56464e0648dc056c761af62a069c27c99ba22bd02d96273aa96a34e07f",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:130:6",
+      "mention": "mention_9eb74c5a69a7ddfa92e43cf8c3bb945b1da4e86e0df370fe242f6f2cffcc08f5",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:307:0",
+      "mention": "mention_7d522dcdc8fdc68b79211f6b982e4d4ea56521cfbf2d1510654217f6a38786ae",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:307:1",
+      "mention": "mention_bc2f6a0b558bc94bac167b07383d515e16bd3cb6b05585d45be755dea68be8c5",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:307:2",
+      "mention": "mention_54e6bc38352ef289c7359b737adb335bb0d1ae64680f878daff8f1b69f9dfec0",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:307:3",
+      "mention": "mention_b15462ffc8d6c18bd0e45ff79a0552dbd20eaf4fb6d5eb515f84aedb5211675c",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:307:4",
+      "mention": "mention_9fe84de4cacc9b5568019b1758321d7d86719101c36203c76d87488e80296a16",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:307:5",
+      "mention": "mention_05c617a478634fb3c3dfd46b5aeb884c6ba52166e75c4c6acffa6a1550f98343",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:307:6",
+      "mention": "mention_2f0146aea125a13c2004dcf90f458992035bbca3db43563826789d3daf709584",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:582:0",
+      "mention": "mention_478c5a84097b06fb1e367639336bcb2c385290288b7fe5a41b9ce85153d9c47a",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:582:1",
+      "mention": "mention_8e028f4d24dff639c4c73d63ed9c2756771d77bf6f758accef6ae2d5768f3a65",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:582:2",
+      "mention": "mention_9061ba84658d088135d2ccf12ff476a162b1905ca1b23e06d03139c7f7847113",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:582:3",
+      "mention": "mention_50733366fe156f90aa393e5d3fe4d265108f19f41ab9a868b782bdef546d9abd",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:582:4",
+      "mention": "mention_3544e3eb214ad237323d18809d1283331460a8ded614ef813d3de942c2bf4d70",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:582:5",
+      "mention": "mention_db2197f725bf80ddb4feb175f09cc21e6a3918e09e976119bb328c8e0c222af0",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:582:6",
+      "mention": "mention_7fa72771b9a6b77eb94315c588f4a0ef04958ec25851aa545c2931e87686f5ee",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:617:0",
+      "mention": "mention_7430cfdd9b362c6d7a00cf572ec08e3f6f125bd8ea3776569b8cfa494bd4da71",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:617:1",
+      "mention": "mention_6518e7a32ca7f1ebe7cfe591e87ef098a98c1c4954b1974132f2e29f401c6f7f",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:617:2",
+      "mention": "mention_8704eda92dc5e47aaf8ed9cc93e282e503408956f6bd5f1f8688e5096e68cd65",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:617:3",
+      "mention": "mention_40a169701813761aa6c7a504cdd55231b708fc76b14b4236ccec4616ab6f288f",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:617:4",
+      "mention": "mention_129651d04ae278fbb8836c0c57e4e62ef7495c15b2b89def8ee0d538ddae9027",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:617:5",
+      "mention": "mention_f6af4ea029c2bb0b37e01f55cc660cc291a731be111a02d87da67208380bfc43",
+      "criterion": "R3_R7_provenance"
+    },
+    {
+      "id": "alias:617:6",
+      "mention": "mention_a170d2ce25310b6da5fecab482cdd5c991313d44bec73b28ded4d721497d9f1a",
+      "criterion": "R3_R7_provenance"
+    }
+  ]
+}

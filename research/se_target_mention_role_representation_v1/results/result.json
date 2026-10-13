@@ -1,0 +1,62 @@
+{
+  "milestone": "TARGET_MENTION_ROLE_REPRESENTATION v1",
+  "decision": "FAILED_ACCEPTANCE_REVERT_REQUIRED",
+  "preregistration": "d26949f",
+  "red_tests": "cbdb8d2",
+  "candidate": "1bbfceb",
+  "criteria": {
+    "R1": "PASS: 6199 exact parser/compiler/trial decisions unchanged before/after analysis",
+    "R2": "PASS: all 1687 frozen required intervals retained",
+    "R3": "FAIL: 77 mention observations fail exact source provenance",
+    "R4": "PASS: decision-bearing state only mirrors existing matching TARGET selections",
+    "R5": "PASS: 6199 same-process repeats; 1392 complete ledgers identical at seeds 0/1/42",
+    "R6": "PASS: all 103 adopted and 48 current structural control decisions unchanged; bad labels retained",
+    "R7": "PASS: no graph changes or new identities; existing ID collisions are provenance failures under R3",
+    "R8": "FAIL: all 245 required explanation rows exist, but 7 English-name frames include incomplete raw-label provenance",
+    "R9": "PASS: only new standalone production module; all existing production files unchanged",
+    "R10": "PASS: 1835 tests pass, 3 existing xfails; Ruff clean"
+  },
+  "full_tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "3",
+    "tests": "1838",
+    "time": "813.458",
+    "timestamp": "2026-10-12T18:18:13.332311-04:00",
+    "hostname": "DESKTOP-O39NL4I"
+  },
+  "focused_tests_passed": 7,
+  "checks": {
+    "decisions_checked": 6199,
+    "repeat_checked": 6199,
+    "mentions_checked": 14949,
+    "required_spans_checked": 1687
+  },
+  "diagnostic_counts": {
+    "queries": 1344,
+    "mentions": 3164,
+    "zero_mentions": 0,
+    "one_mention": 364,
+    "multiple_mentions": 980,
+    "overlapping_mentions_queries": 448,
+    "crossing_overlap_queries": 7,
+    "ambiguous_roles": 0,
+    "ambiguous_roles_queries": 0,
+    "confirmed_target_roles": 0,
+    "confirmed_target_roles_queries": 0,
+    "embedded_mentions": 742,
+    "embedded_mentions_queries": 448,
+    "authority_conflicts": 294,
+    "authority_conflict_queries": 224
+  },
+  "provenance_failed_mentions": 77,
+  "source_transform_failures": 35,
+  "missing_alias_component_failures": 42,
+  "determinism_sha256": "79be0ce69cd03a1f18bfd313a5b5cc4bf66e8223ec8bf799a1ecd9ab4083fc9d",
+  "diagnostic_rows": 1344,
+  "additional_structural_ledger_rows": 48,
+  "post_result_candidate_patches": 0,
+  "new_aliases": 0,
+  "holdout_runs": 0
+}

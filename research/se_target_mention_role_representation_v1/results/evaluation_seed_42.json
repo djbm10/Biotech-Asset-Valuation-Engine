@@ -1,0 +1,9 @@
+{
+  "seed": "42",
+  "seed_only": true,
+  "rows": 1392,
+  "ledger_sha256": "79be0ce69cd03a1f18bfd313a5b5cc4bf66e8223ec8bf799a1ecd9ab4083fc9d",
+  "checks": {},
+  "diagnostic_counts": {},
+  "failures": []
+}
