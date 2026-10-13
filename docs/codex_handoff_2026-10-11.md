@@ -1,3 +1,49 @@
+# 2026-10-13 TARGET MENTION ROLE DECISION v1 — DESIGN BOUNDARY
+
+Diagnosis/evidence **8ec028c**. **No implementation preregistration, production change,
+adoption, or revert.** The preflight rejected the proposed identity certificate before
+freezing behavioral deltas. Do not call these observations a scored implementation.
+
+The complete 6,199-case probe proposes 2,276 whole-target-slot operations. It covers all
+224 frames of the 32 English mismatches and leaves all 21 protected Greek frames alone.
+However, **86 proposed operations across nine components contain multiple source gene
+records**, despite each matched label having a single component and exact raw lineage.
+Examples include the native ALK approved-name resolution to TARGET:EML4, BOLA2 approved
+name to TARGET:BOLA2B, and JMJD7 synonym to TARGET:PLA2G4B. This diagnoses an existing
+grouping/certification boundary; it does not assert that every multi-source component
+has identical biology or that every such grouping is wrong.
+
+The sidecar is sound and retains complete component membership. The adopted mention's
+matching source-record list is not a component-wide identity-equivalence certificate.
+A pointer to correct ingestion history must not authorize a stronger biological claim.
+No nine-ID blacklist or benchmark-only subset was implemented.
+
+**Next narrow prerequisite:** separately preregister
+`TARGET_COMPONENT_IDENTITY_ELIGIBILITY v1`, decision-neutral. Expose complete source
+membership, source-symbol assertion IDs, elected canonical linkage and explicit
+certification/UNKNOWN status using the adopted sidecar. Do not modify the identity graph,
+merge source records, select a preferred gene, or add aliases. Multi-source equivalence
+requires scoped authority evidence; no blanket shared-component inheritance. Then revisit
+a full frozen role-decision delta, including fail-closed handling of uncertified whole
+names and independent grammar evidence for retained embedded targets.
+
+Evidence and proposed interface:
+`docs/se_policies/target_mention_role_decision_v1.md` and
+`research/se_target_mention_role_decision_v1/`. All 6,199 baseline parser/compiler/trial/
+buyer hashes recomputed unchanged; four adopted representation tests pass; Ruff clean
+for src/bve/se, tests/se and new diagnostic scripts. Production src/tests/scripts and
+accepted snapshot bytes unchanged from 1c78cd6. Full tests/se not rerun for this
+research/documentation-only boundary. H21–H25 untouched, H6–H10 unrun, human-PoC stopped;
+known separator oracle defects remain unchanged.
+
+Source-of-truth check: GitHub branch is still 979ba4d (2026-09-22), an ancestor 285 commits
+behind starting local HEAD 1c78cd6. The user's explicitly named local adopted commits
+therefore govern this work. Connected Biotech Tool Context root/docs listings exposed
+older material, not a newer target-role handoff. No private advice or meeting preparation
+files were fetched into or committed to the repository. No push performed.
+
+---
+
 # 2026-10-13 TARGET MENTION ROLE REPRESENTATION v2 — ADOPTED
 
 Preregistration **dec7b2c**; red tests **d8880b4**; candidate **4aca4d1**; final schema
