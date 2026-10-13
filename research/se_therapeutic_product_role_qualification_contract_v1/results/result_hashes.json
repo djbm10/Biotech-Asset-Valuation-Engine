@@ -1,0 +1,12 @@
+{
+  "baseline_candidate_decisions.json": "058a84722ccaa7f8f54f23805e93154c97766c2ed6e6df7ee87a3c03ef584de2",
+  "decision.json": "e9282148bf7aa3c0551e471470baf263c31bcd94e7bf4ea339aabc54e29d5748",
+  "hashes.json": "d45e62c771d977c69c2d20dedf90804dc04ed92d8f840aae76181f94eab6b22c",
+  "red.log": "b617884856c66016303bb59e0cced4f172d9147cfcb965c76e011451b8b97b67",
+  "red.xml": "b9e86a792a3f71f665551d1203fce45b8b19066ffd7a13ab2acaa9d082bc81d0",
+  "regressions.log": "4c8d2e46a81a8967e5515e040a285e9095ca5ea4ce468b17549c92e1bc18f4b5",
+  "regressions.xml": "61dbe7c31acbfb6ac542b3f260285352467e67f076a60143a8557d729c2fc246",
+  "subject_scope_audit.json": "4231e4e8450d9ae4ce9e0a8ffdc3dd9c11bbc75237b4dbee3cced9891ff609d3",
+  "subject_scope_table.md": "bbf4af2f4e64fc41e17ef6015a012e3a6eb51dd91ba8fea30d17ec272d306733",
+  "summary.json": "45bff581cb55cbf85f7998852854858ca6a1ad071ff2fc5565965a6dc1d13150"
+}

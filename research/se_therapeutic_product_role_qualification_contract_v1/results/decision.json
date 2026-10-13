@@ -1,0 +1,55 @@
+{
+  "acceptance": {
+    "D1": "PASS: 46 rows accounted for; frozen labels unchanged",
+    "D2": "BASELINE FAIL: context-only admission remains; no replacement rule specified",
+    "D3": "Protected executable positive controls unchanged; semantic fixtures have no operational binding rule",
+    "D4": "No new inheritance introduced; baseline role-to-product inheritance documented",
+    "D5": "No production rule or blacklist introduced",
+    "D6": "BOUNDARY: source-subject-role evidence cannot be expressed at qualification interface",
+    "D7": "PASS: 215 regression tests preserved; red semantic tests recorded separately",
+    "D8": "STOP: precise representation gap, zero production changes"
+  },
+  "additional_frozen_controls": 2,
+  "baseline_candidate_decisions": 1181,
+  "before_after": "UNCHANGED_BASELINE_NOT_AN_IMPLEMENTATION_RESULT",
+  "boundary": "ROLE_AND_PRODUCT_KIND_NOT_REPRESENTED_IN_QUALIFICATION_INPUT",
+  "changed_decisions": 0,
+  "contract": "d22f6b8 unchanged; D8 documented architecture boundary",
+  "design_rows": 46,
+  "determinism": "byte-identical seeds 0/42",
+  "full_tests_se": "NOT_RUN: no production changes",
+  "identical_input_distinct_semantics": true,
+  "implementation": "NOT_STARTED",
+  "implementation_ready": false,
+  "implementation_result": "NOT_STARTED; no adoption or revert",
+  "model_fields": [
+    "comparator_observations",
+    "corpus_documents",
+    "document_frequency",
+    "entity_specific_link",
+    "identity_authority",
+    "name",
+    "pharmacologic_context",
+    "pharmacologic_documents",
+    "specific_comparator_observations",
+    "structurally_typed_drug",
+    "support",
+    "therapeutic_observations",
+    "unknown_observations"
+  ],
+  "original_controls": 21,
+  "original_diagnosis_rows": 23,
+  "pinned_inputs_unchanged": true,
+  "red_first": {
+    "errors": 0,
+    "failed_as_expected": 4,
+    "passed": 4,
+    "tests": 8
+  },
+  "regression_tests": {
+    "failed": 0,
+    "passed": 215,
+    "tests": 215
+  },
+  "true_therapeutic_controls_losing_qualification": 0
+}

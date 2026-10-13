@@ -1,0 +1,74 @@
+FFFF....                                                                 [100%]
+=================================== FAILURES ===================================
+________ test_frozen_nonasset_requires_more_than_context[[68Ga]Ga-TTP] _________
+
+name = '[68Ga]Ga-TTP'
+
+    @pytest.mark.parametrize("name", ["[68Ga]Ga-TTP", "Rescue Medications", "Rescue Medication"])
+    def test_frozen_nonasset_requires_more_than_context(name):
+        result = json.loads(Path("/home/djmann/se_runs/heldout_h19_v4/result.json").read_text())
+        a = next(a for a in result["candidates"] if a["canonical_name"] == name)
+        evidence = AssetEvidence(
+            name=name,
+            structurally_typed_drug=a["structurally_typed_drug"],
+            therapeutic_observations=a["therapeutic_observations"],
+            entity_specific_link=bool(a["trial_ids"] or a["company_ids"]),
+        )
+>       assert not qualifies_as_asset(evidence)
+E       AssertionError: assert not True
+E        +  where True = qualifies_as_asset(AssetEvidence(name='[68Ga]Ga-TTP', support=0, structurally_typed_drug=True, pharmacologic_context=False, pharmacologic... unknown_observations=0, entity_specific_link=True, identity_authority=False, corpus_documents=0, document_frequency=0))
+
+/tmp/role_contract_boundary/test_baseline_role_controls.py:23: AssertionError
+_____ test_frozen_nonasset_requires_more_than_context[Rescue Medications] ______
+
+name = 'Rescue Medications'
+
+    @pytest.mark.parametrize("name", ["[68Ga]Ga-TTP", "Rescue Medications", "Rescue Medication"])
+    def test_frozen_nonasset_requires_more_than_context(name):
+        result = json.loads(Path("/home/djmann/se_runs/heldout_h19_v4/result.json").read_text())
+        a = next(a for a in result["candidates"] if a["canonical_name"] == name)
+        evidence = AssetEvidence(
+            name=name,
+            structurally_typed_drug=a["structurally_typed_drug"],
+            therapeutic_observations=a["therapeutic_observations"],
+            entity_specific_link=bool(a["trial_ids"] or a["company_ids"]),
+        )
+>       assert not qualifies_as_asset(evidence)
+E       AssertionError: assert not True
+E        +  where True = qualifies_as_asset(AssetEvidence(name='Rescue Medications', support=0, structurally_typed_drug=True, pharmacologic_context=False, pharmac... unknown_observations=0, entity_specific_link=True, identity_authority=False, corpus_documents=0, document_frequency=0))
+
+/tmp/role_contract_boundary/test_baseline_role_controls.py:23: AssertionError
+______ test_frozen_nonasset_requires_more_than_context[Rescue Medication] ______
+
+name = 'Rescue Medication'
+
+    @pytest.mark.parametrize("name", ["[68Ga]Ga-TTP", "Rescue Medications", "Rescue Medication"])
+    def test_frozen_nonasset_requires_more_than_context(name):
+        result = json.loads(Path("/home/djmann/se_runs/heldout_h19_v4/result.json").read_text())
+        a = next(a for a in result["candidates"] if a["canonical_name"] == name)
+        evidence = AssetEvidence(
+            name=name,
+            structurally_typed_drug=a["structurally_typed_drug"],
+            therapeutic_observations=a["therapeutic_observations"],
+            entity_specific_link=bool(a["trial_ids"] or a["company_ids"]),
+        )
+>       assert not qualifies_as_asset(evidence)
+E       AssertionError: assert not True
+E        +  where True = qualifies_as_asset(AssetEvidence(name='Rescue Medication', support=0, structurally_typed_drug=True, pharmacologic_context=False, pharmaco... unknown_observations=0, entity_specific_link=True, identity_authority=False, corpus_documents=0, document_frequency=0))
+
+/tmp/role_contract_boundary/test_baseline_role_controls.py:23: AssertionError
+_________ test_diagnostic_structural_control_requires_product_evidence _________
+
+    def test_diagnostic_structural_control_requires_product_evidence():
+        cases = json.loads((STUDY / "structural_gap_controls.json").read_text())["controls"]
+>       assert not qualifies_as_asset(AssetEvidence(**cases[1]["qualification_input"]))
+E       AssertionError: assert not True
+E        +  where True = qualifies_as_asset(AssetEvidence(name='Novel Agent', support=0, structurally_typed_drug=True, pharmacologic_context=False, pharmacologic_...unknown_observations=0, entity_specific_link=False, identity_authority=False, corpus_documents=0, document_frequency=0))
+E        +    where AssetEvidence(name='Novel Agent', support=0, structurally_typed_drug=True, pharmacologic_context=False, pharmacologic_...unknown_observations=0, entity_specific_link=False, identity_authority=False, corpus_documents=0, document_frequency=0) = AssetEvidence(**{'name': 'Novel Agent', 'structurally_typed_drug': True, 'therapeutic_observations': 1})
+
+/tmp/role_contract_boundary/test_baseline_role_controls.py:28: AssertionError
+=========================== short test summary info ============================
+FAILED ../../../../tmp/role_contract_boundary/test_baseline_role_controls.py::test_frozen_nonasset_requires_more_than_context[[68Ga]Ga-TTP]
+FAILED ../../../../tmp/role_contract_boundary/test_baseline_role_controls.py::test_frozen_nonasset_requires_more_than_context[Rescue Medications]
+FAILED ../../../../tmp/role_contract_boundary/test_baseline_role_controls.py::test_frozen_nonasset_requires_more_than_context[Rescue Medication]
+FAILED ../../../../tmp/role_contract_boundary/test_baseline_role_controls.py::test_diagnostic_structural_control_requires_product_evidence
