@@ -1,0 +1,19 @@
+{
+  "reason": "The original design asks whether booleans/counters retain role subject. These paired synthetic records isolate the information-loss boundary before deriving a rule. They are not real products or new authority types.",
+  "controls": [
+    {
+      "id": "GAP_THERAPEUTIC",
+      "source": {"intervention": {"name": "Novel Agent", "type": "DRUG", "description": "A single investigational therapeutic product administered to treat the disease."}, "arm": {"type": "EXPERIMENTAL"}},
+      "qualification_input": {"name": "Novel Agent", "structurally_typed_drug": true, "therapeutic_observations": 1},
+      "semantic_expectation": "QUALIFY_IF_EXPLICIT_PRODUCT_EVIDENCE_IS_REPRESENTED",
+      "baseline_expected": "STRUCTURED_THERAPEUTIC"
+    },
+    {
+      "id": "GAP_DIAGNOSTIC",
+      "source": {"intervention": {"name": "Novel Agent", "type": "DRUG", "description": "A diagnostic-only imaging substance; it is not a therapeutic product."}, "arm": {"type": "EXPERIMENTAL"}},
+      "qualification_input": {"name": "Novel Agent", "structurally_typed_drug": true, "therapeutic_observations": 1},
+      "semantic_expectation": "DO_NOT_QUALIFY_FROM_ARM_AND_DRUG_TYPE",
+      "baseline_expected": "STRUCTURED_THERAPEUTIC"
+    }
+  ]
+}
