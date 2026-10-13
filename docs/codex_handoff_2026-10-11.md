@@ -1,3 +1,38 @@
+# 2026-10-13 AUTHORITY ASSERTION PROVENANCE SIDECAR v1 — ADOPTED
+
+Preregistration **0bb2e7a**; red tests **f634e8e**; implementation **2f74f93**; adoption/evidence **d8cb1b2**.
+All P1–P11 passed without post-result patches. New standalone provenance module and
+offline generator only; existing target/parser/identity and all other decision paths
+remain unchanged. The legacy ingestion builder does not automatically call the new API.
+
+**Evidence:** 6,199/6,199 full frozen parser/compiler decisions unchanged; 124/124 lookup
+outcomes unchanged; all 77 earlier failure cases have complete raw provenance. Across
+443 audited snapshot-field occurrences: 410 recoverable, 33 explicitly unrecoverable,
+exactly as preregistered. Full tests/se **1,835 passed, 3 existing xfails**, Ruff clean.
+
+**Artifacts:** 910,548 raw-origin sidecar rows; 517,905 recoverable snapshot fields;
+55,613 ChEMBL fields unrecoverable because original ingestion responses were not retained.
+76,773 canonical IDs have raw sidecar assertions; 75,702 have multiple assertions.
+41,798 normalization collisions and 463 canonical-ID/component collisions remain visible
+without merging identities. Independent seed-0/42 output files byte-identical; source
+and accepted snapshot bytes unchanged. All three original Open Targets shard hashes
+are bound by the accepted snapshot manifest and reproduce its 78,691 records exactly.
+
+Policy: `docs/se_policies/authority_assertion_provenance_sidecar_v1.md`.
+Schema, frozen controls, results and receipts:
+`research/se_authority_assertion_provenance_sidecar_v1/`.
+Large generated artifacts:
+`/home/djmann/se_runs/authority_assertion_provenance_sidecar_v1/seed0/` and `seed42/`.
+Do not treat a separate ChEMBL release database as the missing original API payloads.
+
+**Next:** separately preregister TARGET_MENTION_ROLE_REPRESENTATION v2 using the adopted
+sidecar and explicit UNRECOVERABLE states. Preserve all existing target decisions; do
+not combine that work with role selection or alias expansion. No blanket canonical-ID
+lookup may replace source-component lineage. Human-PoC stopped; H21–H25 untouched;
+H6–H10 unrun. Ranking, qualification, duplicates and other known defects remain separate.
+
+---
+
 # 2026-10-12 AUTHORITY LOOKUP SOURCE COMPONENT PROVENANCE DIAGNOSIS v1 — STOP B
 
 Population freeze **5aa8fdd**; baseline **cc609b1**. Diagnosis/design only; no production
