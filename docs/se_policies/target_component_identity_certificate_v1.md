@@ -80,3 +80,21 @@ status and do not present the result as an adopted certificate layer or an imple
 acceptance score. No target-role v2 or authority-mapping repair in this milestone.
 
 H21–H25 untouched; H6–H10 unrun; human-PoC stopped. No live acquisition.
+
+## Recorded outcome
+
+Source-readiness G0 **FAIL** under preregistration 5af5775. Forty-eight components,
+72 raw Open Targets records and 3,534 sidecar assertions audited; 29 ChEMBL raw member
+records unavailable. Every one of the nine implicated groups depends on missing
+component/relationship evidence. All nine full-group identities remain AMBIGUOUS.
+Among the 86 proposed decisions: 35 explicit primary gene-ID mapping conflicts and
+51 ambiguous cases; zero permitting certificates. Gene-ID conflicts do not establish
+protein-product non-equivalence. Nineteen clean primary gene mappings are supported
+in the broader controls, without extending that finding to every alias.
+
+Three audit seeds produce identical artifacts; all 6,199 frozen decisions unchanged;
+Ruff clean. Production code/tests/snapshot unchanged. No implementation, full-suite
+implementation gate, adoption, or revert. The separately frozen structured source
+contract needed to continue is documented in
+`research/se_target_component_identity_certificate_v1/results/minimum_source_contract.md`.
+No additional source was acquired. Do not consume these diagnostic statuses in parsing.
