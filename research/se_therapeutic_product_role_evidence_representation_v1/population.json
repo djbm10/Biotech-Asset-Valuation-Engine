@@ -1,0 +1,5907 @@
+[
+  {
+    "asset_id": "asset:df0b23613e170e339595",
+    "name": "JS108",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:0cdec1448bc18f703626",
+    "name": "TROP2-CAR-NK",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c2eb13f633a20b53fc9f",
+    "name": "Sacituzumab Govitecan\u3001Datopotamab deruxtecan\u3001Sacituzumab tirumotecan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:98b9fb4de4962f809167",
+    "name": "68Ga-TROP2 PET/CT Imaging",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fb7749e144ef421af5d7",
+    "name": "18F-FDG PET Imaging",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2079d39d2ed102e72fc2",
+    "name": "QLC5513",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:31c594ce16901413184d",
+    "name": "LCB84",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:ad888aa99de8baa6baaa",
+    "name": "B1: TROP2 ADC",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:99243d6cc202f24d6897",
+    "name": "D1: TROP2 ADC",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:85d3cde17de194a47f7d",
+    "name": "F1: TROP2 ADC",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:ee636c50432de1cb895f",
+    "name": "H1: TROP2 ADC",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:dfac5903a01f0e57abf7",
+    "name": "YL202",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:94d28425577485d483a0",
+    "name": "Reference solution",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:91126ff525e62855bc15",
+    "name": "Mixed solution",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b53dd9f47a4ec9545085",
+    "name": "Local solution",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5cb989da2fcdfa5a966e",
+    "name": "Antibody drug conjugate",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:26203a4710a9a1ef4a66",
+    "name": "[68Ga]Ga-TTP",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:2e82409f4bc1c8db8984",
+    "name": "VBC103",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:5e9ade6cbaadfd14169d",
+    "name": "Immunohistochemistry (IHC) Staining and Analysis",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7695aed13330ec84783c",
+    "name": "STI-3258",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:16424df5527f33a8078e",
+    "name": "ICG-SG incubation solution",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e6569180aca329748e83",
+    "name": "No intervention",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:316d711d3d911541841f",
+    "name": "BAT8008",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:66f8627bc8e4764e709d",
+    "name": "Anti-Trop2 CAR-NK cell",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0297eef046ea43bd2088",
+    "name": "Sacituzumab Tirumotecan and Toripalimab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:82040487b80b9d527a3c",
+    "name": "Sacituzumab Tirumotecan and Anlotinib",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:a470c25ca8b6127b22b7",
+    "name": "TROP2 ADC",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:509ddfe131ae5e2c0bfc",
+    "name": "TTP-ICG incubation solution",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4eb03f09e77d92687d43",
+    "name": "NK-301",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d0279f8687a7c4216c9d",
+    "name": "MT-302",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:f8d50a9095809f953aca",
+    "name": "Oral cryotherapy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c1ca89fccbaf7df29026",
+    "name": "BIO-106",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:c745a7778d72ccd0530f",
+    "name": "Super Hi-TCR-T cells",
+    "qualification_reason": "CONSTRUCT_CORROBORATED"
+  },
+  {
+    "asset_id": "asset:d8acad65baca22c63bc4",
+    "name": "TGFBR2 KO iC9/TROP2.CAR/IL-15 NK cells",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:7bd89b3a1051652e778b",
+    "name": "Sac-TMT",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:e695d2291d3a310ac5d4",
+    "name": "TROP2-CAR-NK Cells",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7e46ff9cac55621121b6",
+    "name": "T60c injection",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:71c4c66835554a77dee4",
+    "name": "JSKN016HC",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:238fe29ae046e79a2abd",
+    "name": "TROP2 CAR/IL-15 TGFBR2 KO NK cells",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:7d984b65aa8106b99511",
+    "name": "AK146D1 for injection",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:390d054b4c8980ecd1ef",
+    "name": "SW480",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b773dc83bae2a9a2133f",
+    "name": "SW620",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:608f468a4c017eb5d31d",
+    "name": "HCT116",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e1d8a1887bc1ea8a8fa2",
+    "name": "ASCENT-07",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5c4662b8ea83be2e4d40",
+    "name": "addendum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:20f34748377ad405b4dc",
+    "name": "Sapienza",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b4ff7600390d48a361d0",
+    "name": "University-Hospital",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ec3ddbb7ab995642471e",
+    "name": "Miami",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:911c38d45c74294d9e15",
+    "name": "dural",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:04e97b04cd885b810489",
+    "name": "occipital",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:13f207713bb37eb659e7",
+    "name": "canine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:77c30e6b7902c29984fa",
+    "name": "cyclize",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f3ba74df2437e0447b23",
+    "name": "chloroacetyl",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ac6174b1c628e7ee1a46",
+    "name": "safer",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:29bcff6c39a98b7af323",
+    "name": "Tongji",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4461f4da94d01439d082",
+    "name": "necitumumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7f4d8f9f0410193a9bad",
+    "name": "Taxonomy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:902507c126ae2c08b25c",
+    "name": "ANOVA",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:215bc6e9248a7e5d86ea",
+    "name": "tertile",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:85abd20a1be1a3f46381",
+    "name": "IMMU-132 in TROP-2 Overexpressed Advanced and Relapsed Ovarian Cancer",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:68be0a854279afadd4e7",
+    "name": "A Study of GQ1010 in Subjects With Advanced Solid Tumors",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:004274fe7c4a43383c14",
+    "name": "Clinically Actionable Tumor-Associated Antigens in Prostate Cancer",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:996289a8c53691f68ad3",
+    "name": "A Multicenter, Prospective, Cohort Study of Trop-2 ADC Combination Therapy for Advanced Triple-negative Breast Cancer",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5f0f8ba4d79d50aeace9",
+    "name": "The Efficacy of TROP2-ADC in Advanced Extrapulmonary High-Grade Neuroendocrine Neoplasms Failure of Standard Therapy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:896ee934613d079b26b6",
+    "name": "utlitiy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ab26f2fabb3ea9012381",
+    "name": "CMG901",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c668cd0f6a90c6ef5d1d",
+    "name": "IBI343",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:837f689a32f70a02c654",
+    "name": "tecotabart vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9f9f097c86c5cc269c27",
+    "name": "Visium",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0f59b7a34c22f4bd65fb",
+    "name": "NAMPT",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d9a8689f68e45df69990",
+    "name": "cyanoguanidine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d2ae54614834fd5bbf96",
+    "name": "propidium",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f46fbaf02f3085a6347e",
+    "name": "HCC1806",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:846d54ccca8a1cfed23c",
+    "name": "birinapant",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7ae86a756cb12a9c1574",
+    "name": "tolinapant",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:c3fea698dee793ff3606",
+    "name": "arcsine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e310d1e5f93d410a50d7",
+    "name": "CUTO17",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ebffbcd3a940b38402e2",
+    "name": "SNU-3173",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5aa650bd0c7f362235c1",
+    "name": "tovorafenib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:d713df28c7eda681a76c",
+    "name": "dordaviprone",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:6893423daf0aa4ab724d",
+    "name": "MethodsWe",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f687f18486687c684fc4",
+    "name": "Terminology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7f2f2dec324f30ba8d18",
+    "name": "ADCs-trastuzumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cf66fb9db3daa00c74ea",
+    "name": "emtansine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:504464ee1248b1da2679",
+    "name": "ARX788",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:60eb23ca0eb869d5da26",
+    "name": "ASCENT-03",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1d99c282f25a4947427b",
+    "name": "linvoseltamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:93ac76449933924acc65",
+    "name": "erdafitinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:808853b4064ad3266614",
+    "name": "tiratricol",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:8866bafec6e43f4b49da",
+    "name": "tirzepatide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9a870799adb39ed81805",
+    "name": "semaglutide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:d69c6a5eed2df8cd9e97",
+    "name": "IBCSG",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4d1600d9ef606223c10c",
+    "name": "soravastine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1d27c32ff20ae917ffa1",
+    "name": "acetonitrile",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:944757d2bc57cb65399e",
+    "name": "buffer",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:29a1465a109b6652bf4a",
+    "name": "personalize",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7d94e5544e4c6e085cc2",
+    "name": "Datroway",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b61a5da96472d6c70fbd",
+    "name": "Daiichi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e4c27f0b82e0aaaaba6f",
+    "name": "cryo-electron",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8a657c61fbd8e0ba8891",
+    "name": "datopotamab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cc70cef394035ae3fb39",
+    "name": "post-osimertinib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fd94787270cded601ab0",
+    "name": "patritumab deruxtecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:328ef5789129d1f2b2fe",
+    "name": "telisotuzumab vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:135a6b97c67354e17739",
+    "name": "sigvotatug vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9aa9e4819703c233cdbb",
+    "name": "telisotumumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b209b141f4774f8fac07",
+    "name": "vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:faabc65d0def8431ada8",
+    "name": "Datopotamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:022dc7f972acb14bc762",
+    "name": "BEGONIA",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:272ee9b5a235bae24b24",
+    "name": "camptothecin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:10df2199713ae5107771",
+    "name": "rheostat",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b61eed828c08d9c3a5fb",
+    "name": "LUNG01",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d9228d317455df657612",
+    "name": "Sacituzumab govitecan is a humanized mAb with a hydrolysable linker through which SN-38 is conjugated to the humanized mAb hRS7 IgG1\u03ba to enhance the delivery of SN-38 to Trop-2- expressing tumors, whi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:23b9bc87b2f3aa8c3203",
+    "name": "Sacituzumab Govitecan OR Sacituzumab Tirumotecan in Combination with Toripalimab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fe21765cae7cab85d82c",
+    "name": "Sacituzumab Govitecan combined with Toripalimab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a38d2a816eebb7875221",
+    "name": "brentuximab vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f8797154e663ca53cba0",
+    "name": "Today",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fd1e9740ef01f34875ff",
+    "name": "thanks",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1bff6b2a3edebb98518a",
+    "name": "virtual",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fefaed8c8cef918cf586",
+    "name": "XGBoost",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c998bdc3caba42e89ba3",
+    "name": "indolocarbazole",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3884cdc1190320590e6e",
+    "name": "staurosporine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:eb739351106b6c0398cb",
+    "name": "withsacituzumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:12e79ee5c7aa93b18f6e",
+    "name": "talazoparib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:fb48f8847643f66046ef",
+    "name": "ofthe",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6cc13b3bf4cb1be491cb",
+    "name": "CEBCC-102",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:afe637a9dd238a195cab",
+    "name": "dominate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6fce4fa57f925cc0165a",
+    "name": "declines",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7451b9a85249635947ca",
+    "name": "pulmonology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c5cfc1694cde4e732efb",
+    "name": "Sacituzumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9bc83613b5b4537170d8",
+    "name": "exemestane",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:8c09dae511b2f0a29947",
+    "name": "vinorelbine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:b60a112683bd8e30a3d2",
+    "name": "capecitabina",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ad494f8dd32621e1e899",
+    "name": "Cliff",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:571c28eacfdf8357642c",
+    "name": "KEYNOTE-355",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:99381816cd1445422954",
+    "name": "ASCENT-04",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f63fec1065ff79e70ad1",
+    "name": "CALGB 40603",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:22f42f0ef7c8ed4cdc2d",
+    "name": "METHODSTo",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:100315cf0c081df9699e",
+    "name": "PAM50",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7ca84ae340312e7be35c",
+    "name": "CA058223",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:eaa83232f606fc498913",
+    "name": "Susan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:99fbcff7f4c68b35c12e",
+    "name": "Komen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e194649c793fbb15440d",
+    "name": "SAC-160074",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:785fa9f683198040784b",
+    "name": "BCRF-23",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9f49966beb4ee9dd2508",
+    "name": "CA229409",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cb259ab63ad2e03536ae",
+    "name": "SHR-A1811",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:c5a8f2c8daf746c0683a",
+    "name": "9MW2821",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:a89115c1c869aefe0b72",
+    "name": "A1: SHR-A1811",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:0b538d9f7d8ec2e840aa",
+    "name": "A2: SHR-A1811 with Camrelizumab with famitinib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b727975bd8912d4777d1",
+    "name": "C1: SHR-A1811",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:53df544754eb2a1c59fd",
+    "name": "E1: SHR-A1811",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:86c826ecf4319d295697",
+    "name": "G1: SHR-A1811",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:88583883d24900aedbd9",
+    "name": "everolimus",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:ab3c9cd46134d3714ad4",
+    "name": "TQB2102 with TQB2868",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:5e90ca42d1e0d51e50b2",
+    "name": "Becotatug vedotin (MRG003)",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:9396bdbd0c07ed905a11",
+    "name": "HS-20105",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:6f259fd51759b889a319",
+    "name": "tucatinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:461fba67b6f38ffaad49",
+    "name": "pertuzumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:3b4a625963ed826d2169",
+    "name": "rezetecan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4b99d74b9909201c982b",
+    "name": "mocertatug",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:23cc0fd09eef346c54e8",
+    "name": "GSK5733584",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:528da428045aad329328",
+    "name": "dostarlimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:8cbce4190e12e238d921",
+    "name": "Sofetabart",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fe860833ae93984f4c90",
+    "name": "mipitecan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a728f1e150c1bdebb13c",
+    "name": "mirvetuximab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:6ad1ef487f44cd2cbdec",
+    "name": "NMIBC",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:71b13fceec3bd575bccc",
+    "name": "bacille",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:306235b0b9580e158d55",
+    "name": "lapatinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:1bca2fad1e0c7b13c521",
+    "name": "lapatinib-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:98a2bd5cf77f6cc3d9fd",
+    "name": "ADCT-241",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:09f51938eea65c3e1fd3",
+    "name": "PL2202",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cdbdf0218714f74b5b22",
+    "name": "exatecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:d305ec5f046e5b7401ab",
+    "name": "belamaf",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2f07cf63479e3d258c86",
+    "name": "bortezomib-dexamethasone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3d19ad278a12764ce459",
+    "name": "pomalidomide-dexamethasone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:527be7aa10bdf25ef299",
+    "name": "daratumumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:b57ff23fe8aaa1973409",
+    "name": "daratumumab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d9cc7c67dacdf3c2465f",
+    "name": "ciltacabtagene autoleucel",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:0f8819b53ea4be14d8fb",
+    "name": "lenalidomide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:b79961cff71760768ab3",
+    "name": "ICAHT",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:75b4f6ecc3ece88a208a",
+    "name": "sivelestat",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:8ed63a82f36cd16cd873",
+    "name": "favor",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cd758e1535eb8a77ee2c",
+    "name": "medicines",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9eebbd99c1a9aaccbbf6",
+    "name": "Farletuzumab ecteribulin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:caae2e8b851bc4e41915",
+    "name": "equivalents",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e49715c7f30b32987557",
+    "name": "MRG002",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2be33d66c9a4e660e7f6",
+    "name": "ENHERTU",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:29a58266b7b782f2aace",
+    "name": "dextrose",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a0de9887d1afb5b18f1c",
+    "name": "polypropylene",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:30616064ca8952d8c769",
+    "name": "modify",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:85765df6dea8d83f2a01",
+    "name": "MEDI4276",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:bdf1e77e7aec80299319",
+    "name": "zovodotin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f00a4fbf22446a56d5a6",
+    "name": "REGN5093",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:bc1fcfd9ece5b5d3bcda",
+    "name": "SMP-656",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3c4c09471bb3d2be7a41",
+    "name": "thiosuccinimide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5c1813af0d06223f302d",
+    "name": "Inetetamab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:42923acfed24eef8ad10",
+    "name": "eribulin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:27ac1e4ef13542595a41",
+    "name": "Maleimide-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:542ebde35ad3ad039717",
+    "name": "SLV-404",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:37a5b1deed7eefa7a30e",
+    "name": "deruxtecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:e1d276f553a6d03857d9",
+    "name": "underline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b2320476935dfbbf6843",
+    "name": "vinblastine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a5bd0a90b92ae824cda3",
+    "name": "KEYNOTE 905",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6d2a5d1f7021f1b4109c",
+    "name": "Inebilizumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a0b1366a4bd09590b881",
+    "name": "benchmark",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a16205a00f8be501e503",
+    "name": "Loncastuximab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:dfadaf3243ed4e25a8c4",
+    "name": "Inotuzumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f949806c4a353608cb2c",
+    "name": "DGN462",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:80d3e46d7047a91157fe",
+    "name": "indolinobenzodiazepine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d40b04d64c5bce94ff9c",
+    "name": "Illumina",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:35d8b60ec18860cb6455",
+    "name": "HL-60",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b4c0820f089955176975",
+    "name": "Thiomab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9873a711b0ecd3ebad15",
+    "name": "Thiomab-ATACs",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0a201cc607dd0d902988",
+    "name": "maleimide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:b897dda957c6b90ac01f",
+    "name": "Roche",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b251f34363ebc37d6576",
+    "name": "monkey",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c699f95349eaabd092aa",
+    "name": "DDT01",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8f575c580504e319868b",
+    "name": "milieu",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1625a88beac364148266",
+    "name": "RPMI8226",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e12c6ff4d9e3fc002647",
+    "name": "CXCL10",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:14c8266114711a5f968e",
+    "name": "bench",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:60adb2e428dc7c018ba6",
+    "name": "ED50",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ef802c6982491675bc10",
+    "name": "D1:SG with VEGFRI",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:05883731dd7567911599",
+    "name": "SHR-1701",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:4912fad4cf81f8f068d5",
+    "name": "SBS15",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e0486aa3c33358b1e90c",
+    "name": "Lactobacillus",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cb9837aef60b148a3847",
+    "name": "sunflower",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b32567d4a85b4dec9de7",
+    "name": "Danish",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ff3777cbfc858afa5d44",
+    "name": "visualize",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d494793148cf3d554144",
+    "name": "Squeeze",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:943c3cc3fbf05dc3b389",
+    "name": "CG11966",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:de0c2daa5b522962a136",
+    "name": "CG9650",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9be3cda4f25f86671734",
+    "name": "BP102",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:162b0f457b7c2fe09788",
+    "name": "deoxycorticosterone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c4e90090db3150dccaa4",
+    "name": "Norway",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:419bc3a9b55d618dd3b1",
+    "name": "deoxycorticosterone acetate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1a5d8a96f2e70e256f86",
+    "name": "Kitasato",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7d8051c78283627a6b54",
+    "name": "Benson",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ad96098004043f3989f6",
+    "name": "titanium",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b81e4d72350515181d3e",
+    "name": "nickel-titanium",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:09a5eb361474af9fed94",
+    "name": "alloy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7eecd773e4426128a289",
+    "name": "CAR27",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:32f76fb1d13649186d45",
+    "name": "began",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:df06e8a19915e0116325",
+    "name": "stool",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:eedd01d27eb5b16d48f5",
+    "name": "Albumin-paclitaxel + carboplatin + apatinib + camrelizumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7bfa9387b6973e04ce74",
+    "name": "Elicit",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:85e251ed528d8152dc77",
+    "name": "OES18",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:76e573eb53daff3bf921",
+    "name": "levofloxacin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:c9a60c58e3e6efdc67f2",
+    "name": "chidamide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c4d7d5b66381b785e04d",
+    "name": "surufatinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:2037f3933e7ebb40d797",
+    "name": "camrelizumab-apatinib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:05a17b543837143303ee",
+    "name": "prime",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b2271ade2084eba510c1",
+    "name": "lichen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:455d8db56e1116d83361",
+    "name": "prednisone",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:eea1f43995e71b7b7a5d",
+    "name": "nimotuzumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:bd546c61e4ff58999889",
+    "name": "MUC16",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e452851bf9bfac61d406",
+    "name": "penpulimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:88033cf6d644197cada3",
+    "name": "sintilimab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ae55095cab2e78a1a82d",
+    "name": "caffeine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:e2d121552cac5047f384",
+    "name": "S-warfarin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f44ee222cef77615fa5a",
+    "name": "omeprazole",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:1a99e3d89e54f67523ef",
+    "name": "dextromethorphan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f8cdc171bd1612a5f999",
+    "name": "midazolam",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:00dc31a2c4328d547133",
+    "name": "amino",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:26986bc78ee6ec5caea4",
+    "name": "column",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:950cd4646b9c5b9e07ae",
+    "name": "Amide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b1aa3a10c38cd31ca0cf",
+    "name": "PEG10",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:375f543d7c057f3eccbe",
+    "name": "CA199",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4bfd322810ee60a131b2",
+    "name": "Nivolumab-Ipilimumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b51e5870c68f8675ae90",
+    "name": "atezolizumab-bevacizumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:136873ebbc85e47c7486",
+    "name": "Camrelizumab-Rivoceranib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:04b6b38a59bd8de4d3ed",
+    "name": "Atezolizumab-Cabozantinib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:74c7a2445ea224f6d494",
+    "name": "Durvalumab-Tremelimumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bee46a62909fe736c40e",
+    "name": "Pembrolizumab-Lenvatinib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:55022a7ebe1d34b2fe8d",
+    "name": "gemtc",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d9a03dbd4e38cea8cb36",
+    "name": "RR 11",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d4bfe1f6b2d1edc16c2a",
+    "name": "IBI305",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:28b7419e34379e6ada8e",
+    "name": "rivoceranib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:1d4a4a399d481f356882",
+    "name": "STRIDE",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6b4ddbbda530468faef4",
+    "name": "donafenib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:335c607bdf152dd333cf",
+    "name": "exert",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:58c3ab6659899d3bc5a1",
+    "name": "NRS2002",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5e81240e436f94699dd7",
+    "name": "entecavir",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:88a21f79049a0c9c3e93",
+    "name": "camrelizumab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d54f8648af7b0bb1e452",
+    "name": "borderline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:001bbb2407ac24ec9988",
+    "name": "disease-control",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bc5aeb12a57eb25cff02",
+    "name": "volumetric",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ac7175d311ab16ac0877",
+    "name": "FAP-2286",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:dd3f75c9b8eb9d7b78d9",
+    "name": "abdominal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:baea79cf7f31030921df",
+    "name": "gallstone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:726294d6249c323c63f6",
+    "name": "EAT-10",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a746a63a3eac35bbf8dc",
+    "name": "famitinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:6dd63f9f8b8b1ceb10d8",
+    "name": "STK11",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4db87977a84553bcbf34",
+    "name": "HER2,trastuzumab deruxtecan\u00b1 pertuzumab",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:fd58157dc1956444500e",
+    "name": "decline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:dc516da13d60d8f76211",
+    "name": "RAW264",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:eeef127603dda883e0a9",
+    "name": "cyano-myracrylamide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:07d44331ea5b9bc18545",
+    "name": "apomorphine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a67fc892cbeeeb53f216",
+    "name": "penile",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:90d9712c6e15bec420cf",
+    "name": "cavernosum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ab6e040e22e385dc78fc",
+    "name": "laparoscopy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f4683c9a5927fdda128f",
+    "name": "Gynecology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4f739c5945bf605d511e",
+    "name": "isolate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2ce52ee10ca82f33339c",
+    "name": "fluorometric",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ac421dff2446c227fc0b",
+    "name": "Hydroxyecdysone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d2df7dfdf4f9f54f73d6",
+    "name": "methanol-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a2cac070fc8700e73fca",
+    "name": "ecdysone",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9acf77d7ca03735d0548",
+    "name": "miyamotoi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fac3f85e1a30c050d649",
+    "name": "burgdorferi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:35f46ba053a0411c25a3",
+    "name": "Kazakhstan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:61998aac362332840b9d",
+    "name": "Jetisu",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:eefd1906af944f5f821c",
+    "name": "Zhambyl",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7ca4a6b646ca536ace76",
+    "name": "Turkistan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c3cdb069e911e20d72fa",
+    "name": "bitten",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b5e731b70f6e01f75db8",
+    "name": "CP-65",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:74e0f6045babcb6f5a6c",
+    "name": "KM-40",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:18e7e57a3537ffa43184",
+    "name": "amino acids",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:221c6d0cbd2322c2b8ca",
+    "name": "Neospora",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8ae507cd5ea643a81ce7",
+    "name": "caninum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5f5c592c7c83ee6ff63a",
+    "name": "Potassium bromate",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:d820440d8d23701766f7",
+    "name": "vitellogenin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:77436d8a65e3a78ed06e",
+    "name": "metformin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:531c255aab0370db8052",
+    "name": "turbinate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2cb4102ab3c19212362d",
+    "name": "flock",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:69a60cc7ff0c161b3ee9",
+    "name": "amobarbital sodium",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:70e010dfc02c0182013d",
+    "name": "GAD65",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4c3e07fec5aed4516b6b",
+    "name": "MERTK",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5a76f793a861dd1a1245",
+    "name": "PRJNA",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9b4eef6f283722fa0b8d",
+    "name": "PRJNA1270747",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6a0bf22e986e080c7613",
+    "name": "Tamnorzatinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:1a31cb2ff3d097baa38f",
+    "name": "BK20240224",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c86d12b3d491322a8bb5",
+    "name": "declare",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5720b8a57ae42f5061f7",
+    "name": "hematoxylin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:05bae376d63dbec79671",
+    "name": "eosin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:ad8fb846d2d818ffcaef",
+    "name": "fibroblast-like",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:47ecaf22a9633a50c4d3",
+    "name": "profibrillin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ab497595551364719d54",
+    "name": "streptozotocin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9bfcd84436322f944f2c",
+    "name": "funnel",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:474bc1fa1bfce8c23638",
+    "name": "tuberculin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:21a899903fbcc6266177",
+    "name": "metabolomics",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c93f19020c7c8aa2c453",
+    "name": "fluoxetine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:d500d810172e0f0e6b87",
+    "name": "Avian",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fb35622c5b938f1e7d74",
+    "name": "whole",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ce7dfd237d02a47849ad",
+    "name": "iELISA",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c6e5a810a715a44053ae",
+    "name": "lecithin-cholesterol",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b105dcac0a4242d1537d",
+    "name": "ordinal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d4afdb30c857dd80b6c0",
+    "name": "NovaLisa",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:313395e53e265f90f7ec",
+    "name": "dentine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:776ed4548efbac3c5363",
+    "name": "elucidate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4bc69f85fd19d31f8972",
+    "name": "cementoblast",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:79c71d80fd6168396391",
+    "name": "OCCM-30",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a34303b2a17f911432d8",
+    "name": "hRMEC",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2c339e5b8f46b4402aa2",
+    "name": "Mannitol",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:29a8d013838ec7583247",
+    "name": "LY294002",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:181cb256c13f9c71c1e1",
+    "name": "verified",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:03190832f963fe9dbf4f",
+    "name": "BP180",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:47d03d84a39cf3479f47",
+    "name": "serovar",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0b409cce796d10ec045e",
+    "name": "corridor",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:57f0397643f2d7360f89",
+    "name": "serum albumin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5b467d0ed2d80e27526a",
+    "name": "Antiserum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5f28e861c15bbba31ee2",
+    "name": "falciparum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9d07d88a439701ebf329",
+    "name": "TUNEL",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e07d40e34eb6549cb8ae",
+    "name": "salamander",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5c719e80ac055cd3a1fd",
+    "name": "Iridovirus",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8bfeb704ed8e17667f6f",
+    "name": "Imperatorin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fb923a38e91e9e3b644f",
+    "name": "furanocoumarin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f18cf9b6ba6f277ac90d",
+    "name": "CT26",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5593199912a726a1672e",
+    "name": "colostrum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ae73c8588184524b68bf",
+    "name": "single-nucleotide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:35a9ba6f0f3c9e5a4c60",
+    "name": "LDL-Cholesterol",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fde1d87ca308fd098ba4",
+    "name": "HDL-cholesterol",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b13ff76edb17f172fd20",
+    "name": "PECARN",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1e9dd974b10021f84357",
+    "name": "CAR20",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8e9c2ae403030f602b3c",
+    "name": "utilize",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c13e1658d7a3437fed75",
+    "name": "employs",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:95fa25efe92eff54d849",
+    "name": "CAR19",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:90742fcbb9d465d40df2",
+    "name": "BT474",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0b2ecfa638a7dc173946",
+    "name": "ALETA-001",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:95d95cd9a3ed48ff79b7",
+    "name": "undergone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ec798e698c46dc4197a8",
+    "name": "litany",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0641822dae4a19a65609",
+    "name": "alemtuzumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a7ecafcf8aa7027909d5",
+    "name": "toxin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:592bbf30228f4b1bbc93",
+    "name": "Brown",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9a1406cb85131a19098c",
+    "name": "suicide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:24fc4e584b14676eb43f",
+    "name": "OX40",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ebe2a093be96c314cf07",
+    "name": "codon",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6fdbb55dfa1f476a72b5",
+    "name": "chromium",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:3afa1bec4e1d399e946d",
+    "name": "Crystal violet",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:71370db138751631916b",
+    "name": "dimethylthiazol",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:099482deb9299b52a556",
+    "name": "bromide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:cbbcbcb6442ca796ccc2",
+    "name": "FDA018",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:c31b151540ba8cd1eaa9",
+    "name": "metabolite",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:762502ee49aa5b69ca93",
+    "name": "SN-38G",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8454195f6696f70f9341",
+    "name": "trastuzumab rezetecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:15e64721eb9cd4d25895",
+    "name": "osimertinib-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6f391b5fecd498f52631",
+    "name": "Endostar",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3b0069fe6e60df232b2c",
+    "name": "DCR 100",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:09aa943835abb757a26b",
+    "name": "nominal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c0eeeda89e484c8d3ffd",
+    "name": "coordinate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1ce36129d92755be9894",
+    "name": "amivantamab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:63e745e8e45eeabb69a3",
+    "name": "REZILIENT",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8bdc7e35aaf2c77587d2",
+    "name": "zipalertinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:15abeb4036cfc6d28f38",
+    "name": "prolongs",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a7f75183c8327c87c8e4",
+    "name": "UCGI 52",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:93c7b80fdd332c7e30fd",
+    "name": "CLDN18",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:27f0e79a4d2d7ad3f59e",
+    "name": "voice",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2745d3c98ec5a9136038",
+    "name": "subclone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d02cb6fe16e083026a16",
+    "name": "sunvozertinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9916b39937f5792fc222",
+    "name": "ADAMTS13",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9b2188a22ccc927e6a6a",
+    "name": "Caplacizumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:54112ac02891ccbd6d74",
+    "name": "pMCDA",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9ec1113766de3bc3efa3",
+    "name": "OR 12",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:db0cba736ba1db1bfd13",
+    "name": "sintilimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:40f30ef2241375945c96",
+    "name": "Karnofsky",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c9c50fbe9b1e2f3669dc",
+    "name": "KEYNOTE-966",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5ac12c615a33f4ce3cfd",
+    "name": "zanidatamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:b128ac31e9208cee0391",
+    "name": "PF-08634404",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ad1a89f47c6fe7ea8fc5",
+    "name": "BNT327",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:102d448b6a127e97d2c8",
+    "name": "radiology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3f30bcb604fd1c549e5c",
+    "name": "BH-30643",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:610c53b9e77f051bb333",
+    "name": "knife",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:432107d2cb805ac7cf57",
+    "name": "desmopressin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a0b844b89a66914203e2",
+    "name": "nedaplatin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:85922ea82194a2264a52",
+    "name": "furmonertinib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d2ebcfa2bd64f1233e39",
+    "name": "CYFRA 21",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4edfc9e8627044e263a8",
+    "name": "IQR 59",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:54214f2e48ca68bec587",
+    "name": "Akeso",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1123b5527b939824a69b",
+    "name": "pemetrexed disodium",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:45e0db8e101697dd7d3c",
+    "name": "powerful",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c7ef73163be466c8abdd",
+    "name": "milestone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2d98558ea920ac3c59ec",
+    "name": "QL1706",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:09cf14dd977ac3acc3ad",
+    "name": "ivonescimab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a74b13d57df344fe3685",
+    "name": "tetravalent",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:90eb6a8a8f83493774e9",
+    "name": "preliminarily",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1a994a28be2a0b8bf8c3",
+    "name": "gefitinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:d600382a280fa091f15b",
+    "name": "almonertinib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:810d61f6bbf660520477",
+    "name": "TPS 40",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:636a821fd64acd6d2a36",
+    "name": "CPS 41",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9c5b68a7884ad316fa6e",
+    "name": "blinatumomab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:4ce2b518332634f12f84",
+    "name": "mosunetuzumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9cdcd41970afdc1eccbe",
+    "name": "teclistamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:4017515a30542d99a261",
+    "name": "glofitamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:0b80d8b049e6ee3dc1b9",
+    "name": "epcoritamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:26b6f038e47dbba96418",
+    "name": "zenocutuzumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a3acbf678cb57a974e2b",
+    "name": "catumaxomab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9f8096c81e9770444ce4",
+    "name": "amount",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:267a2fe6666592f716a9",
+    "name": "receivedivonescimab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c44ea1213d9ba450d454",
+    "name": "KRAS12C",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7ea8ea956f91db8cfbfd",
+    "name": "tumoral",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d18253f2a06b6483286e",
+    "name": "disulfiram",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:e34990bec041889b506c",
+    "name": "chloroquine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:caafb1d81fef62353f6f",
+    "name": "built",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d8a137b06c2198ab8d71",
+    "name": "ramucirumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7b06875a71254004efdc",
+    "name": "radiomics",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:df6ee90363032b57d2c4",
+    "name": "outperform",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a72741dc2079b6ed5bd3",
+    "name": "epoch",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:be503e1ecaefb6906a69",
+    "name": "bsAbs",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:11ad5483c7a717807ae2",
+    "name": "LARVOL",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:50bad7935a5415fb5404",
+    "name": "timeline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3bfa2e9b1416aff4c04f",
+    "name": "Volrustomig",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f1a0221c93582a60d590",
+    "name": "Danviostomig",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:805b4db0e6293b4b0e0f",
+    "name": "Amivantamab-vmjw",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9bd17a74ac9618b63805",
+    "name": "biotechnology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0a2c3daf1db039881c83",
+    "name": "Akesobio",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a2c2f2007bf39f6dba47",
+    "name": "Alphamab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5af1719e800afe543c5f",
+    "name": "AstraZeneca",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e02eefb08ddae5b79693",
+    "name": "ZW49",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:863cb825862b13b2a2dc",
+    "name": "JSKN003",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:12572b8b25de61f0dae5",
+    "name": "JSKN016",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:dc21c38e8ac72524ef3c",
+    "name": "begin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9f351172d6d4f962a709",
+    "name": "KH815",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:fa539983fc7aa448dac9",
+    "name": "MY6349",
+    "qualification_reason": "DEVELOPMENT_CODE_AUTHORITY"
+  },
+  {
+    "asset_id": "asset:34dce875e1d11a629c02",
+    "name": "METHODSIn",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9c814b0a61ca5ae00da7",
+    "name": "PSMA-11",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f0236e8a85ece9a549c8",
+    "name": "Fujian",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:db9dd7043f9008f17d5d",
+    "name": "Fludarabine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9aa4fd3af8833fa18bd1",
+    "name": "melphalan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:1ccb1b767843157c2c6b",
+    "name": "medicine-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d68e391568ee6186df4a",
+    "name": "flush",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ee37d18b478a2ba818b6",
+    "name": "hypochlorite",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9ecaeadf185eb14741b1",
+    "name": "Methotrexate",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:ff1728ee5750e268a0ab",
+    "name": "Verbal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cdde0b5d1323b480ca51",
+    "name": "FDA 510",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5486bb3de823c8893577",
+    "name": "savings",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e91488b1a44a81256694",
+    "name": "QLC5513+QL1706",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:6e4b058163e1b5663d6a",
+    "name": "rheumatology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:679ea5eb2849b12a9f4e",
+    "name": "employ",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:30ebe8a11a41ebb00cb3",
+    "name": "CHM13",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6bc18bd345c9451c641d",
+    "name": "pipelines",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:36aaac2be9fdd9f4f752",
+    "name": "HG002",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:555a2f28d445404194cd",
+    "name": "benchmarks",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:512188aad77019807401",
+    "name": "moral",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:457e26a674a19e7c98b5",
+    "name": "Anatolia",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:eb9e3e1510aee11a304d",
+    "name": "delirium",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:500a81b0eccbf5d47d09",
+    "name": "ICD-10",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:89950cb620a9661466b6",
+    "name": "underestimate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:094bc0694edf0ffe6dce",
+    "name": "chlorhexidine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:4dd9ceccdb876fb0ac39",
+    "name": "uniform",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c985da111b5a5b656e7f",
+    "name": "gravida",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f70cc8f8d79ac90c210c",
+    "name": "fluids",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e7449e2c961f082213d7",
+    "name": "Caesarean",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4084267302520c435985",
+    "name": "ibuprofen",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:97a638d5665fe8613995",
+    "name": "dihydrocodeine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:62fa2ac65ded1acee1c2",
+    "name": "mundane",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:401da74f4cda5f52d03a",
+    "name": "sociology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3722d04d8d588f26aa3d",
+    "name": "Karen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bec6a193800d6fa2e4cb",
+    "name": "DUREL",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e424da61742943671177",
+    "name": "Spiritual",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:63f6227f9fb97e92ee7c",
+    "name": "Infliximab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:6a3dac7a265cae372dc2",
+    "name": "bowel",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:96ee5db39e91fb0def60",
+    "name": "declined",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:30792801935d2f0e328f",
+    "name": "anti-infliximab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5bca1804d3230b3ad414",
+    "name": "video",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a082edc801e7188a96aa",
+    "name": "pupil",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d6e8a0cac4eb046a7d5b",
+    "name": "Cohen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1110314f21b075a73bb2",
+    "name": "Ethiopia",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1b4ac67c86821d306f80",
+    "name": "hospital-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a402e904722d4aca5d2a",
+    "name": "sudden",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d38b5323db9e13845245",
+    "name": "enough",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0737eaa3bc96a9f4e527",
+    "name": "midwife",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e56483355cc6f83056aa",
+    "name": "anorexia",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a95268a647e962928b7a",
+    "name": "CINAHL",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3bc59462ca984a279b30",
+    "name": "Ghanaian",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bd687a1d616544a4a885",
+    "name": "Sysmex",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cc9597d3557714982494",
+    "name": "XN 2000",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a150a8512ac7421bb769",
+    "name": "hematocrit",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5f7f0120a9db632459ab",
+    "name": "Rwanda",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cd78bf9bd471017c6758",
+    "name": "Hamilton",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:613718144d0955d169c7",
+    "name": "Valve",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6fe048a8701bcac9c834",
+    "name": "pyrin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e7e68f8b41a664c3f709",
+    "name": "leaflet",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:eaaacec83d6d413f4e87",
+    "name": "CA-125",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7c68448971fd6492ae7d",
+    "name": "Colchicine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:abf90ba7b3ff75dcab94",
+    "name": "quality-control",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2cbdac35ac1f9ff8e746",
+    "name": "vehicle",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:13d719ef0462a30f15ad",
+    "name": "pixels",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:451f42584c754005f18e",
+    "name": "esculin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:fa0d72163106cfa175a3",
+    "name": "closest",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:aa805d292a2cbec556d4",
+    "name": "Boolean",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:33a604246203aa632fce",
+    "name": "closer",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0c67816c08849257993d",
+    "name": "perfluorocarbon",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fbe3614aa089b8644698",
+    "name": "morbid",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:25b0602c62ba2e731f69",
+    "name": "carboperitoneum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cb68a5de70c19c783438",
+    "name": "Trendelenburg",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1d064129b73c2b83c733",
+    "name": "supine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7514e5503ff9467ecd66",
+    "name": "pneumoperitoneum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:746426568970fd42c54e",
+    "name": "genuine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e2208e4a8a85f83ca819",
+    "name": "bedside",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a9ddf7975e1f8eaf322f",
+    "name": "volumes",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:84d3fe20487eecf15c71",
+    "name": "in-hospital",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:53161ba35299a0899e3b",
+    "name": "workflows",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:68ee6d76e2dcdba61c53",
+    "name": "cfDNA",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6459b2c960088da14b13",
+    "name": "thoracotomy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7dfaab3898490f1be40e",
+    "name": "bronchotomy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:92dc775c1c8f55655758",
+    "name": "Telangana",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8fba45582ae0418962e0",
+    "name": "lifestyle",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6c2ce16e1c921775f34b",
+    "name": "behavioural",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a62dd8d839e900b3f993",
+    "name": "hygiene",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a177f56dc278add01ee4",
+    "name": "flocks",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2745fcf13864b8f6c01c",
+    "name": "balance",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:330cc5b3dae9c588aff8",
+    "name": "PsycINFO",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c6266e4aa73a5346c09a",
+    "name": "Briggs",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2ab058b3be9af12d47e0",
+    "name": "survivor",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3243d3cf47dc41dbabd8",
+    "name": "burnout",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7d793541b8d1f8fc5624",
+    "name": "avoids",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:072e2863b5ddf6e6716f",
+    "name": "bedrest",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d5dcdf82fdbf0fec949b",
+    "name": "Xinjin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4d2490cb318268276d62",
+    "name": "FIGO 2018",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7c25f22568f281a1f6d4",
+    "name": "clinician",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9ec6ea177252fef54003",
+    "name": "strengthen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:27eccb29bb57d92cfe40",
+    "name": "IPX203",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e14032f27df644b9f33c",
+    "name": "levodopa",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:2b70d274dea57a03907a",
+    "name": "carbidopa",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:4afd88a4b9861056a45c",
+    "name": "quota",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8c531b3c74e6e587fe6f",
+    "name": "penalized",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fe69f1bdb512a77684c3",
+    "name": "intercept",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3b7e4d0571d883b3c411",
+    "name": "telephone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:09c4eed00c092eaa4365",
+    "name": "fluoroscopy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3deed45eea0a98c90828",
+    "name": "Online",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:93d0fceff2583d0a0f77",
+    "name": "FMC63",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8ad482747335b3683a9b",
+    "name": "PE38",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:84e9b86b318c4207be56",
+    "name": "BL22",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:e5f286993dafe8467783",
+    "name": "immunotoxin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:eb085c71ab96168e6dda",
+    "name": "cycloheximide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:cc8870dce46a89ae8491",
+    "name": "SHR-A1921",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:4841bb377cc3b0dd2b4f",
+    "name": "SHR9265",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bc8efd7688ffcfe9dcf6",
+    "name": "DB-1305",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:95293f407bf91209acd5",
+    "name": "Sacituzumab Tirumotecan (SKB264) plus Tislelizumab",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:4273ff53e37cef8f21e0",
+    "name": "brain radiotherapy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e8e60db9c01f677e6ed6",
+    "name": "Sacituzumab Tirumotecan (SKB264)",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:141555811124640f88d0",
+    "name": "VOSviewer",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1fee6e329444b1df5a02",
+    "name": "Bibliometrix",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:88461acea68bb6e1cfa8",
+    "name": "PARPi",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f82da9d098b0dc2f8c92",
+    "name": "II-08",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ee49ac03263aca1b4fc4",
+    "name": "trastuzumab emtansine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a7f37e3e41fb4c62b0d6",
+    "name": "minimize",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8fdf9688fb710ccb62d9",
+    "name": "nadir",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e530b2a704ba9097097d",
+    "name": "MRG003",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6c802a446c118ff0b9b7",
+    "name": "pemetrexed-platinum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f531606c528faec01e32",
+    "name": "frontline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f19126981984aee256f1",
+    "name": "lazertinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:659ed7e488c05f126014",
+    "name": "patritumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:80277184880f21d02135",
+    "name": "budget",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f65c9c99e5c29de1e849",
+    "name": "justify",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4b735d81f478dc391704",
+    "name": "maximizes",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:684086d208f771c35953",
+    "name": "longest",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2bef1ef4a2db5446c652",
+    "name": "Febrile",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:922b7ddcc78dabd21a2f",
+    "name": "pemetrexed",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:c6d727bcf9c7eb82b42a",
+    "name": "KL610023",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:384b3823ced923b87dd7",
+    "name": "KL264",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:20c427deaf4630b016e5",
+    "name": "Rescue Medications",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:5d4d083034e81aa9b191",
+    "name": "Rescue Medication",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:451b1b1a352e8274e726",
+    "name": "Sacizuzumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f7fd7c1645753b853df8",
+    "name": "Tirumotecan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:68ed20a71b1506ffe242",
+    "name": "virtue",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e37eeb75ddf767c55376",
+    "name": "PF-06664178",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:74523f5fa15ab4b70da2",
+    "name": "anetumab ravtansine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:698d76cc72eff3ab6cc6",
+    "name": "BAY 94",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4851f243ea1b874fc72c",
+    "name": "BMS-986148",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:85ef37d965250ea5140d",
+    "name": "DMOT4039A",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:2437fcd363283d4607af",
+    "name": "RC88",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3fe9a4dc9862bacbdaa5",
+    "name": "upifitamab rilsodotin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:05c14587904b4287395d",
+    "name": "ABBV-181",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:fb706d733e3df7a6fc0d",
+    "name": "ZW220",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:66eddcdd813f1f7dcdca",
+    "name": "DMUC4064A",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fffbbc191480328e663c",
+    "name": "deruxitcan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:117aac8dd869cc9c2ac5",
+    "name": "EVER-132",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a435115d38fa23f0a34d",
+    "name": "[18F]F-RESCA-T4",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:977262fd1b1f90386ff5",
+    "name": "[68Ga]Ga-NOTA-T4",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:5d7ca70e73453da251fb",
+    "name": "[68Ga]Ga-NOTA-T4 or [18F]AlF-RESCA-T4",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f093583dc0eed59a2a4e",
+    "name": "tracer",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:922609967d41e0caa57e",
+    "name": "Fudan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ee30ce4afbd4e2456704",
+    "name": "immuno-positron",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ed5857e65e0bd42670ee",
+    "name": "SUVmean",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b91903065f0ec9b6d199",
+    "name": "SUVmax",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a2428809f5b9320a3b08",
+    "name": "non-platinum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2ef5575dacb22ab939c0",
+    "name": "Barcelona",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f769ce9444e424d9c8da",
+    "name": "Cochrane",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f22d41f6d6ff156714a7",
+    "name": "TIGIT",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0a610411694840903c47",
+    "name": "atezolizumab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1b65d981761dbcd103c5",
+    "name": "revolution",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:eb706b7f8f2ed9a7fc7e",
+    "name": "ASCO 2026",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:783fcd2fe1037bf23f1b",
+    "name": "mPDAC",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ee48bba4f74439125a43",
+    "name": "daraxonrasib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2465d736dac146855bb4",
+    "name": "RMC-6236",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1ff19828808011ccc43d",
+    "name": "DN022150",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:98cd31325e0f5facfc19",
+    "name": "horizontal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:78204fa34ee314f558f0",
+    "name": "HRS-4642",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e14d6e213215a4a89299",
+    "name": "darlifarnib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5424de82fbd893db71a0",
+    "name": "adagrasib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:34726d70a69d02edaab7",
+    "name": "label",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0bbab030d25168bc9579",
+    "name": "spine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:002764b9b85ff883637a",
+    "name": "tegafur",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:60f17ab6a4b5c2004d02",
+    "name": "cadonilimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:003b3bf04a54f7a767ba",
+    "name": "nitric oxide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:dd7f2295019869314f23",
+    "name": "methylprednisolone",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:6773a4c0eb4198c09fc2",
+    "name": "pneumoniae",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8ab6fb434f5af3603deb",
+    "name": "aeruginosa",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2654331357e7a99310af",
+    "name": "Candida",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:907ec850aadffcde5671",
+    "name": "trimethoprim-sulfamethoxazole",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:578e458efa4f1161e20d",
+    "name": "cefoperazone",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:bd806274a9323352150d",
+    "name": "caspofungin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:86acbfd26f21a5667745",
+    "name": "docetaxel",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:047a79f0b732cf7f4aac",
+    "name": "lobaplatin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a19c41dd3e67aecdc5e4",
+    "name": "aNanyM",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:57fbd0a4687acf70465c",
+    "name": "ELISA",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d25413960c25989cbdfc",
+    "name": "regorafenib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:d6aea51925f1ac3b55eb",
+    "name": "tailor",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4be5e2cdafed11f59a08",
+    "name": "Tianjin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f55916474995cc62f854",
+    "name": "disitamab vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:416696736fe6ddc5fca8",
+    "name": "RC48",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:dfe7fd53de265b6e1ca4",
+    "name": "fluoropyrimidine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:04363f2952d2c8b872f3",
+    "name": "Written",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ce30195bf7ecb032ab72",
+    "name": "ERA-01",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4b9daaa4f34782f8cab1",
+    "name": "Simon",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:464f3024d97d7267b16f",
+    "name": "leucovorin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f68c20aa59b0e4dd81f2",
+    "name": "radiologic",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b8193950ae12532ed311",
+    "name": "gemcitabine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f4fb3d47e549876dea7b",
+    "name": "GEMOX",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:25e059290d6aa3bf4720",
+    "name": "DCR 77",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7fd37d93cb2833cf51d4",
+    "name": "vigilant",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bb6df73cc3bf4a4d8d14",
+    "name": "SR571",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:87b632e641cfa42bf583",
+    "name": "TITAN",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5d4dc6d23b81f8786387",
+    "name": "etoposide-platinum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b1ba7a37ed8b65f7f652",
+    "name": "explores",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c1fde2346b4a745176b1",
+    "name": "ipilimumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:6756fd620bc02b0a386c",
+    "name": "socazolimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:02f8176a0d16fc4d0d82",
+    "name": "tislelizumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:b291782bf4f2b9d1d77b",
+    "name": "tremelimumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:914d55f4c015d8d7607d",
+    "name": "tiragolumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:333fd3a83843c1df3f56",
+    "name": "anlotinib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6c30246a4fe70d394d69",
+    "name": "benmelstobart",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:df7a9fc14e8af82c78b3",
+    "name": "adebrelimab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:921b63e75a501ed80df7",
+    "name": "apatinib",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c8f20790c3a34b100eb1",
+    "name": "irinotecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:b1afae8ad36108e05ae2",
+    "name": "LY2023",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f61a82ae35a7e9fb7d9c",
+    "name": "XELOX",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f649eab7be33e10357a7",
+    "name": "oxaliplatin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9e78a59a34f35c89be0c",
+    "name": "enrol",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:488d73fe471ebfec74b4",
+    "name": "diameter",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6c9f59b04896d99c6d84",
+    "name": "dalpiciclib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:74c32c983dd8c2f75a4d",
+    "name": "letrozole",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:df5a8614755c44f21c85",
+    "name": "goserelin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:5bbf5289f1eb8af7798a",
+    "name": "value",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d1ab879d628a9eed499d",
+    "name": "optimum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e68bbf723795e2f95f7e",
+    "name": "MTV 50",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8ca94cc538520ade6cad",
+    "name": "SHR-8068",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bae36e9a13b9432d988b",
+    "name": "Jinan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2715edff139f58b8f40e",
+    "name": "Jiangsu",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:717040ddf41ccf1faf94",
+    "name": "Hengrui",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:22ab4cd736d7aa512095",
+    "name": "serplulimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7520398532c352de284f",
+    "name": "adebrelimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9385f2f0e12807e26951",
+    "name": "China",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bf82fef2356302a046b8",
+    "name": "horizon",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:aaaf7f7326020e01d414",
+    "name": "CAPSTONE",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8053c58ecbfd36e0052d",
+    "name": "validity",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6df4b23e9c16e5a4cd7c",
+    "name": "donor",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:694009399e25f06abfe4",
+    "name": "Indanone-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6bb29f0c7bd06fbabbfa",
+    "name": "phenoxycarbonothioyloxy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:45b05ef2699e7303b77f",
+    "name": "indenone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:049d2e272b8fdc121754",
+    "name": "thiosulfinate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5cc1e02717c5ad4b7d53",
+    "name": "Fluoride",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:3ba7d6c0cf171a9eaa01",
+    "name": "Coronavirus",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f4edccdfc1a16e085f5f",
+    "name": "rBCoV",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5df8b7537a2f0ff6c2c4",
+    "name": "HRT-18G",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:47109c1fa83cb2ac7797",
+    "name": "compounds-camostat",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0c5a704ee9f271f6d7d0",
+    "name": "nafamostat",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:bfce0a2081f2a6e71633",
+    "name": "niclosamide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:744a31b41aa51a9c8dbe",
+    "name": "nelfinavir",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f609957684d8fb339f41",
+    "name": "camostat",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7babed9ab0e659012ac8",
+    "name": "prone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ea63cf50e526a9c3393a",
+    "name": "tetrahedral",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:376954d70c814e7b804c",
+    "name": "Quantum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:adfd47da6f16816dcb60",
+    "name": "Smartphone-Based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:09dfaee275d8237612ee",
+    "name": "smartphone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:074e7384894c55da78be",
+    "name": "allow",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e1ed44fb34330e58daa3",
+    "name": "NanoLuc",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:69097f6226f7dcf25884",
+    "name": "case-control",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a250d38b616794638913",
+    "name": "Hantaan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2efc4186a6be7951fb13",
+    "name": "technology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5cb79c682f33dbfc123b",
+    "name": "color",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f57088dfdb7b0dd3d2f3",
+    "name": "lifetimes",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:37c8cbdebd3fe2ec5f52",
+    "name": "lifetime",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e6f922caee652c2f8418",
+    "name": "Ivoire",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e58c964ccc7a9e787738",
+    "name": "IvoryCoast",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1b6af67b99f5c409b482",
+    "name": "Tbilisi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7d7b5831bed6b0730b35",
+    "name": "vital",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bb9083730634034233fe",
+    "name": "marine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:de9f0d4601611655ce7f",
+    "name": "colorimetric",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0d7eb2cc0122bf42bf1a",
+    "name": "peritumoral",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7e9b43fa97e46a2f9833",
+    "name": "PLX5622",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:57588193879861e440ac",
+    "name": "quantify",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:85ea87eb8714043a6d7c",
+    "name": "fluorescence",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:917b6578ff2506e803f0",
+    "name": "BODIPY",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4f6bc1d414f42fd492e6",
+    "name": "boron-difluoride",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:80c60120964a9c2484db",
+    "name": "fluorophores",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:37b24dbcc9be0a46f0c6",
+    "name": "clone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cc61397f8bb0a166d787",
+    "name": "phenomena",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:054df8167088a177a226",
+    "name": "PRAME",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d13854e1119e7c624564",
+    "name": "KITE-585",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d6f4abe53b371b5369bf",
+    "name": "HEK293",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e20716cb44a96fe3095a",
+    "name": "fluorescently",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:52832b79e421f1b74298",
+    "name": "MCF10A",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7a7bffa7ccf2226afb55",
+    "name": "behavior",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:575e6ac03642034c8fd0",
+    "name": "intravital",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4adc41da4a88445498b4",
+    "name": "phenomenon",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d0391b1b481c1a8357a3",
+    "name": "colon",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cd7ac6049a49f53c6ada",
+    "name": "enzalutamide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:381c888a1cd018972f38",
+    "name": "fluorescent",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:35c562d6b9e1555c1a0f",
+    "name": "degarelix",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9ee27fbe78c0d09efe55",
+    "name": "vaccine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:25b74ffa2a3320c5c3ee",
+    "name": "medicinal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:11bdbb98de2c356f75ba",
+    "name": "rigid",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:06a33a949eb0b724aa30",
+    "name": "fluoroestradiol",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:e5771657bcf98cea646a",
+    "name": "radiometal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8b3fcdc52fdff2a8c2ae",
+    "name": "fluorodeoxyglucose",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ec87f63f900fca3b8ce7",
+    "name": "suboccipital",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e64496c0501907c49cd9",
+    "name": "prominent",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f7216c21fc673d0b8e16",
+    "name": "CK20",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d92349a661a80dd5196f",
+    "name": "search",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bc206d35a8b60c27960b",
+    "name": "radiodiodine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bf17d78801adf5ce917d",
+    "name": "saline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:125ff850c76ae833f9ef",
+    "name": "Kornblum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4691087808489450cd78",
+    "name": "covalent",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:06dcdf688b58e6415f5c",
+    "name": "triazine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f6c011ba5e3d9c8d6bb5",
+    "name": "removal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5cd8acde9a0625a7b9cb",
+    "name": "decay",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:daf8920e650d62ddd391",
+    "name": "p-xylylene",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b5beaeaf08fe5e828407",
+    "name": "dibromide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5665b970f963f37a506b",
+    "name": "terephthalamidine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d95483f33e36b83efa2b",
+    "name": "crystalline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0d3acff93446c7e78469",
+    "name": "combine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8cb897619e60abeb8f6e",
+    "name": "urine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d180c02c91db3ffedec7",
+    "name": "versatile",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7091c1e387bc2cce783c",
+    "name": "personalised",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:71b5e55f06b11b92f992",
+    "name": "Ampirik",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d279ea48a6462f920e8c",
+    "name": "sabit",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b89d31bbe6eae2130b56",
+    "name": "tedavisi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9a0c3beb88b8a0d123a8",
+    "name": "belirgin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ef597f34688db44cc4c5",
+    "name": "kenlik",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ae3915960143c3b57e84",
+    "name": "bulunmas\u0131na",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c0430aac4b72bbc57795",
+    "name": "tiroid",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d9213e127259f16b65a1",
+    "name": "kullan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b8c86dd99cc815d36bf6",
+    "name": "lmaya",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1498ea576dee068ad063",
+    "name": "devam",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:eb8fabd7ac55de0db6d5",
+    "name": "dozimetri",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c2c34758e531bb7d2dca",
+    "name": "organlar\u0131n",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:52394c035f1f87e1854b",
+    "name": "dozunu",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f53b3c3243d8a50c14a8",
+    "name": "tahmin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7381df191f5a1d4a30b0",
+    "name": "iselle",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1384b1aa66fb6c6f730e",
+    "name": "tirilmi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2d6901f77344f3de7ea6",
+    "name": "maksimum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b906dbd953e25af5bcaa",
+    "name": "tolere",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c6e69d05016e81e914df",
+    "name": "lezyon",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e1e9f420753406e8cce7",
+    "name": "dozimetrenin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6201676b1d450751e4c6",
+    "name": "birlikte",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:972ead9f782eb1838ad8",
+    "name": "kullan\u0131m\u0131na",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:99df6becf9d8b86fad31",
+    "name": "kurum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bd154b6b88ff5ba5c26e",
+    "name": "deneyimimizi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cabd85ce12ea5dafd616",
+    "name": "klinik",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9d4fd3ddeb458f62e78d",
+    "name": "zerindeki",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:917d6dc3b792521bcc0c",
+    "name": "etkisini",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ac0b5555debcb9e19152",
+    "name": "Tedavi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:dd46d261a57e0f6bf9f5",
+    "name": "dozimetresi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8bf91751bd03cf79ab6e",
+    "name": "serisi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e110513bf10b25524803",
+    "name": "zerinden",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0b7871e42c6815eefdd4",
+    "name": "verildi",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fd0de0faad7ba098bd0d",
+    "name": "hastada",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:59bc13433ec1938e16bb",
+    "name": "birbirini",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:27ddec32be01f6163f09",
+    "name": "tamamlayan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1539b7ad63db2b534bcd",
+    "name": "veriler",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:59595cbae18caf09bb97",
+    "name": "nihai",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e7da8e41e658773aecd6",
+    "name": "edilemeyen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d6bcd9f74d3a3554e39d",
+    "name": "bulunan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8d40a8064a2426838506",
+    "name": "bunun",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:45e862b5eb6b93e5cb07",
+    "name": "etkisiz",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:87876438364f9c1ab0db",
+    "name": "beklenen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1c6c7d209c7f6242c763",
+    "name": "tedavilerinin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9863b9907c11ef25257d",
+    "name": "Kemik",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:be0e7db77e613478e912",
+    "name": "koydu",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d4a0691dc0df0a6570a4",
+    "name": "tedavinin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8796e147906d33b4da89",
+    "name": "Bununla",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:258a160097c15ba22984",
+    "name": "Marinelli",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fc222c6eaf3143f9d2c1",
+    "name": "DIN 6861",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:231168e7f6e8aca45ecd",
+    "name": "autonomy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f46266bd247f38a7fb71",
+    "name": "silico",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b705b616cb0271dd5e13",
+    "name": "Pilot",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fa6d137aff594a02d217",
+    "name": "MEDLINE",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2514e6fd3d8c80eb8e93",
+    "name": "choice",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:161173ce5ef26aa8e1e4",
+    "name": "PRISMA 2020",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2703c1ad0e93786d8869",
+    "name": "Wiley",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1adcb4d9b9b13bf4c80d",
+    "name": "NHLBI",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4e36f99cbbeebb69b227",
+    "name": "methodologies",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:91a096ef4fa2fe1c0efe",
+    "name": "dual-control",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4adf8d141fc92db78c7e",
+    "name": "ggplot",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a3f77879b0e2da54a6da",
+    "name": "orbital",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6ee56486a74d8be0dc9d",
+    "name": "Besides",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:92cad947534bdbd04444",
+    "name": "examine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ed76b5602e8ffc2120ee",
+    "name": "delineate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:099c17376493255b8b3f",
+    "name": "optimize",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d8ca5154b36129007edd",
+    "name": "niftp",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d8295e40e5d1ab1f2005",
+    "name": "indolent",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7851a500984746f5f69a",
+    "name": "IQR 17",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2ee7dcd1f258492fe2bd",
+    "name": "creatinine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:3b2049de30fe236f87b4",
+    "name": "became",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6b2fcffe527cadd359bf",
+    "name": "Hospital",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:40a7d5ac1ee66d13432d",
+    "name": "positron",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d190ce64d900beff311f",
+    "name": "radionuclide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cee07784410345749066",
+    "name": "PSMA-617",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f6e08cbdc00c9cbad2c9",
+    "name": "relief",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6843c39ceb19566365fd",
+    "name": "Radiologist",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d5932fd0241ff402935b",
+    "name": "technique",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a2d1a2ef4d0706ba8cbe",
+    "name": "radiologists",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e613e9bf2784aa42fc4b",
+    "name": "Post-radioiodine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b1e9a3868b45c26b0293",
+    "name": "Moyamoya",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2d8032106d6034febd82",
+    "name": "episode",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d3adc6973f99759a0940",
+    "name": "indeterminate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fbe9f792a3daa3214d34",
+    "name": "Boruta",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2b72f495d5ca4addbe98",
+    "name": "Perceptron",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:24a724030f10f2e63fb0",
+    "name": "hazards",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:edea5a0106513fa6fb8b",
+    "name": "lowest",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f59269498a9b6bbabcac",
+    "name": "pre-radioiodine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d80eb149b9d85e5ddd6f",
+    "name": "TgAbRR",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5e8eb91aa4740387859c",
+    "name": "guideline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e65d7f389c367467f4b3",
+    "name": "radiofrequency",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:316d623dc923a52f4f1c",
+    "name": "delays",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7f44104fa065f2bd4eeb",
+    "name": "larotrectinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:bf2dcc49fde5ae264b45",
+    "name": "entrectinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:5f01de28bcb6803d963f",
+    "name": "selpercatinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:adaf2f312c018f83183e",
+    "name": "pralsetinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:57693886a94d79b210b1",
+    "name": "crizotinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:92c0df719ead794d052f",
+    "name": "alectinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f79ebe6fb1a4fc0fddce",
+    "name": "lorlatinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:14ce268b71d73a27cbfa",
+    "name": "lungs",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d5305e826f4264778e85",
+    "name": "close",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:40b51a92ad4ac36d128d",
+    "name": "goitre",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f8b5a20a3f2ac992c8ee",
+    "name": "outside",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3dfe0cc6e9ed6c28a621",
+    "name": "sometimes",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e7b8e99304e4ed31b72d",
+    "name": "methimazole",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:0cb243c4ccd198f6d547",
+    "name": "destroys",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:68975264d9e75bf3a7a0",
+    "name": "rituximab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:29ed7bf9a61cc294f8ff",
+    "name": "iscalimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9579b776ba1c4ad8a7d0",
+    "name": "levothyroxine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:4c1f06e6ee1e5f6ae7f8",
+    "name": "Hetil",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9a94074a0476ae032243",
+    "name": "Bevezet",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fe4fcba28adf5ea9a818",
+    "name": "pajzsmirigyr",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8f820f3141b4fea539ab",
+    "name": "gszerte",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0873ffb6a3ca194c4386",
+    "name": "emelkedett",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:45fcd742bea62f487a21",
+    "name": "vtizedben",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5556ed7097da5e420239",
+    "name": "ltozott",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:530e7b6da5ee62643121",
+    "name": "kezel",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ca146988afbbc8ca00c5",
+    "name": "differenci",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:87ffebaee485f99bbfc6",
+    "name": "hazai",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:341e1e9ed902e0e2f996",
+    "name": "Vizsg",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f33fab9d99ae2f5ddcf1",
+    "name": "szakban",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:74070b74f889afa2d4ff",
+    "name": "diagnosztiz",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2abd9b4d2f8618211725",
+    "name": "elemezt",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:23e592685deb25ab3e20",
+    "name": "letkora",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:406a32090032e9c22448",
+    "name": "dominanci",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8dadcee564208f0af789",
+    "name": "diumban",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7bdd1c81ef44aee0893b",
+    "name": "nyirokcsom",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d1056c396c1a7b2fe90b",
+    "name": "geztek",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c5bd0a5a3f10df15da01",
+    "name": "beavatkoz",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f9ea2b04e3edb4522d4c",
+    "name": "voltak",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2daf7bc817e81de848b2",
+    "name": "radik",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e86783023133392ba952",
+    "name": "nyaki",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f44da07906b1446e1604",
+    "name": "bizonyult",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2aa9e3f76d2c7814d760",
+    "name": "lzott",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f91c24ff7f63ee09c0bd",
+    "name": "radioj",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6fafb7d97afae0c22a05",
+    "name": "tlagosan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5302db899aba6b3687b9",
+    "name": "zisok",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d676898aa8a68a03b652",
+    "name": "alkalmazott",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:07c85165ad7f5adb8fb7",
+    "name": "terjedtek",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:71fca82edf0130201802",
+    "name": "vetkeztet",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:840f55efda82cbe605d8",
+    "name": "vettani",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b3ac033999362127a0da",
+    "name": "kutat",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4a1f5272a173d1f9cd8c",
+    "name": "alapj",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:967a7b2036f627ca54b8",
+    "name": "szolg",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f28e7cfef1369184f8e4",
+    "name": "workflow",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3518078cc4d0fd5df073",
+    "name": "risen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:90fabab1549a5900187d",
+    "name": "lenvatinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9fb19fdaccc69c1d9008",
+    "name": "vemurafenib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:fa49c58c43a98126da44",
+    "name": "honokiol",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a2f688dc2686f3839afd",
+    "name": "artesunate",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:48b7e8a7fc9a90355eb8",
+    "name": "ginsenoside",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:46b83076a89e023e7964",
+    "name": "Curcumin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:c9061def12dadecf005f",
+    "name": "risks",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0669f8bbfc8ee0037264",
+    "name": "verify",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b9e62a4c02971d27492f",
+    "name": "clarify",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:82324e2c33b3ca1748a8",
+    "name": "behaviour",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:59d2486d97fd4424377b",
+    "name": "BRAFV",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f912b4f617b6107a2340",
+    "name": "BRAFV600E",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:207a9ecbedc2eca95282",
+    "name": "imetelstat",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7480cfe094f6b08599ef",
+    "name": "CX5461",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b90fb853af301c5cb270",
+    "name": "avenues",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:667c3d098470e6c3c5c4",
+    "name": "histology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5695d13e32404c7eb410",
+    "name": "iodine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:f5f467cf491d013f630b",
+    "name": "exact",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:dd4cf7224878350bbde1",
+    "name": "Morocco",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0881ea9bed00015f1ae6",
+    "name": "water",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:264c61ccc304d4aec0ef",
+    "name": "meteorology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:52476ee6047382f32738",
+    "name": "equivalent",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:15d20d43dcd641b264c0",
+    "name": "maximum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4c787b1c415068cf1cdb",
+    "name": "radioiodine",
+    "qualification_reason": "ENTITY_CORROBORATED_PROSE"
+  },
+  {
+    "asset_id": "asset:373d3bfd34952aa864f3",
+    "name": "plume",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5c25d84d94da7901da10",
+    "name": "lidamycin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9cbb4a5b40080fa73265",
+    "name": "maximal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:61e83f04a943c8cb730a",
+    "name": "giant",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bf4037928c40bc563ffc",
+    "name": "closely",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9c94ece0d12ba6985416",
+    "name": "icotinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:e2a3f875f51fa9bd1372",
+    "name": "afatinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:8510c9a18f47eebc998c",
+    "name": "Aumolertinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:ae33b1fd8d67d2f15c7e",
+    "name": "bevacizumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:be33c5305f8b76df4fc4",
+    "name": "tetracyclic",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:defa5817d207241b617b",
+    "name": "PKMYT",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fd2ecc01d76999a38ac7",
+    "name": "HCC1569",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7abe8d7bfe537ada2f66",
+    "name": "prodrug",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8dc1e437838c5012da0b",
+    "name": "MB-231",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a42618052f0e34ef8a7b",
+    "name": "IQR 225",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d1fa37e9890f4cef00f8",
+    "name": "IQR 200",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:af0131a863562a733828",
+    "name": "evolve",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:08767b645fe2380e90f6",
+    "name": "sacituzumab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bfedf9f6c493a3f13723",
+    "name": "eliminate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:61c581b3cf90d6578fad",
+    "name": "NCI-2023",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8c67a66c54cff635589d",
+    "name": "panel",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d027316b3d7e43c2e48e",
+    "name": "explore",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2d2e335e84a509ab37ab",
+    "name": "radiolabeled",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7e251ce2a0c8acfe2d6c",
+    "name": "TRODELVY",
+    "qualification_reason": "ENTITY_CORROBORATED_SYNONYM"
+  },
+  {
+    "asset_id": "asset:de6becf219be559e5405",
+    "name": "Amanitin",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:43c3605ea750da0a4894",
+    "name": "vitro",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:dd31ff3d8f6c88fc9e2e",
+    "name": "xenograft",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ba272559e71d28ed6f1e",
+    "name": "serum",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f2b28156d1f0bd1e98ad",
+    "name": "tisotumab vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:08f1b5134860bd232980",
+    "name": "mirvetuximab soravtansine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:df6708268300df0ace4a",
+    "name": "paper",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1df5ae0f07b1895bfeb7",
+    "name": "sacitizumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:cf4c3fd3e06e9a7ad05e",
+    "name": "govitecan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f633d9e2ee003af46725",
+    "name": "determine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7894021c2b9f1f11c507",
+    "name": "decitabine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:3366c96e810dc0514f3f",
+    "name": "abemaciclib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:33b1f4abd7a16d526448",
+    "name": "olaparib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:1acdc36dae9d812849f1",
+    "name": "ribociclib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:863d9a0d5e080a2a72fd",
+    "name": "palbociclib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:635e15728ee638f5b967",
+    "name": "benefits",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c4a68aad989bfecdbd40",
+    "name": "elacestrant",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:0a89a1f35ca4fd37e7f1",
+    "name": "fulvestrant",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:05b860949bc06cc26638",
+    "name": "antitrophoblast",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5e2fbd5a02053869aa9e",
+    "name": "Wilcoxon",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d87b2f9308ab4c74254d",
+    "name": "until",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:67b762cc42b6cf92ad20",
+    "name": "anti-trophoblast",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:dbf434105f5f3882e2ac",
+    "name": "SN-38",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:596f78bf62fe823dcd4b",
+    "name": "women",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:63e1dd31919fedd33c38",
+    "name": "trastuzumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:cbca6e072a17504dd42e",
+    "name": "alone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:304750495a388000ca62",
+    "name": "Datopotamab-DXd",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f89245e094d1acf5f8f3",
+    "name": "KEYNOTE-689",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:907cee16c58c5b91cf06",
+    "name": "nivolumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7644104f110b1b657e27",
+    "name": "Camrelizumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:87ed97e7118b6facbfb1",
+    "name": "toripalimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a0c36dd3c43f64a4d88b",
+    "name": "Tagitanlimab",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:d8656a86102210135b40",
+    "name": "avelumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:1b0c06d69e55c2d9e940",
+    "name": "dabrafenib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:67db55d4c8b54c1e08d8",
+    "name": "trametinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:1939fdfa8fd58fb41f2d",
+    "name": "petosemtamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:aab2d0410d4d38cbda01",
+    "name": "amivantamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:8da72d9db04e6540c3dc",
+    "name": "enfortumab vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:ebb191faef21e4ff891a",
+    "name": "becotatug vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:55156988e1caf7540012",
+    "name": "Izalontamab brengitecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:ba6cd90af4d6643a61d1",
+    "name": "worsen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:fad4af4a78088316101c",
+    "name": "outline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9dee8b44412ca1211835",
+    "name": "Almost",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:804de0b43cd98af5e9e3",
+    "name": "PA13",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:469351079a43649b57e7",
+    "name": "liquid",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5e43da1a9557203077a9",
+    "name": "trend",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bc672c4b1bc6d1ae7d5b",
+    "name": "post-tarlatamab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:db4def22a5c7a45a3eed",
+    "name": "validate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6957274e830a46c4ee69",
+    "name": "TriNetX",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f6565dc8f2f50768cbdc",
+    "name": "April",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0af51a37ef5a0cb2269d",
+    "name": "benzodiazepines",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:06b7d540820fcb5267d0",
+    "name": "October",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7f6bef13c869c90489e5",
+    "name": "tocilizumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7a28054061cf4cee65f0",
+    "name": "Korean",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:999daa20e0c22d4272ba",
+    "name": "zoledronate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e6232e7a9c60af105d1e",
+    "name": "engineer",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:baed3c23a715a4f682e5",
+    "name": "lifileucel",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a841bf49d23836004ccd",
+    "name": "pembrolizumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:0f9ac8fd2e2f18775ad0",
+    "name": "pivotal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:8a3b5a7c74ec18c414f8",
+    "name": "worldwide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5e441b87c70e703817ae",
+    "name": "below",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b1a0692f320e53d4bb26",
+    "name": "methodology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f80e391349258e636c07",
+    "name": "November",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ae4dced2f04e813ef5af",
+    "name": "proof-of-concept",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b20a12690e85729dd291",
+    "name": "pipeline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f8057043f765fd8b95ad",
+    "name": "nintedanib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:8a1c8b47544aa534cb76",
+    "name": "SP347",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:25b7fcefd2a166959c26",
+    "name": "originate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:abd6e93a318cdbd766f2",
+    "name": "guide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c6c2be91facb5675204c",
+    "name": "areflexia",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e82e3c2fb410b3c01521",
+    "name": "Fluid",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b95b07e4745fd05d7dd8",
+    "name": "temporal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f5becd0f65aefdf8c325",
+    "name": "etiology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ef435953915225bed3c5",
+    "name": "allows",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:38444743aace630b3154",
+    "name": "nodal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4803b7443264e22206ad",
+    "name": "useful",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:562f391358d7c7711a45",
+    "name": "Thoracic",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d131ca486a37c8e26387",
+    "name": "upfront",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c099fe69c65ca7e02862",
+    "name": "HRQoL",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1f6cd6ecc69f1680fe53",
+    "name": "EORTC",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:06f1fe7d04626771d236",
+    "name": "LC13",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c2c3c95a7b980aac4da5",
+    "name": "weeks",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d1e0161719e49a40261f",
+    "name": "tebentafusp",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7049f380c38e081a7765",
+    "name": "though",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c5d7374d5737e12e49c6",
+    "name": "destroy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:82e650cb3adbe8946430",
+    "name": "Canada",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:723a49a8d824ef20926a",
+    "name": "toxic",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6a1f0f5c744ce2df8f96",
+    "name": "drugs",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f03a99e642b537ecd908",
+    "name": "talquetamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:555fa38a1e412442922d",
+    "name": "phenotypes",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9be28703fde3e5cb15e4",
+    "name": "maximize",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6cd6e711c05f4cbc6e8c",
+    "name": "medicine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c567db63545e7812540a",
+    "name": "avenue",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6cd417ddb784833d10d2",
+    "name": "milestones",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d3c10f2a425aae50b66e",
+    "name": "examines",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:208dd206dfdc75376da9",
+    "name": "FOLFIRNOX",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:58329e496384d55ec463",
+    "name": "platinum-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1b46ff90c2a504b2f146",
+    "name": "define",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:670d9a5ee21a2575005e",
+    "name": "backbone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:311f5a9a403248e3ed0d",
+    "name": "longitudinal",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5b519ea2cac97d35670b",
+    "name": "refine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ce6b15a90c56add2a69e",
+    "name": "before",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:bbee2b8d68dffa87771f",
+    "name": "cornerstone",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1e1524d8c63ee5558b87",
+    "name": "evaluate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:65222437cdd0ea76aa91",
+    "name": "nature",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:40dac3fac6ecb2111478",
+    "name": "neoadjuvant",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4dc60473e7fbf88710e7",
+    "name": "capecitabine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:5745eda6175885227cdf",
+    "name": "Cabozantinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:ecd534c93c1b25121110",
+    "name": "PEN-221",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b8249d41a57ce4b740dc",
+    "name": "robust",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4a984adcdffa58728089",
+    "name": "absolute",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1219adeaa767ffc2d03f",
+    "name": "SLFN11",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:979980a1d766eb4cbbf4",
+    "name": "unmet",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:59664427322a09f855b5",
+    "name": "index",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:68737137f657bcad6351",
+    "name": "validates",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a9d9d0fd2673ad11397a",
+    "name": "deepen",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d51e9451c58a2cbf21d6",
+    "name": "redefine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:32068e88dfe83d4e9feb",
+    "name": "build",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2057b0c97c8da418b1d0",
+    "name": "novel",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:acfe9d2e7ea61f8d76a1",
+    "name": "their",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e8ae858d6c109483903e",
+    "name": "cycle",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:dfec41af9465fada5ad0",
+    "name": "lobectomy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f4c73a16549bc42537e5",
+    "name": "osimertinib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:2e07444114de806a5aad",
+    "name": "adjuvant",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:23795967c5391f2ab351",
+    "name": "biopsy",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:1af158be8a5d9809bbf0",
+    "name": "carboplatin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:43ffde0f78875e90476d",
+    "name": "examined",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:86f82056f3022d88a380",
+    "name": "Flatiron",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3a6b0cb06e19314d7453",
+    "name": "Methods",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:44995c1e57c7a80298ba",
+    "name": "diameters",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3be377c205ffbfd3a169",
+    "name": "although",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:43b2172b0949d485826c",
+    "name": "phenotypic",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:48bc7d87ce9606770bb0",
+    "name": "rovalpituzumab tesirine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:818d0f8aab767fe0e14a",
+    "name": "approval",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:59c32d1b5c51bfd051a4",
+    "name": "durvalumab-based",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d8dc7b9797c4c4288a40",
+    "name": "lurbinectedin-atezolizumab",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:0809d22702cafa99273b",
+    "name": "success",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:ca3aa5d8c96ee10bd778",
+    "name": "alongside",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:3f0ba263b737691ef1a4",
+    "name": "biology",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:14431b08864eb0e182a6",
+    "name": "penalize",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f8c2a7618642126eff34",
+    "name": "ABBV-706",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:65c6071ab5462c2dc069",
+    "name": "Tarlatamab-dlle",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a07fd03e7051e8cde695",
+    "name": "because",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:45b51a817615f0cc7604",
+    "name": "method",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d564b4ecc54b693799f9",
+    "name": "always",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:96ed9a9f2ed2eabff842",
+    "name": "benefit",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:72b25aa60e5c64e96013",
+    "name": "topotecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:fb2ae8aa3ac8ea5a490f",
+    "name": "lurbinectedin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:7ae9bebddbe225f16726",
+    "name": "amrubicin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:e28592c2bc2b5c66f43e",
+    "name": "cyclophosphamide",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:b90026f78a8b6c2a3872",
+    "name": "vincristine",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:4817cf221791f44b729a",
+    "name": "paclitaxel",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:376cc95f9da5d3109beb",
+    "name": "Owonikoko",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7bba504aa862311258b3",
+    "name": "GFPC 0501",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:016b878a9192795b9a83",
+    "name": "estimate",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e947b6fe3278d07a5f5d",
+    "name": "baseline",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f29be1ec58d674ab9fb3",
+    "name": "hazard",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b59d13fe01e0fbb763c5",
+    "name": "suggest",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:77a02a2ec8b5bc9e67a9",
+    "name": "often",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4f177eda01b279a9647e",
+    "name": "months",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:2c22598c832f3af74a39",
+    "name": "provide",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:5b7f48b9b25818159df4",
+    "name": "solid",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:d5c43fc8cbe68c6d6e4c",
+    "name": "occur",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:67a6977bf46c44be00c8",
+    "name": "burden",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6f850950fe46848e8aaa",
+    "name": "durvalumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:978e11a7a8b4c35965a8",
+    "name": "careful",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:6f01c7158d876ca9d8bb",
+    "name": "Atezolizumab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:779957c0256464b1b17f",
+    "name": "first",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:df0fb4fdb9d8d746aa7c",
+    "name": "safety",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:10d42a520243d5a9e97a",
+    "name": "Machine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:c5b8c0c2475737d084df",
+    "name": "tarlatamab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:09bd3ee3fe0ed601e281",
+    "name": "profile",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:f334644f57b9de0abdb8",
+    "name": "Routine",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:7faeb52c7c0ec842257c",
+    "name": "total",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:e0633f1dca5f0954000d",
+    "name": "level",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:a5280c613b3134f286b1",
+    "name": "strongest",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b7852148196749d2025d",
+    "name": "ROR 223",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:69520f7307c6208012ad",
+    "name": "ROR 312",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:b44b21807e917d582a96",
+    "name": "pyrexia",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:4e8741a27378ca1f78f8",
+    "name": "Japan",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:9ae9a0ac23ad33b9b9db",
+    "name": "primarily",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:39c3c3ed8533f2eb9155",
+    "name": "toxicities",
+    "qualification_reason": null
+  },
+  {
+    "asset_id": "asset:190016fd37f2b6235dc7",
+    "name": "acetaminophen",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:617c44c484fa3c909bfc",
+    "name": "belantamab mafodotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:b2c619f1ddecaa66c38d",
+    "name": "Datopotamab deruxtecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:c6b579c637778982425a",
+    "name": "ifinatamab deruxtecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:519b1d97611dd80d2d1b",
+    "name": "Ivonescimab",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:3bb6096ec6edd556adc7",
+    "name": "lifastuzumab vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:a4e8d5e9526a71ca9926",
+    "name": "Sacituzumab govitecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:1d59cde3e596f68de29c",
+    "name": "sofituzumab vedotin",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:9bab8bde478bbfa3591e",
+    "name": "trastuzumab deruxtecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:073d829b20541ae7b2ea",
+    "name": "Volasertib",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  },
+  {
+    "asset_id": "asset:4c529ceedd0fbe7599cf",
+    "name": "Sacituzumab tirumotecan combined with envafolimab",
+    "qualification_reason": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "asset_id": "asset:cf362b6bc18a7577433e",
+    "name": "Sacituzumab Tirumotecan",
+    "qualification_reason": "DIRECT_APPROVED_NAME"
+  }
+]

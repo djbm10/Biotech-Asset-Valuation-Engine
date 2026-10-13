@@ -1,0 +1,322 @@
+[
+  {
+    "expected_arm_type": "EXPERIMENTAL",
+    "expected_entity_type": "DRUG",
+    "expected_intervention_use": "UNKNOWN",
+    "expected_product_kind": "UNKNOWN",
+    "expected_study_purpose": "TREATMENT",
+    "id": "therapeutic",
+    "rationale": "Structured fields express entity type, arm membership and study purpose. Description remains unparsed prose; no product/use assertion is invented.",
+    "selection_reason": "Native structured context versus product/use semantic level; no new authority fields.",
+    "source": {
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "interventionNames": [
+              "Drug: Intervention X"
+            ],
+            "label": "Arm A",
+            "type": "EXPERIMENTAL"
+          }
+        ],
+        "interventions": [
+          {
+            "armGroupLabels": [
+              "Arm A"
+            ],
+            "description": "A therapeutic medicinal product under evaluation.",
+            "name": "Intervention X",
+            "type": "DRUG"
+          }
+        ]
+      },
+      "designModule": {
+        "designInfo": {
+          "primaryPurpose": "TREATMENT"
+        }
+      }
+    },
+    "synthetic": true
+  },
+  {
+    "expected_arm_type": "EXPERIMENTAL",
+    "expected_entity_type": "DRUG",
+    "expected_intervention_use": "UNKNOWN",
+    "expected_product_kind": "UNKNOWN",
+    "expected_study_purpose": "DIAGNOSTIC",
+    "id": "diagnostic_imaging",
+    "rationale": "Structured fields express entity type, arm membership and study purpose. Description remains unparsed prose; no product/use assertion is invented.",
+    "selection_reason": "Native structured context versus product/use semantic level; no new authority fields.",
+    "source": {
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "interventionNames": [
+              "Drug: Intervention X"
+            ],
+            "label": "Arm A",
+            "type": "EXPERIMENTAL"
+          }
+        ],
+        "interventions": [
+          {
+            "armGroupLabels": [
+              "Arm A"
+            ],
+            "description": "A substance used only for PET imaging.",
+            "name": "Intervention X",
+            "type": "DRUG"
+          }
+        ]
+      },
+      "designModule": {
+        "designInfo": {
+          "primaryPurpose": "DIAGNOSTIC"
+        }
+      }
+    },
+    "synthetic": true
+  },
+  {
+    "expected_arm_type": "EXPERIMENTAL",
+    "expected_entity_type": "DRUG",
+    "expected_intervention_use": "UNKNOWN",
+    "expected_product_kind": "UNKNOWN",
+    "expected_study_purpose": "TREATMENT",
+    "id": "supportive",
+    "rationale": "Structured fields express entity type, arm membership and study purpose. Description remains unparsed prose; no product/use assertion is invented.",
+    "selection_reason": "Native structured context versus product/use semantic level; no new authority fields.",
+    "source": {
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "interventionNames": [
+              "Drug: Intervention X"
+            ],
+            "label": "Arm A",
+            "type": "EXPERIMENTAL"
+          }
+        ],
+        "interventions": [
+          {
+            "armGroupLabels": [
+              "Arm A"
+            ],
+            "description": "Background supportive medication before the study product.",
+            "name": "Intervention X",
+            "type": "DRUG"
+          }
+        ]
+      },
+      "designModule": {
+        "designInfo": {
+          "primaryPurpose": "TREATMENT"
+        }
+      }
+    },
+    "synthetic": true
+  },
+  {
+    "expected_arm_type": "EXPERIMENTAL",
+    "expected_entity_type": "DRUG",
+    "expected_intervention_use": "UNKNOWN",
+    "expected_product_kind": "UNKNOWN",
+    "expected_study_purpose": "TREATMENT",
+    "id": "conditioning",
+    "rationale": "Structured fields express entity type, arm membership and study purpose. Description remains unparsed prose; no product/use assertion is invented.",
+    "selection_reason": "Native structured context versus product/use semantic level; no new authority fields.",
+    "source": {
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "interventionNames": [
+              "Drug: Intervention X"
+            ],
+            "label": "Arm A",
+            "type": "EXPERIMENTAL"
+          }
+        ],
+        "interventions": [
+          {
+            "armGroupLabels": [
+              "Arm A"
+            ],
+            "description": "A preparative conditioning treatment before the study product.",
+            "name": "Intervention X",
+            "type": "DRUG"
+          }
+        ]
+      },
+      "designModule": {
+        "designInfo": {
+          "primaryPurpose": "TREATMENT"
+        }
+      }
+    },
+    "synthetic": true
+  },
+  {
+    "expected_arm_type": "ACTIVE_COMPARATOR",
+    "expected_entity_type": "DRUG",
+    "expected_intervention_use": "UNKNOWN",
+    "expected_product_kind": "UNKNOWN",
+    "expected_study_purpose": "TREATMENT",
+    "id": "comparator",
+    "rationale": "Structured fields express entity type, arm membership and study purpose. Description remains unparsed prose; no product/use assertion is invented.",
+    "selection_reason": "Native structured context versus product/use semantic level; no new authority fields.",
+    "source": {
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "interventionNames": [
+              "Drug: Intervention X"
+            ],
+            "label": "Arm A",
+            "type": "ACTIVE_COMPARATOR"
+          }
+        ],
+        "interventions": [
+          {
+            "armGroupLabels": [
+              "Arm A"
+            ],
+            "description": "",
+            "name": "Intervention X",
+            "type": "DRUG"
+          }
+        ]
+      },
+      "designModule": {
+        "designInfo": {
+          "primaryPurpose": "TREATMENT"
+        }
+      }
+    },
+    "synthetic": true
+  },
+  {
+    "expected_arm_type": "PLACEBO_COMPARATOR",
+    "expected_entity_type": "DRUG",
+    "expected_intervention_use": "UNKNOWN",
+    "expected_product_kind": "UNKNOWN",
+    "expected_study_purpose": "TREATMENT",
+    "id": "placebo_control",
+    "rationale": "Structured fields express entity type, arm membership and study purpose. Description remains unparsed prose; no product/use assertion is invented.",
+    "selection_reason": "Native structured context versus product/use semantic level; no new authority fields.",
+    "source": {
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "interventionNames": [
+              "Drug: Intervention X"
+            ],
+            "label": "Arm A",
+            "type": "PLACEBO_COMPARATOR"
+          }
+        ],
+        "interventions": [
+          {
+            "armGroupLabels": [
+              "Arm A"
+            ],
+            "description": "",
+            "name": "Intervention X",
+            "type": "DRUG"
+          }
+        ]
+      },
+      "designModule": {
+        "designInfo": {
+          "primaryPurpose": "TREATMENT"
+        }
+      }
+    },
+    "synthetic": true
+  },
+  {
+    "expected_arm_type": "EXPERIMENTAL",
+    "expected_entity_type": "DRUG",
+    "expected_intervention_use": "UNKNOWN",
+    "expected_product_kind": "UNKNOWN",
+    "expected_study_purpose": "TREATMENT",
+    "id": "combination_constituent",
+    "rationale": "Structured fields express entity type, arm membership and study purpose. Description remains unparsed prose; no product/use assertion is invented.",
+    "selection_reason": "Native structured context versus product/use semantic level; no new authority fields.",
+    "source": {
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "interventionNames": [
+              "Drug: Intervention X",
+              "Drug: Intervention Y"
+            ],
+            "label": "Arm A",
+            "type": "EXPERIMENTAL"
+          }
+        ],
+        "interventions": [
+          {
+            "armGroupLabels": [
+              "Arm A"
+            ],
+            "description": "One component administered with another intervention.",
+            "name": "Intervention X",
+            "type": "DRUG"
+          },
+          {
+            "armGroupLabels": [
+              "Arm A"
+            ],
+            "name": "Intervention Y",
+            "type": "DRUG"
+          }
+        ]
+      },
+      "designModule": {
+        "designInfo": {
+          "primaryPurpose": "TREATMENT"
+        }
+      }
+    },
+    "synthetic": true
+  },
+  {
+    "expected_arm_type": "EXPERIMENTAL",
+    "expected_entity_type": "DRUG",
+    "expected_intervention_use": "UNKNOWN",
+    "expected_product_kind": "UNKNOWN",
+    "expected_study_purpose": "BASIC_SCIENCE",
+    "id": "drug_nontherapeutic_study",
+    "rationale": "Structured fields express entity type, arm membership and study purpose. Description remains unparsed prose; no product/use assertion is invented.",
+    "selection_reason": "Native structured context versus product/use semantic level; no new authority fields.",
+    "source": {
+      "armsInterventionsModule": {
+        "armGroups": [
+          {
+            "interventionNames": [
+              "Drug: Intervention X"
+            ],
+            "label": "Arm A",
+            "type": "EXPERIMENTAL"
+          }
+        ],
+        "interventions": [
+          {
+            "armGroupLabels": [
+              "Arm A"
+            ],
+            "description": "An established medicinal product used to measure a physiological response.",
+            "name": "Intervention X",
+            "type": "DRUG"
+          }
+        ]
+      },
+      "designModule": {
+        "designInfo": {
+          "primaryPurpose": "BASIC_SCIENCE"
+        }
+      }
+    },
+    "synthetic": true
+  }
+]
