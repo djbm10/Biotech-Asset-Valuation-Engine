@@ -1,3 +1,19 @@
+# 2026-10-13 — PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v1: REPRESENTATION BOUNDARY
+
+Preregistration/freeze **939806e**; diagnosis/results **88dadb8**. Read `research/se_product_vs_component_modality_semantics_v1/README.md`, `results/scope_table.md`, `results/all_mention_scopes.json` and `results/datopotamab_lifecycle.json`.
+
+**STOP: no production implementation/adoption/revert.** First loss: QueryVocabulary.modality_in returns a single scalar without subject/match-span/scope. First promotion: candidate intervention tuple then clinicaltrials modality_id claim attaches that scalar to the product hit. The claim retains the passage but no typed product/component relation; NormalizedFact discards passage and carries a scalar plus claim IDs. The gate compares scalar modality without scope. Re-reading a passage would require new semantic extraction, not consumption of preserved scope.
+
+The exact datopotamab source is NCT07720284 intervention[0].description; peptide modifies tetrapeptide linker, ADC predicates the whole product. PEPTIDE wins substring length over ADC/IgG/mAb; trap also appears inside tetrapeptide and is not a genuine fusion assertion. Saved claim:2022030306a59db4acec → fact:71c28d48f9461eb004d3 → modality.required FAIL → saved EXCLUDED. Qualification remains DIRECT_APPROVED_NAME; independent ChEMBL ADC/MATCH remains intact. No claim that removal of this fact alone guarantees eligibility.
+
+Frozen focus population: 21 text witnesses (one exact H19 plus 20 synthetic structural probes), classified as six PRODUCT_LEVEL, nine COMPONENT_LEVEL, one RELATIONAL_COMPOSITE, five AMBIGUOUS. Every lexical match separately annotated; product and component mentions coexist in a sentence. Seven existing structured molecule-type fixture assertions retained; 65 test functions inventory / 105 executed tests pass. All 23 previous H19 audit rows preserved unchanged. Two seeded builds byte-identical, exact source/focus spans verified, Ruff clean. Full tests/se not run because no production/schema changed. Zero decision changes; false PEPTIDE exclusion remains present.
+
+Smallest prerequisite is separately preregistered **MODALITY_ASSERTION_SCOPE_REPRESENTATION v1**, additive and decision-neutral: preserve candidate/source identity, exact raw field and span, normalized coordinate lineage, modality, scope, semantic subject, parent/component relation, assertion status and rule/version, plus links to legacy claims/facts. Scope unknown must remain AMBIGUOUS. Existing legacy decisions must remain unchanged in that future milestone. Only afterward may a separately frozen consumer admit whole-product assertions to gates. Current design explains the semantic distinction but is not a validated deterministic prose binder; coordination, multiple products, negation, discourse, nesting and contradictory whole-product evidence remain explicit design questions.
+
+Do not start ESG401 nomination on the assumption this defect is fixed. Therapeutic-product-role qualification v2 remains source-blocked; 86 target-component cases closed; human-PoC recovery stopped. H21–H25 untouched and H6–H10 unrun. No target/alias/qualification/identity/ranking/source changes.
+
+---
+
 # 2026-10-13 — THERAPEUTIC_PRODUCT_ROLE_EVIDENCE_REPRESENTATION v1: SOURCE GATE STOP
 
 Preregistration/population **918d296**; audit/results **be80f0a**. Read `research/se_therapeutic_product_role_evidence_representation_v1/README.md` and `results/summary.json`.
