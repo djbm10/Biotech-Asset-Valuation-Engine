@@ -1,0 +1,8 @@
+{
+  "research/se_target_mention_role_representation_v1/baseline.json": "0b099fb2ee14de56801b45bf2e28c74d861123f1e5ac412106ac795c7e211aa3",
+  "research/se_target_mention_role_representation_v1/required_mentions.json": "9f1b15e570b56386b07dc18863a4cb0af074872d5f853946a942bcb2fa76308e",
+  "research/se_target_mention_role_representation_v1/manifest.json": "ea255fa0e6b13fee6901f6b833fe132b045b81d4138be4c7aa7ff4bae42f48fd",
+  "research/se_target_mention_role_representation_v1/results/provenance_failure_diagnosis.json": "ed8b8141910276cf0b0ed5f2c76cf5c65391f618109e364cd265f9c89ef4571b",
+  "docs/se_policies/target_authority_span_query_role_contract_v1.md": "42967fad969bb3f7b58dc54b509c44f8106a5fbeda82c190499291413ac922d5",
+  "research/se_authority_assertion_provenance_sidecar_v1/results/artifact_manifest.json": "728759efc64f21437322e5e89169e6c297f171f4d8d807c58c45ba7c9f799088"
+}
