@@ -1,3 +1,11 @@
+# 2026-10-13 — PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v2: DESIGN STOP
+
+Design `65cddd1` and population freeze `43e30ce` executed unchanged. Read `research/se_product_vs_component_modality_semantics_v2/README.md` and `results/`. Verdict **STOP_UNSAFE_PRODUCT_LEVEL_CERTIFICATION**: 11/14 controls adequate; all three compound-modifier controls (`peptide-linked ADC`, `antibody-derived cell therapy`, `small-molecule-loaded nanoparticle`) get the modifier as PRODUCT_LEVEL via `explicit_product_predicate` and leave the head AMBIGUOUS. A PRODUCT_LEVEL consumer would certify the exact false-PEPTIDE pattern. H19's single modality fact (datopotamab PEPTIDE) is B_COMPONENT_ONLY; action blocked, legacy fact retained. Deterministic; zero production changes; v2 NOT adopted.
+
+Next: separately preregistered scope-representation milestone (noun-phrase head attachment) before any v3 semantic design. ESG401 nomination remains separate and not started. H21–H25 untouched; H6–H10 unrun.
+
+---
+
 # 2026-10-13 — MODALITY_ASSERTION_SCOPE_REPRESENTATION v1 ADOPTED
 
 Preregistration **74a6f63**; red-first tests **ea639dd**; implementation **aedc91f**; adoption/results **7df34fb**. Read `research/se_modality_assertion_scope_representation_v1/README.md`, `results/quality.json`, `results/witness_table.md` and policy `docs/se_policies/modality_assertion_scope_representation_v1.md`.
