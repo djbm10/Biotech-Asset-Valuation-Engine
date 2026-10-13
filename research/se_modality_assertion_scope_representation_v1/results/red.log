@@ -1,0 +1,15 @@
+
+==================================== ERRORS ====================================
+_______________ ERROR collecting tests/se/test_modality_scope.py _______________
+ImportError while importing test module '/home/djmann/projects/bve-b8/tests/se/test_modality_scope.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/se/test_modality_scope.py:7: in <module>
+    from bve.se.evidence.modality_scope import ScopeSource, scoped_modality_assertions
+E   ModuleNotFoundError: No module named 'bve.se.evidence.modality_scope'
+=========================== short test summary info ============================
+ERROR tests/se/test_modality_scope.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!

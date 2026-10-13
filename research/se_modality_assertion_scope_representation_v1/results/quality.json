@@ -1,0 +1,38 @@
+{
+  "candidate_decision_deltas": 0,
+  "criteria": {
+    "R1": "PASS",
+    "R10": "PASS",
+    "R11": "PASS",
+    "R12": "PASS",
+    "R13": "PASS",
+    "R2": "PASS",
+    "R3": "PASS",
+    "R4": "PASS",
+    "R5": "PASS",
+    "R6": "PASS",
+    "R7": "PASS",
+    "R8": "PASS",
+    "R9": "PASS"
+  },
+  "decision": "ADOPT_REPRESENTATION_ONLY",
+  "errors": 0,
+  "existing_xfails": 3,
+  "failures": 0,
+  "focused_tests": 34,
+  "frozen_focus_expectations": 33,
+  "full_tests": 1876,
+  "gate_input_reproductions": 284,
+  "h19_rows_unchanged": 23,
+  "legacy_gate_deltas": 0,
+  "legacy_scalar_deltas": 0,
+  "limitations": [
+    "Diagnostic API not wired into live extractor/RunResult",
+    "Closed grammar is not general NLP or authority identity certification",
+    "No semantic gate consumer",
+    "All legacy facts unchanged including false PEPTIDE exclusion"
+  ],
+  "passed": 1873,
+  "ruff": "PASS",
+  "seed_builds_byte_identical": true
+}
