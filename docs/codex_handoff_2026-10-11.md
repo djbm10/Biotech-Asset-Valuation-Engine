@@ -1,3 +1,23 @@
+# 2026-10-13 — THERAPEUTIC_PRODUCT_ROLE_EVIDENCE_REPRESENTATION v1: SOURCE GATE STOP
+
+Preregistration/population **918d296**; audit/results **be80f0a**. Read `research/se_therapeutic_product_role_evidence_representation_v1/README.md` and `results/summary.json`.
+
+**G0 FAIL: required distinction is prose-only or at the wrong semantic level. Production implementation NOT_STARTED; representation NOT_ADOPTED.** No revert is needed. The original qualification design contract d22f6b8 remains unchanged. Do not open qualification v2 on the basis of this audit.
+
+All 1,181 saved qualification decisions remain unchanged; all three H19 non-assets still qualify as STRUCTURED_THERAPEUTIC. No therapeutic control lost qualification. All 215 qualification regressions and four focused audit checks pass; Ruff clean. Full tests/se was not run because no production code/schema changed. These are read-only saved-decision comparisons, not live replays.
+
+Audited all 779 raw snapshots and four snapshot-less ontology references; verified 802 pinned input hashes. All 7,220 recorded source-field assertions round-trip exactly. Independent canonical audit builds are byte-identical. Structured intervention links exist for 75 candidates; 32 have unmatched CT.gov document associations; 1,171 have unclassified source text. Three native type variations and six mixed-arm contexts remain explicit.
+
+Product-kind and intervention-use semantic bins both remain UNKNOWN for all 1,181 rows (cross-tab UNKNOWN/UNKNOWN = 1,181, all other cells zero). This is an availability/authorization result, not a claim that native fields are empty or every product is scientifically ambiguous. Native DIAGNOSTIC_TEST declarations occur for five candidates and other entity types are preserved; no new category interpretation is adopted. The key DRUG/EXPERIMENTAL controls still require information not encoded as typed product/use assertions.
+
+H19: [68Ga]Ga-TTP has DRUG/EXPERIMENTAL and study-level DIAGNOSTIC, with radiotracer/imaging semantics in its description. Rescue Medications/Rescue Medication have DRUG/EXPERIMENTAL and study-level TREATMENT, with rescue/premedication semantics in descriptions. Study purpose cannot become every intervention's product identity/use. Exact fields, paths, snapshot hashes and candidate links are in `results/h19_visibility.json`. The paired diagnostic/therapeutic controls differ only in free-text description. Arm and entity facts cannot supply the missing product-role assertion.
+
+Minimum prerequisite: separately specified candidate/product-scoped kind assertions and trial/intervention/arm-scoped use assertions, each with exact authority/artifact/field/component provenance, declared semantic scope and UNKNOWN/conflict handling. Either obtain an appropriate structured evidence source under a separate source contract or separately design/validate text-to-assertion binding. Neither is implemented here; adding enum fields alone is insufficient. Stop this qualification path at the requested source-evidence boundary rather than inventing prose heuristics.
+
+Datopotamab product/component modality, ESG401 nomination and BL-M02D1 coverage remain separate and untouched. The 86 target-component cases remain closed; human-PoC recovery stopped; H21–H25 untouched; H6–H10 unrun.
+
+---
+
 # 2026-10-13 — THERAPEUTIC_PRODUCT_ROLE_QUALIFICATION_CONTRACT v1: STOP AT REPRESENTATION BOUNDARY
 
 Used the exact design preregistration **d22f6b8**. Its policy, preregistration and original input manifest are unchanged. Additional paired structural controls were frozen under its explicit allowance in **99e9c06**; completed boundary audit and red-first evidence are **feebefc**. No replacement contract was written.
