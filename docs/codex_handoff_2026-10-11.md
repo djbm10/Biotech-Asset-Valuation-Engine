@@ -16,6 +16,8 @@ Next highest-value work is **THERAPEUTIC_PRODUCT_ROLE_QUALIFICATION_CONTRACT v1*
 
 The 86 target-role identity cases remain CLOSED/evidence-blocked. Human-PoC recovery stopped. H21–H25 untouched; H6–H10 unrun; H19 development data only.
 
+The next design-only milestone is now preregistered in `docs/se_policies/therapeutic_product_role_qualification_contract_v1.md`, with pinned inputs under `research/se_therapeutic_product_role_qualification_contract_v1/`. Status: PREREGISTERED; no final contract or production rule has been adopted. Its first step is the frozen control-gap/subject-scope audit.
+
 ---
 
 # 2026-10-13 — TARGET_COMPONENT_IDENTITY_CERTIFICATE v2 ADOPTED
