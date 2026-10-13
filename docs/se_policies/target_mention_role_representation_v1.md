@@ -50,3 +50,15 @@ Emit an immutable diagnostic ledger for every one of the 1,344 parses. Report on
 ## Decision rule
 
 Commit this policy, baseline and required intervals before implementation. Commit red tests before code; implement once; run focused/full/lint/frozen evaluation. Any failed acceptance criterion: preserve evidence, normally revert the candidate, do not patch after measured acceptance results or weaken neutrality. If all pass: adopt, record counts and limitations, update handoff; propose a separately preregistered later role/ownership decision milestone and stop. Human-PoC recovery remains stopped. H21–H25 untouched; H6–H10 unrun. No H17/H20 fix or new aliases.
+
+## Frozen result — FAILED ACCEPTANCE; normally reverted
+
+Preregistration **d26949f**; red tests **cbdb8d2**; candidate **1bbfceb**; failure evidence **d9775a4**; candidate revert **bc564f8**; dependent-test revert **2d694e5**. No post-result patch or criterion change.
+
+R1/R2/R4/R5/R6/R7/R9/R10 pass; **R3 fails on 77 mention observations**, and **R8 is incomplete on seven required English explanation frames**. All 6,199 decisions are unchanged; all 1,687 required intervals are present; 1,392 ledgers are identical at seeds 0/1/42. Candidate full tests: **1,835 passed / three existing xfails**, Ruff clean.
+
+Thirty-five observations lose the leading whitespace in a source label without recording the transformation. Forty-two observations lack the alias assertion in the component returned by canonical ID: existing alias-index entries can refer to an earlier component overwritten by another component with the same symbol-based canonical ID. The retained source trace demonstrates two components named TARGET:CDC42BPA and seven named TARGET:SNORA62. These are source-addressing collisions, not authorization to merge biological entities.
+
+Diagnostic population: 1,344 queries, 3,164 mentions; 364 single-mention queries; 980 multiple-mention queries; 448 queries with intersecting/contained spans; seven crossing-overlap queries; 742 embedded mentions; zero confirmed or ambiguous-role labels under the frozen annotation priority; 294 authority-conflict mentions across 224 queries. Counts did not drive changes.
+
+Full evidence and exact failure traces are in `research/se_target_mention_role_representation_v1/results/`. The production module is absent after reversion. Before another representation or role-decision implementation, diagnose a general authority lookup/source-component provenance contract, including raw-field transformations and canonical-ID collisions. Do not change existing frozen oracle errors, identity joins, target decisions or human-PoC while diagnosing it.

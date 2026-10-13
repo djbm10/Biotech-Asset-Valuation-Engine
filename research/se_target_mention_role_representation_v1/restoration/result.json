@@ -1,0 +1,25 @@
+{
+  "milestone": "TARGET_MENTION_ROLE_REPRESENTATION v1",
+  "decision": "FAILED_ACCEPTANCE_REVERTED",
+  "baseline_commit": "92e8f56",
+  "implementation_commit": "1bbfceb",
+  "failure_evidence_commit": "d9775a4",
+  "implementation_revert": "bc564f8",
+  "test_revert": "2d694e5",
+  "restored_head": "2d694e5",
+  "restored_src_tests_scripts_diff_exit_code": 0,
+  "restored_freeze_exit_code": 0,
+  "frozen_decisions": 6199,
+  "baseline_byte_identical": true,
+  "required_mentions_byte_identical": true,
+  "restored_ruff": "PASS",
+  "candidate_full_tests": {
+    "passed": 1835,
+    "xfailed": 3,
+    "failed": 0
+  },
+  "full_tests_repeated_after_revert": false,
+  "note": "Candidate full suite included the unchanged baseline tests plus seven new tests. Reversion removed only the new module and its dependent tests; src/tests/scripts match baseline exactly.",
+  "baseline.json_sha256": "0b099fb2ee14de56801b45bf2e28c74d861123f1e5ac412106ac795c7e211aa3",
+  "required_mentions.json_sha256": "9f1b15e570b56386b07dc18863a4cb0af074872d5f853946a942bcb2fa76308e"
+}

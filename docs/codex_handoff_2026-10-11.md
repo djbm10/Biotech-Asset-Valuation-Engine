@@ -1,3 +1,33 @@
+# 2026-10-12 TARGET MENTION ROLE REPRESENTATION v1 — FAILED / REVERTED
+
+Preregistration **d26949f**; red-first tests **cbdb8d2**; candidate **1bbfceb**;
+frozen failure evidence **d9775a4**; normal implementation revert **bc564f8**;
+dependent-test revert **2d694e5**. No candidate production behavior remains.
+
+- Decision neutrality: **6,199/6,199** full parser/compiler decisions unchanged.
+- Coverage: **1,687/1,687** required spans represented; all **245** mismatch/protected-Greek explanation rows produced.
+- Determinism: **1,392** complete diagnostic records identical across seeds 0, 1, 42; repeated analysis unchanged across all 6,199 observations.
+- **R3 failed:** 77 mention observations lack exact source provenance. Of these, 35 involve a raw source label ` gene` normalized to `gene` without preserving the raw-field transformation; 42 involve MRCK/E2 alias entries whose symbol-derived canonical ID retrieves a different source component. Existing resolver components collide at TARGET:CDC42BPA (two components) and TARGET:SNORA62 (seven). This does not establish biological equivalence and must not be repaired by merging them.
+- **R8 incomplete:** seven English explanation frames inherit the raw-label provenance gap. R1/R2/R4/R5/R6/R7/R9/R10 passed. No post-result patch or threshold change.
+- Candidate quality gates: **1,835 passed, 3 existing xfails**, zero failures; Ruff clean.
+- Restoration: src/tests/scripts byte-identical to **92e8f56**; regenerated 6,199-decision baseline and required-span file byte-identical to the preregistration; restored Ruff clean. Full suite was not repeated after removing only the candidate module and its seven tests.
+
+Evidence: `research/se_target_mention_role_representation_v1/results/`;
+restoration: `research/se_target_mention_role_representation_v1/restoration/`;
+policy: `docs/se_policies/target_mention_role_representation_v1.md`.
+Historical candidate evaluation scripts require the recorded candidate commit; they are not installed production code.
+
+Next narrow milestone: **TARGET_AUTHORITY_LOOKUP_PROVENANCE_DIAGNOSIS v1**.
+Trace alias-index entries to their exact originating source component and raw assertion;
+determine a stable provenance representation without changing target identity or merging
+source groups. Diagnose before preregistering any implementation. A target-role decision
+rule is not yet implementation-ready because its mention provenance prerequisite failed.
+No further alias expansion or human-PoC recovery. H21–H25 remain untouched; H6–H10
+remain unrun. Ranking, qualification, deduplication, identity graph, source acquisition,
+and shortlist routing remain unchanged. Known separator oracle defects remain frozen.
+
+---
+
 # 2026-10-12 TARGET AUTHORITY SPAN / QUERY ROLE — STOP B
 
 Population freeze **d3fa60d**; design/audit **36da8d6**; results and final contract in `research/se_target_authority_span_query_role_contract_v1/results/` and `docs/se_policies/target_authority_span_query_role_contract_v1.md`.
