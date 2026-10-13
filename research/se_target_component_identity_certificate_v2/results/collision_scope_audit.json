@@ -1,0 +1,75 @@
+{
+  "component_certificate_collisions": {
+    "TARGET:CDC42BPA": [
+      {
+        "certificate_id": "19b44d05c0724b155706f7d1310c466c1deda95a79f82022fd91ae9ec8759678",
+        "component_ids": [
+          "3fb8eb4b873c8b57ab68cf43e39b5c79b8cf3c66bd755b8ed8fead36c653628e"
+        ],
+        "sidecar_origins": 0
+      },
+      {
+        "certificate_id": "0b489a2d9ca7da520364a4aedbf7e20b8b10aa8ab4540c1f70292ad7e4cae2bd",
+        "component_ids": [
+          "5509c578b9198c04dfa03396067e3b84d0d12d7f6c0c70167835e2a69da652ca"
+        ],
+        "sidecar_origins": 54
+      }
+    ],
+    "TARGET:SNORA62": [
+      {
+        "certificate_id": "45eb12dad7d6253a1ca1863d7304ccaea48b31849eeb97defb4cbc80e8f9c519",
+        "component_ids": [
+          "1b76b904030b3f014e14d5861a9322c6a431dc974c7c4ae3ec78d3d13bfebe33"
+        ],
+        "sidecar_origins": 4
+      },
+      {
+        "certificate_id": "7a254c807f7df42b2dbf93cc10c526c70e96e0b71fe23597647edc9e488fb017",
+        "component_ids": [
+          "2628590845ef822972371c053fc87a1d678c48bf3da9ad5a979e0bc8f01024a0"
+        ],
+        "sidecar_origins": 2
+      },
+      {
+        "certificate_id": "a8925a761dceaf58fd056f48348cb6297a41e90693b6710886e8e8d496d5143b",
+        "component_ids": [
+          "39760580c0873c339405b3f7a1d5b7e368629b5c4bb2322e1efeb224cb97d320"
+        ],
+        "sidecar_origins": 4
+      },
+      {
+        "certificate_id": "9f063df1b14140e57101265d293b718e7b9c2b3348725289048bf3c036d94fa1",
+        "component_ids": [
+          "51642d9965e5740bd1f182f3f9e3639d879e5e3e0b26a5161ed6e6dfe685a56a"
+        ],
+        "sidecar_origins": 22
+      },
+      {
+        "certificate_id": "e3ce15b9d504f1b20802f7900b04ac5405a508e95a2cdcd3ce8b6641b0a292be",
+        "component_ids": [
+          "69b3fa33b5fa2aa1dffbaf0d622d717461ccf91c254f7cca4f2213d60e012b14"
+        ],
+        "sidecar_origins": 2
+      },
+      {
+        "certificate_id": "8413216cdfe96384bfede05de058ef37e784768c1a2c9d051ed7fbac05dd9cb5",
+        "component_ids": [
+          "d6bab7825be1d1012f2105d8f11759db387e3fc944f5639f60788324912ab9d9"
+        ],
+        "sidecar_origins": 4
+      },
+      {
+        "certificate_id": "ae1637c6e43e947506d941e1f63596660eafa4d37f3cb8bef8cc17d3a3d978c8",
+        "component_ids": [
+          "dde7c99db0018347554de95700aa19a8e3c3bbd71e6ff128fe10052e2bdfe96b"
+        ],
+        "sidecar_origins": 4
+      }
+    ]
+  },
+  "distinct_raw_text_normalization_collision_keys": 94,
+  "explanation": "Component certificates preserve both SNORA62 and CDC42BPA families. Recoverable sidecar origins cover one collision family; the historical ChEMBL-only CDC42BPA origin is not fabricated. New independent ChEMBL fields remain separately referenced.",
+  "multiple_origin_keys": 629,
+  "recoverable_origin_collision_families": 1
+}

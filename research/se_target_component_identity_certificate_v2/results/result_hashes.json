@@ -1,0 +1,15 @@
+{
+  "adoption.json": "e4682e53c6875a2ec891fe384a18c9904cc4317f88bb15b149e8d3fb731363e4",
+  "baseline_check.json": "3b8928295ede9e33689046f972cb0336e1cc8e31b4dfb8003fce575d74efcf5e",
+  "certificate_table.md": "7ec7d26f5be08dd351c5877283511fed77197ca60a723ebd3f4be9b1e976882a",
+  "certificates.json.gz": "954e5aa969121a8ff2b7420847d30d36add89e2f8ce94556607ac5ffcda80bf8",
+  "collision_scope_audit.json": "ec2e83f3a44451d57e9cba91377336521a18cbf04afcd1193a9093aee658744c",
+  "collisions.json.gz": "adf477d47bf70f3529fecd293791e505c42838adb5f9cd2683bc7692e0753e17",
+  "evidence_registry.json.gz": "b5b081587ed6cfcd8cefde4d9890f9aed5148368321db0032a63c511786e3e35",
+  "focused_tests.log": "511fb971caf59261241ec2a3919d9d10c7dcb9ec044ee07d50b2db465184f057",
+  "hashes.json": "fdb5102ae848dd7990d5b0329907207cfb095404a117c1e506a96139a9751be1",
+  "red_first.log": "ef7a1090dc32d2e671948c474e3c8386933e48c15532c0242806489871e5ef5c",
+  "ruff.log": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+  "summary.json": "644919d3c8fe6b4791f8996ae32effc175f5488ba420a48b60e20f338ffa14e1",
+  "validation.json": "8eec4b8a75beebcfff751cf2dddb26c36436e8233943f5d964085fa748ad7d07"
+}

@@ -1,0 +1,15 @@
+
+==================================== ERRORS ====================================
+____________________ ERROR collecting test_certificates.py _____________________
+ImportError while importing test module '/tmp/certificate_v2/test_certificates.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/tmp/certificate_v2/test_certificates.py:3: in <module>
+    from certificates import classify
+E   ModuleNotFoundError: No module named 'certificates'
+=========================== short test summary info ============================
+ERROR ../../../../tmp/certificate_v2/test_certificates.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!

@@ -1,0 +1,46 @@
+{
+  "all_certificates": {
+    "AMBIGUOUS": 126,
+    "CERTIFIED_MULTI_ENTITY": 3,
+    "CERTIFIED_RELATIONAL_ENTITY": 15,
+    "CERTIFIED_SINGLE_ENTITY": 55,
+    "CONFLICT": 35,
+    "UNRESOLVED": 0
+  },
+  "blocked_86": {
+    "AMBIGUOUS": 51,
+    "CERTIFIED_MULTI_ENTITY": 0,
+    "CERTIFIED_RELATIONAL_ENTITY": 0,
+    "CERTIFIED_SINGLE_ENTITY": 0,
+    "CONFLICT": 35,
+    "UNRESOLVED": 0
+  },
+  "canonical_collision_families": 2,
+  "criteria": {
+    "C1": "PASS",
+    "C10": "PASS",
+    "C11": "PASS",
+    "C12": "PASS",
+    "C2": "PASS",
+    "C3": "PASS",
+    "C4": "PASS",
+    "C5": "PASS",
+    "C6": "PASS",
+    "C7": "PASS",
+    "C8": "PASS",
+    "C9": "PASS"
+  },
+  "decision": "ADOPT",
+  "focused_and_compatibility_tests": 15,
+  "follow_up": "STOP recovery of these 86 cases: evidence-blocked. No new authority or weakened certification. Reassess H19 non-asset/PEPTIDE qualification diagnosis independently; no behavior change authorized by this result.",
+  "full_tests_se": "NOT_RUN: C12 conditional on production changes; none",
+  "implementation": "b17f9da",
+  "milestone": "TARGET_COMPONENT_IDENTITY_CERTIFICATE v2",
+  "parser_decisions_unchanged": 6199,
+  "preregistration": "a9bf585",
+  "production_changes": false,
+  "ruff": "PASS",
+  "sidecar_origins": 3534,
+  "source_provenance_fields": 11806,
+  "source_records": 495
+}
