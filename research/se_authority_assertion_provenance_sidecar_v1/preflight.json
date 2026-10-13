@@ -1,0 +1,28 @@
+{
+  "snapshot_counts": {
+    "open_targets": 78691,
+    "chembl": 5869
+  },
+  "raw_records": 78691,
+  "mismatches": [],
+  "missing_ot_records": [],
+  "artifacts": [
+    {
+      "path": "/home/djmann/staging/se_ontology_2026-09-07/open_targets_26.06/target/part-00000-810593a9-06e5-4201-a034-4d82bcbe81e7-c000.snappy.parquet",
+      "sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+      "bytes": 30365704
+    },
+    {
+      "path": "/home/djmann/staging/se_ontology_2026-09-07/open_targets_26.06/target/part-00001-810593a9-06e5-4201-a034-4d82bcbe81e7-c000.snappy.parquet",
+      "sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+      "bytes": 29725904
+    },
+    {
+      "path": "/home/djmann/staging/se_ontology_2026-09-07/open_targets_26.06/target/part-00002-810593a9-06e5-4201-a034-4d82bcbe81e7-c000.snappy.parquet",
+      "sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+      "bytes": 29839950
+    }
+  ],
+  "frozen_witness_records": 44,
+  "unavailable_source": "chembl; original builder retained no raw_files; normalized exports are not raw sources"
+}

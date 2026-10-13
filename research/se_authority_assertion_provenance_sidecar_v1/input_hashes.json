@@ -1,0 +1,9 @@
+{
+  "data/se/ontology/current/receipt.json": "ac2afdd820c701e7de5de896b5a294efda94303c97d7a32459cde892c87291c6",
+  "data/se/ontology/current/edges.jsonl": "2a6b6ea8f55abf8b292138904eefc2baa2a285d8ad5851f4cc6d91ac3b93f551",
+  "data/se/ontology/current/records.jsonl": "986fa262e3c275424968996b78703614563304cf22f5e2a2f1d3c39e0fc6f50b",
+  "data/se/ontology/current/snapshot.json": "c23936cb971cfb5579603acd1271993bc5c394172e05a760c4a350e3c51c0fe8",
+  "data/se/ontology/current/manifest.json": "a4206a6d8772c5300cf195b807b7345fb5bc00951f1232eaf293f0384cab4ca2",
+  "research/se_target_mention_role_representation_v1/baseline.json": "0b099fb2ee14de56801b45bf2e28c74d861123f1e5ac412106ac795c7e211aa3",
+  "research/se_authority_lookup_source_component_provenance_diagnosis_v1/audit.json": "a55e145db71401b4e600e5019882351c92f155ddaa8eac5c9f343db0173497e0"
+}

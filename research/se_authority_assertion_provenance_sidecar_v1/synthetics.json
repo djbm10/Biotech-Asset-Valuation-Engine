@@ -1,0 +1,86 @@
+{
+  "open_targets": {
+    "id": "TEST1",
+    "approvedSymbol": " X-A ",
+    "approvedName": " α protein ",
+    "synonyms": [
+      {
+        "label": " A  B "
+      },
+      {
+        "name": "a-b"
+      },
+      " A  B "
+    ],
+    "symbolSynonyms": [
+      "XA"
+    ],
+    "nameSynonyms": [],
+    "obsoleteSymbols": [
+      "old/X"
+    ]
+  },
+  "chembl": {
+    "target_chembl_id": "TEST2",
+    "target_type": "SINGLE PROTEIN",
+    "pref_name": "Test protein",
+    "target_components": [
+      {
+        "accession": "U1",
+        "target_component_synonyms": [
+          {
+            "component_synonym": "Synonyms= Xα ; X-alpha;Xα",
+            "syn_type": "UNIPROT"
+          },
+          {
+            "component_synonym": "Gene=XYZ",
+            "syn_type": "GENE_SYMBOL"
+          }
+        ]
+      },
+      {
+        "accession": "U2",
+        "target_component_synonyms": [
+          {
+            "component_synonym": " Xα ",
+            "syn_type": "UNIPROT"
+          }
+        ]
+      }
+    ]
+  },
+  "expected_ot_raw_components": [
+    " X-A ",
+    " α protein ",
+    " A  B ",
+    "a-b",
+    " A  B ",
+    "XA",
+    "old/X"
+  ],
+  "expected_chembl_raw_components": [
+    "Test protein",
+    " Xα ",
+    " X-alpha",
+    "Xα",
+    "XYZ",
+    " Xα "
+  ],
+  "expected_ot_keys": [
+    "x a",
+    "α protein",
+    "a b",
+    "a b",
+    "a b",
+    "xa",
+    "old x"
+  ],
+  "expected_chembl_keys": [
+    "test protein",
+    "xα",
+    "x alpha",
+    "xα",
+    "xyz",
+    "xα"
+  ]
+}
