@@ -1,0 +1,10 @@
+[
+ {"id": "U01_APPOSITIVE", "text": "Blinatumomab (Blincyto), an anti-CD19/anti-CD3 bi-specific T cell engager", "product_names": ["Blinatumomab"], "focus": "T cell engager", "modality": "T_CELL_ENGAGER", "truth": "PRODUCT"},
+ {"id": "U02_CLASS_OF", "text": "Blinatumomab is a novel single chain antibody construct in the class of the bispecific T-cell engager (BiTE).", "product_names": ["Blinatumomab"], "focus": "T-cell engager", "modality": "T_CELL_ENGAGER", "truth": "PRODUCT"},
+ {"id": "U03_PLAIN_PREMODIFIERS", "text": "ATG-201 is a recombinant, human IgG1-like TCE that simultaneously binds to human CD3 and CD19.", "product_names": ["ATG-201"], "focus": "TCE", "modality": "T_CELL_ENGAGER", "truth": "PRODUCT"},
+ {"id": "U04_TITLE_APPOSITIVE", "text": "CC312, a trispecific CD19-targeting co-stimulatory T cell engager, for the treatment of B cell malignancies", "product_names": ["CC312"], "focus": "T cell engager", "modality": "T_CELL_ENGAGER", "truth": "PRODUCT"},
+ {"id": "U05_REGISTRY_CATEGORY", "text": "Biological/Vaccine: CD19-CAR_Lenti_ALLO", "product_names": ["CD19-CAR_Lenti_ALLO"], "focus": "Vaccine", "modality": "VACCINE", "truth": "NON_PRODUCT"},
+ {"id": "U06_DOSING_ONLY", "text": "Administration: One dose administered intramuscularly.", "product_names": ["BNT162b2"], "focus": null, "modality": null, "truth": "NO_MODALITY_TEXT"},
+ {"id": "U07_OTHER_PRODUCT_TITLE", "text": "TCE-A: An OR-gate CD19xCD20xCD3 trispecific T-cell engager for B-cell malignancies", "product_names": ["Rituximab"], "focus": "T-cell engager", "modality": "T_CELL_ENGAGER", "truth": "NON_PRODUCT"},
+ {"id": "U08_COPULA_BITE", "text": "Teclistamab is a BCMAxCD3 bispecific T-cell engager (BiTE) administered via subcutaneous injection.", "product_names": ["Teclistamab"], "focus": "T-cell engager", "modality": "T_CELL_ENGAGER", "truth": "PRODUCT"}
+]

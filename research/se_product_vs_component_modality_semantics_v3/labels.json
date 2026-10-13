@@ -1,0 +1,16 @@
+{
+ "_basis": "Independent whole-product truth for the 13 gate-admitted TAC01 modality facts, read from raw supporting passages before any scope measurement. TRUE = the candidate product itself has the legacy fact's modality.",
+ "fact:02b6dda9819bfac2cd8f": {"value": "VACCINE", "truth": false, "why": "candidate is an immunosuppressant-withholding intervention; VACCINE comes from co-arm labels"},
+ "fact:03ab4c0914f6e6ce2c87": {"value": "T_CELL_ENGAGER", "truth": true, "why": "blinatumomab is a BiTE"},
+ "fact:207184bd1b371d31ada1": {"value": "T_CELL_ENGAGER", "truth": false, "why": "candidate is rituximab (antibody); passage describes a different TCE (TCE-A)"},
+ "fact:3121baea1a1ef891b4bb": {"value": "VACCINE", "truth": false, "why": "immunosuppressant-withholding intervention"},
+ "fact:3a4728df3229493747d4": {"value": "T_CELL_ENGAGER", "truth": true, "why": "CLN-978 is a CD19xCD3 T cell engager"},
+ "fact:3a6d3da1a534bf3a32a0": {"value": "T_CELL_ENGAGER", "truth": true, "why": "CC312 is a trispecific T cell engager"},
+ "fact:4dbfe5d77606628937e5": {"value": "T_CELL_ENGAGER", "truth": true, "why": "CD19xCD3 BiTE (blinatumomab)"},
+ "fact:9b9d8a8c2edfa53730b2": {"value": "VACCINE", "truth": true, "why": "BNT162b2 is an mRNA vaccine"},
+ "fact:a21e40454f36ee328210": {"value": "T_CELL_ENGAGER", "truth": true, "why": "blinatumomab is a BiTE"},
+ "fact:cecddc1e8f119e0d4eba": {"value": "T_CELL_ENGAGER", "truth": true, "why": "ATG-201 is a CD3xCD19 TCE"},
+ "fact:e11600a1b72953fb2aff": {"value": "VACCINE", "truth": false, "why": "CAR-T product; 'Biological/Vaccine' is a registry category label"},
+ "fact:e156ed6ebb8e80949b03": {"value": "T_CELL_ENGAGER", "truth": true, "why": "teclistamab is a BCMAxCD3 BiTE"},
+ "fact:f9cbd50c0e32a72a8d3f": {"value": "VACCINE", "truth": false, "why": "immunosuppressant-withholding intervention"}
+}
