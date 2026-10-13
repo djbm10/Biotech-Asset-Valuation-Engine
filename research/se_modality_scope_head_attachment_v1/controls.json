@@ -1,0 +1,678 @@
+[
+ {
+  "id": "HA01_MODIFIER_PEPTIDE",
+  "text": "Novel Product is a peptide-linked antibody-drug conjugate.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 19,
+    "end": 26,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   },
+   {
+    "text": "antibody",
+    "start": 34,
+    "end": 42,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   },
+   {
+    "text": "antibody-drug conjugate",
+    "start": 34,
+    "end": 57,
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "peptide-linked antibody-drug conjugate",
+  "head": "conjugate",
+  "coordinated": false
+ },
+ {
+  "id": "HA02_MODIFIER_ANTIBODY",
+  "text": "Novel Product is an antibody-derived cell therapy.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "antibody",
+    "start": 20,
+    "end": 28,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   },
+   {
+    "text": "cell therapy",
+    "start": 37,
+    "end": 49,
+    "modality": "CELL_THERAPY",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "antibody-derived cell therapy",
+  "head": "therapy",
+  "coordinated": false
+ },
+ {
+  "id": "HA03_MODIFIER_PAYLOAD",
+  "text": "Novel Product is a small-molecule-loaded nanoparticle.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "small-molecule",
+    "start": 19,
+    "end": 33,
+    "modality": "SMALL_MOLECULE",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   }
+  ],
+  "phrase": "small-molecule-loaded nanoparticle",
+  "head": "nanoparticle",
+  "coordinated": false
+ },
+ {
+  "id": "HA04_PREMOD_HYPHEN",
+  "text": "Novel Product is a first-in-class ADC.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "ADC",
+    "start": 34,
+    "end": 37,
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "first-in-class ADC",
+  "head": "ADC",
+  "coordinated": false
+ },
+ {
+  "id": "HA05_PREMOD_TARGET",
+  "text": "Novel Product is an anti-TROP2 antibody.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "antibody",
+    "start": 31,
+    "end": 39,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "anti-TROP2 antibody",
+  "head": "antibody",
+  "coordinated": false
+ },
+ {
+  "id": "HA06_HYPHEN_BASED",
+  "text": "Novel Product is a peptide-based therapeutic.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 19,
+    "end": 26,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   }
+  ],
+  "phrase": "peptide-based therapeutic",
+  "head": "therapeutic",
+  "coordinated": false
+ },
+ {
+  "id": "HA07_HYPHEN_TARGETED",
+  "text": "Novel Product is an antibody-targeted gene therapy.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "antibody",
+    "start": 20,
+    "end": 28,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   },
+   {
+    "text": "gene therapy",
+    "start": 38,
+    "end": 50,
+    "modality": "GENE_THERAPY",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "antibody-targeted gene therapy",
+  "head": "therapy",
+  "coordinated": false
+ },
+ {
+  "id": "HA08_MULTIWORD_CART",
+  "text": "Novel Product is a CAR-T cell therapy.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "CAR-T",
+    "start": 19,
+    "end": 24,
+    "modality": "CAR_T",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   },
+   {
+    "text": "CAR-T cell",
+    "start": 19,
+    "end": 29,
+    "modality": "CAR_T",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   },
+   {
+    "text": "CAR-T cell therapy",
+    "start": 19,
+    "end": 37,
+    "modality": "CAR_T",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   },
+   {
+    "text": "cell therapy",
+    "start": 25,
+    "end": 37,
+    "modality": "CELL_THERAPY",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "CAR-T cell therapy",
+  "head": "therapy",
+  "coordinated": false
+ },
+ {
+  "id": "HA09_NESTED_PAYLOAD",
+  "text": "Novel Product is an ADC with a peptide-linked payload.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "ADC",
+    "start": 20,
+    "end": 23,
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   },
+   {
+    "text": "peptide",
+    "start": 31,
+    "end": 38,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   }
+  ],
+  "phrase": "ADC",
+  "head": "ADC",
+  "coordinated": false
+ },
+ {
+  "id": "HA10_NESTED_DOMAIN",
+  "text": "Novel Product is a cell therapy with an antibody-derived binding domain.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "cell therapy",
+    "start": 19,
+    "end": 31,
+    "modality": "CELL_THERAPY",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   },
+   {
+    "text": "antibody",
+    "start": 40,
+    "end": 48,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "COMPONENT_LEVEL",
+    "rule": "explicit_component_relation"
+   }
+  ],
+  "phrase": "cell therapy",
+  "head": "therapy",
+  "coordinated": false
+ },
+ {
+  "id": "HA11_UNRECOGNIZED_HEAD",
+  "text": "Novel Product is a peptide-conjugated nanoparticle.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 19,
+    "end": 26,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   },
+   {
+    "text": "peptide-conjugate",
+    "start": 19,
+    "end": 36,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   }
+  ],
+  "phrase": "peptide-conjugated nanoparticle",
+  "head": "nanoparticle",
+  "coordinated": false
+ },
+ {
+  "id": "HA12_FRAGMENT_HEAD",
+  "text": "Novel Product is an antibody fragment.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "antibody",
+    "start": 20,
+    "end": 28,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   }
+  ],
+  "phrase": "antibody fragment",
+  "head": "fragment",
+  "coordinated": false
+ },
+ {
+  "id": "HA13_CONFLICT",
+  "text": "Novel Product is a peptide therapeutic. Novel Product is an antibody.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 19,
+    "end": 26,
+    "modality": "PEPTIDE",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   },
+   {
+    "text": "antibody",
+    "start": 60,
+    "end": 68,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "peptide therapeutic",
+  "head": "therapeutic",
+  "coordinated": false
+ },
+ {
+  "id": "HA14_MISSING_SUBJECT",
+  "text": "Is a peptide-linked antibody-drug conjugate.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 5,
+    "end": 12,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   },
+   {
+    "text": "antibody",
+    "start": 20,
+    "end": 28,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   },
+   {
+    "text": "antibody-drug conjugate",
+    "start": 20,
+    "end": 43,
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   }
+  ],
+  "phrase": null,
+  "head": null,
+  "coordinated": false
+ },
+ {
+  "id": "HA15_NO_COREFERENCE",
+  "text": "Novel Product is an ADC. It is a peptide-linked antibody-drug conjugate.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "ADC",
+    "start": 20,
+    "end": 23,
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   },
+   {
+    "text": "peptide",
+    "start": 33,
+    "end": 40,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   },
+   {
+    "text": "antibody",
+    "start": 48,
+    "end": 56,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   },
+   {
+    "text": "antibody-drug conjugate",
+    "start": 48,
+    "end": 71,
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   }
+  ],
+  "phrase": "ADC",
+  "head": "ADC",
+  "coordinated": false
+ },
+ {
+  "id": "HA16_GENERIC_THERAPY",
+  "text": "Novel Product is an antibody therapy.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "antibody",
+    "start": 20,
+    "end": 28,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "antibody therapy",
+  "head": "therapy",
+  "coordinated": false
+ },
+ {
+  "id": "HA17_GENERIC_PRODUCT",
+  "text": "Novel Product is a small-molecule product.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "small-molecule",
+    "start": 19,
+    "end": 33,
+    "modality": "SMALL_MOLECULE",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "small-molecule product",
+  "head": "product",
+  "coordinated": false
+ },
+ {
+  "id": "HA18_COORDINATION",
+  "text": "Novel Product is a peptide and antibody combination.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 19,
+    "end": 26,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_coordination"
+   },
+   {
+    "text": "antibody",
+    "start": 31,
+    "end": 39,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_coordination"
+   }
+  ],
+  "phrase": "peptide and antibody combination",
+  "head": "combination",
+  "coordinated": true
+ },
+ {
+  "id": "HA19_COORDINATION_OR",
+  "text": "Novel Product is a peptide or antibody.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 19,
+    "end": 26,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_coordination"
+   },
+   {
+    "text": "antibody",
+    "start": 30,
+    "end": 38,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_coordination"
+   }
+  ],
+  "phrase": "peptide or antibody",
+  "head": "antibody",
+  "coordinated": true
+ },
+ {
+  "id": "HA20_VERB_GUARD",
+  "text": "Novel Product is given after an ADC.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "ADC",
+    "start": 32,
+    "end": 35,
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   }
+  ],
+  "phrase": "given",
+  "head": "given",
+  "coordinated": false
+ },
+ {
+  "id": "HA21_PLAIN_PREMOD",
+  "text": "Novel Product is a novel peptide therapeutic.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 25,
+    "end": 32,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   }
+  ],
+  "phrase": "novel peptide therapeutic",
+  "head": "therapeutic",
+  "coordinated": false
+ },
+ {
+  "id": "HA22_PDC",
+  "text": "Novel Product is a peptide-drug conjugate.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 19,
+    "end": 26,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   }
+  ],
+  "phrase": "peptide-drug conjugate",
+  "head": "conjugate",
+  "coordinated": false
+ },
+ {
+  "id": "HA23_BISPECIFIC",
+  "text": "Novel Product is a bispecific antibody.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "bispecific",
+    "start": 19,
+    "end": 29,
+    "modality": "BISPECIFIC_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   },
+   {
+    "text": "bispecific antibody",
+    "start": 19,
+    "end": 38,
+    "modality": "BISPECIFIC_ANTIBODY",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   },
+   {
+    "text": "antibody",
+    "start": 30,
+    "end": 38,
+    "modality": "MONOCLONAL_ANTIBODY",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   }
+  ],
+  "phrase": "bispecific antibody",
+  "head": "antibody",
+  "coordinated": false
+ },
+ {
+  "id": "HA24_SIRNA",
+  "text": "Novel Product is an siRNA therapeutic.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "siRNA",
+    "start": 20,
+    "end": 25,
+    "modality": "RNA_THERAPEUTIC",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   },
+   {
+    "text": "RNA therapeutic",
+    "start": 22,
+    "end": 37,
+    "modality": "RNA_THERAPEUTIC",
+    "scope": "AMBIGUOUS",
+    "rule": "unproven_subject_or_relation"
+   }
+  ],
+  "phrase": "siRNA therapeutic",
+  "head": "therapeutic",
+  "coordinated": false
+ },
+ {
+  "id": "HA25_HYPHEN_NEGATED_MODIFIER",
+  "text": "Novel Product is a non-peptide small molecule.",
+  "product_names": [
+   "Novel Product"
+  ],
+  "mentions": [
+   {
+    "text": "peptide",
+    "start": 23,
+    "end": 30,
+    "modality": "PEPTIDE",
+    "scope": "AMBIGUOUS",
+    "rule": "product_phrase_not_head"
+   },
+   {
+    "text": "small molecule",
+    "start": 31,
+    "end": 45,
+    "modality": "SMALL_MOLECULE",
+    "scope": "PRODUCT_LEVEL",
+    "rule": "explicit_product_predicate"
+   }
+  ],
+  "phrase": "non-peptide small molecule",
+  "head": "molecule",
+  "coordinated": false
+ }
+]

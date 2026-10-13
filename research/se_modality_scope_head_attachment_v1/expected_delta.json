@@ -1,0 +1,17 @@
+{
+ "v2_controls:P_ADC": [
+  {"text": "antibody", "start": 20, "end": 28, "modality": "MONOCLONAL_ANTIBODY", "before": ["PRODUCT_LEVEL", "explicit_product_predicate"], "after": ["AMBIGUOUS", "product_phrase_not_head"]}
+ ],
+ "v2_controls:MODIFIER_PEPTIDE": [
+  {"text": "peptide", "start": 19, "end": 26, "modality": "PEPTIDE", "before": ["PRODUCT_LEVEL", "explicit_product_predicate"], "after": ["AMBIGUOUS", "product_phrase_not_head"]},
+  {"text": "antibody", "start": 34, "end": 42, "modality": "MONOCLONAL_ANTIBODY", "before": ["AMBIGUOUS", "unproven_subject_or_relation"], "after": ["AMBIGUOUS", "product_phrase_not_head"]},
+  {"text": "antibody-drug conjugate", "start": 34, "end": 57, "modality": "ANTIBODY_DRUG_CONJUGATE", "before": ["AMBIGUOUS", "unproven_subject_or_relation"], "after": ["PRODUCT_LEVEL", "explicit_product_predicate"]}
+ ],
+ "v2_controls:MODIFIER_ANTIBODY": [
+  {"text": "antibody", "start": 20, "end": 28, "modality": "MONOCLONAL_ANTIBODY", "before": ["PRODUCT_LEVEL", "explicit_product_predicate"], "after": ["AMBIGUOUS", "product_phrase_not_head"]},
+  {"text": "cell therapy", "start": 37, "end": 49, "modality": "CELL_THERAPY", "before": ["AMBIGUOUS", "unproven_subject_or_relation"], "after": ["PRODUCT_LEVEL", "explicit_product_predicate"]}
+ ],
+ "v2_controls:MODIFIER_PAYLOAD": [
+  {"text": "small-molecule", "start": 19, "end": 33, "modality": "SMALL_MOLECULE", "before": ["PRODUCT_LEVEL", "explicit_product_predicate"], "after": ["AMBIGUOUS", "product_phrase_not_head"]}
+ ]
+}
