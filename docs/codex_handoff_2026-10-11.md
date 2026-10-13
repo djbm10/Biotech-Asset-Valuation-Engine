@@ -1,3 +1,21 @@
+# 2026-10-13 — MODALITY_ASSERTION_SCOPE_REPRESENTATION v1 ADOPTED
+
+Preregistration **74a6f63**; red-first tests **ea639dd**; implementation **aedc91f**; adoption/results **7df34fb**. Read `research/se_modality_assertion_scope_representation_v1/README.md`, `results/quality.json`, `results/witness_table.md` and policy `docs/se_policies/modality_assertion_scope_representation_v1.md`.
+
+New immutable diagnostic API: `src/bve/se/evidence/modality_scope.py::scoped_modality_assertions`. It accepts an original raw source field, candidate identity, source names and exact provenance; retains all matches, product/component/relational/ambiguous scope, raw subject/component/relation spans, rule/version, stable ID and legacy-fact associations. No existing extractor/gate/RunResult imports or consumes it. This is an adopted representation API plus original-source diagnostic artifacts, **not live extraction integration or a semantic fix**.
+
+All 33 frozen focus expectations pass (21 original + 12 structural controls); 34 focused tests pass. Controls produce 17 PRODUCT_LEVEL, 14 COMPONENT_LEVEL, two RELATIONAL_COMPOSITE, 19 AMBIGUOUS assertions. These count all mentions, not one per witness. Nullable modality retains unknown constituent vocabulary without new aliases. Closed grammar is intentionally incomplete; unsupported subject/scope remains ambiguous and does not confer authority identity.
+
+All 23 H19 audit rows and 1,181 saved candidate decisions unchanged. Their one stored modality fact links to five coexisting source assertions: one product, two component, two ambiguous. Datopotamab's peptide linker is component-level, while its legacy PEPTIDE fact and modality.required FAIL remain unchanged. Correct qualification/ADC authority annotation unchanged. Original 21 scalar winners unchanged; all 284 recorded modality gates reproduced with their saved admitted input fact IDs. An invalid exploratory all-stored-facts probe is preserved/documented; stored facts include evidence not admitted for gating. No semantic rule or expectation was patched.
+
+Independent seed builds byte-identical; every raw span/source field verified. Full tests/se: **1,873 passed, three existing xfails, zero failures/errors**. Ruff clean over src/bve/se, tests/se and new research code. New assertions are never decision-bearing. R1–R13 pass; no adoption threshold was based on diagnostic counts.
+
+Next separate **PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v2 design phase** preregistered in **65cddd1**, policy `docs/se_policies/product_vs_component_modality_semantics_v2.md`. No semantic implementation authorized by that design document. First freeze complete baseline modality facts/source routes/admitted gate inputs and additional contradiction/composite/missing-scope controls; derive exact permitted deltas and stop on unsupported scope/identity. Commit implementation preregistration before any future gate changes. Do not silently improve the scope grammar after seeing semantic outcomes.
+
+Qualification v2 and 86 target-component cases remain blocked; human-PoC recovery stopped. ESG401 nomination later and separate; BL-M02D1 source coverage separate. H21–H25 untouched; H6–H10 unrun. No target/alias/qualification/nomination/identity/ranking/source behavior changed.
+
+---
+
 # 2026-10-13 — PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v1: REPRESENTATION BOUNDARY
 
 Preregistration/freeze **939806e**; diagnosis/results **88dadb8**. Read `research/se_product_vs_component_modality_semantics_v1/README.md`, `results/scope_table.md`, `results/all_mention_scopes.json` and `results/datopotamab_lifecycle.json`.
