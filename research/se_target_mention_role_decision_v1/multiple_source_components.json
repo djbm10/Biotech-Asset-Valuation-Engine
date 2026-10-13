@@ -1,0 +1,457 @@
+{
+  "066c9c28227da882382c7436270a951a6879d0139fcd9edbd616a54be20c2ba5": {
+    "component": {
+      "canonical_id": "TARGET:SYNCRIP",
+      "canonical_label": "Heterogeneous nuclear ribonucleoprotein Q",
+      "component_id": "066c9c28227da882382c7436270a951a6879d0139fcd9edbd616a54be20c2ba5",
+      "record_keys": [
+        "chembl:CHEMBL4295997",
+        "open_targets:ENSG00000135316",
+        "open_targets:ENSG00000271793"
+      ]
+    },
+    "symbols": {
+      "open_targets:ENSG00000135316": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "d00f98a663f11043e36487dee1c692b79ff84215494c26faef51d5c40dccafb6",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "SYNCRIP",
+        "record_id": "ENSG00000135316"
+      },
+      "open_targets:ENSG00000271793": {
+        "artifact_sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+        "assertion_id": "0e8ca4e64d201a8dfb9e30d0948229eaa597c5fa295e670bc603539fde638888",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "ENSG00000271793",
+        "record_id": "ENSG00000271793"
+      }
+    }
+  },
+  "27ef428305be9044711e435c11d63b1cbf809ae120d2db4e9c8c13c9c8ef1e48": {
+    "component": {
+      "canonical_id": "TARGET:CALM2",
+      "canonical_label": "Calmodulin-2",
+      "component_id": "27ef428305be9044711e435c11d63b1cbf809ae120d2db4e9c8c13c9c8ef1e48",
+      "record_keys": [
+        "chembl:CHEMBL4296043",
+        "chembl:CHEMBL6093",
+        "open_targets:ENSG00000143933",
+        "open_targets:ENSG00000160014",
+        "open_targets:ENSG00000198668"
+      ]
+    },
+    "symbols": {
+      "open_targets:ENSG00000143933": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "cdce476d69be80bc1777b5c03cb6d05d7aed96f2cb793f65100cbb83dbb42abb",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "CALM2",
+        "record_id": "ENSG00000143933"
+      },
+      "open_targets:ENSG00000160014": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "a4aaf7d7ddcb035417bbd264742372cce3a17bfb8afa80176c883902250b4b0b",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "CALM3",
+        "record_id": "ENSG00000160014"
+      },
+      "open_targets:ENSG00000198668": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "f22136d702dd91083000de062663ed896d4a3622ddc9e18292729be87b784d2a",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "CALM1",
+        "record_id": "ENSG00000198668"
+      }
+    }
+  },
+  "527f86008536951eb077469784aa7a17016b6a9eb3926dad2e8d9b586946072d": {
+    "component": {
+      "canonical_id": "TARGET:EML4",
+      "canonical_label": "Echinoderm microtubule-associated protein-like 4",
+      "component_id": "527f86008536951eb077469784aa7a17016b6a9eb3926dad2e8d9b586946072d",
+      "record_keys": [
+        "chembl:CHEMBL1075114",
+        "chembl:CHEMBL4247",
+        "open_targets:ENSG00000143924",
+        "open_targets:ENSG00000171094"
+      ]
+    },
+    "symbols": {
+      "open_targets:ENSG00000143924": {
+        "artifact_sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+        "assertion_id": "86ca5e5eb719b6d30194feb55720eacf613871f87d19e160c65d38f4b556eb73",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "EML4",
+        "record_id": "ENSG00000143924"
+      },
+      "open_targets:ENSG00000171094": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "189b6422e446262a66997dc3c6ee26ae640291a80abc4f93a5d9da08582f25d9",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "ALK",
+        "record_id": "ENSG00000171094"
+      }
+    }
+  },
+  "586a6c1a61f27855fc0272a390ad75872d4e988ff9480f14e94e71831dabcfe5": {
+    "component": {
+      "canonical_id": "TARGET:PLA2G4B",
+      "canonical_label": "Cytosolic phospholipase A2 beta",
+      "component_id": "586a6c1a61f27855fc0272a390ad75872d4e988ff9480f14e94e71831dabcfe5",
+      "record_keys": [
+        "chembl:CHEMBL4136",
+        "chembl:CHEMBL4879430",
+        "open_targets:ENSG00000243708",
+        "open_targets:ENSG00000243789"
+      ]
+    },
+    "symbols": {
+      "open_targets:ENSG00000243708": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "c00d130e751d54285fe310c2b377237824915087223bb5e1a937215b6bc62e66",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "PLA2G4B",
+        "record_id": "ENSG00000243708"
+      },
+      "open_targets:ENSG00000243789": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "e982d0bd0bdd6875f6a124c689cdcc8b4bce2b44e7f6cc6b27d4a688eb21e7c9",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "JMJD7",
+        "record_id": "ENSG00000243789"
+      }
+    }
+  },
+  "68772ef575399f4e0664713b2b989a84a639fe74b0c2668defdd70c08cce972a": {
+    "component": {
+      "canonical_id": "TARGET:IFNA1",
+      "canonical_label": "Interferon alpha-1/13",
+      "component_id": "68772ef575399f4e0664713b2b989a84a639fe74b0c2668defdd70c08cce972a",
+      "record_keys": [
+        "chembl:CHEMBL3713007",
+        "open_targets:ENSG00000197919",
+        "open_targets:ENSG00000233816"
+      ]
+    },
+    "symbols": {
+      "open_targets:ENSG00000197919": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "5cfbe190e3beb7b09c3173132c571e4f963053cf88082b869849c1f64edbb966",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "IFNA1",
+        "record_id": "ENSG00000197919"
+      },
+      "open_targets:ENSG00000233816": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "0459bb2f68949aad578f176a39a1f01eea7dcfa4640e8f65a1ccd2ceda7187eb",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "IFNA13",
+        "record_id": "ENSG00000233816"
+      }
+    }
+  },
+  "7371efdcf47b7ade14288737be1e25bda2d8f848df4d61453ec8df6b1970b63d": {
+    "component": {
+      "canonical_id": "TARGET:RPS27A",
+      "canonical_label": "Polyubiquitin-B",
+      "component_id": "7371efdcf47b7ade14288737be1e25bda2d8f848df4d61453ec8df6b1970b63d",
+      "record_keys": [
+        "chembl:CHEMBL4523178",
+        "chembl:CHEMBL4523179",
+        "chembl:CHEMBL4523259",
+        "chembl:CHEMBL4523597",
+        "open_targets:ENSG00000143947",
+        "open_targets:ENSG00000150991",
+        "open_targets:ENSG00000170315",
+        "open_targets:ENSG00000221983"
+      ]
+    },
+    "symbols": {
+      "open_targets:ENSG00000143947": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "851a5da0447af3730b2ed5f01f615e5d44d5f074720243d17d1755e5804882f9",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "RPS27A",
+        "record_id": "ENSG00000143947"
+      },
+      "open_targets:ENSG00000150991": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "eeceef8baf4ac4c5ac8829a7acb080e5f03dae74cadeb79e16634a5aa62446fa",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "UBC",
+        "record_id": "ENSG00000150991"
+      },
+      "open_targets:ENSG00000170315": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "58bde1aad702aab7c3a2a16c7e9cb59dcfc0ab9ece53c8e6a5546837ac373158",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "UBB",
+        "record_id": "ENSG00000170315"
+      },
+      "open_targets:ENSG00000221983": {
+        "artifact_sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+        "assertion_id": "b5c7f2cce4fd1ca2800828d381bf55e655868b27b4143bf71385cc33dc12f5cb",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "UBA52",
+        "record_id": "ENSG00000221983"
+      }
+    }
+  },
+  "8336007f323d0e03fedbc07e190600de59e62b159ae45b52f41fab16a0c990c6": {
+    "component": {
+      "canonical_id": "TARGET:TUBA1B",
+      "canonical_label": "Tubulin alpha-1A chain",
+      "component_id": "8336007f323d0e03fedbc07e190600de59e62b159ae45b52f41fab16a0c990c6",
+      "record_keys": [
+        "chembl:CHEMBL3661",
+        "chembl:CHEMBL3797010",
+        "open_targets:ENSG00000123416",
+        "open_targets:ENSG00000167552"
+      ]
+    },
+    "symbols": {
+      "open_targets:ENSG00000123416": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "1d966f9b66a8d02ee8995d38b6f3bb6cf74c3a2f894d63cad5c822633f145072",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "TUBA1B",
+        "record_id": "ENSG00000123416"
+      },
+      "open_targets:ENSG00000167552": {
+        "artifact_sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+        "assertion_id": "338b6f0830c480980a55331fc947885648c7d1623d9a3cf27ed8ff56ac00d28e",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "TUBA1A",
+        "record_id": "ENSG00000167552"
+      }
+    }
+  },
+  "982799937b583cadd3c8d7a84e088570fb51c1800b70f38d8173b678d5acbbb4": {
+    "component": {
+      "canonical_id": "TARGET:H4C8",
+      "canonical_label": "Histone H4",
+      "component_id": "982799937b583cadd3c8d7a84e088570fb51c1800b70f38d8173b678d5acbbb4",
+      "record_keys": [
+        "chembl:CHEMBL5876",
+        "open_targets:ENSG00000158406",
+        "open_targets:ENSG00000197061",
+        "open_targets:ENSG00000197238",
+        "open_targets:ENSG00000197837",
+        "open_targets:ENSG00000270276",
+        "open_targets:ENSG00000270882",
+        "open_targets:ENSG00000273542",
+        "open_targets:ENSG00000274618",
+        "open_targets:ENSG00000275126",
+        "open_targets:ENSG00000276180",
+        "open_targets:ENSG00000276966",
+        "open_targets:ENSG00000277157",
+        "open_targets:ENSG00000278637",
+        "open_targets:ENSG00000278705"
+      ]
+    },
+    "symbols": {
+      "open_targets:ENSG00000158406": {
+        "artifact_sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+        "assertion_id": "77268662aea6f79db312b4178c332468c8d836679db65952310955a82226081d",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C8",
+        "record_id": "ENSG00000158406"
+      },
+      "open_targets:ENSG00000197061": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "b1ec045c234b189e75811a7fb708ce08b1326e1af128122a4f5b48d75fbacbda",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C3",
+        "record_id": "ENSG00000197061"
+      },
+      "open_targets:ENSG00000197238": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "59a93cf5ea92c5d9627eb94f351f08f0e62bc99d3c9fd34fbcb75612f0eaf91c",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C11",
+        "record_id": "ENSG00000197238"
+      },
+      "open_targets:ENSG00000197837": {
+        "artifact_sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+        "assertion_id": "083800a2e2e3bb9f74eacb5a02d79dd257863ac4764de74018d1ef6e1eaef8fb",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C16",
+        "record_id": "ENSG00000197837"
+      },
+      "open_targets:ENSG00000270276": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "553fd0b356651e3de3bc03cdb788b5fdce6d6cf6f174c8ca75bfbf48ace4911c",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C15",
+        "record_id": "ENSG00000270276"
+      },
+      "open_targets:ENSG00000270882": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "69f7e11af93943c827f5d8b04987cec8067585b92e2c15391dab57de5792a2ee",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C14",
+        "record_id": "ENSG00000270882"
+      },
+      "open_targets:ENSG00000273542": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "d00af931f9c0b3b0a9b25fef498c5aed2439deccf75228adad3d742b2ba0dc43",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C12",
+        "record_id": "ENSG00000273542"
+      },
+      "open_targets:ENSG00000274618": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "2862128207e38fe5fba241260537d919c49449809f1cdeb69619f8e4c2964299",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C6",
+        "record_id": "ENSG00000274618"
+      },
+      "open_targets:ENSG00000275126": {
+        "artifact_sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+        "assertion_id": "7f950a869eaffb944528542d2deb5a823b3e3dae21b407f5befd65d8af210feb",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C13",
+        "record_id": "ENSG00000275126"
+      },
+      "open_targets:ENSG00000276180": {
+        "artifact_sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+        "assertion_id": "5748f3d8e48e3867b6a290b7adeec4fe172fdc55603d482159d30bcb395f8d69",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C9",
+        "record_id": "ENSG00000276180"
+      },
+      "open_targets:ENSG00000276966": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "19ed67e00537a2c83215b89e910498c906946e23bb7be3944d4c6d2b230d4c90",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C5",
+        "record_id": "ENSG00000276966"
+      },
+      "open_targets:ENSG00000277157": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "e3cd72b63ca1244bb8d2592735a112619c80d4861ff01dac58638bfb435dd199",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C4",
+        "record_id": "ENSG00000277157"
+      },
+      "open_targets:ENSG00000278637": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "f92f160d9c031c32262f795129bc09a026062f64d7ecc8a4c52bafd36f5c574d",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C1",
+        "record_id": "ENSG00000278637"
+      },
+      "open_targets:ENSG00000278705": {
+        "artifact_sha256": "e2a0bf1db8d4d31cdcc90cea56cec19c068c7a6077f37d3e75dedc7b44a19bbf",
+        "assertion_id": "faf720b8e94a8491b691417a1b79a2285e0f5b2e38afbcefc074aa47f0a52e7e",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "H4C2",
+        "record_id": "ENSG00000278705"
+      }
+    }
+  },
+  "99157db5b9d3ce415648eb071f246c049b4b4a95231c8121b14331a6bec507a8": {
+    "component": {
+      "canonical_id": "TARGET:BOLA2B",
+      "canonical_label": "BolA-like protein 2",
+      "component_id": "99157db5b9d3ce415648eb071f246c049b4b4a95231c8121b14331a6bec507a8",
+      "record_keys": [
+        "chembl:CHEMBL5724752",
+        "open_targets:ENSG00000169627",
+        "open_targets:ENSG00000183336",
+        "open_targets:ENSG00000261740"
+      ]
+    },
+    "symbols": {
+      "open_targets:ENSG00000169627": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "1070c3c1bce9fddce95d454ba00c556009f87c8b65ef4d98fc6fcdf67b8d4ccf",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "BOLA2B",
+        "record_id": "ENSG00000169627"
+      },
+      "open_targets:ENSG00000183336": {
+        "artifact_sha256": "7fc4baeb3e0b9a95f0cad2e280b47955e253bceb3eba8cf85f32e770e771284a",
+        "assertion_id": "29b8fcc240ed9eb673b4594f93020e156803befebbe9b79ed330079fde7733c6",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "BOLA2",
+        "record_id": "ENSG00000183336"
+      },
+      "open_targets:ENSG00000261740": {
+        "artifact_sha256": "770cdce2c5b6c46952777139bbe68bd0164a6eb0878ad94832775f7d9838d216",
+        "assertion_id": "b154d37f0765b368724019740e839de61fe0b0826e77106dc42e3b3e1fb2d971",
+        "field_path": [
+          "approvedSymbol"
+        ],
+        "raw_symbol": "BOLA2-SMG1P6",
+        "record_id": "ENSG00000261740"
+      }
+    }
+  }
+}

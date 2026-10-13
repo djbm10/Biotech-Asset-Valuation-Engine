@@ -1,0 +1,12 @@
+{
+  "docs/se_policies/authority_assertion_provenance_sidecar_v1.md": "793e55aab809163a6f026d02d616b4c594debebabc40ad7cbdc9daff5f5e4569",
+  "docs/se_policies/target_authority_span_query_role_contract_v1.md": "42967fad969bb3f7b58dc54b509c44f8106a5fbeda82c190499291413ac922d5",
+  "docs/se_policies/target_mention_role_representation_v2.md": "ce4dd0a4385e9fc68d713944fd8ee76262e56dd096f5b76201e7ce9e5e587ec5",
+  "research/se_authority_assertion_provenance_sidecar_v1/input_hashes.json": "ae119272782b3e977f50b3850ebb5066f6c3a6690080f050bab2a132951ade89",
+  "research/se_authority_assertion_provenance_sidecar_v1/results/artifact_manifest.json": "728759efc64f21437322e5e89169e6c297f171f4d8d807c58c45ba7c9f799088",
+  "research/se_target_mention_role_representation_v1/baseline.json": "0b099fb2ee14de56801b45bf2e28c74d861123f1e5ac412106ac795c7e211aa3",
+  "research/se_target_mention_role_representation_v1/required_mentions.json": "9f1b15e570b56386b07dc18863a4cb0af074872d5f853946a942bcb2fa76308e",
+  "research/se_target_mention_role_representation_v2/inputs.json": "8d33df1ae5e546248c5f005d277dc9c0bfe45f5e42251cba86b711bd71c20161",
+  "src/bve/se/intent/target_mentions.py": "8f37bbbf444bf5640220a69e396ae2b5a1162e54dd56bbebaa35910410411f42",
+  "src/bve/se/ontology/assertion_sidecar_lookup.py": "7d774bcd10f4cd4e9a424bbff82b5bf04a27b093a62aa4c72a65289cb61d80e4"
+}
