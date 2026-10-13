@@ -55,6 +55,44 @@ class ScopedModalityAssertion(FrozenModel):
     legacy_decision_bearing: Literal[False] = False
 
 
+class ProductPhrase(FrozenModel):
+    phrase: Span
+    head: Span
+    coordinated: bool
+
+
+# Frozen in docs/se_policies/modality_scope_head_attachment_v1.md.
+_PHRASE_BOUNDARIES = frozenset(
+    "with containing comprising comprised consisting delivered conjugated linked that which who "
+    "targeting for in against of to by from via using after before plus versus vs as at on under "
+    "when while".split()
+)
+_COORDINATORS = frozenset({"and", "or", "nor"})
+_GENERIC_HEADS = (
+    "therapeutic|therapeutics|therapy|therapies|drug|agent|product|treatment|medicine|candidate"
+)
+_TOKEN = r"[^\W_]+(?:-[^\W_]+)*"
+
+
+def product_phrase(text: str, start: int, end: int) -> ProductPhrase | None:
+    """Predicate noun phrase after the copula; its grammatical head is the last token."""
+    tokens = []
+    coordinated = False
+    for match in re.finditer(r"[,:()]|" + _TOKEN, text[start:end]):
+        word = match.group().casefold()
+        if word in ",:()" or word in _PHRASE_BOUNDARIES:
+            break
+        coordinated |= word in _COORDINATORS
+        tokens.append(match)
+    if not tokens:
+        return None
+    return ProductPhrase(
+        phrase=_span(text, start + tokens[0].start(), start + tokens[-1].end()),
+        head=_span(text, start + tokens[-1].start(), start + tokens[-1].end()),
+        coordinated=coordinated,
+    )
+
+
 def _pattern(term: str) -> str:
     return r"[\s_-]+".join(re.escape(x) for x in re.split(r"[\s_-]+", term))
 
@@ -110,15 +148,26 @@ def _scope(text: str, start: int, end: int, names: tuple[str, ...]):
             ("PRODUCT_IS_COMPOSITE",),
             "explicit_conjugation",
         )
-    if is_product and product.end + is_product.end() == start:
-        return (
-            "PRODUCT_LEVEL",
-            product,
-            None,
-            _span(text, product.end, start),
-            ("PRODUCT_IS_MODALITY",),
-            "explicit_product_predicate",
+    phrase = is_product and product_phrase(text, product.end + is_product.end(), right)
+    if phrase and phrase.phrase.start <= start < phrase.phrase.end:
+        if phrase.coordinated:
+            return ("AMBIGUOUS", product, None, None, (), "product_phrase_coordination")
+        # Only the head designation types the product: hyphenated premodifiers before it,
+        # semantically empty product nouns after it.
+        before = re.fullmatch(r"(?:" + _TOKEN + r"-[^\W_]+\s+)*", text[phrase.phrase.start : start])
+        after = re.fullmatch(
+            r"(?:\s+(?:" + _GENERIC_HEADS + r"))*", text[end : phrase.phrase.end], re.I
         )
+        if before and after:
+            return (
+                "PRODUCT_LEVEL",
+                product,
+                None,
+                _span(text, product.end, start),
+                ("PRODUCT_IS_MODALITY",),
+                "explicit_product_predicate",
+            )
+        return ("AMBIGUOUS", product, None, None, (), "product_phrase_not_head")
     possession = re.match(r"\s+(?:contains|carries)\s+", pred, re.I)
     relation = possession
     if is_product:

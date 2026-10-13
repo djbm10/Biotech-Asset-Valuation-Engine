@@ -1,3 +1,11 @@
+# 2026-10-13 — MODALITY_SCOPE_HEAD_ATTACHMENT v1 ADOPTED
+
+Preregistration `07cb021`; red-first `248a05e` (46 red / 9 green); adoption commit follows. Read `research/se_modality_scope_head_attachment_v1/README.md` and policy `docs/se_policies/modality_scope_head_attachment_v1.md`. `explicit_product_predicate` now certifies only the predicate noun phrase's head designation (hyphenated premodifiers before it, generic product nouns after it); modifiers become AMBIGUOUS `product_phrase_not_head`, coordination is AMBIGUOUS, and non-modality heads invent nothing. Seven of 78 frozen existing assertions changed, all preregistered: the three v2 modifier errors fixed, ADC/cell-therapy heads now PRODUCT_LEVEL, and the `antibody` sub-span inside "antibody-drug conjugate" is no longer a whole-product antibody. The 33 v1 witnesses and H19 are byte-identical. The independent checker has no verdict constant, and its self-test shows it fails, passes and flips. Full tests/se 1,928 passed, 3 xfail; Ruff clean; still decision-neutral (no importer).
+
+Next: `PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v3` design (preregistered separately, not executed). ESG401 not started. H21–H25 untouched; H6–H10 unrun.
+
+---
+
 # 2026-10-13 — PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v2: DESIGN STOP
 
 Design `65cddd1` and population freeze `43e30ce` executed unchanged. Read `research/se_product_vs_component_modality_semantics_v2/README.md` and `results/`. Verdict **STOP_UNSAFE_PRODUCT_LEVEL_CERTIFICATION**: 11/14 controls adequate; all three compound-modifier controls (`peptide-linked ADC`, `antibody-derived cell therapy`, `small-molecule-loaded nanoparticle`) get the modifier as PRODUCT_LEVEL via `explicit_product_predicate` and leave the head AMBIGUOUS. A PRODUCT_LEVEL consumer would certify the exact false-PEPTIDE pattern. H19's single modality fact (datopotamab PEPTIDE) is B_COMPONENT_ONLY; action blocked, legacy fact retained. Deterministic; zero production changes; v2 NOT adopted.
