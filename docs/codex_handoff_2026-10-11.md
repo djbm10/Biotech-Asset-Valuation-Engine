@@ -1,3 +1,25 @@
+# 2026-10-13 — TARGET_COMPONENT_IDENTITY_CERTIFICATE v2 ADOPTED
+
+Current milestone: independently adopted offline biological identity certificates, with no production consumer or target decision changes.
+
+Commits: preregistration **a9bf585**; implementation **b17f9da**; adoption/results **3cbc737**. Baseline was d968f30. Policy: `docs/se_policies/target_component_identity_certificate_v2.md`. Full audit and reproduction: `research/se_target_component_identity_certificate_v2/README.md` and `results/`.
+
+All 234 frozen certificate expectations passed: 55 CERTIFIED_SINGLE_ENTITY, 15 CERTIFIED_RELATIONAL_ENTITY, three CERTIFIED_MULTI_ENTITY, 35 CONFLICT, 126 AMBIGUOUS, zero UNRESOLVED. The 55 positives are 52 exact primary gene assertions and three exact protein components; none permits blanket inheritance to other aliases or merged resolver groups. The 48 original resolver groups remain ambiguous as ingestion unions, not authority-defined biological entities.
+
+For the 86 blocked target-role proposals: **0 SINGLE, 0 MULTI, 0 RELATIONAL, 35 CONFLICT, 51 AMBIGUOUS, 0 UNRESOLVED**. The ALK/EML4 gene-ID conflict remains explicit. No authority priority or normalized-name reconciliation was introduced. No additional source was acquired.
+
+Provenance validation: 495 source records, 11,806 exact adopted field assertions, all 3,534 sidecar origins; independent seed-0/seed-42 artifacts byte-identical. Both canonical-ID collision families survive in component certificates (seven SNORA62 components; two CDC42BPA components). Recoverable-origin collision reporting covers one family because historical ChEMBL-only origins are absent; this is explicitly separated from component collisions. All 629 multiple-origin keys remain represented, including 94 keys with distinct raw strings. No missing historical lineage is fabricated.
+
+All **6,199 parser decisions unchanged**. Fifteen focused/compatibility tests pass; Ruff clean. No changes to production `src`, `tests`, `scripts`, or `data/se/ontology` against baseline. Full `tests/se` was not run because C12 requires it only for production-code changes; none occurred. The red-first failure, final test logs, complete certificates, evidence registry, collision audit and input/output hashes are retained in the study.
+
+**Stop work on recovering these 86 cases. This target-role repair path is evidence-blocked.** Do not add another authority, weaken certificates, implement role changes, or reopen alias expansion on their basis. A permitting primary control is not permission to certify its whole resolver group.
+
+Broader roadmap reassessment: next independently diagnose the known H19 non-asset/PEPTIDE candidate-qualification defect, starting from frozen primary-validation evidence and the current first failure boundary. This has direct precision value and is independent of blocked target identity. Keep qualification, duplicate consolidation, ranking and reproducibility work separate; preregister any behavior change. No such change was implemented in this milestone.
+
+H21–H25 remain untouched. H6–H10 remain unrun. H17/H20 remain development diagnostics only. Human-PoC recovery remains stopped. C056 and historical failed preregistrations remain separate and unchanged.
+
+---
+
 # 2026-10-13 TARGET COMPONENT IDENTITY CERTIFICATE v1 — SOURCE GATE FAILED
 
 ## 2026-10-13 — TARGET_COMPONENT_IDENTITY_AUTHORITY_EVIDENCE v1 ADOPTED
