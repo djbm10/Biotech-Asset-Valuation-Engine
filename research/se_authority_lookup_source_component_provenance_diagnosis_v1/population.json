@@ -1,0 +1,1691 @@
+[
+  {
+    "id": "F000",
+    "prior_id": "diagnosis:0084",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        56,
+        60
+      ]
+    ]
+  },
+  {
+    "id": "F001",
+    "prior_id": "diagnosis:0085",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-nuclear factor of kappa light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        61,
+        65
+      ]
+    ]
+  },
+  {
+    "id": "F002",
+    "prior_id": "diagnosis:0086",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-directed therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        56,
+        60
+      ]
+    ]
+  },
+  {
+    "id": "F003",
+    "prior_id": "diagnosis:0087",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-targeting therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        56,
+        60
+      ]
+    ]
+  },
+  {
+    "id": "F004",
+    "prior_id": "diagnosis:0088",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-blocking therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        56,
+        60
+      ]
+    ]
+  },
+  {
+    "id": "F005",
+    "prior_id": "diagnosis:0089",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-binding therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        56,
+        60
+      ]
+    ]
+  },
+  {
+    "id": "F006",
+    "prior_id": "diagnosis:0090",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of kappa light chain gene enhancer in B-cells-specific therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        56,
+        60
+      ]
+    ]
+  },
+  {
+    "id": "F007",
+    "prior_id": "diagnosis:0091",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F008",
+    "prior_id": "diagnosis:0092",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-nuclear factor of κ light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        57,
+        61
+      ]
+    ]
+  },
+  {
+    "id": "F009",
+    "prior_id": "diagnosis:0093",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-directed therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F010",
+    "prior_id": "diagnosis:0094",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-targeting therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F011",
+    "prior_id": "diagnosis:0095",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-blocking therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F012",
+    "prior_id": "diagnosis:0096",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-binding therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F013",
+    "prior_id": "diagnosis:0097",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-specific therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F014",
+    "prior_id": "diagnosis:0574",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F015",
+    "prior_id": "diagnosis:0575",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-Serine/threonine-protein kinase MRCK beta therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        57,
+        61
+      ]
+    ]
+  },
+  {
+    "id": "F016",
+    "prior_id": "diagnosis:0576",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-directed therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F017",
+    "prior_id": "diagnosis:0577",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-targeting therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F018",
+    "prior_id": "diagnosis:0578",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-blocking therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F019",
+    "prior_id": "diagnosis:0579",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-binding therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F020",
+    "prior_id": "diagnosis:0580",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK beta-specific therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F021",
+    "prior_id": "diagnosis:0581",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F022",
+    "prior_id": "diagnosis:0582",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-Serine/threonine-protein kinase MRCK β therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        57,
+        61
+      ]
+    ]
+  },
+  {
+    "id": "F023",
+    "prior_id": "diagnosis:0583",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-directed therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F024",
+    "prior_id": "diagnosis:0584",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-targeting therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F025",
+    "prior_id": "diagnosis:0585",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-blocking therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F026",
+    "prior_id": "diagnosis:0586",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-binding therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F027",
+    "prior_id": "diagnosis:0587",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-specific therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F028",
+    "prior_id": "alias:010:0",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F029",
+    "prior_id": "alias:010:1",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-ubiquitin conjugating enzyme E2 I therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        54,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F030",
+    "prior_id": "alias:010:2",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-directed therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F031",
+    "prior_id": "alias:010:3",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-targeting therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F032",
+    "prior_id": "alias:010:4",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-blocking therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F033",
+    "prior_id": "alias:010:5",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-binding therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F034",
+    "prior_id": "alias:010:6",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 I-specific therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F035",
+    "prior_id": "alias:035:0",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        38,
+        42
+      ]
+    ]
+  },
+  {
+    "id": "F036",
+    "prior_id": "alias:035:1",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-Hypoxia-inducible gene 1 protein therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        43,
+        47
+      ]
+    ]
+  },
+  {
+    "id": "F037",
+    "prior_id": "alias:035:2",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-directed therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        38,
+        42
+      ]
+    ]
+  },
+  {
+    "id": "F038",
+    "prior_id": "alias:035:3",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-targeting therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        38,
+        42
+      ]
+    ]
+  },
+  {
+    "id": "F039",
+    "prior_id": "alias:035:4",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-blocking therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        38,
+        42
+      ]
+    ]
+  },
+  {
+    "id": "F040",
+    "prior_id": "alias:035:5",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-binding therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        38,
+        42
+      ]
+    ]
+  },
+  {
+    "id": "F041",
+    "prior_id": "alias:035:6",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Hypoxia-inducible gene 1 protein-specific therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        38,
+        42
+      ]
+    ]
+  },
+  {
+    "id": "F042",
+    "prior_id": "alias:071:0",
+    "category": "prior_failure",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F043",
+    "prior_id": "alias:071:1",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-retinoic acid, EGF, NGF induced gene protein therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        57,
+        61
+      ]
+    ]
+  },
+  {
+    "id": "F044",
+    "prior_id": "alias:071:2",
+    "category": "prior_failure",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-directed therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F045",
+    "prior_id": "alias:071:3",
+    "category": "prior_failure",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-targeting therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F046",
+    "prior_id": "alias:071:4",
+    "category": "prior_failure",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-blocking therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F047",
+    "prior_id": "alias:071:5",
+    "category": "prior_failure",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-binding therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F048",
+    "prior_id": "alias:071:6",
+    "category": "prior_failure",
+    "query": "Find clinical-stage retinoic acid, EGF, NGF induced gene protein-specific therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F049",
+    "prior_id": "alias:130:0",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F050",
+    "prior_id": "alias:130:1",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-ubiquitin conjugating enzyme E2 M therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        54,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F051",
+    "prior_id": "alias:130:2",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-directed therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F052",
+    "prior_id": "alias:130:3",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-targeting therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F053",
+    "prior_id": "alias:130:4",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-blocking therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F054",
+    "prior_id": "alias:130:5",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-binding therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F055",
+    "prior_id": "alias:130:6",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 M-specific therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F056",
+    "prior_id": "alias:307:0",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F057",
+    "prior_id": "alias:307:1",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-ubiquitin conjugating enzyme E2 N therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        54,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F058",
+    "prior_id": "alias:307:2",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-directed therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F059",
+    "prior_id": "alias:307:3",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-targeting therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F060",
+    "prior_id": "alias:307:4",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-blocking therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F061",
+    "prior_id": "alias:307:5",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-binding therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F062",
+    "prior_id": "alias:307:6",
+    "category": "prior_failure",
+    "query": "Find clinical-stage ubiquitin conjugating enzyme E2 N-specific therapies.",
+    "surface": "E2",
+    "lookup": "E2",
+    "span_candidates": [
+      [
+        49,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "F063",
+    "prior_id": "alias:582:0",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F064",
+    "prior_id": "alias:582:1",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-nuclear factor of κ light chain gene enhancer in B-cells therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        57,
+        61
+      ]
+    ]
+  },
+  {
+    "id": "F065",
+    "prior_id": "alias:582:2",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-directed therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F066",
+    "prior_id": "alias:582:3",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-targeting therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F067",
+    "prior_id": "alias:582:4",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-blocking therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F068",
+    "prior_id": "alias:582:5",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-binding therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F069",
+    "prior_id": "alias:582:6",
+    "category": "prior_failure",
+    "query": "Find clinical-stage nuclear factor of κ light chain gene enhancer in B-cells-specific therapies.",
+    "surface": "gene",
+    "lookup": "gene",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F070",
+    "prior_id": "alias:617:0",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F071",
+    "prior_id": "alias:617:1",
+    "category": "prior_failure",
+    "query": "Find clinical-stage anti-Serine/threonine-protein kinase MRCK β therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        57,
+        61
+      ]
+    ]
+  },
+  {
+    "id": "F072",
+    "prior_id": "alias:617:2",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-directed therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F073",
+    "prior_id": "alias:617:3",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-targeting therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F074",
+    "prior_id": "alias:617:4",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-blocking therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F075",
+    "prior_id": "alias:617:5",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-binding therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "F076",
+    "prior_id": "alias:617:6",
+    "category": "prior_failure",
+    "query": "Find clinical-stage Serine/threonine-protein kinase MRCK β-specific therapies.",
+    "surface": "MRCK",
+    "lookup": "MRCK",
+    "span_candidates": [
+      [
+        52,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "C000",
+    "category": "canonical_name",
+    "lookup": " chromosome 2 open reading frame 72 ",
+    "query": " chromosome 2 open reading frame 72 ",
+    "surface": " chromosome 2 open reading frame 72 ",
+    "span_candidates": [
+      [
+        0,
+        36
+      ]
+    ]
+  },
+  {
+    "id": "C001",
+    "category": "canonical_name",
+    "lookup": " gene",
+    "query": " gene",
+    "surface": " gene",
+    "span_candidates": [
+      [
+        0,
+        5
+      ]
+    ]
+  },
+  {
+    "id": "C002",
+    "category": "canonical_name",
+    "lookup": "(E3-independent) E2 ubiquitin-conjugating enzyme",
+    "query": "(E3-independent) E2 ubiquitin-conjugating enzyme",
+    "surface": "(E3-independent) E2 ubiquitin-conjugating enzyme",
+    "span_candidates": [
+      [
+        0,
+        48
+      ]
+    ]
+  },
+  {
+    "id": "C003",
+    "category": "canonical_name",
+    "lookup": "1,25-dihydroxyvitamin D(3) 24-hydroxylase, mitochondrial",
+    "query": "1,25-dihydroxyvitamin D(3) 24-hydroxylase, mitochondrial",
+    "surface": "1,25-dihydroxyvitamin D(3) 24-hydroxylase, mitochondrial",
+    "span_candidates": [
+      [
+        0,
+        56
+      ]
+    ]
+  },
+  {
+    "id": "C004",
+    "category": "canonical_name",
+    "lookup": "1,4-alpha-glucan branching enzyme 1",
+    "query": "1,4-alpha-glucan branching enzyme 1",
+    "surface": "1,4-alpha-glucan branching enzyme 1",
+    "span_candidates": [
+      [
+        0,
+        35
+      ]
+    ]
+  },
+  {
+    "id": "C005",
+    "category": "canonical_symbol",
+    "lookup": "'C-K-RAS",
+    "query": "'C-K-RAS",
+    "surface": "'C-K-RAS",
+    "span_candidates": [
+      [
+        0,
+        8
+      ]
+    ]
+  },
+  {
+    "id": "C006",
+    "category": "canonical_symbol",
+    "lookup": "(2-5')oligo(A) synthase 1",
+    "query": "(2-5')oligo(A) synthase 1",
+    "surface": "(2-5')oligo(A) synthase 1",
+    "span_candidates": [
+      [
+        0,
+        25
+      ]
+    ]
+  },
+  {
+    "id": "C007",
+    "category": "canonical_symbol",
+    "lookup": "(2-5')oligo(A) synthase 2",
+    "query": "(2-5')oligo(A) synthase 2",
+    "surface": "(2-5')oligo(A) synthase 2",
+    "span_candidates": [
+      [
+        0,
+        25
+      ]
+    ]
+  },
+  {
+    "id": "C008",
+    "category": "canonical_symbol",
+    "lookup": "(2-5')oligo(A) synthase 3",
+    "query": "(2-5')oligo(A) synthase 3",
+    "surface": "(2-5')oligo(A) synthase 3",
+    "span_candidates": [
+      [
+        0,
+        25
+      ]
+    ]
+  },
+  {
+    "id": "C009",
+    "category": "canonical_symbol",
+    "lookup": "(FM-3)",
+    "query": "(FM-3)",
+    "surface": "(FM-3)",
+    "span_candidates": [
+      [
+        0,
+        6
+      ]
+    ]
+  },
+  {
+    "id": "C010",
+    "category": "component_collision",
+    "lookup": "1.6.5.2",
+    "query": "1.6.5.2",
+    "surface": "1.6.5.2",
+    "span_candidates": [
+      [
+        0,
+        7
+      ]
+    ]
+  },
+  {
+    "id": "C011",
+    "category": "component_collision",
+    "lookup": "1110012D08Rik pseudogene",
+    "query": "1110012D08Rik pseudogene",
+    "surface": "1110012D08Rik pseudogene",
+    "span_candidates": [
+      [
+        0,
+        24
+      ]
+    ]
+  },
+  {
+    "id": "C012",
+    "category": "component_collision",
+    "lookup": "12-lipoxygenase-related protein",
+    "query": "12-lipoxygenase-related protein",
+    "surface": "12-lipoxygenase-related protein",
+    "span_candidates": [
+      [
+        0,
+        31
+      ]
+    ]
+  },
+  {
+    "id": "C013",
+    "category": "component_collision",
+    "lookup": "17beta-hydroxysteroid dehydrogenase type 7 form 2",
+    "query": "17beta-hydroxysteroid dehydrogenase type 7 form 2",
+    "surface": "17beta-hydroxysteroid dehydrogenase type 7 form 2",
+    "span_candidates": [
+      [
+        0,
+        49
+      ]
+    ]
+  },
+  {
+    "id": "C014",
+    "category": "component_collision",
+    "lookup": "2.3.1.20",
+    "query": "2.3.1.20",
+    "surface": "2.3.1.20",
+    "span_candidates": [
+      [
+        0,
+        8
+      ]
+    ]
+  },
+  {
+    "id": "C015",
+    "category": "greek",
+    "lookup": "14-3-3γ",
+    "query": "14-3-3γ",
+    "surface": "14-3-3γ",
+    "span_candidates": [
+      [
+        0,
+        7
+      ]
+    ]
+  },
+  {
+    "id": "C016",
+    "category": "greek",
+    "lookup": "CaMKIIα",
+    "query": "CaMKIIα",
+    "surface": "CaMKIIα",
+    "span_candidates": [
+      [
+        0,
+        7
+      ]
+    ]
+  },
+  {
+    "id": "C017",
+    "category": "greek",
+    "lookup": "CaMKIIβ",
+    "query": "CaMKIIβ",
+    "surface": "CaMKIIβ",
+    "span_candidates": [
+      [
+        0,
+        7
+      ]
+    ]
+  },
+  {
+    "id": "C018",
+    "category": "greek",
+    "lookup": "ERα-regulated long noncoding RNA 1",
+    "query": "ERα-regulated long noncoding RNA 1",
+    "surface": "ERα-regulated long noncoding RNA 1",
+    "span_candidates": [
+      [
+        0,
+        34
+      ]
+    ]
+  },
+  {
+    "id": "C019",
+    "category": "greek",
+    "lookup": "FRα",
+    "query": "FRα",
+    "surface": "FRα",
+    "span_candidates": [
+      [
+        0,
+        3
+      ]
+    ]
+  },
+  {
+    "id": "C020",
+    "category": "multiple_assertions",
+    "lookup": " gene",
+    "query": " gene",
+    "surface": " gene",
+    "span_candidates": [
+      [
+        0,
+        5
+      ]
+    ]
+  },
+  {
+    "id": "C021",
+    "category": "multiple_assertions",
+    "lookup": "'C-K-RAS",
+    "query": "'C-K-RAS",
+    "surface": "'C-K-RAS",
+    "span_candidates": [
+      [
+        0,
+        8
+      ]
+    ]
+  },
+  {
+    "id": "C022",
+    "category": "multiple_assertions",
+    "lookup": "(1-49)-CCK58",
+    "query": "(1-49)-CCK58",
+    "surface": "(1-49)-CCK58",
+    "span_candidates": [
+      [
+        0,
+        12
+      ]
+    ]
+  },
+  {
+    "id": "C023",
+    "category": "multiple_assertions",
+    "lookup": "(2-5')oligo(A) synthase 1",
+    "query": "(2-5')oligo(A) synthase 1",
+    "surface": "(2-5')oligo(A) synthase 1",
+    "span_candidates": [
+      [
+        0,
+        25
+      ]
+    ]
+  },
+  {
+    "id": "C024",
+    "category": "multiple_assertions",
+    "lookup": "(2-5')oligo(A) synthase 2",
+    "query": "(2-5')oligo(A) synthase 2",
+    "surface": "(2-5')oligo(A) synthase 2",
+    "span_candidates": [
+      [
+        0,
+        25
+      ]
+    ]
+  },
+  {
+    "id": "C025",
+    "category": "overlapping_authorities",
+    "lookup": "(1-49)-CCK58",
+    "query": "(1-49)-CCK58",
+    "surface": "(1-49)-CCK58",
+    "span_candidates": [
+      [
+        0,
+        12
+      ]
+    ]
+  },
+  {
+    "id": "C026",
+    "category": "overlapping_authorities",
+    "lookup": "(2E,6E)-farnesyl diphosphate synthase",
+    "query": "(2E,6E)-farnesyl diphosphate synthase",
+    "surface": "(2E,6E)-farnesyl diphosphate synthase",
+    "span_candidates": [
+      [
+        0,
+        37
+      ]
+    ]
+  },
+  {
+    "id": "C027",
+    "category": "overlapping_authorities",
+    "lookup": "(3R)-hydroxyacyl-CoA dehydrogenase",
+    "query": "(3R)-hydroxyacyl-CoA dehydrogenase",
+    "surface": "(3R)-hydroxyacyl-CoA dehydrogenase",
+    "span_candidates": [
+      [
+        0,
+        34
+      ]
+    ]
+  },
+  {
+    "id": "C028",
+    "category": "overlapping_authorities",
+    "lookup": "(Ala-IL-8)77",
+    "query": "(Ala-IL-8)77",
+    "surface": "(Ala-IL-8)77",
+    "span_candidates": [
+      [
+        0,
+        12
+      ]
+    ]
+  },
+  {
+    "id": "C029",
+    "category": "overlapping_authorities",
+    "lookup": "(E3-independent) E2 ubiquitin-conjugating enzyme",
+    "query": "(E3-independent) E2 ubiquitin-conjugating enzyme",
+    "surface": "(E3-independent) E2 ubiquitin-conjugating enzyme",
+    "span_candidates": [
+      [
+        0,
+        48
+      ]
+    ]
+  },
+  {
+    "id": "C030",
+    "category": "spelled_form",
+    "lookup": "1-acyl-sn-glycerol-3-phosphate acyltransferase alpha",
+    "query": "1-acyl-sn-glycerol-3-phosphate acyltransferase alpha",
+    "surface": "1-acyl-sn-glycerol-3-phosphate acyltransferase alpha",
+    "span_candidates": [
+      [
+        0,
+        52
+      ]
+    ]
+  },
+  {
+    "id": "C031",
+    "category": "spelled_form",
+    "lookup": "1-acyl-sn-glycerol-3-phosphate acyltransferase beta",
+    "query": "1-acyl-sn-glycerol-3-phosphate acyltransferase beta",
+    "surface": "1-acyl-sn-glycerol-3-phosphate acyltransferase beta",
+    "span_candidates": [
+      [
+        0,
+        51
+      ]
+    ]
+  },
+  {
+    "id": "C032",
+    "category": "spelled_form",
+    "lookup": "1-acyl-sn-glycerol-3-phosphate acyltransferase gamma",
+    "query": "1-acyl-sn-glycerol-3-phosphate acyltransferase gamma",
+    "surface": "1-acyl-sn-glycerol-3-phosphate acyltransferase gamma",
+    "span_candidates": [
+      [
+        0,
+        52
+      ]
+    ]
+  },
+  {
+    "id": "C033",
+    "category": "spelled_form",
+    "lookup": "11S regulator complex beta subunit",
+    "query": "11S regulator complex beta subunit",
+    "surface": "11S regulator complex beta subunit",
+    "span_candidates": [
+      [
+        0,
+        34
+      ]
+    ]
+  },
+  {
+    "id": "C034",
+    "category": "spelled_form",
+    "lookup": "11S regulator complex gamma subunit",
+    "query": "11S regulator complex gamma subunit",
+    "surface": "11S regulator complex gamma subunit",
+    "span_candidates": [
+      [
+        0,
+        35
+      ]
+    ]
+  },
+  {
+    "id": "C035",
+    "category": "synonym",
+    "lookup": "'C-K-RAS",
+    "query": "'C-K-RAS",
+    "surface": "'C-K-RAS",
+    "span_candidates": [
+      [
+        0,
+        8
+      ]
+    ]
+  },
+  {
+    "id": "C036",
+    "category": "synonym",
+    "lookup": "(1-49)-CCK58",
+    "query": "(1-49)-CCK58",
+    "surface": "(1-49)-CCK58",
+    "span_candidates": [
+      [
+        0,
+        12
+      ]
+    ]
+  },
+  {
+    "id": "C037",
+    "category": "synonym",
+    "lookup": "(2'-5')oligo(A) synthetase 2",
+    "query": "(2'-5')oligo(A) synthetase 2",
+    "surface": "(2'-5')oligo(A) synthetase 2",
+    "span_candidates": [
+      [
+        0,
+        28
+      ]
+    ]
+  },
+  {
+    "id": "C038",
+    "category": "synonym",
+    "lookup": "(2-5')oligo(A) synthase 1",
+    "query": "(2-5')oligo(A) synthase 1",
+    "surface": "(2-5')oligo(A) synthase 1",
+    "span_candidates": [
+      [
+        0,
+        25
+      ]
+    ]
+  },
+  {
+    "id": "C039",
+    "category": "synonym",
+    "lookup": "(2-5')oligo(A) synthase 2",
+    "query": "(2-5')oligo(A) synthase 2",
+    "surface": "(2-5')oligo(A) synthase 2",
+    "span_candidates": [
+      [
+        0,
+        25
+      ]
+    ]
+  },
+  {
+    "id": "C040",
+    "category": "fixed_existing_resolution_controls",
+    "lookup": "CD19",
+    "query": "CD19",
+    "surface": "CD19",
+    "span_candidates": [
+      [
+        0,
+        4
+      ]
+    ]
+  },
+  {
+    "id": "C041",
+    "category": "fixed_existing_resolution_controls",
+    "lookup": "B-lymphocyte antigen CD19",
+    "query": "B-lymphocyte antigen CD19",
+    "surface": "B-lymphocyte antigen CD19",
+    "span_candidates": [
+      [
+        0,
+        25
+      ]
+    ]
+  },
+  {
+    "id": "C042",
+    "category": "fixed_existing_resolution_controls",
+    "lookup": "MRCK",
+    "query": "MRCK",
+    "surface": "MRCK",
+    "span_candidates": [
+      [
+        0,
+        4
+      ]
+    ]
+  },
+  {
+    "id": "C043",
+    "category": "fixed_existing_resolution_controls",
+    "lookup": "E2",
+    "query": "E2",
+    "surface": "E2",
+    "span_candidates": [
+      [
+        0,
+        2
+      ]
+    ]
+  },
+  {
+    "id": "C044",
+    "category": "fixed_existing_resolution_controls",
+    "lookup": "CAR",
+    "query": "CAR",
+    "surface": "CAR",
+    "span_candidates": [
+      [
+        0,
+        3
+      ]
+    ]
+  },
+  {
+    "id": "C045",
+    "category": "fixed_existing_resolution_controls",
+    "lookup": "NOT_A_REAL_TARGET_93741",
+    "query": "NOT_A_REAL_TARGET_93741",
+    "surface": "NOT_A_REAL_TARGET_93741",
+    "span_candidates": [
+      [
+        0,
+        23
+      ]
+    ]
+  },
+  {
+    "id": "C046",
+    "category": "fixed_existing_resolution_controls",
+    "lookup": "",
+    "query": "",
+    "surface": "",
+    "span_candidates": [
+      [
+        0,
+        0
+      ]
+    ]
+  }
+]
