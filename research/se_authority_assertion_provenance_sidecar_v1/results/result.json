@@ -1,0 +1,69 @@
+{
+  "milestone": "AUTHORITY_ASSERTION_PROVENANCE_SIDECAR v1",
+  "decision": "ADOPT",
+  "baseline": "2a86312",
+  "preregistration": "0bb2e7a",
+  "red_tests_commit": "f634e8e",
+  "implementation": "2f74f93",
+  "criteria": {
+    "P1": "PASS",
+    "P2": "PASS",
+    "P3": "PASS",
+    "P4": "PASS",
+    "P5": "PASS",
+    "P6": "PASS",
+    "P7": "PASS",
+    "P8": "PASS",
+    "P9": "PASS",
+    "P10": "PASS",
+    "P11": "PASS"
+  },
+  "frozen_parser_decisions": 6199,
+  "baseline_byte_identical": true,
+  "lookup_cases_unchanged": 124,
+  "all_77_previous_failures_complete_raw_lineage": true,
+  "audit_field_occurrences_recoverable": 410,
+  "audit_field_occurrences_unrecoverable": 33,
+  "metrics": {
+    "audited_queries": 124,
+    "audited_snapshot_field_occurrences": 443,
+    "canonical_ids_with_multiple_assertions": 75702,
+    "fully_recoverable_snapshot_fields": 517905,
+    "normalization_collisions": 41798,
+    "raw_and_transform_roundtrips": 910548,
+    "raw_source_assertions": 910548,
+    "recoverable_source_records": 78691,
+    "sidecar_assertion_rows": 910548,
+    "source_component_collisions": 463,
+    "unique_canonical_target_ids_with_sidecar": 76773,
+    "unrecoverable_snapshot_fields": 55613,
+    "unrecoverable_source_records": 5869
+  },
+  "tests": {
+    "tests": 1838,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3,
+    "passed": 1835,
+    "existing_xfails": 3
+  },
+  "ruff": "PASS",
+  "focused_tests_passed": 7,
+  "artifact_hashes_byte_identical_seeds_0_42": true,
+  "artifacts_root": "/home/djmann/se_runs/authority_assertion_provenance_sidecar_v1",
+  "artifact_manifest": {
+    "assertions.jsonl.gz": "94d934d58a22c7e5f7a2ca56c3d5356bd3c08de3f04abf0fd8f998ef8ac1033d",
+    "collision_report.json": "09d25465693033de6dd1720946626f6f7c713af23f9249d63aefea42a4b00f6d",
+    "counts.json": "8fd57c9df6781a90815d949f1ce8548e42b83131cdfbbc72a637cb6827facae6",
+    "linkage.jsonl.gz": "d12058bad4b184de478ce68ddc3684ec1b8e898b62c423c2bcf07dcbad7bde36",
+    "query_linkage_audit.json": "7d65a27b9d8eb5cc4e126628c92197d3df990f41a43e22d7aec6387ac220b9c6",
+    "raw_artifacts.json": "5d3d550139755f5bfe73cddaca13f7afb47235328f157e880dab7e137bd9182c",
+    "unrecoverable.jsonl.gz": "51975dada1c607e9a249acf894264cb00f3c5a731cd7dbcb6c0c79ff35784ec1"
+  },
+  "snapshots_and_frozen_inputs_unchanged": true,
+  "limitations": [
+    "Original ChEMBL ingestion responses unavailable; 55,613 fields explicitly UNRECOVERABLE.",
+    "Standalone capture/generation only; legacy ingestion and lookup do not automatically use the sidecar.",
+    "No target-role, alias, human-PoC, or other scientific behavior change."
+  ]
+}

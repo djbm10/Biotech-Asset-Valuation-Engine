@@ -1,0 +1,1 @@
+{"rows": 6199, "required_observations": 1344, "required_spans": 1687}

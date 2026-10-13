@@ -98,3 +98,40 @@ unrecoverable snapshot assertion fields; distinguish occurrence counts from uniq
 assertions. Include all 124 query cases without treating unresolved lookup as a raw
 assertion. Adopt independently only on all criteria. Then stop with representation v2
 as a separately preregistered next milestone; do not change target roles or aliases.
+
+## Frozen result — ADOPTED
+
+Preregistration **0bb2e7a**, red tests **f634e8e**, implementation **2f74f93**.
+All P1–P11 pass. No post-result code or acceptance patch.
+
+- All **6,199** complete parser/compiler decisions byte-identical to baseline;
+  all **124** frozen lookup outcomes unchanged.
+- All **77** historical failure cases have complete original-source lineage (322
+  audited assertion occurrences). Across all 443 occurrences: **410 RECOVERABLE**,
+  **33 UNRECOVERABLE**, exactly matching the preregistered source-specific expectations.
+- **910,548** raw accepted assertion origins produce **910,548** independently
+  identified sidecar rows. All raw-field/component and transform replays pass.
+- **76,773** unique canonical IDs have sidecar assertions; **75,702** have more than one.
+- **41,798** normalized keys retain multiple distinct raw strings. **463** canonical IDs
+  have multiple existing source components; all remain separate, including collisions
+  whose historical ChEMBL component origins remain unavailable.
+- **517,905** existing snapshot fields fully recoverable from 78,691 Open Targets
+  records; **55,613** fields from 5,869 ChEMBL records explicitly UNRECOVERABLE.
+- Full independent seed-0/seed-42 artifacts byte-identical (all seven output hashes
+  verified against actual bytes). Accepted snapshot and pinned inputs unchanged.
+- Full tests/se: **1,835 passed / 3 existing xfails**, zero failures/errors; seven
+  focused tests pass; required Ruff clean.
+
+Large immutable artifacts are at
+`/home/djmann/se_runs/authority_assertion_provenance_sidecar_v1/seed0/` and `seed42/`.
+Their exact hashes, counts, query linkage audit, quality-gate logs and JUnit evidence
+are committed under `research/se_authority_assertion_provenance_sidecar_v1/results/`.
+`schema.md` documents the record contract; README gives sequential reproduction.
+
+Adopted independently as an additive capture API and offline sidecar generator. The
+legacy ingestion builder and lookup/parser do not automatically consume it. Historical
+ChEMBL originals were not reconstructed from another database or normalized text.
+This removes the 77 known lineage gaps without recovering unavailable evidence or
+changing any target decision. Next work is separately preregistered
+TARGET_MENTION_ROLE_REPRESENTATION v2 using explicit sidecar availability; no target-role
+semantics or alias expansion is authorized within this milestone.

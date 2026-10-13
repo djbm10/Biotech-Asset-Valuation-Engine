@@ -1,0 +1,15 @@
+
+==================================== ERRORS ====================================
+____________ ERROR collecting tests/se/test_assertion_provenance.py ____________
+ImportError while importing test module '/home/djmann/projects/bve-b8/tests/se/test_assertion_provenance.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/usr/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/se/test_assertion_provenance.py:6: in <module>
+    from bve.se.ontology.assertion_provenance import capture_assertions, link_assertions, replay
+E   ModuleNotFoundError: No module named 'bve.se.ontology.assertion_provenance'
+=========================== short test summary info ============================
+ERROR tests/se/test_assertion_provenance.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
