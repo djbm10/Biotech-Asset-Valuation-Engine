@@ -1,0 +1,394 @@
+[
+  {
+    "authority_route_probes": {
+      "authority_modality": null,
+      "authority_modality_basis": null,
+      "corroborative_name": false,
+      "identity_bearing_name": false,
+      "ncit_non_product_concepts": [],
+      "qualification_veto": null
+    },
+    "name": "[68Ga]Ga-TTP",
+    "observations": [
+      {
+        "all_arm_groups": [
+          {
+            "description": "Patients with newly diagnosed or suspected breast cancer will undergo one \\[68Ga\\]Ga-TTP scan and one \\[18F\\]FDG scan within 1 week, in randomized order, with no anticancer treatment administered between the two imaging examinations. This cohort is used to evaluate tumor targeting, compare diagnostic performance with \\[18F\\]FDG, and correlate imaging findings with pathology and TROP2 expression.",
+            "interventionNames": [
+              "Drug: 18F-FDG",
+              "Drug: [68Ga]Ga-TTP"
+            ],
+            "label": "Diagnostic Validation Cohort",
+            "type": "EXPERIMENTAL"
+          },
+          {
+            "description": "Patients with breast cancer who are planned to receive TROP2-directed ADC therapy will undergo paired \\[68Ga\\]Ga-TTP and \\[18F\\]FDG imaging at three time points: before treatment, after 2 cycles of ADC therapy(each cycle is 21 days), and at disease progression. This cohort is used to assess longitudinal imaging changes and their relationship with treatment response.",
+            "interventionNames": [
+              "Drug: 18F-FDG",
+              "Drug: [68Ga]Ga-TTP"
+            ],
+            "label": "ADC Response Assessment Cohort",
+            "type": "EXPERIMENTAL"
+          }
+        ],
+        "current_arm_relationships": {
+          "18ffdg": "therapeutic",
+          "68gagattp": "therapeutic",
+          "adcresponseassessmentcohort": "therapeutic",
+          "diagnosticvalidationcohort": "therapeutic"
+        },
+        "description": {
+          "briefSummary": "The objective of the study is to construct a noninvasive approach 68Ga-TTP PET/CT to detect the TROP2 expression of tumor lesions in patients with breast tumors and evaluate the efficacy of ADC drug therapy."
+        },
+        "design": {
+          "designInfo": {
+            "allocation": "NON_RANDOMIZED",
+            "interventionModel": "SINGLE_GROUP",
+            "maskingInfo": {
+              "masking": "NONE"
+            },
+            "primaryPurpose": "DIAGNOSTIC"
+          },
+          "enrollmentInfo": {
+            "count": 60,
+            "type": "ESTIMATED"
+          },
+          "phases": [
+            "NA"
+          ],
+          "studyType": "INTERVENTIONAL"
+        },
+        "document": {
+          "content_hash": "ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599",
+          "document_id": "document:4a375fe6a9d7853f98f6",
+          "document_type": "trial_registry_record",
+          "public_only": true,
+          "publication_date": null,
+          "publisher": "ClinicalTrials.gov",
+          "retrieval_date": "2026-10-12T00:11:02.561914Z",
+          "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/ced07758df8f515f533d9ac4e9e26919af7ef3287c3af6cf017370867eb33599.json",
+          "source_tier": "REGISTRY",
+          "source_url": "https://clinicaltrials.gov/study/NCT06715020"
+        },
+        "field_path": [
+          "armsInterventionsModule",
+          "interventions",
+          1
+        ],
+        "raw_intervention": {
+          "armGroupLabels": [
+            "ADC Response Assessment Cohort",
+            "Diagnostic Validation Cohort"
+          ],
+          "description": "\\[68Ga\\]Ga-TTP is a TROP2-targeted PET radiotracer administered intravenously for PET imaging. In the diagnostic validation cohort, participants undergo one \\[68Ga\\]Ga-TTP PET examination within 1 week of the comparator \\[18F\\]FDG scan. In the ADC response assessment cohort, participants undergo \\[68Ga\\]Ga-TTP PET imaging before ADC therapy, after 2 cycles of treatment(each cycle is 21 days), and at disease progression. The planned administered activity is approximately 0.05-0.1 mCi/kg.",
+          "name": "[68Ga]Ga-TTP",
+          "type": "DRUG"
+        }
+      }
+    ],
+    "recorded_route": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "authority_route_probes": {
+      "authority_modality": null,
+      "authority_modality_basis": null,
+      "corroborative_name": false,
+      "identity_bearing_name": false,
+      "ncit_non_product_concepts": [],
+      "qualification_veto": null
+    },
+    "name": "Rescue Medications",
+    "observations": [
+      {
+        "all_arm_groups": [
+          {
+            "description": "Participants will receive 4 mg/kg of sacituzumab tirumotecan via intravenous (IV) infusion on Day 1 of each 14-day cycle.",
+            "interventionNames": [
+              "Biological: Sacituzumab tirumotecan",
+              "Drug: Rescue medications"
+            ],
+            "label": "Sacituzumab tirumotecan",
+            "type": "EXPERIMENTAL"
+          },
+          {
+            "description": "Participants will receive 60 mg/m\\^2 of doxorubicin by IV infusion on Day 1 of each 21-day cycle; or 80 mg/m\\^2 of paclitaxel by IV infusion on Days 1, 8, and 15 of each 28-day cycle. Participants who experience either a severe hypersensitivity reaction to paclitaxel or an AE requiring discontinuation of paclitaxel may receive Nab-paclitaxel.",
+            "interventionNames": [
+              "Drug: Doxorubicin",
+              "Drug: Paclitaxel",
+              "Drug: Nab-paclitaxel"
+            ],
+            "label": "Chemotherapy",
+            "type": "ACTIVE_COMPARATOR"
+          }
+        ],
+        "current_arm_relationships": {
+          "chemotherapy": "therapeutic",
+          "doxorubicin": "therapeutic",
+          "nabpaclitaxel": "therapeutic",
+          "paclitaxel": "therapeutic",
+          "rescuemedications": "therapeutic",
+          "sacituzumabtirumotecan": "therapeutic"
+        },
+        "description": {
+          "briefSummary": "Researchers are looking for new ways to treat people with endometrial cancer (EC) who have previously received treatment with platinum based therapy (a type of chemotherapy) and immunotherapy. Immunotherapy is a treatment that helps the immune system fight cancer. This clinical study will compare sacituzumab tirumotecan to chemotherapy. The goal of the study is to learn if people who receive sacituzumab tirumotecan live longer overall and without the cancer getting worse compared to people who receive chemotherapy."
+        },
+        "design": {
+          "designInfo": {
+            "allocation": "RANDOMIZED",
+            "interventionModel": "PARALLEL",
+            "maskingInfo": {
+              "masking": "NONE"
+            },
+            "primaryPurpose": "TREATMENT"
+          },
+          "enrollmentInfo": {
+            "count": 710,
+            "type": "ESTIMATED"
+          },
+          "phases": [
+            "PHASE3"
+          ],
+          "studyType": "INTERVENTIONAL"
+        },
+        "document": {
+          "content_hash": "4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59",
+          "document_id": "document:9233f74c7e0c1f50e382",
+          "document_type": "trial_registry_record",
+          "public_only": true,
+          "publication_date": null,
+          "publisher": "ClinicalTrials.gov",
+          "retrieval_date": "2026-10-12T00:11:02.026018Z",
+          "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4b66ee2af7cfc7a5aa4f4db455a4cecb3f85522644f77409814b5f69c0d80f59.json",
+          "source_tier": "REGISTRY",
+          "source_url": "https://clinicaltrials.gov/study/NCT06132958"
+        },
+        "field_path": [
+          "armsInterventionsModule",
+          "interventions",
+          4
+        ],
+        "raw_intervention": {
+          "armGroupLabels": [
+            "Sacituzumab tirumotecan"
+          ],
+          "description": "Participants will receive the following rescue medications per approved product label before sacituzumab tirumotecan infusion: Histamine-1 (H1) receptor antagonist, histamine-2 (H2) receptor antagonist, acetaminophen or equivalent, dexamethasone or equivalent, and steroid mouthwash (dexamethasone or equivalent).",
+          "name": "Rescue medications",
+          "type": "DRUG"
+        }
+      },
+      {
+        "all_arm_groups": [
+          {
+            "description": "Participants will receive sac-TMT 4 mg/kg every 2 weeks (q2w) and pembrolizumab 400 mg every 6 weeks (q6w) for up to 14 cycles (up to approximately 20 months). Bevacizumab 15 mg/kg every 3 weeks (q3w) will be administered until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+            "interventionNames": [
+              "Biological: Pembrolizumab",
+              "Biological: Sacituzumab Tirumotecan",
+              "Biological: Bevacizumab",
+              "Drug: Rescue Medications"
+            ],
+            "label": "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+            "type": "EXPERIMENTAL"
+          },
+          {
+            "description": "During induction treatment, participants will receive pembrolizumab 200 mg q3w for up to 8 cycles, paclitaxel 175 mg/m\\^2 q3w for up to 6 cycles, and cisplatin 50 mg/m\\^2 q3w (or carboplatin area under the curve \\[AUC\\]5 mg/mL/min q3w) for up to 6 cycles. Participants may also receive bevacizumab 15 mg/kg q3w for up to 8 cycles at the investigator's discretion. Each cycle will be 3 weeks long.\n\nDuring maintenance treatment, participants will receive sac-TMT 4 mg/kg q2w and pembrolizumab 400 mg q6w for up to 14 cycles (up to approximately 20 months). Participants may also receive bevacizumab 15 mg/kg q3w, at the investigator's discretion, until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+            "interventionNames": [
+              "Biological: Pembrolizumab",
+              "Biological: Sacituzumab Tirumotecan",
+              "Biological: Bevacizumab",
+              "Drug: Paclitaxel",
+              "Drug: Cisplatin",
+              "Drug: Carboplatin",
+              "Drug: Rescue Medications"
+            ],
+            "label": "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab",
+            "type": "EXPERIMENTAL"
+          },
+          {
+            "description": "During induction treatment, participants will receive pembrolizumab 200 mg q3w for up to 8 cycles, paclitaxel 175 mg/m\\^2 q3w for up to 6 cycles, and cisplatin 50 mg/m\\^2 q3w (or carboplatin AUC 5 mg/mL/min q3w) for up to 6 cycles. Participants may also receive bevacizumab 15 mg/kg q3w for up to 8 cycles at the investigator's discretion. Each cycle will be 3 weeks long.\n\nDuring maintenance treatment, participants will receive pembrolizumab 400 mg q6w for up to 14 cycles (up to approximately 20 months). Participants may also receive bevacizumab 15 mg/kg q3w, at the investigator's discretion, until a treatment discontinuation criterion is met. Each cycle will be 6 weeks long.",
+            "interventionNames": [
+              "Biological: Pembrolizumab",
+              "Biological: Bevacizumab",
+              "Drug: Paclitaxel",
+              "Drug: Cisplatin",
+              "Drug: Carboplatin"
+            ],
+            "label": "Part 2: Pembrolizumab +/- Bevacizumab",
+            "type": "ACTIVE_COMPARATOR"
+          }
+        ],
+        "current_arm_relationships": {
+          "bevacizumab": "therapeutic",
+          "carboplatin": "therapeutic",
+          "cisplatin": "therapeutic",
+          "paclitaxel": "therapeutic",
+          "part1safetyruninsactmtpembrolizumabbevacizumab": "therapeutic",
+          "part2pembrolizumabbevacizumab": "therapeutic",
+          "part2sactmtpembrolizumabbevacizumab": "therapeutic",
+          "pembrolizumab": "therapeutic",
+          "rescuemedications": "therapeutic",
+          "sacituzumabtirumotecan": "therapeutic"
+        },
+        "description": {
+          "briefSummary": "Researchers are looking for new ways to treat metastatic cervical cancer. Cervical cancer is cancer in the cervix, the lower part of the uterus (womb). Metastatic means the cancer has spread to other parts of the body.\n\nResearchers want to learn about giving the study medicine sacituzumab tirumotecan (also called sac-TMT or MK-2870) along with pembrolizumab and bevacizumab treatments. Sac-TMT is an antibody drug conjugate, which is a type of medicine that attaches to specific targets on cancer cells and delivers treatment to destroy those cells.\n\nThe goals of this study are to learn:\n\n* About the safety of sac-TMT with pembrolizumab and bevacizumab, and if people tolerate them when given together, and\n* If people who receive sac-TMT and pembrolizumab, with or without bevacizumab, live longer overall or without their cancer getting worse as compared to those who receive standard treatment",
+          "detailedDescription": "This is a 2-part study.\n\nIn Part 1 Safety Run-in, eligible participants will be allocated to treatment with sac-TMT + pembrolizumab + bevacizumab.\n\nIn Part 2, all participants receive standard of care induction treatment. Eligible participants whose cancer does not progress then begin maintenance treatment and are randomized to receive pembrolizumab or sac-TMT + pembrolizumab. All participants in Part 2 maintenance treatment may also receive bevacizumab at the investigator's discretion."
+        },
+        "design": {
+          "designInfo": {
+            "allocation": "RANDOMIZED",
+            "interventionModel": "PARALLEL",
+            "interventionModelDescription": "Participants in Part 1 Safety Run-in are allocated to a single treatment arm. Participants in study Part 2 complete induction treatment and are then randomized to 1 of 2 maintenance treatment arms.",
+            "maskingInfo": {
+              "masking": "SINGLE",
+              "whoMasked": [
+                "OUTCOMES_ASSESSOR"
+              ]
+            },
+            "primaryPurpose": "TREATMENT"
+          },
+          "enrollmentInfo": {
+            "count": 1023,
+            "type": "ESTIMATED"
+          },
+          "phases": [
+            "PHASE3"
+          ],
+          "studyType": "INTERVENTIONAL"
+        },
+        "document": {
+          "content_hash": "0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696",
+          "document_id": "document:b3c584633bfff9c349b1",
+          "document_type": "trial_registry_record",
+          "public_only": true,
+          "publication_date": null,
+          "publisher": "ClinicalTrials.gov",
+          "retrieval_date": "2026-10-12T00:11:02.248952Z",
+          "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/0ea3aacabb6c9f3a0ad914c99436ffd6c41e4f4ce506bee7d6506a0dfe6f3696.json",
+          "source_tier": "REGISTRY",
+          "source_url": "https://clinicaltrials.gov/study/NCT07216703"
+        },
+        "field_path": [
+          "armsInterventionsModule",
+          "interventions",
+          6
+        ],
+        "raw_intervention": {
+          "armGroupLabels": [
+            "Part 1 Safety Run-in: Sac-TMT + Pembrolizumab + Bevacizumab",
+            "Part 2: Sac-TMT + Pembrolizumab +/- Bevacizumab"
+          ],
+          "description": "Participants will receive the following rescue medications prior to sac-TMT infusion, per approved product label: histamine-1 receptor antagonist, histamine-2 receptor antagonist, acetaminophen or equivalent, and dexamethasone or equivalent, prophylactic steroid mouthwash (dexamethasone or equivalent), and granulocyte colony-stimulating factor (G-CSF).",
+          "name": "Rescue Medications",
+          "type": "DRUG"
+        }
+      }
+    ],
+    "recorded_route": "STRUCTURED_THERAPEUTIC"
+  },
+  {
+    "authority_route_probes": {
+      "authority_modality": null,
+      "authority_modality_basis": null,
+      "corroborative_name": false,
+      "identity_bearing_name": false,
+      "ncit_non_product_concepts": [],
+      "qualification_veto": null
+    },
+    "name": "Rescue Medication",
+    "observations": [
+      {
+        "all_arm_groups": [
+          {
+            "description": "Participants receive sacituzumab tirumotecan intravenously (IV) at a dose of 4 mg/kg every 2 weeks (Q2W) until disease progression, toxicity or discontinuation.",
+            "interventionNames": [
+              "Biological: Sacituzumab tirumotecan",
+              "Drug: Rescue Medication"
+            ],
+            "label": "Arm A: Sacituzumab Tirumotecan",
+            "type": "EXPERIMENTAL"
+          },
+          {
+            "description": "Participants receive sacituzumab tirumotecan IV 4 mg/kg Q2W until disease progression, toxicity or discontinuation PLUS pembrolizumab IV 400 mg every 6 weeks (Q6W) for up to 18 administrations (up to \\~2 years).",
+            "interventionNames": [
+              "Biological: Sacituzumab tirumotecan",
+              "Biological: Pembrolizumab",
+              "Drug: Rescue Medication"
+            ],
+            "label": "Arm B: Sacituzumab Tirumotecan + Pembrolizumab",
+            "type": "EXPERIMENTAL"
+          },
+          {
+            "description": "Participants receive physician's choice of chemotherapy agent(s): paclitaxel IV 80 mg/m\\^2 once every week (Q1W) OR paclitaxel IV 90 mg/m\\^2 on Days 1, 8, and 15, every 4 weeks (Q4W) OR nab-paclitaxel IV 100 mg/m\\^2 on Days 1, 8, and 15, Q4W OR gemcitabine IV 1000 mg/m\\^2 on Days 1 and 8, every 3 weeks (Q3W) PLUS carboplatin IV area under the curve (AUC) 2 mg/mL/min on Days 1 and 8, Q3W, until disease progression, toxicity or discontinuation.",
+            "interventionNames": [
+              "Drug: Paclitaxel",
+              "Drug: Nab-paclitaxel",
+              "Drug: Gemcitabine",
+              "Drug: Carboplatin"
+            ],
+            "label": "Arm C: Treatment of Physician's Choice (TPC)",
+            "type": "ACTIVE_COMPARATOR"
+          }
+        ],
+        "current_arm_relationships": {
+          "armasacituzumabtirumotecan": "therapeutic",
+          "armbsacituzumabtirumotecanpembrolizumab": "therapeutic",
+          "armctreatmentofphysicianschoicetpc": "therapeutic",
+          "carboplatin": "therapeutic",
+          "gemcitabine": "therapeutic",
+          "nabpaclitaxel": "therapeutic",
+          "paclitaxel": "therapeutic",
+          "pembrolizumab": "therapeutic",
+          "rescuemedication": "therapeutic",
+          "sacituzumabtirumotecan": "therapeutic"
+        },
+        "description": {
+          "briefSummary": "Researchers want to know if sacituzumab tirumotecan given alone or with pembrolizumab can treat triple negative breast cancer (TNBC). The main goal of this study is to learn if people treated with sacituzumab tirumotecan alone or with pembrolizumab live longer overall or without the cancer growing or spreading compared to people treated with chemotherapy."
+        },
+        "design": {
+          "designInfo": {
+            "allocation": "RANDOMIZED",
+            "interventionModel": "PARALLEL",
+            "maskingInfo": {
+              "masking": "NONE"
+            },
+            "primaryPurpose": "TREATMENT"
+          },
+          "enrollmentInfo": {
+            "count": 1000,
+            "type": "ESTIMATED"
+          },
+          "phases": [
+            "PHASE3"
+          ],
+          "studyType": "INTERVENTIONAL"
+        },
+        "document": {
+          "content_hash": "8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c",
+          "document_id": "document:e3ceed73de64f520eaf6",
+          "document_type": "trial_registry_record",
+          "public_only": true,
+          "publication_date": null,
+          "publisher": "ClinicalTrials.gov",
+          "retrieval_date": "2026-10-12T00:11:03.526378Z",
+          "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/8abdeae6c10872793fecd091d0a901120ea473d9c3c522accd3326091272cc3c.json",
+          "source_tier": "REGISTRY",
+          "source_url": "https://clinicaltrials.gov/study/NCT06841354"
+        },
+        "field_path": [
+          "armsInterventionsModule",
+          "interventions",
+          2
+        ],
+        "raw_intervention": {
+          "armGroupLabels": [
+            "Arm A: Sacituzumab Tirumotecan",
+            "Arm B: Sacituzumab Tirumotecan + Pembrolizumab"
+          ],
+          "description": "Participants receive the following pre-medications before sacituzumab tirumotecan infusion: Histamine-1 (H1) receptor agonist, histamine-2 (H2) receptor antagonist, acetaminophen or equivalent, dexamethasone or equivalent infusion. Participants are also recommended to receive prophylactic steroid mouthwash (dexamethasone or equivalent).",
+          "name": "Rescue Medication",
+          "type": "DRUG"
+        }
+      }
+    ],
+    "recorded_route": "STRUCTURED_THERAPEUTIC"
+  }
+]

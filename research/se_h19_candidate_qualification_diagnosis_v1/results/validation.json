@@ -1,0 +1,20 @@
+{
+  "all_frozen_inputs_unchanged": true,
+  "buckets": {
+    "A_NON_ASSET_ADMISSION": 3,
+    "B_FALSE_PRODUCT_TYPE_EXCLUSION": 1,
+    "C_NAME_EXTRACTION_CANDIDATE_NOMINATION": 1,
+    "D_SOURCE_COVERAGE_DISCOVERY": 1,
+    "E_IDENTITY": 2,
+    "F_OTHER": 7,
+    "NONE": 8
+  },
+  "claim_and_document_links_valid": true,
+  "emitted": 20,
+  "existing_qualification_tests_passed": 215,
+  "full_tests_se": "Not required: diagnosis only.",
+  "live_replays_or_acquisition": false,
+  "production_changes": false,
+  "references": 5,
+  "rows": 23
+}

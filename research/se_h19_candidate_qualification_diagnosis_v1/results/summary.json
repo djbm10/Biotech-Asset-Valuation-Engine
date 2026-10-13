@@ -1,0 +1,15 @@
+{
+  "rows": 23,
+  "emitted_rows": 20,
+  "references": 5,
+  "snapshots_scanned": 779,
+  "non_snapshot_source_documents": 4,
+  "esg401_field_hits": 1,
+  "bl_m02d1_field_hits": 0,
+  "esg401_candidates": 0,
+  "esg401_mentions": 0,
+  "datopotamab_qualification": "DIRECT_APPROVED_NAME",
+  "datopotamab_modality_probe": "PEPTIDE",
+  "controls_pass": true,
+  "inputs_unchanged": true
+}

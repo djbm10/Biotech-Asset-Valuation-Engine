@@ -1,0 +1,218 @@
+[
+  {
+    "description": "A monoclonal antibody therapeutic administered to treat disease.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S01",
+    "kind": "antibody",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": true,
+    "synthetic": true
+  },
+  {
+    "description": "An antibody-drug conjugate with a peptide linker and cytotoxic payload.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S02",
+    "kind": "ADC",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": true,
+    "synthetic": true
+  },
+  {
+    "description": "A peptide therapeutic administered to treat disease.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S03",
+    "kind": "peptide",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": true,
+    "synthetic": true
+  },
+  {
+    "description": "A recombinant protein therapeutic administered to treat disease.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S04",
+    "kind": "protein",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": true,
+    "synthetic": true
+  },
+  {
+    "description": "A diagnostic substance used to identify disease, without therapeutic intent.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S05",
+    "kind": "diagnostic",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": false,
+    "synthetic": true
+  },
+  {
+    "description": "A radiotracer used only for PET imaging; no anticancer treatment.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S06",
+    "kind": "imaging",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": false,
+    "synthetic": true
+  },
+  {
+    "description": "Unspecified rescue medications: antihistamines, acetaminophen, and steroids.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S07",
+    "kind": "supportive",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": false,
+    "synthetic": true
+  },
+  {
+    "description": "A list of two independently named drugs, not one fixed-dose product.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S08",
+    "kind": "regimen",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": false,
+    "synthetic": true
+  },
+  {
+    "description": "A diagnostic imaging procedure, not a substance or therapeutic product.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S09",
+    "kind": "procedure",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": false,
+    "synthetic": true
+  },
+  {
+    "description": "A measured biomarker expression level, not an administered product.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S10",
+    "kind": "biomarker",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": false,
+    "synthetic": true
+  },
+  {
+    "description": "A laboratory assay reagent used only ex vivo.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S11",
+    "kind": "reagent",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": false,
+    "synthetic": true
+  },
+  {
+    "description": "One named therapeutic drug used as supportive care in this trial.",
+    "evaluation": "SEMANTIC_DESIGN_CONTROL_ONLY_NO_NEW_RULE",
+    "id": "S12",
+    "kind": "supportive_real_product",
+    "note": "Semantic structural control, not a claim about a real product or frozen pass rule.",
+    "stipulated_product_identity": true,
+    "synthetic": true
+  },
+  {
+    "evidence": {
+      "entity_specific_link": true,
+      "name": "benzhexol",
+      "pharmacologic_context": true,
+      "pharmacologic_documents": 2,
+      "support": 1
+    },
+    "expected_current_qualifies": true,
+    "id": "P_benzhexol",
+    "kind": "existing_positive",
+    "matches_existing_expectation": true,
+    "observed": true
+  },
+  {
+    "evidence": {
+      "entity_specific_link": true,
+      "name": "ibritumomab",
+      "pharmacologic_context": true,
+      "pharmacologic_documents": 2,
+      "support": 1
+    },
+    "expected_current_qualifies": true,
+    "id": "P_ibritumomab",
+    "kind": "existing_positive",
+    "matches_existing_expectation": true,
+    "observed": true
+  },
+  {
+    "evidence": {
+      "entity_specific_link": true,
+      "name": "lestaurinib",
+      "pharmacologic_context": true,
+      "pharmacologic_documents": 2,
+      "support": 1
+    },
+    "expected_current_qualifies": true,
+    "id": "P_lestaurinib",
+    "kind": "existing_positive",
+    "matches_existing_expectation": true,
+    "observed": true
+  },
+  {
+    "evidence": {
+      "name": "although",
+      "support": 100
+    },
+    "expected_current_qualifies": false,
+    "id": "N_although",
+    "kind": "existing_negative",
+    "matches_existing_expectation": true,
+    "observed": false
+  },
+  {
+    "evidence": {
+      "name": "before",
+      "support": 100
+    },
+    "expected_current_qualifies": false,
+    "id": "N_before",
+    "kind": "existing_negative",
+    "matches_existing_expectation": true,
+    "observed": false
+  },
+  {
+    "evidence": {
+      "name": "baseline",
+      "support": 100
+    },
+    "expected_current_qualifies": false,
+    "id": "N_baseline",
+    "kind": "existing_negative",
+    "matches_existing_expectation": true,
+    "observed": false
+  },
+  {
+    "evidence": {
+      "name": "Euroflow",
+      "support": 100
+    },
+    "expected_current_qualifies": false,
+    "id": "N_Euroflow",
+    "kind": "existing_negative",
+    "matches_existing_expectation": true,
+    "observed": false
+  },
+  {
+    "evidence": {
+      "name": "IQR",
+      "support": 100
+    },
+    "expected_current_qualifies": false,
+    "id": "N_IQR",
+    "kind": "existing_negative",
+    "matches_existing_expectation": true,
+    "observed": false
+  },
+  {
+    "direct_name_authority": true,
+    "expected_current_route": "DIRECT_APPROVED_NAME",
+    "explicit_non_product_veto": true,
+    "id": "PRECEDENCE",
+    "kind": "synthetic_route_probe",
+    "matches_existing_expectation": true,
+    "name": "synthetic authority molecule",
+    "note": "Controlled route-order observation only; does not decide future conflict policy.",
+    "observed_route": "DIRECT_APPROVED_NAME"
+  }
+]

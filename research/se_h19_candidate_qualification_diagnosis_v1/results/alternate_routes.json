@@ -1,0 +1,74 @@
+[
+  {
+    "class_term": false,
+    "development_code_shape": false,
+    "name": "[68Ga]Ga-TTP",
+    "note": "Read-only alternate-route probe on serialized captured text. Does not change recorded route or prove product identity.",
+    "original_decision": "STRUCTURED_THERAPEUTIC",
+    "probe_evidence": {
+      "comparator_observations": 0,
+      "corpus_documents": 779,
+      "document_frequency": 1,
+      "entity_specific_link": true,
+      "identity_authority": false,
+      "name": "[68Ga]Ga-TTP",
+      "pharmacologic_context": false,
+      "pharmacologic_documents": 0,
+      "specific_comparator_observations": 0,
+      "structurally_typed_drug": false,
+      "support": 1,
+      "therapeutic_observations": 0,
+      "unknown_observations": 0
+    },
+    "qualifying_prose_document_ids": [],
+    "structured_route_removed_probe": null
+  },
+  {
+    "class_term": false,
+    "development_code_shape": false,
+    "name": "Rescue Medications",
+    "note": "Read-only alternate-route probe on serialized captured text. Does not change recorded route or prove product identity.",
+    "original_decision": "STRUCTURED_THERAPEUTIC",
+    "probe_evidence": {
+      "comparator_observations": 0,
+      "corpus_documents": 779,
+      "document_frequency": 2,
+      "entity_specific_link": true,
+      "identity_authority": false,
+      "name": "Rescue Medications",
+      "pharmacologic_context": false,
+      "pharmacologic_documents": 0,
+      "specific_comparator_observations": 0,
+      "structurally_typed_drug": false,
+      "support": 2,
+      "therapeutic_observations": 0,
+      "unknown_observations": 0
+    },
+    "qualifying_prose_document_ids": [],
+    "structured_route_removed_probe": null
+  },
+  {
+    "class_term": false,
+    "development_code_shape": false,
+    "name": "Rescue Medication",
+    "note": "Read-only alternate-route probe on serialized captured text. Does not change recorded route or prove product identity.",
+    "original_decision": "STRUCTURED_THERAPEUTIC",
+    "probe_evidence": {
+      "comparator_observations": 0,
+      "corpus_documents": 779,
+      "document_frequency": 4,
+      "entity_specific_link": true,
+      "identity_authority": false,
+      "name": "Rescue Medication",
+      "pharmacologic_context": false,
+      "pharmacologic_documents": 0,
+      "specific_comparator_observations": 0,
+      "structurally_typed_drug": false,
+      "support": 4,
+      "therapeutic_observations": 0,
+      "unknown_observations": 0
+    },
+    "qualifying_prose_document_ids": [],
+    "structured_route_removed_probe": null
+  }
+]

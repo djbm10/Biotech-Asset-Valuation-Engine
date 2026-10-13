@@ -1,0 +1,66 @@
+[
+  {
+    "aliases": [
+      "sacituzumab govitecan",
+      "Trodelvy",
+      "IMMU-132"
+    ],
+    "candidate_ids": [
+      "asset:7e251ce2a0c8acfe2d6c",
+      "asset:a4e8d5e9526a71ca9926"
+    ],
+    "reference": "sacituzumab govitecan",
+    "row_names": [
+      "Sacituzumab govitecan",
+      "TRODELVY"
+    ]
+  },
+  {
+    "aliases": [
+      "datopotamab deruxtecan",
+      "Datroway",
+      "Dato-DXd",
+      "DS-1062"
+    ],
+    "candidate_ids": [
+      "asset:7d94e5544e4c6e085cc2",
+      "asset:b2c619f1ddecaa66c38d"
+    ],
+    "reference": "datopotamab deruxtecan",
+    "row_names": [
+      "Datopotamab deruxtecan"
+    ]
+  },
+  {
+    "aliases": [
+      "sacituzumab tirumotecan",
+      "sac-TMT",
+      "MK-2870",
+      "SKB264"
+    ],
+    "candidate_ids": [
+      "asset:7bd89b3a1051652e778b",
+      "asset:cf362b6bc18a7577433e"
+    ],
+    "reference": "sacituzumab tirumotecan",
+    "row_names": [
+      "Sacituzumab Tirumotecan"
+    ]
+  },
+  {
+    "aliases": [
+      "ESG401"
+    ],
+    "candidate_ids": [],
+    "reference": "ESG401",
+    "row_names": []
+  },
+  {
+    "aliases": [
+      "BL-M02D1"
+    ],
+    "candidate_ids": [],
+    "reference": "BL-M02D1",
+    "row_names": []
+  }
+]

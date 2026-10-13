@@ -1,0 +1,26 @@
+{
+  "BL-M02D1": [],
+  "ESG401": [
+    {
+      "document": {
+        "content_hash": "4c21f6a50df9a1ed3dbb18ccc7fed97c83241e158f710856c1ed0caab050a63d",
+        "document_id": "document:a8263dc5ef0a66082f76",
+        "document_type": "trial_registry_record",
+        "public_only": true,
+        "publication_date": null,
+        "publisher": "ClinicalTrials.gov",
+        "retrieval_date": "2026-10-12T00:11:03.198357Z",
+        "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4c21f6a50df9a1ed3dbb18ccc7fed97c83241e158f710856c1ed0caab050a63d.json",
+        "source_tier": "REGISTRY",
+        "source_url": "https://clinicaltrials.gov/study/NCT06145308"
+      },
+      "field_path": [
+        "armsInterventionsModule",
+        "armGroups",
+        3,
+        "description"
+      ],
+      "raw_value": "ESG401 16 mg/kg IV (days 1, 8, 15, q4w), sacituzumab govitecan 10 mg/kg IV (days 1 \\& 8, q3w), or sacituzumab tirumotecan 5 mg/kg IV q2w."
+    }
+  ]
+}

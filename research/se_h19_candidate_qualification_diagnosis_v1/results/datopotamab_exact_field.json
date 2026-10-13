@@ -1,0 +1,36 @@
+{
+  "authority_field_path": [
+    "molecule_types",
+    "CHEMBL4297939"
+  ],
+  "authority_product_type": "Antibody drug conjugate",
+  "authority_release": "ChEMBL_37",
+  "authority_source_sha256": "4be13df3b68e25dcd0bff44bf094033b5aebe98f415acdc8c1cdf380e0c15142",
+  "canonical_ontology_identity": "DRUG:DATOPOTAMAB DERUXTECAN",
+  "chembl_identity": "CHEMBL4297939",
+  "claim_id": "claim:2022030306a59db4acec",
+  "document": {
+    "content_hash": "4828b8f5fbd71186fa071a4b54ba423670dbea52ac962fb367adf091931dc35e",
+    "document_id": "document:463268b43ea527c591e7",
+    "document_type": "trial_registry_record",
+    "public_only": true,
+    "publication_date": null,
+    "publisher": "ClinicalTrials.gov",
+    "retrieval_date": "2026-10-12T00:11:03.627839Z",
+    "snapshot_path": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4828b8f5fbd71186fa071a4b54ba423670dbea52ac962fb367adf091931dc35e.json",
+    "source_tier": "REGISTRY",
+    "source_url": "https://clinicaltrials.gov/study/NCT07720284"
+  },
+  "exact_field_path": [
+    "armsInterventionsModule",
+    "interventions",
+    0,
+    "description"
+  ],
+  "fact_id": "fact:71c28d48f9461eb004d3",
+  "first_failure": "Lexical modality assignment confuses component description with product type, before modality.required exclusion.",
+  "not_an_ontology_peptide_assertion": true,
+  "qualified_route": "DIRECT_APPROVED_NAME",
+  "raw_description": "Dato-DXd is an ADC comprised of a recombinant humanised anti-TROP2 IgG1 mAb, MAAP-9001a, which is covalently conjugated via a cleavable drug-linker, MAAA1162a (the complex of MAAA-1181a and a maleimide tetrapeptide linker), using thioether bonds to the topoisomerase I inhibitor DXd.",
+  "semantic_subject": "LINKER_COMPONENT"
+}
