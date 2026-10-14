@@ -1,3 +1,9 @@
+# 2026-10-14 — HUMAN_POC_PRECISION_FIRST v1: DESIGN STOP (no structured route exists)
+
+Prereg `729c500`; read `research/se_human_poc_precision_first_v1/README.md`. The only `ClinicalResult` constructor hardcodes `incomplete_reporting=True` with no effect size, so the structured human-PoC route is unreachable. The CT.gov connector keeps only `protocolSection`, and 0 of 1,932 snapshots have `resultsSection`. All 151 human-PoC observations (159 distinct passages; 97 adjudicated true, 29 false) are prose. Structured-only would give 0 confirmed and turn 64 gate PASS into UNKNOWN; R3 and R4 fail (no non-decisional status in `VerificationStatus`). Implementation NOT authorized. A degraded safety mode is described, not authorized. Next: TARGET_ALIAS_AUTHORITY_SOURCE v1; then CTGOV_POSTED_RESULTS_SOURCE v1 as the real human-PoC prerequisite. H21–H25 sealed; H6–H10 unrun.
+
+---
+
 # 2026-10-14 — SE_VALIDATION_READINESS_REVIEW v1: NO-GO — keep H21–H25 SEALED
 
 Rubric `6f024d4`; read `research/se_validation_readiness_review_v1/README.md`. Technical GO (deterministic; 1,941 passed / 3 xfail). Scientific NO-GO, measured on current code: the exact H18/H19 false human-PoC sentences are **still accepted**; H17 and H20 still yield zero target spans (refusal); datopotamab structured modality is still PEPTIDE; all six brands still fail `resolve_identifier`; qualification and ordering code are unchanged since frozen engine `5feee85`. No H16–H20 failure is demonstrably corrected; every adopted change since is an interface refactor or decision-neutral. Ranked next: (1) HUMAN_POC_PRECISION_FIRST v1 (structured-route-only human-PoC, prose → UNVERIFIED; needs an explicit user decision since human-PoC recovery was stopped); (2) TARGET_ALIAS_AUTHORITY_SOURCE v1 (HGNC/UniProt names, a source not grammar); (3) review ordering by target evidence. Nothing opened. H6–H10 unrun.
