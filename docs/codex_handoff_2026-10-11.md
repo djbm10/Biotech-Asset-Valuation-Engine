@@ -1,3 +1,9 @@
+# 2026-10-14 — TARGET_ALIAS_AUTHORITY_SOURCE v2: STOP — target-alias work PARKED
+
+Prereg `42b94f7`; read `research/se_target_alias_authority_source_v2/README.md`. 26,230-name universe; 113 independent negatives (DRUG aliases / NCIt non-product); 400-target disjoint sample reviewed blind by a separate agent. Policy A (NCIt protein, single chain) admits 20 negatives (angiotensin, vasopressin, human albumin…) and 14 reviewer-unsafe names (isoforms, precursors, families, non-human P450s), plus `statin-like`; coverage 1.5%. Policy B (HGNC current) is safe-ish but has ~0 coverage and no factor XI. Historical names include disease names. H20 factor XI → F11 works offline but only under unsafe policy A; H17 unchanged. No implementation; no v3. Next: CT.gov posted-results source-availability survey. H21–H25 sealed; H6–H10 unrun.
+
+---
+
 # 2026-10-14 — TARGET_ALIAS_AUTHORITY_SOURCE v1: computed JUSTIFIED_EXCLUDING_H17 — implementation NOT authorized
 
 Prereg `7d5c7ad`; read `research/se_target_alias_authority_source_v1/README.md`. Frozen HGNC (complete) + NCIt 26.09d protein records: 186/233 new names are claimant-unique; 49 are reachable under the 2-token cap; 29/192 entities (15%). H17 `IL-4Rα` has no exact spelling in any authority and is not repairable without an orthographic transform. H20 `factor XI` is certified via NCIt C201572 → HGNC:3529, and the injected offline chain compiles 5 plans carrying TARGET:F11. Post-measurement inspection found `statin` certified to EEF1A2 (an HGNC previous name), EC reaction-class codes, and 80 historical previous names: claimant uniqueness is not safety. The rubric is not amended, so this is a mechanical pass, not authorization. Next: preregister v2 with ordinary-word/drug-class, EC and previous-name controls frozen first. No production change. H21–H25 sealed; H6–H10 unrun.
