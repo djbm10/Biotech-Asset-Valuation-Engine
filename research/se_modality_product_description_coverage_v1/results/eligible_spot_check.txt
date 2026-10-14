@@ -1,0 +1,101 @@
+293 19
+  clinicaltrials_structured|PEPTIDE|MODALITY_ABSENT 2
+  clinicaltrials_structured|T_CELL_ENGAGER|APPOSITIVE 2
+  clinicaltrials_structured|T_CELL_ENGAGER|CLASS_OF 2
+  clinicaltrials_structured|T_CELL_ENGAGER|COPULA 8
+  clinicaltrials_structured|T_CELL_ENGAGER|NAME_ABSENT 18
+  clinicaltrials_structured|T_CELL_ENGAGER|NAME_SELF_DESCRIBING 5
+  clinicaltrials_structured|VACCINE|MODALITY_ABSENT 2
+  clinicaltrials_structured|VACCINE|NAME_ABSENT 8
+  clinicaltrials_structured|VACCINE|NAME_SELF_DESCRIBING 6
+  clinicaltrials_structured|VACCINE|REGISTRY_CATEGORY 2
+  clinicaltrials_structured|VACCINE|STRUCTURED_OTHERNAMES 4
+  public_document_observed|PEPTIDE|CO_OCCURRENCE 30
+  public_document_observed|T_CELL_ENGAGER|APPOSITIVE 12
+  public_document_observed|T_CELL_ENGAGER|COPULA 2
+  public_document_observed|T_CELL_ENGAGER|CO_OCCURRENCE 148
+  public_document_observed|T_CELL_ENGAGER|MODALITY_ABSENT 16
+  public_document_observed|VACCINE|APPOSITIVE 1
+  public_document_observed|VACCINE|CO_OCCURRENCE 21
+  public_document_observed|VACCINE|MODALITY_ABSENT 4
+
+## fact:d1c96e8a5da469a17712 T_CELL_ENGAGER ['COPULA'] | cand: ['Blinatumomab', 'AMG 103', 'AMG-103']
+   {"armGroupLabels": ["Blinatumomab"], "description": "Blinatumomab is a bispecific t cell engaging antibody targeting CD19 and CD3 approved for B cell acute lymphoblastic leukemia", "name": "Blinatumomab", "otherNames": ["Blincyto"], "type": "DRUG"}
+
+## fact:6afce423da72986c37e0 T_CELL_ENGAGER ['COPULA'] | cand: ['Blinatumomab', 'AMG 103', 'AMG-103']
+   {"armGroupLabels": ["Transplant participants"], "description": "Blinatumomab is a bispecific CD19-directed CD3 T-cell engager that mediates formation of a synapse between T cells and the CD19+ target cell, resulting in lysis of that CD19+ cell.Blinatumomab will be given to patients with a history of CD19+ malignancy as determined by St. Jude hematopathologist review of current and historical specimens and reports.\n\
+
+## fact:af3a5179b192c98acfff T_CELL_ENGAGER ['APPOSITIVE'] | cand: ['Blinatumomab', 'AMG 103', 'AMG-103']
+   Abstract 6974: A CD3/CD19 double-humanized mouse model for preclinical evaluation of CD19-targeted T-cell engagers  Background: Immunotherapy has transformed the treatment landscape for cancer and autoimmune diseases, with T-cell engagers (TCEs) emerging as a highly promising therapeutic modality. Among them, CD19-targeting TCEs have achieved notable clinical success in B-cell malignancies such as leukemia and lympho
+
+## fact:e5810758f588e11103e8 T_CELL_ENGAGER ['APPOSITIVE'] | cand: ['Blinatumomab', 'AMG 103', 'AMG-103']
+   Abstract 3192: A novel long acting pegylated T cell engager targeting CD3 and cd19 with effective tumor killing and no potential CRS risk in CD19+ hematologic malignancies  The development of bispecific T cell engagers represents a highly effective immunotherapy strategy for the treatment of hematologic malignancies. However, Blinatumomab, a bispecific T cell engager of CD3/CD19, has disadvantages in clinical setting
+
+## fact:8cc953dcfd7d74448b78 T_CELL_ENGAGER ['APPOSITIVE'] | cand: ['Blinatumomab', 'AMG 103', 'AMG-103']
+   Abstract 3192: A novel long acting pegylated T cell engager targeting CD3 and cd19 with effective tumor killing and no potential CRS risk in CD19+ hematologic malignancies  The development of bispecific T cell engagers represents a highly effective immunotherapy strategy for the treatment of hematologic malignancies. However, Blinatumomab, a bispecific T cell engager of CD3/CD19, has disadvantages in clinical setting
+
+## fact:8ccc6b6df454026c8c1a T_CELL_ENGAGER ['APPOSITIVE'] | cand: ['Blinatumomab', 'AMG 103', 'AMG-103']
+   Abstract 6703: Innovative mRNA strategies to encode CD19/CD3 T cell engagers in the treatment of B cell hematological malignancies  The advent of T Cell Engager (TCE) immunotherapies marks a transformative shift in cancer treatment paradigms, introducing a novel action mechanism. Blinatumomab, a bispecific CD19/CD3 TCE, has shown remarkable efficacy in treating refractory or relapsed B-cell Acute Lymphoblastic Leukae
+
+## fact:d09afa7920a91a4dba8f T_CELL_ENGAGER ['APPOSITIVE', 'COPULA'] | cand: ['EDP001']
+   Abstract 5595: Development of EDP001, a tetravalent T Cell engager targeting CD19 and BCMA for B Cell lymphoma  Background: The current therapeutic landscape for B-cell lymphoma, while much advanced, still faces significant limitations primarily related to treatment resistance, toxicity and accessibility. This study describes a novel tetra-specific antibody, EDP001, that binds CD3, BCMA, and CD19 with two distinct ep
+
+## fact:9fcc399400d970cff29c T_CELL_ENGAGER ['APPOSITIVE'] | cand: ['CC312']
+   Abstract 5389: CC312, a novel CD19/CD3/CD28 tri-specific T cell engager, leads to rapid and deep B-cell depletion and has broad potential for development in autoimmune diseases  Background: CD19-targeted T cell engagers (TCEs) have the potential to induce B-cell depletion with potential better safety than CAR-T therapy and off-the-shelf convenience. However, T cell dysfunction and exhaustion contribute to treatment f
+
+## fact:9b7c4b7769b39f0a8fdd VACCINE ['APPOSITIVE'] | cand: ['ABO2101']
+   Abstract 4103: Novel mRNA-encoded HPV vaccine with APC maturation signal and endolysosomal trafficking domain demonstrates superior T cell-mediated immunogenicity and efficacious tumor clearance <i>in vivo</i>  Human Papillomavirus (HPV), particularly HPV16, is a known causative agent of cancers in various anatomical sites, notably the anogenital and oropharyngeal regions. Despite the availability of prophylactic HPV
+
+## fact:7ad09f05171815003217 VACCINE ['NAME_SELF_DESCRIBING'] | cand: ['EV71 vaccine ([0.5 μg total protein + adjuvant 150 μg AIPO4] per dose)']
+   {"armGroupLabels": ["Group A1"], "description": "Two vaccinations at 28 days apart", "name": "EV71 vaccine ([0.5 \u03bcg total protein + adjuvant 150 \u03bcg AIPO4] per dose)", "type": "BIOLOGICAL"}
+
+## fact:fe59f87f60a2c0bbf3bd VACCINE ['NAME_SELF_DESCRIBING'] | cand: ['EV71 vaccine ([1 μg total protein + adjuvant 150 μg AIPO4] per dose)']
+   {"armGroupLabels": ["Group A2"], "description": "Two vaccinations at 28 days apart", "name": "EV71 vaccine ([1 \u03bcg total protein + adjuvant 150 \u03bcg AIPO4] per dose)", "type": "BIOLOGICAL"}
+
+## fact:0ce222ec9d7c5cf5dc48 VACCINE ['NAME_SELF_DESCRIBING'] | cand: ['EV71 vaccine ([2 μg total protein + adjuvant 150 μg AIPO4] per dose)']
+   {"armGroupLabels": ["Group A3"], "description": "Two vaccinations at 28 days apart", "name": "EV71 vaccine ([2 \u03bcg total protein + adjuvant 150 \u03bcg AIPO4] per dose)", "type": "BIOLOGICAL"}
+
+## fact:2223daa85c21646291e9 VACCINE ['NAME_SELF_DESCRIBING'] | cand: ['EV71 vaccine (2 μg total protein per dose)']
+   {"armGroupLabels": ["Group A4"], "description": "Two vaccinations at 28 days apart", "name": "EV71 vaccine (2 \u03bcg total protein per dose)", "type": "BIOLOGICAL"}
+
+## fact:89b3738406c854aef2d5 VACCINE ['NAME_SELF_DESCRIBING'] | cand: ['EV71 vaccine (1 μg total protein per dose)']
+   {"armGroupLabels": ["Group B4"], "description": "Two vaccinations at 28 days apart", "name": "EV71 vaccine (1 \u03bcg total protein per dose)", "type": "BIOLOGICAL"}
+
+## fact:3755b8b1cb5e42aa5d5a VACCINE ['STRUCTURED_OTHERNAMES'] | cand: ['Moderna mRNA-1273']
+   {"armGroupLabels": ["Cohort A, Arm A1: Moderna mRNA-1273 + Continue IS (MMF or MPA)", "Cohort A, Arm A4: Moderna mRNA-1273 + Withhold IS (MMF or MPA)", "Cohort B, Arm B1: Moderna mRNA-1273 + Continue IS (MTX)", "Cohort B, Arm B4: Moderna mRNA-1273 + Withhold IS (MTX)", "Cohort C, Arm C1: Moderna mRNA-1273 + Continue IS (B cell depletion therapy)"], "description": "Administration: One dose administered intramuscularly
+
+## fact:a76277aa2376e464f6c8 VACCINE ['STRUCTURED_OTHERNAMES'] | cand: ['Ad26.COV2.S']
+   {"armGroupLabels": ["Cohort A, Arm A3: Ad26.COV2.S + Continue IS (MMF or MPA)", "Cohort A, Arm A6: Ad26.COV2.S + Withhold IS (MMF or MPA)", "Cohort B, Arm B3: Ad26.COV2.S + Continue IS (MTX)", "Cohort B, Arm B6: Ad26.COV2.S + Withhold IS (MTX)", "Cohort C, Arm C3: Ad26.COV2.S + Continue IS (B cell depletion therapy)", "Cohort D, Arm D1: Ad26.COV2.S + Withhold IS (MMF or MPA)", "Cohort E, Arm E1: Ad26.COV2.S + Withhol
+
+## fact:c5f4271cd5038ff5ff53 VACCINE ['STRUCTURED_OTHERNAMES'] | cand: ['Monovalent [B.1.351] CoV2 preS dTM-AS03']
+   {"armGroupLabels": ["Cohort D, Arm D4: Monovalent [B.1.351] CoV2 preS dTM-AS03 + Withhold IS (MMF or MPA)", "Cohort E, Arm E4: Monovalent [B.1.351] CoV2 preS dTM-AS03 + Withhold IS (MTX)", "Cohort F, Arm F4: Monovalent [B.1.351] CoV2 preS dTM-AS03 + Withhold IS (B cell depletion therapy)"], "description": "One dose administered intramuscularly", "name": "Monovalent [B.1.351] CoV2 preS dTM-AS03", "otherNames": ["Sanof
+
+## fact:9765384ee4833873563d VACCINE ['NAME_SELF_DESCRIBING'] | cand: ['Pneumococcal conjugate vaccine (PCV13)']
+   {"armGroupLabels": ["Treatment"], "description": "Licensed heptavalent pneumococcal conjugate vaccine (PCV13, Pneumococcal 13-valent conjugate vaccine", "name": "Pneumococcal conjugate vaccine (PCV13)", "otherNames": ["Prevnar 13"], "type": "BIOLOGICAL"}
+
+## fact:03ab4c0914f6e6ce2c87 T_CELL_ENGAGER ['CLASS_OF'] | cand: ['BLINCYTO (Blinatumomab)']
+   {"armGroupLabels": ["Subjects with CD19-positive MPAL in CR/CRh/CRi/CRp and detectable MRD", "Subjects with R/R CD19-positive MPAL"], "description": "Blinatumomab (BLINCYTO , AMG 103, formerly also known as MT103 or bscCD19xCD3) is a novel single chain antibody construct in the class of the bispecific T-cell engager (BiTE\u00ae). Blinatumomab directs CD-3 positive effector memory T cells to CD19-positive target cells
+
+## fact:4dbfe5d77606628937e5 T_CELL_ENGAGER ['NAME_SELF_DESCRIBING'] | cand: ['BiTE (CD19 x CD3 Bispecific Antibody)']
+   {"armGroupLabels": ["Bispecific T cell engager treatment group1\uff1aBlinatumomab group"], "description": "Blinatumomab is a CD19\u00d7CD3 bispecific T-cell engager (BiTE) administered via intravenous infusion. This intervention utilizes a specific low-dose, short-course exploratory regimen tailored for non-oncology kidney transplant candidates to safely deplete B cells and reduce HLA antibodies. The treatment consis
+
+## fact:a21e40454f36ee328210 T_CELL_ENGAGER ['APPOSITIVE'] | cand: ['Blinatumomab', 'blinatumomab', 'AMG 103']
+   {"armGroupLabels": ["Arm 1"], "description": "Blinatumomab (Blincyto), an anti-CD19/anti-CD3 bi-specific T cell engager", "name": "Blinatumomab", "type": "DRUG"}
+
+## fact:14a05177a145c5ad588e T_CELL_ENGAGER ['COPULA'] | cand: ['teclistamab', 'Teclistamab', 'JNJ-64007957']
+   {"armGroupLabels": ["Teclistamab-Daratumumab"], "description": "Teclistamab is a T-cell redirecting bispecific antibody (BsAb) targeting CD3 on T-cells and B-cell maturation antigen (BCMA) on plasma cells.", "name": "Teclistamab", "otherNames": ["TECVAYLI", "teclistamab-cqyv"], "type": "DRUG"}
+
+## fact:6920bacb462745c896a4 T_CELL_ENGAGER ['COPULA'] | cand: ['teclistamab', 'Teclistamab', 'JNJ-64007957']
+   {"armGroupLabels": ["Cohort 1", "Cohort 2", "Cohort 3"], "description": "Teclistamab is an antibody therapy (bispecific T-cell engager \\[BiTE\\]) that binds to two target proteins on different cells; CD3 on healthy T cells and B cell maturation antigen (BCMA) on myeloma cells. This brings healthy T cells and the myeloma cells close together so the T cells can more effectively kill them. Teclistamab is approved for t
+
+## fact:e156ed6ebb8e80949b03 T_CELL_ENGAGER ['NAME_SELF_DESCRIBING'] | cand: ['BiTE (BCMA x CD3 Bispecific Antibody)']
+   {"armGroupLabels": ["Bispecific T cell engager treatment group2\uff1aTeclistamab group"], "description": "Teclistamab is a BCMA\u00d7CD3 bispecific T-cell engager (BiTE) administered via subcutaneous injection. To mitigate the early risk of cytokine release syndrome (CRS), this intervention employs a strictly defined step-up dosing schedule. The treatment involves two cycles separated by a 7-day interval. Cycle 1 (Da
+
+## fact:cecddc1e8f119e0d4eba T_CELL_ENGAGER ['COPULA'] | cand: ['ATG-201']
+   {"armGroupLabels": ["ATG-201"], "description": "ATG-201 is a recombinant, human IgG1-like TCE that simultaneously binds to human CD3 and CD19.", "name": "ATG-201", "type": "DRUG"}
+
+## fact:3a6d3da1a534bf3a32a0 T_CELL_ENGAGER ['APPOSITIVE'] | cand: ['CC312']
+   Abstract 3513: CC312, a trispecific CD19-targeting co-stimulatory T cell engager, for the treatment of B cell malignancies and autoimmune diseases  Background: B cell depletion therapy (BCDT), such as monoclonal antibodies, bispecific T cell engagers(TCE) and CAR-T,has an extensive history of effectively treating B cell malignancies. Certain BCDT monoclonal antibodies,e.g. rituximab,are also approved to treat autoimm
+
+## fact:d31b6430980cda176df0 T_CELL_ENGAGER ['NAME_SELF_DESCRIBING'] | cand: ['anti-BCMA/CD3 bispecific antibody']
+   {"armGroupLabels": ["BsAbs-treatment group"], "description": "CM336 is a bispecific T-cell engager targeting B-cell maturation antigen (BCMA) and CD3. In this study, CM336 is administered subcutaneously with a step-up dosing strategy in Cycle 1 (3 mg Day 1, 20 mg Day 4, 40 mg Day 8 and onwards weekly). Patients who achieve \u2265VGPR by Cycle 4 may switch to 80 mg every two weeks from Cycle 5. The total treatment dur

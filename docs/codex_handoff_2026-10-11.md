@@ -1,3 +1,9 @@
+# 2026-10-13 — MODALITY_PRODUCT_DESCRIPTION_COVERAGE_DIAGNOSIS v1: JUSTIFIED (narrow)
+
+Prereg `19c9074`; read `research/se_modality_product_description_coverage_v1/README.md`. Re-adjudication: 13/13 v3 labels agree (limits: CLN-978 needs cross-sentence coreference, two generic-class candidate names, BNT162b2 only via otherNames). v3 denominator: categories exclusive (282+11), the conflict is a flag; **the 293 are rows = 172 distinct facts (121 in both runs)**. Coverage: 42/293 rows have an explicit product structure (APPOSITIVE 15, NAME_SELF_DESCRIBING 11, COPULA 10, OTHERNAMES 4, CLASS_OF 2); 199 co-occurrence, 50 name/modality absent, 2 registry category; PEPTIDE 0/32. Computed readiness: C1 safety, C2 explicit recall and C3 all pass, giving JUSTIFIED. No production change; v3 unadopted. Recommended next (not preregistered): decision-neutral `MODALITY_SCOPE_PRODUCT_DESCRIPTION v1`. ESG401 not started; H21–H25 untouched; H6–H10 unrun.
+
+---
+
 # 2026-10-13 — PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v3: DESIGN STOP (R3)
 
 Design `b12ee79` unchanged; freeze `7dd05ae`; read `research/se_product_vs_component_modality_semantics_v3/README.md`. Population: 293 modality facts from frozen non-holdout baselines tac01/mint5_protoid_v1, 13 gate-admitted. R1 (control safety) passes: the former v2 modifier failures are fixed. R3 fails: **0/293 facts get PRODUCT_LEVEL support** (282 ambiguous, 11 no scoped evidence), so a consumer would withdraw all 8 true admitted TCE/vaccine facts alongside 5 false ones. The representation is safe but lacks recall on appositives, "class of", titles and non-hyphenated premodifiers. Implementation NOT authorized; no production change. Next (if pursued): a separately preregistered representation-recall milestone. ESG401 not started; H21–H25 untouched; H6–H10 unrun.
