@@ -1,0 +1,168 @@
+{
+ "version": {
+  "apiVersion": "2.0.5",
+  "dataTimestamp": "2026-10-14T09:00:05"
+ },
+ "requests": [
+  {
+   "batch": 0,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_000.json",
+   "sha256": "e970fd94ab5ad134f2c9edc2f4030a04b143d99e009d8f80bb8e9ece44030387",
+   "retrieved_at": "2026-10-14T23:41:32.244070+00:00"
+  },
+  {
+   "batch": 1,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_001.json",
+   "sha256": "53549e1f10d0b3f84fba3318f358542c9fb3d6ddb1af1f5a7477e4c462dd4259",
+   "retrieved_at": "2026-10-14T23:41:33.536522+00:00"
+  },
+  {
+   "batch": 2,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_002.json",
+   "sha256": "a947c7a4c43ed3e2c25fa3e55354fdaa7992f4fadf9c9575ca9526559589ff1d",
+   "retrieved_at": "2026-10-14T23:41:35.358016+00:00"
+  },
+  {
+   "batch": 3,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_003.json",
+   "sha256": "f677590e70cc38a471fb0a437c65d623e1c4a02f1815810137df4566e35e228d",
+   "retrieved_at": "2026-10-14T23:41:36.665277+00:00"
+  },
+  {
+   "batch": 4,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_004.json",
+   "sha256": "cef9fdceda0e947bb16d8dbe64acc537e458e30837d13c34a775cfd1f2609395",
+   "retrieved_at": "2026-10-14T23:41:37.926757+00:00"
+  },
+  {
+   "batch": 5,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_005.json",
+   "sha256": "bf655a3d547fb20a51f4cc8b5660b2d791047fe47ecf418bb5804c6e4096aafd",
+   "retrieved_at": "2026-10-14T23:41:39.179912+00:00"
+  },
+  {
+   "batch": 6,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_006.json",
+   "sha256": "eb194faac24ff8822119470fbdef4505b07190718c2c3a91d68aaa7f591c66d3",
+   "retrieved_at": "2026-10-14T23:41:40.705371+00:00"
+  },
+  {
+   "batch": 7,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_007.json",
+   "sha256": "a76defd5a6cb8306c0b10a185a6de154d5cf462ac4b2da903b7a1d9de037f945",
+   "retrieved_at": "2026-10-14T23:41:41.972425+00:00"
+  },
+  {
+   "batch": 8,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_008.json",
+   "sha256": "ca18c696078af250a705105713c93c771d8c31ea9daa5373cce0a85c5787312e",
+   "retrieved_at": "2026-10-14T23:41:43.314066+00:00"
+  },
+  {
+   "batch": 9,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_009.json",
+   "sha256": "9af3b4c009dc61d4c5adaff6ce54cde638d3038e4903cbbeae50ffa05f3bf5fd",
+   "retrieved_at": "2026-10-14T23:41:44.660967+00:00"
+  },
+  {
+   "batch": 10,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_010.json",
+   "sha256": "853e35ebf95efc5421ecd2392f529ccd1859522668fb92b4ba6658ad9832b960",
+   "retrieved_at": "2026-10-14T23:41:45.949469+00:00"
+  },
+  {
+   "batch": 11,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_011.json",
+   "sha256": "3fb577668c1de4d8c11f238fb9b5966a75c44148544604f817f370e80bd73d85",
+   "retrieved_at": "2026-10-14T23:41:47.282524+00:00"
+  },
+  {
+   "batch": 12,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_012.json",
+   "sha256": "a7c62a50b3da722ea3754220ba76ff6d7ca217cb541a172af2249203a6b348f2",
+   "retrieved_at": "2026-10-14T23:41:48.553484+00:00"
+  },
+  {
+   "batch": 13,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_013.json",
+   "sha256": "eb53ca5afba8e3d854c5c229ec867a86045fa56f329b2aeba5fdb0afdc600868",
+   "retrieved_at": "2026-10-14T23:41:49.820853+00:00"
+  },
+  {
+   "batch": 14,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_014.json",
+   "sha256": "7c9d544ce13892c87fd71b9a92512988cbeaeb6f0f9f38ea6a992a50723db3b3",
+   "retrieved_at": "2026-10-14T23:41:51.091742+00:00"
+  },
+  {
+   "batch": 15,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_015.json",
+   "sha256": "4317b6b7035338a85aea46b880f368897e0943c2e3a71a2f0d1b00dd0c5b8cf8",
+   "retrieved_at": "2026-10-14T23:41:52.371532+00:00"
+  },
+  {
+   "batch": 16,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_016.json",
+   "sha256": "513bbaf87a5d583527a8f9f1a236c3b7e387ca27cb72fbd775c3ac229a7d56e4",
+   "retrieved_at": "2026-10-14T23:41:53.672671+00:00"
+  },
+  {
+   "batch": 17,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_017.json",
+   "sha256": "1ee4c644e80f1992b3b5a9ac10867f243cb07e62c6c238c1315650a9fb7c2f1a",
+   "retrieved_at": "2026-10-14T23:41:54.900714+00:00"
+  },
+  {
+   "batch": 18,
+   "ids": 100,
+   "status": 200,
+   "file": "batch_018.json",
+   "sha256": "cf2d2d70d7d5697e9e38081abd7a97ee8e01abd45afab2ea14d40f35f17810c5",
+   "retrieved_at": "2026-10-14T23:41:56.127857+00:00"
+  },
+  {
+   "batch": 19,
+   "ids": 32,
+   "status": 200,
+   "file": "batch_019.json",
+   "sha256": "0a918c5c12850de047599bb174c1d13acf73b18ebeaa52cf5cf40d07952e77d6",
+   "retrieved_at": "2026-10-14T23:41:57.362633+00:00"
+  }
+ ]
+}

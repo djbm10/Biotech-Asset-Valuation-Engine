@@ -1,0 +1,218 @@
+[
+ {
+  "nct": "NCT03994705",
+  "stratum": "EARLY",
+  "status": 200,
+  "sha256": "c80633d1ade9b5fbecc1ca2b0ca5157b925f72e5a561c2c16b19cb98a791338a"
+ },
+ {
+  "nct": "NCT03774654",
+  "stratum": "EARLY",
+  "status": 200,
+  "sha256": "2abe969daa49695c16f96d8ed50cf22d819859be6c18efed0304b6ea134c2488"
+ },
+ {
+  "nct": "NCT03708328",
+  "stratum": "EARLY",
+  "status": 200,
+  "sha256": "76f57b813e13dbafa1bd1fb55ed8f6bd65df078c58903b3b857eb6adaaf350af"
+ },
+ {
+  "nct": "NCT01593696",
+  "stratum": "EARLY",
+  "status": 200,
+  "sha256": "5cae1d7667a7b534f57bdde1e7e3ae9288296977b66fa4ec49fa84997a683013"
+ },
+ {
+  "nct": "NCT00274742",
+  "stratum": "EARLY",
+  "status": 200,
+  "sha256": "9b138b8f15ec73673c4ea8599c8e69216a60aa4cf83d73a55bcd9b783159f396"
+ },
+ {
+  "nct": "NCT03696784",
+  "stratum": "EARLY",
+  "status": 200,
+  "sha256": "9ede73780aa2ff8f4c030376d697ed9abdb2f6d8a2b47c0a3a74799f0c8337fd"
+ },
+ {
+  "nct": "NCT04314843",
+  "stratum": "EARLY",
+  "status": 200,
+  "sha256": "f0939ad04c858fb26316cf4d19be16b59b64069c0a54553348826abd7ae9dda3"
+ },
+ {
+  "nct": "NCT02706405",
+  "stratum": "EARLY",
+  "status": 200,
+  "sha256": "637c28a9e212ceafae2a6bdc250e3ce0bf8e39cc1f95eae922e5d4d01817fd75"
+ },
+ {
+  "nct": "NCT03518112",
+  "stratum": "PHASE2",
+  "status": 200,
+  "sha256": "44b9976324da8c4ce80b393549645125d5dc9c4f8b34c8379380024f6e1a4d0d"
+ },
+ {
+  "nct": "NCT00303667",
+  "stratum": "PHASE2",
+  "status": 200,
+  "sha256": "8d5947968c744cc1c28d7c724c6ff0813f35301c9b3a80c7d62c94b3c7c3a78d"
+ },
+ {
+  "nct": "NCT02348216",
+  "stratum": "PHASE2",
+  "status": 200,
+  "sha256": "18014383388dcd7756a581e8ebac9a93b6b8c59f37296a4c11578f231e189708"
+ },
+ {
+  "nct": "NCT02907073",
+  "stratum": "PHASE2",
+  "status": 200,
+  "sha256": "12a40602baa854e659ce4861b3e928d02c4f13194bd5d8c0a7fc671ef392392f"
+ },
+ {
+  "nct": "NCT05117008",
+  "stratum": "PHASE2",
+  "status": 200,
+  "sha256": "07470eb70b31e2c81f1a6c4fa16f421ebadef95d2311b656156bd172e10e3fbf"
+ },
+ {
+  "nct": "NCT05090566",
+  "stratum": "PHASE2",
+  "status": 200,
+  "sha256": "ec36dc5cd778a668a694b63c45fedcd0793bb1b3b6f5a06572d1f0e9b64ae83d"
+ },
+ {
+  "nct": "NCT01741792",
+  "stratum": "PHASE2",
+  "status": 200,
+  "sha256": "0b03cca86fe6156474cda3a5409e0491e3e5e881a3f9b82ec00397495d8df95d"
+ },
+ {
+  "nct": "NCT05000216",
+  "stratum": "PHASE2",
+  "status": 200,
+  "sha256": "cf60e1e5b028566cd272e4976f6b8bddd478da32a5eff64e573c522924fa72ab"
+ },
+ {
+  "nct": "NCT02763319",
+  "stratum": "LATE",
+  "status": 200,
+  "sha256": "1d8eb3c0056d08c64a414c87a52ea95df5612e1fc521dcaf9716ebd3639a2b3d"
+ },
+ {
+  "nct": "NCT04246047",
+  "stratum": "LATE",
+  "status": 200,
+  "sha256": "4781c759cec7a19fbddb72db03d58a2d5efdae1b542a3411ec2bfc74d9ba8c0c"
+ },
+ {
+  "nct": "NCT04484623",
+  "stratum": "LATE",
+  "status": 200,
+  "sha256": "d25d0bd731e2151055794a441c9236693b049d5a536c6a57d761481aac3fc6b2"
+ },
+ {
+  "nct": "NCT04181827",
+  "stratum": "LATE",
+  "status": 200,
+  "sha256": "e8fb182aea76d13d66e1859943dd32bbe5b4178dca2483d4fb7436a3502d3708"
+ },
+ {
+  "nct": "NCT06956170",
+  "stratum": "LATE",
+  "status": 200,
+  "sha256": "6adf97478fa2f675ca317169408a029ff2233b1f02a9f14d118106edd99c38aa"
+ },
+ {
+  "nct": "NCT00573170",
+  "stratum": "LATE",
+  "status": 200,
+  "sha256": "947a00a9d20ec24d17b7f11d3b86db4b6f3b1c65913544a253ba81f3e15c28c7"
+ },
+ {
+  "nct": "NCT06868667",
+  "stratum": "LATE",
+  "status": 200,
+  "sha256": "4219acadc7ff8cb19c1459e4f992240012196d7c3d95c8012a307695bf300ccb"
+ },
+ {
+  "nct": "NCT04486716",
+  "stratum": "LATE",
+  "status": 200,
+  "sha256": "9813b96b92303b26fc9f8e50a3e9024254152c530872170c96fb6e380de811ac"
+ },
+ {
+  "nct": "NCT05932290",
+  "stratum": "OTHER_NA",
+  "status": 200,
+  "sha256": "bb96343707abd9283714e505b81608a8b55171fd95c85d1ab8cf483e3313f059"
+ },
+ {
+  "nct": "NCT03801044",
+  "stratum": "OTHER_NA",
+  "status": 200,
+  "sha256": "71d3912cb1b99f0b3e4300218eb336b78104a443ad0140d531e494535da56bf0"
+ },
+ {
+  "nct": "NCT00870818",
+  "stratum": "OTHER_NA",
+  "status": 200,
+  "sha256": "d3ff08c47b8b0f9aff14ff97c4c6d86bfcb1f6914481efd8a0a245f45f167e40"
+ },
+ {
+  "nct": "NCT03906227",
+  "stratum": "OTHER_NA",
+  "status": 200,
+  "sha256": "809287fea7eea91af2653f20be79e3519bc21a4b89da9269087b2411c118bd3d"
+ },
+ {
+  "nct": "NCT01254942",
+  "stratum": "OTHER_NA",
+  "status": 200,
+  "sha256": "4d90d341f5173da9a50cf3513418b652b6bab7d7bccc8941598e59fe860800a8"
+ },
+ {
+  "nct": "NCT02801942",
+  "stratum": "OTHER_NA",
+  "status": 200,
+  "sha256": "e2c54fa0950b76ebd12a8ec71a82dbb33a9df8f44157c764306381b7d717014d"
+ },
+ {
+  "nct": "NCT03152526",
+  "stratum": "OTHER_NA",
+  "status": 200,
+  "sha256": "990e8accd2dd6b1677cfe2d89d26edf1d6a366922ca08fae8cf935fa9c33f4c2"
+ },
+ {
+  "nct": "NCT05565391",
+  "stratum": "OTHER_NA",
+  "status": 200,
+  "sha256": "6e16699d0d58a0b1e5488a3186ee574787119d5305b98dd9ad1047f265960368"
+ },
+ {
+  "nct": "NCT06503107",
+  "stratum": "NEGATIVE_CONTROL",
+  "status": 200,
+  "sha256": "54999fb97b31c2ca52709ca6be35a593cc43ee3900cb57b17e7d5fb2773bf754"
+ },
+ {
+  "nct": "NCT07185477",
+  "stratum": "NEGATIVE_CONTROL",
+  "status": 200,
+  "sha256": "31822c4f20b7ceb32b8d66fa1d22c29754a0cb2f22fdb1beaa53783fbc19749d"
+ },
+ {
+  "nct": "NCT05860036",
+  "stratum": "NEGATIVE_CONTROL",
+  "status": 200,
+  "sha256": "ee9de625c0e971630f0f16022be1479ab1958f3eb525e98b38d9d79940baee0c"
+ },
+ {
+  "nct": "NCT07573111",
+  "stratum": "NEGATIVE_CONTROL",
+  "status": 200,
+  "sha256": "3d521acfbf13c4aacea2edf87ea29617413b28d6dda3bfc2151a4c5b3ed9fd0e"
+ }
+]
