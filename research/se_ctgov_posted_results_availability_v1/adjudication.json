@@ -1,0 +1,482 @@
+{
+ "_basis": "Independent agent context; saw packets.json and category definitions only. Verbatim; frozen before verdict computation.",
+ "adjudicator": "independent agent context",
+ "labels": [
+  {
+   "packet_id": 0,
+   "nct": "NCT03994705",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "DOSE_LEVELS",
+   "reason": "Treatment-related adverse event counts by dose level."
+  },
+  {
+   "packet_id": 1,
+   "nct": "NCT03774654",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "DOSE_LEVELS",
+   "reason": "Dose-limiting toxicity rate."
+  },
+  {
+   "packet_id": 2,
+   "nct": "NCT03708328",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "DOSE_LEVELS",
+   "reason": "DLT counts in dose escalation."
+  },
+  {
+   "packet_id": 3,
+   "nct": "NCT03708328",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "DOSE_LEVELS",
+   "reason": "Adverse events by severity."
+  },
+  {
+   "packet_id": 4,
+   "nct": "NCT01593696",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "MULTI_COHORT",
+   "reason": "Count with <Grade 4 cytokine release syndrome is a safety endpoint."
+  },
+  {
+   "packet_id": 5,
+   "nct": "NCT01593696",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "MULTI_COHORT",
+   "reason": "Manufacturing feasibility outcome."
+  },
+  {
+   "packet_id": 6,
+   "nct": "NCT00274742",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "DOSE_LEVELS",
+   "reason": "Adverse event counts."
+  },
+  {
+   "packet_id": 7,
+   "nct": "NCT03696784",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "MULTI_COHORT",
+   "reason": "Grade>=3 adverse events."
+  },
+  {
+   "packet_id": 8,
+   "nct": "NCT03696784",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "MULTI_COHORT",
+   "reason": "Grade>=3 CRS events."
+  },
+  {
+   "packet_id": 9,
+   "nct": "NCT04314843",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "COMBINATION",
+   "reason": "DLT percentage for lenzilumab plus axi-cel."
+  },
+  {
+   "packet_id": 10,
+   "nct": "NCT04314843",
+   "class": "POSTED_WITHOUT_USABLE_OUTCOME",
+   "product": null,
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "COMBINATION",
+   "reason": "Phase 2 not conducted; no measurements (and outcome is a safety endpoint)."
+  },
+  {
+   "packet_id": 11,
+   "nct": "NCT02706405",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "COMBINATION",
+   "reason": "Adverse event counts."
+  },
+  {
+   "packet_id": 12,
+   "nct": "NCT02706405",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "COMBINATION",
+   "reason": "DLT counts."
+  },
+  {
+   "packet_id": 13,
+   "nct": "NCT03518112",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "blinatumomab + low-intensity combination chemotherapy (regimen)",
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "COMBINATION",
+   "reason": "Median EFS 5.7 mo in n=5 for a multi-drug regimen; no comparator, cannot credit blinatumomab alone."
+  },
+  {
+   "packet_id": 14,
+   "nct": "NCT00303667",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "donor NK cells + aldesleukin with allogeneic SCT conditioning (regimen)",
+   "flags": [],
+   "design": "COMBINATION",
+   "reason": "DFS counts (0/8, 4/39) for a transplant regimen; no comparator or benefit interpretation, NK cells are one constituent."
+  },
+  {
+   "packet_id": 15,
+   "nct": "NCT00303667",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "donor NK cells + aldesleukin with allogeneic SCT conditioning (regimen)",
+   "flags": [],
+   "design": "COMBINATION",
+   "reason": "1-year DFS counts (0/8, 3/39) for regimen; no comparator, low numbers."
+  },
+  {
+   "packet_id": 16,
+   "nct": "NCT02348216",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "SINGLE_PRODUCT",
+   "reason": "DLT count."
+  },
+  {
+   "packet_id": 17,
+   "nct": "NCT02348216",
+   "class": "POTENTIAL_HUMAN_EFFICACY_EVIDENCE",
+   "product": "axicabtagene ciloleucel (axi-cel)",
+   "flags": [],
+   "design": "MULTI_COHORT",
+   "reason": "ORR 83% (95% CI 73-91 and 63-95) in refractory LBCL after single axi-cel infusion with standard lymphodepletion; response rate is interpretable benefit."
+  },
+  {
+   "packet_id": 18,
+   "nct": "NCT02907073",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "MULTI_COHORT",
+   "reason": "Imaging-agent tissue distribution in healthy volunteers."
+  },
+  {
+   "packet_id": 19,
+   "nct": "NCT05117008",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "belantamab mafodotin",
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "SINGLE_PRODUCT",
+   "reason": "12-month PFS count 1/1 after prior CAR-T; n=1 with no comparator gives no interpretable benefit."
+  },
+  {
+   "packet_id": 20,
+   "nct": "NCT05090566",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "DOSE_LEVELS",
+   "reason": "DLT counts."
+  },
+  {
+   "packet_id": 21,
+   "nct": "NCT05090566",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "COMBINATION",
+   "reason": "DLT count."
+  },
+  {
+   "packet_id": 22,
+   "nct": "NCT01741792",
+   "class": "POTENTIAL_HUMAN_EFFICACY_EVIDENCE",
+   "product": "blinatumomab",
+   "flags": [],
+   "design": "DOSE_LEVELS",
+   "reason": "Centrally assessed ORR 57.1%/100%/30.8% in R/R DLBCL on blinatumomab monotherapy."
+  },
+  {
+   "packet_id": 23,
+   "nct": "NCT05000216",
+   "class": "POSTED_WITHOUT_USABLE_OUTCOME",
+   "product": null,
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "MULTI_COHORT",
+   "reason": "All values NA (no protective threshold established); immunogenicity-only anyway."
+  },
+  {
+   "packet_id": 24,
+   "nct": "NCT05000216",
+   "class": "POSTED_WITHOUT_USABLE_OUTCOME",
+   "product": null,
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "MULTI_COHORT",
+   "reason": "All values NA; immunogenicity-only."
+  },
+  {
+   "packet_id": 25,
+   "nct": "NCT02763319",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "tafasitamab + bendamustine (regimen)",
+   "flags": [],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "PFS 7.1 vs 8.3 mo, HR 1.06 p=0.468 vs R-BEN; no benefit shown and regimen outcome."
+  },
+  {
+   "packet_id": 26,
+   "nct": "NCT02763319",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "tafasitamab + bendamustine (regimen)",
+   "flags": [
+    "MIXED_POPULATION"
+   ],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "NK-low subgroup PFS 5.6 vs 5.6 mo, HR 0.88 p=0.568; no benefit shown."
+  },
+  {
+   "packet_id": 27,
+   "nct": "NCT04246047",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "belantamab mafodotin + bortezomib + dexamethasone (BVd)",
+   "flags": [],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "PFS 36.6 vs 13.4 mo, HR 0.41 vs DVd; clear regimen benefit but belantamab is one constituent of the credited regimen."
+  },
+  {
+   "packet_id": 28,
+   "nct": "NCT04484623",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "belantamab mafodotin + pomalidomide + dexamethasone (BPd)",
+   "flags": [],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "PFS NR vs 12.7 mo, HR 0.52 vs PVd; regimen benefit, candidate is one constituent."
+  },
+  {
+   "packet_id": 29,
+   "nct": "NCT04181827",
+   "class": "POTENTIAL_HUMAN_EFFICACY_EVIDENCE",
+   "product": "ciltacabtagene autoleucel (Carvykti)",
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "Randomized PFS median not reached (lower CI 34.5) vs 11.79 mo for standard PVd/DPd; no HR posted in this record."
+  },
+  {
+   "packet_id": 30,
+   "nct": "NCT06956170",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "belantamab mafodotin + pomalidomide + dexamethasone (BPd)",
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "Japanese n=10 vs 11, PFS NR vs 14.8, HR 0.53 without p/CI; regimen outcome."
+  },
+  {
+   "packet_id": 31,
+   "nct": "NCT00573170",
+   "class": "POTENTIAL_HUMAN_EFFICACY_EVIDENCE",
+   "product": "TREXIMET (sumatriptan/naproxen fixed-dose product)",
+   "flags": [],
+   "design": "CROSSOVER",
+   "reason": "Sustained pain-free 2-24h 26 Treximet vs 10 placebo vs 18 BCM attacks; per-attack groups attributable to named product, though vs BCM OR 1.3 p=0.378."
+  },
+  {
+   "packet_id": 32,
+   "nct": "NCT06868667",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "belantamab mafodotin + bortezomib + dexamethasone (BVd)",
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "Japanese n=10 vs 14, PFS NR vs 11.1, HR 0.40 without p; regimen outcome."
+  },
+  {
+   "packet_id": 33,
+   "nct": "NCT04486716",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "ofatumumab",
+   "flags": [],
+   "design": "SINGLE_PRODUCT",
+   "reason": "86.6% with no change or reduction in GdE lesions; single arm, 'no change' includes stable zero so benefit not interpretable without control."
+  },
+  {
+   "packet_id": 34,
+   "nct": "NCT04486716",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "ofatumumab",
+   "flags": [],
+   "design": "SINGLE_PRODUCT",
+   "reason": "Observed-data sensitivity 100%; same lack of comparator."
+  },
+  {
+   "packet_id": 35,
+   "nct": "NCT05932290",
+   "class": "POTENTIAL_HUMAN_EFFICACY_EVIDENCE",
+   "product": "elranatamab",
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "PFS vs external RWD SOC control, HR 0.51 p<.0001 (elranatamab median not estimable); non-randomized external comparison."
+  },
+  {
+   "packet_id": 36,
+   "nct": "NCT05932290",
+   "class": "POTENTIAL_HUMAN_EFFICACY_EVIDENCE",
+   "product": "elranatamab",
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "IPTW PFS HR 0.37 p=.0003 vs external SOC cohort."
+  },
+  {
+   "packet_id": 37,
+   "nct": "NCT03801044",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "OTHER",
+   "reason": "Diagnostic association of ultrasound B lines with VEGF-C; no therapeutic product."
+  },
+  {
+   "packet_id": 38,
+   "nct": "NCT00870818",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "Adverse event counts in follow-up study."
+  },
+  {
+   "packet_id": 39,
+   "nct": "NCT03906227",
+   "class": "NUMERICAL_OUTCOME_WITH_UNRESOLVED_PRODUCT",
+   "product": null,
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "OTHER",
+   "reason": "Time to relapse with only one n=1 value; intervention is a biomarker-guided maintenance strategy, not a named product."
+  },
+  {
+   "packet_id": 40,
+   "nct": "NCT01254942",
+   "class": "NUMERICAL_OUTCOME_WITH_RESOLVED_PRODUCT",
+   "product": "B4 Clinic (fracture follow-up clinic plus exercise program)",
+   "flags": [],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "SPPB 9.08 vs 8.24 vs usual care with no statistical analysis; non-drug service intervention."
+  },
+  {
+   "packet_id": 41,
+   "nct": "NCT02801942",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "OTHER",
+   "reason": "Observational immune phenotyping; no treatment."
+  },
+  {
+   "packet_id": 42,
+   "nct": "NCT02801942",
+   "class": "NON_EFFICACY_OUTCOME",
+   "product": null,
+   "flags": [],
+   "design": "OTHER",
+   "reason": "Observational lymph node immune phenotyping; no treatment."
+  },
+  {
+   "packet_id": 43,
+   "nct": "NCT03152526",
+   "class": "POSTED_WITHOUT_USABLE_OUTCOME",
+   "product": null,
+   "flags": [
+    "INCOMPLETE_REPORTING"
+   ],
+   "design": "MULTI_COHORT",
+   "reason": "Complete remission outcome has no measurements (accrual n=1)."
+  },
+  {
+   "packet_id": 44,
+   "nct": "NCT05565391",
+   "class": "POTENTIAL_HUMAN_EFFICACY_EVIDENCE",
+   "product": "elranatamab",
+   "flags": [],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "ORR 61.0% vs 31.3%/30.3% external SOC cohorts, RR 1.95/2.01 p<.0001."
+  },
+  {
+   "packet_id": 45,
+   "nct": "NCT05565391",
+   "class": "POTENTIAL_HUMAN_EFFICACY_EVIDENCE",
+   "product": "elranatamab",
+   "flags": [],
+   "design": "PLACEBO_OR_SOC_COMPARATOR",
+   "reason": "IPTW ORR 75.7% vs 34.2%, RR 2.22 p<.0001 vs external COTA cohort."
+  },
+  {
+   "packet_id": 46,
+   "nct": "NCT06503107",
+   "class": "NO_POSTED_RESULTS",
+   "product": null,
+   "flags": [],
+   "design": "SINGLE_PRODUCT",
+   "reason": "results_present false."
+  },
+  {
+   "packet_id": 47,
+   "nct": "NCT07185477",
+   "class": "NO_POSTED_RESULTS",
+   "product": null,
+   "flags": [],
+   "design": "SINGLE_PRODUCT",
+   "reason": "results_present false."
+  },
+  {
+   "packet_id": 48,
+   "nct": "NCT05860036",
+   "class": "NO_POSTED_RESULTS",
+   "product": null,
+   "flags": [],
+   "design": "COMBINATION",
+   "reason": "results_present false."
+  },
+  {
+   "packet_id": 49,
+   "nct": "NCT07573111",
+   "class": "NO_POSTED_RESULTS",
+   "product": null,
+   "flags": [],
+   "design": "DOSE_LEVELS",
+   "reason": "results_present false."
+  }
+ ]
+}
