@@ -1,0 +1,137 @@
+[
+ {
+  "id": 0,
+  "name": "Anthelone U",
+  "target_symbol": "EGF"
+ },
+ {
+  "id": 1,
+  "name": "CD197 Antigen",
+  "target_symbol": "CCR7"
+ },
+ {
+  "id": 2,
+  "name": "FZD2 Protein",
+  "target_symbol": "FZD2"
+ },
+ {
+  "id": 3,
+  "name": "G(q) Alpha",
+  "target_symbol": "GNAQ"
+ },
+ {
+  "id": 4,
+  "name": "IL11RA-Locus Chemokine",
+  "target_symbol": "CCL27"
+ },
+ {
+  "id": 5,
+  "name": "Isoform PlGF-1",
+  "target_symbol": "PGF"
+ },
+ {
+  "id": 6,
+  "name": "Isoform PlGF-3",
+  "target_symbol": "PGF"
+ },
+ {
+  "id": 7,
+  "name": "MAGE-like 2",
+  "target_symbol": "MAGEL2"
+ },
+ {
+  "id": 8,
+  "name": "MAP3K14 Protein",
+  "target_symbol": "MAP3K14"
+ },
+ {
+  "id": 9,
+  "name": "MEK Kinase",
+  "target_symbol": "MAP3K1"
+ },
+ {
+  "id": 10,
+  "name": "MEKK1 Protein",
+  "target_symbol": "MAP3K1"
+ },
+ {
+  "id": 11,
+  "name": "MGC5172",
+  "target_symbol": "MLH1"
+ },
+ {
+  "id": 12,
+  "name": "MPP3 Protein",
+  "target_symbol": "MPP3"
+ },
+ {
+  "id": 13,
+  "name": "NFKB-Inducing Kinase",
+  "target_symbol": "MAP3K14"
+ },
+ {
+  "id": 14,
+  "name": "P-450MP",
+  "target_symbol": "CYP2C9"
+ },
+ {
+  "id": 15,
+  "name": "P450 MP-4",
+  "target_symbol": "CYP2C9"
+ },
+ {
+  "id": 16,
+  "name": "P450 PB-1",
+  "target_symbol": "CYP2C9"
+ },
+ {
+  "id": 17,
+  "name": "PLGF-1",
+  "target_symbol": "PGF"
+ },
+ {
+  "id": 18,
+  "name": "PLGF1",
+  "target_symbol": "PGF"
+ },
+ {
+  "id": 19,
+  "name": "PlGF-131",
+  "target_symbol": "PGF"
+ },
+ {
+  "id": 20,
+  "name": "PlGF-203",
+  "target_symbol": "PGF"
+ },
+ {
+  "id": 21,
+  "name": "ProEGF",
+  "target_symbol": "EGF"
+ },
+ {
+  "id": 22,
+  "name": "adenylosuccinate synthase",
+  "target_symbol": "ADSS2"
+ },
+ {
+  "id": 23,
+  "name": "cofilin-like 3",
+  "target_symbol": "CFL1P3"
+ },
+ {
+  "id": 24,
+  "name": "histidyl-tRNA synthetase-like",
+  "target_symbol": "HARS2"
+ },
+ {
+  "id": 25,
+  "name": "keratin 6D",
+  "target_symbol": "KRT6A"
+ },
+ {
+  "id": 26,
+  "name": "phenylthiocarbamide tasting",
+  "target_symbol": "TAS2R38"
+ }
+]
