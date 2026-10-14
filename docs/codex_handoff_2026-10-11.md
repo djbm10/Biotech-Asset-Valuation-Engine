@@ -1,3 +1,9 @@
+# 2026-10-14 — CTGOV_POSTED_RESULTS_AVAILABILITY v1: STOP
+
+Prereg `eefd8a2`; read `research/se_ctgov_posted_results_availability_v1/README.md`. Live CT.gov API v2.0.5 census of 1,932 dev-cohort NCTs (0 missing): **164 (8.5%) have posted results**, below the 10% threshold (phase 1 4%, phase 2 14.5%, phase 3/4 17%). Independent adjudication of 50 packets: 20 non-efficacy primaries; 16 studies with attributable numerical outcomes (attribution feasible); only 6 potential human-efficacy studies (Wilson LB 0.089 < 0.15; two use external real-world controls). Point-in-time: 161 results posted before as-of but with unverified content; 3 posted after. No extractor justified; no production change. Human-PoC still has no structured route. H21–H25 sealed; H6–H10 unrun.
+
+---
+
 # 2026-10-14 — TARGET_ALIAS_AUTHORITY_SOURCE v2: STOP — target-alias work PARKED
 
 Prereg `42b94f7`; read `research/se_target_alias_authority_source_v2/README.md`. 26,230-name universe; 113 independent negatives (DRUG aliases / NCIt non-product); 400-target disjoint sample reviewed blind by a separate agent. Policy A (NCIt protein, single chain) admits 20 negatives (angiotensin, vasopressin, human albumin…) and 14 reviewer-unsafe names (isoforms, precursors, families, non-human P450s), plus `statin-like`; coverage 1.5%. Policy B (HGNC current) is safe-ish but has ~0 coverage and no factor XI. Historical names include disease names. H20 factor XI → F11 works offline but only under unsafe policy A; H17 unchanged. No implementation; no v3. Next: CT.gov posted-results source-availability survey. H21–H25 sealed; H6–H10 unrun.

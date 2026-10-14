@@ -101,7 +101,12 @@ def decide(census, labels, packets):
     }
 
 
-def selftest(census, labels, packets):
+def selftest(real_census, labels, packets):
+    # Fixtures use their own census (all studies with results) so a valid fixture can pass;
+    # the first draft reused the real census and could never pass (fixed before any verdict).
+    census = copy.deepcopy(real_census)
+    for r in census["rows"].values():
+        r["has_results"] = True
     good_l = copy.deepcopy(labels)
     for x in good_l:
         p = next(q for q in packets if q["packet_id"] == x["packet_id"])
