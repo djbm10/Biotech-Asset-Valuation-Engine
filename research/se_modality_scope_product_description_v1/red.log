@@ -1,0 +1,6 @@
+FAILED tests/se/test_modality_scope_product_description.py::test_explicit_descriptions_become_product_level[Novel Product is a humanized monoclonal antibody targeting PD-1.-expected0]
+FAILED tests/se/test_modality_scope_product_description.py::test_explicit_descriptions_become_product_level[Trials of Novel Product, a selective anti-IL-23 antibody, are ongoing.-expected1]
+FAILED tests/se/test_modality_scope_product_description.py::test_explicit_descriptions_become_product_level[Novel Product (NP-1) is a second generation, orally administered, tyrosine kinase inhibitor (TKI) that blocks ALK.-expected2]
+FAILED tests/se/test_modality_scope_product_description.py::test_nested_suffix_is_not_promoted
+FAILED tests/se/test_modality_scope_product_description.py::test_independent_sample_has_no_unsafe_promotion_and_meets_recall
+5 failed, 8 passed in 1.28s
