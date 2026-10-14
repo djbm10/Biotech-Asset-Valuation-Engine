@@ -1,3 +1,9 @@
+# 2026-10-14 — TRADE_NAME_ASSET_IDENTITY_DIAGNOSIS v1: STOP
+
+Prereg `e0b3750`; read `research/se_trade_name_asset_identity_diagnosis_v1/README.md`. All 6 H18/H19 brand duplicates resolve through single-claimant TRADE_NAME; the first boundary is `_IDENTIFIER_ALIAS_TYPES` (intended). 69 independent dev trade-name-only pairs: 25 are ordinary or company words with a single claimant (36%), so single-claimant TRADE_NAME (T0) certifies 29 false pairs. Source-corroborated T1 has 0 false pairs but certifies 2 biosimilars without a product relation, reaches only 47% of true brands, and doesn't fix TRODELVY. No contract is justified; no production change. Next, if pursued: preregister a decision-neutral PRODUCT_LEVEL_IDENTITY_RELATION v1. H21–H25 untouched; H6–H10 unrun.
+
+---
+
 # 2026-10-13 — ESG401_CANDIDATE_NOMINATION_DIAGNOSIS v1: STOP
 
 Prereg `505121d`; read `research/se_esg401_candidate_nomination_diagnosis_v1/README.md`. ESG401 is first lost at nomination input selection: only `interventions[].name/otherNames` are read, the arm's intervention is the class label "TROP2 ADC", and no arm-description route exists. The relation is an investigator-choice alternative, and the schema has no alternative relation. Independent 45-arm development sample: 41/45 product mentions are already nomination inputs, 4 uncovered are background lymphodepletion, and there are 0 other product alternatives. So J1 (failure class) FAILS. The existing name extractor over arm prose mints 29 ordinary words (J2 FAILS). ARM_ALTERNATIVE_CANDIDATE_NOMINATION is not justified. No production change; no ESG401 exception. Modality stays parked. H21–H25 untouched; H6–H10 unrun.
