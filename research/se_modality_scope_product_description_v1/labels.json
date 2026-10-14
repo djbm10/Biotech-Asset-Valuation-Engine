@@ -1,0 +1,1326 @@
+{
+ "_basis": "Adjudicated from the raw sentence before any rule implementation. Spans are sentence-relative. required_any: at least one must be PRODUCT_LEVEL. allowed: may be PRODUCT_LEVEL (true modality, not head). 'IgG' = any embedded IgG mention (same modality, MONOCLONAL_ANTIBODY). Everything else must not be PRODUCT_LEVEL. Single adjudicator, who also wrote the rule spec.",
+ "labels": [
+  {
+   "unit_id": "0e72f632a9ee436c",
+   "index": 0,
+   "structure": "A",
+   "required_any": [
+    [
+     89,
+     114
+    ]
+   ],
+   "allowed": [
+    [
+     18,
+     32
+    ],
+    [
+     98,
+     114
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "3ad29aa5ec100ccd",
+   "index": 1,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "TKI inside the code TKI-258 is an identifier, not a description"
+  },
+  {
+   "unit_id": "7defe409c9c5377e",
+   "index": 2,
+   "structure": "A",
+   "required_any": [
+    [
+     27,
+     46
+    ]
+   ],
+   "allowed": [
+    [
+     38,
+     46
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "b4382f8eab569103",
+   "index": 3,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "cfbc137ee70efce0",
+   "index": 4,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "polyclonal IgG, not a monoclonal antibody"
+  },
+  {
+   "unit_id": "03012a91737d14dd",
+   "index": 5,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "antibody belongs to mirikizumab"
+  },
+  {
+   "unit_id": "0f00e7aab83191b5",
+   "index": 6,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "42e7909e15cca311",
+   "index": 7,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "46fcfd773cf38ea6",
+   "index": 8,
+   "structure": "A",
+   "required_any": [
+    [
+     17,
+     31
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "550ab58451d68d93",
+   "index": 9,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "antibody belongs to mirikizumab"
+  },
+  {
+   "unit_id": "6d734d58cc4e7fe7",
+   "index": 10,
+   "structure": "A",
+   "required_any": [
+    [
+     129,
+     137
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "827a5741e68d8b5c",
+   "index": 11,
+   "structure": "A",
+   "required_any": [
+    [
+     26,
+     45
+    ]
+   ],
+   "allowed": [
+    [
+     26,
+     36
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "aff768b3c5376ffd",
+   "index": 12,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "b1409a1cc36b3dd1",
+   "index": 13,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "b60c464f1ced35e5",
+   "index": 14,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "cf9bf5b9648c837e",
+   "index": 15,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "011f5a569adeb345",
+   "index": 16,
+   "structure": "B",
+   "required_any": [
+    [
+     20,
+     39
+    ]
+   ],
+   "allowed": [
+    [
+     31,
+     39
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "0b72215cf8e83bd3",
+   "index": 17,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "polyclonal IgG"
+  },
+  {
+   "unit_id": "19e9403fdef6aab7",
+   "index": 18,
+   "structure": "B",
+   "required_any": [
+    [
+     16,
+     35
+    ]
+   ],
+   "allowed": [
+    [
+     27,
+     35
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "1ad1832b5e3210c9",
+   "index": 19,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "1d2aec6691d06d92",
+   "index": 20,
+   "structure": "B",
+   "required_any": [
+    [
+     12,
+     29
+    ],
+    [
+     23,
+     29
+    ],
+    [
+     23,
+     34
+    ],
+    [
+     23,
+     42
+    ]
+   ],
+   "allowed": [
+    [
+     12,
+     29
+    ],
+    [
+     23,
+     29
+    ],
+    [
+     23,
+     34
+    ],
+    [
+     23,
+     42
+    ],
+    [
+     30,
+     42
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "229289d1a57831fd",
+   "index": 21,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "polyclonal IgG"
+  },
+  {
+   "unit_id": "24451e4dbf3783e8",
+   "index": 22,
+   "structure": "B",
+   "required_any": [
+    [
+     36,
+     55
+    ]
+   ],
+   "allowed": [
+    [
+     47,
+     55
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "267f781138bdbf9f",
+   "index": 23,
+   "structure": "B",
+   "required_any": [
+    [
+     64,
+     83
+    ]
+   ],
+   "allowed": [
+    [
+     75,
+     83
+    ],
+    [
+     85,
+     88
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "291a0738e723eb90",
+   "index": 24,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     15,
+     29
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "29820635030ab8df",
+   "index": 25,
+   "structure": "B",
+   "required_any": [
+    [
+     24,
+     40
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "36ba93b6a19f017f",
+   "index": 26,
+   "structure": "B",
+   "required_any": [
+    [
+     23,
+     42
+    ]
+   ],
+   "allowed": [
+    [
+     34,
+     42
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "4128941a355ce786",
+   "index": 27,
+   "structure": "B",
+   "required_any": [
+    [
+     43,
+     62
+    ]
+   ],
+   "allowed": [
+    [
+     54,
+     62
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "431990bdc9201c41",
+   "index": 28,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "51f8370e7369d4f2",
+   "index": 29,
+   "structure": "B",
+   "required_any": [
+    [
+     90,
+     98
+    ]
+   ],
+   "allowed": [
+    "IgG"
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "56142bcfa6453ca5",
+   "index": 30,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     82,
+     99
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "617d3d83094f2cc4",
+   "index": 31,
+   "structure": "B",
+   "required_any": [
+    [
+     23,
+     42
+    ]
+   ],
+   "allowed": [
+    [
+     34,
+     42
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "63e9204731d72c34",
+   "index": 32,
+   "structure": "B",
+   "required_any": [
+    [
+     61,
+     80
+    ]
+   ],
+   "allowed": [
+    [
+     72,
+     80
+    ],
+    "IgG"
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "7070291921d2a9fc",
+   "index": 33,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "70fc33c94de1a70e",
+   "index": 34,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "antibody is a component of a radiolabelled product"
+  },
+  {
+   "unit_id": "7589d9381485a7e4",
+   "index": 35,
+   "structure": "B",
+   "required_any": [
+    [
+     14,
+     39
+    ]
+   ],
+   "allowed": [
+    [
+     24,
+     39
+    ],
+    [
+     41,
+     44
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "7a4ebdde8d2aa0ec",
+   "index": 36,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "86af1320697fff5f",
+   "index": 37,
+   "structure": "B",
+   "required_any": [
+    [
+     30,
+     38
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "88a7500f3a467e40",
+   "index": 38,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "radioimmunoconjugate; antibody is appositive to 'drug'"
+  },
+  {
+   "unit_id": "8ee57bb522a633e0",
+   "index": 39,
+   "structure": "B",
+   "required_any": [
+    [
+     19,
+     37
+    ],
+    [
+     29,
+     37
+    ]
+   ],
+   "allowed": [
+    [
+     19,
+     37
+    ],
+    [
+     29,
+     37
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "9240dc4b01e4d8f8",
+   "index": 40,
+   "structure": "B",
+   "required_any": [
+    [
+     26,
+     34
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "9613f8a9b2d66f83",
+   "index": 41,
+   "structure": "B",
+   "required_any": [
+    [
+     29,
+     48
+    ]
+   ],
+   "allowed": [
+    [
+     40,
+     48
+    ],
+    [
+     50,
+     53
+    ],
+    "IgG"
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "9e7efcf5c43e2427",
+   "index": 42,
+   "structure": "B",
+   "required_any": [
+    [
+     61,
+     80
+    ]
+   ],
+   "allowed": [
+    [
+     72,
+     80
+    ],
+    [
+     82,
+     85
+    ],
+    "IgG"
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "9fadc79855ecfbd1",
+   "index": 43,
+   "structure": "B",
+   "required_any": [
+    [
+     62,
+     87
+    ]
+   ],
+   "allowed": [
+    [
+     71,
+     87
+    ],
+    [
+     89,
+     92
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "a259cb36849437bf",
+   "index": 44,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     19,
+     29
+    ],
+    [
+     19,
+     36
+    ],
+    [
+     30,
+     45
+    ]
+   ],
+   "note": "head 'antibody' under TCE premodifiers: MONOCLONAL_ANTIBODY is the wrong whole-product class"
+  },
+  {
+   "unit_id": "a4bbf8ceb65a7a32",
+   "index": 45,
+   "structure": "B",
+   "required_any": [
+    [
+     41,
+     49
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "a4ec5033ff9b5de3",
+   "index": 46,
+   "structure": "B",
+   "required_any": [
+    [
+     15,
+     40
+    ]
+   ],
+   "allowed": [
+    [
+     24,
+     40
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "a6e01eb7bbba4249",
+   "index": 47,
+   "structure": "B",
+   "required_any": [
+    [
+     15,
+     34
+    ]
+   ],
+   "allowed": [
+    [
+     26,
+     34
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "a93d04f2befc2d69",
+   "index": 48,
+   "structure": "B",
+   "required_any": [
+    [
+     25,
+     37
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "adb16cd61d3b849d",
+   "index": 49,
+   "structure": "B",
+   "required_any": [
+    [
+     26,
+     49
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "bf2b5d2993652c87",
+   "index": 50,
+   "structure": "B",
+   "required_any": [
+    [
+     26,
+     45
+    ]
+   ],
+   "allowed": [
+    [
+     37,
+     45
+    ],
+    [
+     47,
+     50
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "c05225b61bed3925",
+   "index": 51,
+   "structure": "B",
+   "required_any": [
+    [
+     70,
+     78
+    ]
+   ],
+   "allowed": [
+    "IgG"
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "c0d29c13aab520bd",
+   "index": 52,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     56,
+     81
+    ],
+    [
+     65,
+     81
+    ],
+    [
+     83,
+     86
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "c6501379af318be6",
+   "index": 53,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     16,
+     26
+    ],
+    [
+     16,
+     33
+    ],
+    [
+     27,
+     42
+    ]
+   ],
+   "note": "same as 44"
+  },
+  {
+   "unit_id": "cd480f09ad69944b",
+   "index": 54,
+   "structure": "B",
+   "required_any": [
+    [
+     27,
+     46
+    ]
+   ],
+   "allowed": [
+    [
+     38,
+     46
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "d671d5ec1d1c0695",
+   "index": 55,
+   "structure": "B",
+   "required_any": [
+    [
+     34,
+     53
+    ]
+   ],
+   "allowed": [
+    [
+     45,
+     53
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "f1caf3c977cb5df4",
+   "index": 56,
+   "structure": "B",
+   "required_any": [
+    [
+     59,
+     78
+    ]
+   ],
+   "allowed": [
+    [
+     70,
+     78
+    ],
+    "IgG"
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "f37c45c1de5445b1",
+   "index": 57,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     45,
+     70
+    ],
+    [
+     54,
+     70
+    ],
+    [
+     72,
+     75
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "f6b42afef42459db",
+   "index": 58,
+   "structure": "B",
+   "required_any": [
+    [
+     25,
+     44
+    ]
+   ],
+   "allowed": [
+    [
+     25,
+     35
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "3d5b6dbb1b36faa1",
+   "index": 59,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "4e21cf4215a2ff41",
+   "index": 60,
+   "structure": "B",
+   "required_any": [
+    [
+     17,
+     36
+    ]
+   ],
+   "allowed": [
+    [
+     28,
+     36
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "78503844941e295a",
+   "index": 61,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "candidate 'vedotin' is the payload; ADC must not attach to it"
+  },
+  {
+   "unit_id": "ccfa8e0d6b7203e0",
+   "index": 62,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "05debeebe59b4422",
+   "index": 63,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "class-label product name"
+  },
+  {
+   "unit_id": "081bf3b771631097",
+   "index": 64,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     38,
+     43
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "09b857219f57ea1c",
+   "index": 65,
+   "structure": "B",
+   "required_any": [
+    [
+     37,
+     45
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "0b2cb62f9b4968bc",
+   "index": 66,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     16,
+     23
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "0e49e4c428d1f28d",
+   "index": 67,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     30,
+     46
+    ],
+    [
+     41,
+     46
+    ],
+    [
+     41,
+     51
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "1a2b621cb4e503b0",
+   "index": 68,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     11,
+     18
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "2541d123a6d6dc01",
+   "index": 69,
+   "structure": "B",
+   "required_any": [
+    [
+     45,
+     52
+    ]
+   ],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "28653fdd076265fe",
+   "index": 70,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     21,
+     29
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "47703c562de1175e",
+   "index": 71,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     38,
+     43
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "53a23a8a2a6c917a",
+   "index": 72,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     23,
+     30
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "57143d46def6ac90",
+   "index": 73,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "class-label product name"
+  },
+  {
+   "unit_id": "5a005fb47103e141",
+   "index": 74,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "radioconjugate"
+  },
+  {
+   "unit_id": "69397da22dd215b9",
+   "index": 75,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "class-label product name"
+  },
+  {
+   "unit_id": "6f140e54d1015be4",
+   "index": 76,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "class-label product name"
+  },
+  {
+   "unit_id": "6fe1d2457f4a5069",
+   "index": 77,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "class-label subject 'Immune Checkpoint Inhibitor (ICI)' (requirement 5)"
+  },
+  {
+   "unit_id": "705cf5323afc37be",
+   "index": 78,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     21,
+     24
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "811c148d1df30c43",
+   "index": 79,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "813b963248069ddb",
+   "index": 80,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": "class-label product name"
+  },
+  {
+   "unit_id": "83ee959916f283ea",
+   "index": 81,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "8f7ea4f64bbea78e",
+   "index": 82,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "138ec6e8214d88bf",
+   "index": 83,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "1fae20a2a0b9283d",
+   "index": 84,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "26ce36b231bcc348",
+   "index": 85,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "442974bef1579b3d",
+   "index": 86,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "46546f563c34455b",
+   "index": 87,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "4ac621f6fa4b17a0",
+   "index": 88,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "4ea5b29bc9a697c2",
+   "index": 89,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "4f67242d1151f4c7",
+   "index": 90,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "55ce0d749e3cfa2b",
+   "index": 91,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "564de42187d9fc32",
+   "index": 92,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "5aee66051d2fc329",
+   "index": 93,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "5b2b21d0b6a5ad71",
+   "index": 94,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "6222e5e23c5c67d1",
+   "index": 95,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "64a65df6682087ae",
+   "index": 96,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "67187e1c61de613c",
+   "index": 97,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "688011d20b80ef00",
+   "index": 98,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "6d87ebbea523323a",
+   "index": 99,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "7786bc539052882a",
+   "index": 100,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  },
+  {
+   "unit_id": "77ace1311df8ef54",
+   "index": 101,
+   "structure": null,
+   "required_any": [],
+   "allowed": [
+    [
+     106,
+     114
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "unit_id": "786bb0752fde6001",
+   "index": 102,
+   "structure": null,
+   "required_any": [],
+   "allowed": [],
+   "note": ""
+  }
+ ]
+}

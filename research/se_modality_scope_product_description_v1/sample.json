@@ -1,0 +1,1727 @@
+{
+ "denominators": {
+  "ST_COMMA|ctgov": 5,
+  "ST_COMMA|public": 11,
+  "ST_COPULA|ctgov": 43,
+  "ST_COPULA|public": 4,
+  "ST_CLASS|ctgov": 0,
+  "ST_CLASS|public": 0,
+  "ST_OTHER|ctgov": 29,
+  "ST_OTHER|public": 41
+ },
+ "units": [
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/aac13b444de3695f02cf45c3d4d4679bcd23cf80040d86ec509b7ee61900044c.json",
+   "artifact_sha256": "aac13b444de3695f02cf45c3d4d4679bcd23cf80040d86ec509b7ee61900044c",
+   "record_id": "NCT03376958",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Apatinib, a novel small molecule vascular endothelial growth factor receptor-2 (VEGFR-2) tyrosine kinase inhibitor, have shown remarkable efficacy in many solid cancers. The result of our study presented that apatinib might have a rapid, safe and high efficacy on lymphoma patients.",
+   "sentence_offset": 0,
+   "sentence": "Apatinib, a novel small molecule vascular endothelial growth factor receptor-2 (VEGFR-2) tyrosine kinase inhibitor, have shown remarkable efficacy in many solid cancers",
+   "product_name": "Apatinib",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Apatinib"
+   ],
+   "unit_id": "0e72f632a9ee436c"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/ffacc6ba44f18ab9ea3e62a73899b3f76d8d7c4b1282e2b7c04f6f51d03cfe33.json",
+   "artifact_sha256": "ffacc6ba44f18ab9ea3e62a73899b3f76d8d7c4b1282e2b7c04f6f51d03cfe33",
+   "record_id": "NCT01514526",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Dovitinib (TKI-258), gelatin capsule of 100mg, developed and supplied by Novartis Inc. The study regimen consists of the administration of 500 mg / day (5 x 100mg) once daily, taken orally with a large amount of water, preferably one hour prior to a meal or at least two hours following a meal. This dose will be taken once daily according to 5 days on/2 days off schedule.\n\nThe patient will continue on treatment until disease progression,unacceptable toxicity, death or premature withdrawal.",
+   "sentence_offset": 0,
+   "sentence": "Dovitinib (TKI-258), gelatin capsule of 100mg, developed and supplied by Novartis Inc",
+   "product_name": "Dovitinib",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Dovitinib",
+    "TKI258"
+   ],
+   "unit_id": "3ad29aa5ec100ccd"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/a60cb5d2cd890fc30f0ab1f117ffe517f541d16a32c2548ece9f26f4d5371a6a.json",
+   "artifact_sha256": "a60cb5d2cd890fc30f0ab1f117ffe517f541d16a32c2548ece9f26f4d5371a6a",
+   "record_id": "NCT07240194",
+   "field": "/armsInterventionsModule/interventions/3/description",
+   "text": "Obinutuzumab, an anti-CD20 monoclonal antibody, is administered intravenously on Day 1 of Cycle 1 as a pretreatment to mitigate immune activation effects and reduce the risk of CRS before starting glofitamab.",
+   "sentence_offset": 0,
+   "sentence": "Obinutuzumab, an anti-CD20 monoclonal antibody, is administered intravenously on Day 1 of Cycle 1 as a pretreatment to mitigate immune activation effects and reduce the risk of CRS before starting glofitamab",
+   "product_name": "Obinutuzumab",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Obinutuzumab"
+   ],
+   "unit_id": "7defe409c9c5377e"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/3eb70c4bdbc3a809942dc2af5fabd2e29476429edd65970004d056473c8462ef.json",
+   "artifact_sha256": "3eb70c4bdbc3a809942dc2af5fabd2e29476429edd65970004d056473c8462ef",
+   "record_id": "NCT06953843",
+   "field": "/armsInterventionsModule/interventions/5/description",
+   "text": "For eligible subjects who have developed resistance to EGFR-TKI, after 4 cycles of treatment with Benmelstobart combined with Bevacizumab and chemotherapy, if there is no disease progression, they will receive the treatment of 6-10Gy \\* 3-6 fractions plus Benmelstobart.",
+   "sentence_offset": 0,
+   "sentence": "For eligible subjects who have developed resistance to EGFR-TKI, after 4 cycles of treatment with Benmelstobart combined with Bevacizumab and chemotherapy, if there is no disease progression, they will receive the treatment of 6-10Gy \\* 3-6 fractions plus Benmelstobart",
+   "product_name": "Benmelstobart combined with Bevacizumab and chemotherapy",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Benmelstobart combined with Bevacizumab and chemotherapy",
+    "Radiotherapy"
+   ],
+   "unit_id": "b4382f8eab569103"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/ec7dd0f3bfe1fa1ab9a20633ad19d522008118ed8f745466428630c5022ccfaa.json",
+   "artifact_sha256": "ec7dd0f3bfe1fa1ab9a20633ad19d522008118ed8f745466428630c5022ccfaa",
+   "record_id": "NCT02711228",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Hizentra, Subcutaneous Immune Globulin (Human) (SCIg), is a ready to use, polyvalent human normal Immunoglobulin G (IgG) for subcutaneous administration. Hizentra is a 20% IgG protein solution, is prepared from large pools of human plasma, and is stabilized by L-Proline.",
+   "sentence_offset": 0,
+   "sentence": "Hizentra, Subcutaneous Immune Globulin (Human) (SCIg), is a ready to use, polyvalent human normal Immunoglobulin G (IgG) for subcutaneous administration",
+   "product_name": "Hizentra",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Hizentra",
+    "IgPro20",
+    "Subcutaneous Immune Globulin (Human) (Hizentra)"
+   ],
+   "unit_id": "cfbc137ee70efce0"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/f7455849c3bc058f320259996a01ba6fb7846cc49d5fee97d4f49b505915a6ec.json",
+   "artifact_sha256": "f7455849c3bc058f320259996a01ba6fb7846cc49d5fee97d4f49b505915a6ec",
+   "record_id": "document:bb047d0d69299336d75a",
+   "field": "/abstract",
+   "text": "Immune checkpoint inhibitor-induced colitis (ICIC) is a common and clinically significant adverse event associated with immune checkpoint inhibitor (ICI) use. Although corticosteroids are used as first-line therapy and infliximab or vedolizumab is recommended for steroid-refractory cases, some patients fail to respond to these treatments and optimal management remains unclear. A 76-year-old woman with triple-negative breast cancer (cT2N0M0, Stage IIA) received neoadjuvant chemotherapy, including pembrolizumab, according to the KEYNOTE-522 regimen. After the second cycle, the patient developed watery diarrhea and hematochezia more than 10 times daily. Based on the endoscopic and histopathological findings, ICIC was diagnosed. Treatment with corticosteroids followed by infliximab led to a clinical response. She subsequently underwent surgery for residual disease; however, colitis relapsed postoperatively. Switching to vedolizumab resulted in a transient response; however, sustained remission was not achieved. Given that ICIC is refractory to corticosteroids, infliximab, and vedolizumab, mirikizumab, a selective anti-interleukin-23 p19 antibody, was initiated, leading to rapid clinical and endoscopic remission. No ICIC relapse or cancer recurrence was observed during the follow-up period of > 500 days after the initiation of mirikizumab. Mirikizumab may be a promising therapeutic option for refractory ICIC, particularly in patients resistant to multiple biological agents.",
+   "sentence_offset": 1022,
+   "sentence": " Given that ICIC is refractory to corticosteroids, infliximab, and vedolizumab, mirikizumab, a selective anti-interleukin-23 p19 antibody, was initiated, leading to rapid clinical and endoscopic remission",
+   "product_name": "vedolizumab",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "vedolizumab"
+   ],
+   "unit_id": "03012a91737d14dd"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/28e0a5b9a7dccd53e81590f286fc1775976b91ed9c642b05b0f9b94c2d161af3.json",
+   "artifact_sha256": "28e0a5b9a7dccd53e81590f286fc1775976b91ed9c642b05b0f9b94c2d161af3",
+   "record_id": "document:8114460371d01d1f92fd",
+   "field": "/abstract",
+   "text": "Cerebral glucose hypometabolism (CGHM) involves reduced brain glucose uptake on FDG-PET imaging and occurs in neurological and systemic diseases. Its reversibility remains uncertain. We describe a 40-year-old man with reversible global CGHM associated with cryptogenic organizing pneumonia (COP) and COVID-19. His neurocognitive symptoms improved rapidly following steroid-induced hyperglycemia, with FDG-PET demonstrating complete CGHM resolution after two months. His medical background included primary refractory transformed follicular lymphoma diagnosed 30 months earlier, managed with multiple treatment regimens including CAR-T therapy. After post-CAR-T relapse, combination therapy with polatuzumab vendotin, bendamustine, and obinutuzumab achieved complete remission, which was maintained when CGHM developed. This case establishes that CGHM can be temporary and reversible, highlighting a previously unrecognized pathway through which systemic illness may produce neurocognitive impairment. The rapid cognitive recovery coinciding with steroid-induced hyperglycemia and COP treatment is significant. Additional investigation is warranted to determine CGHM's significance in diverse pathological conditions and determine therapeutic interventions.",
+   "sentence_offset": 643,
+   "sentence": " After post-CAR-T relapse, combination therapy with polatuzumab vendotin, bendamustine, and obinutuzumab achieved complete remission, which was maintained when CGHM developed",
+   "product_name": "bendamustine",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Bendamustine",
+    "bendamustine"
+   ],
+   "unit_id": "0f00e7aab83191b5"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/c6048cb970e8b2d76a3b6e167a63f06d257e7105fccf8d0405d2a3288864f347.json",
+   "artifact_sha256": "c6048cb970e8b2d76a3b6e167a63f06d257e7105fccf8d0405d2a3288864f347",
+   "record_id": "document:63fe5f58ac1de21766cd",
+   "field": "/abstract",
+   "text": "Glioblastoma (GBM) is the most aggressive type of primary brain tumour in adults, and after treatment, it is also difficult to know whether a person's health has improved. Pseudoprogression (PsP), particularly following radiotherapy and combination therapy with temozolomide and new immunotherapies, may be falsely identified as true progression (TP) by conventional MRI, thus leading to premature termination of treatment or unnecessary intensification of therapy. Although RANO, iRANO and RANO 2.0 have improved the assessment of response, structural MRI alone is unable to reveal the biological complexity of the tumour microenvironment. Artificial Intelligence (AI)-based radiomics and radiogenomics aid in the characterisation of GBM. Several Magnetic Resonance Imaging (MRI) sequences are used to obtain quantitative data, such as the conventional T1-weighted images, diffusion-weighted images, perfusion-weighted images and others, to acquire information on cell density, blood vessel distribution, immune cell concentration, molecular modifications and the effect of therapy. Combine imaging characteristics with liquid biopsy, genomic data and patient health records to enhance the accuracy of diagnosis and discover high-sensitivity surrogate markers for immune checkpoint inhibitor and CAR-T cell therapy clinical trials. Clinical translation still faces numerous limitations such as inconsistent research protocols, small study cohorts, insufficient external validation, inadequate model interpretability and inconsistent reference standards. In the future, many research groups will conduct multi-centre validation, standardize workflows, open-source reporting and release clinically interpretable models. The above ways can reduce the bias induced by PsP and improve differentiation between pseudoprogression and true progression to facilitate prompt treatment for most people.",
+   "sentence_offset": 1083,
+   "sentence": " Combine imaging characteristics with liquid biopsy, genomic data and patient health records to enhance the accuracy of diagnosis and discover high-sensitivity surrogate markers for immune checkpoint inhibitor and CAR-T cell therapy clinical trials",
+   "product_name": "biopsy",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Biopsy",
+    "biopsy"
+   ],
+   "unit_id": "42e7909e15cca311"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/afbbc773e66d5cb6327965608fe3f64312093331551a87e1bf66c81a7405abae.json",
+   "artifact_sha256": "afbbc773e66d5cb6327965608fe3f64312093331551a87e1bf66c81a7405abae",
+   "record_id": "document:39499bb2d67b56758d8e",
+   "field": "/abstract",
+   "text": "Oral proprotein convertase subtilisin/kexin type 9 (PCSK9) inhibitors represent a new generation of lipid-lowering therapies that combine the potency of injectable PCSK9 inhibitors with the convenience of oral administration. This review examines the mechanisms, trial evidence, and implementation considerations for oral PCSK9 inhibitors that have reached phase 2 or later clinical development. Two oral PCSK9 inhibitors, enlicitide and laroprovstat, have demonstrated that oral PCSK9 inhibition is pharmacologically viable through distinct mechanisms of action. Enlicitide, a macrocyclic peptide that competitively blocks the PCSK9-LDL receptor interaction, achieved placebo-corrected LDL-C reductions of ~60% across three phase 3 trials, with high adherence and a favorable safety profile over 52weeks. Laroprovstat, a small molecule that inhibits PCSK9-mediated lysosomal trafficking of the LDL receptor, produced dose-dependent LDL-C reductions of up to 51% in a phase 2 trial and is advancing through phase 3 evaluation. Large cardiovascular outcomes trials remain underway for both agents. Oral PCSK9 inhibitors have the potential to improve the convenience and acceptability of PCSK9-targeted therapy. Whether these advantages translate into greater real-world uptake will depend on affordability, payer coverage, clinician adoption, and long-term adherence.",
+   "sentence_offset": 805,
+   "sentence": " Laroprovstat, a small molecule that inhibits PCSK9-mediated lysosomal trafficking of the LDL receptor, produced dose-dependent LDL-C reductions of up to 51% in a phase 2 trial and is advancing through phase 3 evaluation",
+   "product_name": "Laroprovstat",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Laroprovstat",
+    "laroprovstat"
+   ],
+   "unit_id": "46fcfd773cf38ea6"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/f7455849c3bc058f320259996a01ba6fb7846cc49d5fee97d4f49b505915a6ec.json",
+   "artifact_sha256": "f7455849c3bc058f320259996a01ba6fb7846cc49d5fee97d4f49b505915a6ec",
+   "record_id": "document:bb047d0d69299336d75a",
+   "field": "/abstract",
+   "text": "Immune checkpoint inhibitor-induced colitis (ICIC) is a common and clinically significant adverse event associated with immune checkpoint inhibitor (ICI) use. Although corticosteroids are used as first-line therapy and infliximab or vedolizumab is recommended for steroid-refractory cases, some patients fail to respond to these treatments and optimal management remains unclear. A 76-year-old woman with triple-negative breast cancer (cT2N0M0, Stage IIA) received neoadjuvant chemotherapy, including pembrolizumab, according to the KEYNOTE-522 regimen. After the second cycle, the patient developed watery diarrhea and hematochezia more than 10 times daily. Based on the endoscopic and histopathological findings, ICIC was diagnosed. Treatment with corticosteroids followed by infliximab led to a clinical response. She subsequently underwent surgery for residual disease; however, colitis relapsed postoperatively. Switching to vedolizumab resulted in a transient response; however, sustained remission was not achieved. Given that ICIC is refractory to corticosteroids, infliximab, and vedolizumab, mirikizumab, a selective anti-interleukin-23 p19 antibody, was initiated, leading to rapid clinical and endoscopic remission. No ICIC relapse or cancer recurrence was observed during the follow-up period of > 500 days after the initiation of mirikizumab. Mirikizumab may be a promising therapeutic option for refractory ICIC, particularly in patients resistant to multiple biological agents.",
+   "sentence_offset": 1022,
+   "sentence": " Given that ICIC is refractory to corticosteroids, infliximab, and vedolizumab, mirikizumab, a selective anti-interleukin-23 p19 antibody, was initiated, leading to rapid clinical and endoscopic remission",
+   "product_name": "infliximab",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Infliximab",
+    "infliximab"
+   ],
+   "unit_id": "550ab58451d68d93"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/f7455849c3bc058f320259996a01ba6fb7846cc49d5fee97d4f49b505915a6ec.json",
+   "artifact_sha256": "f7455849c3bc058f320259996a01ba6fb7846cc49d5fee97d4f49b505915a6ec",
+   "record_id": "document:bb047d0d69299336d75a",
+   "field": "/abstract",
+   "text": "Immune checkpoint inhibitor-induced colitis (ICIC) is a common and clinically significant adverse event associated with immune checkpoint inhibitor (ICI) use. Although corticosteroids are used as first-line therapy and infliximab or vedolizumab is recommended for steroid-refractory cases, some patients fail to respond to these treatments and optimal management remains unclear. A 76-year-old woman with triple-negative breast cancer (cT2N0M0, Stage IIA) received neoadjuvant chemotherapy, including pembrolizumab, according to the KEYNOTE-522 regimen. After the second cycle, the patient developed watery diarrhea and hematochezia more than 10 times daily. Based on the endoscopic and histopathological findings, ICIC was diagnosed. Treatment with corticosteroids followed by infliximab led to a clinical response. She subsequently underwent surgery for residual disease; however, colitis relapsed postoperatively. Switching to vedolizumab resulted in a transient response; however, sustained remission was not achieved. Given that ICIC is refractory to corticosteroids, infliximab, and vedolizumab, mirikizumab, a selective anti-interleukin-23 p19 antibody, was initiated, leading to rapid clinical and endoscopic remission. No ICIC relapse or cancer recurrence was observed during the follow-up period of > 500 days after the initiation of mirikizumab. Mirikizumab may be a promising therapeutic option for refractory ICIC, particularly in patients resistant to multiple biological agents.",
+   "sentence_offset": 1022,
+   "sentence": " Given that ICIC is refractory to corticosteroids, infliximab, and vedolizumab, mirikizumab, a selective anti-interleukin-23 p19 antibody, was initiated, leading to rapid clinical and endoscopic remission",
+   "product_name": "mirikizumab",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Mirikizumab",
+    "mirikizumab"
+   ],
+   "unit_id": "6d734d58cc4e7fe7"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/4809dadfcf3d6b652cfc2d221bae87fd3723808b9f953c8120ba1f4fe887e949.json",
+   "artifact_sha256": "4809dadfcf3d6b652cfc2d221bae87fd3723808b9f953c8120ba1f4fe887e949",
+   "record_id": "document:64c6f713683bf72051c4",
+   "field": "/abstract",
+   "text": "Prognosis is poor for patients with recurrent/metastatic (R/M) head and neck squamous cell cancer (HNSCC), warranting novel treatments. Epidermal growth factor receptor (EGFR) and MET are overexpressed in HNSCC and contribute to cancer progression and metastasis. Amivantamab, an EGFR-MET bispecific antibody, has demonstrated single-agent efficacy in R/M HNSCC after immune checkpoint inhibitor and platinum-based chemotherapy. Here, we report the efficacy and safety of first-line amivantamab plus pembrolizumab in participants with R/M HNSCC. Cohort 2 of the phase 1b/2 OrigAMI-4 (NCT06385080) study enrolled participants with previously untreated R/M HNSCC and PD-L1 combined positive score ≥1. Patients with p16-positive oropharyngeal cancer and prior anti-EGFR or anti-PD-(L)1 therapy were excluded. Subcutaneous amivantamab and intravenous pembrolizumab were administered every 3 weeks. Primary endpoint was investigator-assessed objective response rate (ORR). Secondary endpoints included duration of response (DoR), clinical benefit rate (CBR), progression-free survival (PFS), overall survival (OS), and safety. Overall, 39 participants received ≥1 dose of subcutaneous amivantamab plus intravenous pembrolizumab in Cohort 2. At a median follow-up of 13.6 months, confirmed ORR was 59% (95% CI, 42-74), with 7 (18%) complete responses. Median DoR was not reached (NR). CBR was 74% (95% CI, 58-87). Shrinkage of target lesions occurred in 82% of participants. Median PFS was 7.7 months (95% CI, 5.0-NR); median OS was NR. The safety profile was consistent with prior reports, with no new safety signals identified. Subcutaneous amivantamab plus intravenous pembrolizumab demonstrated meaningful antitumor activity and may be a promising new option for previously untreated R/M HNSCC.",
+   "sentence_offset": 263,
+   "sentence": " Amivantamab, an EGFR-MET bispecific antibody, has demonstrated single-agent efficacy in R/M HNSCC after immune checkpoint inhibitor and platinum-based chemotherapy",
+   "product_name": "Amivantamab",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Amivantamab",
+    "amivantamab"
+   ],
+   "unit_id": "827a5741e68d8b5c"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/5d7e53809a39aa0df0475f3a1696e642540daf2d2528b886ad10b80bab65f3a1.json",
+   "artifact_sha256": "5d7e53809a39aa0df0475f3a1696e642540daf2d2528b886ad10b80bab65f3a1",
+   "record_id": "document:97448753ed0e35e91850",
+   "field": "/abstract",
+   "text": "Prader-Willi syndrome is a genetic neurodevelopmental disorder characterized by hyperphagia and early-onset obesity from hypothalamic dysfunction with endocrinopathies and learning disability. Management is challenging with strict control of the food environment needed. While newer glucagon-like peptide-1 receptor agonists, such as semaglutide, have efficacy in non-PWS obesity, there have been limited case reports in PWS. Retrospective, observational cohort of 12 adults with PWS and overweight/obesity treated with semaglutide at a UK academic hospital centre specialist clinic. Mean ± SD age 28.3 ± 10.1 years, 83% female, BMI 46.6 ± 8.2kg/m², 75% type 2 diabetes mellitus. Median follow-up 17.2 months (range 8.7-36.1) with median semaglutide dose 2.4mg once weekly (1.0-2.4). There was no significant overall weight loss on semaglutide, but there was stabilisation of the weight gain prior to treatment over previous 12.4 months (7.6-23.0): post -3.1 ± 9.9% vs. pre +5.7 ± 5.6%: d -0.72, P = 0.037. There was a significant decrease in hyperphagia on semaglutide from Hyperphagia Questionnaire for Clinical Trials (n=11, -7.3 ± 6.1 (max 36), d -1.19, P = 0.003), having been stable before treatment. HbA1c improved in those with elevated baseline levels (n=6, -4.2 ± 4.9%, d -0.74, P = 0.13). Mild gastrointestinal side effects were seen in 25% but did not lead to discontinuation. In this small open-label, observational cohort of adults with PWS, semaglutide produced weight maintenance though not weight loss, but appeared to reduce hyperphagia, and improved glycaemic control, with good tolerability. Larger placebo-controlled trials are needed to confirm these findings in adults and adolescents with PWS, especially in those without T2DM, where efficacy may be greater.",
+   "sentence_offset": 270,
+   "sentence": " While newer glucagon-like peptide-1 receptor agonists, such as semaglutide, have efficacy in non-PWS obesity, there have been limited case reports in PWS",
+   "product_name": "semaglutide",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "semaglutide"
+   ],
+   "unit_id": "aff768b3c5376ffd"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/12a648a3b399748d6283f4da17b47745cf544b2e660353da5608a8e959d9e30d.json",
+   "artifact_sha256": "12a648a3b399748d6283f4da17b47745cf544b2e660353da5608a8e959d9e30d",
+   "record_id": "document:ad5bb831c71b78f691d5",
+   "field": "/abstract",
+   "text": "Acute pancreatitis (AP) is an increasingly common cause of substantial morbidity and risk of mortality without licensed specific drug therapy. Because tumour necrosis factor α (TNF-α) contributes to AP, anti-TNF therapy may improve outcome from AP. This trial aims to test the efficacy, safety, cost-effectiveness and mechanism of action of the anti-TNF antibody infliximab in patients with AP. Randomised treatment of Acute Pancreatitis with Infliximab: Double-blind, placebo-controlled, multi-centre trial (RAPID-I) is a phase 2b trial designed to randomise 240 patients with AP to receive a single 5 mg/kg or 10 mg/kg infliximab or placebo infusion in a 1:1:1 ratio, initiated within 36 hours of hospital admission. The primary outcome is mean serum C-reactive protein (CRP) on trial days 2, 4 (±1 day) and 14 (±2 days) summated as area under the curve (AUC), with 25% reduction in either active arm compared with placebo considered clinically meaningful. Secondary outcomes include cumulative pain scores, opiate requirements, nutritional deficit (days without solid food), decline in serum albumin (negative AUC), rise in neutrophils (AUC), cumulative selective serial organ failure assessment (SOFA-2) scores, local pancreatic injury on contrast-enhanced CT scan (CECT day 14±7 days), infections, length of stay, mortality and patient reported outcome on days 4 (±1 day), 14 (±2 days) and 90 (±7 days). Cost-effectiveness will be based on costs and quality-adjusted life years over 90 (±7) days. Potential safety signals will be adverse events related to infliximab. Transcriptomic, cytokine and leucocyte profiles will be assessed at baseline and the same time points as CRP. Two adaptive interim analyses are planned. The protocol has received Research Ethics Committee approval (South Central - Oxford C Research Ethics Committee 18/SC/0262). The findings will be disseminated through peer reviewed publication, national and international conferences and meetings. NCT03684278.",
+   "sentence_offset": 248,
+   "sentence": " This trial aims to test the efficacy, safety, cost-effectiveness and mechanism of action of the anti-TNF antibody infliximab in patients with AP",
+   "product_name": "safety",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Safety",
+    "safety"
+   ],
+   "unit_id": "b1409a1cc36b3dd1"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/df53b003e1e12aa39e25497df2a4e8f943055fc3169503261790714c07875a80.json",
+   "artifact_sha256": "df53b003e1e12aa39e25497df2a4e8f943055fc3169503261790714c07875a80",
+   "record_id": "document:fce3bbac845a5b0a2ef3",
+   "field": "/abstract",
+   "text": "There is limited systemic data on the dynamics of BCMA-target antigen expression with BCMA CAR-T at relapse. We analyzed 76 patients receiving standard-of-care BCMA-directed CAR-T who underwent real-time BCMA expression evaluation at baseline (n = 50), relapse (6), or both (20) using flow cytometry (FC) and/or immunohistochemistry (IHC). BCMA was universally expressed at baseline with significant heterogeneity in expression level. No concordance was seen between FC and IHC in categorizing high vs. low expression (Spearman: 0.07, Cohen kappa: 0). Plasma cell BCMA expression by FC correlated with clinical outcomes, whereas IHC did not. High BCMA expression by FC was associated with increased likelihood for VGPR/CR (p = 0.007) and longer time to progression (p = 0.005), including the ciltacabtagene autoleucel cohort (median: 23.0 vs. 7.7 months, p = 0.02). Relapsed patients retained BCMA expression by FC, though 29% (5/16) had BCMA loss by IHC, with 4/5 showing concurrent positive BCMA expression by FC. BCMA expression at relapse by FC was significantly lower than baseline (p = 0.04); downregulation (≥25% decrease) occurred in 50% (8/16) with paired samples. Higher BCMA expression by FC correlated with higher likelihood of deep, durable responses following BCMA-directed CAR-T. While BCMA loss is rare, decreased expression is common at relapse, with implications for sequencing BCMA-directed therapies.",
+   "sentence_offset": 108,
+   "sentence": " We analyzed 76 patients receiving standard-of-care BCMA-directed CAR-T who underwent real-time BCMA expression evaluation at baseline (n = 50), relapse (6), or both (20) using flow cytometry (FC) and/or immunohistochemistry (IHC)",
+   "product_name": "baseline",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Baseline",
+    "baseline"
+   ],
+   "unit_id": "b60c464f1ced35e5"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/1deeb671280b723009986b6fc69b722f874729028001e15e9a80dca575435a8f.json",
+   "artifact_sha256": "1deeb671280b723009986b6fc69b722f874729028001e15e9a80dca575435a8f",
+   "record_id": "document:b31b9a65d13943a9e034",
+   "field": "/abstract",
+   "text": "Pitt-Hopkins Syndrome (PTHS) is a rare neurodevelopmental disorder caused by haploinsufficiency of the  TCF4  gene. It is characterized by intellectual disability, distinctive facial features, breathing abnormalities, and gastrointestinal dysfunction. While the role of TCF4 in central nervous system development has been extensively investigated, the developmental basis underlying craniofacial and enteric alterations remains poorly understood. We generated a zebrafish  tcf4  mutant line using CRISPR/Cas9 genome editing to unveil the role of Tcf4 in neural crest-derived lineages that contribute to craniofacial and Enteric Nervous System development. The model was characterized by multiple integrated approaches to evaluate the morphological, cellular and functional alterations associated with  tcf4  haploinsufficiency. As a proof-of-concept that the observed phenotypes resulted from Tcf4 loss of function, we reinstated human TCF4 expression in mutant larvae and assessed the rescue of the pathological phenotypes previously described. Heterozygous mutants exhibit key features of PTHS, including craniofacial skeletal abnormalities and impaired gastrointestinal motility. Functional analysis revealed a significant reduction of spontaneous peristaltic contractions and a delayed swallow-induced gut transit, consistently with human patients and PTHS mouse model. To further elucidate these developmental alterations, we showed that these defects are associated with a reduced number of Phox2b-positive enteric progenitors and HuC-positive enteric neurons, though early vagal neural crest migration appears unaffected. Reintroducing human TCF4 mRNA in tcf4 heterozygous mutant embryos rescues both craniofacial and gastrointestinal phenotypes, confirming the specificity of the observed phenotypes. Furthermore, we showed that the human  TCF4  mRNA overexpression can alter craniofacial development in zebrafish embryos suggesting that TCF4 reinstatement dosage should be evaluated in gene therapy approaches to avoid a gain of function phenotype. Together, our results shed light on TCF4 as a key regulator of neural crest-derived lineages and provide a new perspective on two major clinical features of PTHS. The  tcf4  mutant line represents a novel in vivo platform for investigating PTHS pathogenesis at cellular and molecular level and testing novel therapeutic strategies.",
+   "sentence_offset": 1628,
+   "sentence": " Reintroducing human TCF4 mRNA in tcf4 heterozygous mutant embryos rescues both craniofacial and gastrointestinal phenotypes, confirming the specificity of the observed phenotypes",
+   "product_name": "phenotypes",
+   "stratum": "ST_COMMA",
+   "product_names": [
+    "Phenotypes",
+    "phenotypes"
+   ],
+   "unit_id": "cf9bf5b9648c837e"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/d2607fd915340a45b17c166d17d903a91db5ba1732f2afc280cb45e55fae8ff8.json",
+   "artifact_sha256": "d2607fd915340a45b17c166d17d903a91db5ba1732f2afc280cb45e55fae8ff8",
+   "record_id": "NCT06216470",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "VIR-3434 is a human monoclonal antibody that binds the antigenic loop present in all forms of the surface envelope protein (small, middle, and large HBsAg).",
+   "sentence_offset": 0,
+   "sentence": "VIR-3434 is a human monoclonal antibody that binds the antigenic loop present in all forms of the surface envelope protein (small, middle, and large HBsAg)",
+   "product_name": "VIR-3434",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "VIR-3434"
+   ],
+   "unit_id": "011f5a569adeb345"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/ef1e6b2d33cc91fb55e2a09e6f683fe6520789b9dcb13cc59a592372c146f8b6.json",
+   "artifact_sha256": "ef1e6b2d33cc91fb55e2a09e6f683fe6520789b9dcb13cc59a592372c146f8b6",
+   "record_id": "NCT00068055",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": "Polygam® S/D is a solvent/detergent treated, sterile, freeze-dried preparation of highly purified immunoglobulin G (IgG) derived from large pools of human plasma. When reconstituted (5%) with the supplied diluent (sterile water for injection, USP) Polygam® S/D contains approximately 50mg of protein per ml (approximately 90% is gamma globulin); 3mg/ml human albumin, 22.5 mg/ml glycine, 20 mg/ml glucose, 2mlg/ml polyethylene glycol (PEG), 1 mcg/ml tri-nbutyl phosphate, 1 mcg/ml octoxynol 9, and 100 mcg/ml polysorbate 80.",
+   "sentence_offset": 0,
+   "sentence": "Polygam® S/D is a solvent/detergent treated, sterile, freeze-dried preparation of highly purified immunoglobulin G (IgG) derived from large pools of human plasma",
+   "product_name": "Polygam® S/D",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Polygam® S/D"
+   ],
+   "unit_id": "0b72215cf8e83bd3"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/13f6e8fe526f42a30df1a353ba88f1b0d7edff0351b608678ebc2b0ecf2bd33b.json",
+   "artifact_sha256": "13f6e8fe526f42a30df1a353ba88f1b0d7edff0351b608678ebc2b0ecf2bd33b",
+   "record_id": "NCT03575793",
+   "field": "/armsInterventionsModule/interventions/2/description",
+   "text": "Ipilimumab is a monoclonal antibody that works to activate the immune system by targeting CTLA-4, a protein receptor that downregulates the immune system.",
+   "sentence_offset": 0,
+   "sentence": "Ipilimumab is a monoclonal antibody that works to activate the immune system by targeting CTLA-4, a protein receptor that downregulates the immune system",
+   "product_name": "Ipilimumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Ipilimumab",
+    "Yervoy"
+   ],
+   "unit_id": "19e9403fdef6aab7"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/af34cbdd5337adf693e432d020c41233395201a53b6a533d738cf14ea3726b37.json",
+   "artifact_sha256": "af34cbdd5337adf693e432d020c41233395201a53b6a533d738cf14ea3726b37",
+   "record_id": "NCT05169489",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "bbT369 is a genetically modified autologous T cell immunotherapy product consisting of T cells that are transduced with a single lentiviral vector (LVV) to express anti-CD79a and anti-CD20 chimeric antigen receptors (CARs) and transfected with an mRNA encoding the CBLB-targeting megaTAL enzyme to edit the CBLB gene, suspended in a cryopreservative solution.",
+   "sentence_offset": 0,
+   "sentence": "bbT369 is a genetically modified autologous T cell immunotherapy product consisting of T cells that are transduced with a single lentiviral vector (LVV) to express anti-CD79a and anti-CD20 chimeric antigen receptors (CARs) and transfected with an mRNA encoding the CBLB-targeting megaTAL enzyme to edit the CBLB gene, suspended in a cryopreservative solution",
+   "product_name": "bbT369",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "bbT369"
+   ],
+   "unit_id": "1ad1832b5e3210c9"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/77d73526a0a3eb4ec2f80544ad1b3ba8506e4252a9341c188088fcf74b0c05e7.json",
+   "artifact_sha256": "77d73526a0a3eb4ec2f80544ad1b3ba8506e4252a9341c188088fcf74b0c05e7",
+   "record_id": "NCT06285422",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "SC262 is an allogeneic CAR -T cell therapy",
+   "sentence_offset": 0,
+   "sentence": "SC262 is an allogeneic CAR -T cell therapy",
+   "product_name": "SC262",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Cyclophosphamide",
+    "Fludarabine",
+    "SC262"
+   ],
+   "unit_id": "1d2aec6691d06d92"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/ec7dd0f3bfe1fa1ab9a20633ad19d522008118ed8f745466428630c5022ccfaa.json",
+   "artifact_sha256": "ec7dd0f3bfe1fa1ab9a20633ad19d522008118ed8f745466428630c5022ccfaa",
+   "record_id": "NCT02711228",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Hizentra, Subcutaneous Immune Globulin (Human) (SCIg), is a ready to use, polyvalent human normal Immunoglobulin G (IgG) for subcutaneous administration. Hizentra is a 20% IgG protein solution, is prepared from large pools of human plasma, and is stabilized by L-Proline.",
+   "sentence_offset": 153,
+   "sentence": " Hizentra is a 20% IgG protein solution, is prepared from large pools of human plasma, and is stabilized by L-Proline",
+   "product_name": "Hizentra",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Hizentra",
+    "IgPro20",
+    "Subcutaneous Immune Globulin (Human) (Hizentra)"
+   ],
+   "unit_id": "229289d1a57831fd"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/7ba0595676d89f78dc776d8847fa480a40224ff3c491c91f6620920e9dedc6c2.json",
+   "artifact_sha256": "7ba0595676d89f78dc776d8847fa480a40224ff3c491c91f6620920e9dedc6c2",
+   "record_id": "NCT05221645",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": "Rituximab is a chimeric mouse/human monoclonal antibody that binds to CD20, on pre-B and mature B lymphocytes and eliminates these cells potentially via a number of different mechanisms. Anti-CD20 mAbs, like rituximab, are classified by their CD20-binding characteristics, ability to induce complement-dependent cytotoxicity (CDC), and immune effector cell effects.",
+   "sentence_offset": 0,
+   "sentence": "Rituximab is a chimeric mouse/human monoclonal antibody that binds to CD20, on pre-B and mature B lymphocytes and eliminates these cells potentially via a number of different mechanisms",
+   "product_name": "Rituximab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "MabThera",
+    "Rituximab"
+   ],
+   "unit_id": "24451e4dbf3783e8"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/21398d28ec959f16df2ace8ca08d87d0197035e7cd02aae7c252e4c10862555a.json",
+   "artifact_sha256": "21398d28ec959f16df2ace8ca08d87d0197035e7cd02aae7c252e4c10862555a",
+   "record_id": "NCT04583956",
+   "field": "/armsInterventionsModule/interventions/2/description",
+   "text": "Risankizumab is a humanized immunoglobulin (Ig) G1 antagonistic monoclonal antibody (mAb) directed against the p19 subunit of the human cytokine interleukin-23. Risankizumab is formulated in a buffer of 4.4 mM disodium succinate hexahydrate/succinic acid, 225 mM sorbitol, 0.2 mg/mL polysorbate 20, and WFI in a 6R vial.",
+   "sentence_offset": 0,
+   "sentence": "Risankizumab is a humanized immunoglobulin (Ig) G1 antagonistic monoclonal antibody (mAb) directed against the p19 subunit of the human cytokine interleukin-23",
+   "product_name": "Risankizumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Risankizumab"
+   ],
+   "unit_id": "267f781138bdbf9f"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/63e4f1c95534dd6ccd55ea8047b6818c25d2447aa53817b381df0361bcdbd569.json",
+   "artifact_sha256": "63e4f1c95534dd6ccd55ea8047b6818c25d2447aa53817b381df0361bcdbd569",
+   "record_id": "NCT04988035",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Danicopan is a small molecule, orally administered complement factor D (FD) inhibitor",
+   "sentence_offset": 0,
+   "sentence": "Danicopan is a small molecule, orally administered complement factor D (FD) inhibitor",
+   "product_name": "Danicopan",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Danicopan"
+   ],
+   "unit_id": "291a0738e723eb90"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/f717dd8359abbc728f498e0d9b2ecdfe1322184852ac3797d8b00a829b83e20e.json",
+   "artifact_sha256": "f717dd8359abbc728f498e0d9b2ecdfe1322184852ac3797d8b00a829b83e20e",
+   "record_id": "NCT07682792",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Golidocitinib is a JAK1 kinase inhibitor taken orally at a dose of 150mg.",
+   "sentence_offset": 0,
+   "sentence": "Golidocitinib is a JAK1 kinase inhibitor taken orally at a dose of 150mg",
+   "product_name": "Golidocitinib",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Golidocitinib"
+   ],
+   "unit_id": "29820635030ab8df"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/582afd1ba44b9688313dce37f80dce1823323e126f349385d5af3b1cb74896d6.json",
+   "artifact_sha256": "582afd1ba44b9688313dce37f80dce1823323e126f349385d5af3b1cb74896d6",
+   "record_id": "NCT04002622",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "TQB2450 is a humanized monoclonal antibody targeting programmed death ligand-1 (PD-L1), which prevents PD-L1 from binding to PD-1 and B7.1 receptors on T cell surface, restores T cell activity, thus enhancing immune response and has potential to treat various types of tumors.",
+   "sentence_offset": 0,
+   "sentence": "TQB2450 is a humanized monoclonal antibody targeting programmed death ligand-1 (PD-L1), which prevents PD-L1 from binding to PD-1 and B7",
+   "product_name": "TQB2450",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "TQB2450"
+   ],
+   "unit_id": "36ba93b6a19f017f"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/cf127bf2c35a992a1319eb46cca5c8447f191bc55979bd70c1454932ec5d7a70.json",
+   "artifact_sha256": "cf127bf2c35a992a1319eb46cca5c8447f191bc55979bd70c1454932ec5d7a70",
+   "record_id": "NCT04583969",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Lenzilumab is a first-in-class recombinant monoclonal antibody targeting soluble human GM-CSF, with potential immunomodulating activity, high binding affinity in the pM range, and 94% specificity to the human germline, which reduces immunogenicity.",
+   "sentence_offset": 0,
+   "sentence": "Lenzilumab is a first-in-class recombinant monoclonal antibody targeting soluble human GM-CSF, with potential immunomodulating activity, high binding affinity in the pM range, and 94% specificity to the human germline, which reduces immunogenicity",
+   "product_name": "Lenzilumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Lenzilumab"
+   ],
+   "unit_id": "4128941a355ce786"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/3b88997bc443b8e20bf1ee37d7822b2aae14166033c83074673428b79953e824.json",
+   "artifact_sha256": "3b88997bc443b8e20bf1ee37d7822b2aae14166033c83074673428b79953e824",
+   "record_id": "NCT07154277",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": "Large bite closure is defined as tissue bite of 1cm depth x 1 cm travel x 1cm apart, on the aponeurosis away from midline using Prolene 0",
+   "sentence_offset": 0,
+   "sentence": "Large bite closure is defined as tissue bite of 1cm depth x 1 cm travel x 1cm apart, on the aponeurosis away from midline using Prolene 0",
+   "product_name": "Large bite closure",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Large bite closure",
+    "Large bite suture",
+    "Large bite suturing technique",
+    "Large suturing technique"
+   ],
+   "unit_id": "431990bdc9201c41"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/4ddb5625ab4bfee6fc7970fedc53f594547ad6cf76d3f504f72d91596e0908e2.json",
+   "artifact_sha256": "4ddb5625ab4bfee6fc7970fedc53f594547ad6cf76d3f504f72d91596e0908e2",
+   "record_id": "NCT03365791",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "PDR001 is a high-affinity, ligand-blocking, humanized anti-programmed death-1 (PD-1) IgG4 antibody that blocks the binding of Programmed death-ligand 1 (PD-L1) and programmed death-ligand 2 (PD-L2) to PD-1.",
+   "sentence_offset": 0,
+   "sentence": "PDR001 is a high-affinity, ligand-blocking, humanized anti-programmed death-1 (PD-1) IgG4 antibody that blocks the binding of Programmed death-ligand 1 (PD-L1) and programmed death-ligand 2 (PD-L2) to PD-1",
+   "product_name": "PDR001",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "PDR001"
+   ],
+   "unit_id": "51f8370e7369d4f2"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/5ba8a7c5e9e95c6be45abb6e5967f5dc2a875195aeb2f2be2fff34cf81725235.json",
+   "artifact_sha256": "5ba8a7c5e9e95c6be45abb6e5967f5dc2a875195aeb2f2be2fff34cf81725235",
+   "record_id": "NCT06743503",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "UB-VV400 is a third-generation, self-inactivating (SIN), replication-incompetent, lentiviral vector (LVV) investigational drug product",
+   "sentence_offset": 0,
+   "sentence": "UB-VV400 is a third-generation, self-inactivating (SIN), replication-incompetent, lentiviral vector (LVV) investigational drug product",
+   "product_name": "UB-VV400",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "UB-VV400"
+   ],
+   "unit_id": "56142bcfa6453ca5"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/42bff8b2ee92c8d077a45727b9f133e38dee8da603c1249de53e3b03bee6d9dd.json",
+   "artifact_sha256": "42bff8b2ee92c8d077a45727b9f133e38dee8da603c1249de53e3b03bee6d9dd",
+   "record_id": "NCT06784947",
+   "field": "/armsInterventionsModule/interventions/2/description",
+   "text": "Tiragolumab is a human monoclonal antibody targeting the co-inhibitory molecule and immune checkpoint inhibitor T-cell immunoreceptor with immunoglobulin (Ig) and immunoreceptor tyrosine-based inhibitory motif (ITIM) domains (TIGIT), with potential immune checkpoint inhibitory activity. This treatment may help the immune system attack cancer cells.",
+   "sentence_offset": 0,
+   "sentence": "Tiragolumab is a human monoclonal antibody targeting the co-inhibitory molecule and immune checkpoint inhibitor T-cell immunoreceptor with immunoglobulin (Ig) and immunoreceptor tyrosine-based inhibitory motif (ITIM) domains (TIGIT), with potential immune checkpoint inhibitory activity",
+   "product_name": "Tiragolumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Tiragolumab"
+   ],
+   "unit_id": "617d3d83094f2cc4"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/6df2607366ee27836ffee4869869dbb530252732969f01fc9a5b7aacdd5d1763.json",
+   "artifact_sha256": "6df2607366ee27836ffee4869869dbb530252732969f01fc9a5b7aacdd5d1763",
+   "record_id": "NCT01520922",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Ofatumumab (ARZERRA™) is an immunoglobulin G1κ (IgG1κ) human monoclonal antibody that specifically recognises a distinct epitope encompassing both large and small extracellular loops on the human CD20 molecule expressed on B cells and binds to this site with high affinity with a dissociation half-life of approximately 3 hours. Ofatumumab induces more efficient complement-dependent cytotoxicity (CDC) mediated cell lysis in vitro, compared to rituximab, especially in low CD20 density cells.",
+   "sentence_offset": 0,
+   "sentence": "Ofatumumab (ARZERRA™) is an immunoglobulin G1κ (IgG1κ) human monoclonal antibody that specifically recognises a distinct epitope encompassing both large and small extracellular loops on the human CD20 molecule expressed on B cells and binds to this site with high affinity with a dissociation half-life of approximately 3 hours",
+   "product_name": "Ofatumumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Arzerra",
+    "Ofatumumab"
+   ],
+   "unit_id": "63e9204731d72c34"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/40d58b5ba4ec191c5d722f4dd72a8e82cdbbd44c81bce7699743153bf8122160.json",
+   "artifact_sha256": "40d58b5ba4ec191c5d722f4dd72a8e82cdbbd44c81bce7699743153bf8122160",
+   "record_id": "NCT04834076",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "ELISA is is a test that detects and measures toxoplasma IgG and IgM antibodies in blood.",
+   "sentence_offset": 0,
+   "sentence": "ELISA is is a test that detects and measures toxoplasma IgG and IgM antibodies in blood",
+   "product_name": "ELISA",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "ELISA"
+   ],
+   "unit_id": "7070291921d2a9fc"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/9d34539825cb0b9ef9beb7823332d5b4bcae3966fafb08d8679b3ad48ffa9b6f.json",
+   "artifact_sha256": "9d34539825cb0b9ef9beb7823332d5b4bcae3966fafb08d8679b3ad48ffa9b6f",
+   "record_id": "NCT04566978",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "89Zr-DFO-REGN3767 is comprised of the anti-LAG-3 antibody, REGN3767 labeled with the positron-emitter zirconium-89 (89Zr) through the chelator-linker DFO. REGN3767 is an investigational monoclonal antibody that target LAG-3 receptors.",
+   "sentence_offset": 0,
+   "sentence": "89Zr-DFO-REGN3767 is comprised of the anti-LAG-3 antibody, REGN3767 labeled with the positron-emitter zirconium-89 (89Zr) through the chelator-linker DFO",
+   "product_name": "89Zr-DFO-REGN3767",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "89Zr-DFO-REGN3767"
+   ],
+   "unit_id": "70fc33c94de1a70e"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/f778da44fdd4f636735b97a55eececdbe088c5a9cc6824f7459f99aaa668d838.json",
+   "artifact_sha256": "f778da44fdd4f636735b97a55eececdbe088c5a9cc6824f7459f99aaa668d838",
+   "record_id": "NCT02549651",
+   "field": "/armsInterventionsModule/interventions/2/description",
+   "text": "AZD9150 is an antisense oligonucleotide (ASO) administered via intravenous infusion",
+   "sentence_offset": 0,
+   "sentence": "AZD9150 is an antisense oligonucleotide (ASO) administered via intravenous infusion",
+   "product_name": "AZD9150",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "AZD9150"
+   ],
+   "unit_id": "7589d9381485a7e4"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/eb5a93df24fa651dc80af896c0dd0c3c392dde4b851baa3d84761901e42cfde1.json",
+   "artifact_sha256": "eb5a93df24fa651dc80af896c0dd0c3c392dde4b851baa3d84761901e42cfde1",
+   "record_id": "NCT01766830",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "rk28 ICT is an immunochromatographic assay intended for qualitative detection of IgG antibodies directed towards VL in human serum, plasma or whole blood. It is manufactured by EASE-Medtrend (Shanghai, China)",
+   "sentence_offset": 0,
+   "sentence": "rk28 ICT is an immunochromatographic assay intended for qualitative detection of IgG antibodies directed towards VL in human serum, plasma or whole blood",
+   "product_name": "rk28 ICT",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "rk28 ICT"
+   ],
+   "unit_id": "7a4ebdde8d2aa0ec"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/808e84835dc6b7743145bcf1b7ea54ed96aff43ea10ca6e3761ebdb8da1c7f8d.json",
+   "artifact_sha256": "808e84835dc6b7743145bcf1b7ea54ed96aff43ea10ca6e3761ebdb8da1c7f8d",
+   "record_id": "NCT03604692",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "axatilimab is a high affinity antibody targeting the colony stimulating factor 1 receptor (CSF-1R). CSF-1R signaling has been demonstrated in nonclinical studies to be the key regulatory pathway involved in the expansion and infiltration of donor derived macrophages that mediate the disease processes involved in cGVHD.",
+   "sentence_offset": 0,
+   "sentence": "axatilimab is a high affinity antibody targeting the colony stimulating factor 1 receptor (CSF-1R)",
+   "product_name": "axatilimab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Niktimvo",
+    "SNDX-6352",
+    "axatilimab"
+   ],
+   "unit_id": "86af1320697fff5f"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/8ffec9144983ab0ae7bb2b5dcf191847cfb22d601ab343ff6738f13b4d4b90af.json",
+   "artifact_sha256": "8ffec9144983ab0ae7bb2b5dcf191847cfb22d601ab343ff6738f13b4d4b90af",
+   "record_id": "NCT00490009",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Bexxar is a radioimmunotherapeutic drug, an antibody that specifically attaches to the CD20 antigen, which is present on the surfaces of B cells and B cell lymphoma cells. The radioactive isotope then gives off radiation, which kills the cells.\n\nBexxar will be administered to provide the following patient-specific radiotherapy:\n\n* Platelet count of 150,000/mm³ = 75 cGy\n* Platelet count ≥ 100,000/mm³ but \\< 150,000/mm³ = 65 cGy",
+   "sentence_offset": 0,
+   "sentence": "Bexxar is a radioimmunotherapeutic drug, an antibody that specifically attaches to the CD20 antigen, which is present on the surfaces of B cells and B cell lymphoma cells",
+   "product_name": "Bexxar",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Bexxar",
+    "I-131 tositumomab",
+    "Tositumomab",
+    "iodine-131 tositumomab"
+   ],
+   "unit_id": "88a7500f3a467e40"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/4b7dc236a73b87de4efa25603590f026568d9bf2c0857dc16780250a69cd2d60.json",
+   "artifact_sha256": "4b7dc236a73b87de4efa25603590f026568d9bf2c0857dc16780250a69cd2d60",
+   "record_id": "NCT05313243",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": "Pembrolizumab is a humanized antibody used in cancer immunotherapy that treats melanoma, lung cancer, head and neck cancer, Hodgkin lymphoma, stomach cancer, cervical cancer, and certain types of breast cancer.",
+   "sentence_offset": 0,
+   "sentence": "Pembrolizumab is a humanized antibody used in cancer immunotherapy that treats melanoma, lung cancer, head and neck cancer, Hodgkin lymphoma, stomach cancer, cervical cancer, and certain types of breast cancer",
+   "product_name": "Pembrolizumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Keytruda",
+    "Pembrolizumab"
+   ],
+   "unit_id": "8ee57bb522a633e0"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/eb5c4549872d081f9e633e906918da557b6e3ddc1cf2815725dd89a30d0ceb37.json",
+   "artifact_sha256": "eb5c4549872d081f9e633e906918da557b6e3ddc1cf2815725dd89a30d0ceb37",
+   "record_id": "NCT04024878",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Nivolumab (Opdivo®) is an antibody. An antibody is a common type of protein produced by the body that the immune system uses to find and destroy foreign molecules.",
+   "sentence_offset": 0,
+   "sentence": "Nivolumab (Opdivo®) is an antibody",
+   "product_name": "Nivolumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Nivolumab",
+    "Opdivo"
+   ],
+   "unit_id": "9240dc4b01e4d8f8"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/9616ac7bb1c09a94c45de01abc4773dcb77c22fe87d8fd3982e6075a2b826248.json",
+   "artifact_sha256": "9616ac7bb1c09a94c45de01abc4773dcb77c22fe87d8fd3982e6075a2b826248",
+   "record_id": "NCT04903197",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "VAY736 is a fully human IgG1 monoclonal antibody (mAb) which targets the B cell activating factor receptor (BAFF-R) expressed on the surface of differentiated B cells and modulates their function.",
+   "sentence_offset": 0,
+   "sentence": "VAY736 is a fully human IgG1 monoclonal antibody (mAb) which targets the B cell activating factor receptor (BAFF-R) expressed on the surface of differentiated B cells and modulates their function",
+   "product_name": "VAY736",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "VAY736",
+    "ianalumab"
+   ],
+   "unit_id": "9613f8a9b2d66f83"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/7ba0595676d89f78dc776d8847fa480a40224ff3c491c91f6620920e9dedc6c2.json",
+   "artifact_sha256": "7ba0595676d89f78dc776d8847fa480a40224ff3c491c91f6620920e9dedc6c2",
+   "record_id": "NCT05221645",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Pembrolizumab is a potent humanized immunoglobulin G4 (IgG4) monoclonal antibody (mAb) with high specificity of binding to the programmed cell death 1 (PD 1) receptor, thus inhibiting its interaction with programmed cell death ligand 1 (PD-L1) and programmed cell death ligand 2 (PD-L2). Based on preclinical in vitro data, pembrolizumab has high affinity and potent receptor blocking activity for PD 1. Pembrolizumab has an acceptable preclinical safety profile and is in clinical development as an intravenous (IV) immunotherapy for advanced malignancies. Keytruda® (pembrolizumab) is indicated for the treatment of patients across a number of indications because of its mechanism of action to bind the PD-1 receptor on the T cell.",
+   "sentence_offset": 0,
+   "sentence": "Pembrolizumab is a potent humanized immunoglobulin G4 (IgG4) monoclonal antibody (mAb) with high specificity of binding to the programmed cell death 1 (PD 1) receptor, thus inhibiting its interaction with programmed cell death ligand 1 (PD-L1) and programmed cell death ligand 2 (PD-L2)",
+   "product_name": "Pembrolizumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "KEYTRUDA",
+    "Pembrolizumab"
+   ],
+   "unit_id": "9e7efcf5c43e2427"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/5ab754a7f64db40f18c74559aa82359b684d37e780945997e4ffa71433085427.json",
+   "artifact_sha256": "5ab754a7f64db40f18c74559aa82359b684d37e780945997e4ffa71433085427",
+   "record_id": "NCT04925609",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Brigatinib is a second generation novel, orally administered, tyrosine kinase inhibitor (TKI) that potently inhibits activated variants of ALK and to a lesser extent ROS1.",
+   "sentence_offset": 0,
+   "sentence": "Brigatinib is a second generation novel, orally administered, tyrosine kinase inhibitor (TKI) that potently inhibits activated variants of ALK and to a lesser extent ROS1",
+   "product_name": "Brigatinib",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Alunbrig",
+    "Brigatinib"
+   ],
+   "unit_id": "9fadc79855ecfbd1"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/2520d0a9208ca32d4752924388e2876f69458c2e9d52d9b6dc671a634eed5dd7.json",
+   "artifact_sha256": "2520d0a9208ca32d4752924388e2876f69458c2e9d52d9b6dc671a634eed5dd7",
+   "record_id": "NCT03072771",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "-Blinatumomab is a bispecific T cell engaging antibody",
+   "sentence_offset": 0,
+   "sentence": "-Blinatumomab is a bispecific T cell engaging antibody",
+   "product_name": "Blinatumomab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Blinatumomab",
+    "Blincyto"
+   ],
+   "unit_id": "a259cb36849437bf"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/1198c81e273a3ea6b86d4abf57dffa88eddd4f0676ea71ba3bb6926dfe34a64e.json",
+   "artifact_sha256": "1198c81e273a3ea6b86d4abf57dffa88eddd4f0676ea71ba3bb6926dfe34a64e",
+   "record_id": "NCT05487170",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "RNK05047 is a chaperone-mediated protein degrader administered as IV infusion once weekly for 3 consecutive weeks in a 4-week cycle (no treatment in the fourth week).",
+   "sentence_offset": 0,
+   "sentence": "RNK05047 is a chaperone-mediated protein degrader administered as IV infusion once weekly for 3 consecutive weeks in a 4-week cycle (no treatment in the fourth week)",
+   "product_name": "RNK05047",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "RNK05047"
+   ],
+   "unit_id": "a4bbf8ceb65a7a32"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/128815d46c3e0037c1e76afd036ba6e5239538f65009856547f323f2e899491b.json",
+   "artifact_sha256": "128815d46c3e0037c1e76afd036ba6e5239538f65009856547f323f2e899491b",
+   "record_id": "NCT06813079",
+   "field": "/armsInterventionsModule/interventions/9/description",
+   "text": "Ceritinib is a tyrosine kinase inhibitor. It works by blocking an enzyme called anaplastic lymphoma kinase (ALK). Ceritinib only works in cancer cells that have an overactive version of ALK.\n\nParticipants will take ceritinib by mouth (orally), once a day, every day of each cycle. A cycle will be 28 days in length.",
+   "sentence_offset": 0,
+   "sentence": "Ceritinib is a tyrosine kinase inhibitor",
+   "product_name": "Ceritinib",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Ceritinib"
+   ],
+   "unit_id": "a4ec5033ff9b5de3"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/367684bf82ff86185196cc72c254a7a4ca6842207c46ec7b2a8c9e86980e64d0.json",
+   "artifact_sha256": "367684bf82ff86185196cc72c254a7a4ca6842207c46ec7b2a8c9e86980e64d0",
+   "record_id": "NCT03943901",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Rituximab is a monoclonal antibody",
+   "sentence_offset": 0,
+   "sentence": "Rituximab is a monoclonal antibody",
+   "product_name": "Rituximab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Rituxan",
+    "Rituximab"
+   ],
+   "unit_id": "a6e01eb7bbba4249"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/f98c075c648c28edba358998347754d5bab33e19e9c0f4807df83f8f9b9250f4.json",
+   "artifact_sha256": "f98c075c648c28edba358998347754d5bab33e19e9c0f4807df83f8f9b9250f4",
+   "record_id": "NCT06343311",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "EB103 is an autologous T-cell therapy whereby a subject's own T cells are transduced with a lentiviral vector expressing the EB103 transgene.",
+   "sentence_offset": 0,
+   "sentence": "EB103 is an autologous T-cell therapy whereby a subject's own T cells are transduced with a lentiviral vector expressing the EB103 transgene",
+   "product_name": "EB103",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "EB103"
+   ],
+   "unit_id": "a93d04f2befc2d69"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/4b7dc236a73b87de4efa25603590f026568d9bf2c0857dc16780250a69cd2d60.json",
+   "artifact_sha256": "4b7dc236a73b87de4efa25603590f026568d9bf2c0857dc16780250a69cd2d60",
+   "record_id": "NCT05313243",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Brentuximab vedotin is an antibody-drug conjugate medication used to treat relapsed or refractory Hodgkin lymphoma (HL) and systemic anaplastic large cell lymphoma (ALCL), a type of T cell non-Hodgkin lymphoma. It selectively targets tumor cells expressing the CD30 antigen, a defining marker of Hodgkin lymphoma and ALCL.",
+   "sentence_offset": 0,
+   "sentence": "Brentuximab vedotin is an antibody-drug conjugate medication used to treat relapsed or refractory Hodgkin lymphoma (HL) and systemic anaplastic large cell lymphoma (ALCL), a type of T cell non-Hodgkin lymphoma",
+   "product_name": "Brentuximab vedotin",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Adcetris",
+    "Brentuximab vedotin"
+   ],
+   "unit_id": "adb16cd61d3b849d"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/f778da44fdd4f636735b97a55eececdbe088c5a9cc6824f7459f99aaa668d838.json",
+   "artifact_sha256": "f778da44fdd4f636735b97a55eececdbe088c5a9cc6824f7459f99aaa668d838",
+   "record_id": "NCT02549651",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "MEDI4736 is an anti-PD-L1 monoclonal antibody (MAb) administered via intravenous infusion",
+   "sentence_offset": 0,
+   "sentence": "MEDI4736 is an anti-PD-L1 monoclonal antibody (MAb) administered via intravenous infusion",
+   "product_name": "MEDI4736",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "MEDI4736"
+   ],
+   "unit_id": "bf2b5d2993652c87"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/4ddb5625ab4bfee6fc7970fedc53f594547ad6cf76d3f504f72d91596e0908e2.json",
+   "artifact_sha256": "4ddb5625ab4bfee6fc7970fedc53f594547ad6cf76d3f504f72d91596e0908e2",
+   "record_id": "NCT03365791",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": "LAG525 is a high-affinity, ligand-blocking, humanized anti-LAG-3 IgG4 antibody which blocks the binding of the known LAG-3 ligand MHC class II to LAG-3.",
+   "sentence_offset": 0,
+   "sentence": "LAG525 is a high-affinity, ligand-blocking, humanized anti-LAG-3 IgG4 antibody which blocks the binding of the known LAG-3 ligand MHC class II to LAG-3",
+   "product_name": "LAG525",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "LAG525"
+   ],
+   "unit_id": "c05225b61bed3925"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/128815d46c3e0037c1e76afd036ba6e5239538f65009856547f323f2e899491b.json",
+   "artifact_sha256": "128815d46c3e0037c1e76afd036ba6e5239538f65009856547f323f2e899491b",
+   "record_id": "NCT06813079",
+   "field": "/armsInterventionsModule/interventions/2/description",
+   "text": "Brigatinib is a type of cancer growth blockers called a tyrosine kinase inhibitor (TKI). It blocks chemical signals (enzymes) from tyrosine kinase proteins. Tyrosine kinases help to send growth signals in cells, so blocking them stops the cell growing and dividing.\n\nParticipants will take brigatinib by mouth (orally), once a day for the first 7 days. If participants are able to tolerate the dose during the first 7 days, they will take the doubled dose orally, once a day until end of the cycle (day 8 to day 28). Each cycle will be 28 days in length.",
+   "sentence_offset": 0,
+   "sentence": "Brigatinib is a type of cancer growth blockers called a tyrosine kinase inhibitor (TKI)",
+   "product_name": "Brigatinib",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Brigatinib"
+   ],
+   "unit_id": "c0d29c13aab520bd"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/4f80c848f9556c33c957cc6a9e802276bee0351ae52d402356101427f4b01b52.json",
+   "artifact_sha256": "4f80c848f9556c33c957cc6a9e802276bee0351ae52d402356101427f4b01b52",
+   "record_id": "NCT07748364",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Glofitamab is a bispecific T-cell-engaging antibody, designed to bind CD20 on B-cells, and CD3 on T-cells, bringing T-cells into close contact with malignant B-cells to trigger immune-mediated killing.",
+   "sentence_offset": 0,
+   "sentence": "Glofitamab is a bispecific T-cell-engaging antibody, designed to bind CD20 on B-cells, and CD3 on T-cells, bringing T-cells into close contact with malignant B-cells to trigger immune-mediated killing",
+   "product_name": "Glofitamab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Columvi®",
+    "Glofitamab"
+   ],
+   "unit_id": "c6501379af318be6"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/136270bf995ec805cb31f6bbd8da7a177d8c59447c0b5dd76b37812cd5da48ac.json",
+   "artifact_sha256": "136270bf995ec805cb31f6bbd8da7a177d8c59447c0b5dd76b37812cd5da48ac",
+   "record_id": "NCT01816594",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": "Trastuzumab is a humanized monoclonal antibody directed against the extracellular juxtamembrane domain of the HER2 receptor. Administered 4mg/kg i.v. load followed by 2mg/kg i.v. weekly.",
+   "sentence_offset": 0,
+   "sentence": "Trastuzumab is a humanized monoclonal antibody directed against the extracellular juxtamembrane domain of the HER2 receptor",
+   "product_name": "Trastuzumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Trastuzumab"
+   ],
+   "unit_id": "cd480f09ad69944b"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/77bd86fee678f96fefa25c0afb6ac6389fc5629d292a501b2f1652b42486deca.json",
+   "artifact_sha256": "77bd86fee678f96fefa25c0afb6ac6389fc5629d292a501b2f1652b42486deca",
+   "record_id": "NCT03346642",
+   "field": "/armsInterventionsModule/interventions/2/description",
+   "text": "SHR-1210 is a humanized anti-PD-1 monoclonal antibody.",
+   "sentence_offset": 0,
+   "sentence": "SHR-1210 is a humanized anti-PD-1 monoclonal antibody",
+   "product_name": "SHR-1210",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "PD-1 antibody, PD-1 inhibitor",
+    "SHR-1210"
+   ],
+   "unit_id": "d671d5ec1d1c0695"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/e3597c1054f49183654446bfa843b0fd700698fa79f55ca1de2e9fc5eb2d3c2c.json",
+   "artifact_sha256": "e3597c1054f49183654446bfa843b0fd700698fa79f55ca1de2e9fc5eb2d3c2c",
+   "record_id": "NCT05475925",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "DR-01 is a non-fucosylated, human immunoglobulin G1 (IgG1) monoclonal antibody.",
+   "sentence_offset": 0,
+   "sentence": "DR-01 is a non-fucosylated, human immunoglobulin G1 (IgG1) monoclonal antibody",
+   "product_name": "DR-01",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "DR-01"
+   ],
+   "unit_id": "f1caf3c977cb5df4"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/128815d46c3e0037c1e76afd036ba6e5239538f65009856547f323f2e899491b.json",
+   "artifact_sha256": "128815d46c3e0037c1e76afd036ba6e5239538f65009856547f323f2e899491b",
+   "record_id": "NCT06813079",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": "Ponatinib is a type of drug called a protein tyrosine kinase inhibitor (TKI). Tyrosine kinases are proteins that act as chemical messengers to stimulate cancer cells to grow. Ponatinib blocks and interferes with a number of protein kinases. It is called a multi kinase inhibitor.\n\nParticipants will take ponatinib by mouth (orally), once a day, every day of each cycle. A cycle will be 28 days.",
+   "sentence_offset": 0,
+   "sentence": "Ponatinib is a type of drug called a protein tyrosine kinase inhibitor (TKI)",
+   "product_name": "Ponatinib",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Ponatinib"
+   ],
+   "unit_id": "f37c45c1de5445b1"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/b1b5ed250b04c016b1b5d30a07bf900e1ba191a681af86cc68dbd94399294fde.json",
+   "artifact_sha256": "b1b5ed250b04c016b1b5d30a07bf900e1ba191a681af86cc68dbd94399294fde",
+   "record_id": "NCT06287398",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Epcoritamab (Epcor) is a bispecific antibody recognizing the T-cell antigen CD3 and the B-cell antigen CD20. Epcor is a supplied as a concentrate for solution for intended subcutaneous injection. The dose must be prepared by a qualified pharmacist using aseptic technique.\n\nEpcoritamab-Salvage treatment phase:\n\n2-3 cycles of R-DHAOx therapy (rituximab, dexamethasone, cytarabine, oxaliplatin), given every 21 days combined with Epcoritamab subcutaneous weekly dosing (priming 0.16mg Cycle 1 Day 1, intermediate 0.8mg cycle 1 day 8, full dose 48mg from cycle 1 day 15 onwards)\n\nEpcoritamab Consolidation phase:\n\n6 cycles (28 days each) of subcutaneous Epcoritamab, commencing between 6-12 weeks post ASCT.\n\nEpcoritamab dosing and timing for consolidation:\n\n* Cycle 1 Day 1: Priming (0.16mg) dose\n* Cycle 1 Day 8: intermediate (0.8mg) dose\n* Cycle 1 Day 15: full dose 48mg\n* Cycle 1 Day 22, Cycle 2-3 Days 1, 8, 15 and 22: 48mg\n* Cycles 4 to 6 - Days 1 and 15 (fortnightly dosing): 48mg",
+   "sentence_offset": 0,
+   "sentence": "Epcoritamab (Epcor) is a bispecific antibody recognizing the T-cell antigen CD3 and the B-cell antigen CD20",
+   "product_name": "Epcoritamab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Epcoritamab"
+   ],
+   "unit_id": "f6b42afef42459db"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/8eb4e173e4e1946a354985055c37154d601b37a9e626d3839f2508e420b22666.json",
+   "artifact_sha256": "8eb4e173e4e1946a354985055c37154d601b37a9e626d3839f2508e420b22666",
+   "record_id": "document:440c12905727b954ad9f",
+   "field": "/abstract",
+   "text": "Chimeric antigen receptor T-cell (CAR-T) therapy has transformed the management of relapsed or refractory hematologic malignancies, yet its benefit is constrained by immune-mediated vascular toxicities. CAR-T-associated coagulopathy (CARAC) is an under-recognized, potentially fatal syndrome driven by endothelial activation, cytokine amplification and disordered fibrinolysis. In this review, we synthesize current evidence on CARAC pathobiology, emphasizing its dynamic transition from early procoagulant endothelial conversion to secondary hyperfibrinolysis and consumptive coagulopathy. We delineate disease-specific phenotypes, including hemorrhage-prone B-cell acute lymphoblastic leukemia, thrombotic large B-cell lymphoma and assay-confounded multiple myeloma, and highlight key diagnostic pitfalls such as tocilizumab-associated fibrinogen decline. To support standardization, we propose a phase-adapted conceptual framework integrating laboratory kinetics, clinical events and functional coagulation assessment. Finally, we outline precision management strategies spanning risk-adapted anticoagulation, hemostatic rescue and targeted treatment of delayed inflammatory and endothelial complications.",
+   "sentence_offset": 0,
+   "sentence": "Chimeric antigen receptor T-cell (CAR-T) therapy has transformed the management of relapsed or refractory hematologic malignancies, yet its benefit is constrained by immune-mediated vascular toxicities",
+   "product_name": "benefit",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Benefit",
+    "benefit"
+   ],
+   "unit_id": "3d5b6dbb1b36faa1"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/525acae3a33c07f1c9dfe291ffa02d4bb3fc035c9e4c0691a8cf5a237a5d3e36.json",
+   "artifact_sha256": "525acae3a33c07f1c9dfe291ffa02d4bb3fc035c9e4c0691a8cf5a237a5d3e36",
+   "record_id": "document:2be047b2ade6562848e8",
+   "field": "/abstract",
+   "text": "Cusatuzumab is a monoclonal antibody that binds with high affinity to CD70, a cell surface protein overexpressed on CD34+ acute myeloid leukemia (AML) progenitors and leukemia stem cells. This phase Ib study assessed the safety, tolerability and efficacy of adding cusatuzumab to standard-of-care azacitidine and venetoclax (CVA) or a cusatuzumab and venetoclax (CV) doublet regimen in patients newly diagnosed with AML who were ineligible for intensive chemotherapy. Cusatuzumab 20 mg/kg was administered intravenously on days 3 and 17 of 28-day cycles combined with standard dosing of venetoclax ± azacitidine. Overall, 44 patients were treated with CVA. Common hematologic treatment-emergent adverse events (TEAEs) were neutropenia (77.3%), thrombocytopenia (77.3%) and anemia (45.5%); non-hematologic TEAEs included nausea (45.5%), diarrhea (43.2%), constipation (40.9%), fatigue (36.4%) and vomiting (31.8%). Grade ≥3 infectious complications included febrile neutropenia (38.6%), sepsis (36.4%) and pneumonia (9.1%). The overall composite response rate (complete remission [CR] + CR with partial hematologic recovery [CRh] + CR with incomplete hematologic recovery [CRi]) was 77.3% (CR, 47.7%; CRh, 20.5%; CRi, 9.1%). Among CR/CRi responders, 53% achieved negative measurable residual disease by multiparameter flow cytometry. Median overall survival was 12.0 months (95% confidence interval: 8.7-NE) months. Sixteen patients were treated with CV and had similar safety but less favorable responses and survival than those treated with CVA. These results support further development of CVA for the treatment of AML (clinicaltrials.gov identifier: NCT04150887).",
+   "sentence_offset": 0,
+   "sentence": "Cusatuzumab is a monoclonal antibody that binds with high affinity to CD70, a cell surface protein overexpressed on CD34+ acute myeloid leukemia (AML) progenitors and leukemia stem cells",
+   "product_name": "Cusatuzumab",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Cusatuzumab",
+    "cusatuzumab"
+   ],
+   "unit_id": "4e21cf4215a2ff41"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/ed41689b4b1dc1e9bc0057ee5997418b9700f07acf62ff98319e07af78e3fb78.json",
+   "artifact_sha256": "ed41689b4b1dc1e9bc0057ee5997418b9700f07acf62ff98319e07af78e3fb78",
+   "record_id": "document:ce0edae5986c7547e3aa",
+   "field": "/abstract",
+   "text": "The standard first-line R-CHOP regimen achieves cure in only approximately 50% of patients. Polatuzumab vedotin (Pola) is a novel antibody-drug conjugate targeting the B-cell receptor component CD79b; however, evidence regarding its real-world efficacy remains relatively limited. This retrospective study aims to evaluate the clinical efficacy of Pola in combination therapy. A retrospective analysis was conducted on 140 patients with complete clinical records treated at the Affiliated Hospital of Qingdao University between September 2022 and September 2025. Among them, 114 patients received combination regimens containing Pola, while 26 patients received regimens without Pola. Given the limited follow-up duration, this study primarily assessed interim efficacy, with preliminary survival data also reported. Among the 140 eligible patients, 4 deaths and 20 disease progressions occurred. The age range was 23-91, with a median age of 67; 45.0% were female. An ECOG performance status ≥2 was observed in 16.4% of patients, and 20.7% presented with B symptoms. Elevated LDH levels were found in 57.9% of patients. Ann Arbor stage III or IV disease was present in 65.0% of patients, and an IPI score >2 was recorded in 50.7%. Double-expressor lymphoma was diagnosed in 40.0% of cases. Bone marrow involvement was detected in 20.0% of patients, while 83.6% had lymph node extracapsular extension. Immunohistochemistry staining showed 36 patients (25.7%) with GCB subtype and 99 patients (70.7%) with non-GCB subtype. Median follow-up was 11 months (95% CI: 10.85-13.15). The objective response rate (ORR) was 94.4% in the Pola group and 70.0% in the non-Pola group (OR = 7.1, 95% CI: 2.0-27.2, P<0.001). Complete remission (CR) rates were 53.7% and 20.0%, respectively (OR = 4.6, 95% CI: 1.7-14.9, P = 0.002). The Pola group showed a statistically significant advantage in progression-free survival (PFS). Six-month PFS rates were 90.4% (95% CI: 84.8%-96.3%) for the Pola group and 76.9% (95% CI: 62.3%-94.9%) for the non-Pola group, while 12-month PFS rates were 87.2% (95% CI: 80.5%-94.6%) and 67.9% (95% CI: 51.7%-89.2%), respectively. Combination regimens containing Polatuzumab vedotin demonstrated a marked interim efficacy advantage, which may translate into potential long-term survival benefits.",
+   "sentence_offset": 91,
+   "sentence": " Polatuzumab vedotin (Pola) is a novel antibody-drug conjugate targeting the B-cell receptor component CD79b",
+   "product_name": "vedotin",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "vedotin"
+   ],
+   "unit_id": "78503844941e295a"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/f420b1205f26f1db178543789a6af6f39f6cfc2a98eee5c378fdc9397a6d3b8f.json",
+   "artifact_sha256": "f420b1205f26f1db178543789a6af6f39f6cfc2a98eee5c378fdc9397a6d3b8f",
+   "record_id": "document:b1f122e162221f07c056",
+   "field": "/abstract",
+   "text": "Respiratory syncytial virus (RSV) is an important cause of severe respiratory disease, yet no vaccine is available for older adults in China. This phase 3, randomized, partially blind immunobridging study (NCT06551181) compared a single dose of adjuvanted RSVPreF3 vaccine in ≥60-year-old Chinese adults with a non-Chinese population. Chinese participants were randomized 2:1 to receive adjuvanted RSVPreF3 (RSVPreF3_China group) or placebo (Placebo_China); participants from six additional countries (RSVPreF3_Overseas) received adjuvanted RSVPreF3. The primary objective was to demonstrate non-inferiority of humoral immune responses (RSV-A/RSV-B neutralizing titers) at 1 month post-vaccination in Chinese versus non-Chinese participants. Non-inferiority was met if the upper limit of the 95% confidence interval (CI) was ≤1.5 for the geometric mean titer (GMT) ratio (RSVPreF3_Overseas over RSVPreF3_China) and ≤10% for the seroresponse rate (SRR) difference (RSVPreF3_Overseas minus RSVPreF3_China). Reactogenicity and safety were also assessed. Overall, 2620 participants were exposed (RSVPreF3_China: 1199; Placebo_China: 601; RSVPreF3_Overseas: 820); 2522 were included in the per protocol set at 1 month post-vaccination (RSVPreF3_China: 1175; Placebo_China: 590; RSVPreF3_Overseas: 757). Non-inferiority criteria were met for both RSV-A and RSV-B, with 95% CI upper limits of 1.20 and 1.10 for GMT ratios and 3.40% and 4.89% for SRR differences, respectively. Neutralizing titers increased at 1 month in vaccine recipients: RSV-A/RSV-B GMTs were 5523.2/8073.2 ED60 (mean geometric increase [MGI]=7.89/6.40) in the RSVPreF3_China group and 6604.5/8286.2 ED60 (MGI=8.04/6.57) in the RSVPreF3_Overseas group; GMTs remained above baseline at 6 months post-vaccination. Solicited events were more frequent in vaccine- than placebo-Chinese recipients but were mostly mild-to-moderate and transient. Pain (in 41.7% of participants in the RSVPreF3_China group versus 4.2% in the Placebo_China group) and fatigue (13.6% versus 3.2%) were the most frequently reported administration-site and systemic events, respectively. The incidence of unsolicited adverse events (reported in 11.8%-13.8% of participants across Chinese groups), serious adverse events (3.4%-6.5% across all groups), and potential immune-mediated diseases (0.2%-0.3% across all groups) was low and comparable between groups. A single dose of adjuvanted RSVPreF3 was immunogenic and well tolerated in Chinese adults aged ≥60 years, supporting the extrapolation of global efficacy and a favorable benefit-risk profile in this population.",
+   "sentence_offset": 0,
+   "sentence": "Respiratory syncytial virus (RSV) is an important cause of severe respiratory disease, yet no vaccine is available for older adults in China",
+   "product_name": "vaccine",
+   "stratum": "ST_COPULA",
+   "product_names": [
+    "Vaccine",
+    "vaccine"
+   ],
+   "unit_id": "ccfa8e0d6b7203e0"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/92c660d39c48d38646e9304373c6d92169e6124d22aeef41976f7d86ad47605d.json",
+   "artifact_sha256": "92c660d39c48d38646e9304373c6d92169e6124d22aeef41976f7d86ad47605d",
+   "record_id": "NCT04713202",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": "Peptide Receptor Radionuclide Therapy",
+   "sentence_offset": 0,
+   "sentence": "Peptide Receptor Radionuclide Therapy",
+   "product_name": "Peptide Receptor Radionuclide Therapy",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "PRRT",
+    "Peptide Receptor Radionuclide Therapy"
+   ],
+   "unit_id": "05debeebe59b4422"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/3fa8de5280ecfa7dffc559cb35504b8222da7d0197433dfb10b8abb2f9037ec9.json",
+   "artifact_sha256": "3fa8de5280ecfa7dffc559cb35504b8222da7d0197433dfb10b8abb2f9037ec9",
+   "record_id": "NCT04855253",
+   "field": "/armsInterventionsModule/interventions/5/description",
+   "text": "Patient will receive one FDA approved CAR-T product - Tisagenlecleucel/Kymriah, Axicabtagene Ciloleucel/Yescarta, or lisocabtagene maraleucel/Breyanzi) for the treatment of relapsed/refractory diffuse large B-cell lymphoma",
+   "sentence_offset": 0,
+   "sentence": "Patient will receive one FDA approved CAR-T product - Tisagenlecleucel/Kymriah, Axicabtagene Ciloleucel/Yescarta, or lisocabtagene maraleucel/Breyanzi) for the treatment of relapsed/refractory diffuse large B-cell lymphoma",
+   "product_name": "Breyanzi",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Breyanzi",
+    "Lisocabtagene Maraleucel Intravenous Suspension"
+   ],
+   "unit_id": "081bf3b771631097"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/8ccfc22d9db1f0727750bf6667f73596e96d4e1a46cc31cce9fb0aef4e2a74a6.json",
+   "artifact_sha256": "8ccfc22d9db1f0727750bf6667f73596e96d4e1a46cc31cce9fb0aef4e2a74a6",
+   "record_id": "NCT01663766",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Milatuzumab is a humanized anti-CD74 antibody that is administered intravenously.",
+   "sentence_offset": 0,
+   "sentence": "Milatuzumab is a humanized anti-CD74 antibody that is administered intravenously",
+   "product_name": "anti-CD74",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "IMMU-115",
+    "anti-CD74",
+    "hLL1",
+    "milatuzumab"
+   ],
+   "unit_id": "09b857219f57ea1c"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/9501b16afbd0f4dd8115daf6324de26ec0f5dad3af894ac839a5e4aae2ec5b7e.json",
+   "artifact_sha256": "9501b16afbd0f4dd8115daf6324de26ec0f5dad3af894ac839a5e4aae2ec5b7e",
+   "record_id": "NCT03927794",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Self-Assembling Peptide P11-4 promotes subsurface biomimetic remineralization of enamel. It is a small peptide comprising 11 amino acids that when applied to an initial carious lesion diffuses into the body of the lesion, re-assembles itself into fibrils forming larger fibers and hence a 3-dimensional (3-D) matrix is formed. Natural remineralization driven by saliva is promoted through the surface of the P11-4 by increasing the surface area for calcium phosphate deposition. As a result, mineralization of the subsurface lesion occurs possibly due to the formation of de novo hydroxyapatite crystals on the surface of the P11-4 fibers.",
+   "sentence_offset": 0,
+   "sentence": "Self-Assembling Peptide P11-4 promotes subsurface biomimetic remineralization of enamel",
+   "product_name": "Self-Assembling Peptide P11-4",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Curodont Repair",
+    "Self-Assembling Peptide P11-4"
+   ],
+   "unit_id": "0b2cb62f9b4968bc"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/5ac9d752027d080ff71dedd667c433c8931abe64297f83bdad2ad68d6171611a.json",
+   "artifact_sha256": "5ac9d752027d080ff71dedd667c433c8931abe64297f83bdad2ad68d6171611a",
+   "record_id": "NCT05588440",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "A single infusion of ONCT-808 autologous CAR-T cell infusion will be administered intravenously\n\nPhase 1: Dose Escalation with bridging therapy as needed\n\nPhase 2: Patients with LBCL or MCL will be enrolled into two separate dose expansion cohorts.",
+   "sentence_offset": 0,
+   "sentence": "A single infusion of ONCT-808 autologous CAR-T cell infusion will be administered intravenously",
+   "product_name": "ONCT-808",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "ONCT-808"
+   ],
+   "unit_id": "0e49e4c428d1f28d"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/f56263d988b7270cee544f80f67550d32c9509a7b9ed6d170c41ef9176b4be08.json",
+   "artifact_sha256": "f56263d988b7270cee544f80f67550d32c9509a7b9ed6d170c41ef9176b4be08",
+   "record_id": "NCT04209400",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Sci-B-Vac® vaccine-10 μg of HBsAg, intramuscular injection of 10 μg/ml",
+   "sentence_offset": 0,
+   "sentence": "Sci-B-Vac® vaccine-10 μg of HBsAg, intramuscular injection of 10 μg/ml",
+   "product_name": "Sci-B-Vac®",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Sci-B-Vac®"
+   ],
+   "unit_id": "1a2b621cb4e503b0"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/5892912ae9640aa44fcae5b258ec884dc3ec501df87df055e98d670566cac58e.json",
+   "artifact_sha256": "5892912ae9640aa44fcae5b258ec884dc3ec501df87df055e98d670566cac58e",
+   "record_id": "NCT03627507",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": ".'Engerix B' is a recombinant DNA hepatitis B vaccine. It is sterile suspension of purified surface antigen of hepatitis B virus obtained by culturing genetically yeast cells (Saccharomyces cerevisiae cells), which carry the gene that codes for HBsAg",
+   "sentence_offset": 1,
+   "sentence": "'Engerix B' is a recombinant DNA hepatitis B vaccine",
+   "product_name": "Engerix B",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Engerix B"
+   ],
+   "unit_id": "2541d123a6d6dc01"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/641bf22f0b64ab97d3b382349ac3368edc47853c2c17cb5bf4968effafef4855.json",
+   "artifact_sha256": "641bf22f0b64ab97d3b382349ac3368edc47853c2c17cb5bf4968effafef4855",
+   "record_id": "NCT02501473",
+   "field": "/armsInterventionsModule/interventions/2/description",
+   "text": "Rituximab (anti-CD20 antibody)",
+   "sentence_offset": 0,
+   "sentence": "Rituximab (anti-CD20 antibody)",
+   "product_name": "Rituximab",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Rituximab"
+   ],
+   "unit_id": "28653fdd076265fe"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/3fa8de5280ecfa7dffc559cb35504b8222da7d0197433dfb10b8abb2f9037ec9.json",
+   "artifact_sha256": "3fa8de5280ecfa7dffc559cb35504b8222da7d0197433dfb10b8abb2f9037ec9",
+   "record_id": "NCT04855253",
+   "field": "/armsInterventionsModule/interventions/3/description",
+   "text": "Patient will receive one FDA approved CAR-T product - Tisagenlecleucel/Kymriah, Axicabtagene Ciloleucel/Yescarta, or lisocabtagene maraleucel/Breyanzi) for the treatment of relapsed/refractory diffuse large B-cell lymphoma",
+   "sentence_offset": 0,
+   "sentence": "Patient will receive one FDA approved CAR-T product - Tisagenlecleucel/Kymriah, Axicabtagene Ciloleucel/Yescarta, or lisocabtagene maraleucel/Breyanzi) for the treatment of relapsed/refractory diffuse large B-cell lymphoma",
+   "product_name": "Tisagenlecleucel",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Tisagenlecleucel",
+    "kymriah"
+   ],
+   "unit_id": "47703c562de1175e"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/a326a8254fb331248853d897aff9f4694a4adcdf5705058e6a5d3f799753602d.json",
+   "artifact_sha256": "a326a8254fb331248853d897aff9f4694a4adcdf5705058e6a5d3f799753602d",
+   "record_id": "NCT04531098",
+   "field": "/armsInterventionsModule/interventions/2/description",
+   "text": "Engerix-B (hepatitis B vaccine (recombinant)) is indicated for active immunization against hepatitis B virus infection",
+   "sentence_offset": 0,
+   "sentence": "Engerix-B (hepatitis B vaccine (recombinant)) is indicated for active immunization against hepatitis B virus infection",
+   "product_name": "Engerix-B",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Engerix-B"
+   ],
+   "unit_id": "53a23a8a2a6c917a"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/cc83a4244f4eaa5f0f63b4de8132b54fe04944bc71b4b34c877d080217b6bdc6.json",
+   "artifact_sha256": "cc83a4244f4eaa5f0f63b4de8132b54fe04944bc71b4b34c877d080217b6bdc6",
+   "record_id": "NCT06758037",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "All patients will receive one cycle of HiR (Zebtorizumab, Lenalidomide) induction therapy. On the first day of enrollment, tissue NGS and peripheral blood ctDNA will be submitted for testing. For the remaining six cycles, the added drug (X) will be determined based on the NGS molecular typing results. Please refer to the grouping scheme for details.\n\nHiR+X Dosing Scheme:\n\nHi: Zebtorizumab 375mg/m², d1; R: Lenalidomide 10-25mg d1-10 (maximum tolerated dose)\n\nX:\n\nFor MCD/BN2/TP53: Ocalivumab 150mg qd For EZB: Chidamide 30mg biw\n\nFor N1-like and nonspecific types:\n\nIf EBV-positive: PD-1 monoclonal antibody 200mg Q3W",
+   "sentence_offset": 569,
+   "sentence": "If EBV-positive: PD-1 monoclonal antibody 200mg Q3W",
+   "product_name": "PD-1 monoclonal antibody",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Chidamide",
+    "Drug therapy",
+    "Ocalivumab",
+    "PD-1 monoclonal antibody"
+   ],
+   "unit_id": "57143d46def6ac90"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/62cd17fc495f7015322b5667478e4d28436efc2b741e162c7ee74054f26a5464.json",
+   "artifact_sha256": "62cd17fc495f7015322b5667478e4d28436efc2b741e162c7ee74054f26a5464",
+   "record_id": "NCT00006695",
+   "field": "/armsInterventionsModule/interventions/5/description",
+   "text": "Patients will receive two administrations of Iodine-131 Anti-B1 Antibody; the \"dosimetric dose\" and the \"therapeutic dose\". The dosimetric dose will consist of an infusion of unlabeled Anti-B1 Antibody (450 mg) immediately followed by an infusion of Anti-B1 Antibody (35 mg) which has been trace labeled with 5 mCi of Iodine-131 Anti-B1 Antibody. Using whole body anterior and posterior gamma camera scans and serial imaging studies over approximately one week, the clearance of the whole body dosimetric dose will be used to calculate the subsequent therapeutic dose of Iodine-131 Anti-B1 Antibody which delivers a total body dose of 75 cGy to the subject",
+   "sentence_offset": 0,
+   "sentence": "Patients will receive two administrations of Iodine-131 Anti-B1 Antibody",
+   "product_name": "Iodine-131 Anti-B1 Antibody",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Iodine-131 Anti-B1 Antibody",
+    "tositumomab and iodine I 131 tositumomab"
+   ],
+   "unit_id": "5a005fb47103e141"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/ef9f499120197cd7b42752639a35c7d7b1d5bdb88dcb817b87c229424d98cd63.json",
+   "artifact_sha256": "ef9f499120197cd7b42752639a35c7d7b1d5bdb88dcb817b87c229424d98cd63",
+   "record_id": "NCT07332689",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "one dose of quadrivalent subunit influenza vaccine",
+   "sentence_offset": 0,
+   "sentence": "one dose of quadrivalent subunit influenza vaccine",
+   "product_name": "quadrivalent subunit influenza vaccine",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "quadrivalent subunit influenza vaccine"
+   ],
+   "unit_id": "69397da22dd215b9"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/306e06196e46826200356d3f388966d57d5f90d4227cff543a1dbd6de87df5d3.json",
+   "artifact_sha256": "306e06196e46826200356d3f388966d57d5f90d4227cff543a1dbd6de87df5d3",
+   "record_id": "NCT05366257",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "infusion of CAR-T therapy among patients with r/r DLBCL",
+   "sentence_offset": 0,
+   "sentence": "infusion of CAR-T therapy among patients with r/r DLBCL",
+   "product_name": "CAR-T",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "CAR-T"
+   ],
+   "unit_id": "6f140e54d1015be4"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/c7b3ef9035f77556cb0d84f8c9eeae42dda264484b0f94216a3095de4ebb2ec0.json",
+   "artifact_sha256": "c7b3ef9035f77556cb0d84f8c9eeae42dda264484b0f94216a3095de4ebb2ec0",
+   "record_id": "NCT06249750",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Immunotherapy is currently a hot spot in the field of tumor research. Immune Checkpoint Inhibitor (ICI) is a monoclonal antibody designed to target the negative immunoregulatory pathway overexpressed in tumor cells, which can release the anti-tumor immunosuppressive signals and restore the killing of tumors by the immune cells, and thus exert anti-tumor effects. ICI regimen: Tislelizumab, 200mg, ivgtt., d1, q21d.",
+   "sentence_offset": 69,
+   "sentence": " Immune Checkpoint Inhibitor (ICI) is a monoclonal antibody designed to target the negative immunoregulatory pathway overexpressed in tumor cells, which can release the anti-tumor immunosuppressive signals and restore the killing of tumors by the immune cells, and thus exert anti-tumor effects",
+   "product_name": "ICI",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "ICI",
+    "Immune checkpoint inhibitor",
+    "Immunotherapy",
+    "Tislelizumab (BeiGene, China)"
+   ],
+   "unit_id": "6fe1d2457f4a5069"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/c4008ab56e15bbc7c6ef642c533c9a145b4837d3db1b9d4ec47a04c126a19622.json",
+   "artifact_sha256": "c4008ab56e15bbc7c6ef642c533c9a145b4837d3db1b9d4ec47a04c126a19622",
+   "record_id": "NCT05900401",
+   "field": "/armsInterventionsModule/interventions/5/description",
+   "text": "Siplizumab (anti-CD2 mAb) on days, -2, -1, 0 and +1.",
+   "sentence_offset": 0,
+   "sentence": "Siplizumab (anti-CD2 mAb) on days, -2, -1, 0 and +1",
+   "product_name": "Siplizumab",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Siplizumab"
+   ],
+   "unit_id": "705cf5323afc37be"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/1e20358f68e311b3f3470b04a97a552033c596a0f89a1ac5151e9121bb682e1a.json",
+   "artifact_sha256": "1e20358f68e311b3f3470b04a97a552033c596a0f89a1ac5151e9121bb682e1a",
+   "record_id": "NCT03887793",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "The VACs (Vaccinate Adolescents against Cancer) model for HPV vaccine quality improvement is a strategy developed by the American Cancer Society to improve HPV vaccination coverage in large integrated health care delivery systems. It includes the development of a quality improvement (QI) action plan, the formation of a QI team of health care providers, education for the QI team about HPV-related disease burden and vaccine efficacy, HPV vaccine coverage assessments at several time points that are shared with individual clinics within the health are system, and the adoption of specific QI strategies by participating clinics in the health care system.",
+   "sentence_offset": 0,
+   "sentence": "The VACs (Vaccinate Adolescents against Cancer) model for HPV vaccine quality improvement is a strategy developed by the American Cancer Society to improve HPV vaccination coverage in large integrated health care delivery systems",
+   "product_name": "VACs",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "VACs"
+   ],
+   "unit_id": "811c148d1df30c43"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/0e81d098903ab8d918614ba3ee1607c2ad1d73f6a33a9df7b568e2da3d8f453f.json",
+   "artifact_sha256": "0e81d098903ab8d918614ba3ee1607c2ad1d73f6a33a9df7b568e2da3d8f453f",
+   "record_id": "NCT01164553",
+   "field": "/armsInterventionsModule/interventions/0/description",
+   "text": "Either a standard pediatric dose (0.25 ml) or a larger dose (0.5 ml) of Trivalent Inactivated Influenza Vaccine (TIV) (Fluzone®) administered intramuscularly (IM) in the thigh with a 25 gauge 1 inch needle. Naive cohort (enrolled over two influenza seasons (2010-11 and 2011-12)) will receive vaccine in two IM doses 28-42 days apart, Fully Primed cohort (enrolled in one influenza season (2010-11)) will receive vaccine in one IM dose.",
+   "sentence_offset": 63,
+   "sentence": "5 ml) of Trivalent Inactivated Influenza Vaccine (TIV) (Fluzone®) administered intramuscularly (IM) in the thigh with a 25 gauge 1 inch needle",
+   "product_name": "Trivalent Inactivated Influenza Vaccine",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Trivalent Inactivated Influenza Vaccine"
+   ],
+   "unit_id": "813b963248069ddb"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/eb5a93df24fa651dc80af896c0dd0c3c392dde4b851baa3d84761901e42cfde1.json",
+   "artifact_sha256": "eb5a93df24fa651dc80af896c0dd0c3c392dde4b851baa3d84761901e42cfde1",
+   "record_id": "NCT01766830",
+   "field": "/armsInterventionsModule/interventions/5/description",
+   "text": "The Typhidot M test is a dot enzyme immunoassay that detects IgM and IgG directed against Salmonella typhi. It is manufactured by Reszon Diagnostics International, Malaysia",
+   "sentence_offset": 0,
+   "sentence": "The Typhidot M test is a dot enzyme immunoassay that detects IgM and IgG directed against Salmonella typhi",
+   "product_name": "Typhidot M",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Typhidot M"
+   ],
+   "unit_id": "83ee959916f283ea"
+  },
+  {
+   "pool": "ctgov",
+   "artifact": "/home/djmann/se_runs/tac01_control_r2/snapshots/clinicaltrials_gov/c7dc2b2795923f37ab255ece856cd5a1213e1130ae2feadcbca014710facb71a.json",
+   "artifact_sha256": "c7dc2b2795923f37ab255ece856cd5a1213e1130ae2feadcbca014710facb71a",
+   "record_id": "NCT06696027",
+   "field": "/armsInterventionsModule/interventions/1/description",
+   "text": "3'mRNA sequencing analyzes gene expression profiles related to the immune response in different study cohorts, aiding in understanding the genetic underpinnings of inflammation and its association with mLOY.",
+   "sentence_offset": 0,
+   "sentence": "3'mRNA sequencing analyzes gene expression profiles related to the immune response in different study cohorts, aiding in understanding the genetic underpinnings of inflammation and its association with mLOY",
+   "product_name": "3'mRNA sequencing",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "3'mRNA sequencing"
+   ],
+   "unit_id": "8f7ea4f64bbea78e"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/d4d2d34bf726a46b76df2a32f826f968abb2a57383ee9c75781a7d5054d89609.json",
+   "artifact_sha256": "d4d2d34bf726a46b76df2a32f826f968abb2a57383ee9c75781a7d5054d89609",
+   "record_id": "document:1aea9d5e174476aaadd1",
+   "field": "/abstract",
+   "text": "Benefit-risk profiles and mode/frequency of administration vary among the four US-approved treatments for anti-aquaporin-4 antibody-positive neuromyelitis optica spectrum disorder (AQP4-Ab+ NMOSD), but no published studies have reported treatment preferences among patients with NMOSD in the USA. Therefore, the objective of this study was to quantify preferences and predict treatment choices among patients with AQP4-Ab+ NMOSD in the USA. A cross-sectional, web-based discrete choice experiment survey was administered to patients with self-reported AQP4-Ab+ NMOSD. Respondents evaluated hypothetical AQP4-Ab+ NMOSD treatment profile pairs defined by efficacy, safety, process-related attributes, and administration mode/frequency. Data were analyzed using a random-parameters logit model to estimate conditional relative importance of attributes, minimum acceptable benefit, and predicted treatment choice in pairwise treatment profile (ravulizumab-like, eculizumab-like, inebilizumab-like, and satralizumab-like) comparisons. Preference heterogeneity was investigated by exploratory subgroup analysis using interaction terms in the regression analysis. The 255 survey completers (mean ± standard deviation [SD] age, 41.4 ± 13.7 years) averaged 6.6 ± 5.4 years since diagnosis, and 63.5% identified as female and 46.7% as Black or African American. Rituximab was the most common treatment (34.1% of respondents), and 15.7%, 9.4%, or 7.1% of respondents were receiving eculizumab, inebilizumab, or satralizumab, respectively. Respondents placed greater importance on reducing chance of relapse within the first year of treatment compared with other attributes such as reducing administration frequency from every 2 weeks to every 8 weeks (Q8W); safety attributes (risks of serious opportunistic or recurrent infection, elevated liver enzymes, and meningococcal infection) were rated similar to each other in importance. Pairwise comparisons favored the ravulizumab-like profile (67.8-87.7%) over the other three treatment profiles (12.3-32.2%). Preferences did not vary by age, disease duration, disease impact, or relapses in the past 12 months, but subgroups defined by current treatment type demonstrated different (p = 0.066) preferences. Respondents receiving intravenous/subcutaneous injections alone or with oral immunosuppressive therapy/corticosteroid treatments placed greater importance on reducing chance of relapse versus those receiving oral treatments alone, but they were not more likely to select a Q24W treatment over a Q8W treatment. Respondents with AQP4-Ab+ NMOSD placed the highest importance on reducing chance of relapse, placed a high importance on reduced administration frequency, and rated the safety attributes (avoiding treatments with a risk of meningococcal infection, risk of elevated liver enzymes, and risk of other infections) as comparable to each other but less influential than relapse prevention. Respondents were more likely to select a ravulizumab-like profile over comparators. These findings can inform shared decision-making in selecting treatments.",
+   "sentence_offset": 0,
+   "sentence": "Benefit-risk profiles and mode/frequency of administration vary among the four US-approved treatments for anti-aquaporin-4 antibody-positive neuromyelitis optica spectrum disorder (AQP4-Ab+ NMOSD), but no published studies have reported treatment preferences among patients with NMOSD in the USA",
+   "product_name": "Benefit",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Benefit",
+    "benefit"
+   ],
+   "unit_id": "138ec6e8214d88bf"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/25dd9309f8dce1b2be1d4d89590d0a97ed7c6864676038d5ab7570046f391b37.json",
+   "artifact_sha256": "25dd9309f8dce1b2be1d4d89590d0a97ed7c6864676038d5ab7570046f391b37",
+   "record_id": "document:36b2285aacbb7f3e00b7",
+   "field": "/abstract",
+   "text": "Poliomyelitis remains a public health concern in select regions. Sabin strain-derived inactivated poliovirus vaccine (sIPV) offers a potentially safer and cost-effective alternative to conventional IPV (cIPV) for adult booster immunization. To systematically review and meta-analyze evidence on the safety of sIPV in adults. We searched PubMed, Embase, Cochrane, and Scopus through January 2026 for randomized controlled trials comparing sIPV with cIPV/w-IPV or placebo in adults. Safety outcomes included local and systemic adverse events: pain, erythema, induration, fever, headache, malaise, and allergic reactions. Data extraction and risk of bias assessment were independently performed. Meta-analysis was conducted using random-effects models in RevMan 5.4, reporting risk ratios (RR) with 95% confidence intervals (CI). Evidence certainty was assessed using GRADE. Four trials encompassing 70-340 adults were included. Pooled analyses demonstrated no statistically significant differences in any adverse events between sIPV and cIPV: pain (RR 1.57, 95% CI 0.98-2.50), erythema (RR 1.54, 95% CI 0.64-3.69), induration (RR 0.33, 95% CI 0.04-3.06), fever (RR 0.96, 95% CI 0.39-2.33), headache (RR 0.70, 95% CI 0.21-2.37), and malaise (RR 0.75, 95% CI 0.17-3.27). Heterogeneity was negligible ( I   2  = 0%). Overall, adverse events were mild, transient, and comparable across vaccines and most included trials reported no serious adverse events (SAEs), indicating a favorable safety profile. Certainty of evidence was low to very low due to small sample sizes and imprecision. sIPV demonstrates a safety profile comparable to conventional IPV in adult booster recipients, supporting its use as a viable alternative in polio eradication strategies. Further large-scale and long-term studies are warranted to confirm these findings. identifier: CRD420261329648.",
+   "sentence_offset": 64,
+   "sentence": " Sabin strain-derived inactivated poliovirus vaccine (sIPV) offers a potentially safer and cost-effective alternative to conventional IPV (cIPV) for adult booster immunization",
+   "product_name": "Sabin",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Sabin"
+   ],
+   "unit_id": "1fae20a2a0b9283d"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/775e44b15a8422fc56a635bfeb5d1f8d3e9bbbdfafbe1772d7a2a3766c1e4151.json",
+   "artifact_sha256": "775e44b15a8422fc56a635bfeb5d1f8d3e9bbbdfafbe1772d7a2a3766c1e4151",
+   "record_id": "document:7cebbc059582e8cca41a",
+   "field": "/abstract",
+   "text": "Group B Streptococcus (GBS) disease is an increasing medical burden in adults. The present phase 1 trial evaluated an adjuvanted GBS vaccine (GBS-AlpN) containing N-terminal domains of four alpha-like proteins (AlpNs) (Alp1N, Alp2/3 N, RibN and AlpCN) in 60 healthy adults and 30 with obesity and/or type 2 diabetes (O/D) aged 55 to 75 years of age. Participants received three intramuscular doses of GBS-AlpN or placebo (48:12 and 24:6) on Day 1, Week 4 and Week 24. Solicited local and systemic adverse events (AEs), unsolicited AEs, and serious AEs (SAEs) were collected. Geometric mean concentrations of antibodies to the four AlpN antigens, and seroconversion were determined. The median age was between 65 and 66 years with more females in the healthy groups and more males in the O/D groups. Mainly mild solicited local and systemic AEs were reported for 53 healthy and 26 O/D participants. Seven SAEs, all unrelated, were reported (three in the placebo group and four in the active groups). At least 1 unsolicited AE was reported by 43 healthy and 22 O/D participants. None of the severe unsolicited AEs were related. By Day 57 all participants except three, who received GBS-AlpN had seroconverted for all four AlpNs. The vaccine elicited robust and durable antibody responses, already after the second dose, with comparable results between subgroups. These findings support further clinical investigation for the optimal vaccination strategy to protect vulnerable older adults against GBS disease.",
+   "sentence_offset": 78,
+   "sentence": " The present phase 1 trial evaluated an adjuvanted GBS vaccine (GBS-AlpN) containing N-terminal domains of four alpha-like proteins (AlpNs) (Alp1N, Alp2/3 N, RibN and AlpCN) in 60 healthy adults and 30 with obesity and/or type 2 diabetes (O/D) aged 55 to 75 years of age",
+   "product_name": "vaccine",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Vaccine",
+    "vaccine"
+   ],
+   "unit_id": "26ce36b231bcc348"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/f9fd237933a531242ea745ab823c6bbd39da410b8637e91a63c238b58d78359d.json",
+   "artifact_sha256": "f9fd237933a531242ea745ab823c6bbd39da410b8637e91a63c238b58d78359d",
+   "record_id": "document:4b516686d6cb0c849194",
+   "field": "/abstract",
+   "text": "Astragalus membranaceus  (AM) has been reported to support immune function, but its epigenetic mechanism on immune restoration of cyclophosphamide (CTX)-induced immunosuppression remains unclear. To evaluate the recovery of immune function, we assessed the injury of splenic pathology, cytokines levels in serum, proportional changes in CD4 +  and CD8 +  T cells, and the recall response of Hspx-specific T cell. In addition, to define the underlying epigenetic regulatory mechanism, we measured the expression levels of  DNA methyltransferases  ( Dnmt1 ,  Dnmt3a  and  Dnmt3b ) and the methylation status of the  Carnitine palmitoyltransferase 1A  ( Cpt1a ) gene. The results showed that the crude extract of AM repaired the immunosuppression induced by CTX. This is reflected in the alleviation of splenic pathological injury, the elevated proportions of CD4 +  and CD8 +  T cells, and the increased levels of serum IL-2 and IFN-γ. The crude extract of AM also enhanced the recall response of Hspx-specific CD8 +  T cells; that is, the frequencies of the resulting IL-2 +  and IFN-γ +  cells were significantly higher than those in the CTX + Vaccine group. All these results indicate that the adaptive immune response induced by the crude extract of AM is significantly enhanced. On the other hand, AM crude extract reversed the CTX-induced downregulation of  Dnmt3a  mRNA and restored CpG methylation of  Cpt1a  gene to a level comparable to the vaccine group at molecular level. Consistent with the elevated CpG methylation, CTX-induced upregulation of  Cpt1a  mRNA was also reduced. These findings reveal that AM extract enhances the antigen-specific functional recall responses of CD8 +  T cells in immunosuppressed mice were associated with  Cpt1a  gene methylation, thereby establishing a translational link between traditional herbal medicine and modern epigenetics.",
+   "sentence_offset": 1281,
+   "sentence": " On the other hand, AM crude extract reversed the CTX-induced downregulation of  Dnmt3a  mRNA and restored CpG methylation of  Cpt1a  gene to a level comparable to the vaccine group at molecular level",
+   "product_name": "crude",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "crude"
+   ],
+   "unit_id": "442974bef1579b3d"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/f9fd237933a531242ea745ab823c6bbd39da410b8637e91a63c238b58d78359d.json",
+   "artifact_sha256": "f9fd237933a531242ea745ab823c6bbd39da410b8637e91a63c238b58d78359d",
+   "record_id": "document:4b516686d6cb0c849194",
+   "field": "/abstract",
+   "text": "Astragalus membranaceus  (AM) has been reported to support immune function, but its epigenetic mechanism on immune restoration of cyclophosphamide (CTX)-induced immunosuppression remains unclear. To evaluate the recovery of immune function, we assessed the injury of splenic pathology, cytokines levels in serum, proportional changes in CD4 +  and CD8 +  T cells, and the recall response of Hspx-specific T cell. In addition, to define the underlying epigenetic regulatory mechanism, we measured the expression levels of  DNA methyltransferases  ( Dnmt1 ,  Dnmt3a  and  Dnmt3b ) and the methylation status of the  Carnitine palmitoyltransferase 1A  ( Cpt1a ) gene. The results showed that the crude extract of AM repaired the immunosuppression induced by CTX. This is reflected in the alleviation of splenic pathological injury, the elevated proportions of CD4 +  and CD8 +  T cells, and the increased levels of serum IL-2 and IFN-γ. The crude extract of AM also enhanced the recall response of Hspx-specific CD8 +  T cells; that is, the frequencies of the resulting IL-2 +  and IFN-γ +  cells were significantly higher than those in the CTX + Vaccine group. All these results indicate that the adaptive immune response induced by the crude extract of AM is significantly enhanced. On the other hand, AM crude extract reversed the CTX-induced downregulation of  Dnmt3a  mRNA and restored CpG methylation of  Cpt1a  gene to a level comparable to the vaccine group at molecular level. Consistent with the elevated CpG methylation, CTX-induced upregulation of  Cpt1a  mRNA was also reduced. These findings reveal that AM extract enhances the antigen-specific functional recall responses of CD8 +  T cells in immunosuppressed mice were associated with  Cpt1a  gene methylation, thereby establishing a translational link between traditional herbal medicine and modern epigenetics.",
+   "sentence_offset": 1281,
+   "sentence": " On the other hand, AM crude extract reversed the CTX-induced downregulation of  Dnmt3a  mRNA and restored CpG methylation of  Cpt1a  gene to a level comparable to the vaccine group at molecular level",
+   "product_name": "level",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Level",
+    "level"
+   ],
+   "unit_id": "46546f563c34455b"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/1deeb671280b723009986b6fc69b722f874729028001e15e9a80dca575435a8f.json",
+   "artifact_sha256": "1deeb671280b723009986b6fc69b722f874729028001e15e9a80dca575435a8f",
+   "record_id": "document:b31b9a65d13943a9e034",
+   "field": "/abstract",
+   "text": "Pitt-Hopkins Syndrome (PTHS) is a rare neurodevelopmental disorder caused by haploinsufficiency of the  TCF4  gene. It is characterized by intellectual disability, distinctive facial features, breathing abnormalities, and gastrointestinal dysfunction. While the role of TCF4 in central nervous system development has been extensively investigated, the developmental basis underlying craniofacial and enteric alterations remains poorly understood. We generated a zebrafish  tcf4  mutant line using CRISPR/Cas9 genome editing to unveil the role of Tcf4 in neural crest-derived lineages that contribute to craniofacial and Enteric Nervous System development. The model was characterized by multiple integrated approaches to evaluate the morphological, cellular and functional alterations associated with  tcf4  haploinsufficiency. As a proof-of-concept that the observed phenotypes resulted from Tcf4 loss of function, we reinstated human TCF4 expression in mutant larvae and assessed the rescue of the pathological phenotypes previously described. Heterozygous mutants exhibit key features of PTHS, including craniofacial skeletal abnormalities and impaired gastrointestinal motility. Functional analysis revealed a significant reduction of spontaneous peristaltic contractions and a delayed swallow-induced gut transit, consistently with human patients and PTHS mouse model. To further elucidate these developmental alterations, we showed that these defects are associated with a reduced number of Phox2b-positive enteric progenitors and HuC-positive enteric neurons, though early vagal neural crest migration appears unaffected. Reintroducing human TCF4 mRNA in tcf4 heterozygous mutant embryos rescues both craniofacial and gastrointestinal phenotypes, confirming the specificity of the observed phenotypes. Furthermore, we showed that the human  TCF4  mRNA overexpression can alter craniofacial development in zebrafish embryos suggesting that TCF4 reinstatement dosage should be evaluated in gene therapy approaches to avoid a gain of function phenotype. Together, our results shed light on TCF4 as a key regulator of neural crest-derived lineages and provide a new perspective on two major clinical features of PTHS. The  tcf4  mutant line represents a novel in vivo platform for investigating PTHS pathogenesis at cellular and molecular level and testing novel therapeutic strategies.",
+   "sentence_offset": 446,
+   "sentence": " We generated a zebrafish  tcf4  mutant line using CRISPR/Cas9 genome editing to unveil the role of Tcf4 in neural crest-derived lineages that contribute to craniofacial and Enteric Nervous System development",
+   "product_name": "unveil",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "unveil"
+   ],
+   "unit_id": "4ac621f6fa4b17a0"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/42a99809f37d5a61f748908008048eccc1d27c638b70ef89ba7baca123247250.json",
+   "artifact_sha256": "42a99809f37d5a61f748908008048eccc1d27c638b70ef89ba7baca123247250",
+   "record_id": "document:f5c35a0c3cea87721914",
+   "field": "/abstract",
+   "text": "In this issue of Cancer Cell, Rade et al. report a longitudinal single-cell atlas of multiple myeloma patients receiving BCMA-directed chimeric antigen receptor (CAR) T cell therapy (ide-cel or cilta-cel) and identifiy features linked to long-term responses, including CD4 +  T cell-driven cytotoxicity, memory-biased T cell states, reduced exhaustion, and microenvironment effects.",
+   "sentence_offset": 41,
+   "sentence": " report a longitudinal single-cell atlas of multiple myeloma patients receiving BCMA-directed chimeric antigen receptor (CAR) T cell therapy (ide-cel or cilta-cel) and identifiy features linked to long-term responses, including CD4 +  T cell-driven cytotoxicity, memory-biased T cell states, reduced exhaustion, and microenvironment effects",
+   "product_name": "longitudinal",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Longitudinal",
+    "longitudinal"
+   ],
+   "unit_id": "4ea5b29bc9a697c2"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/775e44b15a8422fc56a635bfeb5d1f8d3e9bbbdfafbe1772d7a2a3766c1e4151.json",
+   "artifact_sha256": "775e44b15a8422fc56a635bfeb5d1f8d3e9bbbdfafbe1772d7a2a3766c1e4151",
+   "record_id": "document:7cebbc059582e8cca41a",
+   "field": "/abstract",
+   "text": "Group B Streptococcus (GBS) disease is an increasing medical burden in adults. The present phase 1 trial evaluated an adjuvanted GBS vaccine (GBS-AlpN) containing N-terminal domains of four alpha-like proteins (AlpNs) (Alp1N, Alp2/3 N, RibN and AlpCN) in 60 healthy adults and 30 with obesity and/or type 2 diabetes (O/D) aged 55 to 75 years of age. Participants received three intramuscular doses of GBS-AlpN or placebo (48:12 and 24:6) on Day 1, Week 4 and Week 24. Solicited local and systemic adverse events (AEs), unsolicited AEs, and serious AEs (SAEs) were collected. Geometric mean concentrations of antibodies to the four AlpN antigens, and seroconversion were determined. The median age was between 65 and 66 years with more females in the healthy groups and more males in the O/D groups. Mainly mild solicited local and systemic AEs were reported for 53 healthy and 26 O/D participants. Seven SAEs, all unrelated, were reported (three in the placebo group and four in the active groups). At least 1 unsolicited AE was reported by 43 healthy and 22 O/D participants. None of the severe unsolicited AEs were related. By Day 57 all participants except three, who received GBS-AlpN had seroconverted for all four AlpNs. The vaccine elicited robust and durable antibody responses, already after the second dose, with comparable results between subgroups. These findings support further clinical investigation for the optimal vaccination strategy to protect vulnerable older adults against GBS disease.",
+   "sentence_offset": 1226,
+   "sentence": " The vaccine elicited robust and durable antibody responses, already after the second dose, with comparable results between subgroups",
+   "product_name": "robust",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Robust",
+    "robust"
+   ],
+   "unit_id": "4f67242d1151f4c7"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/25dd9309f8dce1b2be1d4d89590d0a97ed7c6864676038d5ab7570046f391b37.json",
+   "artifact_sha256": "25dd9309f8dce1b2be1d4d89590d0a97ed7c6864676038d5ab7570046f391b37",
+   "record_id": "document:36b2285aacbb7f3e00b7",
+   "field": "/abstract",
+   "text": "Poliomyelitis remains a public health concern in select regions. Sabin strain-derived inactivated poliovirus vaccine (sIPV) offers a potentially safer and cost-effective alternative to conventional IPV (cIPV) for adult booster immunization. To systematically review and meta-analyze evidence on the safety of sIPV in adults. We searched PubMed, Embase, Cochrane, and Scopus through January 2026 for randomized controlled trials comparing sIPV with cIPV/w-IPV or placebo in adults. Safety outcomes included local and systemic adverse events: pain, erythema, induration, fever, headache, malaise, and allergic reactions. Data extraction and risk of bias assessment were independently performed. Meta-analysis was conducted using random-effects models in RevMan 5.4, reporting risk ratios (RR) with 95% confidence intervals (CI). Evidence certainty was assessed using GRADE. Four trials encompassing 70-340 adults were included. Pooled analyses demonstrated no statistically significant differences in any adverse events between sIPV and cIPV: pain (RR 1.57, 95% CI 0.98-2.50), erythema (RR 1.54, 95% CI 0.64-3.69), induration (RR 0.33, 95% CI 0.04-3.06), fever (RR 0.96, 95% CI 0.39-2.33), headache (RR 0.70, 95% CI 0.21-2.37), and malaise (RR 0.75, 95% CI 0.17-3.27). Heterogeneity was negligible ( I   2  = 0%). Overall, adverse events were mild, transient, and comparable across vaccines and most included trials reported no serious adverse events (SAEs), indicating a favorable safety profile. Certainty of evidence was low to very low due to small sample sizes and imprecision. sIPV demonstrates a safety profile comparable to conventional IPV in adult booster recipients, supporting its use as a viable alternative in polio eradication strategies. Further large-scale and long-term studies are warranted to confirm these findings. identifier: CRD420261329648.",
+   "sentence_offset": 64,
+   "sentence": " Sabin strain-derived inactivated poliovirus vaccine (sIPV) offers a potentially safer and cost-effective alternative to conventional IPV (cIPV) for adult booster immunization",
+   "product_name": "vaccine",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Vaccine",
+    "vaccine"
+   ],
+   "unit_id": "55ce0d749e3cfa2b"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/28e0a5b9a7dccd53e81590f286fc1775976b91ed9c642b05b0f9b94c2d161af3.json",
+   "artifact_sha256": "28e0a5b9a7dccd53e81590f286fc1775976b91ed9c642b05b0f9b94c2d161af3",
+   "record_id": "document:8114460371d01d1f92fd",
+   "field": "/abstract",
+   "text": "Cerebral glucose hypometabolism (CGHM) involves reduced brain glucose uptake on FDG-PET imaging and occurs in neurological and systemic diseases. Its reversibility remains uncertain. We describe a 40-year-old man with reversible global CGHM associated with cryptogenic organizing pneumonia (COP) and COVID-19. His neurocognitive symptoms improved rapidly following steroid-induced hyperglycemia, with FDG-PET demonstrating complete CGHM resolution after two months. His medical background included primary refractory transformed follicular lymphoma diagnosed 30 months earlier, managed with multiple treatment regimens including CAR-T therapy. After post-CAR-T relapse, combination therapy with polatuzumab vendotin, bendamustine, and obinutuzumab achieved complete remission, which was maintained when CGHM developed. This case establishes that CGHM can be temporary and reversible, highlighting a previously unrecognized pathway through which systemic illness may produce neurocognitive impairment. The rapid cognitive recovery coinciding with steroid-induced hyperglycemia and COP treatment is significant. Additional investigation is warranted to determine CGHM's significance in diverse pathological conditions and determine therapeutic interventions.",
+   "sentence_offset": 643,
+   "sentence": " After post-CAR-T relapse, combination therapy with polatuzumab vendotin, bendamustine, and obinutuzumab achieved complete remission, which was maintained when CGHM developed",
+   "product_name": "polatuzumab",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Polatuzumab",
+    "polatuzumab"
+   ],
+   "unit_id": "564de42187d9fc32"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/8eb4e173e4e1946a354985055c37154d601b37a9e626d3839f2508e420b22666.json",
+   "artifact_sha256": "8eb4e173e4e1946a354985055c37154d601b37a9e626d3839f2508e420b22666",
+   "record_id": "document:440c12905727b954ad9f",
+   "field": "/abstract",
+   "text": "Chimeric antigen receptor T-cell (CAR-T) therapy has transformed the management of relapsed or refractory hematologic malignancies, yet its benefit is constrained by immune-mediated vascular toxicities. CAR-T-associated coagulopathy (CARAC) is an under-recognized, potentially fatal syndrome driven by endothelial activation, cytokine amplification and disordered fibrinolysis. In this review, we synthesize current evidence on CARAC pathobiology, emphasizing its dynamic transition from early procoagulant endothelial conversion to secondary hyperfibrinolysis and consumptive coagulopathy. We delineate disease-specific phenotypes, including hemorrhage-prone B-cell acute lymphoblastic leukemia, thrombotic large B-cell lymphoma and assay-confounded multiple myeloma, and highlight key diagnostic pitfalls such as tocilizumab-associated fibrinogen decline. To support standardization, we propose a phase-adapted conceptual framework integrating laboratory kinetics, clinical events and functional coagulation assessment. Finally, we outline precision management strategies spanning risk-adapted anticoagulation, hemostatic rescue and targeted treatment of delayed inflammatory and endothelial complications.",
+   "sentence_offset": 202,
+   "sentence": " CAR-T-associated coagulopathy (CARAC) is an under-recognized, potentially fatal syndrome driven by endothelial activation, cytokine amplification and disordered fibrinolysis",
+   "product_name": "CARAC",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "CARAC"
+   ],
+   "unit_id": "5aee66051d2fc329"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/ac8dc8112d6d35a63faca076bb372bfe899ac3e7523b51483985d946b80c75c0.json",
+   "artifact_sha256": "ac8dc8112d6d35a63faca076bb372bfe899ac3e7523b51483985d946b80c75c0",
+   "record_id": "document:8d195567df3eac3390db",
+   "field": "/abstract",
+   "text": "The RAVE (Rituximab versus Cyclophosphamide for ANCA-Associated Vasculitis) and RITUXIVAS (Rituximab versus Cyclophosphamide in ANCA-Associated Renal Vasculitis) trials established rituximab (RTX) therapy in antineutrophil cytoplasmic antibody-associated vasculitis (AAV). However, RAVE excluded patients with severe renal involvement (creatinine >354 µmol/L). Whilst RITUXIVAS did not, treatment included RTX with two cyclophosphamide (CYC) pulses. This study reports outcomes in AAV patients with severe renal involvement treated with RTX alone compared with CYC, together with high-dose steroids. Data were collected retrospectively for all consecutive AAV presentations with severe renal involvement (peak creatinine >354 µmol/L) between 2010 and 2023 from two renal units. The primary outcome was sustained remission with independent renal function at 12 months. Amongst 107  de novo  AAV patients, 66 received pulsed CYC with steroids [39 received plasma exchange (PLEX)], and 41 received RTX with steroids (7 received PLEX). At presentation, there was no significant difference in renal replacement therapy requirement (CYC 56% vs RTX 71%;  P  = .129), peak creatinine (511 vs 538 µmol/L;  P  = .399) or estimated glomerular filtration rate (eGFR) (9 vs 7 mL/min/1.73 m 2 ;  P  = .372). Fifty-two percent of CYC patients and 49% of RTX patients met the primary outcome ( P  = .783). At 12 months, there was no significant difference in the proportion of patients with independent renal function (CYC 65% vs RTX 56%;  P  = .582), eGFR was similar between CYC and RTX patients (28 vs 31 mL/min/1.73 m 2 ;  P  = .439), and 94% of the CYC cohort were alive compared with 83% of the RTX cohort ( P  = .068). RTX with steroids is comparable to CYC with steroids for successfully inducing remission in AAV with severe renal involvement.",
+   "sentence_offset": 0,
+   "sentence": "The RAVE (Rituximab versus Cyclophosphamide for ANCA-Associated Vasculitis) and RITUXIVAS (Rituximab versus Cyclophosphamide in ANCA-Associated Renal Vasculitis) trials established rituximab (RTX) therapy in antineutrophil cytoplasmic antibody-associated vasculitis (AAV)",
+   "product_name": "RITUXIVAS",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "RITUXIVAS"
+   ],
+   "unit_id": "5b2b21d0b6a5ad71"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/b08d3781889c1121982fe0c104d67e1ab853a9945b5af4ca70f25f695b6fe62b.json",
+   "artifact_sha256": "b08d3781889c1121982fe0c104d67e1ab853a9945b5af4ca70f25f695b6fe62b",
+   "record_id": "document:add303bf38d9aec39bd8",
+   "field": "/abstract",
+   "text": "Clinical heterogeneity in anti-neutrophil cytoplasmic antibody (ANCA)-associated vasculitis (AAV) is not fully captured by conventional disease subtypes or ANCA serotypes. We aimed to identify data-driven, clinically meaningful disease phenotypes based on patterns of organ involvement in microscopic polyangiitis (MPA) and granulomatosis with polyangiitis (GPA), and to evaluate their prognostic and therapeutic implications. We conducted a multicenter retrospective cohort study using two nationwide Japanese registries (J-CANVAS as derivation; JPVAS as validation). Ensemble clustering was applied to high-dimensional organ involvement data derived from the Birmingham Vasculitis Activity Score and additional clinically relevant manifestations. The resulting clusters were replicated using classification and regression tree (CART) across the derivation and validation cohorts, and associations between cluster memberships and clinical outcomes (overall survival and relapse), as well as response to induction therapy, were evaluated. Among 726 patients with newly diagnosed MPA or GPA, ensemble clustering identified four reproducible clinical phenotypes: (a) renal-dominant without interstitial lung disease (ILD); (b) renal-dominant with ILD; (c) systemic multi-organ; and (d) ear, nose, and throat (ENT)-dominant. CART reproduced these clusters with good concordance. Overall survival and relapse incidence differed across clusters. The ENT-dominant cluster demonstrated favorable survival but a higher relapse risk and showed a trend toward improved relapse-free survival with rituximab compared with cyclophosphamide, even among myeloperoxidase-ANCA-positive patients. Organ involvement-based ensemble clustering identifies clinically meaningful and reproducible AAV phenotypes with distinct prognostic and therapeutic profiles. Integrating phenotypic patterns with ANCA serotype may enhance risk stratification and support more individualized management strategies in AAV.",
+   "sentence_offset": 1678,
+   "sentence": " Organ involvement-based ensemble clustering identifies clinically meaningful and reproducible AAV phenotypes with distinct prognostic and therapeutic profiles",
+   "product_name": "phenotypes",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Phenotypes",
+    "phenotypes"
+   ],
+   "unit_id": "6222e5e23c5c67d1"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/25dd9309f8dce1b2be1d4d89590d0a97ed7c6864676038d5ab7570046f391b37.json",
+   "artifact_sha256": "25dd9309f8dce1b2be1d4d89590d0a97ed7c6864676038d5ab7570046f391b37",
+   "record_id": "document:36b2285aacbb7f3e00b7",
+   "field": "/abstract",
+   "text": "Poliomyelitis remains a public health concern in select regions. Sabin strain-derived inactivated poliovirus vaccine (sIPV) offers a potentially safer and cost-effective alternative to conventional IPV (cIPV) for adult booster immunization. To systematically review and meta-analyze evidence on the safety of sIPV in adults. We searched PubMed, Embase, Cochrane, and Scopus through January 2026 for randomized controlled trials comparing sIPV with cIPV/w-IPV or placebo in adults. Safety outcomes included local and systemic adverse events: pain, erythema, induration, fever, headache, malaise, and allergic reactions. Data extraction and risk of bias assessment were independently performed. Meta-analysis was conducted using random-effects models in RevMan 5.4, reporting risk ratios (RR) with 95% confidence intervals (CI). Evidence certainty was assessed using GRADE. Four trials encompassing 70-340 adults were included. Pooled analyses demonstrated no statistically significant differences in any adverse events between sIPV and cIPV: pain (RR 1.57, 95% CI 0.98-2.50), erythema (RR 1.54, 95% CI 0.64-3.69), induration (RR 0.33, 95% CI 0.04-3.06), fever (RR 0.96, 95% CI 0.39-2.33), headache (RR 0.70, 95% CI 0.21-2.37), and malaise (RR 0.75, 95% CI 0.17-3.27). Heterogeneity was negligible ( I   2  = 0%). Overall, adverse events were mild, transient, and comparable across vaccines and most included trials reported no serious adverse events (SAEs), indicating a favorable safety profile. Certainty of evidence was low to very low due to small sample sizes and imprecision. sIPV demonstrates a safety profile comparable to conventional IPV in adult booster recipients, supporting its use as a viable alternative in polio eradication strategies. Further large-scale and long-term studies are warranted to confirm these findings. identifier: CRD420261329648.",
+   "sentence_offset": 64,
+   "sentence": " Sabin strain-derived inactivated poliovirus vaccine (sIPV) offers a potentially safer and cost-effective alternative to conventional IPV (cIPV) for adult booster immunization",
+   "product_name": "safer",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "safer"
+   ],
+   "unit_id": "64a65df6682087ae"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/56a5642326fe0a78763f456bcc4b7a83f91cf76b7a07c97e8a67e383107c0d39.json",
+   "artifact_sha256": "56a5642326fe0a78763f456bcc4b7a83f91cf76b7a07c97e8a67e383107c0d39",
+   "record_id": "document:8f8d21c4291a23aaa616",
+   "field": "/abstract",
+   "text": "Histologic transformation to small-cell lung cancer (SCLC) is an aggressive resistance mechanism to EGFR tyrosine kinase inhibitor (TKI) therapy in EGFR-mutant non-small cell lung cancer (NSCLC). Real-world data on this population remain limited. We conducted a multicenter retrospective cohort study across 26 oncology centers (2016-2025). Patients with histologically confirmed EGFR-mutant NSCLC and biopsy-proven SCLC transformation were included. Primary endpoints included PFS during first-line EGFR-TKI therapy (PFS1), time to transformation (TTT), PFS after transformation (PFS2), overall survival from metastatic diagnosis (OS-1), post-transformation survival (OS-2), and overall survival from initial NSCLC diagnosis (OS-3). Survival was assessed with Kaplan-Meier and Cox regression analyses. A total of 59 patients were included (median age 57.8 years; 52.5 % male; exon 19 deletion 76.3 %). Median PFS1 was 14.0 months (95 % CI, 11.3-16.7); median TTT was 22.0 months (range, 3-110). Following transformation, 54 patients (91.5 %) received systemic therapy: carboplatin plus etoposide (CE) alone in 37 (68.5 %) and CE plus immunotherapy (atezolizumab, durvalumab, or durvalumab plus osimertinib) in 16 (29.6 %). ORR was 37.8 % with CE alone versus 71.4 % with CE plus immunotherapy; median PFS2 was 5.0 months (95 % CI, 3.5-6.5). Median OS-1 was 38.0 months (95 % CI, 32.0-53.0). Median OS-2 was 11.0 months (95 % CI, 7.5-14.5) overall, and significantly longer with CE plus immunotherapy versus CE alone (17.0 vs. 9.0 months; log-rank p = 0.026; HR 0.327, 95 % CI 0.139-0.767). Median OS-3 was 41.1 months. In this large multicenter cohort, adding immune checkpoint inhibitors (ICIs) to CE was associated with improved post-transformation survival, challenging prior evidence of immunotherapy inefficacy in this setting. Systematic re-biopsy at progression on EGFR-TKI therapy is essential to confirm transformation and guide treatment. Prospective biomarker-driven studies are warranted.",
+   "sentence_offset": 1833,
+   "sentence": " Systematic re-biopsy at progression on EGFR-TKI therapy is essential to confirm transformation and guide treatment",
+   "product_name": "guide",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Guide",
+    "guide"
+   ],
+   "unit_id": "67187e1c61de613c"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/ac8dc8112d6d35a63faca076bb372bfe899ac3e7523b51483985d946b80c75c0.json",
+   "artifact_sha256": "ac8dc8112d6d35a63faca076bb372bfe899ac3e7523b51483985d946b80c75c0",
+   "record_id": "document:8d195567df3eac3390db",
+   "field": "/abstract",
+   "text": "The RAVE (Rituximab versus Cyclophosphamide for ANCA-Associated Vasculitis) and RITUXIVAS (Rituximab versus Cyclophosphamide in ANCA-Associated Renal Vasculitis) trials established rituximab (RTX) therapy in antineutrophil cytoplasmic antibody-associated vasculitis (AAV). However, RAVE excluded patients with severe renal involvement (creatinine >354 µmol/L). Whilst RITUXIVAS did not, treatment included RTX with two cyclophosphamide (CYC) pulses. This study reports outcomes in AAV patients with severe renal involvement treated with RTX alone compared with CYC, together with high-dose steroids. Data were collected retrospectively for all consecutive AAV presentations with severe renal involvement (peak creatinine >354 µmol/L) between 2010 and 2023 from two renal units. The primary outcome was sustained remission with independent renal function at 12 months. Amongst 107  de novo  AAV patients, 66 received pulsed CYC with steroids [39 received plasma exchange (PLEX)], and 41 received RTX with steroids (7 received PLEX). At presentation, there was no significant difference in renal replacement therapy requirement (CYC 56% vs RTX 71%;  P  = .129), peak creatinine (511 vs 538 µmol/L;  P  = .399) or estimated glomerular filtration rate (eGFR) (9 vs 7 mL/min/1.73 m 2 ;  P  = .372). Fifty-two percent of CYC patients and 49% of RTX patients met the primary outcome ( P  = .783). At 12 months, there was no significant difference in the proportion of patients with independent renal function (CYC 65% vs RTX 56%;  P  = .582), eGFR was similar between CYC and RTX patients (28 vs 31 mL/min/1.73 m 2 ;  P  = .439), and 94% of the CYC cohort were alive compared with 83% of the RTX cohort ( P  = .068). RTX with steroids is comparable to CYC with steroids for successfully inducing remission in AAV with severe renal involvement.",
+   "sentence_offset": 599,
+   "sentence": " Data were collected retrospectively for all consecutive AAV presentations with severe renal involvement (peak creatinine >354 µmol/L) between 2010 and 2023 from two renal units",
+   "product_name": "creatinine",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "creatinine"
+   ],
+   "unit_id": "688011d20b80ef00"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/b846cd0e0a1d285bd3a5465a6a8cb9b71e99e5a8dd6c1d9dd5c954fb4d9c934f.json",
+   "artifact_sha256": "b846cd0e0a1d285bd3a5465a6a8cb9b71e99e5a8dd6c1d9dd5c954fb4d9c934f",
+   "record_id": "document:e2de2fba261ea6b13e67",
+   "field": "/abstract",
+   "text": "To determine the effectiveness of tyrosine kinase inhibitor (TKI) plus reduced-intensity therapy in adult patients with newly diagnosed Philadelphia chromosome-positive acute lymphoblastic leukemia (Ph-positive ALL), this retrospective study compared treatment outcomes and induction mortality according to backbone regimen intensity. The data of 132 patients diagnosed with Ph-positive ALL were retrospectively collected from five centers. Patients received imatinib plus intensive chemotherapy (modified VPD, KALLA1407, or hyper-CVAD) or reduced-intensity chemotherapy (EWALL) for curative purposes. This study analyzed 117 patients, of which 35,22,46, and 14 received modified VPD, KALLA1407, hyper-CVAD, and EWALL, respectively. All patients used imatinib as a TKI. The median age of the patients who received reduced-intensity chemotherapy was 64.4 years, while that of the patients with intensive regimens was 47.5 years. There was no induction death in the reduced-intensity group, while nine patients died in the intensive therapy group. Major molecular response achievement tended to be higher in the intensive chemotherapy group than in the reduced-intensity group. More patients in the intensive chemotherapy group received allogeneic stem cell transplantation (allo-SCT). There was no statistically significant difference in long-term survival between the two groups in terms of relapse-free survival and overall survival rates. When imatinib plus reduced-intensity therapy was used as a frontline treatment, there was no inferiority in obtaining complete remission compared to imatinib plus intensive chemotherapy or significant difference in long-term survival. Since imatinib plus reduced-intensity therapy has limitations in obtaining a deep molecular response, proceeding to allo-SCT should be considered.",
+   "sentence_offset": 0,
+   "sentence": "To determine the effectiveness of tyrosine kinase inhibitor (TKI) plus reduced-intensity therapy in adult patients with newly diagnosed Philadelphia chromosome-positive acute lymphoblastic leukemia (Ph-positive ALL), this retrospective study compared treatment outcomes and induction mortality according to backbone regimen intensity",
+   "product_name": "determine",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "determine"
+   ],
+   "unit_id": "6d87ebbea523323a"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/b08d3781889c1121982fe0c104d67e1ab853a9945b5af4ca70f25f695b6fe62b.json",
+   "artifact_sha256": "b08d3781889c1121982fe0c104d67e1ab853a9945b5af4ca70f25f695b6fe62b",
+   "record_id": "document:add303bf38d9aec39bd8",
+   "field": "/abstract",
+   "text": "Clinical heterogeneity in anti-neutrophil cytoplasmic antibody (ANCA)-associated vasculitis (AAV) is not fully captured by conventional disease subtypes or ANCA serotypes. We aimed to identify data-driven, clinically meaningful disease phenotypes based on patterns of organ involvement in microscopic polyangiitis (MPA) and granulomatosis with polyangiitis (GPA), and to evaluate their prognostic and therapeutic implications. We conducted a multicenter retrospective cohort study using two nationwide Japanese registries (J-CANVAS as derivation; JPVAS as validation). Ensemble clustering was applied to high-dimensional organ involvement data derived from the Birmingham Vasculitis Activity Score and additional clinically relevant manifestations. The resulting clusters were replicated using classification and regression tree (CART) across the derivation and validation cohorts, and associations between cluster memberships and clinical outcomes (overall survival and relapse), as well as response to induction therapy, were evaluated. Among 726 patients with newly diagnosed MPA or GPA, ensemble clustering identified four reproducible clinical phenotypes: (a) renal-dominant without interstitial lung disease (ILD); (b) renal-dominant with ILD; (c) systemic multi-organ; and (d) ear, nose, and throat (ENT)-dominant. CART reproduced these clusters with good concordance. Overall survival and relapse incidence differed across clusters. The ENT-dominant cluster demonstrated favorable survival but a higher relapse risk and showed a trend toward improved relapse-free survival with rituximab compared with cyclophosphamide, even among myeloperoxidase-ANCA-positive patients. Organ involvement-based ensemble clustering identifies clinically meaningful and reproducible AAV phenotypes with distinct prognostic and therapeutic profiles. Integrating phenotypic patterns with ANCA serotype may enhance risk stratification and support more individualized management strategies in AAV.",
+   "sentence_offset": 1838,
+   "sentence": " Integrating phenotypic patterns with ANCA serotype may enhance risk stratification and support more individualized management strategies in AAV",
+   "product_name": "phenotypic",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "phenotypic"
+   ],
+   "unit_id": "7786bc539052882a"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/12a648a3b399748d6283f4da17b47745cf544b2e660353da5608a8e959d9e30d.json",
+   "artifact_sha256": "12a648a3b399748d6283f4da17b47745cf544b2e660353da5608a8e959d9e30d",
+   "record_id": "document:ad5bb831c71b78f691d5",
+   "field": "/abstract",
+   "text": "Acute pancreatitis (AP) is an increasingly common cause of substantial morbidity and risk of mortality without licensed specific drug therapy. Because tumour necrosis factor α (TNF-α) contributes to AP, anti-TNF therapy may improve outcome from AP. This trial aims to test the efficacy, safety, cost-effectiveness and mechanism of action of the anti-TNF antibody infliximab in patients with AP. Randomised treatment of Acute Pancreatitis with Infliximab: Double-blind, placebo-controlled, multi-centre trial (RAPID-I) is a phase 2b trial designed to randomise 240 patients with AP to receive a single 5 mg/kg or 10 mg/kg infliximab or placebo infusion in a 1:1:1 ratio, initiated within 36 hours of hospital admission. The primary outcome is mean serum C-reactive protein (CRP) on trial days 2, 4 (±1 day) and 14 (±2 days) summated as area under the curve (AUC), with 25% reduction in either active arm compared with placebo considered clinically meaningful. Secondary outcomes include cumulative pain scores, opiate requirements, nutritional deficit (days without solid food), decline in serum albumin (negative AUC), rise in neutrophils (AUC), cumulative selective serial organ failure assessment (SOFA-2) scores, local pancreatic injury on contrast-enhanced CT scan (CECT day 14±7 days), infections, length of stay, mortality and patient reported outcome on days 4 (±1 day), 14 (±2 days) and 90 (±7 days). Cost-effectiveness will be based on costs and quality-adjusted life years over 90 (±7) days. Potential safety signals will be adverse events related to infliximab. Transcriptomic, cytokine and leucocyte profiles will be assessed at baseline and the same time points as CRP. Two adaptive interim analyses are planned. The protocol has received Research Ethics Committee approval (South Central - Oxford C Research Ethics Committee 18/SC/0262). The findings will be disseminated through peer reviewed publication, national and international conferences and meetings. NCT03684278.",
+   "sentence_offset": 248,
+   "sentence": " This trial aims to test the efficacy, safety, cost-effectiveness and mechanism of action of the anti-TNF antibody infliximab in patients with AP",
+   "product_name": "infliximab",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "Infliximab",
+    "infliximab"
+   ],
+   "unit_id": "77ace1311df8ef54"
+  },
+  {
+   "pool": "public",
+   "artifact": "/home/djmann/se_runs/aacr_safety/snapshots/pubmed/c6048cb970e8b2d76a3b6e167a63f06d257e7105fccf8d0405d2a3288864f347.json",
+   "artifact_sha256": "c6048cb970e8b2d76a3b6e167a63f06d257e7105fccf8d0405d2a3288864f347",
+   "record_id": "document:63fe5f58ac1de21766cd",
+   "field": "/abstract",
+   "text": "Glioblastoma (GBM) is the most aggressive type of primary brain tumour in adults, and after treatment, it is also difficult to know whether a person's health has improved. Pseudoprogression (PsP), particularly following radiotherapy and combination therapy with temozolomide and new immunotherapies, may be falsely identified as true progression (TP) by conventional MRI, thus leading to premature termination of treatment or unnecessary intensification of therapy. Although RANO, iRANO and RANO 2.0 have improved the assessment of response, structural MRI alone is unable to reveal the biological complexity of the tumour microenvironment. Artificial Intelligence (AI)-based radiomics and radiogenomics aid in the characterisation of GBM. Several Magnetic Resonance Imaging (MRI) sequences are used to obtain quantitative data, such as the conventional T1-weighted images, diffusion-weighted images, perfusion-weighted images and others, to acquire information on cell density, blood vessel distribution, immune cell concentration, molecular modifications and the effect of therapy. Combine imaging characteristics with liquid biopsy, genomic data and patient health records to enhance the accuracy of diagnosis and discover high-sensitivity surrogate markers for immune checkpoint inhibitor and CAR-T cell therapy clinical trials. Clinical translation still faces numerous limitations such as inconsistent research protocols, small study cohorts, insufficient external validation, inadequate model interpretability and inconsistent reference standards. In the future, many research groups will conduct multi-centre validation, standardize workflows, open-source reporting and release clinically interpretable models. The above ways can reduce the bias induced by PsP and improve differentiation between pseudoprogression and true progression to facilitate prompt treatment for most people.",
+   "sentence_offset": 1083,
+   "sentence": " Combine imaging characteristics with liquid biopsy, genomic data and patient health records to enhance the accuracy of diagnosis and discover high-sensitivity surrogate markers for immune checkpoint inhibitor and CAR-T cell therapy clinical trials",
+   "product_name": "liquid",
+   "stratum": "ST_OTHER",
+   "product_names": [
+    "liquid"
+   ],
+   "unit_id": "786bb0752fde6001"
+  }
+ ]
+}
