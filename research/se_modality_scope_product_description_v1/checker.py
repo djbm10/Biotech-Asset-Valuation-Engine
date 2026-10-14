@@ -62,7 +62,7 @@ def run_unit(unit):
 
 
 def score_units(measured, labels):
-    unsafe, by_rule, missing_provenance = [], {"A": [0, 0], "B": [0, 0]}, []
+    unsafe, by_rule, missing_provenance = [], {k: [0, 0] for k in NEW_RULES}, []
     for lab in labels:
         rows = measured[lab["unit_id"]]
         spans = {
@@ -85,6 +85,13 @@ def score_units(measured, labels):
             )
             by_rule[lab["structure"]][0] += hit
             by_rule[lab["structure"]][1] += 1
+    removed = {"explicit_product_appositive", "explicit_product_predicate_premodified"} - set(
+        NEW_RULES.values()
+    )
+    for lab in labels:
+        for r in measured[lab["unit_id"]]:
+            if r["rule"] in removed:
+                unsafe.append([lab["unit_id"], r["text"], r["modality"], r["rule"]])
     unsafe_by_rule = {k: [u for u in unsafe if u[3] == v] for k, v in NEW_RULES.items()}
     return unsafe, unsafe_by_rule, by_rule, missing_provenance
 
@@ -220,7 +227,7 @@ def selftest(m):
             "text": "x",
             "modality": "M",
             "scope": "PRODUCT_LEVEL",
-            "rule": NEW_RULES["B"],
+            "rule": NEW_RULES["A"],
             "provenance": True,
         }
     ]
@@ -270,4 +277,8 @@ def build(out):
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--output", type=Path, required=True)
-    build(p.parse_args().output)
+    p.add_argument("--rules", default="AB", help="remaining rules under the per-rule fallback")
+    a = p.parse_args()
+    # Preregistered fallback: removed rules leave the gates; their names must produce no assertion.
+    REMOVED = {k: NEW_RULES.pop(k) for k in list(NEW_RULES) if k not in a.rules}
+    build(a.output)

@@ -31,26 +31,22 @@ def product(text, names=("Novel Product",)):
     return {(r.mention.text, r.rule) for r in rows(text, names) if r.scope == "PRODUCT_LEVEL"}
 
 
+def test_appositive_becomes_product_level():
+    text = "Trials of Novel Product, a selective anti-IL-23 antibody, are ongoing."
+    assert ("antibody", "explicit_product_appositive") in product(text)
+
+
 @pytest.mark.parametrize(
-    ("text", "expected"),
+    "text",
     [
-        (
-            "Novel Product is a humanized monoclonal antibody targeting PD-1.",
-            {("monoclonal antibody", "explicit_product_predicate_premodified")},
-        ),
-        (
-            "Trials of Novel Product, a selective anti-IL-23 antibody, are ongoing.",
-            {("antibody", "explicit_product_appositive")},
-        ),
-        (
-            "Novel Product (NP-1) is a second generation, orally administered, tyrosine kinase "
-            "inhibitor (TKI) that blocks ALK.",
-            {("tyrosine kinase inhibitor", "explicit_product_predicate_premodified")},
-        ),
+        "Novel Product is a humanized monoclonal antibody targeting PD-1.",
+        "Novel Product (NP-1) is a second generation, orally administered, tyrosine kinase "
+        "inhibitor (TKI) that blocks ALK.",
     ],
 )
-def test_explicit_descriptions_become_product_level(text, expected):
-    assert expected <= product(text)
+def test_premodified_copula_rule_was_not_adopted(text):
+    # Rule B failed its independent safety gate and was removed under the preregistered fallback.
+    assert not {r for r in product(text) if r[1] == "explicit_product_predicate_premodified"}
 
 
 @pytest.mark.parametrize(
@@ -69,13 +65,17 @@ def test_no_unsupported_whole_product_promotion(text):
 
 
 def test_premodifier_of_another_modality_blocks_the_head():
-    found = {r.mention.text: r.scope for r in rows("Novel Product is a bispecific T cell engaging antibody.")}
+    found = {
+        r.mention.text: r.scope
+        for r in rows("Novel Product, a bispecific T cell engaging antibody, works.")
+    }
     assert found["antibody"] != "PRODUCT_LEVEL"
 
 
 def test_nested_suffix_is_not_promoted():
     found = [
-        (r.mention.text, r.scope) for r in rows("Novel Product, an EGFR-MET bispecific antibody, works.")
+        (r.mention.text, r.scope)
+        for r in rows("Novel Product, an EGFR-MET bispecific antibody, works.")
     ]
     assert ("bispecific antibody", "PRODUCT_LEVEL") in found
     assert ("antibody", "PRODUCT_LEVEL") not in found
@@ -95,5 +95,10 @@ def test_independent_sample_has_no_unsafe_promotion_and_meets_recall():
     unsafe, _, by_rule, missing = checker.score_units(measured, LABELS)
     assert unsafe == []
     assert missing == []
-    for rule, (hit, total) in by_rule.items():
-        assert total >= 5 and hit / total >= 0.8, (rule, hit, total)
+    hit, total = by_rule["A"]
+    assert total >= 5 and hit / total >= 0.8
+    assert not any(
+        r["rule"] == "explicit_product_predicate_premodified"
+        for rs in measured.values()
+        for r in rs
+    )

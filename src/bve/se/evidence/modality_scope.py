@@ -93,6 +93,84 @@ def product_phrase(text: str, start: int, end: int) -> ProductPhrase | None:
     )
 
 
+# Frozen in docs/se_policies/modality_scope_product_description_v1.md.
+_PRE_ITEM = r"(?:[^\W_]+(?:[-/][^\W_]+)*|\([^()]*\))"
+_PRE = r"(?P<pre>(?:" + _PRE_ITEM + r",?\s+)*)"
+_POST = (
+    r"(?:\s+(?:" + _GENERIC_HEADS + r"))*(?:\s*\([^()]*\))?"
+    r"(?=\s*$|\s*[,;:)]|\s+(?P<next>[^\W_]+))"
+)
+_HEDGE = r"\b(?:not|no|without|may|might|could)\b"
+
+
+def _embedded(text: str, start: int, end: int, left: int) -> bool:
+    token_start = start
+    while token_start > left and text[token_start - 1].isalnum():
+        token_start -= 1
+    return token_start < start or (end < len(text) and text[end].isalnum())
+
+
+def _product_description(text, start, end, modality, hits, names):
+    """Appositive naming the whole product's modality (rule A)."""
+    left = max(text.rfind(c, 0, start) for c in ".;\n") + 1
+    right = min([p for c in ".;\n" if (p := text.find(c, end)) >= 0] or [len(text)])
+    sentence = text[left:right]
+    if modality is None or _embedded(text, start, end, left) or re.search(_HEDGE, sentence, re.I):
+        return None
+    if any(e == end and s < start for s, e, _ in hits):
+        return None
+    post = re.match(_POST, text[end:right], re.I)
+    if not post:
+        return None
+    nxt = post.group("next")
+    if nxt and not (nxt.casefold() in _PHRASE_BOUNDARIES or re.search(r"(?:ed|ing)$", nxt, re.I)):
+        return None
+    # Rule B (premodified copula) was removed under the preregistered per-rule fallback: it
+    # certified a radioconjugate and a class-label subject in the independent sample.
+    for name in sorted(names, key=lambda n: (-len(n), n)):
+        for occurrence in re.finditer(
+            r"(?<!\w)" + re.escape(name) + r"(?!\w)", text[left:start], re.I
+        ):
+            at = left + occurrence.start()
+            between = r"(?:\s*\([^()]*\))?"
+            form = ("explicit_product_appositive", r"\s*,\s+an?\s+")
+            described = _described(
+                text,
+                at,
+                occurrence.end() - occurrence.start(),
+                start,
+                between,
+                form,
+                modality,
+                hits,
+            )
+            if described:
+                return described
+    return None
+
+
+def _described(text, at, length, start, between, form, modality, hits):
+    rule, link = form
+    m = re.fullmatch(between + link + _PRE, text[at + length : start], re.I)
+    if not m:
+        return None
+    pre = m.group("pre")
+    words = {w.casefold() for w in re.findall(r"[^\W_]+", re.sub(r"\([^()]*\)", " ", pre))}
+    if words & (_PHRASE_BOUNDARIES | _COORDINATORS):
+        return None
+    if any(start - len(pre) <= s < start and other != modality for s, _, other in hits):
+        return None
+    product = _span(text, at, at + length)
+    return (
+        "PRODUCT_LEVEL",
+        product,
+        None,
+        _span(text, product.end, start),
+        ("PRODUCT_IS_MODALITY",),
+        rule,
+    )
+
+
 def _pattern(term: str) -> str:
     return r"[\s_-]+".join(re.escape(x) for x in re.split(r"[\s_-]+", term))
 
@@ -215,6 +293,10 @@ def scoped_modality_assertions(
         scope, product, component, relation, relations, rule = _scope(
             text, start, end, source.product_names
         )
+        if rule in {"unproven_subject_or_relation", "product_phrase_not_head"}:
+            described = _product_description(text, start, end, modality, hits, source.product_names)
+            if described:
+                scope, product, component, relation, relations, rule = described
         payload = dict(
             candidate_id=candidate_id,
             modality=modality,
