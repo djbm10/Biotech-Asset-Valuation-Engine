@@ -1,0 +1,288 @@
+{
+ "_basis": "Blind adjudication of each (trade-name string, authority canonical) pair from domain knowledge, before any merge/corroboration measurement. Single adjudicator. Classes: EQUIVALENT_SINGLE_MOLECULE_BRAND (safe molecule-level display group), BIOSIMILAR_SAME_MOLECULE_DISTINCT_PRODUCT (molecule group only, product must stay distinct), AUTHORITY_TOO_COARSE (canonical is a class spanning distinct products: must not group), NOT_EQUIVALENT (ordinary word/company/class).",
+ "exposed": [
+  "trodelvy"
+ ],
+ "labels": {
+  "abecma": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "abrysvo": {
+   "class": "AUTHORITY_TOO_COARSE",
+   "note": "RSV preF vaccine; authority canonical is an antigen class shared by distinct vaccines"
+  },
+  "adcetris": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "android": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "antihistamine": {
+   "class": "NOT_EQUIVALENT",
+   "note": "drug class word"
+  },
+  "asacol": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "aspaveli": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "aucatzyl": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "avert": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "benlysta": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "carac": {
+   "class": "NOT_EQUIVALENT",
+   "note": "collides with CAR-T-associated coagulopathy acronym in this corpus"
+  },
+  "carvykti": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "cervarix": {
+   "class": "AUTHORITY_TOO_COARSE",
+   "note": "bivalent HPV vaccine; canonical antigen class also holds Gardasil"
+  },
+  "choice": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "discase": {
+   "class": "NOT_EQUIVALENT",
+   "note": "obsolete veterinary/discolysis brand; no supported use in this corpus"
+  },
+  "ebvallo": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "elahere": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "elrexfio": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "enhertu": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "equal": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "fintepla": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "first choice": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary phrase"
+  },
+  "fresenius": {
+   "class": "NOT_EQUIVALENT",
+   "note": "company name"
+  },
+  "frontline": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "gardasil": {
+   "class": "AUTHORITY_TOO_COARSE",
+   "note": "quadri/nonavalent HPV vaccine; same coarse canonical as Cervarix"
+  },
+  "gleevec": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "herwenda": {
+   "class": "BIOSIMILAR_SAME_MOLECULE_DISTINCT_PRODUCT",
+   "note": "trastuzumab biosimilar"
+  },
+  "justice": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "kymriah": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "lasix": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "lumoxiti": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "momentum": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "monit": {
+   "class": "NOT_EQUIVALENT",
+   "note": "truncation/ordinary token"
+  },
+  "monjuvi": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "mylotarg": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "nature": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "nostril": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "nuvaxovid": {
+   "class": "AUTHORITY_TOO_COARSE",
+   "note": "protein-subunit COVID vaccine; canonical spike-protein class spans products"
+  },
+  "occlusal": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary adjective"
+  },
+  "ocrevus": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "ogsiveo": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "oncovin": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "optimum": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "padcev": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "penicillin": {
+   "class": "NOT_EQUIVALENT",
+   "note": "drug class word mapped to one salt"
+  },
+  "polivy": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "pulmozyme": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "revlimid": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "roche": {
+   "class": "NOT_EQUIVALENT",
+   "note": "company name"
+  },
+  "saline": {
+   "class": "NOT_EQUIVALENT",
+   "note": "generic solution word"
+  },
+  "search": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "soliris": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "spravato": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "strimvelis": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "success": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "taxol": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "tecartus": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "tivdak": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "today": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "tracer": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "transact": {
+   "class": "NOT_EQUIVALENT",
+   "note": "ordinary word"
+  },
+  "trodelvy": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": "EXPOSED (H19 development case)"
+  },
+  "tyruko": {
+   "class": "BIOSIMILAR_SAME_MOLECULE_DISTINCT_PRODUCT",
+   "note": "natalizumab biosimilar"
+  },
+  "tysabri": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "uplizna": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "uptravi": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "yescarta": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "zeposia": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  },
+  "zostrix": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": "topical capsaicin brand"
+  },
+  "zynlonta": {
+   "class": "EQUIVALENT_SINGLE_MOLECULE_BRAND",
+   "note": ""
+  }
+ }
+}
