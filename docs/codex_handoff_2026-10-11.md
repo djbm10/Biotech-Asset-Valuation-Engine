@@ -1,3 +1,9 @@
+# 2026-10-13 — PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v4: STOP — modality gating PARKED
+
+Design `8ca2a76`; R3 policy `78c3694` (frozen pre-measurement); read `research/se_product_vs_component_modality_semantics_v4/README.md`. 172 distinct facts / 293 rows: 4 RETAIN, 167 UNKNOWN_REVIEW, 1 UNKNOWN_CONFLICT. R1/R4 pass (0 false retained, conflict → UNKNOWN). R2 fails: CC312's appositive is blocked because `trispecific` is a MULTISPECIFIC_ANTIBODY alias (frozen same-modality guard; not patched). R3 fails: 7/8 true admitted facts go to UNKNOWN. On the 13 adjudicated facts, precision rises 0.62 → 1.00 while recall falls 8/8 → 1/8, which is not deployable. Modality gating is parked; datopotamab's false PEPTIDE exclusion remains. Next: separately preregister the ESG401 candidate-nomination diagnosis (not started). H21–H25 untouched; H6–H10 unrun.
+
+---
+
 # 2026-10-13 — MODALITY_SCOPE_PRODUCT_DESCRIPTION v1: Rule A ADOPTED, Rule B removed
 
 Prereg `ce9aa9b`, red tests `8bdb992`; read `research/se_modality_scope_product_description_v1/README.md`. Independent 103-unit sample from sources disjoint from the protoid baselines (tac01_control_r2 CT.gov + aacr_safety abstracts), blind labels. Appositive rule A: 5/5 recall, 0 unsafe, adopted (`explicit_product_appositive`). Premodified copula rule B: 2 unsafe (radioconjugate Bexxar; class-label subject "Immune Checkpoint Inhibitor"), removed under the frozen per-rule fallback. Class-of, CT.gov name and otherNames are unsupported (no examples / identity boundary). No frozen assertion changed; 5 false admitted facts unsupported; still no consumer. Full tests/se 1,941 passed, 3 xfail; Ruff clean; deterministic. Process errors disclosed in the README (a display-compression hook misled a predicted delta). Next: v4 semantic design preregistered (`docs/se_policies/product_vs_component_modality_semantics_v4.md`), not executed. ESG401 not started; H21–H25 untouched; H6–H10 unrun.
