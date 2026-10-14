@@ -1,3 +1,9 @@
+# 2026-10-13 — PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v3: DESIGN STOP (R3)
+
+Design `b12ee79` unchanged; freeze `7dd05ae`; read `research/se_product_vs_component_modality_semantics_v3/README.md`. Population: 293 modality facts from frozen non-holdout baselines tac01/mint5_protoid_v1, 13 gate-admitted. R1 (control safety) passes: the former v2 modifier failures are fixed. R3 fails: **0/293 facts get PRODUCT_LEVEL support** (282 ambiguous, 11 no scoped evidence), so a consumer would withdraw all 8 true admitted TCE/vaccine facts alongside 5 false ones. The representation is safe but lacks recall on appositives, "class of", titles and non-hyphenated premodifiers. Implementation NOT authorized; no production change. Next (if pursued): a separately preregistered representation-recall milestone. ESG401 not started; H21–H25 untouched; H6–H10 unrun.
+
+---
+
 # 2026-10-13 — MODALITY_SCOPE_HEAD_ATTACHMENT v1 ADOPTED
 
 Preregistration `07cb021`; red-first `248a05e` (46 red / 9 green); adoption commit follows. Read `research/se_modality_scope_head_attachment_v1/README.md` and policy `docs/se_policies/modality_scope_head_attachment_v1.md`. `explicit_product_predicate` now certifies only the predicate noun phrase's head designation (hyphenated premodifiers before it, generic product nouns after it); modifiers become AMBIGUOUS `product_phrase_not_head`, coordination is AMBIGUOUS, and non-modality heads invent nothing. Seven of 78 frozen existing assertions changed, all preregistered: the three v2 modifier errors fixed, ADC/cell-therapy heads now PRODUCT_LEVEL, and the `antibody` sub-span inside "antibody-drug conjugate" is no longer a whole-product antibody. The 33 v1 witnesses and H19 are byte-identical. The independent checker has no verdict constant, and its self-test shows it fails, passes and flips. Full tests/se 1,928 passed, 3 xfail; Ruff clean; still decision-neutral (no importer).
