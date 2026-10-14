@@ -1,3 +1,9 @@
+# 2026-10-14 — TARGET_ALIAS_AUTHORITY_SOURCE v1: computed JUSTIFIED_EXCLUDING_H17 — implementation NOT authorized
+
+Prereg `7d5c7ad`; read `research/se_target_alias_authority_source_v1/README.md`. Frozen HGNC (complete) + NCIt 26.09d protein records: 186/233 new names are claimant-unique; 49 are reachable under the 2-token cap; 29/192 entities (15%). H17 `IL-4Rα` has no exact spelling in any authority and is not repairable without an orthographic transform. H20 `factor XI` is certified via NCIt C201572 → HGNC:3529, and the injected offline chain compiles 5 plans carrying TARGET:F11. Post-measurement inspection found `statin` certified to EEF1A2 (an HGNC previous name), EC reaction-class codes, and 80 historical previous names: claimant uniqueness is not safety. The rubric is not amended, so this is a mechanical pass, not authorization. Next: preregister v2 with ordinary-word/drug-class, EC and previous-name controls frozen first. No production change. H21–H25 sealed; H6–H10 unrun.
+
+---
+
 # 2026-10-14 — HUMAN_POC_PRECISION_FIRST v1: DESIGN STOP (no structured route exists)
 
 Prereg `729c500`; read `research/se_human_poc_precision_first_v1/README.md`. The only `ClinicalResult` constructor hardcodes `incomplete_reporting=True` with no effect size, so the structured human-PoC route is unreachable. The CT.gov connector keeps only `protocolSection`, and 0 of 1,932 snapshots have `resultsSection`. All 151 human-PoC observations (159 distinct passages; 97 adjudicated true, 29 false) are prose. Structured-only would give 0 confirmed and turn 64 gate PASS into UNKNOWN; R3 and R4 fail (no non-decisional status in `VerificationStatus`). Implementation NOT authorized. A degraded safety mode is described, not authorized. Next: TARGET_ALIAS_AUTHORITY_SOURCE v1; then CTGOV_POSTED_RESULTS_SOURCE v1 as the real human-PoC prerequisite. H21–H25 sealed; H6–H10 unrun.
