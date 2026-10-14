@@ -1,0 +1,652 @@
+{
+ "_basis": "Blind adjudication of every named entity in each frozen arm description before any extractor or coverage measurement. Single adjudicator. Whether a name is also an intervention name is NOT recorded here; it is measured.",
+ "labels": [
+  {
+   "unit_id": "0039bb36db5f4c08",
+   "index": 0,
+   "relation": "BACKGROUND_LIST",
+   "entities": [
+    {
+     "name": "methotrexate",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    },
+    {
+     "name": "Moderna COVID-19 vaccine",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "MMF",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    },
+    {
+     "name": "MPA",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    }
+   ]
+  },
+  {
+   "unit_id": "004c17d763246422",
+   "index": 1,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "duvortuxizumab",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "0088fde42e86519a",
+   "index": 2,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "CAR T-cells",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "011a5274ce9db9ee",
+   "index": 3,
+   "relation": "SEQUENCE",
+   "entities": [
+    {
+     "name": "Losartan",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "CONTROL"
+    },
+    {
+     "name": "MK1809",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "placebo",
+     "kind": "PLACEBO",
+     "role": "CONTROL"
+    }
+   ]
+  },
+  {
+   "unit_id": "0139b5f2fcc0c65b",
+   "index": 4,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "BCMA nano antibody CAR-T",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "016b654efea31f69",
+   "index": 5,
+   "relation": "BACKGROUND_LIST",
+   "entities": [
+    {
+     "name": "Pfizer-BioNTech COVID-19 vaccine",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "PRIOR_EXPOSURE"
+    },
+    {
+     "name": "MMF",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    },
+    {
+     "name": "MTX",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    },
+    {
+     "name": "MPA",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    }
+   ]
+  },
+  {
+   "unit_id": "01cddc97de4ac89b",
+   "index": 6,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "CARTemis-1",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "01dfffc0097c8284",
+   "index": 7,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "BCMA CAR-T",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "035086baf5eb6b60",
+   "index": 8,
+   "relation": "BACKGROUND_LIST",
+   "entities": [
+    {
+     "name": "methotrexate",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    },
+    {
+     "name": "Janssen COVID-19 vaccine",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "03a1570a33bf494b",
+   "index": 9,
+   "relation": "NONE",
+   "entities": []
+  },
+  {
+   "unit_id": "0448174a51668f2a",
+   "index": 10,
+   "relation": "RANDOMIZED_ALLOCATION",
+   "entities": [
+    {
+     "name": "FTX-101",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "placebo",
+     "kind": "PLACEBO",
+     "role": "CONTROL"
+    }
+   ]
+  },
+  {
+   "unit_id": "04a9d8d07c4de06e",
+   "index": 11,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "Blinatumomab",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "05cf3a478028ba05",
+   "index": 12,
+   "relation": "RANDOMIZED_ALLOCATION",
+   "entities": [
+    {
+     "name": "WRSS1",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "placebo",
+     "kind": "PLACEBO",
+     "role": "CONTROL"
+    }
+   ]
+  },
+  {
+   "unit_id": "05ff9ff2202e7334",
+   "index": 13,
+   "relation": "COMBINATION",
+   "entities": [
+    {
+     "name": "ibrutinib",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "nivolumab",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "061c13574e6b2ce9",
+   "index": 14,
+   "relation": "NONE",
+   "entities": [
+    {
+     "name": "c peptide",
+     "kind": "BIOMARKER",
+     "role": "BACKGROUND"
+    }
+   ]
+  },
+  {
+   "unit_id": "000c5fa52881789a",
+   "index": 15,
+   "relation": "SEQUENCE",
+   "entities": [
+    {
+     "name": "CC-97540",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "fludarabine",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    },
+    {
+     "name": "cyclophosphamide",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    }
+   ]
+  },
+  {
+   "unit_id": "000c9e1aa5a22212",
+   "index": 16,
+   "relation": "NONE",
+   "entities": []
+  },
+  {
+   "unit_id": "00172fb1ddc109c7",
+   "index": 17,
+   "relation": "NONE",
+   "entities": []
+  },
+  {
+   "unit_id": "0048099f57317f84",
+   "index": 18,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "F182112",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "004f8fedd59a5364",
+   "index": 19,
+   "relation": "SEQUENCE",
+   "entities": [
+    {
+     "name": "HydDD",
+     "kind": "DEVICE",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "1-DAY ACUVUE Moist",
+     "kind": "DEVICE",
+     "role": "CONTROL"
+    }
+   ]
+  },
+  {
+   "unit_id": "005082b9668faaad",
+   "index": 20,
+   "relation": "NONE",
+   "entities": [
+    {
+     "name": "CAR-T cells",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "00832b07214488af",
+   "index": 21,
+   "relation": "COMBINATION",
+   "entities": [
+    {
+     "name": "Chemotherapy",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "DLI",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "00847b12eba494ee",
+   "index": 22,
+   "relation": "NONE",
+   "entities": []
+  },
+  {
+   "unit_id": "00a12b031b365155",
+   "index": 23,
+   "relation": "COMBINATION",
+   "entities": [
+    {
+     "name": "PF-07985045",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "Gemcitabine",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "Nab-paclitaxel",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "00b5274f87223c17",
+   "index": 24,
+   "relation": "SEQUENCE",
+   "entities": [
+    {
+     "name": "fludarabine",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    },
+    {
+     "name": "cyclophosphamide",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "BACKGROUND"
+    },
+    {
+     "name": "TC011",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "00e50d080cc62aca",
+   "index": 25,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "111In-BU-12",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "01352fceb2ec8f2c",
+   "index": 26,
+   "relation": "NONE",
+   "entities": []
+  },
+  {
+   "unit_id": "0137c59ea071f2f0",
+   "index": 27,
+   "relation": "SEQUENCE",
+   "entities": [
+    {
+     "name": "BCMA-directed CAR T-cell therapy",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "0139fe5a40d5ddfc",
+   "index": 28,
+   "relation": "NONE",
+   "entities": [
+    {
+     "name": "CliniMACS",
+     "kind": "DEVICE",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "0164ff0b17bf38b1",
+   "index": 29,
+   "relation": "COMBINATION",
+   "entities": [
+    {
+     "name": "BT8009",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "pembrolizumab",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "0035cb382652072b",
+   "index": 30,
+   "relation": "NONE",
+   "entities": [
+    {
+     "name": "CAR -T-cell",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "00c9b6e272e92958",
+   "index": 31,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "AJA001",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "00cb6d6a6953a27e",
+   "index": 32,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "ONO-2020",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "00eb568eda473934",
+   "index": 33,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "placebo",
+     "kind": "PLACEBO",
+     "role": "CONTROL"
+    }
+   ]
+  },
+  {
+   "unit_id": "00ec52a8b9d9b77e",
+   "index": 34,
+   "relation": "COMBINATION",
+   "entities": [
+    {
+     "name": "VX-445",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "TEZ",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "IVA",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "0118c9b4476c08ac",
+   "index": 35,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "Arformoterol",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "013a31558fed312c",
+   "index": 36,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "KQ-2003",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "0144cd5448513588",
+   "index": 37,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "CAR-T cells",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "017d7686385a9cb8",
+   "index": 38,
+   "relation": "NONE",
+   "entities": [
+    {
+     "name": "CAR- Tcells",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "027c8eb2a283a350",
+   "index": 39,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "anti-CD19 anti-CD20 Bispecific CAR-T cells",
+     "kind": "GENERIC_CLASS",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "02c08906969e08db",
+   "index": 40,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "AJA001",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "0302a86d9f4976eb",
+   "index": 41,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "ACT-777991",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "034724f45cc7377c",
+   "index": 42,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "GLPG5101",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "037cf195b16b6a90",
+   "index": 43,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "TAC01-CD19",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "03bbdc8318bf9bd5",
+   "index": 44,
+   "relation": "SINGLE",
+   "entities": [
+    {
+     "name": "zamzetoclax",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  },
+  {
+   "unit_id": "2ed95568d80a60cd",
+   "index": 45,
+   "relation": "PRODUCT_ALTERNATIVE",
+   "entities": [
+    {
+     "name": "ESG401",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "sacituzumab govitecan",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    },
+    {
+     "name": "sacituzumab tirumotecan",
+     "kind": "THERAPEUTIC_PRODUCT",
+     "role": "ADMINISTERED"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,725 @@
+{
+ "trials": 1932,
+ "arms_with_description": 3509,
+ "denominators": {
+  "ALT_SHAPE": 810,
+  "COMB_SHAPE": 1255,
+  "OTHER": 1444
+ },
+ "units": [
+  {
+   "unit_id": "0039bb36db5f4c08",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/c921a98a41bfe2fd3712fa615d908c235492df716bc905ae82554c56c7aa4c18.json",
+   "artifact_sha256": "c921a98a41bfe2fd3712fa615d908c235492df716bc905ae82554c56c7aa4c18",
+   "nct": "NCT05000216",
+   "arm_index": 6,
+   "field": "/armsInterventionsModule/armGroups/6/description",
+   "label": "Cohort B, Arm B1: Moderna mRNA-1273 + Continue IS (MTX)",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: Moderna mRNA-1273",
+    "Drug: Continue IS (MTX)"
+   ],
+   "description": "Adult participants who are taking methotrexate (without additional B cell depleting medications or MMF/ MPA) for management of their underlying autoimmune disease will receive an additional dose of the Moderna COVID-19 vaccine booster and continue to take their immunosuppressive medications (IS) without alterations in schedule and dosing.",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "004c17d763246422",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/3961f9c0539f2c0c33b9fcf9f265c8f0bd704bcc40eccb62ac34222bfbf1ccfb.json",
+   "artifact_sha256": "3961f9c0539f2c0c33b9fcf9f265c8f0bd704bcc40eccb62ac34222bfbf1ccfb",
+   "nct": "NCT02454270",
+   "arm_index": 1,
+   "field": "/armsInterventionsModule/armGroups/1/description",
+   "label": "Dose Expansion: Diffuse-Large B-Cell Lymphoma Participants",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: Part 2 (Dose Expansion): Duvortuxizumab"
+   ],
+   "description": "Participants with Diffuse-Large B-Cell Lymphoma (DLBCL) will receive intravenous infusion of duvortuxizumab at the recommended Phase 2 dose (RP2D) either with or without a priming dose.",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "0088fde42e86519a",
+   "artifact": "/home/djmann/se_runs/mint5_protoid_v1/snapshots/clinicaltrials_gov/a8a52d6106d74bf57d5b15804f601115904054c45aadcf4befccb79d83da8da4.json",
+   "artifact_sha256": "a8a52d6106d74bf57d5b15804f601115904054c45aadcf4befccb79d83da8da4",
+   "nct": "NCT07611149",
+   "arm_index": 2,
+   "field": "/armsInterventionsModule/armGroups/2/description",
+   "label": "Higher Dose Level",
+   "type": "ACTIVE_COMPARATOR",
+   "interventionNames": [
+    "Biological: Administration of CAR T-cells at 3 different dose levels"
+   ],
+   "description": "Higher Dose Level (Level 2): 15 × 10⁶ cells (≥50 kg) / 10 × 10⁶ cells (\\<50 kg)",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "011a5274ce9db9ee",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/131ae310cdb6b02fa02834e0b75cc720218836781e3458ff1525cc8de094420f.json",
+   "artifact_sha256": "131ae310cdb6b02fa02834e0b75cc720218836781e3458ff1525cc8de094420f",
+   "nct": "NCT01033318",
+   "arm_index": 1,
+   "field": "/armsInterventionsModule/armGroups/1/description",
+   "label": "Part 1 A-2",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: MK1809",
+    "Drug: Comparator: Losartan",
+    "Drug: Comparator: Placebo"
+   ],
+   "description": "Part 1; Panel A; Sequence 2:\n\nLosartan / 10 mg MK1809 / placebo / 150 mg MK1809 / 280 mg MK1809",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "0139b5f2fcc0c65b",
+   "artifact": "/home/djmann/se_runs/mint5_protoid_v1/snapshots/clinicaltrials_gov/6515043e1151fa8f76e15aab029b0e71d4fd78be023ab85a1a0b5c2e3b61a41b.json",
+   "artifact_sha256": "6515043e1151fa8f76e15aab029b0e71d4fd78be023ab85a1a0b5c2e3b61a41b",
+   "nct": "NCT03661554",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "single arm",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: BCMA CAR-T Cells"
+   ],
+   "description": "This clinical study, \"BCMA nano-antibody CAR-T cells in the treatment of refractory recurrent multiple myeloma clinical research,\" is a single center, single arm, open design. The aim is to study the safety and efficacy of BCMA nano antibody CAR-T in the treatment of MM. In this study, a 3 + 3 dose gradient climbing design was used. Three dosage groups, 5x106 / kg, 1x107 / kg and 1.5x107 / kg, were divided into three groups.",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "016b654efea31f69",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/c921a98a41bfe2fd3712fa615d908c235492df716bc905ae82554c56c7aa4c18.json",
+   "artifact_sha256": "c921a98a41bfe2fd3712fa615d908c235492df716bc905ae82554c56c7aa4c18",
+   "nct": "NCT05000216",
+   "arm_index": 42,
+   "field": "/armsInterventionsModule/armGroups/42/description",
+   "label": "Cohort F, Arm F2P: Moderna mRNA-1273, Bivalent + Withhold IS (B cell depletion therapy)",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: Withhold IS (B cell depletion therapy)",
+    "Biological: Moderna mRNA-1273, Bivalent"
+   ],
+   "description": "Pediatric participants who previously received the Pfizer-BioNTech COVID-19 vaccine and who are taking B cell depletion medication(s) for management of their underlying autoimmune disease, regardless of whether they are also taking MMF or MTX, will continue to take their prescribed BCDTs without alterations in schedule and dosing. Participants who are taking MMF, MPA, or MTX in addition to BCDTs will withhold these medications (MMF, MPA, or MTX) before and after receiving a dose of the Moderna COVID-19 vaccine, per protocol instruction.",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "01cddc97de4ac89b",
+   "artifact": "/home/djmann/se_runs/mint5_protoid_v1/snapshots/clinicaltrials_gov/004dd45e6af71ddeba721cb9a817e5339c4fbf29dd97c8426b54964e1b98934a.json",
+   "artifact_sha256": "004dd45e6af71ddeba721cb9a817e5339c4fbf29dd97c8426b54964e1b98934a",
+   "nct": "NCT05982275",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "CARTemis-1",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Genetic: CARTemis-1"
+   ],
+   "description": "Dose escalation sequential cohorts CARTemis-1 will be self-administered intravenously one or two days, depending on the dose administered.",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "01dfffc0097c8284",
+   "artifact": "/home/djmann/se_runs/mint5_protoid_v1/snapshots/clinicaltrials_gov/9945dac2ea5fed5ac2cfb3c3740f4355a809216b98d8a744f7d6a97c468385ff.json",
+   "artifact_sha256": "9945dac2ea5fed5ac2cfb3c3740f4355a809216b98d8a744f7d6a97c468385ff",
+   "nct": "NCT07106736",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "Standard-risk",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: BCMA CAR-T"
+   ],
+   "description": "Enrolled patients will be stratified into standard-risk group based on the absence of ultra-high-risk features, defined as: (1) double-hit cytogenetics, (2) presence of extramedullary disease, or (3) circulating tumor cells (CTCs) ≥2%. Patients in the standard-risk group will receive BCMA CAR-T therapy after standard induction, followed by standard consolidation and maintenance. Patients achieving sustained MRD negativity and stringent complete response (sCR) on two consecutive assessments may enter a treatment-free observation phase. Patients who experience MRD resurgence or loss of response will resume maintenance therapy.",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "035086baf5eb6b60",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/c921a98a41bfe2fd3712fa615d908c235492df716bc905ae82554c56c7aa4c18.json",
+   "artifact_sha256": "c921a98a41bfe2fd3712fa615d908c235492df716bc905ae82554c56c7aa4c18",
+   "nct": "NCT05000216",
+   "arm_index": 11,
+   "field": "/armsInterventionsModule/armGroups/11/description",
+   "label": "Cohort B, Arm B6: Ad26.COV2.S + Withhold IS (MTX)",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: Ad26.COV2.S",
+    "Drug: Withhold IS (MTX)"
+   ],
+   "description": "Arm closed, effective protocol version 3.0. Adult participants who are taking methotrexate (without additional B cell depleting medications or MMF/ MPA) for management of their underlying autoimmune disease will withhold their immunosuppressive medications (IS) before and after the Janssen COVID-19 vaccine booster (1 dose), per protocol instruction.",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "03a1570a33bf494b",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/234d3213f243e2db823989f7ac1ddf44f84403a9e97e9e61a78d673f22e48f05.json",
+   "artifact_sha256": "234d3213f243e2db823989f7ac1ddf44f84403a9e97e9e61a78d673f22e48f05",
+   "nct": "NCT01071226",
+   "arm_index": 1,
+   "field": "/armsInterventionsModule/armGroups/1/description",
+   "label": "Stratum 2",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Device: CliniMACS (CD 34+ positive selection)",
+    "Other: HSCT"
+   ],
+   "description": "For the patient's whose donors are haploidentical or a 2 antigen mismatched where one of the mismatches includes DRB1",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "0448174a51668f2a",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/989c82a4807d5d58e73b51167bae297d7385ae419c9d864bcea7f1664b9f0e4f.json",
+   "artifact_sha256": "989c82a4807d5d58e73b51167bae297d7385ae419c9d864bcea7f1664b9f0e4f",
+   "nct": "NCT06617546",
+   "arm_index": 4,
+   "field": "/armsInterventionsModule/armGroups/4/description",
+   "label": "Part A (SAD): Cohort A5",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: FTX-101",
+    "Drug: Placebo"
+   ],
+   "description": "Single dose (as 1, 2 or 4 SC injection\\[s\\]) of FTX-101 or placebo in a 3:1 ratio",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "04a9d8d07c4de06e",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/234d10be26a170f363b621ab16d3fb49113d382d0d8113a3c5a43ab2dcd1dd9d.json",
+   "artifact_sha256": "234d10be26a170f363b621ab16d3fb49113d382d0d8113a3c5a43ab2dcd1dd9d",
+   "nct": "NCT07723911",
+   "arm_index": 1,
+   "field": "/armsInterventionsModule/armGroups/1/description",
+   "label": "Blinatumomab for Injection",
+   "type": "ACTIVE_COMPARATOR",
+   "interventionNames": [
+    "Drug: Blinatumomab for Injection"
+   ],
+   "description": "Blinatumomab for injection administered via intravenous infusion at a dose of 9μg/d or 28 μg/d. One treatment cycle consists of 6 weeks, including 4 weeks of dosing followed by a 2-week treatment-free interval.Participants weighing ≥45kg received fixed dosing: In Induction Cycle 1: 9μg/d on Days1-7, followed by 28μg/d on Days 8-28, then a 14-day treatment-free period.In Induction Cycle 2: 28μg/d on Days 1-28, followed by a 14-day treatment-free period.For participants weighing \\<45kg, doses were calculated by body surface area (BSA): Induction Cycle 1: 5μg/m²/d (max 9μg/d) on Days1-7, 15μg/m²/d (max 28μg/d) on Days8-28, followed by a 14-day treatment-free period; Induction Cycle 2: 15μg/m²/d (max 28μg/d) on Days1-28, followed by a 14-day treatment-free period.",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "05cf3a478028ba05",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/b71ee824f91d701eb43278726a0356d8d1eff43fdcf7a6b0d3232e4d84d9cf1f.json",
+   "artifact_sha256": "b71ee824f91d701eb43278726a0356d8d1eff43fdcf7a6b0d3232e4d84d9cf1f",
+   "nct": "NCT01813071",
+   "arm_index": 5,
+   "field": "/armsInterventionsModule/armGroups/5/description",
+   "label": "Part B (Children): Cohort B3",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: WRSS1"
+   ],
+   "description": "Three oral doses of \\~3x10\\^5 cfu WRSS1(12 participants) or placebo (4 participants)",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "05ff9ff2202e7334",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/51488da931e3e772d4332bd80305aaf635481576916e4b953f28278eaf9e004b.json",
+   "artifact_sha256": "51488da931e3e772d4332bd80305aaf635481576916e4b953f28278eaf9e004b",
+   "nct": "NCT02329847",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "Cohort A1",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: Ibrutinib",
+    "Drug: Nivolumab"
+   ],
+   "description": "Participants will receive ibrutinib 420 milligram (mg) capsule orally once daily and nivolumab intravenously as 3 milligram/kilogram (mg/kg) every 2 weeks for 14-daily dosing cycles and will be continued until disease progression or unacceptable toxicity.",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "061c13574e6b2ce9",
+   "artifact": "/home/djmann/se_runs/mint5_protoid_v1/snapshots/clinicaltrials_gov/c43580917205e4237f1914e30f4c0b27fcaa5f033f2ebeefbeeaab4cbd190c7d.json",
+   "artifact_sha256": "c43580917205e4237f1914e30f4c0b27fcaa5f033f2ebeefbeeaab4cbd190c7d",
+   "nct": "NCT00771576",
+   "arm_index": 1,
+   "field": "/armsInterventionsModule/armGroups/1/description",
+   "label": "B. Longstanding T1D",
+   "type": null,
+   "interventionNames": [],
+   "description": "subjects with predicted reduced beta cell mass (subjects with established T1DM who have low or not measurable stimulated insulin and c peptide levels);",
+   "stratum": "ALT_SHAPE"
+  },
+  {
+   "unit_id": "000c5fa52881789a",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/91067967402c171481c8343651270700ce7670f43411565814d071c09d3705c5.json",
+   "artifact_sha256": "91067967402c171481c8343651270700ce7670f43411565814d071c09d3705c5",
+   "nct": "NCT04231747",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "CC-97540 monotherapy",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: CC-97540"
+   ],
+   "description": "Subjects will be assigned to receive CC-97540 followed by 3 consecutive doses of lymphodepleting chemotherapy (fludarabine IV (30 mg/m2/day) and cyclophosphamide IV (300 mg/m2/day).",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "000c9e1aa5a22212",
+   "artifact": "/home/djmann/se_runs/mint5_protoid_v1/snapshots/clinicaltrials_gov/ff32fbd89065e8530d089f5690ad5b1f276a4ba912db6cbc5860045959b5ea2b.json",
+   "artifact_sha256": "ff32fbd89065e8530d089f5690ad5b1f276a4ba912db6cbc5860045959b5ea2b",
+   "nct": "NCT01468363",
+   "arm_index": 1,
+   "field": "/armsInterventionsModule/armGroups/1/description",
+   "label": "Group 2",
+   "type": "NO_INTERVENTION",
+   "interventionNames": [
+    "Device: Dry weight adjustment"
+   ],
+   "description": "BCM results obtained at the beginning and 12th months will not be given to the treating physicians. Dry weight estimation will be guided by clinical findings, telecardiography, and echocardiography as used to be.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "00172fb1ddc109c7",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/c764600bfeebbaf3c4565da3e3fbed0129cc2113207e32647922a3bfb7cdae4f.json",
+   "artifact_sha256": "c764600bfeebbaf3c4565da3e3fbed0129cc2113207e32647922a3bfb7cdae4f",
+   "nct": "NCT04626726",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "Volunteers",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: CD19 CAR-T",
+    "Drug: CD22 CAR-T",
+    "Drug: CD19+CD22 CAR-T",
+    "Drug: Fludarabine",
+    "Drug: Cyclophosphamide"
+   ],
+   "description": "The patient voluntarily signs the informed consent, and the patient meets the entry criteria to diagnose patients with acute B lymphocytic leukemia expressing specific target antigens",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "0048099f57317f84",
+   "artifact": "/home/djmann/se_runs/mint5_protoid_v1/snapshots/clinicaltrials_gov/5bde404c10b17a411b9dc087036f22daaa923c3bbe53dcfa1bd4633bb14d1072.json",
+   "artifact_sha256": "5bde404c10b17a411b9dc087036f22daaa923c3bbe53dcfa1bd4633bb14d1072",
+   "nct": "NCT07816341",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "F182112 in Relapsed/Refractory Autoimmune Hemolytic Anemia",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: F182112 single-agent"
+   ],
+   "description": "F182112 is a recombinant humanized anti-BCMA/CD3 bispecific antibody for injection. By binding to CD3 receptors on T cells, F182112 can effectively deplete BCMA-expressing B cells and plasma cells in vivo, thereby alleviating the clinical manifestations of autoimmune diseases.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "004f8fedd59a5364",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/b53faa90a12bd67bed5c224df9e75acb3f317f705d9015c8ebc3822363a454e1.json",
+   "artifact_sha256": "b53faa90a12bd67bed5c224df9e75acb3f317f705d9015c8ebc3822363a454e1",
+   "nct": "NCT04032457",
+   "arm_index": 6,
+   "field": "/armsInterventionsModule/armGroups/6/description",
+   "label": "B1 - HydDD to Moist",
+   "type": "ACTIVE_COMPARATOR",
+   "interventionNames": [
+    "Device: Phase B - etafilcon A with Tangible Coatings"
+   ],
+   "description": "1 week of Test HydDD contact lenses followed by cross over to 1 week of 1-DAY ACUVUE® Moist contact lenses.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "005082b9668faaad",
+   "artifact": "/home/djmann/se_runs/mint5_protoid_v1/snapshots/clinicaltrials_gov/b0ff9f32bc2b12256e92f24bc10074d51e19a261a573da379ac82ff4a710b756.json",
+   "artifact_sha256": "b0ff9f32bc2b12256e92f24bc10074d51e19a261a573da379ac82ff4a710b756",
+   "nct": "NCT06067581",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "BCMA CART",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: SENL103"
+   ],
+   "description": "This study will follow the classic \"3+3\" design and increase the dose according to three dose groups. Each dose group will have 3-6 eligible subjects selected according to the inclusion/exclusion criteria, with a dose of 1.0 × 10\\^6, 2.0 × 10\\^6, 3.0 × Increase the dose by 10\\^6 CAR-T cells/kg.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "00832b07214488af",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/73009a13cd075c03c80c756670275690c34e131556eb8c71cab2b17638abbc94.json",
+   "artifact_sha256": "73009a13cd075c03c80c756670275690c34e131556eb8c71cab2b17638abbc94",
+   "nct": "NCT07441291",
+   "arm_index": 1,
+   "field": "/armsInterventionsModule/armGroups/1/description",
+   "label": "Control group",
+   "type": "ACTIVE_COMPARATOR",
+   "interventionNames": [
+    "Biological: DLI"
+   ],
+   "description": "Chemotherapy + DLI",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "00847b12eba494ee",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/d756466cd80b54594c2b2977bb074fe02c850c7ad431a73bfb1bc9bfe4f29713.json",
+   "artifact_sha256": "d756466cd80b54594c2b2977bb074fe02c850c7ad431a73bfb1bc9bfe4f29713",
+   "nct": "NCT04532268",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "Administration of Humanized CD19 CAR T-cells",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: Humanized CD19 CAR-T cells"
+   ],
+   "description": "Dose escalation follows the standard 3+3 dose escalation design. A total of 3 dose levels are set for subjects.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "00a12b031b365155",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/d926c0f2f3f176180c0414fdf8a24cd355ebe2f87d7772cc1e284b155aff0639.json",
+   "artifact_sha256": "d926c0f2f3f176180c0414fdf8a24cd355ebe2f87d7772cc1e284b155aff0639",
+   "nct": "NCT06704724",
+   "arm_index": 5,
+   "field": "/armsInterventionsModule/armGroups/5/description",
+   "label": "Part 2 Cohort A2",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: PF-07985045",
+    "Combination Product: Gemcitabine",
+    "Combination Product: Nab-paclitaxel"
+   ],
+   "description": "Combination (PF-07985045 + Gemcitabine + Nab-paclitaxel) dose escalation/expansion in 1L PDAC.\n\nPrescribed dose and frequency in 28-day cycles",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "00b5274f87223c17",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/7ef83234e63206fbbcded5113595e788f74072dc73e18de823e9c4a779be3e68.json",
+   "artifact_sha256": "7ef83234e63206fbbcded5113595e788f74072dc73e18de823e9c4a779be3e68",
+   "nct": "NCT07473167",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "TC011",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: TC011"
+   ],
+   "description": "A conditioning chemotherapy regimen of fludarabine and cyclophosphamide will be administered followed by investigational treatment, TC011.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "00e50d080cc62aca",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/7b81cb0c9ebfce3c9a1cc7aeea63a0b40abab05c720d1a24c5d2374be5545d93.json",
+   "artifact_sha256": "7b81cb0c9ebfce3c9a1cc7aeea63a0b40abab05c720d1a24c5d2374be5545d93",
+   "nct": "NCT00643240",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "111 In-BU-12",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Radiation: yttrium Y 90 anti-CD19 monoclonal antibody BU12",
+    "Radiation: 111In-BU-12"
+   ],
+   "description": "111In-BU-12 is the 111Indium-labeled murine monoclonal antibody used for imaging and dosimetry.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "01352fceb2ec8f2c",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/fd1473f598e075be380d65cd879d2e9b2d289f662906421d9b8aa97ff772f2e5.json",
+   "artifact_sha256": "fd1473f598e075be380d65cd879d2e9b2d289f662906421d9b8aa97ff772f2e5",
+   "nct": "NCT02499328",
+   "arm_index": 5,
+   "field": "/armsInterventionsModule/armGroups/5/description",
+   "label": "Part B4:AZD5069+MEDI4736:naiive patients",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: MEDI4736",
+    "Drug: AZD5069"
+   ],
+   "description": "Patients in arm B4 will be evaluated for efficacy until disease progression and then followed-up for safety and survival.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "0137c59ea071f2f0",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/f9deef5303684a5c64a724a6f0f4ab62b8ccb30f00c49981d15560c07d797cd5.json",
+   "artifact_sha256": "f9deef5303684a5c64a724a6f0f4ab62b8ccb30f00c49981d15560c07d797cd5",
+   "nct": "NCT07725406",
+   "arm_index": 3,
+   "field": "/armsInterventionsModule/armGroups/3/description",
+   "label": "Part 1: MM: Dose Level -1 (0.5 Gy)",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: Lymphodepleting chemotherapy: Cyclophosphamide",
+    "Drug: Lymphodepleting chemotherapy: Bendamustine",
+    "Drug: Lymphodepleting chemotherapy: Fludarabine",
+    "Other: Ciltacabtagene Autoleucel",
+    "Radiation: Low-Dose Total Body Irradiation"
+   ],
+   "description": "Participants with relapsed/refractory multiple myeloma receive lymphodepletion followed by LD-TBI 0.5 Gy on Day 0, ≥4 hours before infusion of commercial BCMA-directed CAR T-cell therapy. Used if de-escalation from Dose Level 0 is required.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "0139fe5a40d5ddfc",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/3c88b3e805fe9ff7cc9b3a304e6644cd8365b6b1d2669b4d4abf2169ad3351bc.json",
+   "artifact_sha256": "3c88b3e805fe9ff7cc9b3a304e6644cd8365b6b1d2669b4d4abf2169ad3351bc",
+   "nct": "NCT03431090",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "CliniMACS Isolation",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Device: CliniMACS® TCRαβ/CD19 Combined Depletion System"
+   ],
+   "description": "The mobilized peripheral blood cell collection (apheresis product) will be processed using a Miltenyi CliniMACS device according to the manufacturing instructions. The processing will deplete the αβTCR+ cells and CD19+ cells from the apheresis product to formulate the graft.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "0164ff0b17bf38b1",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/41958f5ea758a33c71222caabf15d13224851bf65ce4fd0475f17a00722c101b.json",
+   "artifact_sha256": "41958f5ea758a33c71222caabf15d13224851bf65ce4fd0475f17a00722c101b",
+   "nct": "NCT04561362",
+   "arm_index": 8,
+   "field": "/armsInterventionsModule/armGroups/8/description",
+   "label": "Cohort B-7- BT8009 in Combination with Pembrolizumab Dose Expansion",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: BT8009",
+    "Drug: Pembrolizumab"
+   ],
+   "description": "Participants will receive a selected dose of BT8009 and standard dose of pembrolizumab.",
+   "stratum": "COMB_SHAPE"
+  },
+  {
+   "unit_id": "0035cb382652072b",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/35aed4652e5e7173196c5d207fde999d44cfeeb01a0004ce5bf8968ddd342896.json",
+   "artifact_sha256": "35aed4652e5e7173196c5d207fde999d44cfeeb01a0004ce5bf8968ddd342896",
+   "nct": "NCT05281809",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "Treatment Arm",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: Chimeric Antigen Receptor (CAR) T-Cell Product (Autologous)"
+   ],
+   "description": "CAR -T-cell collection, infusion",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "00c9b6e272e92958",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/165526e7d3b04785da691b2a24eabd7ab196e6db6d29e00a6c7226c3d1db567f.json",
+   "artifact_sha256": "165526e7d3b04785da691b2a24eabd7ab196e6db6d29e00a6c7226c3d1db567f",
+   "nct": "NCT06019065",
+   "arm_index": 6,
+   "field": "/armsInterventionsModule/armGroups/6/description",
+   "label": "Cohort A4: Single ascending dose of AJA001",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: AJA001"
+   ],
+   "description": "AJA001 active q.d. ascending oral dose level 4",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "00cb6d6a6953a27e",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/e13c3191cc54878aa8e094a411dfb60733ba9481d3cbe9c04980e1a6fa7eb8dc.json",
+   "artifact_sha256": "e13c3191cc54878aa8e094a411dfb60733ba9481d3cbe9c04980e1a6fa7eb8dc",
+   "nct": "NCT05507515",
+   "arm_index": 9,
+   "field": "/armsInterventionsModule/armGroups/9/description",
+   "label": "Part B: Cohort B4 ONO-2020 or Placebo",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: ONO-2020",
+    "Drug: Placebo"
+   ],
+   "description": "Multiple ascending doses of ONO-2020 orally for 14 days",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "00eb568eda473934",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/de54d6de7a67d1f64ac25fe9784f26fa5c181d9599b607fa46dd463ac2d23dc7.json",
+   "artifact_sha256": "de54d6de7a67d1f64ac25fe9784f26fa5c181d9599b607fa46dd463ac2d23dc7",
+   "nct": "NCT07235059",
+   "arm_index": 16,
+   "field": "/armsInterventionsModule/armGroups/16/description",
+   "label": "Part C: Placebo",
+   "type": "PLACEBO_COMPARATOR",
+   "interventionNames": [
+    "Other: Placebo"
+   ],
+   "description": "Participants will receive the matching placebo.",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "00ec52a8b9d9b77e",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/fa3f39868ccc8c5c0172a680bc3bee64ea8180a2f0351886b8d95fe1f613a355.json",
+   "artifact_sha256": "fa3f39868ccc8c5c0172a680bc3bee64ea8180a2f0351886b8d95fe1f613a355",
+   "nct": "NCT03227471",
+   "arm_index": 10,
+   "field": "/armsInterventionsModule/armGroups/10/description",
+   "label": "Part D: VX-445/TEZ/IVA TC - High Dose",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: IVA",
+    "Drug: TEZ/IVA",
+    "Drug: VX-445"
+   ],
+   "description": "Participants with CF, F/MF genotype who received VX-445 200 mg qd/TEZ 100 mg qd/IVA 150 mg q12h for 4 weeks in the TC treatment period.",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "0118c9b4476c08ac",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/0e672964156e6c1729e1673e8ae2d517f66298721ababa3f42a00b40bc4ce129.json",
+   "artifact_sha256": "0e672964156e6c1729e1673e8ae2d517f66298721ababa3f42a00b40bc4ce129",
+   "nct": "NCT00691405",
+   "arm_index": 6,
+   "field": "/armsInterventionsModule/armGroups/6/description",
+   "label": "B3",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: Arformoterol tartrate inhalation solution"
+   ],
+   "description": "Arformoterol 50 mcg QD for 14 days",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "013a31558fed312c",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/4df3d5484387b036d4ac07440c5e897c5bb050572b986d0eff5d89d35f462bdb.json",
+   "artifact_sha256": "4df3d5484387b036d4ac07440c5e897c5bb050572b986d0eff5d89d35f462bdb",
+   "nct": "NCT06223646",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "Phase 1: Low dose group",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: KQ-2003 CAR T-cells"
+   ],
+   "description": "Infusion of KQ-2003 CAR T-cells by single dose of 1.0×10\\^6 CAR-T cells/kg",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "0144cd5448513588",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/1df7b40e2a27433de48f9d3a220cf72096bbf57a87c94e6489e340e1ce427cb0.json",
+   "artifact_sha256": "1df7b40e2a27433de48f9d3a220cf72096bbf57a87c94e6489e340e1ce427cb0",
+   "nct": "NCT07152223",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "CAR-T",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: CAR-T"
+   ],
+   "description": "The dosage range of 1.0 × 10\\^6/kg (± 20%) to 3.0 × 10\\^6/kg (± 20%) of CAR-T cells, administered intravenously.",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "017d7686385a9cb8",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/43ceca8ca35219e7a83c52f97b8d945069cd1e5a922cfc558a8d56cfbda64cf7.json",
+   "artifact_sha256": "43ceca8ca35219e7a83c52f97b8d945069cd1e5a922cfc558a8d56cfbda64cf7",
+   "nct": "NCT06633042",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "BCMA CART Group",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: Universal BCMA-CD19 CART"
+   ],
+   "description": "1.0-4.0×10\\^6 CAR- Tcells/kg",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "027c8eb2a283a350",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/aefaf850d984ad93b13ee7e1b0be97fa3dfb4f274f2be515d1863a83c42ae57e.json",
+   "artifact_sha256": "aefaf850d984ad93b13ee7e1b0be97fa3dfb4f274f2be515d1863a83c42ae57e",
+   "nct": "NCT03271515",
+   "arm_index": 1,
+   "field": "/armsInterventionsModule/armGroups/1/description",
+   "label": "anti-CD19 anti-CD20 Bispecific CAR-T",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: anti-CD19 anti-CD20 Bispecific CAR-T"
+   ],
+   "description": "patients accept transfusion of anti-CD19 anti-CD20 Bispecific CAR-T cells.",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "02c08906969e08db",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/165526e7d3b04785da691b2a24eabd7ab196e6db6d29e00a6c7226c3d1db567f.json",
+   "artifact_sha256": "165526e7d3b04785da691b2a24eabd7ab196e6db6d29e00a6c7226c3d1db567f",
+   "nct": "NCT06019065",
+   "arm_index": 8,
+   "field": "/armsInterventionsModule/armGroups/8/description",
+   "label": "Cohort B1: Multiple ascending doses of AJA001",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: AJA001"
+   ],
+   "description": "AJA001 active b.i.d. oral dose level 1",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "0302a86d9f4976eb",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/7d7c5a4ca7c3bdf57abce4581051c9727b87e53b000d87bed94243a56657131a.json",
+   "artifact_sha256": "7d7c5a4ca7c3bdf57abce4581051c9727b87e53b000d87bed94243a56657131a",
+   "nct": "NCT04798209",
+   "arm_index": 12,
+   "field": "/armsInterventionsModule/armGroups/12/description",
+   "label": "Part B (multiple ascending dose) Dose B5",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: ACT-777991 (MAD)",
+    "Drug: Placebo (MAD)"
+   ],
+   "description": "Multiple doses B5 of ACT-777991.",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "034724f45cc7377c",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/126a0e9b21b25dcefd5068acd6ccbfd2c5f658beb27303ec1b9017ff682e101e.json",
+   "artifact_sha256": "126a0e9b21b25dcefd5068acd6ccbfd2c5f658beb27303ec1b9017ff682e101e",
+   "nct": "NCT06561425",
+   "arm_index": 3,
+   "field": "/armsInterventionsModule/armGroups/3/description",
+   "label": "Phase 2 (Dose expansion phase): Cohort 1a: DLBCL 2L+",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Genetic: GLPG5101"
+   ],
+   "description": "Participants in this cohort will receive a single dose of GLPG5101 IV cell suspension for infusion at the selected RP2D level for this disease subtype on Day 0",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "037cf195b16b6a90",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/ff77e1def1e4192ca8a94feefdfcc40e33ce146bde1c8cf194351cf193833390.json",
+   "artifact_sha256": "ff77e1def1e4192ca8a94feefdfcc40e33ce146bde1c8cf194351cf193833390",
+   "nct": "NCT03880279",
+   "arm_index": 0,
+   "field": "/armsInterventionsModule/armGroups/0/description",
+   "label": "TAC01-CD19",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Biological: TAC01-CD19"
+   ],
+   "description": "TAC01-CD19, Autologous TAC (T cell antigen coupler) T cells, single infusion, multiple dosage levels.",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "03bbdc8318bf9bd5",
+   "artifact": "/home/djmann/se_runs/tac01_protoid_v1/snapshots/clinicaltrials_gov/ddd69ff5032a73eb72c4fd66b88f3a1e3040371b3f7f7b6793be288079c621a2.json",
+   "artifact_sha256": "ddd69ff5032a73eb72c4fd66b88f3a1e3040371b3f7f7b6793be288079c621a2",
+   "nct": "NCT05006794",
+   "arm_index": 1,
+   "field": "/armsInterventionsModule/armGroups/1/description",
+   "label": "Part A: zamzetoclax Dose-Expansion",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: zamzetoclax"
+   ],
+   "description": "Patients will receive ≤ MTD of zamzetoclax.",
+   "stratum": "OTHER"
+  },
+  {
+   "unit_id": "2ed95568d80a60cd",
+   "artifact": "/home/djmann/se_runs/heldout_h19_v4/snapshots/clinicaltrials_gov/4c21f6a50df9a1ed3dbb18ccc7fed97c83241e158f710856c1ed0caab050a63d.json",
+   "artifact_sha256": "4c21f6a50df9a1ed3dbb18ccc7fed97c83241e158f710856c1ed0caab050a63d",
+   "nct": "NCT06145308",
+   "arm_index": 3,
+   "field": "/armsInterventionsModule/armGroups/3/description",
+   "label": "Cohort 4 (TROP2 ADC)",
+   "type": "EXPERIMENTAL",
+   "interventionNames": [
+    "Drug: TROP2 ADC"
+   ],
+   "description": "ESG401 16 mg/kg IV (days 1, 8, 15, q4w), sacituzumab govitecan 10 mg/kg IV (days 1 \\& 8, q3w), or sacituzumab tirumotecan 5 mg/kg IV q2w.",
+   "stratum": "ALT_SHAPE",
+   "development_reference": true
+  }
+ ]
+}
