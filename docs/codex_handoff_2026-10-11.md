@@ -1,3 +1,9 @@
+# 2026-10-14 — SE_VALIDATION_READINESS_REVIEW v1: NO-GO — keep H21–H25 SEALED
+
+Rubric `6f024d4`; read `research/se_validation_readiness_review_v1/README.md`. Technical GO (deterministic; 1,941 passed / 3 xfail). Scientific NO-GO, measured on current code: the exact H18/H19 false human-PoC sentences are **still accepted**; H17 and H20 still yield zero target spans (refusal); datopotamab structured modality is still PEPTIDE; all six brands still fail `resolve_identifier`; qualification and ordering code are unchanged since frozen engine `5feee85`. No H16–H20 failure is demonstrably corrected; every adopted change since is an interface refactor or decision-neutral. Ranked next: (1) HUMAN_POC_PRECISION_FIRST v1 (structured-route-only human-PoC, prose → UNVERIFIED; needs an explicit user decision since human-PoC recovery was stopped); (2) TARGET_ALIAS_AUTHORITY_SOURCE v1 (HGNC/UniProt names, a source not grammar); (3) review ordering by target evidence. Nothing opened. H6–H10 unrun.
+
+---
+
 # 2026-10-14 — TRADE_NAME_ASSET_IDENTITY_DIAGNOSIS v1: STOP
 
 Prereg `e0b3750`; read `research/se_trade_name_asset_identity_diagnosis_v1/README.md`. All 6 H18/H19 brand duplicates resolve through single-claimant TRADE_NAME; the first boundary is `_IDENTIFIER_ALIAS_TYPES` (intended). 69 independent dev trade-name-only pairs: 25 are ordinary or company words with a single claimant (36%), so single-claimant TRADE_NAME (T0) certifies 29 false pairs. Source-corroborated T1 has 0 false pairs but certifies 2 biosimilars without a product relation, reaches only 47% of true brands, and doesn't fix TRODELVY. No contract is justified; no production change. Next, if pursued: preregister a decision-neutral PRODUCT_LEVEL_IDENTITY_RELATION v1. H21–H25 untouched; H6–H10 unrun.
