@@ -1,0 +1,199 @@
+{
+ "_basis": "Independent reviewer (separate agent context; no repository, policy or result access), labels verbatim. Reviewer-flagged low confidence: ids 11, 12, 25. Frozen before verdict computation.",
+ "low_confidence_ids": [
+  11,
+  12,
+  25
+ ],
+ "labels": [
+  {
+   "id": 0,
+   "name": "Anthelone U",
+   "target_symbol": "EGF",
+   "label": "UNSAFE",
+   "reason": "historical name for a urinary extract (urogastrone), not a defined gene name"
+  },
+  {
+   "id": 1,
+   "name": "CD197 Antigen",
+   "target_symbol": "CCR7",
+   "label": "SAFE_TARGET_NAME",
+   "reason": ""
+  },
+  {
+   "id": 2,
+   "name": "FZD2 Protein",
+   "target_symbol": "FZD2",
+   "label": "SAFE_TARGET_NAME",
+   "reason": ""
+  },
+  {
+   "id": 3,
+   "name": "G(q) Alpha",
+   "target_symbol": "GNAQ",
+   "label": "UNSAFE",
+   "reason": "Gq alpha class includes GNAQ, GNA11, GNA14 and GNA15"
+  },
+  {
+   "id": 4,
+   "name": "IL11RA-Locus Chemokine",
+   "target_symbol": "CCL27",
+   "label": "SAFE_TARGET_NAME",
+   "reason": ""
+  },
+  {
+   "id": 5,
+   "name": "Isoform PlGF-1",
+   "target_symbol": "PGF",
+   "label": "UNSAFE",
+   "reason": "specific isoform"
+  },
+  {
+   "id": 6,
+   "name": "Isoform PlGF-3",
+   "target_symbol": "PGF",
+   "label": "UNSAFE",
+   "reason": "specific isoform"
+  },
+  {
+   "id": 7,
+   "name": "MAGE-like 2",
+   "target_symbol": "MAGEL2",
+   "label": "SAFE_TARGET_NAME",
+   "reason": ""
+  },
+  {
+   "id": 8,
+   "name": "MAP3K14 Protein",
+   "target_symbol": "MAP3K14",
+   "label": "SAFE_TARGET_NAME",
+   "reason": ""
+  },
+  {
+   "id": 9,
+   "name": "MEK Kinase",
+   "target_symbol": "MAP3K1",
+   "label": "UNSAFE",
+   "reason": "family name covering MEKK1-4 / MAP3Ks"
+  },
+  {
+   "id": 10,
+   "name": "MEKK1 Protein",
+   "target_symbol": "MAP3K1",
+   "label": "SAFE_TARGET_NAME",
+   "reason": ""
+  },
+  {
+   "id": 11,
+   "name": "MGC5172",
+   "target_symbol": "MLH1",
+   "label": "UNSAFE",
+   "reason": "cDNA clone identifier; unverifiable mapping, not a target name"
+  },
+  {
+   "id": 12,
+   "name": "MPP3 Protein",
+   "target_symbol": "MPP3",
+   "label": "SAFE_TARGET_NAME",
+   "reason": ""
+  },
+  {
+   "id": 13,
+   "name": "NFKB-Inducing Kinase",
+   "target_symbol": "MAP3K14",
+   "label": "SAFE_TARGET_NAME",
+   "reason": ""
+  },
+  {
+   "id": 14,
+   "name": "P-450MP",
+   "target_symbol": "CYP2C9",
+   "label": "UNSAFE",
+   "reason": "mephenytoin hydroxylase name, ambiguous with CYP2C19 and other CYP2C genes"
+  },
+  {
+   "id": 15,
+   "name": "P450 MP-4",
+   "target_symbol": "CYP2C9",
+   "label": "UNSAFE",
+   "reason": "non-human or ambiguous CYP2C designation"
+  },
+  {
+   "id": 16,
+   "name": "P450 PB-1",
+   "target_symbol": "CYP2C9",
+   "label": "UNSAFE",
+   "reason": "non-human (rabbit/rat) phenobarbital-induced P450 designation"
+  },
+  {
+   "id": 17,
+   "name": "PLGF-1",
+   "target_symbol": "PGF",
+   "label": "UNSAFE",
+   "reason": "specific isoform"
+  },
+  {
+   "id": 18,
+   "name": "PLGF1",
+   "target_symbol": "PGF",
+   "label": "UNSAFE",
+   "reason": "specific isoform"
+  },
+  {
+   "id": 19,
+   "name": "PlGF-131",
+   "target_symbol": "PGF",
+   "label": "UNSAFE",
+   "reason": "specific isoform"
+  },
+  {
+   "id": 20,
+   "name": "PlGF-203",
+   "target_symbol": "PGF",
+   "label": "UNSAFE",
+   "reason": "specific isoform"
+  },
+  {
+   "id": 21,
+   "name": "ProEGF",
+   "target_symbol": "EGF",
+   "label": "UNSAFE",
+   "reason": "precursor form"
+  },
+  {
+   "id": 22,
+   "name": "adenylosuccinate synthase",
+   "target_symbol": "ADSS2",
+   "label": "UNSAFE",
+   "reason": "enzyme shared by ADSS1 and ADSS2"
+  },
+  {
+   "id": 23,
+   "name": "cofilin-like 3",
+   "target_symbol": "CFL1P3",
+   "label": "UNSAFE",
+   "reason": "pseudogene descriptor, not a druggable protein target"
+  },
+  {
+   "id": 24,
+   "name": "histidyl-tRNA synthetase-like",
+   "target_symbol": "HARS2",
+   "label": "SAFE_TARGET_NAME",
+   "reason": ""
+  },
+  {
+   "id": 25,
+   "name": "keratin 6D",
+   "target_symbol": "KRT6A",
+   "label": "UNSAFE",
+   "reason": "former designation, now a separate gene name (KRT6C), not KRT6A"
+  },
+  {
+   "id": 26,
+   "name": "phenylthiocarbamide tasting",
+   "target_symbol": "TAS2R38",
+   "label": "UNSAFE",
+   "reason": "phenotype/trait"
+  }
+ ]
+}
