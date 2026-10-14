@@ -1,3 +1,9 @@
+# 2026-10-13 — ESG401_CANDIDATE_NOMINATION_DIAGNOSIS v1: STOP
+
+Prereg `505121d`; read `research/se_esg401_candidate_nomination_diagnosis_v1/README.md`. ESG401 is first lost at nomination input selection: only `interventions[].name/otherNames` are read, the arm's intervention is the class label "TROP2 ADC", and no arm-description route exists. The relation is an investigator-choice alternative, and the schema has no alternative relation. Independent 45-arm development sample: 41/45 product mentions are already nomination inputs, 4 uncovered are background lymphodepletion, and there are 0 other product alternatives. So J1 (failure class) FAILS. The existing name extractor over arm prose mints 29 ordinary words (J2 FAILS). ARM_ALTERNATIVE_CANDIDATE_NOMINATION is not justified. No production change; no ESG401 exception. Modality stays parked. H21–H25 untouched; H6–H10 unrun.
+
+---
+
 # 2026-10-13 — PRODUCT_VS_COMPONENT_MODALITY_SEMANTICS v4: STOP — modality gating PARKED
 
 Design `8ca2a76`; R3 policy `78c3694` (frozen pre-measurement); read `research/se_product_vs_component_modality_semantics_v4/README.md`. 172 distinct facts / 293 rows: 4 RETAIN, 167 UNKNOWN_REVIEW, 1 UNKNOWN_CONFLICT. R1/R4 pass (0 false retained, conflict → UNKNOWN). R2 fails: CC312's appositive is blocked because `trispecific` is a MULTISPECIFIC_ANTIBODY alias (frozen same-modality guard; not patched). R3 fails: 7/8 true admitted facts go to UNKNOWN. On the 13 adjudicated facts, precision rises 0.62 → 1.00 while recall falls 8/8 → 1/8, which is not deployable. Modality gating is parked; datopotamab's false PEPTIDE exclusion remains. Next: separately preregister the ESG401 candidate-nomination diagnosis (not started). H21–H25 untouched; H6–H10 unrun.
