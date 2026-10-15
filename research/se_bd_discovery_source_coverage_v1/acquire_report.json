@@ -1,0 +1,126 @@
+{
+  "corpus_dir": "/home/djmann/se_runs/bd_cov_v1/corpus_A",
+  "source_health": {
+    "stage_summary": {
+      "connector_succeeded": 9,
+      "query_returned_results": 10,
+      "required_evidence_present": 0,
+      "documents_parsed": 10,
+      "documents_indexed": 10,
+      "source_family_count": 10
+    },
+    "sources": [
+      {
+        "source_family": "clinicaltrials_gov",
+        "connector_succeeded": true,
+        "query_returned_results": true,
+        "raw_record_count": 800,
+        "documents_parsed": 800,
+        "documents_indexed": 800,
+        "parse_failures": 0,
+        "required_evidence_present": null,
+        "error": null
+      },
+      {
+        "source_family": "fda_label",
+        "connector_succeeded": true,
+        "query_returned_results": true,
+        "raw_record_count": 5,
+        "documents_parsed": 5,
+        "documents_indexed": 5,
+        "parse_failures": 0,
+        "required_evidence_present": null,
+        "error": null
+      },
+      {
+        "source_family": "pubmed",
+        "connector_succeeded": true,
+        "query_returned_results": true,
+        "raw_record_count": 573,
+        "documents_parsed": 573,
+        "documents_indexed": 573,
+        "parse_failures": 0,
+        "required_evidence_present": null,
+        "error": null
+      },
+      {
+        "source_family": "sec_edgar",
+        "connector_succeeded": true,
+        "query_returned_results": true,
+        "raw_record_count": 967,
+        "documents_parsed": 20,
+        "documents_indexed": 20,
+        "parse_failures": 5,
+        "required_evidence_present": null,
+        "error": null
+      },
+      {
+        "source_family": "company_press_release_sec_filed",
+        "connector_succeeded": true,
+        "query_returned_results": true,
+        "raw_record_count": 452,
+        "documents_parsed": 4,
+        "documents_indexed": 4,
+        "parse_failures": 0,
+        "required_evidence_present": null,
+        "error": null
+      },
+      {
+        "source_family": "conference_ash",
+        "connector_succeeded": true,
+        "query_returned_results": true,
+        "raw_record_count": 200,
+        "documents_parsed": 200,
+        "documents_indexed": 200,
+        "parse_failures": 0,
+        "required_evidence_present": null,
+        "error": null
+      },
+      {
+        "source_family": "conference_eha",
+        "connector_succeeded": true,
+        "query_returned_results": true,
+        "raw_record_count": 176,
+        "documents_parsed": 176,
+        "documents_indexed": 176,
+        "parse_failures": 0,
+        "required_evidence_present": null,
+        "error": null
+      },
+      {
+        "source_family": "conference_asco",
+        "connector_succeeded": true,
+        "query_returned_results": true,
+        "raw_record_count": 196,
+        "documents_parsed": 196,
+        "documents_indexed": 196,
+        "parse_failures": 0,
+        "required_evidence_present": null,
+        "error": null
+      },
+      {
+        "source_family": "conference_aacr",
+        "connector_succeeded": true,
+        "query_returned_results": true,
+        "raw_record_count": 198,
+        "documents_parsed": 198,
+        "documents_indexed": 198,
+        "parse_failures": 0,
+        "required_evidence_present": null,
+        "error": null
+      },
+      {
+        "source_family": "company_pipeline_or_presentation",
+        "connector_succeeded": false,
+        "query_returned_results": true,
+        "raw_record_count": 20,
+        "documents_parsed": 9,
+        "documents_indexed": 9,
+        "parse_failures": 11,
+        "required_evidence_present": null,
+        "error": "https://www.intracellulartherapies.com/pipeline: HTTP response failed for www.investor.jnj.com; https://www.cerevel.com/pipeline/: HTTP response failed for www.abbvie.com; https://www.protagonist-inc.com/pipeline/: HTTP response failed for www.protagonist-inc.com; https://www.ultragenyx.com/our-science/pipeline/: HTTP response failed for www.ultragenyx.com; https://www.vrtx.com/our-science/pipeline/: HTTP response failed for www.vrtx.com; https://www.tptherapeutics.com/pipeline/: HTTP transport failed for www.tptherapeutics.com; https://www.vervetx.com/pipeline: HTTP response failed for www.vervetx.com; https://www.immunomedics.com/pipeline/: HTTP transport failed for www.immunomedics.com; https://www.acelyrin.com/pipeline/: HTTP response failed for www.acelyrin.com; https://www.prevailtherapeutics.com/pipeline/: HTTP response failed for www.prevailtherapeutics.com; https://www.sarepta.com/our-science/pipeline: HTTP response failed for www.sarepta.com"
+      }
+    ]
+  },
+  "source_index_out": "/home/djmann/se_runs/bd_cov_v1/source_index_full.yaml"
+}

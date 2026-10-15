@@ -1,0 +1,366 @@
+[
+ {
+  "ref_id": "R01",
+  "i": 0,
+  "url": "https://www.biopharminternational.com/view/oblenio-lbl-051-phase-1a-trispecific-t-cell-engager-autoimmune",
+  "supports": [
+   "identity",
+   "target",
+   "modality",
+   "indication",
+   "phase",
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R01",
+  "i": 1,
+  "url": "https://www.prnewswire.com/news-releases/aditum-bio-and-leads-biolabs-announce-the-formation-of-oblenio-bio-to-develop-a-tri-specific-t-cell-engager-for-autoimmune-disorders-302297928.html",
+  "supports": [
+   "identity",
+   "target",
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R02",
+  "i": 0,
+  "url": "https://acrabstracts.org/abstract/kt501-a-cd19-bcma-cd3-trispecific-antibody-leads-to-rapid-and-deep-b-cell-depletion-with-well-tolerated-safety/",
+  "supports": [
+   "identity",
+   "modality",
+   "indication",
+   "phase"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R02",
+  "i": 1,
+  "url": "https://acrabstracts.org/abstract/kt501-a-cd19-bcma-cd3-trispecific-antibody-leads-to-rapid-and-deep-b-cell-depletion-with-well-tolerated-safety/",
+  "supports": [
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R03",
+  "i": 0,
+  "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/",
+  "supports": [
+   "identity",
+   "target",
+   "modality",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R04",
+  "i": 0,
+  "url": "https://www.cdr-life.com/news",
+  "supports": [
+   "identity",
+   "target",
+   "indication",
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R04",
+  "i": 1,
+  "url": "https://www.cdr-life.com/news",
+  "supports": [
+   "modality",
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R05",
+  "i": 0,
+  "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases",
+  "supports": [
+   "identity",
+   "target",
+   "modality",
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R05",
+  "i": 1,
+  "url": "https://clinicaltrials.gov/study/NCT06994143",
+  "supports": [
+   "indication",
+   "phase"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R05",
+  "i": 2,
+  "url": "https://clinicaltrials.gov/study/NCT07041099",
+  "supports": [
+   "indication",
+   "phase"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R06",
+  "i": 0,
+  "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases",
+  "supports": [
+   "identity",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R06",
+  "i": 1,
+  "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases",
+  "supports": [
+   "phase",
+   "company",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R07",
+  "i": 0,
+  "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-to-acquire-candid-therapeutics-building-upon-its-existing-immunology-pipeline-with-novel-t-cell-engagers",
+  "supports": [
+   "identity",
+   "target",
+   "modality",
+   "phase",
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R07",
+  "i": 1,
+  "url": "https://clinicaltrials.gov/study/NCT07215663",
+  "supports": [
+   "indication",
+   "phase"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R07",
+  "i": 2,
+  "url": "https://clinicaltrials.gov/study/NCT07215650",
+  "supports": [
+   "indication",
+   "phase"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R08",
+  "i": 0,
+  "url": "https://clinicaltrials.gov/study/NCT07083960",
+  "supports": [
+   "identity",
+   "target",
+   "modality",
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R08",
+  "i": 1,
+  "url": "https://clinicaltrials.gov/study/NCT07083960",
+  "supports": [
+   "indication",
+   "phase"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R09",
+  "i": 0,
+  "url": "https://www.nature.com/articles/s41591-026-04572-7",
+  "supports": [
+   "identity",
+   "target",
+   "modality",
+   "indication",
+   "phase"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R09",
+  "i": 1,
+  "url": "https://acrabstracts.org/abstract/a-319-a-cd3xcd19-t-cell-engager-for-the-treatment-of-refractory-systemic-lupus-erythematosus-preliminary-evidence-of-autoimmune-reset/",
+  "supports": [
+   "identity",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R10",
+  "i": 0,
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13501987/",
+  "supports": [
+   "identity",
+   "target",
+   "modality"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R10",
+  "i": 1,
+  "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13501987/",
+  "supports": [
+   "indication",
+   "phase"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R11",
+  "i": 0,
+  "url": "https://www.merck.com/news/merck-completes-acquisition-of-investigational-b-cell-depletion-therapy-cn201-from-curon-biopharmaceutical/",
+  "supports": [
+   "identity",
+   "target",
+   "company",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R12",
+  "i": 0,
+  "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/tecvayli",
+  "supports": [
+   "approval",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R12",
+  "i": 1,
+  "url": "https://acrabstracts.org/abstract/bcma-targeted-bispecific-t-cell-engager-therapy-of-autoimmune-disease/",
+  "supports": [
+   "target",
+   "modality",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R12",
+  "i": 2,
+  "url": "https://www.nature.com/articles/s41591-026-04238-4",
+  "supports": [
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R13",
+  "i": 0,
+  "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/blincyto",
+  "supports": [
+   "approval",
+   "target",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R13",
+  "i": 1,
+  "url": "https://www.nature.com/articles/s41591-026-04238-4",
+  "supports": [
+   "target",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R14",
+  "i": 0,
+  "url": "https://www.fda.gov/drugs/resources-information-approved-drugs/fda-grants-accelerated-approval-elranatamab-bcmm-multiple-myeloma",
+  "supports": [
+   "approval",
+   "identity",
+   "target",
+   "modality",
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R15",
+  "i": 0,
+  "url": "https://clinicaltrials.gov/study/NCT07052032",
+  "supports": [
+   "identity",
+   "indication",
+   "company"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R16",
+  "i": 0,
+  "url": "https://clinicaltrials.gov/study/NCT06285279",
+  "supports": [
+   "modality",
+   "target",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R17",
+  "i": 0,
+  "url": "https://clinicaltrials.gov/study/NCT07203404",
+  "supports": [
+   "identity",
+   "modality",
+   "target",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R18",
+  "i": 0,
+  "url": "https://clinicaltrials.gov/study/NCT07507201",
+  "supports": [
+   "modality",
+   "target",
+   "indication"
+  ],
+  "status": "VERIFIED"
+ },
+ {
+  "ref_id": "R19",
+  "i": 0,
+  "url": "https://clinicaltrials.gov/study/NCT07371468",
+  "supports": [
+   "identity",
+   "indication",
+   "company"
+  ],
+  "status": "VERIFIED"
+ }
+]

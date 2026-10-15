@@ -1,0 +1,340 @@
+{
+ "frozen_before_outcomes": true,
+ "as_of": "2026-10-15",
+ "rule": "fully_verified = RELEVANT_INVESTIGATIONAL with quoted identity, target, modality and indication (all 33 quotes re-verified verbatim)",
+ "raw_sha256": "f3f17dbc523313a9e4dd7fefe0079acad5b187f95ad9ec6caa95e4ad47e4a449",
+ "entries": [
+  {
+   "ref_id": "R01",
+   "name": "LBL-051",
+   "aliases": [
+    "LBL051"
+   ],
+   "company": "Oblenio Bio (Aditum Bio / Leads Biolabs)",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "MATCH",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication",
+    "modality",
+    "phase",
+    "target"
+   ],
+   "fully_verified": true
+  },
+  {
+   "ref_id": "R02",
+   "name": "KT501",
+   "aliases": [],
+   "company": "Kali Therapeutics (per author disclosures)",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "MATCH",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication",
+    "modality",
+    "phase"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R03",
+   "name": "HXN-1031",
+   "aliases": [],
+   "company": "Unknown (not stated in abstract)",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "MATCH",
+   "supported_fields": [
+    "identity",
+    "indication",
+    "modality",
+    "target"
+   ],
+   "fully_verified": true
+  },
+  {
+   "ref_id": "R04",
+   "name": "CDR111",
+   "aliases": [
+    "CDR-111"
+   ],
+   "company": "CDR-Life (Boehringer Ingelheim licensing partnership)",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "MATCH",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication",
+    "modality",
+    "target"
+   ],
+   "fully_verified": true
+  },
+  {
+   "ref_id": "R05",
+   "name": "CLN-978",
+   "aliases": [],
+   "company": "Cullinan Therapeutics",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "NO",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication",
+    "modality",
+    "phase",
+    "target"
+   ],
+   "fully_verified": true
+  },
+  {
+   "ref_id": "R06",
+   "name": "velinotamig",
+   "aliases": [
+    "BCMA TCE (Cullinan/Genrix Bio)"
+   ],
+   "company": "Cullinan Therapeutics / Genrix Bio",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "NO",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication",
+    "phase"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R07",
+   "name": "cizutamig",
+   "aliases": [],
+   "company": "Candid Therapeutics (acquired by UCB)",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "NO",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication",
+    "modality",
+    "phase",
+    "target"
+   ],
+   "fully_verified": true
+  },
+  {
+   "ref_id": "R08",
+   "name": "OM336",
+   "aliases": [],
+   "company": "Lakefront Biotherapeutics West LLC",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "NO",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication",
+    "modality",
+    "phase",
+    "target"
+   ],
+   "fully_verified": true
+  },
+  {
+   "ref_id": "R09",
+   "name": "A-319",
+   "aliases": [],
+   "company": "Unknown (not stated on fetched pages)",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "NO",
+   "supported_fields": [
+    "identity",
+    "indication",
+    "modality",
+    "phase",
+    "target"
+   ],
+   "fully_verified": true
+  },
+  {
+   "ref_id": "R10",
+   "name": "gamgertamig",
+   "aliases": [],
+   "company": "Unknown (not resolved from fetched page)",
+   "label": "RELEVANT_INVESTIGATIONAL",
+   "search_A": "MATCH",
+   "search_B": "NO",
+   "supported_fields": [
+    "identity",
+    "indication",
+    "modality",
+    "phase",
+    "target"
+   ],
+   "fully_verified": true
+  },
+  {
+   "ref_id": "R11",
+   "name": "MK-1045",
+   "aliases": [
+    "CN201"
+   ],
+   "company": "Merck (from Curon Biopharmaceutical)",
+   "label": "UNKNOWN_STATUS",
+   "search_A": "UNKNOWN",
+   "search_B": "NO",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication",
+    "target"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R12",
+   "name": "teclistamab",
+   "aliases": [
+    "Tecvayli",
+    "teclistamab-cqyv"
+   ],
+   "company": "Janssen / Johnson & Johnson",
+   "label": "APPROVED_COMPARATOR",
+   "search_A": "COMPARATOR",
+   "search_B": "COMPARATOR",
+   "supported_fields": [
+    "approval",
+    "indication",
+    "modality",
+    "target"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R13",
+   "name": "blinatumomab",
+   "aliases": [
+    "Blincyto"
+   ],
+   "company": "Amgen",
+   "label": "APPROVED_COMPARATOR",
+   "search_A": "COMPARATOR",
+   "search_B": "COMPARATOR",
+   "supported_fields": [
+    "approval",
+    "indication",
+    "target"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R14",
+   "name": "elranatamab",
+   "aliases": [
+    "Elrexfio",
+    "elranatamab-bcmm"
+   ],
+   "company": "Pfizer",
+   "label": "APPROVED_COMPARATOR",
+   "search_A": "COMPARATOR",
+   "search_B": "COMPARATOR",
+   "supported_fields": [
+    "approval",
+    "company",
+    "identity",
+    "modality",
+    "target"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R15",
+   "name": "CND261",
+   "aliases": [],
+   "company": "Candid Therapeutics",
+   "label": "UNSUPPORTED_LABEL",
+   "search_A": "NO",
+   "search_B": "NO",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R16",
+   "name": "FKC289 (BCMA/CD19 CAR-T)",
+   "aliases": [],
+   "company": "Nanjing University School of Medicine",
+   "label": "WRONG_TARGET_OR_MODALITY",
+   "search_A": "NO",
+   "search_B": "NO",
+   "supported_fields": [
+    "indication",
+    "modality",
+    "target"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R17",
+   "name": "RD06-05",
+   "aliases": [],
+   "company": "Nanjing Bioheng Biotech Co., Ltd.",
+   "label": "WRONG_TARGET_OR_MODALITY",
+   "search_A": "NO",
+   "search_B": "NO",
+   "supported_fields": [
+    "identity",
+    "indication",
+    "modality",
+    "target"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R18",
+   "name": "Allogeneic CD19/BCMA CAR-T (Zhejiang)",
+   "aliases": [
+    "QT-219C (unverified)"
+   ],
+   "company": "The Children's Hospital of Zhejiang University School of Medicine",
+   "label": "WRONG_TARGET_OR_MODALITY",
+   "search_A": "NO",
+   "search_B": "NO",
+   "supported_fields": [
+    "indication",
+    "modality",
+    "target"
+   ],
+   "fully_verified": false
+  },
+  {
+   "ref_id": "R19",
+   "name": "GSK5926371",
+   "aliases": [
+    "CMG1A46 (unverified)"
+   ],
+   "company": "GlaxoSmithKline",
+   "label": "UNRESOLVED_IDENTITY",
+   "search_A": "UNKNOWN",
+   "search_B": "NO",
+   "supported_fields": [
+    "company",
+    "identity",
+    "indication"
+   ],
+   "fully_verified": false
+  }
+ ]
+}
