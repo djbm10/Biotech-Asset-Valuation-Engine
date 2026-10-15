@@ -1,3 +1,9 @@
+# 2026-10-14 — BD_SEARCH_EVALUATION_DEMO v1: working demo delivered (development only)
+
+Implementation `fd3e879`: `bve-se-bd-brief` turns an existing run directory into a BD screening brief (HTML + MD). It is read-only, with no engine/gate/label change and no score. Demos are in `docs/demos/bd_search_evaluation_v1/` (TAC01 CD19 cell therapy in BCL; MINT5 CD19+BCMA in autoimmune) and are byte-reproducible; usage is in `docs/se_bd_brief_usage.md`. Read the README assessment there. Independent cold read: five-minute gist PARTLY. The largest obstacle is that the engine cannot separate external partnerable assets from approved/big-pharma products or from unnamed academic constructs. The suggested next step (not authorized) is a preregistered structured approval and ownership fact. Overall readiness is still NO-GO; H21–H25 remain sealed.
+
+---
+
 # 2026-10-14 — CTGOV_POSTED_RESULTS_AVAILABILITY v1: STOP
 
 Prereg `eefd8a2`; read `research/se_ctgov_posted_results_availability_v1/README.md`. Live CT.gov API v2.0.5 census of 1,932 dev-cohort NCTs (0 missing): **164 (8.5%) have posted results**, below the 10% threshold (phase 1 4%, phase 2 14.5%, phase 3/4 17%). Independent adjudication of 50 packets: 20 non-efficacy primaries; 16 studies with attributable numerical outcomes (attribution feasible); only 6 potential human-efficacy studies (Wilson LB 0.089 < 0.15; two use external real-world controls). Point-in-time: 161 results posted before as-of but with unverified content; 3 posted after. No extractor justified; no production change. Human-PoC still has no structured route. H21–H25 sealed; H6–H10 unrun.
