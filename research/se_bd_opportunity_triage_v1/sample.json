@@ -1,0 +1,655 @@
+[
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:1",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:344a173f3d78d2fc6a72",
+  "name": "Brexucabtagene Autoleucel",
+  "target_status": "CONFIRMED_TARGET",
+  "authority_modality_note": "ChEMBL_37 molecule type of DRUG:BREXUCABTAGENE AUTOLEUCEL (CHEMBL4594618: Gene)",
+  "sponsors": "H. Lee Moffitt Cancer Center and Research Institute, Kite, A Gilead Company, Masonic Cancer Center, University of Minnesota",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT02601313",
+   "NCT02614066",
+   "NCT02625480",
+   "NCT03624036",
+   "NCT03642626"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:2",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:8ab4f3c7f9fed61b5fa0",
+  "name": "CNCT19",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C175465 (Cell)",
+  "sponsors": "Juventas Cell Therapy Ltd., Shandong University, Institute of Hematology & Blood Diseases Hospital, China",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT04011293",
+   "NCT04230473",
+   "NCT04232826",
+   "NCT04684147",
+   "NCT04690192"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:3",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:42479b67d44b9dff09e3",
+  "name": "Breyanzi",
+  "target_status": "CONFIRMED_TARGET",
+  "authority_modality_note": "ChEMBL_37 molecule type of DRUG:LISOCABTAGENE MARALEUCEL (CHEMBL4297236: Gene)",
+  "sponsors": "Masonic Cancer Center, University of Minnesota, Juno Therapeutics, Inc., a Bristol-Myers Squibb Company, Aseel Alsouqi, SWOG Cancer Research Network, Fred Hutchinson Cancer Center, Weill Medical College of Cornell University, Lyell Immunopharma, Inc., City of Hope Medical Center, Celgene, NeoImmuneTech",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT03642626",
+   "NCT03743246",
+   "NCT05075603",
+   "NCT05359211",
+   "NCT05633615"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:4",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:13978f60c2c8cdb7e89e",
+  "name": "KYMRIAH",
+  "target_status": "CONFIRMED_TARGET",
+  "authority_modality_note": "ChEMBL_37 molecule type of DRUG:TISAGENLECLEUCEL (CHEMBL3301574: Cell)",
+  "sponsors": "Masonic Cancer Center, University of Minnesota, Novartis Pharmaceuticals, Memorial Sloan Kettering Cancer Center, Matthew J. Frigault, M.D., SWOG Cancer Research Network, M.D. Anderson Cancer Center, NeoImmuneTech, Stanford University",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT02529813",
+   "NCT03570892",
+   "NCT03628053",
+   "NCT03642626",
+   "NCT04134117"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:5",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:26ed0b037de3ecdb26da",
+  "name": "axi-cel",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of DRUG:AXICABTAGENE CILOLEUCEL (CHEMBL3989989: Gene)",
+  "sponsors": "Ruijin Hospital, Zhejiang Cancer Hospital, Kite, A Gilead Company, The First Affiliated Hospital of Xiamen University, Weill Medical College of Cornell University, Zhujiang Hospital, The Lymphoma Academic Research Organisation, Lyell Immunopharma, Inc., Dana-Farber Cancer Institute, M.D. Anderson Cancer Center, SWOG Cancer Research Network, University of Washington, NeoImmuneTech, Masonic Cancer Center, University of Minnesota",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT02348216",
+   "NCT02601313",
+   "NCT02926833",
+   "NCT03105336",
+   "NCT03642626"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:6",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:c21b983337620506fa5a",
+  "name": "KITE-753",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C227826 (Cell)",
+  "sponsors": "Kite, A Gilead Company",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT07479797"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:7",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:25ff2e301fc980e91b54",
+  "name": "CC-97540",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of DRUG:ZOLACABTAGENE AUTOLEUCEL (CHEMBL6068475: Gene)",
+  "sponsors": "Marcela V. Maus, M.D.,Ph.D., Juno Therapeutics, a Subsidiary of Celgene, Juno Therapeutics, Inc., a Bristol-Myers Squibb Company",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT04231747",
+   "NCT05869955",
+   "NCT06220201",
+   "NCT07015983",
+   "NCT07335562"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:8",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:a9cb96e1a6f84d6c8946",
+  "name": "ALLO-501A",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of DRUG:CEMACABTAGENE ANSEGEDLEUCEL (CHEMBL5314816: Gene)",
+  "sponsors": "Allogene Therapeutics",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT04416984",
+   "NCT05714345",
+   "NCT06500273"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:9",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:3149a97f2f44839d405c",
+  "name": "Anbalcabtagene Autoleucel",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of DRUG:ANBALCABTAGENE AUTOLEUCEL (CHEMBL5314655: Gene)",
+  "sponsors": "Curocell Inc.",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT04836507",
+   "NCT07364396"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:10",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:2e20adeeeb0f67744124",
+  "name": "AUTO3",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C162620 (Cell)",
+  "sponsors": "Autolus Limited",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT03287817"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:1",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:95622d6d74ae27eeaae3",
+  "name": "CART19",
+  "target_status": "CONFIRMED_TARGET",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C102758 (Cell)",
+  "sponsors": "Miltenyi Biomedicine GmbH, University of Sao Paulo, University of Pennsylvania, King Hussein Cancer Center, Shanghai Children's Medical Center, The Affiliated Hospital of the Chinese Academy of Military Medical Sciences, Shanghai Unicar-Therapy Bio-medicine Technology Co.,Ltd, Shenzhen Second People's Hospital, Memorial Sloan Kettering Cancer Center, Children's Hospital of Philadelphia, Fujian Medical University, Stephan Grupp MD PhD, Henan Cancer Hospital, First Affiliated Hospital of Wenzhou Medical University",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT01029366",
+   "NCT01551043",
+   "NCT01626495",
+   "NCT01747486",
+   "NCT02030834"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:2",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:ad43fd5e8cffddf6ed2c",
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C133073 (Cell)",
+  "sponsors": "City of Hope Medical Center",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT02146924",
+   "NCT04484012",
+   "NCT06447987"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:3",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:e4912180315081f3a40e",
+  "name": "Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C124795 (Cell)",
+  "sponsors": "City of Hope Medical Center",
+  "stage": "PHASE_1",
+  "trials": [
+   "NCT02051257",
+   "NCT02153580"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:4",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:44d6773ed5d3eb274ae7",
+  "name": "CLBR001 + SWI019",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C179912 (Cell)",
+  "sponsors": "Calibr, a division of Scripps Research",
+  "stage": "PHASE_1",
+  "trials": [
+   "NCT06913608"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:5",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:301cc847f0e1d17e0f96",
+  "name": "NKCARCD19",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C112179 (Cell)",
+  "sponsors": "National University Health System, Singapore",
+  "stage": "PHASE_1",
+  "trials": [
+   "NCT01974479"
+  ]
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:6",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:9dda7da59144b21787f5",
+  "name": "Abecma",
+  "target_status": "CONFIRMED_OTHER_TARGET",
+  "authority_modality_note": "ChEMBL_37 molecule type of DRUG:IDECABTAGENE VICLEUCEL (CHEMBL4298199: Gene)",
+  "sponsors": null,
+  "stage": null,
+  "trials": []
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:7",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:44a49130e3a19371e53e",
+  "name": "ALLO-316",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C177917 (Cell)",
+  "sponsors": null,
+  "stage": null,
+  "trials": []
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:8",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:bb222f895cfc271e89d7",
+  "name": "CT103A",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of DRUG:EQUECABTAGENE AUTOLEUCEL (CHEMBL5314674: Gene)",
+  "sponsors": null,
+  "stage": null,
+  "trials": []
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:9",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:fea30322725938659064",
+  "name": "CTX130",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C203062 (Cell)",
+  "sponsors": null,
+  "stage": null,
+  "trials": []
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:10",
+  "demo": "cd19_cell_therapy_bcl",
+  "run": "tac01_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:5a1f740d9c7ca2ea5a72",
+  "name": "CYAD-101",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C121536 (Cell)",
+  "sponsors": null,
+  "stage": null,
+  "trials": []
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:1",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:d0ace5d86850ba755d2b",
+  "name": "ICG318",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "iCell Gene Therapeutics",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT06787989",
+   "NCT06794008",
+   "NCT07328581",
+   "NCT07544160",
+   "NCT07715136"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:2",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:5701df8d3d8d7363bd5e",
+  "name": "AZD0120",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C175471 (Cell)",
+  "sponsors": "Tongji Hospital, AstraZeneca, Alexion Pharmaceuticals, Inc., Shanghai Changzheng Hospital, RenJi Hospital, Gracell Biotechnologies (Shanghai) Co., Ltd., Zhejiang University",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT04236011",
+   "NCT04617704",
+   "NCT04935580",
+   "NCT05412329",
+   "NCT05840107"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:3",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:be2c3fda82741e749f3a",
+  "name": "FKC289",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Shenzhen Fosun Kairos Biotechnology Co., Ltd., Nanjing University School of Medicine",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT06285279",
+   "NCT07765524",
+   "NCT07765537"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:4",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:620571de7131c8fd4344",
+  "name": "umbilical cord blood CD19-BCMA CAR-T cells infusion",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Beijing GoBroad Hospital",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT06947473"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:5",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:8a4ef325c481300e1e1f",
+  "name": "CD19-BCMA dual nanobody based CAR-T Cells",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Chang Yingjun",
+  "stage": "PHASE_2",
+  "trials": [
+   "NCT07451236"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:6",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:63a9eb55422e3fbc6178",
+  "name": "Allogeneic CD19/BCMA-targeted CAR-γδT cell injection",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Institute of Hematology & Blood Diseases Hospital, China",
+  "stage": "PHASE_1",
+  "trials": [
+   "NCT07490275"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:7",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:ac551940ff9492dd71f6",
+  "name": "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Chengdu Ucello Biotechnology Co., Ltd.",
+  "stage": "PHASE_1",
+  "trials": [
+   "NCT07274059"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:8",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:7a46f3309cf39ffaab57",
+  "name": "allogenic anti-CD19/BCMA CAR-T",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Shanghai Zhongshan Hospital",
+  "stage": "PHASE_1",
+  "trials": [
+   "NCT07261345"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:9",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:4b6d3e95eae7377d55a5",
+  "name": "anti-CD19/BCMA U CAR T cells",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Changhai Hospital",
+  "stage": "PHASE_1",
+  "trials": [
+   "NCT07246096"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:10",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "shown",
+  "asset_id": "asset:3789cb6eba0780f32bac",
+  "name": "Assigned Interventions CD19/BCMA CAR T-cells",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Zhejiang University",
+  "stage": "PHASE_1",
+  "trials": [
+   "NCT05030779",
+   "NCT05085418",
+   "NCT05085431",
+   "NCT05085444"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:1",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:66dcdbafd3197a3bc9e3",
+  "name": "IL-2 pre-treated CD19 cells",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "jiangjingting",
+  "stage": "APPROVED",
+  "trials": [
+   "NCT02992834"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:2",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:f907924a7920e1dc2eb0",
+  "name": "IL-7/IL-15 pre-treated CD19 cells",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "jiangjingting",
+  "stage": "APPROVED",
+  "trials": [
+   "NCT02992834"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:3",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:95622d6d74ae27eeaae3",
+  "name": "CART19",
+  "target_status": "CONFIRMED_TARGET",
+  "authority_modality_note": "ChEMBL_37 molecule type of NCIt:C102758 (Cell)",
+  "sponsors": "University of Sao Paulo, Miltenyi Biomedicine GmbH, King Hussein Cancer Center, University of Pennsylvania, Henan Cancer Hospital, Memorial Sloan Kettering Cancer Center, Shenzhen Second People's Hospital, Stephan Grupp MD PhD, Shanghai Unicar-Therapy Bio-medicine Technology Co.,Ltd, The Affiliated Hospital of the Chinese Academy of Military Medical Sciences, Fujian Medical University, First Affiliated Hospital of Wenzhou Medical University, Shanghai Children's Medical Center, Children's Hospital of Philadelphia",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT01029366",
+   "NCT01551043",
+   "NCT01626495",
+   "NCT01747486",
+   "NCT02030834"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:4",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:23dc97157ff7c72148c6",
+  "name": "Allo-HSCT Protocol",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Shanxi Bethune Hospital",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT07059156"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:5",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:9351004b41a8776cc654",
+  "name": "autoleucel",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Health Institutes of Turkey, Lyell Immunopharma, Inc., Ruijin Hospital, Sun Yat-sen University, Chongqing Precision Biotech Co., Ltd",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT05826535",
+   "NCT06365671",
+   "NCT07077512",
+   "NCT07188558",
+   "NCT07502118"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:6",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:104b49261a84791a155a",
+  "name": "Biospecimen Collection",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "National Cancer Institute (NCI)",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT04530565"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:7",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:26691234848c94aa78ca",
+  "name": "CABA-201 following preconditioning with fludarabine and cyclophosphamide",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Cabaletta Bio",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT06154252"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:8",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:436cfcc578461590083d",
+  "name": "CAR-T",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Dr. Zaineb Akram, Guangzhou Bio-gene Technology Co., Ltd, The Third Affiliated Hospital of Southern Medical University, The First Affiliated Hospital of Soochow University, Xuzhou Medical University, Abramson Cancer Center at Penn Medicine, Kai Lin Xu; Jun Nian Zheng, Hong Kong Children's Hospital, Peking University People's Hospital, Hebei Senlang Biotechnology Inc., Ltd., Fudan University",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT02782351",
+   "NCT03196830",
+   "NCT04796441",
+   "NCT06758713",
+   "NCT06866873"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:9",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:835ae2030e5ed379a4a8",
+  "name": "CAR-T CD19",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Sheba Medical Center",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT04257175"
+  ]
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:10",
+  "demo": "cd19_bcma_dual_autoimmune",
+  "run": "mint5_protoid_v1",
+  "section": "deferred",
+  "asset_id": "asset:d980893b08e88db0bd9e",
+  "name": "CD19 CAR-T cells",
+  "target_status": "UNRESOLVED",
+  "authority_modality_note": "UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place",
+  "sponsors": "Zhejiang University, National University of Malaysia, The General Hospital of Western Theater Command, Chongqing Precision Biotech Co., Ltd, The Children's Hospital of Zhejiang University School of Medicine, Beijing GoBroad Hospital, Sheba Medical Center, Hebei Senlang Biotechnology Inc., Ltd., Hebei Yanda Ludaopei Hospital, University College, London, University Hospital Heidelberg, Bioceltech Therapeutics, Ltd., Third Military Medical University, Belarusian Research Center for Pediatric Oncology, Hematology and Immunology, Institute of Hematology & Blood Diseases Hospital, China, Tianjin Mycure Medical Technology Co., Ltd, Shanghai Unicar-Therapy Bio-medicine Technology Co.,Ltd",
+  "stage": "PHASE_3",
+  "trials": [
+   "NCT02772198",
+   "NCT02975687",
+   "NCT03029338",
+   "NCT03064269",
+   "NCT03275493"
+  ]
+ }
+]
