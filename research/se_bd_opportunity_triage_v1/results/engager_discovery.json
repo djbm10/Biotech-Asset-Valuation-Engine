@@ -1,0 +1,28 @@
+{
+ "antibody_class_confirmed_requested": [
+  "Blinatumomab",
+  "belantamab mafodotin",
+  "coltuximab ravtansine",
+  "denintuzumab",
+  "denintuzumab mafodotin",
+  "elranatamab",
+  "inebilizumab",
+  "loncastuximab tesirine",
+  "obexelimab",
+  "tafasitamab",
+  "teclistamab"
+ ],
+ "authority_modality_counts": {
+  "ANTIBODY": 104,
+  "ANTIBODY_DRUG_CONJUGATE": 21,
+  "CELL_THERAPY": 102,
+  "None": 2571,
+  "OLIGOSACCHARIDE": 2,
+  "PROTEIN": 27,
+  "SMALL_MOLECULE": 310
+ },
+ "candidates": 3137,
+ "confirmed_any_requested": 24,
+ "confirmed_both": [],
+ "run": "mint5_protoid_v1"
+}

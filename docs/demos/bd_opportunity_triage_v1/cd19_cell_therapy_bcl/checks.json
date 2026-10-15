@@ -1,0 +1,9 @@
+{
+  "1_strategic_question_stated": true,
+  "2_candidates_named": true,
+  "3_sources_openable": true,
+  "4_status_on_every_fact": true,
+  "5_inclusion_reason_every_candidate": true,
+  "6_followup_every_candidate": true,
+  "7_no_unsupported_conclusions": true
+}

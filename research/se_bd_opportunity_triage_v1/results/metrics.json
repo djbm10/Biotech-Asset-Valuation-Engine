@@ -1,0 +1,46 @@
+{
+ "academic_called_commercial_product": [
+  "cd19_cell_therapy_bcl:deferred:5"
+ ],
+ "category_accuracy": 36,
+ "confusion": {
+  "ACADEMIC_CONSTRUCT -> ACADEMIC_CONSTRUCT": 10,
+  "ACADEMIC_CONSTRUCT -> NAMED_INVESTIGATIONAL": 1,
+  "APPROVED_REFERENCE -> APPROVED_REFERENCE": 5,
+  "APPROVED_REFERENCE -> NAMED_INVESTIGATIONAL": 3,
+  "INSUFFICIENTLY_IDENTIFIED -> INSUFFICIENTLY_IDENTIFIED": 9,
+  "NAMED_INVESTIGATIONAL -> NAMED_INVESTIGATIONAL": 12
+ },
+ "genuine_named_opportunities": {
+  "reference": 7,
+  "surfaced_in_category_1": 7
+ },
+ "n": 40,
+ "ownership_claims": 0,
+ "per_reference_category": {
+  "ACADEMIC_CONSTRUCT": {
+   "correct": 10,
+   "n": 11
+  },
+  "APPROVED_REFERENCE": {
+   "correct": 5,
+   "n": 8
+  },
+  "INSUFFICIENTLY_IDENTIFIED": {
+   "correct": 9,
+   "n": 9
+  },
+  "NAMED_INVESTIGATIONAL": {
+   "correct": 12,
+   "n": 12
+  }
+ },
+ "unsupported_approval_claims": [],
+ "us_approvals_missed": [],
+ "wrong_products_promoted_to_category_1": [
+  "cd19_cell_therapy_bcl:shown:2",
+  "cd19_cell_therapy_bcl:shown:9",
+  "cd19_cell_therapy_bcl:deferred:5",
+  "cd19_cell_therapy_bcl:deferred:8"
+ ]
+}

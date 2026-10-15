@@ -1,0 +1,402 @@
+[
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:1",
+  "name": "Brexucabtagene Autoleucel",
+  "system": "APPROVED_REFERENCE",
+  "reference": "APPROVED_REFERENCE",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "US_LABEL_FOUND",
+  "reference_us_approval": "APPROVED"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:2",
+  "name": "CNCT19",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "APPROVED_REFERENCE",
+  "match": false,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:3",
+  "name": "Breyanzi",
+  "system": "APPROVED_REFERENCE",
+  "reference": "APPROVED_REFERENCE",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "US_LABEL_FOUND",
+  "reference_us_approval": "APPROVED"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:4",
+  "name": "KYMRIAH",
+  "system": "APPROVED_REFERENCE",
+  "reference": "APPROVED_REFERENCE",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "US_LABEL_FOUND",
+  "reference_us_approval": "APPROVED"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:5",
+  "name": "axi-cel",
+  "system": "APPROVED_REFERENCE",
+  "reference": "APPROVED_REFERENCE",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "US_LABEL_FOUND",
+  "reference_us_approval": "APPROVED"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:6",
+  "name": "KITE-753",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "YES",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:7",
+  "name": "CC-97540",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "YES",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:8",
+  "name": "ALLO-501A",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "YES",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:9",
+  "name": "Anbalcabtagene Autoleucel",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "APPROVED_REFERENCE",
+  "match": false,
+  "worth": "YES",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:shown:10",
+  "name": "AUTO3",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:1",
+  "name": "CART19",
+  "system": "INSUFFICIENTLY_IDENTIFIED",
+  "reference": "INSUFFICIENTLY_IDENTIFIED",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:2",
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:3",
+  "name": "Autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem-enriched T-lymphocytes",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:4",
+  "name": "CLBR001 + SWI019",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "YES",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:5",
+  "name": "NKCARCD19",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": false,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:6",
+  "name": "Abecma",
+  "system": "APPROVED_REFERENCE",
+  "reference": "APPROVED_REFERENCE",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "US_LABEL_FOUND",
+  "reference_us_approval": "APPROVED"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:7",
+  "name": "ALLO-316",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:8",
+  "name": "CT103A",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "APPROVED_REFERENCE",
+  "match": false,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:9",
+  "name": "CTX130",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_cell_therapy_bcl:deferred:10",
+  "name": "CYAD-101",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:1",
+  "name": "ICG318",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "YES",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:2",
+  "name": "AZD0120",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "YES",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:3",
+  "name": "FKC289",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "YES",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:4",
+  "name": "umbilical cord blood CD19-BCMA CAR-T cells infusion",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:5",
+  "name": "CD19-BCMA dual nanobody based CAR-T Cells",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:6",
+  "name": "Allogeneic CD19/BCMA-targeted CAR-γδT cell injection",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:7",
+  "name": "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA",
+  "system": "INSUFFICIENTLY_IDENTIFIED",
+  "reference": "INSUFFICIENTLY_IDENTIFIED",
+  "match": true,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:8",
+  "name": "allogenic anti-CD19/BCMA CAR-T",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:9",
+  "name": "anti-CD19/BCMA U CAR T cells",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:shown:10",
+  "name": "CD19/BCMA CAR T-cells",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "UNCERTAIN",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:1",
+  "name": "IL-2 pre-treated CD19 cells",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:2",
+  "name": "IL-7/IL-15 pre-treated CD19 cells",
+  "system": "ACADEMIC_CONSTRUCT",
+  "reference": "ACADEMIC_CONSTRUCT",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:3",
+  "name": "CART19",
+  "system": "INSUFFICIENTLY_IDENTIFIED",
+  "reference": "INSUFFICIENTLY_IDENTIFIED",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:4",
+  "name": "Allo-HSCT Protocol",
+  "system": "INSUFFICIENTLY_IDENTIFIED",
+  "reference": "INSUFFICIENTLY_IDENTIFIED",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:5",
+  "name": "autoleucel",
+  "system": "INSUFFICIENTLY_IDENTIFIED",
+  "reference": "INSUFFICIENTLY_IDENTIFIED",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:6",
+  "name": "Biospecimen Collection",
+  "system": "INSUFFICIENTLY_IDENTIFIED",
+  "reference": "INSUFFICIENTLY_IDENTIFIED",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:7",
+  "name": "CABA-201 following preconditioning with fludarabine and cyclophosphamide",
+  "system": "NAMED_INVESTIGATIONAL",
+  "reference": "NAMED_INVESTIGATIONAL",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "NOT_APPROVED_EVIDENCE"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:8",
+  "name": "CAR-T",
+  "system": "INSUFFICIENTLY_IDENTIFIED",
+  "reference": "INSUFFICIENTLY_IDENTIFIED",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:9",
+  "name": "CAR-T CD19",
+  "system": "INSUFFICIENTLY_IDENTIFIED",
+  "reference": "INSUFFICIENTLY_IDENTIFIED",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ },
+ {
+  "sample_id": "cd19_bcma_dual_autoimmune:deferred:10",
+  "name": "CD19 CAR-T cells",
+  "system": "INSUFFICIENTLY_IDENTIFIED",
+  "reference": "INSUFFICIENTLY_IDENTIFIED",
+  "match": true,
+  "worth": "NO",
+  "system_us_label": "UNKNOWN",
+  "reference_us_approval": "UNKNOWN"
+ }
+]

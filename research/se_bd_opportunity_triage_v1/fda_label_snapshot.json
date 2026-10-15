@@ -108,6 +108,24 @@
    "set_id": "32f6b83d-c743-4934-9a20-1b5bf9f4eea3",
    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=32f6b83d-c743-4934-9a20-1b5bf9f4eea3"
   },
+  "38b482a8-960b-4591-9857-5031ecb830aa": {
+   "application_number": [
+    "BLA125557"
+   ],
+   "brand_name": [
+    "BLINCYTO"
+   ],
+   "effective_time": "20260414",
+   "generic_name": [
+    "BLINATUMOMAB"
+   ],
+   "indications": "1 INDICATIONS AND USAGE BLINCYTO is a bispecific CD19-directed CD3 T-cell engager indicated for the treatment of adult and pediatric patients one month and older with: CD19-positive B-cell precursor acute lymphoblastic leukemia (ALL) in first or second complete remission with minimal residual disease (MRD) greater than or equal to 0.1%. ( 1.1 ) Relapsed or refractory CD19-positive B-cell precursor acute lymphoblastic leukemia (ALL). ( 1.2 ) CD19-positive Philadelphia chromosome-negative B-cell precursor acute lymphoblastic leukemia (ALL) in the consolidation phase of multiphase chemotherapy. (",
+   "manufacturer_name": [
+    "Amgen, Inc"
+   ],
+   "set_id": "38b482a8-960b-4591-9857-5031ecb830aa",
+   "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=38b482a8-960b-4591-9857-5031ecb830aa"
+  },
   "39434b24-bf64-f5c9-fbb6-b0d225099424": {
    "application_number": [
     "ANDA208416"
@@ -269,6 +287,24 @@
    ],
    "set_id": "54ae5ef9-aea5-484a-a473-863b1397e206",
    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=54ae5ef9-aea5-484a-a473-863b1397e206"
+  },
+  "54e0f974-ccee-44ea-9254-40e9883cee1e": {
+   "application_number": [
+    "BLA761291"
+   ],
+   "brand_name": [
+    "TECVAYLI"
+   ],
+   "effective_time": "20260310",
+   "generic_name": [
+    "TECLISTAMAB-CQYV"
+   ],
+   "indications": "1 INDICATIONS AND USAGE TECVAYLI is indicated for the treatment of adult patients with relapsed or refractory multiple myeloma in combination with daratumumab and hyaluronidase-fihj in patients who have received at least one prior line of therapy, including a proteasome inhibitor and an immunomodulatory agent. as monotherapy, in patients who have received at least four prior lines of therapy, including a proteasome inhibitor, an immunomodulatory agent and an anti-CD38 monoclonal antibody. TECVAYLI is a bispecific B-cell maturation antigen (BCMA)-directed CD3 T-cell engager indicated for the tr",
+   "manufacturer_name": [
+    "Janssen Biotech, Inc."
+   ],
+   "set_id": "54e0f974-ccee-44ea-9254-40e9883cee1e",
+   "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=54e0f974-ccee-44ea-9254-40e9883cee1e"
   },
   "58b88e76-eba4-2471-e063-6394a90ad988": {
    "application_number": [
@@ -504,6 +540,24 @@
    "set_id": "9ce9d926-ef3a-4b22-a703-f49c18eb4e3d",
    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9ce9d926-ef3a-4b22-a703-f49c18eb4e3d"
   },
+  "9e0a220b-517f-4c86-b581-ffbab493fb58": {
+   "application_number": [
+    "BLA761163"
+   ],
+   "brand_name": [
+    "MONJUVI"
+   ],
+   "effective_time": "20250623",
+   "generic_name": [
+    "TAFASITAMAB-CXIX"
+   ],
+   "indications": "1 INDICATIONS AND USAGE MONJUVI is a CD19-directed cytolytic antibody indicated: in combination with lenalidomide for the treatment of adult patients with relapsed or refractory diffuse large B-cell lymphoma (DLBCL) not otherwise specified, including DLBCL arising from low grade lymphoma, and who are not eligible for autologous stem cell transplant (ASCT). This indication is approved under accelerated approval based on overall response rate. Continued approval for this indication may be contingent upon verification and description of clinical benefit in a confirmatory trial(s). ( 1.1 ) in comb",
+   "manufacturer_name": [
+    "Incyte Corporation"
+   ],
+   "set_id": "9e0a220b-517f-4c86-b581-ffbab493fb58",
+   "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=9e0a220b-517f-4c86-b581-ffbab493fb58"
+  },
   "a16108c2-7ca7-45af-965e-54bda4713022": {
    "application_number": [
     "BLA125703"
@@ -521,6 +575,24 @@
    ],
    "set_id": "a16108c2-7ca7-45af-965e-54bda4713022",
    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=a16108c2-7ca7-45af-965e-54bda4713022"
+  },
+  "aa044060-5b4b-4692-bf0f-9a50e140b10e": {
+   "application_number": [
+    "BLA761345"
+   ],
+   "brand_name": [
+    "Elrexfio"
+   ],
+   "effective_time": "20260514",
+   "generic_name": [
+    "ELRANATAMAB-BCMM"
+   ],
+   "indications": "1 INDICATIONS AND USAGE ELREXFIO is indicated for the treatment of adult patients with relapsed or refractory multiple myeloma who have received at least four prior lines of therapy, including a proteasome inhibitor, an immunomodulatory agent, and an anti-CD38 monoclonal antibody. This indication is approved under accelerated approval based on response rate and durability of response [see Clinical Studies (14) ] . Continued approval for this indication may be contingent upon verification of clinical benefit in a confirmatory trial(s). ELREXFIO is a bispecific B-cell maturation antigen (BCMA)-d",
+   "manufacturer_name": [
+    "U.S. Pharmaceuticals"
+   ],
+   "set_id": "aa044060-5b4b-4692-bf0f-9a50e140b10e",
+   "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=aa044060-5b4b-4692-bf0f-9a50e140b10e"
   },
   "aad3ba54-dfd3-4cb3-9e2b-c5ef89559189": {
    "application_number": [
@@ -557,6 +629,24 @@
    ],
    "set_id": "ab24631f-3364-46e1-8074-7244863bcbab",
    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ab24631f-3364-46e1-8074-7244863bcbab"
+  },
+  "af54af12-3edf-4301-8bc5-0446bc813c1d": {
+   "application_number": [
+    "BLA761196"
+   ],
+   "brand_name": [
+    "ZYNLONTA"
+   ],
+   "effective_time": "20260612",
+   "generic_name": [
+    "LONCASTUXIMAB TESIRINE"
+   ],
+   "indications": "1 INDICATIONS AND USAGE ZYNLONTA is indicated for the treatment of adult patients with relapsed or refractory large B-cell lymphoma after two or more lines of systemic therapy, including diffuse large B-cell lymphoma (DLBCL) not otherwise specified, DLBCL arising from low-grade lymphoma, and high-grade B-cell lymphoma. This indication is approved under accelerated approval based on overall response rate [see Clinical Studies (14.1) ] . Continued approval for this indication may be contingent upon verification and description of clinical benefit in a confirmatory trial(s). ZYNLONTA is a CD19-di",
+   "manufacturer_name": [
+    "ADC Therapeutics America, Inc."
+   ],
+   "set_id": "af54af12-3edf-4301-8bc5-0446bc813c1d",
+   "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=af54af12-3edf-4301-8bc5-0446bc813c1d"
   },
   "b1409184-3267-4d8c-8f17-4e01f69828b1": {
    "application_number": [
@@ -611,24 +701,6 @@
    ],
    "set_id": "b3e7f851-4132-4003-8f14-0eea21e5009c",
    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b3e7f851-4132-4003-8f14-0eea21e5009c"
-  },
-  "b8967e10-f768-47ce-ac9e-2324c8390132": {
-   "application_number": [
-    "NDA210308"
-   ],
-   "brand_name": [
-    "YONSA"
-   ],
-   "effective_time": "20260608",
-   "generic_name": [
-    "ABIRATERONE ACETATE"
-   ],
-   "indications": "1 INDICATIONS AND USAGE YONSA is indicated in combination with methylprednisolone for the treatment of patients with metastatic castration-resistant prostate cancer. YONSA is a CYP17 inhibitor indicated in combination with methylprednisolone for the treatment of patients with metastatic castration-resistant prostate cancer (CRPC). ( 1 )",
-   "manufacturer_name": [
-    "Sun Pharmaceutical Industries, Inc."
-   ],
-   "set_id": "b8967e10-f768-47ce-ac9e-2324c8390132",
-   "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=b8967e10-f768-47ce-ac9e-2324c8390132"
   },
   "b90c1fe7-f5cc-464e-958a-af36e9c26d7c": {
    "application_number": [
@@ -738,6 +810,24 @@
    ],
    "set_id": "dd4835ef-e1bc-4997-a399-1ffa2556fbfe",
    "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=dd4835ef-e1bc-4997-a399-1ffa2556fbfe"
+  },
+  "ec13ac6b-bfde-4e84-907a-83bd69584d95": {
+   "application_number": [
+    "BLA761163"
+   ],
+   "brand_name": [
+    "MONJUVI"
+   ],
+   "effective_time": "20260202",
+   "generic_name": [
+    "TAFASITAMAB-CXIX"
+   ],
+   "indications": "1 INDICATIONS AND USAGE MONJUVI, in combination with lenalidomide, is indicated for the treatment of adult patients with relapsed or refractory diffuse large B-cell lymphoma (DLBCL) not otherwise specified, including DLBCL arising from low grade lymphoma, and who are not eligible for autologous stem cell transplant (ASCT). This indication is approved under accelerated approval based on overall response rate [see Clinical Studies (14) ] . Continued approval for this indication may be contingent upon verification and description of clinical benefit in a confirmatory trial(s). MONJUVI is a CD19-d",
+   "manufacturer_name": [
+    "Incyte Corporation"
+   ],
+   "set_id": "ec13ac6b-bfde-4e84-907a-83bd69584d95",
+   "url": "https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=ec13ac6b-bfde-4e84-907a-83bd69584d95"
   },
   "f308b463-27e4-422a-95a2-ecbbf95eee20": {
    "application_number": [
@@ -942,8 +1032,8 @@
    "error": null,
    "field": "generic_name",
    "key": "ABIRATERONE",
-   "n": 31,
-   "sha256": "66e18eee576c50c55fdc0e405f0b4adc702420d9772b1cb4f88e137b8ce806fc"
+   "n": 30,
+   "sha256": "ead106d4d46625bf1b17bbcbccdea3513268ea67e52145b8f6847a6d0b872a7c"
   },
   {
    "error": null,
@@ -998,6 +1088,20 @@
    "error": null,
    "field": "generic_name",
    "key": "ANBALCABTAGENE AUTOLEUCEL",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "AUCATZYL",
+   "n": 1,
+   "sha256": "4fe9ba9b7fe36d42d23cb1dbf875e2b7af68862114daded09fcc8726a4242fac"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "AUCATZYL",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
   },
@@ -1144,6 +1248,34 @@
   {
    "error": null,
    "field": "brand_name",
+   "key": "BELANTAMAB MAFODOTIN",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "BELANTAMAB MAFODOTIN",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "BLINATUMOMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "BLINATUMOMAB",
+   "n": 1,
+   "sha256": "0a1cce6a0b980e115bb21e7abb159817f7fb0a8536493888a88708945c36a2a3"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
    "key": "BREXUCABTAGENE AUTOLEUCEL",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
@@ -1168,6 +1300,20 @@
    "key": "Biospecimen Collection",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "Blinatumomab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "Blinatumomab",
+   "n": 1,
+   "sha256": "0a1cce6a0b980e115bb21e7abb159817f7fb0a8536493888a88708945c36a2a3"
   },
   {
    "error": null,
@@ -1326,6 +1472,20 @@
   {
    "error": null,
    "field": "brand_name",
+   "key": "CILTACABTAGENE AUTOLEUCEL",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "CILTACABTAGENE AUTOLEUCEL",
+   "n": 1,
+   "sha256": "f09258327ca42cb5b8b03d0698116208a37d173eebd1847cecde4545be7cb314"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
    "key": "CLBR001 + SWI019",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
@@ -1348,6 +1508,20 @@
    "error": null,
    "field": "generic_name",
    "key": "CNCT19",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "COLTUXIMAB RAVTANSINE",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "COLTUXIMAB RAVTANSINE",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
   },
@@ -1390,6 +1564,76 @@
    "error": null,
    "field": "generic_name",
    "key": "CYAD-101",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "Carvykti",
+   "n": 1,
+   "sha256": "f09258327ca42cb5b8b03d0698116208a37d173eebd1847cecde4545be7cb314"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "Carvykti",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "DENINTUZUMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "DENINTUZUMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "DENINTUZUMAB MAFODOTIN",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "DENINTUZUMAB MAFODOTIN",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "ELRANATAMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "ELRANATAMAB",
+   "n": 1,
+   "sha256": "5b93cc12ef4424c7deb2bb72e1642f75eacc9a0fe256f0c131845f17210e75a9"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "ELREXFIO",
+   "n": 1,
+   "sha256": "5b93cc12ef4424c7deb2bb72e1642f75eacc9a0fe256f0c131845f17210e75a9"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "ELREXFIO",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
   },
@@ -1480,6 +1724,20 @@
   {
    "error": null,
    "field": "brand_name",
+   "key": "INEBILIZUMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "INEBILIZUMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
    "key": "KITE-753",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
@@ -1522,6 +1780,48 @@
   {
    "error": null,
    "field": "brand_name",
+   "key": "LONCASTUXIMAB TESIRINE",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "LONCASTUXIMAB TESIRINE",
+   "n": 1,
+   "sha256": "85f4c96bdb2d118e33f5159a572ebd522869e3a071a4529f078f7b17c37d70b3"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "MDX-1342",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "MDX-1342",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "MONJUVI",
+   "n": 2,
+   "sha256": "5c9e7b3907e8e9871399e517aaeaea7494319faf5537e121b91c43ca60a8b944"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "MONJUVI",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
    "key": "NKCARCD19",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
@@ -1532,6 +1832,62 @@
    "key": "NKCARCD19",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "OBECABTAGENE AUTOLEUCEL",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "OBECABTAGENE AUTOLEUCEL",
+   "n": 1,
+   "sha256": "4fe9ba9b7fe36d42d23cb1dbf875e2b7af68862114daded09fcc8726a4242fac"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "OBEXELIMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "OBEXELIMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "TAFASITAMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "TAFASITAMAB",
+   "n": 2,
+   "sha256": "5c9e7b3907e8e9871399e517aaeaea7494319faf5537e121b91c43ca60a8b944"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "TECLISTAMAB",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "TECLISTAMAB",
+   "n": 1,
+   "sha256": "6a601796133a3ba6a63fa622814bbbb05b05e2f67d2b2a9830d82f28e773d83b"
   },
   {
    "error": null,
@@ -1550,6 +1906,20 @@
   {
    "error": null,
    "field": "brand_name",
+   "key": "Uplizna",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "Uplizna",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
    "key": "VEBICORVIR",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
@@ -1572,6 +1942,20 @@
    "error": null,
    "field": "generic_name",
    "key": "ZOLACABTAGENE AUTOLEUCEL",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "Zynlonta",
+   "n": 1,
+   "sha256": "85f4c96bdb2d118e33f5159a572ebd522869e3a071a4529f078f7b17c37d70b3"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "Zynlonta",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
   },
@@ -1628,8 +2012,8 @@
    "error": null,
    "field": "generic_name",
    "key": "abiraterone",
-   "n": 31,
-   "sha256": "66e18eee576c50c55fdc0e405f0b4adc702420d9772b1cb4f88e137b8ce806fc"
+   "n": 30,
+   "sha256": "ead106d4d46625bf1b17bbcbccdea3513268ea67e52145b8f6847a6d0b872a7c"
   },
   {
    "error": null,
@@ -1718,6 +2102,160 @@
   {
    "error": null,
    "field": "brand_name",
+   "key": "belantamab mafodotin",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "belantamab mafodotin",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "brexucabtagene autoleucel",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "brexucabtagene autoleucel",
+   "n": 1,
+   "sha256": "93e2286577a9c264029ffd4394b38ef255a771a22f8da1400be881e6c84d2b93"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "coltuximab ravtansine",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "coltuximab ravtansine",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "denintuzumab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "denintuzumab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "denintuzumab mafodotin",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "denintuzumab mafodotin",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "elranatamab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "elranatamab",
+   "n": 1,
+   "sha256": "5b93cc12ef4424c7deb2bb72e1642f75eacc9a0fe256f0c131845f17210e75a9"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "inebilizumab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "inebilizumab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "loncastuximab tesirine",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "loncastuximab tesirine",
+   "n": 1,
+   "sha256": "85f4c96bdb2d118e33f5159a572ebd522869e3a071a4529f078f7b17c37d70b3"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "obexelimab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "obexelimab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "tafasitamab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "tafasitamab",
+   "n": 2,
+   "sha256": "5c9e7b3907e8e9871399e517aaeaea7494319faf5537e121b91c43ca60a8b944"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
+   "key": "teclistamab",
+   "n": 0,
+   "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+  },
+  {
+   "error": null,
+   "field": "generic_name",
+   "key": "teclistamab",
+   "n": 1,
+   "sha256": "6a601796133a3ba6a63fa622814bbbb05b05e2f67d2b2a9830d82f28e773d83b"
+  },
+  {
+   "error": null,
+   "field": "brand_name",
    "key": "umbilical cord blood CD19-BCMA CAR-T cells infusion",
    "n": 0,
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
@@ -1730,6 +2268,6 @@
    "sha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
   }
  ],
- "retrieved": "2026-10-14",
+ "retrieved": "2026-10-15",
  "source": "openFDA drug/label (FDA SPL)"
 }

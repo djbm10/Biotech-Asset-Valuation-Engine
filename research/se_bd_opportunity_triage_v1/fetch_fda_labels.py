@@ -17,6 +17,10 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+import yaml
+
+from bve.se.reporting.bd_brief import _partial_matches
+
 RUNS = ("tac01_protoid_v1", "mint5_protoid_v1")
 _RECORD = re.compile(r"molecule type of DRUG:(.+?) \(CHEMBL")
 _FIELDS = ("brand_name", "generic_name", "application_number", "manufacturer_name")
@@ -26,15 +30,22 @@ def get_json(url: str, params: dict) -> dict | None:
     req = urllib.request.Request(
         f"{url}?{urllib.parse.urlencode(params)}", headers={"User-Agent": "bve-research-script"}
     )
-    try:
-        with urllib.request.urlopen(req, timeout=60) as resp:
-            return json.loads(resp.read())
-    except urllib.error.HTTPError as exc:
-        if exc.code == 404:  # openFDA: zero matches
-            return None
-        if exc.code == 400:  # unparseable phrase; recorded, never read as "no label"
-            return {"query_error": 400}
-        raise
+    for attempt in range(6):
+        try:
+            with urllib.request.urlopen(req, timeout=60) as resp:
+                return json.loads(resp.read())
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:  # openFDA: zero matches
+                return None
+            if exc.code == 400:  # unparseable phrase; recorded, never read as "no label"
+                return {"query_error": 400}
+            if attempt == 5:
+                raise
+        except (urllib.error.URLError, ConnectionError, TimeoutError):
+            if attempt == 5:
+                raise
+        time.sleep(2**attempt)
+    return None
 
 
 def keys() -> list[str]:
@@ -46,6 +57,14 @@ def keys() -> list[str]:
             for f in e["facts"]:
                 if f["label"] == "Authority modality" and (m := _RECORD.search(f.get("note") or "")):
                     out.add(m.group(1))
+        # v1.1 extension: partial-target matches the brief now displays (multi-target runs).
+        problem = yaml.safe_load((Path.home() / "se_runs" / run / "problem.yaml").read_text())
+        result = json.loads((Path.home() / "se_runs" / run / "result.json").read_text())
+        requested = {f"TARGET:{t['canonical_id']}" for t in problem["strategic_gap"]["target_expression"]["targets"]}
+        for m in _partial_matches(result, requested):
+            out.add(m["name"])
+            if m.get("authority_name"):
+                out.add(m["authority_name"])
     return sorted(out)
 
 

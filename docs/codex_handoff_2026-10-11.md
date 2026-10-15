@@ -1,3 +1,9 @@
+# 2026-10-15 — BD_OPPORTUNITY_TRIAGE v1: triage layer delivered (development only)
+
+Prereg `db04327`; read `research/se_bd_opportunity_triage_v1/README.md`. The brief now groups candidates into research categories using a frozen exact-match openFDA label snapshot. It makes no ownership claims and changes no gates. Results: 36/40 categories correct against the frozen independent reference, with 0 unsupported approval claims and 7/7 genuine named opportunities surfaced. The four errors are 3 non-US approvals plus 1 code-named academic construct. Five-minute cold read moved from NO to PARTLY. CD19+BCMA engagers were found, but they were excluded by the ALL-target parse and are all approved comparators; the brief now shows them as partial-target matches. Next: source coverage (company pipelines, press releases and conferences). H21–H25 remain sealed.
+
+---
+
 # 2026-10-14 — BD_SEARCH_EVALUATION_DEMO v1: working demo delivered (development only)
 
 Implementation `fd3e879`: `bve-se-bd-brief` turns an existing run directory into a BD screening brief (HTML + MD). It is read-only, with no engine/gate/label change and no score. Demos are in `docs/demos/bd_search_evaluation_v1/` (TAC01 CD19 cell therapy in BCL; MINT5 CD19+BCMA in autoimmune) and are byte-reproducible; usage is in `docs/se_bd_brief_usage.md`. Read the README assessment there. Independent cold read: five-minute gist PARTLY. The largest obstacle is that the engine cannot separate external partnerable assets from approved/big-pharma products or from unnamed academic constructs. The suggested next step (not authorized) is a preregistered structured approval and ownership fact. Overall readiness is still NO-GO; H21–H25 remain sealed.
