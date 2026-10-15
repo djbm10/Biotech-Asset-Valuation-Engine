@@ -1,0 +1,17 @@
+# Analyst context for the BD demo brief. Public, historical framing only; no company-internal
+# strategy. Free text here is displayed, never enforced: the engine's requirements come from the
+# run's own problem.yaml.
+title: "BD screening brief — CD19-directed cell therapy for B-cell lymphoma (development demo)"
+question: >-
+  Which external CD19-directed cell-therapy assets in B-cell lymphoma, at Phase 1 or later,
+  could fill a gap in a B-cell-depletion oncology portfolio?
+rationale: >-
+  Illustrative public scenario: a buyer with no CD19 cell therapy wants to know who is developing
+  one, how far each programme has progressed, what evidence is public, and which technical
+  questions to put to the asset owner before a first call. Modelled on a BD gap-led search
+  (start from the capability needed, not from "promising biotechs").
+unenforced_requirements:
+  - "Autologous vs allogeneic preference — not expressible as an engine requirement."
+  - "CAR construct details (co-stimulatory domain, dual targeting) — not enforced."
+  - "Manufacturing capacity, vein-to-vein time and CMC readiness — not enforced."
+  - "Availability for partnering, rights holder and territory — not enforced."

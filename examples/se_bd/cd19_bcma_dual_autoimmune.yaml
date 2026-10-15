@@ -1,0 +1,16 @@
+# Analyst context for the BD demo brief. Public, historical framing only. Displayed, never enforced.
+title: "BD screening brief — CD19 + BCMA dual-targeting assets in autoimmune disease (development demo)"
+question: >-
+  Which external assets engage both CD19 and BCMA for autoimmune disease, at Phase 1 or later,
+  with some human proof-of-concept?
+rationale: >-
+  Illustrative public scenario inspired by a gap-led BD search ("find companies developing
+  T-cell engagers targeting CD19 and BCMA"): deep B-cell and plasma-cell depletion is being
+  explored as an immune reset in autoimmune disease, and a buyer wants to map who is
+  pursuing dual CD19/BCMA approaches and what human evidence exists.
+unenforced_requirements:
+  - "T-cell-engager format specifically — the run did not restrict modality; cell therapies dominate."
+  - "Autologous vs allogeneic, and construct design — not enforced."
+  - "Which autoimmune indication (lupus, myasthenia, etc.) — the run asked only for the therapeutic area."
+  - "Manufacturing scalability for a chronic-disease market — not enforced."
+  - "Rights, partnering availability and territory — not enforced."
