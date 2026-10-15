@@ -252,7 +252,7 @@ def test_conflicting_human_poc_is_contradictory():
 def test_engine_eligible_resting_on_unverified_poc_is_labelled():
     result = _result(gates=[("target.expression", "PASS"), ("evidence.human_poc", "PASS")])
     brief = build_bd_brief(_run([_entry(disposition="ELIGIBLE")], result=result))
-    assert brief.candidates[0].eligibility == "Meets (relies on unverified human-PoC)"
+    assert brief.candidates[0].eligibility.startswith("Engine gates pass; human-PoC unverified")
     assert brief.engine_eligible == ("Example-cel",)
 
 

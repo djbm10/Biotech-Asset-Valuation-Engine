@@ -33,6 +33,14 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict
 
+from bve.se.reporting.bd_triage import (
+    CATEGORY_LABEL,
+    ApprovalStatus,
+    LabelSnapshot,
+    Triage,
+    TriageCategory,
+    triage,
+)
 from bve.se.reporting.shortlist import display_name
 
 __all__ = [
@@ -120,6 +128,8 @@ class CandidateCard(BaseModel):
     change_triggers: tuple[str, ...] = ()
     duplicate_of: tuple[str, ...] = ()
     conflicts: tuple[str, ...] = ()
+    triage: Triage | None = None
+    held_back: bool = False
 
 
 class StrategicGap(BaseModel):
@@ -154,6 +164,11 @@ class BDBrief(BaseModel):
     review_first: tuple[str, ...]
     unresolved: tuple[str, ...]
     held_back_notable: tuple[str, ...]
+    held_back_cards: tuple[CandidateCard, ...] = ()
+    overview: dict[str, tuple[str, ...]] = {}
+    partial_matches: tuple[dict, ...] = ()
+    missing_sources: tuple[str, ...] = ()
+    top_actions: tuple[str, ...] = ()
     next_action: str
     limitations: tuple[str, ...]
     inputs: dict[str, str]
@@ -184,6 +199,11 @@ def load_run(run_dir: Path, *, limit: int = DEFAULT_LIMIT) -> dict:
         }
         claims = {c["claim_id"]: c for c in result["claims"] if c["claim_id"] in claim_ids}
         doc_ids = {c["source_document_id"] for c in claims.values()}
+        requested = {
+            f"TARGET:{t['canonical_id']}"
+            for t in (problem["strategic_gap"].get("target_expression") or {}).get("targets", [])
+        }
+        run["partial_matches"] = _partial_matches(result, requested)
         run["result"] = {
             "gates": {
                 g["subject_id"]: g for g in result["gate_evaluations"] if g["subject_id"] in shown
@@ -197,6 +217,50 @@ def load_run(run_dir: Path, *, limit: int = DEFAULT_LIMIT) -> dict:
             },
         }
     return run
+
+
+def _partial_matches(result: dict, requested: set[str]) -> list[dict]:
+    """Excluded candidates an authority record ties to some, not all, requested targets.
+
+    Decision neutral: the exclusion stands. Shown because a multi-target request ("CD19 and
+    BCMA") is often meant as either, and single-target products are its natural comparators.
+    """
+
+    if len(requested) < 2:
+        return []
+    gates = {g["subject_id"]: g for g in result["gate_evaluations"]}
+    out = []
+    for c in result["candidates"]:
+        confirmed = sorted(
+            {
+                a.get("canonical_target_id")
+                for a in c.get("target_assertions") or []
+                if a.get("status") == "CONFIRMED_TARGET"
+            }
+            & requested
+        )
+        gate = gates.get(c["asset_id"])
+        if not confirmed or len(confirmed) == len(requested) or not gate:
+            continue
+        if gate["disposition"] != "EXCLUDED":
+            continue
+        basis = c.get("authority_modality_basis") or ""
+        out.append(
+            {
+                "name": display_name(c["canonical_name"]),
+                "confirmed": confirmed,
+                "authority_modality": c.get("authority_modality"),
+                "authority_name": basis.split("DRUG:", 1)[1].split(" (")[0]
+                if "DRUG:" in basis
+                else None,
+                "failed": [
+                    d["requirement_id"]
+                    for d in gate["decisions"]
+                    if (d.get("analyst_override") or d["status"]) == "FAIL"
+                ],
+            }
+        )
+    return sorted(out, key=lambda r: (len(r["failed"]), r["name"].lower()))
 
 
 # --------------------------------------------------------------------------- assessment
@@ -545,11 +609,22 @@ def _eligibility(disposition: str, gates: tuple[GateRow, ...], efficacy: Assesse
     poc_pass = any(g.requirement == _HUMAN_POC_REQUIREMENT and g.status == "PASS" for g in gates)
     if label == "Meets" and poc_pass and efficacy.status is not EvidenceStatus.SUPPORTED:
         # The gate is unchanged; the reader is told what its PASS rests on.
-        return "Meets (relies on unverified human-PoC)"
+        return "Engine gates pass; human-PoC unverified (not confirmed eligibility)"
     return label
 
 
-def _card(entry: dict, gap: StrategicGap, result: dict | None) -> CandidateCard:
+def _authority_name(record: str | None) -> str | None:
+    return record.split(":", 1)[1] if record and record.startswith("DRUG:") else None
+
+
+def _card(
+    entry: dict,
+    gap: StrategicGap,
+    result: dict | None,
+    labels: LabelSnapshot | None = None,
+    *,
+    held_back: bool = False,
+) -> CandidateCard:
     modality, discovery, record = _modality(entry, gap.modalities)
     parts = {
         "company": _company(entry),
@@ -609,6 +684,14 @@ def _card(entry: dict, gap: StrategicGap, result: dict | None) -> CandidateCard:
         why=entry["why"][0] if entry["why"] else "",
         authority_record=record,
         conflicts=conflicts,
+        triage=triage(
+            name=display_name(entry["name"]),
+            authority_name=_authority_name(record),
+            sponsors=parts["company"].value,
+            review_reasons=tuple(entry["review_reasons"]),
+            labels=labels,
+        ),
+        held_back=held_back,
         gates=gates,
         failed_requirements=failed,
         unentailed_claims=sum(r.startswith(_ENTAILMENT) for r in entry["review_reasons"]),
@@ -636,13 +719,21 @@ def _with_duplicates(cards: list[CandidateCard]) -> tuple[CandidateCard, ...]:
 
 
 def build_bd_brief(
-    run: dict, *, context: dict | None = None, limit: int = DEFAULT_LIMIT, inputs=None
+    run: dict,
+    *,
+    context: dict | None = None,
+    limit: int = DEFAULT_LIMIT,
+    inputs=None,
+    labels: LabelSnapshot | None = None,
 ) -> BDBrief:
     context = context or {}
     problem, shortlist, result = run["problem"], run["shortlist"], run["result"]
     gap = _gap(problem, context)
-    cards = _with_duplicates([_card(e, gap, result) for e in shortlist["entries"][:limit]])
-    excluded = tuple(_card(e, gap, result) for e in shortlist["excluded"])
+    cards = _with_duplicates([_card(e, gap, result, labels) for e in shortlist["entries"][:limit]])
+    excluded = tuple(_card(e, gap, result, labels) for e in shortlist["excluded"])
+    held_back_cards = tuple(
+        _card(e, gap, result, labels, held_back=True) for e in shortlist.get("deferred", [])[:limit]
+    )
     review_first = tuple(
         c.name
         for c in cards
@@ -650,7 +741,7 @@ def build_bd_brief(
         and c.target.status is EvidenceStatus.SUPPORTED
         and c.modality.status is not EvidenceStatus.CONTRADICTORY
     )
-    engine_eligible = tuple(c.name for c in cards if c.eligibility.startswith("Meets"))
+    engine_eligible = tuple(c.name for c in cards if c.disposition == "ELIGIBLE")
     unresolved = tuple(
         c.name for c in cards if c.eligibility == "Unknown" and c.name not in review_first
     )
@@ -690,8 +781,8 @@ def build_bd_brief(
         "No human efficacy is confirmed for any candidate: efficacy passages are unverified quotations.",
         f"{n_conflict} candidates have an engine gate that disagrees with the displayed evidence status "
         "(flagged on each card).",
-        "Approval status and rights holders are not represented; check whether each candidate is "
-        "already marketed or partnered before treating it as an external opportunity.",
+        "US approval is checked only against frozen FDA labels by exact name; rights holders and "
+        "partnering status are never established.",
     )
     limitations = (
         "Development demonstration on a frozen non-holdout run; not a validated scientific product.",
@@ -701,12 +792,28 @@ def build_bd_brief(
         "authority-supported and the modality is not contradicted; it is not a recommendation or score.",
         "Human-PoC has no validated automatic confirmation route; efficacy passages are shown for reading only.",
         "Company lists are registry sponsors and collaborators, not rights holders.",
-        "Stage is the most advanced trial phase seen in registry/publication records; marketing "
-        "approval is not represented, so approved products appear at their latest trial phase.",
+        "Stage is the most advanced trial phase seen in registry/publication records; US approval is "
+        "shown separately from FDA labels, other jurisdictions are not checked.",
         "Trade names and INNs are not consolidated; the same product can appear twice "
         "(same authority record is flagged).",
         f"{counts.get('low_support', 0)} low-support nominations were held back by the engine and are not shown.",
     )
+    overview = _overview(cards, held_back_cards)
+    partial = tuple(
+        {
+            **m,
+            "triage": triage(
+                name=m["name"],
+                authority_name=m.get("authority_name"),
+                sponsors=None,
+                review_reasons=(),
+                labels=labels,
+            ),
+        }
+        for m in run.get("partial_matches", [])
+    )
+    missing_sources = tuple(_blind(b) for b in shortlist.get("blind_spots", ()))
+    top_actions = _top_actions(cards, held_back_cards, missing_sources)
     return BDBrief(
         title=context.get("title") or f"BD screening brief — {problem['problem_id']}",
         run_id=shortlist["run_id"],
@@ -723,10 +830,101 @@ def build_bd_brief(
         review_first=review_first,
         unresolved=unresolved,
         held_back_notable=held_back,
+        held_back_cards=held_back_cards,
+        overview=overview,
+        partial_matches=partial,
+        missing_sources=missing_sources,
+        top_actions=top_actions,
         next_action=next_action,
         limitations=limitations,
         inputs=dict(inputs or {}),
     )
+
+
+def _label(c: CandidateCard) -> str:
+    return f"{c.name} (held back)" if c.held_back else c.name
+
+
+def _overview(
+    cards: tuple[CandidateCard, ...], held: tuple[CandidateCard, ...]
+) -> dict[str, tuple[str, ...]]:
+    everyone = cards + held
+    out = {
+        CATEGORY_LABEL[cat]: tuple(
+            _label(c) for c in everyone if c.triage and c.triage.category is cat
+        )
+        for cat in TriageCategory
+    }
+    out["Requested target confirmed by an authority record"] = tuple(
+        _label(c) for c in everyone if c.target.status is EvidenceStatus.SUPPORTED
+    )
+    out["Needs verification before any use (engine disagreement or unverified efficacy)"] = tuple(
+        _label(c)
+        for c in cards
+        if c.conflicts or c.human_efficacy.status is EvidenceStatus.UNVERIFIED
+    )
+    return out
+
+
+def _top_actions(
+    cards: tuple[CandidateCard, ...], held: tuple[CandidateCard, ...], missing: tuple[str, ...]
+) -> tuple[str, ...]:
+    named = [
+        c
+        for c in cards + held
+        if c.triage and c.triage.category is TriageCategory.NAMED_INVESTIGATIONAL
+    ]
+    unconfirmed = [c for c in named if c.target.status is not EvidenceStatus.SUPPORTED]
+    out = []
+    if named:
+        out.append(
+            "For each named investigational asset ("
+            + ", ".join(_label(c) for c in named[:6])
+            + (", …" if len(named) > 6 else "")
+            + "): confirm the target and indication from a company disclosure, then establish the "
+            "rights holder and partnering status. None of this is established by the engine."
+        )
+    if unconfirmed:
+        out.append(
+            f"{len(unconfirmed)} of the {len(named)} named assets are on the list only from search "
+            "context: the requested target is unconfirmed for them."
+        )
+    if any(c.triage and c.triage.approval is ApprovalStatus.UNKNOWN for c in named):
+        out.append(
+            "Check non-US approvals (EMA, NMPA, MFDS, PMDA); only US FDA labels were checked."
+        )
+    if missing:
+        out.append(
+            "Search the sources this run never covered ("
+            + ", ".join(missing)
+            + "): company pipelines and conference abstracts are where unpartnered assets usually appear first."
+        )
+    if not named:
+        out.append(
+            "No named investigational asset was found: the search did not answer the question."
+        )
+    return tuple(out)
+
+
+def _partial_rows(brief: BDBrief) -> list[tuple]:
+    return [
+        (
+            m["name"],
+            ", ".join(t.split(":", 1)[1] for t in m["confirmed"]),
+            m.get("authority_modality") or "—",
+            ", ".join(m["failed"]) or "—",
+            CATEGORY_LABEL[m["triage"].category],
+            m["triage"],
+        )
+        for m in brief.partial_matches
+    ]
+
+
+_PARTIAL_INTRO = (
+    "Excluded by the engine because the question requires all requested targets, but an "
+    "authority record confirms at least one. If the question means either target, or these are "
+    "the comparators, review them. The exclusion is unchanged."
+)
 
 
 # --------------------------------------------------------------------------- checks
@@ -784,6 +982,7 @@ def render_markdown(brief: BDBrief) -> str:
         "",
         *[f"- {x}" for x in brief.summary],
         "",
+        *_md_overview(brief),
         "## A. Strategic gap",
         "",
         f"**Question:** {g.question}",
@@ -805,14 +1004,14 @@ def render_markdown(brief: BDBrief) -> str:
         f"{brief.counts.get('low_support', 0)} held back for low support. Showing the first "
         f"{len(brief.candidates)} reviewable candidates in the engine's declared order.",
         "",
-        "| # | Asset | Eligibility | Target | Modality (authority) | Stage | Human efficacy | Sponsors (registry) |",
-        "|---|---|---|---|---|---|---|---|",
+        "| # | Asset | BD triage | Eligibility | Target | Modality (authority) | Stage | Human efficacy | Sponsors (registry) |",
+        "|---|---|---|---|---|---|---|---|---|",
     ]
     for c in brief.candidates:
         sponsors = (c.company.value or "—").split(", ")
         sponsor = ", ".join(sponsors[:2]) + (f" +{len(sponsors) - 2}" if len(sponsors) > 2 else "")
         lines.append(
-            f"| {c.position} | **{c.name}** | {c.eligibility}{' ⚠️' if c.conflicts else ''} | {_cell(c.target)} | {_cell(c.modality)} | "
+            f"| {c.position} | **{c.name}** | {CATEGORY_LABEL[c.triage.category] if c.triage else '—'} | {c.eligibility}{' ⚠️' if c.conflicts else ''} | {_cell(c.target)} | {_cell(c.modality)} | "
             f"{_cell(c.stage)} | {_badge_only(c.human_efficacy)} | {sponsor} |"
         )
     lines += ["", "## C–D. Evidence, uncertainty and technical diligence", ""]
@@ -874,8 +1073,119 @@ def _badge_only(a: Assessed) -> str:
     return _BADGE[a.status]
 
 
+def _md_overview(brief: BDBrief) -> list[str]:
+    if not brief.overview:
+        return []
+    lines = [
+        "## BD opportunity overview",
+        "",
+        "Research categories only: not scientific validation and not transaction availability. "
+        "Ownership is never established here.",
+        "",
+        "| Group | Count | Candidates |",
+        "|---|---|---|",
+    ]
+    for group, names in brief.overview.items():
+        lines.append(f"| {group} | {len(names)} | {', '.join(names) or '—'} |")
+    if brief.partial_matches:
+        lines += [
+            "",
+            f"**Partial-target matches ({len(brief.partial_matches)}):** {_PARTIAL_INTRO}",
+            "",
+            "| Candidate | Confirmed target(s) | Authority modality | Failed requirements | Triage | US approval |",
+            "|---|---|---|---|---|---|",
+        ]
+        lines += [
+            f"| {n} | {t} | {m} | {f} | {c} | {_approval_md(tr)} |"
+            for n, t, m, f, c, tr in _partial_rows(brief)
+        ]
+    lines += [
+        "",
+        "**Missing source categories:** " + (", ".join(brief.missing_sources) or "none"),
+        "",
+    ]
+    lines += ["**Most valuable next research actions:**", ""]
+    lines += [f"{i}. {a}" for i, a in enumerate(brief.top_actions, 1)] + [""]
+    if brief.held_back_cards:
+        lines += ["**Held back by the engine for low support (triaged, not reviewed):**", ""]
+        lines += ["| Candidate | Triage | US approval | Sponsor type |", "|---|---|---|---|"]
+        for c in brief.held_back_cards:
+            t = c.triage
+            lines.append(
+                f"| {c.name} | {CATEGORY_LABEL[t.category]} | {_approval_md(t)} | {t.sponsor_kind.value.lower()} |"
+            )
+        lines.append("")
+    return lines
+
+
+def _approval_md(t: Triage) -> str:
+    if t.approval is ApprovalStatus.US_LABEL_FOUND:
+        return "FDA label: " + ", ".join(f"[{a}]({u})" for a, u in t.approval_sources)
+    if t.approval is ApprovalStatus.CONFLICTING:
+        return "ambiguous name match"
+    return "unknown"
+
+
+def _h_overview(brief: BDBrief) -> str:
+    if not brief.overview:
+        return ""
+    rows = "".join(
+        f"<tr><td>{_h(g)}</td><td>{len(n)}</td><td>{_h(', '.join(n) or '—')}</td></tr>"
+        for g, n in brief.overview.items()
+    )
+    held = ""
+    if brief.held_back_cards:
+        held = (
+            "<p><b>Held back by the engine for low support (triaged, not reviewed):</b></p><table>"
+            "<tr><th>Candidate</th><th>Triage</th><th>US approval</th><th>Sponsor type</th></tr>"
+            + "".join(
+                f"<tr><td>{_h(c.name)}</td><td>{_h(CATEGORY_LABEL[c.triage.category])}</td>"
+                f"<td>{_h_approval(c.triage)}</td><td>{_h(c.triage.sponsor_kind.value.lower())}</td></tr>"
+                for c in brief.held_back_cards
+            )
+            + "</table>"
+        )
+    return (
+        "<h2>BD opportunity overview</h2><p class='small'>Research categories only: not scientific "
+        "validation and not transaction availability. Ownership is never established here.</p>"
+        f"<table><tr><th>Group</th><th>Count</th><th>Candidates</th></tr>{rows}</table>"
+        + (
+            f"<p><b>Partial-target matches ({len(brief.partial_matches)}):</b> {_h(_PARTIAL_INTRO)}</p>"
+            "<table><tr><th>Candidate</th><th>Confirmed target(s)</th><th>Authority modality</th>"
+            "<th>Failed requirements</th><th>Triage</th><th>US approval</th></tr>"
+            + "".join(
+                f"<tr><td>{_h(n)}</td><td>{_h(t)}</td><td>{_h(m)}</td><td>{_h(f)}</td>"
+                f"<td>{_h(c)}</td><td>{_h_approval(tr)}</td></tr>"
+                for n, t, m, f, c, tr in _partial_rows(brief)
+            )
+            + "</table>"
+            if brief.partial_matches
+            else ""
+        )
+        + f"<p><b>Missing source categories:</b> {_h(', '.join(brief.missing_sources) or 'none')}</p>"
+        "<p><b>Most valuable next research actions:</b></p><ol>"
+        + "".join(f"<li>{_h(a)}</li>" for a in brief.top_actions)
+        + "</ol>"
+        + held
+    )
+
+
+def _h_approval(t: Triage) -> str:
+    if t.approval is ApprovalStatus.US_LABEL_FOUND:
+        return "FDA label: " + _h_sources(
+            tuple(Source(label=a, url=u) for a, u in t.approval_sources)
+        )
+    return "ambiguous name match" if t.approval is ApprovalStatus.CONFLICTING else "unknown"
+
+
 def _md_card(c: CandidateCard) -> list[str]:
     lines = [f"### {c.position}. {c.name} — {c.eligibility}", "", f"*Why it appeared:* {c.why}", ""]
+    if c.triage:
+        lines += [
+            f"*BD triage:* **{CATEGORY_LABEL[c.triage.category]}** — {'; '.join(c.triage.reasons)}. "
+            f"US approval: {_approval_md(c.triage)} ({c.triage.approval_basis}).",
+            "",
+        ]
     if c.conflicts:
         lines += [
             f"**⚠️ Engine disagreement:** {'; '.join(c.conflicts)}. Do not rely on either signal alone.",
@@ -971,6 +1281,7 @@ def render_html(brief: BDBrief) -> str:
         f"<p class='banner'>Development demonstration. Run <code>{_h(brief.run_id)}</code>, as of "
         f"{_h(brief.as_of_date)}, run status <b>{_h(brief.run_status)}</b>. Not a validated product; no scores.</p>",
         "<h2>Summary</h2>" + _h_list(brief.summary),
+        _h_overview(brief),
         "<h2>A. Strategic gap</h2>",
         f"<p><b>Question:</b> {_h(g.question)}</p><p><b>Why:</b> {_h(g.rationale)}</p>",
         "<p><b>What the engine enforced:</b></p>" + _h_list(g.enforced),
@@ -980,13 +1291,13 @@ def render_html(brief: BDBrief) -> str:
         f"every gate, {brief.counts.get('review', 0)} need review, {brief.counts.get('excluded', 0)} excluded, "
         f"{brief.counts.get('low_support', 0)} held back for low support. Showing the first {len(brief.candidates)} "
         "reviewable candidates in the engine's declared order.</p>",
-        "<table><tr><th>#</th><th>Asset</th><th>Eligibility</th><th>Target</th><th>Modality (authority)</th>"
+        "<table><tr><th>#</th><th>Asset</th><th>BD triage</th><th>Eligibility</th><th>Target</th><th>Modality (authority)</th>"
         "<th>Stage</th><th>Human efficacy</th><th>Sponsors (registry)</th><th>Sources</th></tr>",
     ]
     for c in brief.candidates:
         out.append(
             f"<tr><td>{c.position}</td><td><a href='#{_h(c.asset_id)}'><b>{_h(c.name)}</b></a></td>"
-            f"<td>{_h(c.eligibility)}{' ⚠️' if c.conflicts else ''}</td>"
+            f"<td>{_h(CATEGORY_LABEL[c.triage.category] if c.triage else '—')}</td><td>{_h(c.eligibility)}{' ⚠️' if c.conflicts else ''}</td>"
             f"<td>{_h(c.target.value or '—')}<br>{_h_badge(c.target)}</td>"
             f"<td>{_h(c.modality.value or '—')}<br>{_h_badge(c.modality)}</td>"
             f"<td>{_h(c.stage.value or '—')}<br>{_h_badge(c.stage)}</td>"
@@ -1055,6 +1366,11 @@ def _h_card(c: CandidateCard) -> str:
         f"<details id='{_h(c.asset_id)}' open><summary>{c.position}. {_h(c.name)} — {_h(c.eligibility)}</summary>",
         f"<p><i>Why it appeared:</i> {_h(c.why)}</p>",
     ]
+    if c.triage:
+        parts.append(
+            f"<p><i>BD triage:</i> <b>{_h(CATEGORY_LABEL[c.triage.category])}</b> — {_h('; '.join(c.triage.reasons))}. "
+            f"US approval: {_h_approval(c.triage)} <span class='small'>({_h(c.triage.approval_basis)})</span></p>"
+        )
     if c.conflicts:
         parts.append(
             f"<p class='UNVERIFIED'>Engine disagreement: {_h('; '.join(c.conflicts))}. Do not rely on either signal alone.</p>"
