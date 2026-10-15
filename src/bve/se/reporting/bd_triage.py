@@ -45,7 +45,7 @@ class TriageCategory(str, Enum):
 
 
 CATEGORY_LABEL = {
-    TriageCategory.NAMED_INVESTIGATIONAL: "Named investigational asset to research",
+    TriageCategory.NAMED_INVESTIGATIONAL: "Named product, no US FDA label found (research)",
     TriageCategory.APPROVED_REFERENCE: "Approved / marketed reference product",
     TriageCategory.ACADEMIC_CONSTRUCT: "Academic / unnamed experimental construct",
     TriageCategory.INSUFFICIENTLY_IDENTIFIED: "Insufficiently identified",
@@ -320,7 +320,7 @@ def triage(
     elif approval is ApprovalStatus.US_LABEL_FOUND:
         category = TriageCategory.APPROVED_REFERENCE
         reasons.append(
-            "an FDA label exists: a competitor/benchmark, and possibly still a transaction subject"
+            "an FDA label exists: treat as a competitor or benchmark; rights are not assessed"
         )
     elif kind is NameKind.DESCRIPTIVE_CONSTRUCT:
         category = (
@@ -334,7 +334,9 @@ def triage(
             )
     else:
         category = TriageCategory.NAMED_INVESTIGATIONAL
-        reasons.append("no US label found; non-US approvals were not checked")
+        reasons.append(
+            "no US FDA label found by exact name; not evidence it is investigational (non-US approvals and unlabelled US records not checked)"
+        )
     return Triage(
         category=category,
         name_kind=kind,

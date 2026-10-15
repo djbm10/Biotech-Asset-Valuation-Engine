@@ -845,18 +845,30 @@ def _label(c: CandidateCard) -> str:
     return f"{c.name} (held back)" if c.held_back else c.name
 
 
+def _target_tag(c: CandidateCard, cat: TriageCategory) -> str:
+    if cat is not TriageCategory.NAMED_INVESTIGATIONAL:
+        return ""
+    if c.target.status is EvidenceStatus.SUPPORTED:
+        return f" [target confirmed: {(c.target.value or '').split(':', 1)[-1]}]"
+    return " [target unconfirmed]"
+
+
 def _overview(
     cards: tuple[CandidateCard, ...], held: tuple[CandidateCard, ...]
 ) -> dict[str, tuple[str, ...]]:
     everyone = cards + held
     out = {
         CATEGORY_LABEL[cat]: tuple(
-            _label(c) for c in everyone if c.triage and c.triage.category is cat
+            _label(c) + _target_tag(c, cat)
+            for c in everyone
+            if c.triage and c.triage.category is cat
         )
         for cat in TriageCategory
     }
-    out["Requested target confirmed by an authority record"] = tuple(
-        _label(c) for c in everyone if c.target.status is EvidenceStatus.SUPPORTED
+    out["Requested target confirmed by an authority record (which target)"] = tuple(
+        f"{_label(c)} [{(c.target.value or '').split(':', 1)[-1]}]"
+        for c in everyone
+        if c.target.status is EvidenceStatus.SUPPORTED
     )
     out["Needs verification before any use (engine disagreement or unverified efficacy)"] = tuple(
         _label(c)
@@ -897,7 +909,7 @@ def _top_actions(
         out.append(
             "Search the sources this run never covered ("
             + ", ".join(missing)
-            + "): company pipelines and conference abstracts are where unpartnered assets usually appear first."
+            + "): assets disclosed only there cannot appear in this brief."
         )
     if not named:
         out.append(

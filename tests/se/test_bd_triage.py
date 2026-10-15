@@ -149,3 +149,14 @@ def test_brief_overview_never_claims_rights_and_keeps_unverified_poc_label():
     assert "## BD opportunity overview" in md
     assert "Ownership is never established" in md
     assert "available for licens" not in md.lower()
+
+
+def test_named_products_are_tagged_with_target_confirmation():
+    brief = build_bd_brief(
+        _run(
+            [_entry("asset:a", "ABC-123"), _entry("asset:b", "XYZ-456", target_status="UNRESOLVED")]
+        ),
+        labels=LABELS,
+    )
+    named = next(v for k, v in brief.overview.items() if k.startswith("Named product"))
+    assert named == ("ABC-123 [target confirmed: CD19]", "XYZ-456 [target unconfirmed]")
