@@ -1,0 +1,265 @@
+{
+ "A_base": {
+  "any_relevant_found": [
+   "KT501",
+   "CLN-978",
+   "velinotamig",
+   "OM336"
+  ],
+  "candidates": 6029,
+  "comparators_eligible": [
+   "blinatumomab"
+  ],
+  "comparators_found": [
+   "teclistamab",
+   "blinatumomab",
+   "elranatamab"
+  ],
+  "documents": 8553,
+  "documents_by_publisher": {
+   "AACR": 193,
+   "ClinicalTrials.gov": 1943,
+   "NCI Thesaurus": 1,
+   "PubMed": 6412,
+   "chembl": 1,
+   "drug_target_authority": 1,
+   "ncit_antigen_class": 1,
+   "open_targets": 1
+  },
+  "eligible_total": 1,
+  "fully_verified_relevant_found": [
+   "CLN-978",
+   "OM336"
+  ],
+  "mentions": 41082,
+  "rows": [
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": true,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "LBL-051",
+    "ref_id": "R01"
+   },
+   {
+    "dispositions": [
+     "UNRESOLVED"
+    ],
+    "engine_names": [
+     "KT501"
+    ],
+    "found": true,
+    "fully_verified": false,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "KT501",
+    "ref_id": "R02"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": true,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "HXN-1031",
+    "ref_id": "R03"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": true,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "CDR111",
+    "ref_id": "R04"
+   },
+   {
+    "dispositions": [
+     "UNRESOLVED"
+    ],
+    "engine_names": [
+     "CLN-978"
+    ],
+    "found": true,
+    "fully_verified": true,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "CLN-978",
+    "ref_id": "R05"
+   },
+   {
+    "dispositions": [
+     "UNRESOLVED"
+    ],
+    "engine_names": [
+     "Velinotamig"
+    ],
+    "found": true,
+    "fully_verified": false,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "velinotamig",
+    "ref_id": "R06"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": true,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "cizutamig",
+    "ref_id": "R07"
+   },
+   {
+    "dispositions": [
+     "UNRESOLVED"
+    ],
+    "engine_names": [
+     "OM336"
+    ],
+    "found": true,
+    "fully_verified": true,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "OM336",
+    "ref_id": "R08"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": true,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "A-319",
+    "ref_id": "R09"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": true,
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "low_support": false,
+    "name": "gamgertamig",
+    "ref_id": "R10"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": false,
+    "label": "UNKNOWN_STATUS",
+    "low_support": false,
+    "name": "MK-1045",
+    "ref_id": "R11"
+   },
+   {
+    "dispositions": [
+     "EXCLUDED",
+     "UNRESOLVED"
+    ],
+    "engine_names": [
+     "TECVAYLI",
+     "teclistamab"
+    ],
+    "found": true,
+    "fully_verified": false,
+    "label": "APPROVED_COMPARATOR",
+    "low_support": false,
+    "name": "teclistamab",
+    "ref_id": "R12"
+   },
+   {
+    "dispositions": [
+     "ELIGIBLE"
+    ],
+    "engine_names": [
+     "Blinatumomab"
+    ],
+    "found": true,
+    "fully_verified": false,
+    "label": "APPROVED_COMPARATOR",
+    "low_support": false,
+    "name": "blinatumomab",
+    "ref_id": "R13"
+   },
+   {
+    "dispositions": [
+     "EXCLUDED",
+     "UNRESOLVED"
+    ],
+    "engine_names": [
+     "ELREXFIO",
+     "Elranatamab"
+    ],
+    "found": true,
+    "fully_verified": false,
+    "label": "APPROVED_COMPARATOR",
+    "low_support": false,
+    "name": "elranatamab",
+    "ref_id": "R14"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": false,
+    "label": "UNSUPPORTED_LABEL",
+    "low_support": false,
+    "name": "CND261",
+    "ref_id": "R15"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": false,
+    "label": "WRONG_TARGET_OR_MODALITY",
+    "low_support": false,
+    "name": "FKC289 (BCMA/CD19 CAR-T)",
+    "ref_id": "R16"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": false,
+    "label": "WRONG_TARGET_OR_MODALITY",
+    "low_support": false,
+    "name": "RD06-05",
+    "ref_id": "R17"
+   },
+   {
+    "dispositions": [],
+    "engine_names": [],
+    "found": false,
+    "fully_verified": false,
+    "label": "WRONG_TARGET_OR_MODALITY",
+    "low_support": false,
+    "name": "Allogeneic CD19/BCMA CAR-T (Zhejiang)",
+    "ref_id": "R18"
+   },
+   {
+    "dispositions": [
+     "NONE"
+    ],
+    "engine_names": [
+     "GSK5926371"
+    ],
+    "found": true,
+    "fully_verified": false,
+    "label": "UNRESOLVED_IDENTITY",
+    "low_support": true,
+    "name": "GSK5926371",
+    "ref_id": "R19"
+   }
+  ],
+  "wrong_target_or_modality_not_excluded": []
+ }
+}
