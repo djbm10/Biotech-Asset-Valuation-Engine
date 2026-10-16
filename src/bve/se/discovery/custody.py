@@ -236,6 +236,15 @@ def _canonical_line(model: StrictModel) -> str:
     return json.dumps(model.model_dump(mode="json"), sort_keys=True)
 
 
+def _write_jsonl(path: Path, models) -> None:
+    """One canonical line per model, streamed: the bytes ``"".join(...)`` produced, without
+    holding the whole file (hundreds of MB at production scale) in memory three times over."""
+
+    with path.open("w") as handle:
+        for model in models:
+            handle.write(_canonical_line(model) + "\n")
+
+
 def _sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -403,15 +412,9 @@ class AcquisitionCustody:
 
         staging = Path(tempfile.mkdtemp(prefix=".custody-", dir=custody_root.parent))
         try:
-            (staging / QUERY_ATTEMPTS_FILE).write_text(
-                "".join(_canonical_line(a) + "\n" for a in self._attempts)
-            )
-            (staging / QUERY_RECORD_MAP_FILE).write_text(
-                "".join(_canonical_line(m) + "\n" for m in mappings)
-            )
-            (staging / ACQUISITION_LEDGER_FILE).write_text(
-                "".join(_canonical_line(e) + "\n" for e in ledger)
-            )
+            _write_jsonl(staging / QUERY_ATTEMPTS_FILE, self._attempts)
+            _write_jsonl(staging / QUERY_RECORD_MAP_FILE, mappings)
+            _write_jsonl(staging / ACQUISITION_LEDGER_FILE, ledger)
             (staging / SOURCE_HEALTH_FILE).write_text(
                 json.dumps(source_health, indent=2, sort_keys=True, default=str) + "\n"
             )

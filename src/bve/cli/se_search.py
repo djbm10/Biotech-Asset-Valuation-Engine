@@ -33,7 +33,12 @@ from bve.se.intent.compiler import IntentNotCompilable, build_buyer_identity, co
 from bve.se.intent.parser import parse_query
 from bve.se.pipeline import run_acquisition, run_landscape_search
 from bve.se.reporting.memo import render_search_memo
-from bve.se.reporting.run_artifacts import RunDirectory, summary_payload, write_summary
+from bve.se.reporting.run_artifacts import (
+    RunDirectory,
+    summary_payload,
+    write_json_file,
+    write_summary,
+)
 from bve.se.reporting.shortlist import build_shortlist, render_shortlist
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
 from bve.se.discovery.coverage import coverage_areas, unreached_areas
@@ -457,7 +462,7 @@ def _write_run_artifacts(result, args: argparse.Namespace, directory: RunDirecto
     back to the sources to answer the next question; the run already has all of it in hand.
     """
 
-    directory.result.write_text(json.dumps(result.model_dump(mode="json"), indent=2) + "\n")
+    write_json_file(directory.result, result.model_dump(mode="json"))
     directory.run_manifest.write_text(
         json.dumps(result.run_manifest.model_dump(mode="json"), indent=2) + "\n"
     )

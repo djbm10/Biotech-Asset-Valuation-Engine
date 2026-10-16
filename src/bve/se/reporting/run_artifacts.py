@@ -158,6 +158,18 @@ class RunDirectory:
             return str(path)
 
 
+def write_json_file(path: Path, payload: object) -> None:
+    """``json.dumps(payload, indent=2) + "\n"``, byte for byte, streamed to disk.
+
+    ``json.dump`` emits the same chunks ``json.dumps`` joins; writing them directly avoids
+    holding a full copy of a large result (hundreds of MB) as one string.
+    """
+
+    with path.open("w") as handle:
+        json.dump(payload, handle, indent=2)
+        handle.write("\n")
+
+
 def summary_payload(
     *,
     run_id: str,
