@@ -1,0 +1,33 @@
+[
+  {
+    "source_family": "conference_acr",
+    "connector_succeeded": true,
+    "query_returned_results": true,
+    "raw_record_count": 12,
+    "documents_parsed": 12,
+    "documents_indexed": 12,
+    "parse_failures": 0,
+    "required_evidence_present": null,
+    "error": null,
+    "withheld_as_of": [],
+    "observed_undated": []
+  },
+  {
+    "source_family": "company_pipeline_or_presentation",
+    "connector_succeeded": false,
+    "query_returned_results": true,
+    "raw_record_count": 6,
+    "documents_parsed": 5,
+    "documents_indexed": 5,
+    "parse_failures": 1,
+    "required_evidence_present": null,
+    "error": "https://tempesttx.gcs-web.com/news-releases/news-release-details/tempest-announces-development-collaboration-senlang: HTTP response failed for tempesttx.gcs-web.com",
+    "withheld_as_of": [],
+    "observed_undated": [
+      "https://tcypherbio.com/pipeline/",
+      "https://www.antengene.com/newsinfo/459",
+      "https://www.gracellbio.com/html/media/132.html",
+      "https://www.imvivabio.com/news.html"
+    ]
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "wall_seconds": 17.94,
+  "peak_rss_kib": 77756,
+  "exit_code": 0,
+  "process_limit_bytes": 4294967296,
+  "timeout_seconds": 1200,
+  "requests_selected": 18,
+  "network": "public-source HTTP only; no paid APIs",
+  "python": "3.11.17",
+  "pydantic": "2.14.1",
+  "requests": "2.34.2",
+  "timing_scope": "acquisition and nomination only; excludes generic search and manual adjudication"
+}

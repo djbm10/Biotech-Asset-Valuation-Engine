@@ -1,0 +1,182 @@
+[
+  {
+    "content_hash": "37833af579817cadf0d1912f0f0186e258311227789c573d8bcacdee9664400f",
+    "document_id": "corpusdoc:a9aa76da312465657cecb19f",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2026-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/potent-b-cell-depletion-with-zero-cytokine-release-via-a-novel-%CE%B1%CE%B2tcr-directed-t-cell-engager-for-autoimmune-therapy/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "0e84ee80ef10d13454053abff358f2fd47a829c7cd32e793b9bbcc8dc159fc12",
+    "document_id": "corpusdoc:925a7aff8644a3b533dd1f49",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2026-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/preclinical-characterization-and-development-of-a-novel-bcma-and-cd19-dual-targeting-t-cell-engager-lub017-capable-of-deep-depletion-of-b-cells-and-autoantibody-for-the-treatment-of-autoimmune-dis/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "cdbab3b4e7fe3d6cb7d4e95718c8582ac816ecdc538230b31c2087db4092ca9c",
+    "document_id": "corpusdoc:4f09f1122377a2e897de8e7b",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2026-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/pooled-safety-of-cizutamig-a-bcmaxcd3-t-cell-engager-in-patients-with-autoimmune-diseases/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "64bcb0cc4d108ef6f7387c6a72e73b8921003b45cb6e0efcc065e802b9a71766",
+    "document_id": "corpusdoc:af6c8d64ec13b43b2970ff7b",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2026-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/a-pan-gamma-delta-%CE%B3%CE%B4-t-cell-engager-to-induce-in-vivo-expansion-of-%CE%B3%CE%B4-t-cells-for-deep-b-cell-depletion-in-autoimmune-diseases/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "57146b6b45fa7166b549ad25c60ca5ff477c1ddcb2d74a7d45bcea269bb12a1c",
+    "document_id": "corpusdoc:f5f26db821e7825b93e7daf4",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2025-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/safety-and-efficacy-of-t-cell-engager-therapy-in-patients-with-refractory-autoimmune-disease/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "65602bbb71fc20e1b81031895d68cdc0764449cabf1071646c116cf5753193df",
+    "document_id": "corpusdoc:87fd2ce7ef0e1675997c25a0",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2025-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/development-and-characterization-of-iar130-a-21-format-cd19-and-bcma-dual-targeting-t-cell-engager-for-autoimmune-diseases/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "a56ece2f134c88649d4c37be51d8c0f09a99848235f7d0c1927b96675d310e09",
+    "document_id": "corpusdoc:7f1e5ba852c3241906c79dcb",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2026-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/the-cd20xcd3-t-cell-engager-pro-203-induces-deep-b-cell-depletion-and-clinical-improvement-in-patients-with-systemic-autoimmune-rheumatic-diseases-a-case-series-in-treatment-refractory-patients/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "fecc41a21e433bc8ce3f0810eb5df56f09c5f495f431a5eebf3936649fe8ec23",
+    "document_id": "corpusdoc:94410619fd3c0371090242a7",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2025-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "9f4d042fefbaf5c14d8f2f336bef30ed5fa4be13c77d3672074c7f9f0f47a7ae",
+    "document_id": "corpusdoc:24f080b8fa11ba89a6bf654e",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2025-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/cdr111-is-a-novel-cd19-and-bcma-dual-targeting-t-cell-engager-tce-for-the-treatment-of-severe-and-refractory-autoimmune-diseases/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "bba0dd0de7d5af6053f782bb3da8863e67f47af28619d54478ad047a384a292b",
+    "document_id": "corpusdoc:f0571ff1dd51ce23d55e096b",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2026-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/cc312-a-novel-cd19-cd3-cd28-tri-specific-t-cell-engager-demonstrates-sustained-sri-4-responses-beyond-one-year-along-with-rapid-and-deep-b-cell-depletion-in-sle-patients/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "8b8f34afb241a1daa8829462dae61434948ecadec86820de5b3dd98021182890",
+    "document_id": "corpusdoc:f8ef7144f4540ebf517c2107",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2026-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/imc-002-imm0306-a-bispecific-cd20xcd47-fusion-protein-demonstrates-improvements-in-active-systemic-lupus-erythematosus-patients-in-a-phase-ib-ii-study/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "422fa1eb2c98217c1f7c9c5dae77a6e78877cb8d7f87ef19825a7bb8ad4b4346",
+    "document_id": "corpusdoc:63fb382c326559e23d9996e7",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2026-09-01",
+    "source_family": "conference_acr",
+    "source_url": "https://acrabstracts.org/abstract/multi-lineage-immune-remodeling-following-cd3xcd19-t-cell-engagement-in-active-systemic-lupus-erythematosus-single-cell-genomic-results-from-a-phase-i-investigator-initiated-trial/",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "f6538609a2f8233918fe460f3722d80fade4b4d024e3070bdcdc76348ee39279",
+    "document_id": "corpusdoc:004873ec9604ca21c7422c7a",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": null,
+    "source_family": "company_pipeline_or_presentation",
+    "source_url": "https://tcypherbio.com/pipeline/",
+    "temporal_basis": "OBSERVED_AT"
+  },
+  {
+    "content_hash": "37bf50aa357a1994807f54c55a6a0c0d59346bf8ff4c03dbfa46c9f90c38c768",
+    "document_id": "corpusdoc:4201aa7ce6bac9071679b529",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": null,
+    "source_family": "company_pipeline_or_presentation",
+    "source_url": "https://www.antengene.com/newsinfo/459",
+    "temporal_basis": "OBSERVED_AT"
+  },
+  {
+    "content_hash": "8eb901ee5a7f380c7823de593e5e0423a591bfbad2a6705609b8c47ba87c841e",
+    "document_id": "corpusdoc:6430c144211c1c8eb5bc6f4e",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": "2026-03-18",
+    "source_family": "company_pipeline_or_presentation",
+    "source_url": "https://www.kalitherapeutics.com/post/kali-therapeutics-announces-first-patient-dosed-in-phase1a-clinical-trial-of-kt501-for-rheumatoid-ar",
+    "temporal_basis": "PUBLISHED_AT"
+  },
+  {
+    "content_hash": "bbf4dddd6f9b98a76b876401a0322f64923cf9e9fb7f4e6b541e99b46305dd09",
+    "document_id": "corpusdoc:15c68b4b9deab787aef41883",
+    "index_status": "UNINDEXED",
+    "parser_status": "FAILED",
+    "publication_date": null,
+    "source_family": "company_pipeline_or_presentation",
+    "source_url": "https://tempesttx.gcs-web.com/news-releases/news-release-details/tempest-announces-development-collaboration-senlang",
+    "temporal_basis": "OBSERVED_AT"
+  },
+  {
+    "content_hash": "6488739fffe9c8acf1188e31182baaeed4ded139fcb2db3a3f681f0e6ba4093c",
+    "document_id": "corpusdoc:5e62caa293f9bc6748935082",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": null,
+    "source_family": "company_pipeline_or_presentation",
+    "source_url": "https://www.gracellbio.com/html/media/132.html",
+    "temporal_basis": "OBSERVED_AT"
+  },
+  {
+    "content_hash": "52828c05d15fa54108ff95580606100394b7525a1daeb311deba897adbdeeb60",
+    "document_id": "corpusdoc:ce8dbd25d2462be7ee99b4ca",
+    "index_status": "INDEXED",
+    "parser_status": "OK",
+    "publication_date": null,
+    "source_family": "company_pipeline_or_presentation",
+    "source_url": "https://www.imvivabio.com/news.html",
+    "temporal_basis": "OBSERVED_AT"
+  }
+]

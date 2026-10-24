@@ -1,0 +1,702 @@
+[
+  {
+    "query_id": "Q1",
+    "rank": 1,
+    "title": "Potent B-Cell Depletion with Zero Cytokine Release via a Novel \u03b1\u03b2TCR-Directed T-Cell Engager for Autoimmune Therapy - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/potent-b-cell-depletion-with-zero-cytokine-release-via-a-novel-%CE%B1%CE%B2tcr-directed-t-cell-engager-for-autoimmune-therapy/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 2,
+    "title": "Preclinical Characterization and Development of a Novel BCMA- and CD19- Dual Targeting T Cell Engager, LUB017, Capable of Deep Depletion of B Cells and Autoantibody for the Treatment of Autoimmune Diseases - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/preclinical-characterization-and-development-of-a-novel-bcma-and-cd19-dual-targeting-t-cell-engager-lub017-capable-of-deep-depletion-of-b-cells-and-autoantibody-for-the-treatment-of-autoimmune-dis/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 3,
+    "title": "Pooled safety of cizutamig, a BCMA\u00d7CD3 T-cell engager, in patients with autoimmune diseases - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/pooled-safety-of-cizutamig-a-bcmaxcd3-t-cell-engager-in-patients-with-autoimmune-diseases/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 4,
+    "title": "A Pan Gamma-Delta (\u03b3\u03b4) T cell Engager to Induce In Vivo Expansion of \u03b3\u03b4 T cells for Deep B cell Depletion in Autoimmune Diseases - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/a-pan-gamma-delta-%CE%B3%CE%B4-t-cell-engager-to-induce-in-vivo-expansion-of-%CE%B3%CE%B4-t-cells-for-deep-b-cell-depletion-in-autoimmune-diseases/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 5,
+    "title": "Safety and Efficacy of T Cell Engager Therapy in patients with refractory Autoimmune Disease - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/safety-and-efficacy-of-t-cell-engager-therapy-in-patients-with-refractory-autoimmune-disease/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 6,
+    "title": "Development and Characterization of IAR130, a 2+1 Format, CD19 and BCMA Dual Targeting T Cell Engager for Autoimmune Diseases - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/development-and-characterization-of-iar130-a-21-format-cd19-and-bcma-dual-targeting-t-cell-engager-for-autoimmune-diseases/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 7,
+    "title": "Abstracts: Systemic Sclerosis & Related Disorders - Treatment (2905-2910) Archives - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/sessions/abstracts-systemic-sclerosis-related-disorders-treatment-2905-2910-2026/",
+    "family": "acr",
+    "selected": false,
+    "reason": "not an ACR abstract page",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 8,
+    "title": "The CD20xCD3 T-Cell Engager PRO-203 Induces Deep B-Cell Depletion and Clinical Improvement in Patients with Systemic Autoimmune Rheumatic Diseases - A Case-Series in Treatment-Refractory Patients - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/the-cd20xcd3-t-cell-engager-pro-203-induces-deep-b-cell-depletion-and-clinical-improvement-in-patients-with-systemic-autoimmune-rheumatic-diseases-a-case-series-in-treatment-refractory-patients/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 9,
+    "title": "Development of a noval \u20181+1+1\u2019 CD19- and BCMA-dual targeted T cell engager for autoimmune diseases - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 10,
+    "title": "CDR111 is a novel CD19 and BCMA dual-targeting T cell engager (TCE) for the treatment of severe and refractory autoimmune diseases - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/cdr111-is-a-novel-cd19-and-bcma-dual-targeting-t-cell-engager-tce-for-the-treatment-of-severe-and-refractory-autoimmune-diseases/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 11,
+    "title": "CC312, a Novel CD19/CD3/CD28 Tri-specific T Cell Engager, Demonstrates Sustained SRI-4 responses Beyond One Year Along with Rapid and Deep B-cell Depletion in SLE Patients - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/cc312-a-novel-cd19-cd3-cd28-tri-specific-t-cell-engager-demonstrates-sustained-sri-4-responses-beyond-one-year-along-with-rapid-and-deep-b-cell-depletion-in-sle-patients/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q1",
+    "rank": 12,
+    "title": "(0142-0158) B Cell Biology & Targets in Autoimmune & Inflammatory Disease Poster A Archives - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/sessions/0142-0158-b-cell-biology-targets-in-autoimmune-inflammatory-disease-poster-a-2026/",
+    "family": "acr",
+    "selected": false,
+    "reason": "not an ACR abstract page",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 1,
+    "title": "IMC-002 (IMM0306), a bispecific CD20\u00d7CD47 fusion protein, demonstrates improvements in active Systemic Lupus Erythematosus patients in a phase Ib/II study - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/imc-002-imm0306-a-bispecific-cd20xcd47-fusion-protein-demonstrates-improvements-in-active-systemic-lupus-erythematosus-patients-in-a-phase-ib-ii-study/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 2,
+    "title": "Multi-lineage immune remodeling following CD3xCD19 T-cell engagement in active systemic lupus erythematosus: single-cell genomic results from a Phase I investigator initiated trial - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/multi-lineage-immune-remodeling-following-cd3xcd19-t-cell-engagement-in-active-systemic-lupus-erythematosus-single-cell-genomic-results-from-a-phase-i-investigator-initiated-trial/",
+    "family": "acr",
+    "selected": true,
+    "reason": "ACR abstract",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 3,
+    "title": "First-in-Human Non-Viral Bispecific BCMA/CD19 CAR-T in Refractory SLE, SSc, and SS: Safety, Dual Pharmacodynamics, and Immune Reset - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/first-in-human-non-viral-bispecific-bcma-cd19-car-t-in-refractory-sle-ssc-and-ss-safety-dual-pharmacodynamics-and-immune-reset/",
+    "family": "acr",
+    "selected": false,
+    "reason": "family cap reached",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 4,
+    "title": "NKB61: A Novel PD-1 Agonist/CD16A Bispecific Antibody with Selective Depletion of Pathogenic PD-1+ T Cells and Favorable Safety Profile for Autoimmune Disease Therapy - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/nkb61-a-novel-pd-1-agonist-cd16a-bispecific-antibody-with-selective-depletion-of-pathogenic-pd-1-t-cells-and-favorable-safety-profile-for-autoimmune-disease-therapy/",
+    "family": "acr",
+    "selected": false,
+    "reason": "family cap reached",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 5,
+    "title": "(2192-2227) Systemic Lupus Erythematosus - Treatment Poster C Archives - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/sessions/2192-2227-systemic-lupus-erythematosus-treatment-poster-c-2026/",
+    "family": "acr",
+    "selected": false,
+    "reason": "not an ACR abstract page",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 6,
+    "title": "(1948-1959) T Cell Biology & Targets in Autoimmune & Inflammatory Disease Poster C Archives - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/sessions/1948-1959-t-cell-biology-targets-in-autoimmune-inflammatory-disease-poster-c-2026/",
+    "family": "acr",
+    "selected": false,
+    "reason": "not an ACR abstract page",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 7,
+    "title": "(1099-1115) B Cell Biology & Targets in Autoimmune & Inflammatory Disease Poster B Archives - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/sessions/1099-1115-b-cell-biology-targets-in-autoimmune-inflammatory-disease-poster-b-2026/",
+    "family": "acr",
+    "selected": false,
+    "reason": "not an ACR abstract page",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 8,
+    "title": "HB2198: A Tetravalent Bispecific anti-CD19/CD20 Antibody with Dual Fc Domains for Enhanced Immune Effector Functions and Deep B Cell Depletion in SLE - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/hb2198-a-tetravalent-bispecific-anti-cd19-cd20-antibody-with-dual-fc-domains-for-enhanced-immune-effector-functions-and-deep-b-cell-depletion-in-sle/",
+    "family": "acr",
+    "selected": false,
+    "reason": "family cap reached",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 9,
+    "title": "JMB-2502, a Novel and Potent Anti-BAFF (B-Cell Activating Factor)/APRIL (A Proliferation-Inducing Ligand) Bispecific Antibody with an Extended Half-Life for the Treatment of SLE and Other B-Cell-Related Autoimmune Diseases - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/jmb-2502-a-novel-and-potent-anti-baff-b-cell-activating-factor-april-a-proliferation-inducing-ligand-bispecific-antibody-with-an-extended-half-life-for-the-treatment-of-sle-and-other-b-cell-relat/",
+    "family": "acr",
+    "selected": false,
+    "reason": "family cap reached",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 10,
+    "title": "T Cell-Engaging Bispecific Antibodies to Target Autoreactive 9G4 Idiotope B Cells in Systemic Lupus Erythematosus - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/t-cell-engaging-bispecific-antibodies-to-target-autoreactive-9g4-idiotope-b-cells-in-systemic-lupus-erythematosus/",
+    "family": "acr",
+    "selected": false,
+    "reason": "family cap reached",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 11,
+    "title": "Anti-CD20/BCMA Bispecific CAR-T Cell Therapy Promotes Immune Reset and Sustained Drug Free Remission in Refractory Autoimmune Diseases - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/anti-cd20-bcma-bispecific-car-t-cell-therapy-promotes-immune-reset-and-sustained-drug-free-remission-in-refractory-autoimmune-diseases/",
+    "family": "acr",
+    "selected": false,
+    "reason": "family cap reached",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q2",
+    "rank": 12,
+    "title": "Bispecific Autoantigen-T Cell Engagers (BaiTE) to Selectively Target Autoreactive B Cells in Antiphospholipid Syndrome - ACR Meeting Abstracts",
+    "url": "https://acrabstracts.org/abstract/bispecific-autoantigen-t-cell-engagers-baite-to-selectively-target-autoreactive-b-cells-in-antiphospholipid-syndrome/",
+    "family": "acr",
+    "selected": false,
+    "reason": "family cap reached",
+    "declared_publisher": "ACR"
+  },
+  {
+    "query_id": "Q3",
+    "rank": 1,
+    "title": "Pipeline - T-Cypher Bio",
+    "url": "https://tcypherbio.com/pipeline/",
+    "family": "company",
+    "selected": true,
+    "reason": "issuer-controlled HTML page",
+    "declared_publisher": "T-Cypher Bio"
+  },
+  {
+    "query_id": "Q3",
+    "rank": 2,
+    "title": "Gilead Sciences",
+    "url": "https://en.wikipedia.org/wiki/Gilead_Sciences",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 3,
+    "title": "Sanofi Buys Chinese Trispecific TCE That Binds CD3, CD19 and BCMA for $180 MM Upfront to Treat Autoimmune Disorders",
+    "url": "https://www.reddit.com/r/biotech/comments/1s3dnlh/sanofi_buys_chinese_trispecific_tce_that_binds/",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 4,
+    "title": "Cullinan Therapeutics Shares New Clinical Data Across Its",
+    "url": "https://www.globenewswire.com/news-release/2026/06/10/3309602/0/en/Cullinan-Therapeutics-Shares-New-Clinical-Data-Across-Its-Portfolio-of-T-Cell-Engager-Programs-Targeting-CD19-and-BCMA-in-Autoimmune-Diseases.html",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 5,
+    "title": "Cullinan Therapeutics Outlines Q4 Milestones For T Cell Engager Pipeline",
+    "url": "https://www.rttnews.com/3693648/cullinan-therapeutics-outlines-q4-milestones-for-t-cell-engager-pipeline.aspx",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 6,
+    "title": "Takeda Pharmaceutical Company",
+    "url": "https://en.wikipedia.org/wiki/Takeda_Pharmaceutical_Company",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 7,
+    "title": "Roundup of the latest antibody biotech deals (4/24)",
+    "url": "https://www.reddit.com/r/biotech/comments/1cc15qy",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 8,
+    "title": "Cullinan Therapeutics Licenses Rights to Velinotamig, a Clinical-Stage BCMA-Directed Bispecific T Cell Engager, from Genrix Bio for Development in Autoimmune Diseases",
+    "url": "https://investors.cullinantherapeutics.com/node/9451/pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": "Cullinan Therapeutics"
+  },
+  {
+    "query_id": "Q3",
+    "rank": 9,
+    "title": "Novartis Licenses Abogen's mRNA-Encoded CD19xCD3 T-Cell Engager ABO2203 for Autoimmune Diseases | BioPharm International",
+    "url": "https://www.biopharminternational.com/view/novartis-licenses-abogen-s-mrna-encoded-cd19xcd3-t-cell-engager-abo2203-for-autoimmune-diseases",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 10,
+    "title": "Roundup of the latest antibody biotech deals (June 2026)",
+    "url": "https://www.reddit.com/r/biotech/comments/1un284z/roundup_of_the_latest_antibody_biotech_deals_june/",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 11,
+    "title": "Lupus Pipeline & Clinical Trials 2026 \u2014 258 Active, 38 in Phase 3 | TheraRadar",
+    "url": "https://theraradar.com/dashboards/landscape/lupus/",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 12,
+    "title": "Roundup of the latest antibody biotech deals (March 2026)",
+    "url": "https://www.reddit.com/r/biotech/comments/1samxg9/roundup_of_the_latest_antibody_biotech_deals/",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 13,
+    "title": "BCMA: A PROMISING TARGET",
+    "url": "https://cullinantherapeutics.com/wp-content/uploads/2025/10/BCMA-in-Autoimmune-Diseases_Fact-Sheet_v2_10.10.25.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": "Cullinan Therapeutics"
+  },
+  {
+    "query_id": "Q3",
+    "rank": 14,
+    "title": "The year of the bispecific in oncology and beyond",
+    "url": "https://www.nature.com/articles/d43747-025-00111-4.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 15,
+    "title": "Technology platform:",
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0320/2026032000496.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 16,
+    "title": "Corporate presentation April 2026",
+    "url": "https://lakefrontbio.com/app/uploads/GLPG-corporate-presentation-2026-April-1.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": "Lakefront Biotherapeutics"
+  },
+  {
+    "query_id": "Q3",
+    "rank": 17,
+    "title": "Roundup of the latest antibody biotech deals (24/9)",
+    "url": "https://www.reddit.com/r/biotech/comments/1foe78t",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 18,
+    "title": "# Dual-Targeting TCE for B Cell-Driven A",
+    "url": "https://ailuxbio.com/wp-content/uploads/2026/04/Ailux-Overview-April-2026.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": "Ailux Biologics"
+  },
+  {
+    "query_id": "Q3",
+    "rank": 19,
+    "title": "Roundup of the latest antibody biotech deals (11/11)",
+    "url": "https://www.reddit.com/r/biotech/comments/1goz2m4",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 20,
+    "title": "Roundup of the latest antibody biotech deals (April 2026)",
+    "url": "https://www.reddit.com/r/biotech/comments/1t0x27c/roundup_of_the_latest_antibody_biotech_deals/",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 21,
+    "title": "Amgen",
+    "url": "https://en.wikipedia.org/wiki/Amgen",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 22,
+    "title": "Roundup of the latest antibody biotech deals (May 2026)",
+    "url": "https://www.reddit.com/r/biotech/comments/1tvu3d2/roundup_of_the_latest_antibody_biotech_deals_may/",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 23,
+    "title": "Cullinan updates CLN-978 and velinotamig trial data | CGEM 8-K Filing",
+    "url": "https://www.stocktitan.net/sec-filings/CGEM/8-k-cullinan-therapeutics-inc-reports-material-event-f74cc68f68cd.html",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 24,
+    "title": "Kali Therapeutics Announces Oral Presentation of KT502, a Novel CD19 x CD3 T-Cell Engager, at the EULAR 2026 Annual Congress",
+    "url": "https://www.prnewswire.com/news-releases/kali-therapeutics-announces-oral-presentation-of-kt502-a-novel-cd19-x-cd3-t-cell-engager-at-the-eular-2026-annual-congress-302772944.html",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 25,
+    "title": "Newsroom",
+    "url": "https://www.antengene.com/newsinfo/459",
+    "family": "company",
+    "selected": true,
+    "reason": "issuer-controlled HTML page",
+    "declared_publisher": "Antengene"
+  },
+  {
+    "query_id": "Q3",
+    "rank": 26,
+    "title": "T-Cell Engagers Beyond Oncology: Masked TCEs Enter Autoimmune Disease Treatment as UCB and Antengene Advance ATG-201 into Phase 1 \u2013 Biotech Intelligence",
+    "url": "https://biotech-intelligence.com/t-cell-engagers-beyond-oncology-masked-tces-autoimmune-disease-atg-201-phase-1/",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 27,
+    "title": "Cullinan Therapeutics Highlights Fourth Quarter 2026 Milestones Across Immunology and Oncology T Cell Engager Portfolio",
+    "url": "https://www.streetinsider.com/Globe%2BNewswire/Cullinan%2BTherapeutics%2BHighlights%2BFourth%2BQuarter%2B2026%2BMilestones%2BAcross%2BImmunology%2Band%2BOncology%2BT%2BCell%2BEngager%2BPortfolio/27098651.html",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q3",
+    "rank": 28,
+    "title": "Roundup of the latest antibody biotech deals (September 2026)",
+    "url": "https://www.reddit.com/r/biotech/comments/1wz9prf/roundup_of_the_latest_antibody_biotech_deals/",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 1,
+    "title": "Oblenio Announces First Patients Dosed in Innovative Phase",
+    "url": "https://www.globenewswire.com/news-release/2026/08/04/3338128/0/en/oblenio-announces-first-patients-dosed-in-innovative-phase-1a-trial-of-lbl-051-in-refractory-autoimmune-diseases.html",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 2,
+    "title": "Kali Therapeutics Announces First Patient Dosed in Phase1a Clinical Trial of KT501 for Rheumatoid Arthritis",
+    "url": "https://www.kalitherapeutics.com/post/kali-therapeutics-announces-first-patient-dosed-in-phase1a-clinical-trial-of-kt501-for-rheumatoid-ar",
+    "family": "company",
+    "selected": true,
+    "reason": "issuer-controlled HTML page",
+    "declared_publisher": "Kali Therapeutics"
+  },
+  {
+    "query_id": "Q4",
+    "rank": 3,
+    "title": "Tempest Announces Development Collaboration with Senlang Biotechnology for TPST-4003, a CD7-Targeted Next-Generation In Vivo CAR-T | Tempest Therapeutics",
+    "url": "https://tempesttx.gcs-web.com/news-releases/news-release-details/tempest-announces-development-collaboration-senlang",
+    "family": "company",
+    "selected": true,
+    "reason": "issuer-controlled HTML page",
+    "declared_publisher": "Tempest Therapeutics (issuer investor site)"
+  },
+  {
+    "query_id": "Q4",
+    "rank": 4,
+    "title": "Gracell Biotechnologies Doses First Patient in Phase 1b/2 Clinical Trial in U.S. Evaluating GC012F for Treatment of Relapsed/Refractory Multiple Myeloma | Gracell",
+    "url": "https://www.gracellbio.com/html/media/132.html",
+    "family": "company",
+    "selected": true,
+    "reason": "issuer-controlled HTML page",
+    "declared_publisher": "Gracell Biotechnologies"
+  },
+  {
+    "query_id": "Q4",
+    "rank": 5,
+    "title": "PRESS RELEASE",
+    "url": "https://www.gracellbio.com/pdf_files/newsarticle-asset-auto-20230926-8811.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": "Gracell Biotechnologies"
+  },
+  {
+    "query_id": "Q4",
+    "rank": 6,
+    "title": "CARsgen's Allogeneic CD19/CD20 CAR-T Therapy Administers First Dose in a Patient with Autoimmune Disease",
+    "url": "https://www.pharmaceutical-tech.com/news/carsgens-allogeneic-cd19cd20-car-t-therapy-administers",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 7,
+    "title": "Hong Kong Exchanges and Clearing Limited, The Stock Exchange of Hong Kong Limited and Hong Kong Securities",
+    "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2025/0814/2025081401626.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 8,
+    "title": "CARsgen's Allogeneic CD19/CD20 CAR-T Therapy Administers First Dose in a Patient with Autoimmune Disease - PR Newswire APAC",
+    "url": "https://en.prnasia.com/releases/global/carsgen-s-allogeneic-cd19-cd20-car-t-therapy-administers-first-dose-in-a-patient-with-autoimmune-disease-479886.shtml",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 9,
+    "title": "KT501 FDA IND: CD19xBCMAxCD3 Autoimmune",
+    "url": "https://novapharmanews.com/us/news/kali-kt501-fda-ind-cd19-bcma-cd3-autoimmune",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 10,
+    "title": "News & Media | Imviva",
+    "url": "https://www.imvivabio.com/news.html",
+    "family": "company",
+    "selected": true,
+    "reason": "issuer-controlled HTML page",
+    "declared_publisher": "ImvivaBio"
+  },
+  {
+    "query_id": "Q4",
+    "rank": 11,
+    "title": "Tempest Announces Development Collaboration With Senlang Biotechnology For TPST-4003, A CD7-Targeted Next-Generation In Vivo CAR-T",
+    "url": "https://www.outsourcedpharma.com/doc/tempest-development-collaboration-senlang-biotechnology-tpst-cd-targeted-next-generation-in-vivo-car-t-0001",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 12,
+    "title": "NOVEL BCMA-CD19 COMPOUND CAR-T (cCAR) TARGETS B CELLS AND PLASMA CELLS ACHIEVING IMMUNE RESET",
+    "url": "https://de170d6b23836ee9498a-9e3cbe05dc55738dcbe22366a8963ae7.ssl.cf1.rackcdn.com/2529401-2114398-001.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 13,
+    "title": "Tempest Unveils Next-Generation In Vivo CAR-T Pipeline,",
+    "url": "https://www.globenewswire.com/fr/news-release/2026/07/15/3327582/0/en/tempest-unveils-next-generation-in-vivo-car-t-pipeline-with-first-clinical-study-planned-for-the-fourth-quarter-of-2026.html",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 14,
+    "title": "Oblenio doses first EU patients in LBL-051 FIH trial \u2014 Europe Pharma Today",
+    "url": "https://europepharmatoday.com/news/oblenio-lbl-051-phase-1a-europe-first-patients-august-2026",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 15,
+    "title": "Industry updates from the field of stem cell research and regenerative medicine in May 2024",
+    "url": "https://www.tandfonline.com/doi/pdf/10.1080/17460751.2024.2378634",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 16,
+    "title": "JW (Cayman) Therapeutics Co. Ltd",
+    "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2023/0927/2023092700473.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 17,
+    "title": "Roads and detours for CAR T cell therapy in autoimmune diseases - PMC",
+    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13037433/",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": null
+  },
+  {
+    "query_id": "Q4",
+    "rank": 18,
+    "title": "Presentation title  to be inserted here",
+    "url": "https://www.autolus.com/media/umenzd3x/autl-corporate-presentation-nov-2025.pdf",
+    "family": "company",
+    "selected": false,
+    "reason": "non-issuer, unclear publisher or PDF",
+    "declared_publisher": "Autolus"
+  }
+]

@@ -1,0 +1,77 @@
+{
+  "acquisition_code_sha256": "08468486356b00c6afdc3df011a50022a2870ef88fc8082d58f83a9b7452be1a",
+  "code_head": "e9a2d0a641827d974d35bd4bdc19cf69aac06c3a",
+  "files": {
+    "corpus/manifest.jsonl": "f38d48d82e984ad9b5bbc8492e8cd0ee75bbfcb2ce98baa5b1070c3441251873",
+    "corpus/snapshots/company_pipeline_or_presentation/37bf50aa357a1994807f54c55a6a0c0d59346bf8ff4c03dbfa46c9f90c38c768.json": "02c1af6df50e2e5b9524a000433a9e827f97ed68ef4bd35c7a953cfe3b623e24",
+    "corpus/snapshots/company_pipeline_or_presentation/52828c05d15fa54108ff95580606100394b7525a1daeb311deba897adbdeeb60.json": "187efd8d3ff1146a725bc51bf327e4f78b97277659cd2f67fe598947419117be",
+    "corpus/snapshots/company_pipeline_or_presentation/6488739fffe9c8acf1188e31182baaeed4ded139fcb2db3a3f681f0e6ba4093c.json": "04f09fe4424fbd654216f4f7ef2ca3cdb511dc0a851c57a9d39b0fdf7e821317",
+    "corpus/snapshots/company_pipeline_or_presentation/8eb901ee5a7f380c7823de593e5e0423a591bfbad2a6705609b8c47ba87c841e.json": "fd4b6f0a33ee8093c61f38355ce1c518eb02ea69195a1cdd3a3ee632e26894b7",
+    "corpus/snapshots/company_pipeline_or_presentation/bbf4dddd6f9b98a76b876401a0322f64923cf9e9fb7f4e6b541e99b46305dd09.json": "712ea80eb509b986faa8a1a074f53b1f40ed19d2f90b81e8128b8c09325ed686",
+    "corpus/snapshots/company_pipeline_or_presentation/f6538609a2f8233918fe460f3722d80fade4b4d024e3070bdcdc76348ee39279.json": "862d8d2f4065a712fe0d54179e7bb12ce961cf6a8b166c502bb2304454603cea",
+    "corpus/snapshots/conference_acr/0e84ee80ef10d13454053abff358f2fd47a829c7cd32e793b9bbcc8dc159fc12.json": "53aa1e24e83a566ecc8e0053a8a09d5e6da7eda59db773f6c4cd1110ef8cf6a8",
+    "corpus/snapshots/conference_acr/37833af579817cadf0d1912f0f0186e258311227789c573d8bcacdee9664400f.json": "d4839181dedd634a271fabec207c7fd3ff51b2c14bb6b4edc19dfeab2c282ddc",
+    "corpus/snapshots/conference_acr/422fa1eb2c98217c1f7c9c5dae77a6e78877cb8d7f87ef19825a7bb8ad4b4346.json": "ec339e44c09105b80a9234ca8da85c0d185805ca8d0a10bbaf15dc55d2398908",
+    "corpus/snapshots/conference_acr/57146b6b45fa7166b549ad25c60ca5ff477c1ddcb2d74a7d45bcea269bb12a1c.json": "7df4c71df64b383c0d1aedf4fd8592e01928c6aaf932d812aef22ccd64ce8d34",
+    "corpus/snapshots/conference_acr/64bcb0cc4d108ef6f7387c6a72e73b8921003b45cb6e0efcc065e802b9a71766.json": "a84d5cc2d6d6a866a296b5462212a79b1715541693823f3a859da66555124003",
+    "corpus/snapshots/conference_acr/65602bbb71fc20e1b81031895d68cdc0764449cabf1071646c116cf5753193df.json": "571ed9bc4df0e38851093402ff876e2a01edbc472cf00759f085b34174410cd2",
+    "corpus/snapshots/conference_acr/8b8f34afb241a1daa8829462dae61434948ecadec86820de5b3dd98021182890.json": "21dfa44641b9c88931dfe8b90f74a4760e0478a48381c813805ef995b71001ac",
+    "corpus/snapshots/conference_acr/9f4d042fefbaf5c14d8f2f336bef30ed5fa4be13c77d3672074c7f9f0f47a7ae.json": "98ddb81909ef382cad08f3f114a2aeeef4e86748f0ea467b44c04b44c1d3874d",
+    "corpus/snapshots/conference_acr/a56ece2f134c88649d4c37be51d8c0f09a99848235f7d0c1927b96675d310e09.json": "58dc3f1fd22d961ae604917555e949a799dba06603b7415253af029938c35aca",
+    "corpus/snapshots/conference_acr/bba0dd0de7d5af6053f782bb3da8863e67f47af28619d54478ad047a384a292b.json": "dc51fd907c479f4d08d8f46c73f35b15b3938112cf9403501e3c0ceeef44648d",
+    "corpus/snapshots/conference_acr/cdbab3b4e7fe3d6cb7d4e95718c8582ac816ecdc538230b31c2087db4092ca9c.json": "5b20808f7f61f543e5b3527b78c56a9a7314f169d64d5ecbfa9a09c361a8b391",
+    "corpus/snapshots/conference_acr/fecc41a21e433bc8ce3f0810eb5df56f09c5f495f431a5eebf3936649fe8ec23.json": "64130076e599298f9acd99c15370dc2495b7a46a2bf1463e905009602c27a35e",
+    "fetches.json": "8e482bca2999dc5a50514bcfa33063b6e5f45f84ee671cd72de682f695f225eb",
+    "health.json": "0f74e0e03d9e201c1c15d51110a51227280fc408e8e562fbef7d522cab614d83",
+    "nominations.json": "0f23d87a3c75b24e114c9695f88e624d01528c0ced6bf12f6dcc3a275f315596",
+    "raw/08da5e8e15becd8977b2f1ab364635c0dfdd6eca253628cbcdc64a56da8ead3a.html": "08da5e8e15becd8977b2f1ab364635c0dfdd6eca253628cbcdc64a56da8ead3a",
+    "raw/32a22427ce52d66353325723f7b7b6be8789aa62479ffb25abee53f2c5470b47.html": "32a22427ce52d66353325723f7b7b6be8789aa62479ffb25abee53f2c5470b47",
+    "raw/33d41725cda096aad3a890ca8c9925513c42a651e235a81597ba929e42e5b844.html": "33d41725cda096aad3a890ca8c9925513c42a651e235a81597ba929e42e5b844",
+    "raw/387d4b206309658f42ce6760d4c9a1237b6ee3625016b35f3fd9ac80944e5940.html": "387d4b206309658f42ce6760d4c9a1237b6ee3625016b35f3fd9ac80944e5940",
+    "raw/6153c711dfdc083ab827addc6ab57888eb3aad0bc882835261280be97e75b353.html": "6153c711dfdc083ab827addc6ab57888eb3aad0bc882835261280be97e75b353",
+    "raw/69d8f5c5acedf8e56e865227c245efe9df65b0871ff6c67031210c7fe46a7690.html": "69d8f5c5acedf8e56e865227c245efe9df65b0871ff6c67031210c7fe46a7690",
+    "raw/7a5aad07968830d21d370e7d4c036b6951cb1f4688a00a171ee9e7aa0ee41f56.html": "7a5aad07968830d21d370e7d4c036b6951cb1f4688a00a171ee9e7aa0ee41f56",
+    "raw/7b0c9096899d832a0a2c72ae9d88cf675b025f2b35e25f21d5590e05c5592955.html": "7b0c9096899d832a0a2c72ae9d88cf675b025f2b35e25f21d5590e05c5592955",
+    "raw/a2c9a04588461b3433989e2562be3e5d9a7f45372d54c385b880e616bfb554df.html": "a2c9a04588461b3433989e2562be3e5d9a7f45372d54c385b880e616bfb554df",
+    "raw/be0e589d0d0d1bb0140cb3b315236d9ef3b450fd9c573445dee6b051e0577133.html": "be0e589d0d0d1bb0140cb3b315236d9ef3b450fd9c573445dee6b051e0577133",
+    "raw/cbfc12ccfcb2d178857a63694dfcf681089eb44475a69d468fe3fa0d7b762668.html": "cbfc12ccfcb2d178857a63694dfcf681089eb44475a69d468fe3fa0d7b762668",
+    "raw/d7de31d4cbf7b916b2b7fdb6c90ac79c8c5db280aaa76abfffea955ec090c3b9.html": "d7de31d4cbf7b916b2b7fdb6c90ac79c8c5db280aaa76abfffea955ec090c3b9",
+    "raw/d8744095b19d13c8a10d6e2f1936e0ef36bf1ea6f3ba64b20361b9da798fd27a.html": "d8744095b19d13c8a10d6e2f1936e0ef36bf1ea6f3ba64b20361b9da798fd27a",
+    "raw/ecbfde1f71a5ef0dc68af312f4bfbda466b697f87fdd0a1c05feba6b3a452a91.html": "ecbfde1f71a5ef0dc68af312f4bfbda466b697f87fdd0a1c05feba6b3a452a91",
+    "raw/ed01bb85a07c81d123258466165cb9b6cde594f8d57965663ac698359e0bf97e.html": "ed01bb85a07c81d123258466165cb9b6cde594f8d57965663ac698359e0bf97e",
+    "raw/ef72adf55b49cbb49ce116b9695c9569bc1d90cd6d4ba13e53f69a50f3eb1306.html": "ef72adf55b49cbb49ce116b9695c9569bc1d90cd6d4ba13e53f69a50f3eb1306",
+    "raw/f4129536b5ed9fcc0d24d3abfe0f2f9fded2f21e87cff31bd8c4bd78cbda6cde.html": "f4129536b5ed9fcc0d24d3abfe0f2f9fded2f21e87cff31bd8c4bd78cbda6cde",
+    "selection.json": "82a831797e6a9be2a7a3e6543006f3410e542ec2de2772bd02834e5b63d52dc8",
+    "source_index.yaml": "46a01c157e337e5b61766ce634bd6283f1af2608e4625e5ec4db235f321d24c5"
+  },
+  "queries": [
+    {
+      "family": "acr",
+      "id": "Q1",
+      "q": "site:acrabstracts.org \"T cell engager\" autoimmune"
+    },
+    {
+      "family": "acr",
+      "id": "Q2",
+      "q": "site:acrabstracts.org \"bispecific\" \"lupus\""
+    },
+    {
+      "family": "company",
+      "id": "Q3",
+      "q": "\"T-cell engager\" \"autoimmune\" \"pipeline\""
+    },
+    {
+      "family": "company",
+      "id": "Q4",
+      "q": "\"CD19\" \"BCMA\" \"autoimmune\" \"first patient\" company"
+    }
+  ],
+  "scientific_eligibility": "NOT_EVALUATED",
+  "seeded_names": [],
+  "stage": "nominations frozen before scoring",
+  "user_agent": {
+    "contact_present": true,
+    "redacted": true,
+    "user_agent_sha256": "de97e1e0ff6ecf4e5f1d0fd408f684046dee317d26f54d3c7bc98e3dc746eb5d"
+  }
+}

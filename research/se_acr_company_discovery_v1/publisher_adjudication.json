@@ -1,0 +1,16 @@
+{
+  "basis": "Issuer identity from result title, domain and issuer branding; no asset-based inclusion. PDF pages excluded even for issuer hosts.",
+  "hosts": {
+    "tcypherbio.com": "T-Cypher Bio",
+    "www.antengene.com": "Antengene",
+    "www.kalitherapeutics.com": "Kali Therapeutics",
+    "tempesttx.gcs-web.com": "Tempest Therapeutics (issuer investor site)",
+    "www.gracellbio.com": "Gracell Biotechnologies",
+    "www.imvivabio.com": "ImvivaBio",
+    "investors.cullinantherapeutics.com": "Cullinan Therapeutics",
+    "cullinantherapeutics.com": "Cullinan Therapeutics",
+    "lakefrontbio.com": "Lakefront Biotherapeutics",
+    "ailuxbio.com": "Ailux Biologics",
+    "www.autolus.com": "Autolus"
+  }
+}

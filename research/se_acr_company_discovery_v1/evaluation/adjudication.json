@@ -1,0 +1,184 @@
+{
+  "reviewer": "implementing agent; NOT independent BD review",
+  "method": "Product-specific manual reading of sealed primary pages. No source followups. Exact spans are offsets into the hashed corpus text. Missing explicit antibody format is conservatively not inferred.",
+  "assessments": [
+    {
+      "name": "HXN-1031",
+      "document_id": "corpusdoc:94410619fd3c0371090242a7",
+      "classification": "NAMED_INVESTIGATIONAL",
+      "evidence_spans": {
+        "identity": {
+          "start": 1554,
+          "end": 1665,
+          "sha256": "657863713b8648c88fcd80c809b215c157a69b0369cb4b943daa84edfff5ee91"
+        },
+        "target": {
+          "start": 2279,
+          "end": 2392,
+          "sha256": "675b45087534991ff381e49af693be270159203112a7da223e46cdf0c4bb603a"
+        },
+        "antibody_format": {
+          "start": 1771,
+          "end": 1914,
+          "sha256": "76799f268c8907fe14dea8f251175009d192eceb0de846fcc1ffda594d82b584"
+        },
+        "autoimmune_intent": {
+          "start": 1524,
+          "end": 1761,
+          "sha256": "ff7043721c363206994c6d92b64a22e1521fafd5680ca259c85f439d97c8f2eb"
+        },
+        "investigational_context": {
+          "start": 2116,
+          "end": 2269,
+          "sha256": "58ffc69713f449ccca383ba2214d5b45fc8ad28375e7bd64ee7619e93eff4e43"
+        }
+      },
+      "notes": "PRECLINICAL ONLY. Animal tumor models and in-vitro killing do not establish efficacy in autoimmune patients. Helixon is an author affiliation, not verified ownership. Worldwide approval and current programme/rights status unverified."
+    },
+    {
+      "name": "CDR111",
+      "document_id": "corpusdoc:24f080b8fa11ba89a6bf654e",
+      "classification": "NAMED_INVESTIGATIONAL",
+      "evidence_spans": {
+        "identity": {
+          "start": 0,
+          "end": 130,
+          "sha256": "10654cb2c74fcbbf139ade439600f7f6e5864a8adbe8a31a5241e0bab46a228d"
+        },
+        "target": {
+          "start": 0,
+          "end": 67,
+          "sha256": "b481cf2e1c39742080af3bb1e9756a178c82e44cb142f46930d508409d521306"
+        },
+        "autoimmune_intent": {
+          "start": 0,
+          "end": 130,
+          "sha256": "10654cb2c74fcbbf139ade439600f7f6e5864a8adbe8a31a5241e0bab46a228d"
+        },
+        "investigational_context": {
+          "start": 3094,
+          "end": 3268,
+          "sha256": "8a7eb6102026330dcc04aaccf5026ed337d7e58b4f32da67863ed9a513a81788"
+        }
+      },
+      "notes": "PRECLINICAL ONLY. Human donor samples are ex vivo, not treated patients. Exact antibody format is not explicit for CDR111 on this acquired page; no primary endpoint credit. CDR-Life affiliation is not ownership."
+    },
+    {
+      "name": "cizutamig",
+      "document_id": "corpusdoc:4f09f1122377a2e897de8e7b",
+      "classification": "NAMED_INVESTIGATIONAL",
+      "evidence_spans": {
+        "identity": {
+          "start": 3026,
+          "end": 3104,
+          "sha256": "edc07cb313f1f31ad042d6f5c9f23147b14086839dd154a52d316de8aa00f2ea"
+        },
+        "target": {
+          "start": 3026,
+          "end": 3104,
+          "sha256": "edc07cb313f1f31ad042d6f5c9f23147b14086839dd154a52d316de8aa00f2ea"
+        },
+        "autoimmune_intent": {
+          "start": 3200,
+          "end": 3401,
+          "sha256": "a6ef152b481c495d51e4a899550ccbaa54ecf5900b49b8b6d52fbdb029d03826"
+        },
+        "investigational_context": {
+          "start": 3411,
+          "end": 3622,
+          "sha256": "49e48fd2a4336cf98ba576b090d12ad4618c46826aa4343a341d1c57b17ddf0b"
+        }
+      },
+      "notes": "Clinical safety abstract, not confirmed efficacy or a phase-specific trial result. Metadata says published 2026-09-01; meeting scheduled 2026-11-09 has not occurred. Exact antibody scaffold not explicitly stated on acquired page: no primary endpoint credit. Rights/current ownership unresolved."
+    },
+    {
+      "name": "KT501",
+      "document_id": "corpusdoc:6430c144211c1c8eb5bc6f4e",
+      "classification": "NAMED_INVESTIGATIONAL",
+      "evidence_spans": {
+        "identity": {
+          "start": 618,
+          "end": 691,
+          "sha256": "754581626886bb7d3d5e9c171c781cd09f2ebcf4fb5adc99a3e0581c1721ab17"
+        },
+        "target": {
+          "start": 618,
+          "end": 691,
+          "sha256": "754581626886bb7d3d5e9c171c781cd09f2ebcf4fb5adc99a3e0581c1721ab17"
+        },
+        "antibody_format": {
+          "start": 3551,
+          "end": 3599,
+          "sha256": "0c48623b2191f852ac2d50dc9f701018edf7289e7d55914b22a86560e2c9972f"
+        },
+        "autoimmune_intent": {
+          "start": 618,
+          "end": 770,
+          "sha256": "00f2a0f4845c6cbbe53a249c46acd69bf38dd4ecfdbdfaed994977f0f86b6a0e"
+        },
+        "investigational_context": {
+          "start": 517,
+          "end": 617,
+          "sha256": "d0c1d2b7a5647ed492174a1f85532a5e1f4a9ba3e74f9cd8c82993251c4de70a"
+        }
+      },
+      "notes": "Issuer reports Phase 1a first dosing in RA, not efficacy. Already found in historical A_base and not fully verified under frozen reference labels: no new discovery endpoint credit."
+    },
+    {
+      "name": "blinatumomab",
+      "document_id": "corpusdoc:f5f26db821e7825b93e7daf4",
+      "classification": "APPROVED_COMPARATOR",
+      "evidence_spans": {},
+      "notes": "Frozen comparator; not a new investigational lead."
+    },
+    {
+      "name": "teclistamab",
+      "document_id": "corpusdoc:f5f26db821e7825b93e7daf4",
+      "classification": "APPROVED_COMPARATOR",
+      "evidence_spans": {},
+      "notes": "Frozen comparator; not a new investigational lead."
+    },
+    {
+      "name": "IMC-002",
+      "document_id": "corpusdoc:f8ef7144f4540ebf517c2107",
+      "classification": "WRONG_TARGET_OR_MODALITY",
+      "evidence_spans": {},
+      "notes": "Title specifies CD20/CD47, not the requested targets/format."
+    },
+    {
+      "name": "GC012F",
+      "document_id": "corpusdoc:5e62caa293f9bc6748935082",
+      "classification": "WRONG_TARGET_OR_MODALITY",
+      "evidence_spans": {},
+      "notes": "CAR-T, with myeloma trial evidence; do not promote as autoimmune T-cell engager antibody."
+    },
+    {
+      "name": "IAR130",
+      "document_id": "corpusdoc:87fd2ce7ef0e1675997c25a0",
+      "classification": "EXPLORATORY",
+      "evidence_spans": {},
+      "notes": "Named preclinical programme outside the frozen reference; cannot be added to the primary endpoint."
+    },
+    {
+      "name": "LUB017",
+      "document_id": "corpusdoc:925a7aff8644a3b533dd1f49",
+      "classification": "EXPLORATORY",
+      "evidence_spans": {},
+      "notes": "Named preclinical programme outside frozen reference; primary endpoint ineligible."
+    },
+    {
+      "name": "CC312",
+      "document_id": "corpusdoc:f0571ff1dd51ce23d55e096b",
+      "classification": "EXPLORATORY",
+      "evidence_spans": {},
+      "notes": "Outside frozen reference; no retrospective primary credit."
+    },
+    {
+      "name": "INB-619",
+      "document_id": "corpusdoc:af6c8d64ec13b43b2970ff7b",
+      "classification": "EXPLORATORY",
+      "evidence_spans": {},
+      "notes": "Outside frozen reference; target and modality attribution need independent adjudication."
+    }
+  ]
+}
