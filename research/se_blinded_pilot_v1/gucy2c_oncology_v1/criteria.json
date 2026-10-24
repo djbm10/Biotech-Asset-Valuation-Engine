@@ -1,0 +1,12 @@
+{
+  "criteria_id": "gucy2c_oncology_v1_criteria",
+  "spec_id": "gucy2c_oncology_v1",
+  "precision_basis": "strict",
+  "thresholds": {
+    "min_precision": 0.5,
+    "min_recall": 0.6,
+    "min_trial_coverage": 0.5,
+    "max_identity_errors": 1,
+    "max_misleading_claims": 2
+  }
+}

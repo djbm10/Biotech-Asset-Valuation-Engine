@@ -1,0 +1,10 @@
+{
+  "spec_id": "gucy2c_oncology_v1",
+  "therapeutic_area": "oncology",
+  "indications": ["colorectal cancer", "gastric cancer", "gastroesophageal junction cancer", "esophageal adenocarcinoma", "pancreatic cancer", "other GUCY2C-expressing solid tumors"],
+  "targets": ["GUCY2C"],
+  "modalities": [],
+  "stages": ["PHASE_1", "PHASE_2", "PHASE_3", "APPROVED"],
+  "as_of_date": "2026-10-24",
+  "query_text": "Find every investigational anticancer therapeutic directed at guanylyl cyclase C (GUCY2C, also called GCC or GC-C) that has entered human clinical testing (Phase 1 or later) at any time up to the as-of date, including programs that were later discontinued, terminated or withdrawn. Any modality qualifies (antibody-drug conjugate, T-cell engager or other bispecific, CAR-T or other cell therapy, vaccine, radioligand, naked antibody). Exclude GUCY2C agonist peptides developed for gastrointestinal motility or functional bowel disorders, diagnostic or imaging-only agents, and programs that never entered human trials. For each asset report all names and development codes, target, modality, and every associated clinical trial registration."
+}
