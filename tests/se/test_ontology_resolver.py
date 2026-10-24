@@ -460,12 +460,13 @@ class TestWidelySharedAlias:
     def test_flagging_does_not_scale_quadratically(self) -> None:
         # The quadratic form did one full sort and one whole-list copy per member,
         # so an 8x bigger group cost ~64x. Linear work leaves a wide margin here.
-        import time
+        import timeit
 
         def elapsed(count: int) -> float:
-            start = time.perf_counter()
-            self._shared(count)
-            return time.perf_counter() - start
+            # Whole-process GC can scan a large ontology retained by earlier tests.
+            # That unrelated heap cost is not scaling of this synthetic group.
+            # timeit disables cyclic GC only during measurement and restores its state.
+            return timeit.timeit(lambda: self._shared(count), number=1)
 
         small = elapsed(250)
         large = elapsed(2000)

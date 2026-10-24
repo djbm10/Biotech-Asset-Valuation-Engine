@@ -1,0 +1,49 @@
+[
+  {
+    "id": "ucb_close",
+    "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-completes-acquisition-of-candid-therapeutics-strengthening-next-generation-immunology-pipeline",
+    "publisher": "UCB",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation"
+  },
+  {
+    "id": "ucb_gmg",
+    "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-data-presented-at-2026-aanem-annual-meeting-and-mgfa-scientific-session-underscore-leadership-in-advancing-targeted-treatments-for-gmg",
+    "publisher": "UCB",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation"
+  },
+  {
+    "id": "earendil_pipeline",
+    "url": "https://www.earendil.bio/pipeline",
+    "publisher": "Earendil Labs",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation"
+  },
+  {
+    "id": "acr_hxn",
+    "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/",
+    "publisher": "ACR",
+    "kind": "html",
+    "family": "conference_acr"
+  },
+  {
+    "id": "acr_safety",
+    "url": "https://acrabstracts.org/abstract/pooled-safety-of-cizutamig-a-bcmaxcd3-t-cell-engager-in-patients-with-autoimmune-diseases/",
+    "publisher": "ACR",
+    "kind": "html",
+    "family": "conference_acr"
+  },
+  {
+    "id": "ctgov_ciz",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.intr=cizutamig+OR+CND106&pageSize=100&countTotal=true&format=json",
+    "publisher": "ClinicalTrials.gov",
+    "kind": "json"
+  },
+  {
+    "id": "ctgov_hxn",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.intr=%22HXN-1031%22+OR+%22HXN1031%22+OR+%22HXN+1031%22&pageSize=100&countTotal=true&format=json",
+    "publisher": "ClinicalTrials.gov",
+    "kind": "json"
+  }
+]

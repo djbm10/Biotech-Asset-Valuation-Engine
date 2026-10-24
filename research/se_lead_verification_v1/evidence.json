@@ -1,0 +1,194 @@
+{
+  "observed_date": "2026-10-24",
+  "method": "Manual primary evidence interpretation; no engine scientific qualification",
+  "evidence": [
+    {
+      "id": "HXN-preclinical",
+      "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/",
+      "path": "raw/acr_hxn.txt",
+      "file_sha256": "7e932544bf9e688c7c47ce457839cddcf0af537f8bd85b1a6328839bc154431d",
+      "start": 1524,
+      "end": 3489,
+      "selection_sha256": "1aee88590c379dce5e4d91bd1f5638ad1372f590301d30255d314ae7ab19f2be"
+    },
+    {
+      "id": "HXN-affiliation",
+      "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/",
+      "path": "raw/acr_hxn.txt",
+      "file_sha256": "7e932544bf9e688c7c47ce457839cddcf0af537f8bd85b1a6328839bc154431d",
+      "start": 488,
+      "end": 688,
+      "selection_sha256": "989ce0cf1436d848ff4cb53667955b6fe6fa174557d6f729c3e7efe6fe08a5fe"
+    },
+    {
+      "id": "UCB-completion",
+      "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-completes-acquisition-of-candid-therapeutics-strengthening-next-generation-immunology-pipeline",
+      "path": "raw/ucb_close.txt",
+      "file_sha256": "bcdee2903a3aa046e615f3bb9b49bcc9175d4e9f2e4b0872be195bcaf26d9e49",
+      "start": 2914,
+      "end": 4102,
+      "selection_sha256": "e7b3fc1d87f63e00721ef2ba12b60bfac2ad1fab0e85b7b4a81b174417743a17"
+    },
+    {
+      "id": "ACR-safety",
+      "url": "https://acrabstracts.org/abstract/pooled-safety-of-cizutamig-a-bcmaxcd3-t-cell-engager-in-patients-with-autoimmune-diseases/",
+      "path": "raw/acr_safety.txt",
+      "file_sha256": "0d7ea7f1f4420941994d46498c279f1a258890bcc6743337fece7706c9e0db15",
+      "start": 2405,
+      "end": 4821,
+      "selection_sha256": "7e29997f3b562e9f67c4351a00f2097c4b84c4efafa80c882e91ad4a279c1928"
+    },
+    {
+      "id": "UCB-current",
+      "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-data-presented-at-2026-aanem-annual-meeting-and-mgfa-scientific-session-underscore-leadership-in-advancing-targeted-treatments-for-gmg",
+      "path": "raw/ucb_gmg.txt",
+      "file_sha256": "5a41b02ae901de5850e4b135283c89ab03c22637cc3ed1fa82f83def7d5cdbe4",
+      "start": 3783,
+      "end": 8928,
+      "selection_sha256": "49c25044cd415ccdf010e6910c372e9c84ce04945e5d839a0c7ad0ab62be2510"
+    },
+    {
+      "id": "Earendil-listing",
+      "url": "https://www.earendil.bio/pipeline",
+      "artifact_url": "https://www.earendil.bio/assets/index-DBs9-DB-.js",
+      "path": "raw/earendil_bundle.js",
+      "file_sha256": "efae8f7b6aad732115026688f5275446a6e6edef06c6cfad973a7e8292f439bb",
+      "start": 331440,
+      "end": 331545,
+      "selection_sha256": "90d6d561ebbe555443eb7e9138c9d87475299c4425760dc0cb486c261eaf459b"
+    },
+    {
+      "id": "ctgov_ciz",
+      "url": "https://clinicaltrials.gov/api/v2/studies?query.intr=cizutamig+OR+CND106&pageSize=100&countTotal=true&format=json",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [],
+      "selection_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca"
+    },
+    {
+      "id": "ctgov_hxn",
+      "url": "https://clinicaltrials.gov/api/v2/studies?query.intr=%22HXN-1031%22+OR+%22HXN1031%22+OR+%22HXN+1031%22&pageSize=100&countTotal=true&format=json",
+      "path": "raw/run_02/ctgov_hxn.json",
+      "file_sha256": "2bf577da9812ab923054901b0ceb26cc1264c53f20c38a6c05508a659161010b",
+      "json_path": [],
+      "selection_sha256": "2bf577da9812ab923054901b0ceb26cc1264c53f20c38a6c05508a659161010b"
+    },
+    {
+      "id": "NCT07236411",
+      "url": "https://clinicaltrials.gov/study/NCT07236411",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [
+        "studies",
+        0
+      ],
+      "selection_sha256": "9e2eb8cae04e2b127ca280cce8ed5bb8e1c8d1c469f111adc6510ed6ba9c98f5"
+    },
+    {
+      "id": "NCT07158996",
+      "url": "https://clinicaltrials.gov/study/NCT07158996",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [
+        "studies",
+        1
+      ],
+      "selection_sha256": "128d62b645073043d192c06c0a548529e85c1d5b466e68d1a20ad5052794fbb0"
+    },
+    {
+      "id": "NCT07135219",
+      "url": "https://clinicaltrials.gov/study/NCT07135219",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [
+        "studies",
+        2
+      ],
+      "selection_sha256": "e25fd39a045584f1804cbef34c3a91a3b0103d5082a0bc7176ac32bfabad3b8e"
+    },
+    {
+      "id": "NCT07408869",
+      "url": "https://clinicaltrials.gov/study/NCT07408869",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [
+        "studies",
+        3
+      ],
+      "selection_sha256": "eb7a09076c28d7dc2e91d9bed1379482e8c08d3c16ac33aa8a52218a191d6a3e"
+    },
+    {
+      "id": "NCT07215650",
+      "url": "https://clinicaltrials.gov/study/NCT07215650",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [
+        "studies",
+        4
+      ],
+      "selection_sha256": "9a6a2857c98a0dc02c4cffeeabee00bba094c11ce6058af3329e978802ec8f21"
+    },
+    {
+      "id": "NCT07353450",
+      "url": "https://clinicaltrials.gov/study/NCT07353450",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [
+        "studies",
+        5
+      ],
+      "selection_sha256": "2b4924fdbbead82919c53aa291e1b03aed020ef445450d571e5ecca1e3d2c23e"
+    },
+    {
+      "id": "NCT07597200",
+      "url": "https://clinicaltrials.gov/study/NCT07597200",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [
+        "studies",
+        6
+      ],
+      "selection_sha256": "ef47b9ca8aca8e0787518a79bcc7817ed75573b4c24597d0bbd9f2476497c2e8"
+    },
+    {
+      "id": "NCT06946199",
+      "url": "https://clinicaltrials.gov/study/NCT06946199",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [
+        "studies",
+        7
+      ],
+      "selection_sha256": "92ad87cdd777696fb72bf51391f4be72692bd102f4173b6867b6394f56379197"
+    },
+    {
+      "id": "NCT07215663",
+      "url": "https://clinicaltrials.gov/study/NCT07215663",
+      "path": "raw/run_02/ctgov_ciz.json",
+      "file_sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+      "json_path": [
+        "studies",
+        8
+      ],
+      "selection_sha256": "cc9deaa2b2ace609704e0f1de9d0aab2fafe0e5a551efe03e35eaa4ef328f0e8"
+    },
+    {
+      "id": "sec_candid_ip",
+      "url": "https://www.sec.gov/Archives/edgar/data/1739410/000119312526084444/d108429dex992.htm",
+      "path": "raw/sec_candid_ip.txt",
+      "file_sha256": "07db8c307b9564c1bd743c85d6af26df702f13501eafcc793aa13172b9e3599b",
+      "start": 30995,
+      "end": 31591,
+      "selection_sha256": "6ff8e01df728daf2a83e29f00c6cd1cdf79e8cf6309903a5bd6cc59b13bf812b"
+    },
+    {
+      "id": "epimab_license",
+      "url": "https://www.epimab.com/en/news/3CmnUq",
+      "path": "raw/epimab_license.txt",
+      "file_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "start": 924,
+      "end": 1735,
+      "selection_sha256": "ceaf16e82f000839e791bffca3388c7589e7f98c75c2e7be6e3f80395e80d7e0"
+    }
+  ]
+}

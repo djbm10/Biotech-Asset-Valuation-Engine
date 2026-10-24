@@ -1,0 +1,16 @@
+[
+  {
+    "id": "sec_candid_ip",
+    "url": "https://www.sec.gov/Archives/edgar/data/1739410/000119312526084444/d108429dex992.htm",
+    "publisher": "SEC-filed Candid presentation",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation"
+  },
+  {
+    "id": "epimab_license",
+    "url": "https://www.epimab.com/en/news/3CmnUq",
+    "publisher": "EpimAb",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation"
+  }
+]

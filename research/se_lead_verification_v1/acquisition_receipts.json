@@ -1,0 +1,176 @@
+[
+  {
+    "id": "ucb_close",
+    "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-completes-acquisition-of-candid-therapeutics-strengthening-next-generation-immunology-pipeline",
+    "publisher": "UCB",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation",
+    "observed_at": "2026-10-24T01:57:59.396711+00:00",
+    "serialization": "decoded HTML UTF-8",
+    "status": "OK",
+    "sha256": "3dc694839088538d8f578b0cf5e6b3f355abeeda16c68df7acb0e7e635e4ae3c",
+    "health": {
+      "source_family": "company_pipeline_or_presentation",
+      "connector_succeeded": true,
+      "query_returned_results": true,
+      "raw_record_count": 1,
+      "documents_parsed": 1,
+      "documents_indexed": 1,
+      "parse_failures": 0,
+      "required_evidence_present": null,
+      "error": null
+    }
+  },
+  {
+    "id": "ucb_gmg",
+    "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-data-presented-at-2026-aanem-annual-meeting-and-mgfa-scientific-session-underscore-leadership-in-advancing-targeted-treatments-for-gmg",
+    "publisher": "UCB",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation",
+    "observed_at": "2026-10-24T01:58:00.596799+00:00",
+    "serialization": "decoded HTML UTF-8",
+    "status": "OK",
+    "sha256": "e83da3a6e31ddad6bf3826b54b1f7162901a7b35bcbc383d106f851a7ffa135b",
+    "health": {
+      "source_family": "company_pipeline_or_presentation",
+      "connector_succeeded": true,
+      "query_returned_results": true,
+      "raw_record_count": 1,
+      "documents_parsed": 1,
+      "documents_indexed": 1,
+      "parse_failures": 0,
+      "required_evidence_present": null,
+      "error": null
+    }
+  },
+  {
+    "id": "earendil_pipeline",
+    "url": "https://www.earendil.bio/pipeline",
+    "publisher": "Earendil Labs",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation",
+    "observed_at": "2026-10-24T01:58:01.864936+00:00",
+    "serialization": "decoded HTML UTF-8",
+    "status": "OK",
+    "sha256": "ed010c6e512d26558b8f3a9461814faefed29a854770b6144ab302e2a28c40bd",
+    "health": {
+      "source_family": "company_pipeline_or_presentation",
+      "connector_succeeded": true,
+      "query_returned_results": true,
+      "raw_record_count": 1,
+      "documents_parsed": 1,
+      "documents_indexed": 1,
+      "parse_failures": 0,
+      "required_evidence_present": null,
+      "error": null
+    }
+  },
+  {
+    "id": "acr_hxn",
+    "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/",
+    "publisher": "ACR",
+    "kind": "html",
+    "family": "conference_acr",
+    "observed_at": "2026-10-24T01:58:02.833807+00:00",
+    "serialization": "decoded HTML UTF-8",
+    "status": "OK",
+    "sha256": "7f2c051d1f8ddd8497de84437d09609d2043027079b9814f3e4b1fd4df3a79e1",
+    "health": {
+      "source_family": "conference_acr",
+      "connector_succeeded": true,
+      "query_returned_results": true,
+      "raw_record_count": 1,
+      "documents_parsed": 1,
+      "documents_indexed": 1,
+      "parse_failures": 0,
+      "required_evidence_present": null,
+      "error": null
+    }
+  },
+  {
+    "id": "acr_safety",
+    "url": "https://acrabstracts.org/abstract/pooled-safety-of-cizutamig-a-bcmaxcd3-t-cell-engager-in-patients-with-autoimmune-diseases/",
+    "publisher": "ACR",
+    "kind": "html",
+    "family": "conference_acr",
+    "observed_at": "2026-10-24T01:58:03.595491+00:00",
+    "serialization": "decoded HTML UTF-8",
+    "status": "OK",
+    "sha256": "2a7a15e105b5826a32c25b04562374668449b95eb91fbc7d678baebd9129a9ca",
+    "health": {
+      "source_family": "conference_acr",
+      "connector_succeeded": true,
+      "query_returned_results": true,
+      "raw_record_count": 1,
+      "documents_parsed": 1,
+      "documents_indexed": 1,
+      "parse_failures": 0,
+      "required_evidence_present": null,
+      "error": null
+    }
+  },
+  {
+    "id": "ctgov_ciz",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.intr=cizutamig+OR+CND106&pageSize=100&countTotal=true&format=json",
+    "publisher": "ClinicalTrials.gov",
+    "kind": "json",
+    "observed_at": "2026-10-24T01:58:04.343181+00:00",
+    "serialization": "canonical decoded JSON; not wire bytes",
+    "status": "OK",
+    "sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca"
+  },
+  {
+    "id": "ctgov_hxn",
+    "url": "https://clinicaltrials.gov/api/v2/studies?query.intr=%22HXN-1031%22+OR+%22HXN1031%22+OR+%22HXN+1031%22&pageSize=100&countTotal=true&format=json",
+    "publisher": "ClinicalTrials.gov",
+    "kind": "json",
+    "observed_at": "2026-10-24T01:58:04.641130+00:00",
+    "serialization": "canonical decoded JSON; not wire bytes",
+    "status": "OK",
+    "sha256": "2bf577da9812ab923054901b0ceb26cc1264c53f20c38a6c05508a659161010b"
+  },
+  {
+    "id": "sec_candid_ip",
+    "url": "https://www.sec.gov/Archives/edgar/data/1739410/000119312526084444/d108429dex992.htm",
+    "publisher": "SEC-filed Candid presentation",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation",
+    "observed_at": "2026-10-24T02:41:21.185708+00:00",
+    "serialization": "decoded HTML UTF-8",
+    "status": "OK",
+    "sha256": "e4475ad8b132dde4f261e557ef3abf7947205af8b9676dc1106ea9e3dc283328",
+    "health": {
+      "source_family": "company_pipeline_or_presentation",
+      "connector_succeeded": true,
+      "query_returned_results": true,
+      "raw_record_count": 1,
+      "documents_parsed": 1,
+      "documents_indexed": 1,
+      "parse_failures": 0,
+      "required_evidence_present": null,
+      "error": null
+    }
+  },
+  {
+    "id": "epimab_license",
+    "url": "https://www.epimab.com/en/news/3CmnUq",
+    "publisher": "EpimAb",
+    "kind": "html",
+    "family": "company_pipeline_or_presentation",
+    "observed_at": "2026-10-24T02:41:22.812454+00:00",
+    "serialization": "decoded HTML UTF-8",
+    "status": "OK",
+    "sha256": "abbae4999c0e5b58fb9a3a6f24f6fd539bc3cfe0d60f1d1f0284fe784905c651",
+    "health": {
+      "source_family": "company_pipeline_or_presentation",
+      "connector_succeeded": true,
+      "query_returned_results": true,
+      "raw_record_count": 1,
+      "documents_parsed": 1,
+      "documents_indexed": 1,
+      "parse_failures": 0,
+      "required_evidence_present": null,
+      "error": null
+    }
+  }
+]

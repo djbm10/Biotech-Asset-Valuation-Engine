@@ -1,0 +1,29 @@
+{
+  "source": "raw/diagnostics/bve-suite-gc-corrected.json",
+  "sha256": "f4f43edad4320c637ecc84c629206160dd5104ad3d6dd3792276c7abdc579052",
+  "outcome": "ordered prefix passed; no reproduction of original failure",
+  "measurements": [
+    {
+      "n": 250,
+      "wall_seconds": 0.17163607600014075,
+      "cpu_seconds": 0.1716117010000744,
+      "gc_seconds": 0.14368817300419323,
+      "gc_events_by_generation": {
+        "0": 11,
+        "1": 1,
+        "2": 0
+      }
+    },
+    {
+      "n": 2000,
+      "wall_seconds": 0.29041411000071093,
+      "cpu_seconds": 0.29028102899997066,
+      "gc_seconds": 0.02175991199692362,
+      "gc_events_by_generation": {
+        "0": 91,
+        "1": 9,
+        "2": 0
+      }
+    }
+  ]
+}
