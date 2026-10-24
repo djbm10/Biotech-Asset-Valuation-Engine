@@ -221,6 +221,10 @@ def _ratio(num: int, den: int) -> float | None:
 
 
 # ----------------------------------------------------------------- engine adapter
+#: The engine namespaces target ids (``TARGET:GUCY2C``); references use bare HGNC symbols.
+_TARGET_NAMESPACE = "TARGET:"
+
+
 def export_candidates(
     result: SESearchResult, *, spec_id: str, engine_commit: str
 ) -> CandidateExport:
@@ -245,7 +249,7 @@ def export_candidates(
         PilotCandidate(
             candidate_id=asset.asset_id,
             names=[asset.canonical_name, *asset.aliases],
-            target_ids=list(asset.target_ids),
+            target_ids=[t.removeprefix(_TARGET_NAMESPACE) for t in asset.target_ids],
             modality=asset.authority_modality,
             trial_ids=list(asset.trial_ids),
             claims=facts_by_subject.get(asset.asset_id, []),

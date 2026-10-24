@@ -1,0 +1,218 @@
+S&E shortlist for nlq_c68c171c4fb84638 (run se:d710e7c8-c9ce-43a7-80ab-6fb08a36bf8a, as of 2026-10-24)
+ordering: declared_lexicographic_v1
+
+Run status INCOMPLETE: the corpus is short of what the problem asked for. Present assets are still evidenced; absent ones may simply be unseen.
+   - mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_aacr, conference_asco, conference_ash, conference_eha, sec_edgar
+Sources (run status INCOMPLETE):
+   clinicaltrials_gov: SUCCESS (483 queries, 7755 found, 880 new)
+   company_pipeline_or_presentation: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   company_press_release: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_aacr: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_asco: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_ash: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_eha: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   pubmed: SUCCESS (483 queries, 50942 found, 38753 new)
+   sec_edgar: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+Documents by publisher: ClinicalTrials.gov 630, PubMed 4766, chembl 1, drug_target_authority 1, open_targets 1
+Known blind spots: mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_aacr' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown
+
+1. plecanatide  [REVIEW]
+   Company: University of Wisconsin, Madison
+   Modality: CELL_THERAPY  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: PROTEIN  -- ChEMBL_37 molecule type of DRUG:PLECANATIDE (CHEMBL2103867: Protein)
+   Phase: PHASE_1
+   Target: CONFIRMED_TARGET TARGET:GUCY2C
+   Disposition: UNRESOLVED
+   Review: Observed therapeutic_area is missing, stale, ambiguous, or conflicting.
+   Review: Citation does not entail material claim claim:88e3ccbef92361a56923.
+   Why: found while searching GUCY2C; named in 46 source documents
+   Why: target TARGET:GUCY2C is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 46 source documents: ClinicalTrials.gov, PubMed
+   Why: strategic_sandbox: Observed therapeutic_area is missing, stale, ambiguous, or conflicting. Research fact type 'therapeutic_area'.
+   Evidence: PubMed PMID:30131940, PubMed PMID:29740204, PubMed PMID:26558155, PubMed PMID:25930667, PubMed PMID:23637522, PubMed PMID:42773320, ... and 44 more
+
+2. dolcanatide  [REVIEW]
+   Company: Bausch Health Americas, Inc.
+   Modality: PEPTIDE  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: PROTEIN  -- ChEMBL_37 molecule type of DRUG:DOLCANATIDE (CHEMBL3545122: Protein)
+   Phase: PHASE_2
+   Target: CONFIRMED_TARGET TARGET:GUCY2C
+   Disposition: UNRESOLVED
+   Review: Observed therapeutic_area is missing, stale, ambiguous, or conflicting.
+   Review: Citation does not entail material claim claim:530f41032b1e8d7111e4.
+   Why: found while searching GUCY2C; named in 7 source documents
+   Why: target TARGET:GUCY2C is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 7 source documents: ClinicalTrials.gov, PubMed
+   Why: strategic_sandbox: Observed therapeutic_area is missing, stale, ambiguous, or conflicting. Research fact type 'therapeutic_area'.
+   Evidence: PubMed PMID:34632925, PubMed PMID:30131940, PubMed PMID:29740204, PubMed PMID:26558155, ClinicalTrials.gov NCT01983306, PubMed PMID:25930667, ... and 5 more
+
+3. TAK-264  [REVIEW]
+   Company: Millennium Pharmaceuticals, Inc.
+   Modality: ANTIBODY_DRUG_CONJUGATE  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: ANTIBODY_DRUG_CONJUGATE  -- ChEMBL_37 molecule type of DRUG:INDUSATUMAB VEDOTIN (CHEMBL4298045: Antibody drug conjugate)
+   Phase: PHASE_2
+   Target: CONFIRMED_TARGET TARGET:GUCY2C
+   Disposition: UNRESOLVED
+   Review: Observed therapeutic_area is missing, stale, ambiguous, or conflicting.
+   Review: Citation does not entail material claim claim:e964ea076a9c78f39f04.
+   Review: Citation does not entail material claim claim:80e887b9e2cbfc568997.
+   ... and 6 more review items (--detail)
+   Why: found while searching GUCY2C; named in 13 source documents
+   Why: target TARGET:GUCY2C is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 13 source documents: ClinicalTrials.gov, PubMed
+   Why: strategic_sandbox: Observed therapeutic_area is missing, stale, ambiguous, or conflicting. Research fact type 'therapeutic_area'.
+   Evidence: PubMed PMID:32788205, PubMed PMID:30631747, PubMed PMID:29728518, PubMed PMID:29370189, PubMed PMID:28527133, PubMed PMID:28494535, ... and 17 more
+
+4. EB-DUO-CAR-NK-CEA/GCC  [REVIEW]
+   Company: Beijing Biotech
+   Modality: CELL_THERAPY  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: PHASE_2
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: UNRESOLVED
+   Review: Requested area(s) ['C', 'G', 'L', 'N', 'O', 'Y'] are not classified by the evidence layer, so observed ['ONCOLOGY'] cannot rule them out.
+   Review: Citation does not entail material claim claim:aeedbf07771958030f79.
+   Review: Citation does not entail material claim claim:7477ad8dc257425646f6.
+   Why: found while searching GUCY2C; named in 1 source documents
+   Why: target TARGET:GUCY2C is UNRESOLVED, with no authority record backing it
+   Why: 1 source documents: ClinicalTrials.gov
+   Why: strategic_sandbox: Requested area(s) ['C', 'G', 'L', 'N', 'O', 'Y'] are not classified by the evidence layer, so observed ['ONCOLOGY'] cannot rule them out. Review the asset's indications against the requested area.
+   Evidence: ClinicalTrials.gov NCT07589517, ClinicalTrials.gov NCT07589517, ClinicalTrials.gov NCT07589517
+
+5. EB-DUO-CAR-NK-CEA/GCC (IV)  [REVIEW]
+   Company: Beijing Biotech
+   Modality: CELL_THERAPY  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: PHASE_2
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: UNRESOLVED
+   Review: Requested area(s) ['C', 'G', 'L', 'N', 'O', 'Y'] are not classified by the evidence layer, so observed ['ONCOLOGY'] cannot rule them out.
+   Review: Citation does not entail material claim claim:a6ac30440d0bd09abb9c.
+   Review: Citation does not entail material claim claim:b2578b004fabb76e8384.
+   Why: found while searching GUCY2C; named in 1 source documents
+   Why: target TARGET:GUCY2C is UNRESOLVED, with no authority record backing it
+   Why: 1 source documents: ClinicalTrials.gov
+   Why: strategic_sandbox: Requested area(s) ['C', 'G', 'L', 'N', 'O', 'Y'] are not classified by the evidence layer, so observed ['ONCOLOGY'] cannot rule them out. Review the asset's indications against the requested area.
+   Evidence: ClinicalTrials.gov NCT07462650, ClinicalTrials.gov NCT07462650, ClinicalTrials.gov NCT07462650
+
+6. linaclotide  [REVIEW]
+   Company: University of Wisconsin, Madison
+   Modality: CELL_THERAPY  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: PROTEIN  -- ChEMBL_37 molecule type of DRUG:LINACLOTIDE (CHEMBL3301675: Protein)
+   Phase: PHASE_1
+   Target: CONFIRMED_TARGET TARGET:GUCY2C
+   Disposition: UNRESOLVED
+   Review: Observed therapeutic_area is missing, stale, ambiguous, or conflicting.
+   Review: Citation does not entail material claim claim:4e9b1b4b6ccbc4d84988.
+   Why: found while searching GUCY2C; named in 73 source documents
+   Why: target TARGET:GUCY2C is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 73 source documents: ClinicalTrials.gov, PubMed
+   Why: strategic_sandbox: Observed therapeutic_area is missing, stale, ambiguous, or conflicting. Research fact type 'therapeutic_area'.
+   Evidence: PubMed PMID:34632925, PubMed PMID:30131940, PubMed PMID:25930667, PubMed PMID:23637522, ClinicalTrials.gov NCT05107219, PubMed PMID:42859374, ... and 71 more
+
+7. Chimeric antigen receptor T cell preparation targeting GCC  [REVIEW]
+   Company: The Affiliated Hospital of Qingdao University
+   Modality: CAR_T  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: UNKNOWN
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: UNRESOLVED
+   Review: Requested area(s) ['C', 'G', 'L', 'N', 'O', 'Y'] are not classified by the evidence layer, so observed ['ONCOLOGY'] cannot rule them out.
+   Review: Observed development_stage_order is missing, stale, ambiguous, or conflicting.
+   Review: Citation does not entail material claim claim:2d7a47901d32251d7899.
+   ... and 1 more review items (--detail)
+   Why: found while searching GUCY2C; named in 1 source documents
+   Why: target TARGET:GUCY2C is UNRESOLVED, with no authority record backing it
+   Why: 1 source documents: ClinicalTrials.gov
+   Why: strategic_sandbox: Requested area(s) ['C', 'G', 'L', 'N', 'O', 'Y'] are not classified by the evidence layer, so observed ['ONCOLOGY'] cannot rule them out. Review the asset's indications against the requested area.
+   Why: evidence_floor: Observed development_stage_order is missing, stale, ambiguous, or conflicting. Research fact type 'development_stage_order'.
+   Evidence: ClinicalTrials.gov NCT05875402, ClinicalTrials.gov NCT05875402, ClinicalTrials.gov NCT05875402
+
+8. Rusfertide  [REVIEW]
+   Company: unresolved  -- no company named in this corpus
+   Modality: unresolved  -- no modality was read from the surrounding text
+   Authority modality: PROTEIN  -- ChEMBL_37 molecule type of DRUG:RUSFERTIDE (CHEMBL4650507: Protein)
+   Phase: unresolved  -- no development stage was established for this candidate
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: UNRESOLVED
+   Review: Observed identity_valid is missing, stale, ambiguous, or conflicting.
+   Review: No canonical construct-level target fact is available.
+   Review: Observed therapeutic_area is missing, stale, ambiguous, or conflicting.
+   ... and 1 more review items (--detail)
+   Why: found while searching GUCY2C; named in 2 source documents
+   Why: target TARGET:GUCY2C is UNRESOLVED, with no authority record backing it
+   Why: 2 source documents: PubMed
+   Why: identity_validity: Observed identity_valid is missing, stale, ambiguous, or conflicting. Research fact type 'identity_valid'.
+   Why: target_logic: No canonical construct-level target fact is available. Resolve the asset's construct-level target set.
+   ... and 2 more reasons (--detail)
+   Evidence: PubMed PMID:42868322, PubMed PMID:42764193
+
+9. anise  [REVIEW]
+   Company: Nahda University
+   Modality: unresolved  -- no modality was read from the surrounding text
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: APPROVED
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: UNRESOLVED
+   Review: No canonical construct-level target fact is available.
+   Review: Observed therapeutic_area is missing, stale, ambiguous, or conflicting.
+   Review: Citation does not entail material claim claim:f483d7d5820664a7e934.
+   Why: found while searching GUCY2C; named in 35 source documents
+   Why: target TARGET:GUCY2C is UNRESOLVED, with no authority record backing it
+   Why: 35 source documents: ClinicalTrials.gov, PubMed
+   Why: target_logic: No canonical construct-level target fact is available. Resolve the asset's construct-level target set.
+   Why: strategic_sandbox: Observed therapeutic_area is missing, stale, ambiguous, or conflicting. Research fact type 'therapeutic_area'.
+   Evidence: ClinicalTrials.gov NCT05623605, PubMed PMID:42906482, PubMed PMID:42883346, PubMed PMID:42883166, PubMed PMID:42802916, PubMed PMID:42666442, ... and 31 more
+
+10. AST-120  [REVIEW]
+   Company: Seoul National University Hospital
+   Modality: T_CELL_ENGAGER  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: SMALL_MOLECULE  -- ChEMBL_37 molecule type of DRUG:CHARCOAL, ACTIVATED (CHEMBL2106049: Small molecule)
+   Phase: APPROVED
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: UNRESOLVED
+   Review: No canonical construct-level target fact is available.
+   Review: Observed therapeutic_area is missing, stale, ambiguous, or conflicting.
+   Review: Citation does not entail material claim claim:a60d6c8e08e55712a656.
+   ... and 1 more review items (--detail)
+   Why: found while searching GUCY2C; named in 47 source documents
+   Why: target TARGET:GUCY2C is UNRESOLVED, with no authority record backing it
+   Why: 47 source documents: ClinicalTrials.gov, PubMed
+   Why: target_logic: No canonical construct-level target fact is available. Resolve the asset's construct-level target set.
+   Why: strategic_sandbox: Observed therapeutic_area is missing, stale, ambiguous, or conflicting. Research fact type 'therapeutic_area'.
+   Evidence: ClinicalTrials.gov NCT00860431, PubMed PMID:42819723, PubMed PMID:42744734, PubMed PMID:42716893, PubMed PMID:42697779, PubMed PMID:42646778, ... and 43 more
+
+Held back as low-support (4939 total, 10 shown):
+   - Advanced CustomVue™ iLASIK procedure (UNRESOLVED)
+   - Dark with star projector (UNRESOLVED)
+   - DMPA (UNRESOLVED)
+   - HME filter Twin Star 55, Drager Medical, Germany (UNRESOLVED)
+   - Parental Presence (UNRESOLVED)
+   - Placebo (UNRESOLVED)
+   - Screening, Brief Intervention, Referral to Treatment (UNRESOLVED)
+   - StarClose (UNRESOLVED)
+   - Total (UNRESOLVED)
+   - vaccine (UNRESOLVED)
+
+Excluded because (571 total, 10 shown):
+   - Abatacept: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - abemaciclib: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - abiraterone: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - acamprosate: target.expression FAIL: An authority positively establishes a different target entity, and no queried target is part of it.
+   - Acetaminophen: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - acetazolamide: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Adagrasib: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - adalimumab: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - afatinib: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Aflibercept: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+
+Counts: eligible 0, review 474, excluded 571, low_support 4939, total_candidates 5984, shown 10
+Note: Order is declared and lexicographic, not a score: eligibility, then human efficacy, maturity, target confidence and evidence completeness, then name. Source coverage never moves an asset.
+Note: No candidate passed every gate; the shortlist is the review population, which is where an unresolved target or modality gate leaves an otherwise real asset.

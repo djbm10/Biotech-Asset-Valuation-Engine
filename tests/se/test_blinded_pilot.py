@@ -472,3 +472,31 @@ def test_export_from_engine_result() -> None:
     cand = export.candidates[0]
     assert cand.names == ["X-1", "X1"] and cand.trial_ids == ["NCT9"]
     assert cand.claims[0].kind == "commercial" and cand.claims[0].citations == ["doc1"]
+
+
+def test_export_strips_engine_target_namespace() -> None:
+    """The engine writes ``TARGET:GUCY2C``; references use the bare HGNC symbol.
+
+    Found in pilot gucy2c_oncology_v1: unstripped, every correct target scored as wrong.
+    """
+    result = SESearchResult(
+        problem_id="p",
+        run_manifest=RunManifest(
+            run_id="r",
+            problem_id="p",
+            problem_version="1",
+            as_of_date=date(2026, 10, 1),
+            started_at=datetime(2026, 10, 1, 9, tzinfo=UTC),
+            code_version="t",
+            normalization_version="t",
+            ontology_version="t",
+            status=RunStatus.CONVERGED,
+        ),
+        candidates=[
+            CanonicalAsset(
+                asset_id="a1", canonical_name="X-1", target_ids=["TARGET:GUCY2C", "CD3E"]
+            )
+        ],
+    )
+    export = export_candidates(result, spec_id="s1", engine_commit="abc")
+    assert export.candidates[0].target_ids == ["GUCY2C", "CD3E"]

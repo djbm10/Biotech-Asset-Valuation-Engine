@@ -1,0 +1,210 @@
+{
+  "run_id": "se:d710e7c8-c9ce-43a7-80ab-6fb08a36bf8a",
+  "problem_id": "nlq_c68c171c4fb84638",
+  "query": null,
+  "interpretation": [],
+  "run_status": "INCOMPLETE",
+  "convergence_mode": "LIVE",
+  "convergence_meaning": "LIVE: the seed queries were re-issued to the live sources and produced no new candidates. No local-fixpoint or cache-served mode exists; if one is added it must report its own mode and must not be scored as live convergence.",
+  "incomplete_reasons": [
+    "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_aacr, conference_asco, conference_ash, conference_eha, sec_edgar"
+  ],
+  "fatal_reasons": [],
+  "elapsed_seconds": 3515.9,
+  "stages": [
+    {
+      "name": "DISCOVERY",
+      "seconds": 1602.3
+    },
+    {
+      "name": "ACQUISITION",
+      "seconds": 13.8
+    },
+    {
+      "name": "IDENTITY",
+      "seconds": 4.9
+    },
+    {
+      "name": "EXTRACTION",
+      "seconds": 158.4
+    },
+    {
+      "name": "CONSTRUCT_TARGETS",
+      "seconds": 0.1
+    },
+    {
+      "name": "NCIT_TARGETS",
+      "seconds": 0.8
+    },
+    {
+      "name": "TARGET_COMPATIBILITY",
+      "seconds": 0.1
+    },
+    {
+      "name": "LEXICON",
+      "seconds": 0.9
+    },
+    {
+      "name": "HUMAN_POC",
+      "seconds": 1717.2
+    },
+    {
+      "name": "GATING",
+      "seconds": 0.3
+    },
+    {
+      "name": "SCORING",
+      "seconds": 0.0
+    }
+  ],
+  "exit_code": 2,
+  "counts": {
+    "total_candidates": 5984,
+    "eligible": 0,
+    "review": 474,
+    "excluded": 571,
+    "low_support": 4939,
+    "shown": 10
+  },
+  "blind_spots": [
+    "mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_aacr' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown"
+  ],
+  "sources": [
+    {
+      "family": "clinicaltrials_gov",
+      "outcome": "SUCCESS",
+      "queries": 483
+    },
+    {
+      "family": "company_pipeline_or_presentation",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "company_press_release",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_aacr",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_asco",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_ash",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_eha",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "pubmed",
+      "outcome": "SUCCESS",
+      "queries": 483
+    },
+    {
+      "family": "sec_edgar",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    }
+  ],
+  "top": [
+    {
+      "position": 1,
+      "name": "plecanatide",
+      "asset_id": "asset:1db33b53664ebe993505",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 2,
+      "name": "dolcanatide",
+      "asset_id": "asset:9f64f659d19681dd4a6b",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 3,
+      "name": "TAK-264",
+      "asset_id": "asset:6fefd2964fbd75e4c2ae",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 4,
+      "name": "EB-DUO-CAR-NK-CEA/GCC",
+      "asset_id": "asset:68f84cd8076afbbd4edf",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 5,
+      "name": "EB-DUO-CAR-NK-CEA/GCC (IV)",
+      "asset_id": "asset:0312103aeaadc36527ee",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 6,
+      "name": "linaclotide",
+      "asset_id": "asset:b554b8e14f3693988362",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 7,
+      "name": "Chimeric antigen receptor T cell preparation targeting GCC",
+      "asset_id": "asset:902f1b1a4a2aee37c8a5",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 8,
+      "name": "Rusfertide",
+      "asset_id": "asset:21658b75abcdf63ce2ca",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 9,
+      "name": "anise",
+      "asset_id": "asset:c0d19662b98c751b5631",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 10,
+      "name": "AST-120",
+      "asset_id": "asset:52fe79592663a0dab362",
+      "section": "review",
+      "target_status": "UNRESOLVED"
+    }
+  ],
+  "artifacts": {
+    "result": "result.json",
+    "shortlist": "shortlist.txt",
+    "shortlist_json": "shortlist.json",
+    "memo": "memo.md",
+    "run_manifest": "run_manifest.json",
+    "acquisition_ledger": "acquisition_ledger.jsonl",
+    "log": "logs/run.log",
+    "custody": "custody",
+    "reproduce": "reproduce.sh",
+    "invocation": "invocation.json"
+  },
+  "artifact_root": "/home/djmann/se_runs/gucy2c_pilot_v1/run"
+}

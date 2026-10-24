@@ -1,0 +1,21 @@
+DISCOVERY: 973 queries | 12324 records | 39633 hits | 1602.3s
+  clinicaltrials_gov: 483 queries | 630 records | 7755 candidates | 0 failed
+  company_pipeline_or_presentation: 1 queries | 0 records | 0 candidates | 1 failed
+  company_press_release: 1 queries | 0 records | 0 candidates | 1 failed
+  conference_aacr: 1 queries | 0 records | 0 candidates | 1 failed
+  conference_asco: 1 queries | 0 records | 0 candidates | 1 failed
+  conference_ash: 1 queries | 0 records | 0 candidates | 1 failed
+  conference_eha: 1 queries | 0 records | 0 candidates | 1 failed
+  pubmed: 483 queries | 11694 records | 50942 candidates | 0 failed
+  sec_edgar: 1 queries | 0 records | 0 candidates | 1 failed
+ACQUISITION: 12324 records | 12324 snapshots | 973 attempts | 963 semantic queries | 0 orphans | 13.8s
+IDENTITY: 39633 hits | 5984 assets | 4.9s
+EXTRACTION: 39633 documents | 42959 claims | 42959 facts | 0 errors | 158.4s
+CONSTRUCT_TARGETS: 5984 candidates | 461 described | 0.1s
+NCIT_TARGETS: 13 linked | 0 filled | 0.8s
+TARGET_COMPATIBILITY: 178 recorded | 0.1s
+LEXICON: 5399 documents | 106308 vocabulary | 0.9s
+HUMAN_POC: 5984 candidates | 1043 qualified | 23 supported | 1717.2s
+GATING: 5984 candidates | 1045 default path | 4939 low support | 1045 evaluated | 0.3s
+SCORING: 0 profiles | 0 eligible | 571 excluded | 474 unresolved | 0.0s
+ERROR: S&E discovery is INCOMPLETE; output is diagnostic and was not promoted.
