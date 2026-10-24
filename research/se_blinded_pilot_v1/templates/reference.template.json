@@ -1,0 +1,32 @@
+{
+  "_note": "TEMPLATE ONLY. The filled-in file must be kept OUTSIDE this repository and never shared with the engine operator before scoring.",
+  "reference_id": "REPLACE-ME",
+  "spec_id": "REPLACE-ME (same as spec)",
+  "provenance": {
+    "prepared_by": "analyst name",
+    "organization": "",
+    "prepared_on": "YYYY-MM-DD",
+    "method": "how the list was built (databases, date, search terms)",
+    "independent_of_engine": true,
+    "synthetic": false
+  },
+  "assets": [
+    {
+      "reference_id": "R-001",
+      "names": ["every name and code you know for this drug"],
+      "in_scope": true,
+      "target_ids": ["HGNC symbol(s)"],
+      "modality": "e.g. bispecific antibody",
+      "trial_ids": ["NCT..."],
+      "facts": [
+        {"field": "owner", "value": "Company"},
+        {"field": "stage", "value": "phase 2"}
+      ]
+    },
+    {
+      "reference_id": "R-002",
+      "names": ["a plausible drug that does NOT meet the spec (negative control)"],
+      "in_scope": false
+    }
+  ]
+}

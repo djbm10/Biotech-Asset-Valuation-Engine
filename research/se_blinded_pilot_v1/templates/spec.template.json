@@ -1,0 +1,10 @@
+{
+  "spec_id": "REPLACE-ME",
+  "therapeutic_area": "REPLACE-ME (e.g. autoimmune)",
+  "indications": [],
+  "targets": [],
+  "modalities": [],
+  "stages": [],
+  "as_of_date": "YYYY-MM-DD",
+  "query_text": "Plain-language request. Must not name any asset you expect to find."
+}

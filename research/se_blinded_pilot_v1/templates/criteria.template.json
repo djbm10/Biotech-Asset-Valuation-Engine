@@ -1,0 +1,12 @@
+{
+  "criteria_id": "REPLACE-ME",
+  "spec_id": "REPLACE-ME (same as spec)",
+  "precision_basis": "strict",
+  "thresholds": {
+    "min_precision": 0.0,
+    "min_recall": 0.0,
+    "min_trial_coverage": 0.0,
+    "max_identity_errors": 0,
+    "max_misleading_claims": 0
+  }
+}
