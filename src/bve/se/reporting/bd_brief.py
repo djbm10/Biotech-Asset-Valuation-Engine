@@ -27,11 +27,13 @@ import html
 import json
 import re
 from collections import Counter
+from datetime import date
 from enum import Enum
 from pathlib import Path
+from typing import Literal
 
 import yaml
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_serializer, model_validator
 
 from bve.se.reporting.bd_triage import (
     CATEGORY_LABEL,
@@ -89,6 +91,112 @@ class Assessed(BaseModel):
     sources: tuple[Source, ...] = ()
 
 
+RESEARCH_FIELDS = (
+    "identity",
+    "target_format",
+    "development",
+    "human_evidence",
+    "approval",
+    "company_relationship",
+    "territorial_rights",
+    "availability",
+)
+
+
+class ResearchFollowup(BaseModel):
+    """Explicit manual display attachment, never an input to scientific qualification.
+
+    Source pointers preserve the prior audit trail; their presence does not prove entailment.
+    The original dated record remains in the referenced ledger, including rejected assertions.
+    """
+
+    model_config = ConfigDict(frozen=True, extra="forbid")
+    asset_id: str
+    name: str
+    observed_on: date
+    verified_on: date
+    display_as_of: date
+    verification: str
+    record_sha256: str
+    ledger_sha256: str
+    record_locator: str
+    ledger_locator: str
+    evidence: tuple[dict, ...]
+    facts: dict[str, Assessed]
+    research_category: Literal[
+        "UNKNOWN",
+        "PRECLINICAL_RESEARCH_LEAD",
+        "CLINICAL_INVESTIGATIONAL",
+        "APPROVED_COMPARATOR",
+        "INSUFFICIENTLY_IDENTIFIED",
+    ] = "UNKNOWN"
+    commercial_context: Literal["UNKNOWN", "ACQUIRED_PROGRAM", "PARTNERED_PROGRAM"] = "UNKNOWN"
+    next_actions: tuple[str, ...] = ()
+
+    @model_validator(mode="after")
+    def conservative_display(self) -> ResearchFollowup:
+        if not self.observed_on <= self.verified_on <= self.display_as_of:
+            raise ValueError("observation <= manual verification <= display date required")
+        for digest in (self.record_sha256, self.ledger_sha256):
+            if not re.fullmatch(r"[0-9a-f]{64}", digest):
+                raise ValueError("SHA256 provenance required")
+        if not self.verification.strip():
+            raise ValueError("manual verification attribution required")
+        pointers = {
+            (e.get("id"), e.get("url"))
+            for e in self.evidence
+            if re.fullmatch(r"[0-9a-f]{64}", e.get("file_sha256", ""))
+            and re.fullmatch(r"[0-9a-f]{64}", e.get("selection_sha256", ""))
+            and ("json_path" in e or ("start" in e and "end" in e))
+        }
+        facts = {}
+        for key in RESEARCH_FIELDS:
+            fact = self.facts.get(
+                key,
+                Assessed(
+                    value=None,
+                    status=EvidenceStatus.UNKNOWN,
+                    basis="No manual follow-up fact supplied.",
+                ),
+            )
+            sources = tuple(
+                s
+                for s in fact.sources
+                if s.url
+                and s.url.startswith(("https://", "http://"))
+                and (s.label, s.url) in pointers
+            )
+            if fact.status == EvidenceStatus.UNKNOWN:
+                fact = fact.model_copy(update={"value": None, "sources": sources})
+            elif not fact.value or not sources or len(sources) != len(fact.sources):
+                fact = Assessed(
+                    value=None,
+                    status=EvidenceStatus.UNKNOWN,
+                    basis="Source-backed support incomplete; consult original record.",
+                )
+            else:
+                fact = fact.model_copy(update={"sources": sources})
+            if key == "human_evidence" and fact.status == EvidenceStatus.SUPPORTED:
+                fact = fact.model_copy(
+                    update={
+                        "status": EvidenceStatus.UNVERIFIED,
+                        "basis": fact.basis + " Manual observations do not confirm human PoC.",
+                    }
+                )
+            facts[key] = fact
+        object.__setattr__(self, "facts", facts)
+        if any(facts[k].status != EvidenceStatus.SUPPORTED for k in ("identity", "development")):
+            object.__setattr__(self, "research_category", "UNKNOWN")
+        if (
+            self.research_category == "APPROVED_COMPARATOR"
+            and facts["approval"].status != EvidenceStatus.SUPPORTED
+        ):
+            object.__setattr__(self, "research_category", "UNKNOWN")
+        if facts["company_relationship"].status != EvidenceStatus.SUPPORTED:
+            object.__setattr__(self, "commercial_context", "UNKNOWN")
+        return self
+
+
 class GateRow(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -130,6 +238,23 @@ class CandidateCard(BaseModel):
     conflicts: tuple[str, ...] = ()
     triage: Triage | None = None
     held_back: bool = False
+    research_followup: ResearchFollowup | None = None
+
+    @model_validator(mode="after")
+    def check_followup_binding(self) -> CandidateCard:
+        if self.research_followup and (
+            self.research_followup.asset_id != self.asset_id
+            or self.research_followup.name != self.name
+        ):
+            raise ValueError("manual follow-up must match explicit card ID and exact display name")
+        return self
+
+    @model_serializer(mode="wrap")
+    def omit_absent_followup(self, handler):
+        result = handler(self)
+        if self.research_followup is None:
+            result.pop("research_followup", None)
+        return result
 
 
 class StrategicGap(BaseModel):
@@ -1245,6 +1370,8 @@ def _md_card(c: CandidateCard) -> list[str]:
     ]
     if c.change_triggers:
         lines += ["", "*What would change the assessment:* " + "; ".join(c.change_triggers)]
+    if c.research_followup:
+        lines += _research_md(c.research_followup)
     return lines + [""]
 
 
@@ -1430,5 +1557,78 @@ def _h_card(c: CandidateCard) -> str:
             + _h("; ".join(c.change_triggers))
             + "</p>"
         )
+    if c.research_followup:
+        parts.append(_research_html(c.research_followup))
     parts.append("</details>")
     return "\n".join(parts)
+
+
+_RESEARCH_WARNING = (
+    "This output is UNVALIDATED-grade only. Do not use for trade sizing or acquisition probability. "
+    "Manual research follow-up is separate from engine facts, eligibility, "
+    "rankings and human PoC. Company relationships do not establish territorial rights "
+    "or transaction availability. No independent BD review completed."
+)
+
+
+def _research_context(r: ResearchFollowup) -> str:
+    return (
+        f"Observed: {r.observed_on}; manual verification: {r.verified_on}; "
+        f"display as of: {r.display_as_of}. {r.verification}. "
+        f"Manual maturity: {r.research_category}; commercial context: {r.commercial_context}."
+    )
+
+
+def _research_md(r: ResearchFollowup) -> list[str]:
+    lines = [
+        "",
+        "#### Manual research follow-up",
+        "",
+        _RESEARCH_WARNING,
+        "",
+        _research_context(r),
+        "",
+        "| Follow-up field | Value | Status | Basis | Sources |",
+        "|---|---|---|---|---|",
+    ]
+    for key, fact in r.facts.items():
+        cells = [
+            key.replace("_", " "),
+            fact.value or "UNKNOWN",
+            fact.status.value,
+            fact.basis,
+            _md_sources(fact.sources),
+        ]
+        lines.append(
+            "| " + " | ".join(c.replace("|", "\\|").replace("\n", " ") for c in cells) + " |"
+        )
+    lines += [
+        "",
+        "**Next research actions:**",
+        "",
+        *[f"- {a}" for a in r.next_actions],
+        "",
+        f"Record: `{r.record_locator}` (SHA256 `{r.record_sha256}`).",
+        f"Evidence ledger: `{r.ledger_locator}` (SHA256 `{r.ledger_sha256}`).",
+        "Pointers/hashes preserve the previous manual audit; not a fresh source check.",
+    ]
+    return lines
+
+
+def _research_html(r: ResearchFollowup) -> str:
+    rows = "".join(
+        f"<tr><td>{_h(k.replace('_', ' '))}</td><td>{_h(f.value or 'UNKNOWN')}</td>"
+        f"<td>{_h_badge(f)}</td><td>{_h(f.basis)}</td><td>{_h_sources(f.sources)}</td></tr>"
+        for k, f in r.facts.items()
+    )
+    return (
+        "<section><h4>Manual research follow-up</h4>"
+        f"<p class='banner'>{_h(_RESEARCH_WARNING)}</p><p>{_h(_research_context(r))}</p>"
+        "<table><tr><th>Follow-up field</th><th>Value</th><th>Status</th><th>Basis</th>"
+        f"<th>Sources</th></tr>{rows}</table><b>Next research actions:</b><ul>"
+        + "".join(f"<li>{_h(a)}</li>" for a in r.next_actions)
+        + f"</ul><p>Record: {_h(r.record_locator)}; SHA256 {_h(r.record_sha256)}.<br>"
+        f"Evidence ledger: {_h(r.ledger_locator)}; SHA256 {_h(r.ledger_sha256)}.</p>"
+        "<p>Pointers/hashes preserve the previous manual audit; not a fresh source check.</p>"
+        "</section>"
+    )

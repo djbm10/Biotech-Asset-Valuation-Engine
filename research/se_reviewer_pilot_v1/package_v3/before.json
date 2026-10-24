@@ -1,0 +1,105 @@
+{
+  "validation_grade": "UNVALIDATED",
+  "run_status": "DISPLAY_DEMONSTRATION",
+  "as_of_date": "2026-10-24",
+  "cards": [
+    {
+      "asset_id": "research-demo:1",
+      "name": "HXN-1031",
+      "position": 1,
+      "eligibility": "NOT_EVALUATED",
+      "disposition": "RESEARCH_DISPLAY_ONLY",
+      "why": "Manually selected contrast case; no new autonomous discovery credit.",
+      "company": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "target": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "modality": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "stage": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "human_efficacy": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "discovery_modality": null,
+      "authority_record": null,
+      "gates": [],
+      "failed_requirements": [],
+      "unentailed_claims": 0,
+      "questions": [],
+      "change_triggers": [],
+      "duplicate_of": [],
+      "conflicts": [],
+      "triage": null,
+      "held_back": false
+    },
+    {
+      "asset_id": "research-demo:2",
+      "name": "cizutamig",
+      "position": 2,
+      "eligibility": "NOT_EVALUATED",
+      "disposition": "RESEARCH_DISPLAY_ONLY",
+      "why": "Manually selected contrast case; no new autonomous discovery credit.",
+      "company": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "target": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "modality": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "stage": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "human_efficacy": {
+        "value": null,
+        "status": "UNKNOWN",
+        "basis": "Display scaffold only; no engine run for this follow-up.",
+        "sources": []
+      },
+      "discovery_modality": null,
+      "authority_record": null,
+      "gates": [],
+      "failed_requirements": [],
+      "unentailed_claims": 0,
+      "questions": [],
+      "change_triggers": [],
+      "duplicate_of": [],
+      "conflicts": [],
+      "triage": null,
+      "held_back": false
+    }
+  ]
+}

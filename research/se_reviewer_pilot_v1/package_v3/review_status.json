@@ -1,0 +1,13 @@
+{
+  "validation_grade": "UNVALIDATED",
+  "independent_bd_review": "PENDING",
+  "response_count": 0,
+  "usefulness": null,
+  "missing_information": null,
+  "misleading_claims": null,
+  "time_to_action_seconds": null,
+  "would_use_again": null,
+  "original_card_fields_unchanged": true,
+  "autonomous_qualification_improvement": "NOT_DEMONSTRATED",
+  "raw_evidence_note": "Pointers preserved; archived raw files are not in this share package."
+}

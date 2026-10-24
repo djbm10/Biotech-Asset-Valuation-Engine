@@ -1,0 +1,22 @@
+{
+  "base_commit": "5eb941d947f6cbbc18b83851cd5bc3a7f1235192",
+  "validation_grade": "UNVALIDATED",
+  "package_manifest_sha256": "354a8edfcc95da850a7b7a26647843c1c3c215d3b4249a2d59a5befaf3ef8a63",
+  "share_zip_sha256": "05732368a544dcb2889277d6391c113ceabba936f3c367f3713581290e2d2a46",
+  "independent_bd_review": "PENDING",
+  "autonomous_discovery_gain": "NOT_EVALUATED",
+  "autonomous_qualification_gain": "NOT_DEMONSTRATED",
+  "compatibility": {
+    "two_scaffolds": "JSON/HTML/Markdown identical without overlay",
+    "five_existing_fixture_briefs": "JSON/HTML/Markdown identical to base"
+  },
+  "package_reproduction": "byte-identical across directories",
+  "source_links_preserved": 10,
+  "focused_tests": "Final reporting regression: 52 passed in 0.47s, including final guards",
+  "full_regression": "2015 passed, 3 xfailed, 1 warning in 670.75s; before final reporting-only guards",
+  "ruff": {
+    "new_findings": 0,
+    "existing_bd_brief_findings": 16,
+    "existing_src_findings": 7568
+  }
+}
