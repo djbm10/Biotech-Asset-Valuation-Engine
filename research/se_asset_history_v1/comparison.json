@@ -1,0 +1,56 @@
+{
+  "validation_grade": "UNVALIDATED",
+  "evaluation_type": "KNOWN_DEFECT_REPRODUCTION_NOT_BLIND",
+  "runtime_seed_terms": [
+    "cizutamig"
+  ],
+  "derived_query_terms": [
+    "CND106",
+    "EMB-06"
+  ],
+  "prior_named_query_ids": [
+    "NCT06946199",
+    "NCT07135219",
+    "NCT07158996",
+    "NCT07215650",
+    "NCT07215663",
+    "NCT07236411",
+    "NCT07353450",
+    "NCT07408869",
+    "NCT07597200"
+  ],
+  "current_root_query_ids": [
+    "NCT06946199",
+    "NCT07135219",
+    "NCT07158996",
+    "NCT07215650",
+    "NCT07215663",
+    "NCT07236411",
+    "NCT07353450",
+    "NCT07408869",
+    "NCT07597200"
+  ],
+  "expanded_query_unique_ids": [
+    "NCT04735575",
+    "NCT06946199",
+    "NCT07135219",
+    "NCT07158996",
+    "NCT07215650",
+    "NCT07215663",
+    "NCT07236411",
+    "NCT07353450",
+    "NCT07408869",
+    "NCT07597200"
+  ],
+  "incremental_ids": [
+    "NCT04735575"
+  ],
+  "observed_prior_ids_missing_now": [],
+  "asset_discovery_credit": 0,
+  "automatic_identity_merges": 0,
+  "asset_history_completeness": "UNKNOWN",
+  "independent_human_review": "PENDING",
+  "source_of_expected_missing_id": "AI feedback disclosed before protocol; known development case",
+  "ai_review_sha256": "ebf2ae66351c74f40c37615992e3a8e3efaaf7cc73ac3157d6629a91c29f31c0",
+  "plan_sha256": "270c67e31db9be69ac70945d52ce4b9210c90add139a8afe08caef6bd254c62e"
+}

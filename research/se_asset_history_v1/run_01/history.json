@@ -1,0 +1,91 @@
+{
+  "root": "cizutamig",
+  "validation_grade": "UNVALIDATED",
+  "warning": "Do not use for trade sizing or acquisition probability.",
+  "asset_history_completeness": "UNKNOWN",
+  "identity_merges": [],
+  "scientific_eligibility": "NOT_EVALUATED",
+  "collision_coverage": "NOT_EXHAUSTIVE",
+  "queries": [
+    {
+      "term": "cizutamig",
+      "status": "FAILED",
+      "total_count": null,
+      "error": "AcquisitionHttpError",
+      "pages": []
+    }
+  ],
+  "naming_leads": [
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[1209:1224]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[1444:1459]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[1671:1686]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[55:70]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[789:804]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    }
+  ],
+  "blocked_terms": [],
+  "unqueried_terms": [],
+  "trials": [],
+  "other_registries": "NOT_SEARCHED",
+  "observed_at": "2026-10-24T12:25:08.797092+00:00",
+  "completed_at": "2026-10-24T12:25:08.801511+00:00",
+  "execution": "LIVE_NAMED_FOLLOWUP",
+  "input_spec_sha256": "bd230c7ddbf49e2478c36027f49a91ae0614dbd5814973303c826004bfa68d41",
+  "company_provenance": [
+    {
+      "id": "epimab_license",
+      "url": "https://www.epimab.com/en/news/3CmnUq",
+      "path": "raw/epimab_license.txt",
+      "file_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "start": 924,
+      "end": 1735,
+      "selection_sha256": "ceaf16e82f000839e791bffca3388c7589e7f98c75c2e7be6e3f80395e80d7e0"
+    }
+  ],
+  "ai_review": "Defect report only; not human validation",
+  "independent_human_bd_review": "PENDING"
+}

@@ -1,0 +1,404 @@
+{
+  "root": "cizutamig",
+  "validation_grade": "UNVALIDATED",
+  "warning": "Do not use for trade sizing or acquisition probability.",
+  "asset_history_completeness": "UNKNOWN",
+  "identity_merges": [],
+  "scientific_eligibility": "NOT_EVALUATED",
+  "collision_coverage": "NOT_EXHAUSTIVE",
+  "queries": [
+    {
+      "term": "cizutamig",
+      "status": "QUERY_PAGES_COMPLETE",
+      "total_count": 9,
+      "error": null,
+      "pages": [
+        {
+          "url": "https://clinicaltrials.gov/api/v2/studies?query.intr=%22cizutamig%22&pageSize=100&countTotal=true",
+          "sha256": "fe5e1c6f6428edf75e4c2d634533ea8076e79dea3e5c12a52d0bcc8547ceeaca",
+          "payload_file": "raw/query_1_page_1.json"
+        }
+      ]
+    },
+    {
+      "term": "CND106",
+      "status": "QUERY_PAGES_COMPLETE",
+      "total_count": 3,
+      "error": null,
+      "pages": [
+        {
+          "url": "https://clinicaltrials.gov/api/v2/studies?query.intr=%22CND106%22&pageSize=100&countTotal=true",
+          "sha256": "6f3e2097b3522be6ae23607df79c9b7a108932eb5ca1b0e0a19d574e90c491e8",
+          "payload_file": "raw/query_2_page_1.json"
+        }
+      ]
+    },
+    {
+      "term": "EMB-06",
+      "status": "QUERY_PAGES_COMPLETE",
+      "total_count": 1,
+      "error": null,
+      "pages": [
+        {
+          "url": "https://clinicaltrials.gov/api/v2/studies?query.intr=%22EMB-06%22&pageSize=100&countTotal=true",
+          "sha256": "6456e18da4efe1b4b6e814aa351099b2532dc8be559ba8e62b0c6f56e0a4aa38",
+          "payload_file": "raw/query_3_page_1.json"
+        }
+      ]
+    }
+  ],
+  "naming_leads": [
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[1209:1224]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[1444:1459]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[1671:1686]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[55:70]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "EMB-06",
+      "right": "CND106",
+      "source_url": "https://www.epimab.com/en/news/3CmnUq",
+      "source_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "pointer": "text[789:804]",
+      "passage": "EMB-06 (CND106)",
+      "basis": "parenthetical code pair",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "Cizutamig",
+      "right": "CND106",
+      "source_url": "https://clinicaltrials.gov/study/NCT07215650",
+      "source_sha256": "9a6a2857c98a0dc02c4cffeeabee00bba094c11ce6058af3329e978802ec8f21",
+      "pointer": "/protocolSection/armsInterventionsModule/interventions/0/otherNames/0",
+      "passage": "{\"name\": \"Cizutamig\", \"otherName\": \"CND106\"}",
+      "basis": "registry related naming metadata; not identity proof",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    },
+    {
+      "left": "Cizutamig",
+      "right": "CND106",
+      "source_url": "https://clinicaltrials.gov/study/NCT07215663",
+      "source_sha256": "cc9deaa2b2ace609704e0f1de9d0aab2fafe0e5a551efe03e35eaa4ef328f0e8",
+      "pointer": "/protocolSection/armsInterventionsModule/interventions/0/otherNames/0",
+      "passage": "{\"name\": \"Cizutamig\", \"otherName\": \"CND106\"}",
+      "basis": "registry related naming metadata; not identity proof",
+      "status": "RETRIEVAL_LEAD_NOT_IDENTITY"
+    }
+  ],
+  "blocked_terms": [],
+  "unqueried_terms": [],
+  "trials": [
+    {
+      "nct_id": "NCT04735575",
+      "source_url": "https://clinicaltrials.gov/study/NCT04735575",
+      "study_sha256": "4ea98c044180e180c12a8cef9fdaa0a010a75a0659d9b3363af20286f1bf6ea1",
+      "query_terms": [
+        "EMB-06"
+      ],
+      "exact_intervention_names": [
+        "EMB-06"
+      ],
+      "attribution": "REQUIRES_IDENTITY_REVIEW",
+      "status": "TERMINATED",
+      "why_stopped": "Company's resource optimization and product's development change",
+      "last_update": "2025-05-28",
+      "phase": [
+        "PHASE1",
+        "PHASE2"
+      ],
+      "enrollment": {
+        "count": 40,
+        "type": "ACTUAL"
+      },
+      "conditions": [
+        "Relapsed or Refractory Multiple Myeloma"
+      ],
+      "sponsor": "Shanghai EpimAb Biotherapeutics Co., Ltd."
+    },
+    {
+      "nct_id": "NCT06946199",
+      "source_url": "https://clinicaltrials.gov/study/NCT06946199",
+      "study_sha256": "92ad87cdd777696fb72bf51391f4be72692bd102f4173b6867b6394f56379197",
+      "query_terms": [
+        "cizutamig"
+      ],
+      "exact_intervention_names": [
+        "Cizutamig"
+      ],
+      "attribution": "REQUIRES_IDENTITY_REVIEW",
+      "status": "RECRUITING",
+      "why_stopped": null,
+      "last_update": "2026-01-12",
+      "phase": [
+        "PHASE1"
+      ],
+      "enrollment": {
+        "count": 28,
+        "type": "ESTIMATED"
+      },
+      "conditions": [
+        "Rheumatoid Arthritis (RA)"
+      ],
+      "sponsor": "Union Hospital, Tongji Medical College, Huazhong University of Science and Technology"
+    },
+    {
+      "nct_id": "NCT07135219",
+      "source_url": "https://clinicaltrials.gov/study/NCT07135219",
+      "study_sha256": "e25fd39a045584f1804cbef34c3a91a3b0103d5082a0bc7176ac32bfabad3b8e",
+      "query_terms": [
+        "cizutamig"
+      ],
+      "exact_intervention_names": [],
+      "attribution": "UNATTRIBUTED_QUERY_HIT",
+      "status": "ENROLLING_BY_INVITATION",
+      "why_stopped": null,
+      "last_update": "2025-08-22",
+      "phase": [
+        "EARLY_PHASE1"
+      ],
+      "enrollment": {
+        "count": 15,
+        "type": "ESTIMATED"
+      },
+      "conditions": [
+        "Immunoglobulin A Nephropathy (IgAN)"
+      ],
+      "sponsor": "Peking University First Hospital"
+    },
+    {
+      "nct_id": "NCT07158996",
+      "source_url": "https://clinicaltrials.gov/study/NCT07158996",
+      "study_sha256": "128d62b645073043d192c06c0a548529e85c1d5b466e68d1a20ad5052794fbb0",
+      "query_terms": [
+        "cizutamig"
+      ],
+      "exact_intervention_names": [],
+      "attribution": "UNATTRIBUTED_QUERY_HIT",
+      "status": "NOT_YET_RECRUITING",
+      "why_stopped": null,
+      "last_update": "2025-09-08",
+      "phase": [
+        "EARLY_PHASE1"
+      ],
+      "enrollment": {
+        "count": 10,
+        "type": "ESTIMATED"
+      },
+      "conditions": [
+        "Systemic Sclerosis (SSc)"
+      ],
+      "sponsor": "Ruijin Hospital"
+    },
+    {
+      "nct_id": "NCT07215650",
+      "source_url": "https://clinicaltrials.gov/study/NCT07215650",
+      "study_sha256": "9a6a2857c98a0dc02c4cffeeabee00bba094c11ce6058af3329e978802ec8f21",
+      "query_terms": [
+        "CND106",
+        "cizutamig"
+      ],
+      "exact_intervention_names": [
+        "Cizutamig"
+      ],
+      "attribution": "REQUIRES_IDENTITY_REVIEW",
+      "status": "RECRUITING",
+      "why_stopped": null,
+      "last_update": "2026-09-02",
+      "phase": [
+        "PHASE1"
+      ],
+      "enrollment": {
+        "count": 44,
+        "type": "ESTIMATED"
+      },
+      "conditions": [
+        "Generalized Myasthenia Gravis"
+      ],
+      "sponsor": "Candid Therapeutics"
+    },
+    {
+      "nct_id": "NCT07215663",
+      "source_url": "https://clinicaltrials.gov/study/NCT07215663",
+      "study_sha256": "cc9deaa2b2ace609704e0f1de9d0aab2fafe0e5a551efe03e35eaa4ef328f0e8",
+      "query_terms": [
+        "CND106",
+        "cizutamig"
+      ],
+      "exact_intervention_names": [
+        "Cizutamig"
+      ],
+      "attribution": "REQUIRES_IDENTITY_REVIEW",
+      "status": "RECRUITING",
+      "why_stopped": null,
+      "last_update": "2026-09-02",
+      "phase": [
+        "PHASE1"
+      ],
+      "enrollment": {
+        "count": 47,
+        "type": "ESTIMATED"
+      },
+      "conditions": [
+        "Systemic Lupus Erythematosus (SLE)"
+      ],
+      "sponsor": "Candid Therapeutics"
+    },
+    {
+      "nct_id": "NCT07236411",
+      "source_url": "https://clinicaltrials.gov/study/NCT07236411",
+      "study_sha256": "9e2eb8cae04e2b127ca280cce8ed5bb8e1c8d1c469f111adc6510ed6ba9c98f5",
+      "query_terms": [
+        "cizutamig"
+      ],
+      "exact_intervention_names": [
+        "cizutamig"
+      ],
+      "attribution": "REQUIRES_IDENTITY_REVIEW",
+      "status": "COMPLETED",
+      "why_stopped": null,
+      "last_update": "2026-07-22",
+      "phase": [
+        "PHASE1"
+      ],
+      "enrollment": {
+        "count": 24,
+        "type": "ACTUAL"
+      },
+      "conditions": [
+        "Healthy Participants Study"
+      ],
+      "sponsor": "Candid Therapeutics"
+    },
+    {
+      "nct_id": "NCT07353450",
+      "source_url": "https://clinicaltrials.gov/study/NCT07353450",
+      "study_sha256": "2b4924fdbbead82919c53aa291e1b03aed020ef445450d571e5ecca1e3d2c23e",
+      "query_terms": [
+        "cizutamig"
+      ],
+      "exact_intervention_names": [
+        "cizutamig"
+      ],
+      "attribution": "REQUIRES_IDENTITY_REVIEW",
+      "status": "NOT_YET_RECRUITING",
+      "why_stopped": null,
+      "last_update": "2026-01-20",
+      "phase": [
+        "EARLY_PHASE1"
+      ],
+      "enrollment": {
+        "count": 15,
+        "type": "ESTIMATED"
+      },
+      "conditions": [
+        "Ulcerative Colitis (UC)"
+      ],
+      "sponsor": "Ruijin Hospital"
+    },
+    {
+      "nct_id": "NCT07408869",
+      "source_url": "https://clinicaltrials.gov/study/NCT07408869",
+      "study_sha256": "eb7a09076c28d7dc2e91d9bed1379482e8c08d3c16ac33aa8a52218a191d6a3e",
+      "query_terms": [
+        "cizutamig"
+      ],
+      "exact_intervention_names": [
+        "Cizutamig"
+      ],
+      "attribution": "REQUIRES_IDENTITY_REVIEW",
+      "status": "WITHDRAWN",
+      "why_stopped": "Sponsor decision",
+      "last_update": "2026-07-22",
+      "phase": [
+        "PHASE1"
+      ],
+      "enrollment": {
+        "count": 0,
+        "type": "ACTUAL"
+      },
+      "conditions": [
+        "IgE-Mediated Hypersensitivity",
+        "IgE Mediated Food Allergy",
+        "IgE-Mediated Cow Milk Allergy"
+      ],
+      "sponsor": "Candid Therapeutics"
+    },
+    {
+      "nct_id": "NCT07597200",
+      "source_url": "https://clinicaltrials.gov/study/NCT07597200",
+      "study_sha256": "ef47b9ca8aca8e0787518a79bcc7817ed75573b4c24597d0bbd9f2476497c2e8",
+      "query_terms": [
+        "CND106",
+        "cizutamig"
+      ],
+      "exact_intervention_names": [],
+      "attribution": "UNATTRIBUTED_QUERY_HIT",
+      "status": "RECRUITING",
+      "why_stopped": null,
+      "last_update": "2026-09-01",
+      "phase": [
+        "PHASE1"
+      ],
+      "enrollment": {
+        "count": 38,
+        "type": "ESTIMATED"
+      },
+      "conditions": [
+        "Thyroid Eye Disease, TED"
+      ],
+      "sponsor": "Candid Therapeutics"
+    }
+  ],
+  "other_registries": "NOT_SEARCHED",
+  "observed_at": "2026-10-24T12:25:22.485999+00:00",
+  "completed_at": "2026-10-24T12:25:23.265795+00:00",
+  "execution": "LIVE_NAMED_FOLLOWUP",
+  "input_spec_sha256": "bd230c7ddbf49e2478c36027f49a91ae0614dbd5814973303c826004bfa68d41",
+  "company_provenance": [
+    {
+      "id": "epimab_license",
+      "url": "https://www.epimab.com/en/news/3CmnUq",
+      "path": "raw/epimab_license.txt",
+      "file_sha256": "bf5371b214e880d5b7982be944529b1f7b2797582e5edc91568cb415123f1925",
+      "start": 924,
+      "end": 1735,
+      "selection_sha256": "ceaf16e82f000839e791bffca3388c7589e7f98c75c2e7be6e3f80395e80d7e0"
+    }
+  ],
+  "ai_review": "Defect report only; not human validation",
+  "independent_human_bd_review": "PENDING"
+}

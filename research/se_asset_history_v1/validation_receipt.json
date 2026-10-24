@@ -1,0 +1,26 @@
+{
+  "base_commit": "0d8c3477273c117a64e464e14fa4eb77b5fb9234",
+  "validation_grade": "UNVALIDATED",
+  "full_tests": "2045 passed, 3 xfailed, 1 warning in 638.22s",
+  "focused_tests": "113 passed, 2 xfailed in 22.29s",
+  "ruff_new_files": "PASS",
+  "ruff_src_existing_findings": 7568,
+  "offline_replay_core_identical": true,
+  "offline_replay_peak_rss_kib": 46204,
+  "live_queries": 3,
+  "distinct_returned_trials": 10,
+  "known_missing_trial_recovered": true,
+  "blind_evaluation": false,
+  "autonomous_asset_discovery_credit": 0,
+  "independent_human_bd_review": "PENDING",
+  "original_reports_and_scientific_modules": "UNCHANGED",
+  "company_archive_observed_date": "2026-10-24",
+  "source_hashes": {
+    "src/bve/se/acquisition/asset_history.py": "181a2bcd4f042473a00e6f3f0aa4282b6cf9502441eed5e2257c0642ec4d9ed2",
+    "research/se_asset_history_v1/run.py": "aa18f158405b440be1d960024e25a6902fe576537e6bf6690f888b97d212ed73",
+    "research/se_asset_history_v1/inputs.json": "bd230c7ddbf49e2478c36027f49a91ae0614dbd5814973303c826004bfa68d41",
+    "research/se_asset_history_v1/PLAN.md": "270c67e31db9be69ac70945d52ce4b9210c90add139a8afe08caef6bd254c62e",
+    "research/se_asset_history_v1/run_02/MANIFEST.json": "ba70384988f7f35ea9e40f43bf06ce40ca2ef175af97c409bba38822c97740c2",
+    "research/se_lead_verification_v1/evidence.json": "da57b622d922bbf0292d207f3daa43ffd3d95e411e3e146566ee732d1a1f193c"
+  }
+}
