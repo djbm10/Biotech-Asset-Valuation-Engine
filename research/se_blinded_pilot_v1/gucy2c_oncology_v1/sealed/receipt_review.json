@@ -1,0 +1,15 @@
+{
+  "version": "blinded-pilot-v1",
+  "spec_sha256": "ae49a2b1b7725cbb5fdd6d1c5092a677b62c1842844a829d673db9e40034a397",
+  "criteria_sha256": "74c4ef325843c102278e2a320c704628bb5fc142be866766b3f3aaac4fcba447",
+  "candidates_sha256": "ebd017458c0539c07c9c6c2bbea79b230bd4f9815f2ee55cdcb76cc199b6e92e",
+  "spec_id": "gucy2c_oncology_v1",
+  "sealed_at": "2026-10-24T21:53:36.983114+00:00",
+  "scorer_commit": "e909f4d4e167ef24e47bccc74fa2a140758e76da",
+  "prereg_sha256": "cc7027c33e3a964fe587da99ee3191d2c44d1c1e2a935c361bb1af836a2631ce",
+  "prereg_commit": "e909f4d4e167ef24e47bccc74fa2a140758e76da",
+  "prereg_committed_at": "2026-10-24T16:51:35-04:00",
+  "prereg_on_remote": true,
+  "run_id": "se:d710e7c8-c9ce-43a7-80ab-6fb08a36bf8a",
+  "run_started_at": "2026-10-24T20:53:44.726218Z"
+}
