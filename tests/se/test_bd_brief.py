@@ -362,3 +362,10 @@ def test_summary_never_claims_confirmed_efficacy():
     brief = build_bd_brief(_run([_entry()], result=_result()))
     assert any("No human efficacy is confirmed" in x for x in brief.summary)
     assert "## Summary" in render_markdown(brief)
+
+
+def test_stage_does_not_claim_requested_indication_is_verified():
+    brief = build_bd_brief(_run([_entry()]))
+    assert 'Indication-specific stage is UNVERIFIED' in brief.candidates[0].stage.basis
+    assert 'Indication-specific stage is UNVERIFIED' in render_markdown(brief)
+    assert 'Indication-specific stage is UNVERIFIED' in render_html(brief)

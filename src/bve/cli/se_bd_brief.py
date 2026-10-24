@@ -10,7 +10,6 @@ from pathlib import Path
 
 import yaml
 
-from bve.se.reporting.bd_triage import LabelSnapshot
 from bve.se.reporting.bd_brief import (
     DEFAULT_LIMIT,
     build_bd_brief,
@@ -19,6 +18,7 @@ from bve.se.reporting.bd_brief import (
     render_markdown,
     usefulness_checks,
 )
+from bve.se.reporting.bd_triage import LabelSnapshot
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -44,7 +44,11 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def _sha(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
 
 
 def main(argv: list[str] | None = None) -> int:

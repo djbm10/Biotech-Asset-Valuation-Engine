@@ -1,0 +1,2119 @@
+[
+  {
+    "aliases": [
+      "LBL051"
+    ],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Oblenio Bio (Aditum Bio / Leads Biolabs)",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "Oblenio Bio has dosed the first patients in a phase 1a first-in-human trial of LBL-051, a trispecific T-cell engager targeting B-cell maturation antigen (BCMA), CD19, and CD3 in patients with refractory autoimmune disease, the company announced.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.biopharminternational.com/view/oblenio-lbl-051-phase-1a-trispecific-t-cell-engager-autoimmune"
+          },
+          {
+            "passage": "Leads Biolabs grants Oblenio Bio an exclusive option to license LBL-051, a first-in-class CD19xBCMAxCD3 tri-specific T-cell engager antibody",
+            "supports": [
+              "identity",
+              "target",
+              "company"
+            ],
+            "url": "https://www.prnewswire.com/news-releases/aditum-bio-and-leads-biolabs-announce-the-formation-of-oblenio-bio-to-develop-a-tri-specific-t-cell-engager-for-autoimmune-disorders-302297928.html"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Oblenio Bio (Aditum Bio / Leads Biolabs)"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "Oblenio Bio has dosed the first patients in a phase 1a first-in-human trial of LBL-051, a trispecific T-cell engager targeting B-cell maturation antigen (BCMA), CD19, and CD3 in patients with refractory autoimmune disease, the company announced.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.biopharminternational.com/view/oblenio-lbl-051-phase-1a-trispecific-t-cell-engager-autoimmune"
+          },
+          {
+            "passage": "Leads Biolabs grants Oblenio Bio an exclusive option to license LBL-051, a first-in-class CD19xBCMAxCD3 tri-specific T-cell engager antibody",
+            "supports": [
+              "identity",
+              "target",
+              "company"
+            ],
+            "url": "https://www.prnewswire.com/news-releases/aditum-bio-and-leads-biolabs-announce-the-formation-of-oblenio-bio-to-develop-a-tri-specific-t-cell-engager-for-autoimmune-disorders-302297928.html"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "LBL-051"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "Oblenio Bio has dosed the first patients in a phase 1a first-in-human trial of LBL-051, a trispecific T-cell engager targeting B-cell maturation antigen (BCMA), CD19, and CD3 in patients with refractory autoimmune disease, the company announced.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.biopharminternational.com/view/oblenio-lbl-051-phase-1a-trispecific-t-cell-engager-autoimmune"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "refractory autoimmune disease (multiple indications)"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "Oblenio Bio has dosed the first patients in a phase 1a first-in-human trial of LBL-051, a trispecific T-cell engager targeting B-cell maturation antigen (BCMA), CD19, and CD3 in patients with refractory autoimmune disease, the company announced.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.biopharminternational.com/view/oblenio-lbl-051-phase-1a-trispecific-t-cell-engager-autoimmune"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "trispecific T-cell engager antibody"
+      },
+      "phase": {
+        "evidence": [
+          {
+            "passage": "Oblenio Bio has dosed the first patients in a phase 1a first-in-human trial of LBL-051, a trispecific T-cell engager targeting B-cell maturation antigen (BCMA), CD19, and CD3 in patients with refractory autoimmune disease, the company announced.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.biopharminternational.com/view/oblenio-lbl-051-phase-1a-trispecific-t-cell-engager-autoimmune"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Phase 1a"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "Oblenio Bio has dosed the first patients in a phase 1a first-in-human trial of LBL-051, a trispecific T-cell engager targeting B-cell maturation antigen (BCMA), CD19, and CD3 in patients with refractory autoimmune disease, the company announced.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.biopharminternational.com/view/oblenio-lbl-051-phase-1a-trispecific-t-cell-engager-autoimmune"
+          },
+          {
+            "passage": "Leads Biolabs grants Oblenio Bio an exclusive option to license LBL-051, a first-in-class CD19xBCMAxCD3 tri-specific T-cell engager antibody",
+            "supports": [
+              "identity",
+              "target",
+              "company"
+            ],
+            "url": "https://www.prnewswire.com/news-releases/aditum-bio-and-leads-biolabs-announce-the-formation-of-oblenio-bio-to-develop-a-tri-specific-t-cell-engager-for-autoimmune-disorders-302297928.html"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "CD19",
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": true,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "LBL-051",
+    "notes": "Germany, Paul Ehrlich Institute-authorized Phase 1a; specific indications not enumerated on fetched page.",
+    "ref_id": "R01",
+    "search_A": "MATCH",
+    "search_B": "MATCH",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication",
+      "modality",
+      "phase",
+      "target"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Kali Therapeutics (per author disclosures)",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "M. Bao: Kali Therapeutics, 3; J. Wang: Kali Therapeutics, 3",
+            "supports": [
+              "company"
+            ],
+            "url": "https://acrabstracts.org/abstract/kt501-a-cd19-bcma-cd3-trispecific-antibody-leads-to-rapid-and-deep-b-cell-depletion-with-well-tolerated-safety/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Kali Therapeutics (per author disclosures)"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "support the clinical development of KT501 as a first-in-class trispecific TCE that is potentially effective and convenient therapy with a differentiated safety profile for many autoimmune diseases. A Phase I first-in-human clinical trial is anticipated to begin in Q1 2026.",
+            "supports": [
+              "identity",
+              "modality",
+              "indication",
+              "phase"
+            ],
+            "url": "https://acrabstracts.org/abstract/kt501-a-cd19-bcma-cd3-trispecific-antibody-leads-to-rapid-and-deep-b-cell-depletion-with-well-tolerated-safety/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "KT501"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "support the clinical development of KT501 as a first-in-class trispecific TCE that is potentially effective and convenient therapy with a differentiated safety profile for many autoimmune diseases. A Phase I first-in-human clinical trial is anticipated to begin in Q1 2026.",
+            "supports": [
+              "identity",
+              "modality",
+              "indication",
+              "phase"
+            ],
+            "url": "https://acrabstracts.org/abstract/kt501-a-cd19-bcma-cd3-trispecific-antibody-leads-to-rapid-and-deep-b-cell-depletion-with-well-tolerated-safety/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "autoimmune diseases (SLE, RA etc. cited as rationale)"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "support the clinical development of KT501 as a first-in-class trispecific TCE that is potentially effective and convenient therapy with a differentiated safety profile for many autoimmune diseases. A Phase I first-in-human clinical trial is anticipated to begin in Q1 2026.",
+            "supports": [
+              "identity",
+              "modality",
+              "indication",
+              "phase"
+            ],
+            "url": "https://acrabstracts.org/abstract/kt501-a-cd19-bcma-cd3-trispecific-antibody-leads-to-rapid-and-deep-b-cell-depletion-with-well-tolerated-safety/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "trispecific T-cell engager antibody"
+      },
+      "phase": {
+        "evidence": [
+          {
+            "passage": "support the clinical development of KT501 as a first-in-class trispecific TCE that is potentially effective and convenient therapy with a differentiated safety profile for many autoimmune diseases. A Phase I first-in-human clinical trial is anticipated to begin in Q1 2026.",
+            "supports": [
+              "identity",
+              "modality",
+              "indication",
+              "phase"
+            ],
+            "url": "https://acrabstracts.org/abstract/kt501-a-cd19-bcma-cd3-trispecific-antibody-leads-to-rapid-and-deep-b-cell-depletion-with-well-tolerated-safety/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Preclinical (Phase 1 anticipated Q1 2026)"
+      },
+      "target": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": [
+          "CD19",
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "KT501",
+    "notes": "Target triple from abstract title \"KT501, a CD19/BCMA/CD3 trispecific antibody\". Clinical start not verified as of 2026-10-15.",
+    "ref_id": "R02",
+    "search_A": "MATCH",
+    "search_B": "MATCH",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication",
+      "modality",
+      "phase"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Unknown (not stated in abstract)",
+    "fields": {
+      "company": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Unknown (not stated in abstract)"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "To overcome these challenges, we engineered HXN-1031, an innovative trispecific T cell engager (TCE) capable of dual targeting CD19 and BCMA. This approach seeks to establish a transformative treatment strategy for autoimmune conditions.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication"
+            ],
+            "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "HXN-1031"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "To overcome these challenges, we engineered HXN-1031, an innovative trispecific T cell engager (TCE) capable of dual targeting CD19 and BCMA. This approach seeks to establish a transformative treatment strategy for autoimmune conditions.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication"
+            ],
+            "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "autoimmune diseases"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "To overcome these challenges, we engineered HXN-1031, an innovative trispecific T cell engager (TCE) capable of dual targeting CD19 and BCMA. This approach seeks to establish a transformative treatment strategy for autoimmune conditions.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication"
+            ],
+            "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "1+1+1 trispecific T-cell engager"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Preclinical"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "To overcome these challenges, we engineered HXN-1031, an innovative trispecific T cell engager (TCE) capable of dual targeting CD19 and BCMA. This approach seeks to establish a transformative treatment strategy for autoimmune conditions.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication"
+            ],
+            "url": "https://acrabstracts.org/abstract/development-of-a-noval-111-cd19-and-bcma-dual-targeted-t-cell-engager-for-autoimmune-diseases/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "CD19",
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": true,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "HXN-1031",
+    "notes": "ACR 2025 abstract; sponsor not identified on page; could be argued ACADEMIC_CONSTRUCT/preclinical.",
+    "ref_id": "R03",
+    "search_A": "MATCH",
+    "search_B": "MATCH",
+    "supported_fields": [
+      "identity",
+      "indication",
+      "modality",
+      "target"
+    ]
+  },
+  {
+    "aliases": [
+      "CDR-111"
+    ],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "CDR-Life (Boehringer Ingelheim licensing partnership)",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "CDR111, CDR-Life\u2019s newest clinical candidate, is a trispecific molecule targeting CD19, BCMA and CD3, designed to achieve immune reset through broad B cell depletion.",
+            "supports": [
+              "identity",
+              "target",
+              "indication",
+              "company"
+            ],
+            "url": "https://www.cdr-life.com/news"
+          },
+          {
+            "passage": "The candidate is a trispecific M-gager\u00ae, an antibody-based T cell engager designed to selectively target and deplete B cells with the goal of achieving an immune system reset.",
+            "supports": [
+              "modality",
+              "company"
+            ],
+            "url": "https://www.cdr-life.com/news"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "CDR-Life (Boehringer Ingelheim licensing partnership)"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "CDR111, CDR-Life\u2019s newest clinical candidate, is a trispecific molecule targeting CD19, BCMA and CD3, designed to achieve immune reset through broad B cell depletion.",
+            "supports": [
+              "identity",
+              "target",
+              "indication",
+              "company"
+            ],
+            "url": "https://www.cdr-life.com/news"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "CDR111"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "CDR111, CDR-Life\u2019s newest clinical candidate, is a trispecific molecule targeting CD19, BCMA and CD3, designed to achieve immune reset through broad B cell depletion.",
+            "supports": [
+              "identity",
+              "target",
+              "indication",
+              "company"
+            ],
+            "url": "https://www.cdr-life.com/news"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "autoimmune diseases"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "The candidate is a trispecific M-gager\u00ae, an antibody-based T cell engager designed to selectively target and deplete B cells with the goal of achieving an immune system reset.",
+            "supports": [
+              "modality",
+              "company"
+            ],
+            "url": "https://www.cdr-life.com/news"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "trispecific M-gager T-cell engager"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Clinical candidate / preclinical (stage not confirmed)"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "CDR111, CDR-Life\u2019s newest clinical candidate, is a trispecific molecule targeting CD19, BCMA and CD3, designed to achieve immune reset through broad B cell depletion.",
+            "supports": [
+              "identity",
+              "target",
+              "indication",
+              "company"
+            ],
+            "url": "https://www.cdr-life.com/news"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "CD19",
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": true,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "CDR111",
+    "notes": "Boehringer link to CDR111 specifically is inferred (milestone release does not name the code). Phase unknown.",
+    "ref_id": "R04",
+    "search_A": "MATCH",
+    "search_B": "MATCH",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication",
+      "modality",
+      "target"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Cullinan Therapeutics",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "CLN-978 is a novel, differentiated and highly potent CD19xCD3 bispecific T cell engager.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Cullinan Therapeutics"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "CLN-978 is a novel, differentiated and highly potent CD19xCD3 bispecific T cell engager.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "CLN-978"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "A Phase I, open-label study of CLN-978 in patients with treatment-refractory rheumatoid arthritis.",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT06994143"
+          },
+          {
+            "passage": "A phase 1b, open-label study of CLN-978 administered subcutaneously in patients with active, moderate to severe Sjogren's Disease.",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07041099"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "rheumatoid arthritis",
+          "Sjogren disease",
+          "SLE"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "CLN-978 is a novel, differentiated and highly potent CD19xCD3 bispecific T cell engager.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "bispecific T-cell engager"
+      },
+      "phase": {
+        "evidence": [
+          {
+            "passage": "A Phase I, open-label study of CLN-978 in patients with treatment-refractory rheumatoid arthritis.",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT06994143"
+          },
+          {
+            "passage": "A phase 1b, open-label study of CLN-978 administered subcutaneously in patients with active, moderate to severe Sjogren's Disease.",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07041099"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Phase 1"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "CLN-978 is a novel, differentiated and highly potent CD19xCD3 bispecific T cell engager.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "CD19",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": true,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "CLN-978",
+    "notes": "SLE trial (OUTRACE) not fetched separately.",
+    "ref_id": "R05",
+    "search_A": "MATCH",
+    "search_B": "NO",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication",
+      "modality",
+      "phase",
+      "target"
+    ]
+  },
+  {
+    "aliases": [
+      "BCMA TCE (Cullinan/Genrix Bio)"
+    ],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Cullinan Therapeutics / Genrix Bio",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "Cullinan plans to initiate a Phase 1/2a clinical trial in Q1 2027 in patients with autoimmune cytopenias, including immune thrombocytopenia (ITP) and autoimmune hemolytic anemia (AIHA), autoantibody-mediated diseases with high unmet need",
+            "supports": [
+              "phase",
+              "company",
+              "indication"
+            ],
+            "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Cullinan Therapeutics / Genrix Bio"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "Initial velinotamig (BCMA TCE) data show promising clinical activity, including complete renal responses in lupus nephritis, supporting potential in plasma cell\u2013driven autoimmune diseases",
+            "supports": [
+              "identity",
+              "indication"
+            ],
+            "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "velinotamig"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "Initial velinotamig (BCMA TCE) data show promising clinical activity, including complete renal responses in lupus nephritis, supporting potential in plasma cell\u2013driven autoimmune diseases",
+            "supports": [
+              "identity",
+              "indication"
+            ],
+            "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases"
+          },
+          {
+            "passage": "Cullinan plans to initiate a Phase 1/2a clinical trial in Q1 2027 in patients with autoimmune cytopenias, including immune thrombocytopenia (ITP) and autoimmune hemolytic anemia (AIHA), autoantibody-mediated diseases with high unmet need",
+            "supports": [
+              "phase",
+              "company",
+              "indication"
+            ],
+            "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "SLE / lupus nephritis",
+          "autoimmune cytopenias (ITP, AIHA) planned"
+        ]
+      },
+      "modality": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "bispecific T-cell engager"
+      },
+      "phase": {
+        "evidence": [
+          {
+            "passage": "Cullinan plans to initiate a Phase 1/2a clinical trial in Q1 2027 in patients with autoimmune cytopenias, including immune thrombocytopenia (ITP) and autoimmune hemolytic anemia (AIHA), autoantibody-mediated diseases with high unmet need",
+            "supports": [
+              "phase",
+              "company",
+              "indication"
+            ],
+            "url": "https://www.biospace.com/press-releases/cullinan-therapeutics-shares-new-clinical-data-across-its-portfolio-of-t-cell-engager-programs-targeting-cd19-and-bcma-in-autoimmune-diseases"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Phase 1"
+      },
+      "target": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": [
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "velinotamig",
+    "notes": "CD3 arm per Cullinan pipeline page (fetched via WebFetch but blocked by Cloudflare for curl; not quoted).",
+    "ref_id": "R06",
+    "search_A": "MATCH",
+    "search_B": "NO",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication",
+      "phase"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Candid Therapeutics (acquired by UCB)",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "Candid\u2019s lead asset, cizutamig, a bispecific antibody directed to B-cell maturation antigen (BCMA) on plasma cells and CD3 on T-cells, is currently in multiple phase 1 clinical studies across various autoimmune diseases",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-to-acquire-candid-therapeutics-building-upon-its-existing-immunology-pipeline-with-novel-t-cell-engagers"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Candid Therapeutics (acquired by UCB)"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "Candid\u2019s lead asset, cizutamig, a bispecific antibody directed to B-cell maturation antigen (BCMA) on plasma cells and CD3 on T-cells, is currently in multiple phase 1 clinical studies across various autoimmune diseases",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-to-acquire-candid-therapeutics-building-upon-its-existing-immunology-pipeline-with-novel-t-cell-engagers"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "cizutamig"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "Clinical Study of Cizutamig in Systemic Lupus Erythematosus",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07215663"
+          },
+          {
+            "passage": "Clinical Study of Cizutamig in Generalized Myasthenia Gravis (gMG)",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07215650"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "SLE",
+          "generalized myasthenia gravis"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "Candid\u2019s lead asset, cizutamig, a bispecific antibody directed to B-cell maturation antigen (BCMA) on plasma cells and CD3 on T-cells, is currently in multiple phase 1 clinical studies across various autoimmune diseases",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-to-acquire-candid-therapeutics-building-upon-its-existing-immunology-pipeline-with-novel-t-cell-engagers"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "bispecific T-cell engager"
+      },
+      "phase": {
+        "evidence": [
+          {
+            "passage": "Candid\u2019s lead asset, cizutamig, a bispecific antibody directed to B-cell maturation antigen (BCMA) on plasma cells and CD3 on T-cells, is currently in multiple phase 1 clinical studies across various autoimmune diseases",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-to-acquire-candid-therapeutics-building-upon-its-existing-immunology-pipeline-with-novel-t-cell-engagers"
+          },
+          {
+            "passage": "Clinical Study of Cizutamig in Systemic Lupus Erythematosus",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07215663"
+          },
+          {
+            "passage": "Clinical Study of Cizutamig in Generalized Myasthenia Gravis (gMG)",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07215650"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Phase 1"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "Candid\u2019s lead asset, cizutamig, a bispecific antibody directed to B-cell maturation antigen (BCMA) on plasma cells and CD3 on T-cells, is currently in multiple phase 1 clinical studies across various autoimmune diseases",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "phase",
+              "company"
+            ],
+            "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-to-acquire-candid-therapeutics-building-upon-its-existing-immunology-pipeline-with-novel-t-cell-engagers"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": true,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "cizutamig",
+    "notes": "",
+    "ref_id": "R07",
+    "search_A": "MATCH",
+    "search_B": "NO",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication",
+      "modality",
+      "phase",
+      "target"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Lakefront Biotherapeutics West LLC",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "OM336 is an engineered bispecific antibody directed against BCMA and CD3",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07083960"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Lakefront Biotherapeutics West LLC"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "OM336 is an engineered bispecific antibody directed against BCMA and CD3",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07083960"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "OM336"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "An early-phase clinical trial evaluating the safety, tolerability, and pharmacokinetics of subcutaneously dosed OM336 in adult participants with autoimmune cytopenias.",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07083960"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "ITP",
+          "warm/cold AIHA"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "OM336 is an engineered bispecific antibody directed against BCMA and CD3",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07083960"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "bispecific antibody (T-cell engager)"
+      },
+      "phase": {
+        "evidence": [
+          {
+            "passage": "An early-phase clinical trial evaluating the safety, tolerability, and pharmacokinetics of subcutaneously dosed OM336 in adult participants with autoimmune cytopenias.",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07083960"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Phase 1"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "OM336 is an engineered bispecific antibody directed against BCMA and CD3",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07083960"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": true,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "OM336",
+    "notes": "Phase from CT.gov phases field = PHASE1.",
+    "ref_id": "R08",
+    "search_A": "MATCH",
+    "search_B": "NO",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication",
+      "modality",
+      "phase",
+      "target"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Unknown (not stated on fetched pages)",
+    "fields": {
+      "company": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Unknown (not stated on fetched pages)"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "Here we report results from the intravenous treatment arm of an ongoing, first-in-disease, phase 1 trial of A-319, a next-generation CD3\u00d7CD19 TCE, in 12 patients with active systemic lupus erythematosus (SLE) with 52 weeks of follow-up.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase"
+            ],
+            "url": "https://www.nature.com/articles/s41591-026-04572-7"
+          },
+          {
+            "passage": "We evaluated the safety profile of A-319 in systemic lupus erythematosus (SLE) pts and explored if A-319 has the potential to reset autoimmunity in a dose-finding clinical study.",
+            "supports": [
+              "identity",
+              "indication"
+            ],
+            "url": "https://acrabstracts.org/abstract/a-319-a-cd3xcd19-t-cell-engager-for-the-treatment-of-refractory-systemic-lupus-erythematosus-preliminary-evidence-of-autoimmune-reset/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "A-319"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "Here we report results from the intravenous treatment arm of an ongoing, first-in-disease, phase 1 trial of A-319, a next-generation CD3\u00d7CD19 TCE, in 12 patients with active systemic lupus erythematosus (SLE) with 52 weeks of follow-up.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase"
+            ],
+            "url": "https://www.nature.com/articles/s41591-026-04572-7"
+          },
+          {
+            "passage": "We evaluated the safety profile of A-319 in systemic lupus erythematosus (SLE) pts and explored if A-319 has the potential to reset autoimmunity in a dose-finding clinical study.",
+            "supports": [
+              "identity",
+              "indication"
+            ],
+            "url": "https://acrabstracts.org/abstract/a-319-a-cd3xcd19-t-cell-engager-for-the-treatment-of-refractory-systemic-lupus-erythematosus-preliminary-evidence-of-autoimmune-reset/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "systemic lupus erythematosus"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "Here we report results from the intravenous treatment arm of an ongoing, first-in-disease, phase 1 trial of A-319, a next-generation CD3\u00d7CD19 TCE, in 12 patients with active systemic lupus erythematosus (SLE) with 52 weeks of follow-up.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase"
+            ],
+            "url": "https://www.nature.com/articles/s41591-026-04572-7"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "bispecific T-cell engager"
+      },
+      "phase": {
+        "evidence": [
+          {
+            "passage": "Here we report results from the intravenous treatment arm of an ongoing, first-in-disease, phase 1 trial of A-319, a next-generation CD3\u00d7CD19 TCE, in 12 patients with active systemic lupus erythematosus (SLE) with 52 weeks of follow-up.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase"
+            ],
+            "url": "https://www.nature.com/articles/s41591-026-04572-7"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Phase 1"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "Here we report results from the intravenous treatment arm of an ongoing, first-in-disease, phase 1 trial of A-319, a next-generation CD3\u00d7CD19 TCE, in 12 patients with active systemic lupus erythematosus (SLE) with 52 weeks of follow-up.",
+            "supports": [
+              "identity",
+              "target",
+              "modality",
+              "indication",
+              "phase"
+            ],
+            "url": "https://www.nature.com/articles/s41591-026-04572-7"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "CD19",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": true,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "A-319",
+    "notes": "Sponsor not verified.",
+    "ref_id": "R09",
+    "search_A": "MATCH",
+    "search_B": "NO",
+    "supported_fields": [
+      "identity",
+      "indication",
+      "modality",
+      "phase",
+      "target"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Unknown (not resolved from fetched page)",
+    "fields": {
+      "company": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Unknown (not resolved from fetched page)"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "Here, we describe the design and preclinical characterization of gamgertamig, an affinity-tuned BCMA\u00d7CD3 bispecific T-cell engager engineered to promote target-dependent activity.",
+            "supports": [
+              "identity",
+              "target",
+              "modality"
+            ],
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13501987/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "gamgertamig"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "supporting its development as a BCMA\u00d7CD3 T-cell engager for autoimmune diseases and B-cell malignancies",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13501987/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "autoimmune diseases",
+          "B-cell malignancies"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "Here, we describe the design and preclinical characterization of gamgertamig, an affinity-tuned BCMA\u00d7CD3 bispecific T-cell engager engineered to promote target-dependent activity.",
+            "supports": [
+              "identity",
+              "target",
+              "modality"
+            ],
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13501987/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "IgG4 1+1 bispecific T-cell engager"
+      },
+      "phase": {
+        "evidence": [
+          {
+            "passage": "supporting its development as a BCMA\u00d7CD3 T-cell engager for autoimmune diseases and B-cell malignancies",
+            "supports": [
+              "indication",
+              "phase"
+            ],
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13501987/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Preclinical"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "Here, we describe the design and preclinical characterization of gamgertamig, an affinity-tuned BCMA\u00d7CD3 bispecific T-cell engager engineered to promote target-dependent activity.",
+            "supports": [
+              "identity",
+              "target",
+              "modality"
+            ],
+            "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13501987/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": true,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "RELEVANT_INVESTIGATIONAL",
+    "name": "gamgertamig",
+    "notes": "Preclinical only; developer unresolved.",
+    "ref_id": "R10",
+    "search_A": "MATCH",
+    "search_B": "NO",
+    "supported_fields": [
+      "identity",
+      "indication",
+      "modality",
+      "phase",
+      "target"
+    ]
+  },
+  {
+    "aliases": [
+      "CN201"
+    ],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Merck (from Curon Biopharmaceutical)",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "Addition of CN201, a next generation CD3xCD19 bispecific antibody with potential applications in B-cell malignancies and autoimmune diseases, broadens and fortifies Merck\u2019s pipeline",
+            "supports": [
+              "identity",
+              "target",
+              "company",
+              "indication"
+            ],
+            "url": "https://www.merck.com/news/merck-completes-acquisition-of-investigational-b-cell-depletion-therapy-cn201-from-curon-biopharmaceutical/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Merck (from Curon Biopharmaceutical)"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "Addition of CN201, a next generation CD3xCD19 bispecific antibody with potential applications in B-cell malignancies and autoimmune diseases, broadens and fortifies Merck\u2019s pipeline",
+            "supports": [
+              "identity",
+              "target",
+              "company",
+              "indication"
+            ],
+            "url": "https://www.merck.com/news/merck-completes-acquisition-of-investigational-b-cell-depletion-therapy-cn201-from-curon-biopharmaceutical/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "MK-1045"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "Addition of CN201, a next generation CD3xCD19 bispecific antibody with potential applications in B-cell malignancies and autoimmune diseases, broadens and fortifies Merck\u2019s pipeline",
+            "supports": [
+              "identity",
+              "target",
+              "company",
+              "indication"
+            ],
+            "url": "https://www.merck.com/news/merck-completes-acquisition-of-investigational-b-cell-depletion-therapy-cn201-from-curon-biopharmaceutical/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "B-cell malignancies; autoimmune only as stated potential"
+        ]
+      },
+      "modality": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "bispecific T-cell engager"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Clinical in oncology; no verified autoimmune trial"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "Addition of CN201, a next generation CD3xCD19 bispecific antibody with potential applications in B-cell malignancies and autoimmune diseases, broadens and fortifies Merck\u2019s pipeline",
+            "supports": [
+              "identity",
+              "target",
+              "company",
+              "indication"
+            ],
+            "url": "https://www.merck.com/news/merck-completes-acquisition-of-investigational-b-cell-depletion-therapy-cn201-from-curon-biopharmaceutical/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "CD19",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "UNKNOWN_STATUS",
+    "name": "MK-1045",
+    "notes": "No autoimmune trial verified.",
+    "ref_id": "R11",
+    "search_A": "UNKNOWN",
+    "search_B": "NO",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication",
+      "target"
+    ]
+  },
+  {
+    "aliases": [
+      "Tecvayli",
+      "teclistamab-cqyv"
+    ],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Janssen / Johnson & Johnson",
+    "fields": {
+      "company": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Janssen / Johnson & Johnson"
+      },
+      "identity": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "teclistamab"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "Tecvayli is a cancer medicine used to treat multiple myeloma (a cancer of the bone marrow) that has come back or not responded to previous treatment.",
+            "supports": [
+              "approval",
+              "indication"
+            ],
+            "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/tecvayli"
+          },
+          {
+            "passage": "Teclistamab is a BITE that engages T-cells via CD3 and targets plasma cells via BCMA. We hypothesized that teclistamab may be effective in severe AID even after failure of conventional B cell depletion.",
+            "supports": [
+              "target",
+              "modality",
+              "indication"
+            ],
+            "url": "https://acrabstracts.org/abstract/bcma-targeted-bispecific-t-cell-engager-therapy-of-autoimmune-disease/"
+          },
+          {
+            "passage": "Here we report on treatment under compassionate use with the CD19\u00d7CD3 T cell engager (TCE) blinatumomab and the BCMA\u00d7CD3 TCE teclistamab in five patients with treatment-refractory ASyS and in five patients with treatment-refractory SSc, respectively.",
+            "supports": [
+              "indication"
+            ],
+            "url": "https://www.nature.com/articles/s41591-026-04238-4"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "multiple myeloma (approved)",
+          "off-label/compassionate SSc, autoimmune disease"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "Teclistamab is a BITE that engages T-cells via CD3 and targets plasma cells via BCMA. We hypothesized that teclistamab may be effective in severe AID even after failure of conventional B cell depletion.",
+            "supports": [
+              "target",
+              "modality",
+              "indication"
+            ],
+            "url": "https://acrabstracts.org/abstract/bcma-targeted-bispecific-t-cell-engager-therapy-of-autoimmune-disease/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "bispecific T-cell engager"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Approved (oncology)"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "Teclistamab is a BITE that engages T-cells via CD3 and targets plasma cells via BCMA. We hypothesized that teclistamab may be effective in severe AID even after failure of conventional B cell depletion.",
+            "supports": [
+              "target",
+              "modality",
+              "indication"
+            ],
+            "url": "https://acrabstracts.org/abstract/bcma-targeted-bispecific-t-cell-engager-therapy-of-autoimmune-disease/"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "APPROVED_COMPARATOR",
+    "name": "teclistamab",
+    "notes": "Studied in autoimmune disease via compassionate use only.",
+    "ref_id": "R12",
+    "search_A": "COMPARATOR",
+    "search_B": "COMPARATOR",
+    "supported_fields": [
+      "approval",
+      "indication",
+      "modality",
+      "target"
+    ]
+  },
+  {
+    "aliases": [
+      "Blincyto"
+    ],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Amgen",
+    "fields": {
+      "company": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Amgen"
+      },
+      "identity": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "blinatumomab"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "Blincyto is a cancer medicine used to treat a type of blood cancer that affects B cells (a type of white blood cell) called B-precursor acute lymphoblastic leukaemia (ALL).",
+            "supports": [
+              "approval",
+              "target",
+              "indication"
+            ],
+            "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/blincyto"
+          },
+          {
+            "passage": "Here we report on treatment under compassionate use with the CD19\u00d7CD3 T cell engager (TCE) blinatumomab and the BCMA\u00d7CD3 TCE teclistamab in five patients with treatment-refractory ASyS and in five patients with treatment-refractory SSc, respectively.",
+            "supports": [
+              "target",
+              "indication"
+            ],
+            "url": "https://www.nature.com/articles/s41591-026-04238-4"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "B-ALL (approved)",
+          "compassionate use in ASyS"
+        ]
+      },
+      "modality": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "bispecific T-cell engager (BiTE)"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Approved (oncology)"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "Blincyto is a cancer medicine used to treat a type of blood cancer that affects B cells (a type of white blood cell) called B-precursor acute lymphoblastic leukaemia (ALL).",
+            "supports": [
+              "approval",
+              "target",
+              "indication"
+            ],
+            "url": "https://www.ema.europa.eu/en/medicines/human/EPAR/blincyto"
+          },
+          {
+            "passage": "Here we report on treatment under compassionate use with the CD19\u00d7CD3 T cell engager (TCE) blinatumomab and the BCMA\u00d7CD3 TCE teclistamab in five patients with treatment-refractory ASyS and in five patients with treatment-refractory SSc, respectively.",
+            "supports": [
+              "target",
+              "indication"
+            ],
+            "url": "https://www.nature.com/articles/s41591-026-04238-4"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "CD19",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "APPROVED_COMPARATOR",
+    "name": "blinatumomab",
+    "notes": "",
+    "ref_id": "R13",
+    "search_A": "COMPARATOR",
+    "search_B": "COMPARATOR",
+    "supported_fields": [
+      "approval",
+      "indication",
+      "target"
+    ]
+  },
+  {
+    "aliases": [
+      "Elrexfio",
+      "elranatamab-bcmm"
+    ],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Pfizer",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "On August 14, 2023, the Food and Drug Administration granted accelerated approval to elranatamab-bcmm (Elrexfio, Pfizer, Inc.), a bispecific B-cell maturation antigen (BCMA)-directed CD3 T-cell engager, for adults with relapsed or refractory multiple myeloma",
+            "supports": [
+              "approval",
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://www.fda.gov/drugs/resources-information-approved-drugs/fda-grants-accelerated-approval-elranatamab-bcmm-multiple-myeloma"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Pfizer"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "On August 14, 2023, the Food and Drug Administration granted accelerated approval to elranatamab-bcmm (Elrexfio, Pfizer, Inc.), a bispecific B-cell maturation antigen (BCMA)-directed CD3 T-cell engager, for adults with relapsed or refractory multiple myeloma",
+            "supports": [
+              "approval",
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://www.fda.gov/drugs/resources-information-approved-drugs/fda-grants-accelerated-approval-elranatamab-bcmm-multiple-myeloma"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "elranatamab"
+      },
+      "indication": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": [
+          "multiple myeloma"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "On August 14, 2023, the Food and Drug Administration granted accelerated approval to elranatamab-bcmm (Elrexfio, Pfizer, Inc.), a bispecific B-cell maturation antigen (BCMA)-directed CD3 T-cell engager, for adults with relapsed or refractory multiple myeloma",
+            "supports": [
+              "approval",
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://www.fda.gov/drugs/resources-information-approved-drugs/fda-grants-accelerated-approval-elranatamab-bcmm-multiple-myeloma"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "bispecific T-cell engager"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Approved (oncology)"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "On August 14, 2023, the Food and Drug Administration granted accelerated approval to elranatamab-bcmm (Elrexfio, Pfizer, Inc.), a bispecific B-cell maturation antigen (BCMA)-directed CD3 T-cell engager, for adults with relapsed or refractory multiple myeloma",
+            "supports": [
+              "approval",
+              "identity",
+              "target",
+              "modality",
+              "company"
+            ],
+            "url": "https://www.fda.gov/drugs/resources-information-approved-drugs/fda-grants-accelerated-approval-elranatamab-bcmm-multiple-myeloma"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "BCMA",
+          "CD3"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "APPROVED_COMPARATOR",
+    "name": "elranatamab",
+    "notes": "No autoimmune study verified.",
+    "ref_id": "R14",
+    "search_A": "COMPARATOR",
+    "search_B": "COMPARATOR",
+    "supported_fields": [
+      "approval",
+      "company",
+      "identity",
+      "modality",
+      "target"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Candid Therapeutics",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "An Open-label Study of CND261 in Seropositive Rheumatoid Arthritis",
+            "supports": [
+              "identity",
+              "indication",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07052032"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "Candid Therapeutics"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "An Open-label Study of CND261 in Seropositive Rheumatoid Arthritis",
+            "supports": [
+              "identity",
+              "indication",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07052032"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "CND261"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "An Open-label Study of CND261 in Seropositive Rheumatoid Arthritis",
+            "supports": [
+              "identity",
+              "indication",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07052032"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "seropositive rheumatoid arthritis"
+        ]
+      },
+      "modality": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "T-cell engager (per secondary search)"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Phase 1"
+      },
+      "target": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": [
+          "CD20",
+          "CD3 (not verified on page)"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "UNSUPPORTED_LABEL",
+    "name": "CND261",
+    "notes": "CD20 target from search summary only, not quoted from fetched page.",
+    "ref_id": "R15",
+    "search_A": "NO",
+    "search_B": "NO",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Nanjing University School of Medicine",
+    "fields": {
+      "company": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Nanjing University School of Medicine"
+      },
+      "identity": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "FKC289 (BCMA/CD19 CAR-T)"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "The BCMA/CD19 Dual Targeted CAR-T Cell in Participants With Autoimmune Kidney Diseases",
+            "supports": [
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT06285279"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "lupus nephritis",
+          "AAV",
+          "PLA2R MN",
+          "IgG4-RD"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "The BCMA/CD19 Dual Targeted CAR-T Cell in Participants With Autoimmune Kidney Diseases",
+            "supports": [
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT06285279"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "CAR-T cell therapy"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Phase 1"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "The BCMA/CD19 Dual Targeted CAR-T Cell in Participants With Autoimmune Kidney Diseases",
+            "supports": [
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT06285279"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "BCMA",
+          "CD19"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "WRONG_TARGET_OR_MODALITY",
+    "name": "FKC289 (BCMA/CD19 CAR-T)",
+    "notes": "FKC289 name from search summary, not verified.",
+    "ref_id": "R16",
+    "search_A": "NO",
+    "search_B": "NO",
+    "supported_fields": [
+      "indication",
+      "modality",
+      "target"
+    ]
+  },
+  {
+    "aliases": [],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "Nanjing Bioheng Biotech Co., Ltd.",
+    "fields": {
+      "company": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Nanjing Bioheng Biotech Co., Ltd."
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "A Study of Anti-CD19/BCMA Universal CAR-T Cell Therapy RD06-05 in Patients With Autoimmune Diseases.",
+            "supports": [
+              "identity",
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07203404"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "RD06-05"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "A Study of Anti-CD19/BCMA Universal CAR-T Cell Therapy RD06-05 in Patients With Autoimmune Diseases.",
+            "supports": [
+              "identity",
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07203404"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "SLE",
+          "LN",
+          "SSc",
+          "IIM",
+          "others"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "A Study of Anti-CD19/BCMA Universal CAR-T Cell Therapy RD06-05 in Patients With Autoimmune Diseases.",
+            "supports": [
+              "identity",
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07203404"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "universal CAR-T"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Early Phase 1"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "A Study of Anti-CD19/BCMA Universal CAR-T Cell Therapy RD06-05 in Patients With Autoimmune Diseases.",
+            "supports": [
+              "identity",
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07203404"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "CD19",
+          "BCMA"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "WRONG_TARGET_OR_MODALITY",
+    "name": "RD06-05",
+    "notes": "",
+    "ref_id": "R17",
+    "search_A": "NO",
+    "search_B": "NO",
+    "supported_fields": [
+      "identity",
+      "indication",
+      "modality",
+      "target"
+    ]
+  },
+  {
+    "aliases": [
+      "QT-219C (unverified)"
+    ],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "The Children's Hospital of Zhejiang University School of Medicine",
+    "fields": {
+      "company": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "The Children's Hospital of Zhejiang University School of Medicine"
+      },
+      "identity": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Allogeneic CD19/BCMA CAR-T (Zhejiang)"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "Allogeneic CD19/BCMA CAR-T for B Cell-Related Autoimmune Disease",
+            "supports": [
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07507201"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "SLE",
+          "nephrotic syndrome",
+          "IgAN",
+          "SSc",
+          "AAV"
+        ]
+      },
+      "modality": {
+        "evidence": [
+          {
+            "passage": "Allogeneic CD19/BCMA CAR-T for B Cell-Related Autoimmune Disease",
+            "supports": [
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07507201"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "allogeneic CAR-T"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Early Phase 1"
+      },
+      "target": {
+        "evidence": [
+          {
+            "passage": "Allogeneic CD19/BCMA CAR-T for B Cell-Related Autoimmune Disease",
+            "supports": [
+              "modality",
+              "target",
+              "indication"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07507201"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "CD19",
+          "BCMA"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "WRONG_TARGET_OR_MODALITY",
+    "name": "Allogeneic CD19/BCMA CAR-T (Zhejiang)",
+    "notes": "",
+    "ref_id": "R18",
+    "search_A": "NO",
+    "search_B": "NO",
+    "supported_fields": [
+      "indication",
+      "modality",
+      "target"
+    ]
+  },
+  {
+    "aliases": [
+      "CMG1A46 (unverified)"
+    ],
+    "commercial_rights": "UNKNOWN: company attribution is not ownership or availability",
+    "company": "GlaxoSmithKline",
+    "fields": {
+      "company": {
+        "evidence": [
+          {
+            "passage": "A Study of GSK5926371 in Participants With B-cell Driven Autoimmune Rheumatic Diseases (ARD)",
+            "supports": [
+              "identity",
+              "indication",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07371468"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "GlaxoSmithKline"
+      },
+      "identity": {
+        "evidence": [
+          {
+            "passage": "A Study of GSK5926371 in Participants With B-cell Driven Autoimmune Rheumatic Diseases (ARD)",
+            "supports": [
+              "identity",
+              "indication",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07371468"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": "GSK5926371"
+      },
+      "indication": {
+        "evidence": [
+          {
+            "passage": "A Study of GSK5926371 in Participants With B-cell Driven Autoimmune Rheumatic Diseases (ARD)",
+            "supports": [
+              "identity",
+              "indication",
+              "company"
+            ],
+            "url": "https://clinicaltrials.gov/study/NCT07371468"
+          }
+        ],
+        "status": "QUOTED_REFERENCE",
+        "value": [
+          "SLE / autoimmune rheumatic diseases"
+        ]
+      },
+      "modality": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "unverified"
+      },
+      "phase": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": "Phase 1"
+      },
+      "target": {
+        "evidence": [],
+        "status": "UNVERIFIED",
+        "value": [
+          "unverified (reported CD19/CD20/CD3)"
+        ]
+      }
+    },
+    "fully_verified": false,
+    "human_efficacy": "UNVERIFIED: no adjudicated human PoC in this worklist",
+    "label": "UNRESOLVED_IDENTITY",
+    "name": "GSK5926371",
+    "notes": "Targets not stated on CT.gov record fetched; secondary sources say CD19xCD20xCD3 (would be A-relevant via CD19 if confirmed).",
+    "ref_id": "R19",
+    "search_A": "UNKNOWN",
+    "search_B": "NO",
+    "supported_fields": [
+      "company",
+      "identity",
+      "indication"
+    ]
+  }
+]

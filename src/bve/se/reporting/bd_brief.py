@@ -369,7 +369,9 @@ def _stage(entry: dict) -> Assessed:
         status=EvidenceStatus.SUPPORTED,
         basis=(
             f"most advanced stage across {len(fact.get('citations', []))} registry/publication records; "
-            "individual trials may be earlier"
+            "individual trials may be earlier. Indication-specific stage is UNVERIFIED: "
+            "these records have not been adjudicated against the requested disease; "
+            "this is not evidence of clinical activity in that indication"
         ),
         sources=_sources(fact),
     )
@@ -1016,7 +1018,7 @@ def render_markdown(brief: BDBrief) -> str:
         f"{brief.counts.get('low_support', 0)} held back for low support. Showing the first "
         f"{len(brief.candidates)} reviewable candidates in the engine's declared order.",
         "",
-        "| # | Asset | BD triage | Eligibility | Target | Modality (authority) | Stage | Human efficacy | Sponsors (registry) |",
+        "| # | Asset | BD triage | Eligibility | Target | Modality (authority) | Stage (indication unverified) | Human efficacy | Sponsors (registry) |",
         "|---|---|---|---|---|---|---|---|---|",
     ]
     for c in brief.candidates:
@@ -1304,7 +1306,7 @@ def render_html(brief: BDBrief) -> str:
         f"{brief.counts.get('low_support', 0)} held back for low support. Showing the first {len(brief.candidates)} "
         "reviewable candidates in the engine's declared order.</p>",
         "<table><tr><th>#</th><th>Asset</th><th>BD triage</th><th>Eligibility</th><th>Target</th><th>Modality (authority)</th>"
-        "<th>Stage</th><th>Human efficacy</th><th>Sponsors (registry)</th><th>Sources</th></tr>",
+        "<th>Stage (indication unverified)</th><th>Human efficacy</th><th>Sponsors (registry)</th><th>Sources</th></tr>",
     ]
     for c in brief.candidates:
         out.append(
