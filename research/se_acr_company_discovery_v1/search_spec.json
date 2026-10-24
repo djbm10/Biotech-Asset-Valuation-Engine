@@ -1,0 +1,38 @@
+{
+  "study_id": "se_acr_company_discovery_v1",
+  "as_of": "2026-10-24",
+  "target_operator": "ANY",
+  "targets": [
+    "CD19",
+    "BCMA"
+  ],
+  "modality": "T_CELL_ENGAGER",
+  "indication": "AUTOIMMUNE",
+  "queries": [
+    {
+      "id": "Q1",
+      "family": "acr",
+      "q": "site:acrabstracts.org \"T cell engager\" autoimmune"
+    },
+    {
+      "id": "Q2",
+      "family": "acr",
+      "q": "site:acrabstracts.org \"bispecific\" \"lupus\""
+    },
+    {
+      "id": "Q3",
+      "family": "company",
+      "q": "\"T-cell engager\" \"autoimmune\" \"pipeline\""
+    },
+    {
+      "id": "Q4",
+      "family": "company",
+      "q": "\"CD19\" \"BCMA\" \"autoimmune\" \"first patient\" company"
+    }
+  ],
+  "max_documents_per_family": 12,
+  "max_page_bytes": 2097152,
+  "max_confirmation_pages": 0,
+  "max_seconds": 1200,
+  "max_virtual_memory_bytes": 4294967296
+}
