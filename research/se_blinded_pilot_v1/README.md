@@ -3,52 +3,77 @@
 **Status: UNVALIDATED. No independent reference dataset has been supplied.**
 The only references scored so far are synthetic test fixtures in
 `tests/se/test_blinded_pilot.py`. They test the scorer. They say nothing about how well the engine performs.
+A synthetic fixture never gets a pass/fail verdict.
 
 Code: `src/bve/se/evaluation/blinded_pilot.py`. Command: `bve-se-pilot`.
+External analyst instructions: [`ANALYST_HANDOFF.md`](ANALYST_HANDOFF.md).
 
 ## Who does what
 
-| Step | Who | Input | Output |
-|---|---|---|---|
-| 1. Write the request | Analyst | `templates/spec.template.json` | `spec.json`: therapeutic area, targets, modalities, stages, as-of date and a plain-language query. It must not name any expected asset. |
-| 2. Declare pass/fail rules | Analyst (before seeing any engine output) | `templates/criteria.template.json` | `criteria.json`: thresholds for precision, recall, trial coverage, identity errors and misleading claims |
-| 3. Build the hidden answer key | Analyst (separately) | `templates/reference.template.json` | `reference.json`, **stored outside this repo**: every in-scope asset with all known names and codes, targets, modality, NCT IDs and checkable facts (owner, stage, rights), plus negative controls (plausible assets that do *not* qualify) and provenance |
-| 4. Run discovery | Engine operator | `spec.json` translated into an engine problem YAML + source policy | `bve-se-run --problem … --live` → `result.json` |
-| 5. Export | Engine operator | `result.json` | `bve-se-pilot export --result result.json --spec-id … --engine-commit … --out candidates.json` |
-| 6. Seal | Engine operator | spec, criteria, candidates | `bve-se-pilot seal … --out receipt.json`. Hashes all three. This step accepts no reference input. |
-| 7. Score | Evaluator | receipt + the three sealed files + `reference.json` | `bve-se-pilot score … --out report.json` |
-| 8. Adjudicate | Analyst | the `not_auto_scored` items in `report.json` | human verdicts on those items |
+| Step | Who | Output |
+|---|---|---|
+| 1. Write the request | Analyst | `spec.json` (from `templates/`). It must not name any expected asset. |
+| 2. Declare pass/fail rules | Analyst | `criteria.json` (from `templates/`) |
+| 3. Preregister | Analyst | `bve-se-pilot prereg --spec spec.json --criteria criteria.json --out prereg.json`. Commit and **push** all three files to the repo (`research/se_blinded_pilot_v1/<spec_id>/`), and email the commit SHA plus both hashes to a third party. |
+| 4. Build the answer key | Analyst, privately | `reference.json`, **kept outside the repo**. Can be done before or after step 5, but must never be shown to the engine operator before step 8. |
+| 5. Run discovery | Engine operator | Translates `spec.json` into an engine problem YAML by hand, then `bve-se-run --problem … --live` → `result.json` |
+| 6. Export | Engine operator | `bve-se-pilot export --result result.json --spec-id … --engine-commit … --out candidates.json` |
+| 7. Seal | Engine operator | `bve-se-pilot seal --spec … --criteria … --candidates … --prereg … --out receipt.json` |
+| 8. Score | Analyst or evaluator | `bve-se-pilot score --receipt … --spec … --criteria … --candidates … --reference … --out report.json` |
+| 9. Adjudicate | Analyst | Human verdicts on the `not_auto_scored` items |
 
-Step 4 needs a person: the analyst's spec has to be translated into an engine problem YAML by hand. No automatic translator exists yet. Whoever does that translation must not have seen `reference.json`.
+## Preregistration: what is checked
+
+Seal refuses in each of these cases:
+- the spec or criteria file differs from the hashes in `prereg.json`;
+- `prereg.json` isn't committed in git with exactly that content;
+- the earliest commit holding it isn't older than the engine run's `started_at` (taken from the engine's own run manifest).
+
+The receipt records the prereg commit and whether that commit was on a remote branch.
+
+If the prereg commit was never pushed, score downgrades the run to `UNVALIDATED`. A local commit time is self-reported. The pushed commit and the analyst's emailed copy of the hashes are what an outsider can check.
+
+The prereg file holds only hashes of the spec and criteria. It contains no reference data, so it is safe to publish.
 
 ## What keeps the labels blind
 
-- `export` and `seal` take no reference argument (tested).
+- `prereg`, `export` and `seal` take no reference argument (tested).
 - No other module in `src/bve` imports the scorer or the reference types (tested).
 - `score` refuses a reference file stored inside the engine repo. The only override is `--allow-reference-in-repo`, for synthetic tests.
-- `score` refuses if the spec, criteria or candidates changed after sealing (tested). Criteria therefore can't be tuned after the answers are visible.
-- This blindness is **procedural**. The code cannot stop someone who has read the reference from editing engine code or problem YAMLs before step 4. The analyst should record when the reference was handed over, and the engine commit in `candidates.json` must predate that handover.
+- `score` refuses if the spec, criteria or candidates changed after sealing (tested).
+- The rest is **procedural**. The code can't stop someone who has read the reference from changing engine code. See the handoff's custody rules.
 
 ## Scored automatically
 
-- **Asset precision.** Two versions. *Strict* counts every unmatched candidate as wrong. *Adjudicated* leaves unmatched candidates out and lists them separately. Hits on negative controls are listed separately.
-- **Asset recall** over in-scope reference assets.
-- **Name matching.** A candidate matches a reference asset when any of its names or codes normalises to one of that asset's names or codes (exact match after lowercasing and stripping punctuation; no substring matching).
-- **Identity errors.** *Merge*: one candidate matches two reference assets. *Split*: one reference asset is matched by two or more candidates.
-- **Target accuracy.** Exact match on the set of targets; candidates with no target are counted as UNKNOWN, separately. **Modality accuracy** is scored the same way.
-- **Trial-history coverage.** Reference NCT IDs found, pooled per reference asset. Trials the engine attached that the reference doesn't list are counted as "unreferenced".
-- **Evidence.** Share of claims with at least one citation. Claims that match a reference fact count as *supported*; claims that contradict one count as **misleading** (scientific or commercial); claims on fields the reference doesn't cover count as *unverifiable*.
-- A pass/fail verdict against the predeclared thresholds. It is withheld (`null`) when the reference status is UNVALIDATED.
+- **Recall**: in-scope reference assets recovered ÷ all in-scope reference assets. An asset counts as recovered only through a candidate that matches that asset and nothing else.
+- **Precision**: recovered assets ÷ candidates. A drug split into several candidates earns one credit, and a merged candidate earns none.
+  - *Strict*: every candidate is in the denominator.
+  - *Adjudicated*: candidates matching nothing in the reference are left out and listed for a human.
+  - Hits on negative controls are listed separately.
+- **Identity errors**:
+  - *merge*: one candidate matches two reference assets;
+  - *split*: one reference asset matches two or more candidates.
+- **Name matching**: exact match after lowercasing and stripping punctuation, on any name or code. No substring matching.
+- **Target and modality accuracy**, scored once per recovered reference asset:
+  - correct only if every candidate for that asset that states a value states the right one;
+  - UNKNOWN is reported both excluded and counted as wrong (`*_incl_unknown`);
+  - when the reference has no value, the field is *unadjudicable*, not wrong.
+- **Trial-history coverage**:
+  - `trial_coverage_overall`: reference trials found ÷ reference trials of **all** in-scope assets, including missed ones. Thresholds use this.
+  - `trial_coverage_recovered`: the same ratio, recovered assets only.
+  - Trials the engine attached that the reference doesn't list are counted as *unreferenced*.
+- **Evidence**: share of claims with a citation. Claims are *supported*, **misleading** (contradicts a reference fact) or *unverifiable* (no reference value).
+- **Verdict**: given only when the status is `SCORED_AGAINST_SUPPLIED_REFERENCE`, and otherwise `null`. A metric that can't be computed fails any threshold above zero.
 
 ## Not scored automatically (needs a human)
 
-- Whether each cited source actually supports its claim. The scorer only checks that a citation is present.
+- Whether each cited source actually supports its claim.
 - Unmatched candidates: is each one a miss in the reference or an engine false positive?
 - Unreferenced trials: is each one a correct addition or a wrong attribution?
 - Claims on fields the reference doesn't cover.
 
 ## Report status values
 
-- `SYNTHETIC_SELF_TEST`: the reference is a test fixture.
-- `UNVALIDATED`: the reference doesn't declare an independent human preparer.
-- `SCORED_AGAINST_SUPPLIED_REFERENCE`: the reference declares an independent preparer. The tool doesn't verify that claim, so the result is only as good as the reference.
+- `SYNTHETIC_SELF_TEST`: test fixture. Never gets a verdict.
+- `UNVALIDATED`: the reference doesn't declare an independent preparer, or the preregistration was never pushed. Never gets a verdict.
+- `SCORED_AGAINST_SUPPLIED_REFERENCE`: the reference declares an independent preparer and the preregistration was pushed. The tool can't verify the preparer's independence, so the result is only as good as the reference.
