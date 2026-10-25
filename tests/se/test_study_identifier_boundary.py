@@ -104,6 +104,9 @@ class TestStructuredTrialIdentifiersNeverMintIdentity:
 class _StubVocabulary:
     """The boundary under test is identity, not vocabulary: this asserts neither."""
 
+    #: ctgov_seeded_retrieval_v1 Amendment 1: a target-vocabulary query, not a seeded one.
+    identity_seeded = False
+
     def targets_in(self, _text: str, *, established=()) -> set[str]:
         return set()
 

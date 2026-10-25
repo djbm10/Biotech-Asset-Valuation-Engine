@@ -1,0 +1,726 @@
+{
+ "grade": "DEVELOPMENT",
+ "runs": [
+  {
+   "problem": "research/se_blinded_pilot_v1/chek1_clinical_any_v1/engine_problem.yaml",
+   "as_of": "2026-10-25",
+   "target_set_size": 27,
+   "seeded_queries": 9,
+   "seeded_requests_distinct_from_target": 9,
+   "seeded_record_sets_distinct_from_target": 9,
+   "union_records_seeded_only": 51,
+   "queries": [
+    {
+     "kind": "TARGET_VOCABULARY",
+     "seed_drug_id": null,
+     "query": "(\"CHEK1\" OR \"CHK1\" OR \"OZEMA21\" OR \"checkpoint kinase 1\" OR \"Serine/threonine-protein kinase Chk1\" OR \"Cell cycle checkpoint kinase\" OR \"Checkpoint kinase-1\" OR \"Checkpoint, S. pombe, homolog of, 1\" OR \"CHK1 checkpoint homolog\" OR \"Chk1-S\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22CHEK1%22+OR+%22CHK1%22+OR+%22OZEMA21%22+OR+%22checkpoint+kinase+1%22+OR+%22Serine%2Fthreonine-protein+kinase+Chk1%22+OR+%22Cell+cycle+checkpoint+kinase%22+OR+%22Checkpoint+kinase-1%22+OR+%22Checkpoint%2C+S.+pombe%2C+homolog+of%2C+1%22+OR+%22CHK1+checkpoint+homolog%22+OR+%22Chk1-S%22%29"
+     ],
+     "records": [
+      "NCT01870596",
+      "NCT02203513",
+      "NCT02514603",
+      "NCT02735980",
+      "NCT02797964",
+      "NCT02797977",
+      "NCT02808650",
+      "NCT02873975",
+      "NCT03057145",
+      "NCT03207347",
+      "NCT03495323",
+      "NCT03495544",
+      "NCT03678883",
+      "NCT03735446",
+      "NCT03786796",
+      "NCT04023669",
+      "NCT04190667",
+      "NCT04239092",
+      "NCT04508803",
+      "NCT05275426",
+      "NCT05379972",
+      "NCT05659732",
+      "NCT05787587",
+      "NCT05827614",
+      "NCT05983523",
+      "NCT06531486",
+      "NCT07714395"
+     ],
+     "nominated": [
+      "BBI-355",
+      "Elraglusib",
+      "Homologous Recombination Deficiency Status in Epithelial Ovarian Cancer",
+      "IDE-161",
+      "ING-41",
+      "LY2606368",
+      "Niraparib",
+      "Olaparib",
+      "PEP07",
+      "Prexasertib",
+      "SCH 900776",
+      "SRA737",
+      "Study Estimating Association Between Germline Mutations and PD-L1 Expression in Breast Cancer",
+      "XS-02"
+     ],
+     "elapsed_s": 1.19,
+     "records_not_in_target_set": []
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:AZD-7762",
+     "query": "(\"AZD-7762\" OR \"AZD7762\" OR \"Azd 7762\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22AZD-7762%22+OR+%22AZD7762%22+OR+%22Azd+7762%22%29"
+     ],
+     "records": [
+      "NCT00413686",
+      "NCT00473616",
+      "NCT00937664"
+     ],
+     "nominated": [
+      "AZD7762"
+     ],
+     "elapsed_s": 0.09,
+     "records_not_in_target_set": [
+      "NCT00413686",
+      "NCT00473616",
+      "NCT00937664"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:PF-00477736",
+     "query": "(\"PF-00477736\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22PF-00477736%22%29"
+     ],
+     "records": [
+      "NCT00437203"
+     ],
+     "nominated": [
+      "PF-00477736"
+     ],
+     "elapsed_s": 0.06,
+     "records_not_in_target_set": [
+      "NCT00437203"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:PREXASERTIB",
+     "query": "(\"PREXASERTIB\" OR \"LY-2606368\" OR \"LY2606368\" OR \"Ly-2606368\" OR \"Prexasertib\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22PREXASERTIB%22+OR+%22LY-2606368%22+OR+%22LY2606368%22+OR+%22Ly-2606368%22+OR+%22Prexasertib%22%29"
+     ],
+     "records": [
+      "NCT01115790",
+      "NCT02124148",
+      "NCT02203513",
+      "NCT02514603",
+      "NCT02555644",
+      "NCT02649764",
+      "NCT02735980",
+      "NCT02778126",
+      "NCT02808650",
+      "NCT02860780",
+      "NCT02873975",
+      "NCT03057145",
+      "NCT03414047",
+      "NCT03495323",
+      "NCT03735446",
+      "NCT04023669",
+      "NCT04032080",
+      "NCT04095221",
+      "NCT05548296",
+      "NCT06597565"
+     ],
+     "nominated": [
+      "ACR-368",
+      "Drug 1: LY3023414; Drug 2: Prexasertib",
+      "LY2606368",
+      "Prexasertib",
+      "prexasertib"
+     ],
+     "elapsed_s": 0.63,
+     "records_not_in_target_set": [
+      "NCT01115790",
+      "NCT02124148",
+      "NCT02555644",
+      "NCT02649764",
+      "NCT02778126",
+      "NCT02860780",
+      "NCT03414047",
+      "NCT04032080",
+      "NCT04095221",
+      "NCT05548296",
+      "NCT06597565"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:RABUSERTIB",
+     "query": "(\"RABUSERTIB\" OR \"IC-83\" OR \"LY-2603618\" OR \"LY2603618\" OR \"Ly-2603618\" OR \"Rabusertib\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22RABUSERTIB%22+OR+%22IC-83%22+OR+%22LY-2603618%22+OR+%22LY2603618%22+OR+%22Ly-2603618%22+OR+%22Rabusertib%22%29"
+     ],
+     "records": [
+      "NCT00415636",
+      "NCT00839332",
+      "NCT00988858",
+      "NCT01139775",
+      "NCT01296568",
+      "NCT01341457",
+      "NCT01358968"
+     ],
+     "nominated": [
+      "IC83/LY2603618",
+      "LY2603618"
+     ],
+     "elapsed_s": 0.29,
+     "records_not_in_target_set": [
+      "NCT00415636",
+      "NCT00839332",
+      "NCT00988858",
+      "NCT01139775",
+      "NCT01296568",
+      "NCT01341457",
+      "NCT01358968"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:RG-7602",
+     "query": "(\"RG-7602\" OR \"GDC-0425\" OR \"Rg-7602\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22RG-7602%22+OR+%22GDC-0425%22+OR+%22Rg-7602%22%29"
+     ],
+     "records": [
+      "NCT01359696"
+     ],
+     "nominated": [
+      "GDC-0425"
+     ],
+     "elapsed_s": 0.08,
+     "records_not_in_target_set": [
+      "NCT01359696"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:RG-7741",
+     "query": "(\"RG-7741\" OR \"GDC-0575\" OR \"Rg-7741\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22RG-7741%22+OR+%22GDC-0575%22+OR+%22Rg-7741%22%29"
+     ],
+     "records": [
+      "NCT01564251"
+     ],
+     "nominated": [
+      "GDC-0575"
+     ],
+     "elapsed_s": 0.07,
+     "records_not_in_target_set": [
+      "NCT01564251"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:SCH-900776",
+     "query": "(\"SCH-900776\" OR \"SCH 900776\" OR \"Mk-8776\" OR \"Sch-900776\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22SCH-900776%22+OR+%22SCH+900776%22+OR+%22Mk-8776%22+OR+%22Sch-900776%22%29"
+     ],
+     "records": [
+      "NCT00779584",
+      "NCT00907517",
+      "NCT01521299",
+      "NCT01870596"
+     ],
+     "nominated": [
+      "MK-8776",
+      "SCH 900776"
+     ],
+     "elapsed_s": 0.22,
+     "records_not_in_target_set": [
+      "NCT00779584",
+      "NCT00907517",
+      "NCT01521299"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:UCN-01",
+     "query": "(\"UCN-01\" OR \"KRX-0601\" OR \"KW-2401\" OR \"NSC-638850\" OR \"UCN-02\" OR \"7-hydroxystaurosporine\" OR \"Ucn 01\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22UCN-01%22+OR+%22KRX-0601%22+OR+%22KW-2401%22+OR+%22NSC-638850%22+OR+%22UCN-02%22+OR+%227-hydroxystaurosporine%22+OR+%22Ucn+01%22%29"
+     ],
+     "records": [
+      "NCT00001444",
+      "NCT00003289",
+      "NCT00004059",
+      "NCT00004263",
+      "NCT00006464",
+      "NCT00012194",
+      "NCT00019838",
+      "NCT00030888",
+      "NCT00031681",
+      "NCT00036777",
+      "NCT00039403",
+      "NCT00042861",
+      "NCT00045175",
+      "NCT00045500",
+      "NCT00045513",
+      "NCT00045747",
+      "NCT00047242",
+      "NCT00072189",
+      "NCT00072267",
+      "NCT00082017",
+      "NCT00098956",
+      "NCT00301938"
+     ],
+     "nominated": [
+      "7-hydroxystaurosporine (UCN-01)",
+      "UCN-01 (7-hydroxystaurosporine)",
+      "hydroxystaurosporine"
+     ],
+     "elapsed_s": 0.39,
+     "records_not_in_target_set": [
+      "NCT00001444",
+      "NCT00003289",
+      "NCT00004059",
+      "NCT00004263",
+      "NCT00006464",
+      "NCT00012194",
+      "NCT00019838",
+      "NCT00030888",
+      "NCT00031681",
+      "NCT00036777",
+      "NCT00039403",
+      "NCT00042861",
+      "NCT00045175",
+      "NCT00045500",
+      "NCT00045513",
+      "NCT00045747",
+      "NCT00047242",
+      "NCT00072189",
+      "NCT00072267",
+      "NCT00082017",
+      "NCT00098956",
+      "NCT00301938"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:XL-844",
+     "query": "(\"XL-844\" OR \"Xl-844\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22XL-844%22+OR+%22Xl-844%22%29"
+     ],
+     "records": [
+      "NCT00234481",
+      "NCT00475917"
+     ],
+     "nominated": [],
+     "elapsed_s": 0.07,
+     "records_not_in_target_set": [
+      "NCT00234481",
+      "NCT00475917"
+     ]
+    }
+   ]
+  },
+  {
+   "problem": "research/se_gucy2c_dev_v1/engine_problem_dev.yaml",
+   "as_of": "2026-10-24",
+   "target_set_size": 73,
+   "seeded_queries": 4,
+   "seeded_requests_distinct_from_target": 4,
+   "seeded_record_sets_distinct_from_target": 4,
+   "union_records_seeded_only": 75,
+   "queries": [
+    {
+     "kind": "TARGET_VOCABULARY",
+     "seed_drug_id": null,
+     "query": "(\"GUCY2C\" OR \"DIAR6\" OR \"GC-C\" OR \"GCC\" OR \"GUC2C\" OR \"HSER\" OR \"hSTAR\" OR \"MECIL\" OR \"MUCIL\" OR \"STA receptor\" OR \"guanylate cyclase 2C\" OR \"Guanylyl cyclase C\" OR \"Heat-stable enterotoxin receptor\" OR \"Intestinal guanylate cyclase\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22DIAR6%22+OR+%22GC-C%22+OR+%22GCC%22+OR+%22GUC2C%22+OR+%22GUCY2C%22+OR+%22HSER%22+OR+%22hSTAR%22+OR+%22MECIL%22+OR+%22MUCIL%22+OR+%22STA+receptor%22+OR+%22guanylate+cyclase+2C%22+OR+%22Guanylyl+cyclase+C%22+OR+%22Heat-stable+enterotoxin+receptor%22+OR+%22Intestinal+guanylate+cyclase%22%29"
+     ],
+     "records": [
+      "NCT00257738",
+      "NCT00270790",
+      "NCT00343083",
+      "NCT00390182",
+      "NCT00670618",
+      "NCT00818714",
+      "NCT00870870",
+      "NCT01016938",
+      "NCT01118975",
+      "NCT01234532",
+      "NCT01276184",
+      "NCT01499160",
+      "NCT01577758",
+      "NCT01612416",
+      "NCT01704547",
+      "NCT01924351",
+      "NCT01925573",
+      "NCT01972737",
+      "NCT01983306",
+      "NCT02095184",
+      "NCT02202759",
+      "NCT02202785",
+      "NCT02391038",
+      "NCT02507960",
+      "NCT02532569",
+      "NCT02598817",
+      "NCT02620644",
+      "NCT02688166",
+      "NCT02695680",
+      "NCT02745548",
+      "NCT02885727",
+      "NCT02926911",
+      "NCT03198052",
+      "NCT03449030",
+      "NCT03889652",
+      "NCT04111172",
+      "NCT04153773",
+      "NCT04171141",
+      "NCT04234386",
+      "NCT04264949",
+      "NCT04486755",
+      "NCT04565015",
+      "NCT04609280",
+      "NCT04652219",
+      "NCT04699773",
+      "NCT04780529",
+      "NCT04860947",
+      "NCT04916509",
+      "NCT05052957",
+      "NCT05107219",
+      "NCT05113121",
+      "NCT05196425",
+      "NCT05253534",
+      "NCT05287165",
+      "NCT05319314",
+      "NCT05739539",
+      "NCT05779917",
+      "NCT05875402",
+      "NCT06039683",
+      "NCT06197178",
+      "NCT06586593",
+      "NCT06675513",
+      "NCT06740084",
+      "NCT06868979",
+      "NCT07152210",
+      "NCT07241806",
+      "NCT07398209",
+      "NCT07417488",
+      "NCT07462650",
+      "NCT07589517",
+      "NCT07674121",
+      "NCT07679607",
+      "NCT07887828"
+     ],
+     "nominated": [
+      "Ad5-hGCC-PADRE",
+      "Ad5.F35-hGUCY2C-PADRE",
+      "Adenovirus 5/F35-Human Guanylyl Cyclase C-PADRE",
+      "CAR-T",
+      "CAR-T cells",
+      "CAR-T cells targeting GPC3, Mesothelin, Claudin18.2, GUCY2C, B7-H3, PSCA, PSMA, MUC1, TGF\u03b2, HER2, Lewis-Y, AXL, or EGFR",
+      "EB-DUO-CAR-NK-CEA/GCC",
+      "IM96",
+      "LCAR-G08",
+      "LYL273",
+      "Lm-GUCY2C",
+      "MLN0264",
+      "PF-07062119",
+      "TAK-164",
+      "WD-01",
+      "XKDCT080",
+      "gucy2c cart cells"
+     ],
+     "elapsed_s": 0.68,
+     "records_not_in_target_set": []
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:DOLCANATIDE",
+     "query": "(\"DOLCANATIDE\" OR \"SP-333\" OR \"Dolcanatida\" OR \"Dolcanatide\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22DOLCANATIDE%22+OR+%22SP-333%22+OR+%22Dolcanatida%22+OR+%22Dolcanatide%22%29"
+     ],
+     "records": [
+      "NCT01705938",
+      "NCT01983306",
+      "NCT03300570"
+     ],
+     "nominated": [
+      "Dolcanatide",
+      "SP-333"
+     ],
+     "elapsed_s": 0.13,
+     "records_not_in_target_set": [
+      "NCT01705938",
+      "NCT03300570"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:INDUSATUMAB VEDOTIN",
+     "query": "(\"INDUSATUMAB VEDOTIN\" OR \"MLN-0264\" OR \"MLN0264\" OR \"TAK-264\" OR \"Indusatumab vedotin\" OR \"Indusatumab vedotina\" OR \"Indusatumab vedotine\" OR \"Mln0264\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22INDUSATUMAB+VEDOTIN%22+OR+%22MLN-0264%22+OR+%22MLN0264%22+OR+%22TAK-264%22+OR+%22Indusatumab+vedotin%22+OR+%22Indusatumab+vedotina%22+OR+%22Indusatumab+vedotine%22+OR+%22Mln0264%22%29"
+     ],
+     "records": [
+      "NCT01577758",
+      "NCT02202759",
+      "NCT02202785",
+      "NCT02391038"
+     ],
+     "nominated": [
+      "MLN0264"
+     ],
+     "elapsed_s": 0.17,
+     "records_not_in_target_set": []
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:LINACLOTIDE",
+     "query": "(\"LINACLOTIDE\" OR \"ASP-0456\" OR \"ASP0456\" OR \"MD-1100\" OR \"MD-7246 (DELAYED RELEASE FORMULATION)\" OR \"Constella\" OR \"Linzess\" OR \"Linaclotida\" OR \"Linaclotide\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22LINACLOTIDE%22+OR+%22ASP-0456%22+OR+%22ASP0456%22+OR+%22MD-1100%22+OR+%22MD-7246+%28DELAYED+RELEASE+FORMULATION%29%22+OR+%22Constella%22+OR+%22Linzess%22+OR+%22Linaclotida%22+OR+%22Linaclotide%22%29"
+     ],
+     "records": [
+      "NCT00258193",
+      "NCT00306748",
+      "NCT00402337",
+      "NCT00460811",
+      "NCT00730015",
+      "NCT00730171",
+      "NCT00765882",
+      "NCT00765999",
+      "NCT00938717",
+      "NCT00948818",
+      "NCT01279915",
+      "NCT01427387",
+      "NCT01642914",
+      "NCT01714843",
+      "NCT01880424",
+      "NCT01950403",
+      "NCT02078323",
+      "NCT02220348",
+      "NCT02239510",
+      "NCT02270983",
+      "NCT02291679",
+      "NCT02316899",
+      "NCT02360384",
+      "NCT02425722",
+      "NCT02465385",
+      "NCT02559206",
+      "NCT02559570",
+      "NCT02559817",
+      "NCT02590432",
+      "NCT02781493",
+      "NCT02809105",
+      "NCT02837783",
+      "NCT02970591",
+      "NCT03119584",
+      "NCT03336034",
+      "NCT03342287",
+      "NCT03471728",
+      "NCT03573908",
+      "NCT03796884",
+      "NCT04026113",
+      "NCT04110145",
+      "NCT04166058",
+      "NCT04462900",
+      "NCT04532879",
+      "NCT04804267",
+      "NCT05107219",
+      "NCT05134584",
+      "NCT05137145",
+      "NCT05291325",
+      "NCT05379491",
+      "NCT05652205",
+      "NCT05760313",
+      "NCT05796388",
+      "NCT06091735",
+      "NCT06692673",
+      "NCT06748638",
+      "NCT06989268",
+      "NCT07431957",
+      "NCT07569419",
+      "NCT07780344"
+     ],
+     "nominated": [
+      "2 mg Prucalopride plus 2 L Polyethylene Glycol regimen",
+      "ASP0456",
+      "Assessment of Responsiveness to Treatment by Experience Sampling Method",
+      "Evaluate the Safety of Linaclotide in IBS-C Patients in China",
+      "Functional Constipation (FC) participants (LIN-MD-62 and LIN-MD-64 completers)",
+      "HygiPrep (HyGIeaCare System)",
+      "Irritable Bowel Syndrome with Constipation (IBS-C) participants (LIN-MD-63 and LIN-MD-64 completers)",
+      "LIN 145",
+      "LIN Dose A",
+      "LIN Dose B",
+      "LIN Dose C",
+      "LINZESS",
+      "Lactose placebo pill",
+      "Lactulose+ linaclotide",
+      "Linaclotide",
+      "Linaclotide Acetate",
+      "Linzess",
+      "MD-1100",
+      "Matching Placebo",
+      "Optimized Medical treatment",
+      "Polyethylene Glycol",
+      "Virtual",
+      "linaclotide",
+      "linaclotide acetate"
+     ],
+     "elapsed_s": 1.24,
+     "records_not_in_target_set": [
+      "NCT00258193",
+      "NCT00306748",
+      "NCT00402337",
+      "NCT00460811",
+      "NCT00730015",
+      "NCT00730171",
+      "NCT00765882",
+      "NCT00765999",
+      "NCT00938717",
+      "NCT00948818",
+      "NCT01279915",
+      "NCT01427387",
+      "NCT01642914",
+      "NCT01714843",
+      "NCT01880424",
+      "NCT01950403",
+      "NCT02078323",
+      "NCT02220348",
+      "NCT02239510",
+      "NCT02270983",
+      "NCT02291679",
+      "NCT02316899",
+      "NCT02360384",
+      "NCT02425722",
+      "NCT02465385",
+      "NCT02559206",
+      "NCT02559570",
+      "NCT02559817",
+      "NCT02590432",
+      "NCT02781493",
+      "NCT02809105",
+      "NCT02837783",
+      "NCT02970591",
+      "NCT03119584",
+      "NCT03336034",
+      "NCT03342287",
+      "NCT03471728",
+      "NCT03573908",
+      "NCT03796884",
+      "NCT04026113",
+      "NCT04110145",
+      "NCT04166058",
+      "NCT04462900",
+      "NCT04532879",
+      "NCT04804267",
+      "NCT05134584",
+      "NCT05137145",
+      "NCT05291325",
+      "NCT05379491",
+      "NCT05652205",
+      "NCT05760313",
+      "NCT05796388",
+      "NCT06091735",
+      "NCT06692673",
+      "NCT06748638",
+      "NCT06989268",
+      "NCT07431957",
+      "NCT07569419",
+      "NCT07780344"
+     ]
+    },
+    {
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "seed_drug_id": "DRUG:PLECANATIDE",
+     "query": "(\"PLECANATIDE\" OR \"SP-304 (SYNERGY)\" OR \"Trulance\" OR \"Guanilib\" OR \"Plecanatida\" OR \"Plecanatide\")",
+     "outcome": "SUCCESS",
+     "error": null,
+     "http_urls": [
+      "https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22PLECANATIDE%22+OR+%22SP-304+%28SYNERGY%29%22+OR+%22Trulance%22+OR+%22Guanilib%22+OR+%22Plecanatida%22+OR+%22Plecanatide%22%29"
+     ],
+     "records": [
+      "NCT01053962",
+      "NCT01429987",
+      "NCT01722318",
+      "NCT01919697",
+      "NCT01982240",
+      "NCT02122471",
+      "NCT02387359",
+      "NCT02493452",
+      "NCT02706483",
+      "NCT03120520",
+      "NCT03551873",
+      "NCT03596905",
+      "NCT05107219",
+      "NCT05151328",
+      "NCT07723924"
+     ],
+     "nominated": [
+      "Placebo",
+      "Plecanatide",
+      "plecanatide"
+     ],
+     "elapsed_s": 0.41,
+     "records_not_in_target_set": [
+      "NCT01053962",
+      "NCT01429987",
+      "NCT01722318",
+      "NCT01919697",
+      "NCT01982240",
+      "NCT02122471",
+      "NCT02387359",
+      "NCT02493452",
+      "NCT02706483",
+      "NCT03120520",
+      "NCT03551873",
+      "NCT03596905",
+      "NCT05151328",
+      "NCT07723924"
+     ]
+    }
+   ]
+  }
+ ],
+ "http_requests_total": 15,
+ "elapsed_s": 29.1
+}

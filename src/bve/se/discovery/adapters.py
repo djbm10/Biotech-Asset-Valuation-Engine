@@ -433,6 +433,14 @@ class QueryVocabulary:
     #: Amendment 1: a query vocabulary matches whole words only ("hstar" is not in
     #: "northstar"). The whole-ontology indexing vocabulary keeps substring semantics.
     word_bounded: bool = False
+    #: ctgov_seeded_retrieval_v1 S1. What an identity-specific query sends upstream: the
+    #: seeded drug's own names, or a follow-up's lead. ``None`` for a target-vocabulary
+    #: query, which retrieves with the target's admitted aliases.
+    retrieval_terms: tuple[str, ...] | None = None
+    #: Amendment 1: the query was seeded by an authority drug, so its "target" terms are
+    #: that drug's names. A record mentioning the drug anywhere is retrieval context; only
+    #: an intervention whose own text names the drug may be nominated for it.
+    identity_seeded: bool = False
 
     @classmethod
     def for_query(cls, query: CompiledQuery) -> "QueryVocabulary":
@@ -506,6 +514,13 @@ class QueryVocabulary:
                 else ()
             ),
             word_bounded=True,
+            identity_seeded=seeded,
+            retrieval_terms=(
+                tuple(dict.fromkeys(alias for alias in query.aliases if alias and alias.strip()))
+                or None
+                if seeded or query.expansion_depth > 0
+                else None
+            ),
         )
 
     @staticmethod
@@ -662,9 +677,10 @@ class QueryVocabulary:
         that was appended to every query regardless of what was asked.
         """
 
-        terms: list[str] = []
-        for canonical, _ in self.targets:
-            terms.extend(_retrieval_aliases(canonical))
+        terms: list[str] = list(self.retrieval_terms or ())
+        if self.retrieval_terms is None:
+            for canonical, _ in self.targets:
+                terms.extend(_retrieval_aliases(canonical))
         for canonical in sorted(self.requested_modalities):
             terms.extend(modality_query_terms(canonical))
         # Canonical IDs are internal identifiers (``T_CELL_ENGAGER``); sending them to a
@@ -683,9 +699,14 @@ class QueryVocabulary:
         def _clean(terms: list[str]) -> tuple[str, ...]:
             return tuple(dict.fromkeys(t for t in terms if t and "_" not in t))
 
-        target_terms: list[str] = []
-        for canonical, _ in self.targets:
-            target_terms.extend(_retrieval_aliases(canonical))
+        # ctgov_seeded_retrieval_v1 S1: an identity-specific query searches for its drug.
+        # Rebuilding the facet from the target's aliases here sent every seeded and
+        # follow-up query to the same target search (chek1_clinical_any_v1: 30 attempts,
+        # one 27-record set), so a trial registered under a drug code was never fetched.
+        target_terms: list[str] = list(self.retrieval_terms or ())
+        if self.retrieval_terms is None:
+            for canonical, _ in self.targets:
+                target_terms.extend(_retrieval_aliases(canonical))
         modality_terms: list[str] = []
         for canonical in sorted(self.requested_modalities):
             modality_terms.extend(modality_query_terms(canonical))
@@ -1175,7 +1196,12 @@ def _candidate_interventions(
             # Protocol-level target/modality text is safe only when there is one named
             # intervention. In combination studies, assigning it to every background drug creates
             # false candidate programs (e.g. supportive agents and combination partners).
-            if len(therapeutic) == 1:
+            if vocabulary.identity_seeded:
+                # ctgov_seeded_retrieval_v1 Amendment 1: no protocol-level inheritance. A
+                # seeded drug named in the protocol says nothing about which intervention
+                # it is; a single-arm device or a different laxative must not become it.
+                pass
+            elif len(therapeutic) == 1:
                 intervention_targets = intervention_targets or protocol_targets
                 intervention_modality = intervention_modality or protocol_modality
             elif (

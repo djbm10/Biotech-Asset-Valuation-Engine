@@ -63,3 +63,32 @@ PubMed is not affected, because it sends the compiled query string itself.
 
 The live diagnostic reports request URLs, record counts and record-set overlap, labelled
 DEVELOPMENT. It does not read the CHEK1 hidden reference, and it does not compute any score.
+
+## Amendment 1 (after the first live diagnostic, before acceptance is assessed)
+
+The first live diagnostic (15 requests) showed S1 working: 9/9 CHEK1 and 4/4 GUCY2C seeded
+requests differ from the target request and return their own records. It also exposed a
+**T5 violation that the old target-only universe had hidden**: when a trial has a single
+therapeutic intervention, that intervention inherits the protocol's "targets", which for
+a seeded query are only the drug's name appearing somewhere in the protocol. Linaclotide's
+60 records nominated:
+- arm descriptors ("Assessment of Responsiveness to Treatment by Experience Sampling Method");
+- a device ("HygiPrep");
+- another drug's regimen ("2 mg Prucalopride plus 2 L Polyethylene Glycol regimen").
+
+That is retrieval context turning an unrelated intervention into a candidate.
+
+Change: for an `AUTHORITY_SEEDED_ASSET` query, the single-intervention and backbone (C4)
+inheritance are switched off. An intervention is nominated for the seed only when its own
+text (name, description, otherNames) names the drug. Target-vocabulary and follow-up
+queries are unchanged. Test: `TestAmendment1`, which fails with the amendment disabled.
+
+Acceptance (L1/L2 and the nomination check) is assessed by re-reading the **same records**
+the first live run saved, per query, through the amended code. No further live requests are
+made, so the 25-request bound holds.
+
+## Test changes
+
+- `tests/se/test_study_identifier_boundary.py::_StubVocabulary` gains
+  `identity_seeded = False`, the vocabulary attribute Amendment 1 reads. The test's
+  assertions are unchanged.

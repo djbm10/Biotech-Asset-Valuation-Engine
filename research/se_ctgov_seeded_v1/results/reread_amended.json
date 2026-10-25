@@ -1,0 +1,522 @@
+{
+ "grade": "DEVELOPMENT",
+ "runs": [
+  {
+   "problem": "research/se_blinded_pilot_v1/chek1_clinical_any_v1/engine_problem.yaml",
+   "queries": [
+    {
+     "query": "(\"CHEK1\" OR \"CHK1\" OR \"OZEMA21\" OR \"checkpoint kinase 1\" OR \"Serine/threonine-protein kinase Chk1\" OR \"Cell cycle checkpoint kinase\" OR \"Checkpoint kinase-1\" OR \"Checkpoint, S. pombe, homolog of, 1\" OR \"CHK1 checkpoint homolog\" OR \"Chk1-S\")",
+     "kind": "TARGET_VOCABULARY",
+     "records": 27,
+     "served": 27,
+     "nominated_before": [
+      "BBI-355",
+      "Elraglusib",
+      "Homologous Recombination Deficiency Status in Epithelial Ovarian Cancer",
+      "IDE-161",
+      "ING-41",
+      "LY2606368",
+      "Niraparib",
+      "Olaparib",
+      "PEP07",
+      "Prexasertib",
+      "SCH 900776",
+      "SRA737",
+      "Study Estimating Association Between Germline Mutations and PD-L1 Expression in Breast Cancer",
+      "XS-02"
+     ],
+     "nominated_after": [
+      "BBI-355",
+      "Elraglusib",
+      "Homologous Recombination Deficiency Status in Epithelial Ovarian Cancer",
+      "IDE-161",
+      "ING-41",
+      "LY2606368",
+      "Niraparib",
+      "Olaparib",
+      "PEP07",
+      "Prexasertib",
+      "SCH 900776",
+      "SRA737",
+      "Study Estimating Association Between Germline Mutations and PD-L1 Expression in Breast Cancer",
+      "XS-02"
+     ],
+     "trials_with_hits_after": [
+      "NCT01870596",
+      "NCT02203513",
+      "NCT02514603",
+      "NCT02735980",
+      "NCT02797964",
+      "NCT02873975",
+      "NCT03057145",
+      "NCT03207347",
+      "NCT03495544",
+      "NCT03678883",
+      "NCT03735446",
+      "NCT03786796",
+      "NCT04190667",
+      "NCT04239092",
+      "NCT05659732",
+      "NCT05787587",
+      "NCT05827614",
+      "NCT05983523",
+      "NCT06531486",
+      "NCT07714395"
+     ]
+    },
+    {
+     "query": "(\"AZD-7762\" OR \"AZD7762\" OR \"Azd 7762\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 3,
+     "served": 3,
+     "nominated_before": [
+      "AZD7762"
+     ],
+     "nominated_after": [
+      "AZD7762"
+     ],
+     "trials_with_hits_after": [
+      "NCT00413686",
+      "NCT00473616",
+      "NCT00937664"
+     ]
+    },
+    {
+     "query": "(\"PF-00477736\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 1,
+     "served": 1,
+     "nominated_before": [
+      "PF-00477736"
+     ],
+     "nominated_after": [
+      "PF-00477736"
+     ],
+     "trials_with_hits_after": [
+      "NCT00437203"
+     ]
+    },
+    {
+     "query": "(\"PREXASERTIB\" OR \"LY-2606368\" OR \"LY2606368\" OR \"Ly-2606368\" OR \"Prexasertib\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 20,
+     "served": 20,
+     "nominated_before": [
+      "ACR-368",
+      "Drug 1: LY3023414; Drug 2: Prexasertib",
+      "LY2606368",
+      "Prexasertib",
+      "prexasertib"
+     ],
+     "nominated_after": [
+      "ACR-368",
+      "Drug 1: LY3023414; Drug 2: Prexasertib",
+      "LY2606368",
+      "Prexasertib",
+      "prexasertib"
+     ],
+     "trials_with_hits_after": [
+      "NCT01115790",
+      "NCT02124148",
+      "NCT02203513",
+      "NCT02514603",
+      "NCT02555644",
+      "NCT02649764",
+      "NCT02735980",
+      "NCT02778126",
+      "NCT02808650",
+      "NCT02860780",
+      "NCT02873975",
+      "NCT03057145",
+      "NCT03414047",
+      "NCT03495323",
+      "NCT03735446",
+      "NCT04023669",
+      "NCT04032080",
+      "NCT04095221",
+      "NCT05548296",
+      "NCT06597565"
+     ]
+    },
+    {
+     "query": "(\"RABUSERTIB\" OR \"IC-83\" OR \"LY-2603618\" OR \"LY2603618\" OR \"Ly-2603618\" OR \"Rabusertib\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 7,
+     "served": 7,
+     "nominated_before": [
+      "IC83/LY2603618",
+      "LY2603618"
+     ],
+     "nominated_after": [
+      "IC83/LY2603618",
+      "LY2603618"
+     ],
+     "trials_with_hits_after": [
+      "NCT00415636",
+      "NCT00839332",
+      "NCT00988858",
+      "NCT01139775",
+      "NCT01296568",
+      "NCT01341457",
+      "NCT01358968"
+     ]
+    },
+    {
+     "query": "(\"RG-7602\" OR \"GDC-0425\" OR \"Rg-7602\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 1,
+     "served": 1,
+     "nominated_before": [
+      "GDC-0425"
+     ],
+     "nominated_after": [
+      "GDC-0425"
+     ],
+     "trials_with_hits_after": [
+      "NCT01359696"
+     ]
+    },
+    {
+     "query": "(\"RG-7741\" OR \"GDC-0575\" OR \"Rg-7741\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 1,
+     "served": 1,
+     "nominated_before": [
+      "GDC-0575"
+     ],
+     "nominated_after": [
+      "GDC-0575"
+     ],
+     "trials_with_hits_after": [
+      "NCT01564251"
+     ]
+    },
+    {
+     "query": "(\"SCH-900776\" OR \"SCH 900776\" OR \"Mk-8776\" OR \"Sch-900776\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 4,
+     "served": 4,
+     "nominated_before": [
+      "MK-8776",
+      "SCH 900776"
+     ],
+     "nominated_after": [
+      "MK-8776",
+      "SCH 900776"
+     ],
+     "trials_with_hits_after": [
+      "NCT00779584",
+      "NCT00907517",
+      "NCT01870596"
+     ]
+    },
+    {
+     "query": "(\"UCN-01\" OR \"KRX-0601\" OR \"KW-2401\" OR \"NSC-638850\" OR \"UCN-02\" OR \"7-hydroxystaurosporine\" OR \"Ucn 01\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 22,
+     "served": 22,
+     "nominated_before": [
+      "7-hydroxystaurosporine (UCN-01)",
+      "UCN-01 (7-hydroxystaurosporine)",
+      "hydroxystaurosporine"
+     ],
+     "nominated_after": [
+      "7-hydroxystaurosporine (UCN-01)",
+      "UCN-01 (7-hydroxystaurosporine)",
+      "hydroxystaurosporine"
+     ],
+     "trials_with_hits_after": [
+      "NCT00001444",
+      "NCT00003289",
+      "NCT00004059",
+      "NCT00004263",
+      "NCT00006464",
+      "NCT00012194",
+      "NCT00019838",
+      "NCT00030888",
+      "NCT00031681",
+      "NCT00036777",
+      "NCT00039403",
+      "NCT00042861",
+      "NCT00045175",
+      "NCT00045500",
+      "NCT00045513",
+      "NCT00045747",
+      "NCT00047242",
+      "NCT00072189",
+      "NCT00072267",
+      "NCT00082017",
+      "NCT00098956",
+      "NCT00301938"
+     ]
+    },
+    {
+     "query": "(\"XL-844\" OR \"Xl-844\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 2,
+     "served": 2,
+     "nominated_before": [],
+     "nominated_after": [],
+     "trials_with_hits_after": []
+    }
+   ]
+  },
+  {
+   "problem": "research/se_gucy2c_dev_v1/engine_problem_dev.yaml",
+   "queries": [
+    {
+     "query": "(\"GUCY2C\" OR \"DIAR6\" OR \"GC-C\" OR \"GCC\" OR \"GUC2C\" OR \"HSER\" OR \"hSTAR\" OR \"MECIL\" OR \"MUCIL\" OR \"STA receptor\" OR \"guanylate cyclase 2C\" OR \"Guanylyl cyclase C\" OR \"Heat-stable enterotoxin receptor\" OR \"Intestinal guanylate cyclase\")",
+     "kind": "TARGET_VOCABULARY",
+     "records": 73,
+     "served": 73,
+     "nominated_before": [
+      "Ad5-hGCC-PADRE",
+      "Ad5.F35-hGUCY2C-PADRE",
+      "Adenovirus 5/F35-Human Guanylyl Cyclase C-PADRE",
+      "CAR-T",
+      "CAR-T cells",
+      "CAR-T cells targeting GPC3, Mesothelin, Claudin18.2, GUCY2C, B7-H3, PSCA, PSMA, MUC1, TGF\u03b2, HER2, Lewis-Y, AXL, or EGFR",
+      "EB-DUO-CAR-NK-CEA/GCC",
+      "IM96",
+      "LCAR-G08",
+      "LYL273",
+      "Lm-GUCY2C",
+      "MLN0264",
+      "PF-07062119",
+      "TAK-164",
+      "WD-01",
+      "XKDCT080",
+      "gucy2c cart cells"
+     ],
+     "nominated_after": [
+      "Ad5-hGCC-PADRE",
+      "Ad5.F35-hGUCY2C-PADRE",
+      "Adenovirus 5/F35-Human Guanylyl Cyclase C-PADRE",
+      "CAR-T",
+      "CAR-T cells",
+      "CAR-T cells targeting GPC3, Mesothelin, Claudin18.2, GUCY2C, B7-H3, PSCA, PSMA, MUC1, TGF\u03b2, HER2, Lewis-Y, AXL, or EGFR",
+      "EB-DUO-CAR-NK-CEA/GCC",
+      "IM96",
+      "LCAR-G08",
+      "LYL273",
+      "Lm-GUCY2C",
+      "MLN0264",
+      "PF-07062119",
+      "TAK-164",
+      "WD-01",
+      "XKDCT080",
+      "gucy2c cart cells"
+     ],
+     "trials_with_hits_after": [
+      "NCT01577758",
+      "NCT01972737",
+      "NCT02202759",
+      "NCT02202785",
+      "NCT02391038",
+      "NCT03198052",
+      "NCT03449030",
+      "NCT04111172",
+      "NCT04171141",
+      "NCT04652219",
+      "NCT04780529",
+      "NCT05287165",
+      "NCT05319314",
+      "NCT05779917",
+      "NCT05875402",
+      "NCT06197178",
+      "NCT06675513",
+      "NCT07152210",
+      "NCT07417488",
+      "NCT07462650",
+      "NCT07589517"
+     ]
+    },
+    {
+     "query": "(\"DOLCANATIDE\" OR \"SP-333\" OR \"Dolcanatida\" OR \"Dolcanatide\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 3,
+     "served": 3,
+     "nominated_before": [
+      "Dolcanatide",
+      "SP-333"
+     ],
+     "nominated_after": [
+      "Dolcanatide",
+      "SP-333"
+     ],
+     "trials_with_hits_after": [
+      "NCT01705938",
+      "NCT01983306",
+      "NCT03300570"
+     ]
+    },
+    {
+     "query": "(\"INDUSATUMAB VEDOTIN\" OR \"MLN-0264\" OR \"MLN0264\" OR \"TAK-264\" OR \"Indusatumab vedotin\" OR \"Indusatumab vedotina\" OR \"Indusatumab vedotine\" OR \"Mln0264\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 4,
+     "served": 4,
+     "nominated_before": [
+      "MLN0264"
+     ],
+     "nominated_after": [
+      "MLN0264"
+     ],
+     "trials_with_hits_after": [
+      "NCT01577758",
+      "NCT02202759",
+      "NCT02202785",
+      "NCT02391038"
+     ]
+    },
+    {
+     "query": "(\"LINACLOTIDE\" OR \"ASP-0456\" OR \"ASP0456\" OR \"MD-1100\" OR \"MD-7246 (DELAYED RELEASE FORMULATION)\" OR \"Constella\" OR \"Linzess\" OR \"Linaclotida\" OR \"Linaclotide\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 60,
+     "served": 60,
+     "nominated_before": [
+      "2 mg Prucalopride plus 2 L Polyethylene Glycol regimen",
+      "ASP0456",
+      "Assessment of Responsiveness to Treatment by Experience Sampling Method",
+      "Evaluate the Safety of Linaclotide in IBS-C Patients in China",
+      "Functional Constipation (FC) participants (LIN-MD-62 and LIN-MD-64 completers)",
+      "HygiPrep (HyGIeaCare System)",
+      "Irritable Bowel Syndrome with Constipation (IBS-C) participants (LIN-MD-63 and LIN-MD-64 completers)",
+      "LIN 145",
+      "LIN Dose A",
+      "LIN Dose B",
+      "LIN Dose C",
+      "LINZESS",
+      "Lactose placebo pill",
+      "Lactulose+ linaclotide",
+      "Linaclotide",
+      "Linaclotide Acetate",
+      "Linzess",
+      "MD-1100",
+      "Matching Placebo",
+      "Optimized Medical treatment",
+      "Polyethylene Glycol",
+      "Virtual",
+      "linaclotide",
+      "linaclotide acetate"
+     ],
+     "nominated_after": [
+      "2 mg Prucalopride plus 2 L Polyethylene Glycol regimen",
+      "ASP0456",
+      "Assessment of Responsiveness to Treatment by Experience Sampling Method",
+      "Evaluate the Safety of Linaclotide in IBS-C Patients in China",
+      "Functional Constipation (FC) participants (LIN-MD-62 and LIN-MD-64 completers)",
+      "Irritable Bowel Syndrome with Constipation (IBS-C) participants (LIN-MD-63 and LIN-MD-64 completers)",
+      "LIN 145",
+      "LIN Dose A",
+      "LIN Dose B",
+      "LIN Dose C",
+      "LINZESS",
+      "Lactose placebo pill",
+      "Lactulose+ linaclotide",
+      "Linaclotide",
+      "Linaclotide Acetate",
+      "Linzess",
+      "MD-1100",
+      "Matching Placebo",
+      "Optimized Medical treatment",
+      "Virtual",
+      "linaclotide",
+      "linaclotide acetate"
+     ],
+     "trials_with_hits_after": [
+      "NCT00258193",
+      "NCT00306748",
+      "NCT00402337",
+      "NCT00460811",
+      "NCT00730015",
+      "NCT00730171",
+      "NCT00765882",
+      "NCT00765999",
+      "NCT00938717",
+      "NCT00948818",
+      "NCT01279915",
+      "NCT01427387",
+      "NCT01642914",
+      "NCT01714843",
+      "NCT01880424",
+      "NCT01950403",
+      "NCT02078323",
+      "NCT02220348",
+      "NCT02239510",
+      "NCT02270983",
+      "NCT02291679",
+      "NCT02316899",
+      "NCT02360384",
+      "NCT02425722",
+      "NCT02465385",
+      "NCT02559206",
+      "NCT02559570",
+      "NCT02559817",
+      "NCT02590432",
+      "NCT02781493",
+      "NCT02809105",
+      "NCT02837783",
+      "NCT02970591",
+      "NCT03119584",
+      "NCT03336034",
+      "NCT03471728",
+      "NCT03573908",
+      "NCT03796884",
+      "NCT04026113",
+      "NCT04110145",
+      "NCT04166058",
+      "NCT04462900",
+      "NCT04804267",
+      "NCT05107219",
+      "NCT05134584",
+      "NCT05137145",
+      "NCT05291325",
+      "NCT05379491",
+      "NCT05652205",
+      "NCT05760313",
+      "NCT05796388",
+      "NCT06091735",
+      "NCT06692673",
+      "NCT06748638",
+      "NCT06989268",
+      "NCT07431957",
+      "NCT07569419",
+      "NCT07780344"
+     ]
+    },
+    {
+     "query": "(\"PLECANATIDE\" OR \"SP-304 (SYNERGY)\" OR \"Trulance\" OR \"Guanilib\" OR \"Plecanatida\" OR \"Plecanatide\")",
+     "kind": "AUTHORITY_SEEDED_ASSET",
+     "records": 15,
+     "served": 15,
+     "nominated_before": [
+      "Placebo",
+      "Plecanatide",
+      "plecanatide"
+     ],
+     "nominated_after": [
+      "Placebo",
+      "Plecanatide",
+      "plecanatide"
+     ],
+     "trials_with_hits_after": [
+      "NCT01429987",
+      "NCT01722318",
+      "NCT01919697",
+      "NCT01982240",
+      "NCT02122471",
+      "NCT02387359",
+      "NCT02493452",
+      "NCT02706483",
+      "NCT03120520",
+      "NCT03551873",
+      "NCT03596905",
+      "NCT05107219",
+      "NCT05151328",
+      "NCT07723924"
+     ]
+    }
+   ]
+  }
+ ]
+}
