@@ -1,0 +1,17 @@
+{
+  "spec_id": "chek1_clinical_any_v1",
+  "therapeutic_area": "unspecified",
+  "indications": [],
+  "targets": [
+    "CHEK1"
+  ],
+  "modalities": [],
+  "stages": [
+    "PHASE_1",
+    "PHASE_2",
+    "PHASE_3",
+    "APPROVED"
+  ],
+  "as_of_date": "2026-10-25",
+  "query_text": "Find every therapeutic directed at CHEK1 (as its binding target or the antigen it is directed at) that has entered human clinical testing (Phase 1 or later) at any time up to the as-of date, including approved products and programs that were later discontinued, terminated or withdrawn. Any modality and any therapeutic area qualify. Exclude diagnostic or imaging-only agents, programs that never entered human trials, and drugs whose primary pharmacological target is something else. For each asset report all names and development codes, target, modality, highest development stage, and every associated clinical trial registration."
+}
