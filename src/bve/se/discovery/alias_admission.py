@@ -171,6 +171,19 @@ def admitted_shared_aliases(canonical_id: str) -> tuple[str, ...]:
     return _ACTIVE.admitted_aliases(canonical_id)
 
 
+def claimed_by_another_target(alias: str, canonical: str) -> bool:
+    """True when another target also answers to ``alias`` and no probe admitted it (C2/C10)."""
+
+    resolver = get_resolver()
+    if resolver is None:
+        return False
+    entity = resolver.get(canonical, EntityType.TARGET)
+    own = entity.canonical_id if entity else canonical
+    if alias in admitted_shared_aliases(own):
+        return False
+    return any(c != own for c in resolver.claimants_of(alias, EntityType.TARGET))
+
+
 def searchable_target_aliases(canonical_id: str) -> tuple[str, ...]:
     """The vocabulary this target may actually be searched with.
 

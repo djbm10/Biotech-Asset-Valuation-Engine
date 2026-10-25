@@ -25,7 +25,10 @@ from bve.se.ontology.modality import (
     normalize_modality,
 )
 from bve.se.ontology.records import normalize_lookup_key
-from bve.se.discovery.alias_admission import admitted_shared_aliases, searchable_target_aliases
+from bve.se.discovery.alias_admission import (
+    claimed_by_another_target as _claimed_by_another_target,
+    searchable_target_aliases,
+)
 from bve.se.discovery.seeding import SeedProvenance
 from bve.se.ontology.targets import known_targets, target_aliases
 from bve.se.universe.provenance import describe_universe
@@ -323,23 +326,6 @@ def _retrieval_aliases(canonical: str) -> tuple[str, ...]:
     aliases = target_aliases(canonical) or (canonical,)
     kept = tuple(alias for alias in aliases if not _claimed_by_another_target(alias, canonical))
     return kept or (canonical,)
-
-
-def _claimed_by_another_target(alias: str, canonical: str) -> bool:
-    """True when the ontology says some other target also answers to ``alias`` (C2)."""
-
-    from bve.se.ontology.resolver import EntityType
-    from bve.se.ontology.targets import get_resolver
-
-    resolver = get_resolver()
-    if resolver is None:
-        return False
-    entity = resolver.get(canonical, EntityType.TARGET)
-    own = entity.canonical_id if entity else canonical
-    if alias in admitted_shared_aliases(own):
-        return False
-    claimants = resolver.claimants_of(alias, EntityType.TARGET)
-    return any(claimant != own for claimant in claimants)
 
 
 #: A query that names nothing, used to build the modality half of the indexing vocabulary.

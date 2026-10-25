@@ -141,3 +141,17 @@ the C11 effect is reported separately from C1–C9.
   keyword of `targets_in`.
 - `TargetEvidenceRef.action_type` is omitted from serialization when absent, so frozen
   oracles (`test_target_reference_interface.py`) and pre-existing dumps are byte-identical.
+
+## C10 implementation record
+
+Committed separately, after the development replays. `claimed_by_another_target` moved to
+`discovery/alias_admission.py` (adapters re-imports it, behaviour unchanged).
+`compile_problem_queries` now drops a problem-declared label or alias that another target
+claims and no probe admitted, as the ontology's own shared aliases already were. The
+problem's own symbol is always kept. Example: a GUCY2C problem declaring `STAR` no longer
+searches `"STAR"`.
+
+Not measured. A changed query string has no sealed record, so replay fails it. Covered by
+`test_declared_shared_alias_is_not_searched` (fails with the filter off) and
+`test_declared_unshared_aliases_are_all_searched`. A live run is needed to measure its
+effect on retrieval.

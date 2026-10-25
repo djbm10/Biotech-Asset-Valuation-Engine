@@ -12,7 +12,10 @@ from bve.se.discovery.seeding import (
 )
 from bve.se.schemas.contracts import BuyerProblemV2, CompiledQuery, TargetOperator
 from bve.se.ontology.modality import modality_query_terms
-from bve.se.discovery.alias_admission import searchable_target_aliases
+from bve.se.discovery.alias_admission import (
+    claimed_by_another_target,
+    searchable_target_aliases,
+)
 from bve.se.ontology.targets import resolve_target
 from bve.se.ontology.target_reference import lookup_id, surface_id, surface_terms
 
@@ -89,7 +92,13 @@ def compile_problem_queries(
     modalities = problem.strategic_gap.modalities
     target_alias_groups = [
         surface_terms(target, [
-            surface_id(target), target.label, *target.aliases,
+            surface_id(target),
+            # C10: a declared label or alias another target claims is refused here,
+            # exactly as the ontology's own shared aliases are.
+            *(
+                term for term in (target.label, *target.aliases)
+                if term and not claimed_by_another_target(term, lookup_id(target))
+            ),
             *_ontology_terms(lookup_id(target)),
         ])
         for target in expression.targets

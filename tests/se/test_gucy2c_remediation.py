@@ -286,3 +286,37 @@ def test_agonist_exclusion_fails_agonists_and_leaves_unknown_unknown() -> None:
     assert decide([fact("BINDING AGENT")]) is GateStatus.PASS
     assert decide([]) is GateStatus.UNKNOWN
     assert decide([fact("AGONIST"), fact("ANTAGONIST")]) is GateStatus.UNKNOWN
+
+
+def _dev_problem(aliases):
+    import pathlib
+
+    import yaml
+
+    from bve.se.schemas.contracts import BuyerProblemV2
+
+    path = pathlib.Path(__file__).parents[2] / "research/se_gucy2c_dev_v1/engine_problem_dev.yaml"
+    data = yaml.safe_load(path.read_text())
+    target = data["strategic_gap"]["target_expression"]["targets"][0]
+    target["aliases"] = aliases
+    target.pop("target_reference", None)  # bound to the real snapshot, not the fixture
+    return BuyerProblemV2.model_validate(data)
+
+
+def test_declared_shared_alias_is_not_searched(ontology) -> None:
+    """C10: a problem-declared alias another target claims never reaches the query string."""
+
+    from bve.se.discovery.query import compile_problem_queries
+
+    queries = compile_problem_queries(_dev_problem(["GCC", "STAR"]), max_seeded_assets=0)
+    text = " ".join(q.query for q in queries)
+    assert '"STAR"' not in text
+    assert '"GCC"' in text and '"GUCY2C"' in text
+
+
+def test_declared_unshared_aliases_are_all_searched(ontology) -> None:
+    from bve.se.discovery.query import compile_problem_queries
+
+    queries = compile_problem_queries(_dev_problem(["GCC", "GC-C"]), max_seeded_assets=0)
+    text = " ".join(q.query for q in queries)
+    assert '"GCC"' in text and '"GC-C"' in text
