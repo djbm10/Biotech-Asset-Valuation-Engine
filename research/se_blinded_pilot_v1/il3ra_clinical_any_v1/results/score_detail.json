@@ -1,0 +1,1103 @@
+{
+ "trial_coverage_all_ids": 0.6,
+ "trial_coverage_nct_only": 0.6111111111111112,
+ "trial_counts": {
+  "all": [
+   66,
+   110
+  ],
+  "nct": [
+   66,
+   108
+  ]
+ },
+ "assets": [
+  {
+   "reference_id": "R-001",
+   "in_scope": true,
+   "names": [
+    "tagraxofusp",
+    "tagraxofusp-erzs",
+    "SL-401",
+    "SL401"
+   ],
+   "candidates": [
+    {
+     "name": "Tagraxofusp-erzs",
+     "route": "ELIGIBLE",
+     "targets": [
+      "TARGET:IL3RA"
+     ],
+     "modality": "CELL_THERAPY",
+     "authority_modality": "PROTEIN",
+     "trials": 22,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 22,
+   "ref_nct": 22,
+   "trials_found": 21,
+   "nct_found": 21
+  },
+  {
+   "reference_id": "R-002",
+   "in_scope": true,
+   "names": [
+    "pivekimab sunirine",
+    "pivekimab sunirine-pvzy",
+    "IMGN632",
+    "anti-CD123 ADC IMGN632"
+   ],
+   "candidates": [
+    {
+     "name": "DECNUPAZ",
+     "route": "LOW_SUPPORT",
+     "targets": [],
+     "modality": null,
+     "authority_modality": null,
+     "trials": 0,
+     "qualification": null
+    },
+    {
+     "name": "Pivekimab Sunirine",
+     "route": "ELIGIBLE",
+     "targets": [
+      "TARGET:IL3RA"
+     ],
+     "modality": null,
+     "authority_modality": "ANTIBODY_DRUG_CONJUGATE",
+     "trials": 6,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 6,
+   "ref_nct": 6,
+   "trials_found": 6,
+   "nct_found": 6
+  },
+  {
+   "reference_id": "R-003",
+   "in_scope": true,
+   "names": [
+    "flotetuzumab",
+    "MGD006",
+    "S80880",
+    "anti-CD123 x CD3 DART"
+   ],
+   "candidates": [
+    {
+     "name": "MGD006",
+     "route": "ELIGIBLE",
+     "targets": [
+      "TARGET:IL3RA"
+     ],
+     "modality": "BISPECIFIC_ANTIBODY",
+     "authority_modality": "ANTIBODY",
+     "trials": 8,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 8,
+   "ref_nct": 8,
+   "trials_found": 8,
+   "nct_found": 8
+  },
+  {
+   "reference_id": "R-004",
+   "in_scope": true,
+   "names": [
+    "MGD024",
+    "anti-CD123 x anti-CD3 bispecific DART molecule MGD024"
+   ],
+   "candidates": [
+    {
+     "name": "MGD024",
+     "route": "ELIGIBLE",
+     "targets": [],
+     "modality": "T_CELL_ENGAGER",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-005",
+   "in_scope": true,
+   "names": [
+    "vibecotamab",
+    "XmAb14045",
+    "XmAb 14045"
+   ],
+   "candidates": [
+    {
+     "name": "Vibecotamab",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "MONOCLONAL_ANTIBODY",
+     "authority_modality": "ANTIBODY",
+     "trials": 1,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-006",
+   "in_scope": true,
+   "names": [
+    "mipletamig",
+    "APVO436",
+    "APVO-436",
+    "anti-CD123/CD3 bispecific antibody APVO436"
+   ],
+   "candidates": [
+    {
+     "name": "APVO436",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": null,
+     "authority_modality": null,
+     "trials": 3,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 3,
+   "ref_nct": 3,
+   "trials_found": 3,
+   "nct_found": 3
+  },
+  {
+   "reference_id": "R-007",
+   "in_scope": true,
+   "names": [
+    "talacotuzumab",
+    "CSL362",
+    "JNJ-56022473",
+    "JNJ 56022473"
+   ],
+   "candidates": [
+    {
+     "name": "Talacotuzumab",
+     "route": "ELIGIBLE",
+     "targets": [
+      "TARGET:IL3RA"
+     ],
+     "modality": "MONOCLONAL_ANTIBODY",
+     "authority_modality": "ANTIBODY",
+     "trials": 5,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 5,
+   "ref_nct": 5,
+   "trials_found": 5,
+   "nct_found": 5
+  },
+  {
+   "reference_id": "R-008",
+   "in_scope": true,
+   "names": [
+    "CSL360",
+    "chimeric anti-CD123 monoclonal antibody 7G3"
+   ],
+   "candidates": [
+    {
+     "name": "CSL360",
+     "route": "ELIGIBLE",
+     "targets": [
+      "TARGET:IL3RA"
+     ],
+     "modality": "MONOCLONAL_ANTIBODY",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-009",
+   "in_scope": true,
+   "names": [
+    "KHK2823",
+    "anti-CD123 non-fucosylated antibody KHK2823"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-010",
+   "in_scope": true,
+   "names": [
+    "JNJ-63709178",
+    "JNJ 63709178",
+    "anti-CD123/CD3 DuoBody"
+   ],
+   "candidates": [
+    {
+     "name": "JNJ-63709178",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "MONOCLONAL_ANTIBODY",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-011",
+   "in_scope": true,
+   "names": [
+    "SAR440234",
+    "SAR 440234",
+    "anti-CD123/CD3 BiTE antibody SAR440234"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-012",
+   "in_scope": true,
+   "names": [
+    "SAR443579",
+    "SAR'579",
+    "IPH6101",
+    "CD123 ANKET"
+   ],
+   "candidates": [],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-013",
+   "in_scope": true,
+   "names": [
+    "AFM28",
+    "AFM-28",
+    "CD123/CD16A innate cell engager"
+   ],
+   "candidates": [
+    {
+     "name": "AFM28",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "MONOCLONAL_ANTIBODY",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-014",
+   "in_scope": true,
+   "names": [
+    "SGN-CD123A",
+    "anti-CD123 pyrrolobenzodiazepine dimer ADC SGN-CD123A"
+   ],
+   "candidates": [
+    {
+     "name": "SGN-CD123A",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "ANTIBODY_DRUG_CONJUGATE",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-015",
+   "in_scope": true,
+   "names": [
+    "AZD9829",
+    "anti-CD123 TOP1i antibody-drug conjugate AZD9829"
+   ],
+   "candidates": [
+    {
+     "name": "AZD9829",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "CELL_THERAPY",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-016",
+   "in_scope": true,
+   "names": [
+    "BYON4413",
+    "BYON-4413",
+    "SYD4413",
+    "anti-CD123 duocarmazine ADC BYON4413"
+   ],
+   "candidates": [
+    {
+     "name": "BYON4413",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "ANTIBODY_DRUG_CONJUGATE",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-017",
+   "in_scope": true,
+   "names": [
+    "VIP943",
+    "VIP-943",
+    "CD123-KSPi ADC"
+   ],
+   "candidates": [
+    {
+     "name": "VIP943",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "ANTIBODY_DRUG_CONJUGATE",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-018",
+   "in_scope": true,
+   "names": [
+    "ORM-1153",
+    "ORM1153",
+    "CD123-GSPT1 degrader-antibody conjugate"
+   ],
+   "candidates": [
+    {
+     "name": "ORM-1153",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "ANTIBODY_DRUG_CONJUGATE",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-019",
+   "in_scope": true,
+   "names": [
+    "MP0533",
+    "multispecific DARPin CD3 engager MP0533"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-020",
+   "in_scope": true,
+   "names": [
+    "UCART123",
+    "UCART123v1.2",
+    "allogeneic TALEN-edited anti-CD123 CAR-T"
+   ],
+   "candidates": [
+    {
+     "name": "UCART123",
+     "route": "ELIGIBLE",
+     "targets": [],
+     "modality": "CAR_T",
+     "authority_modality": "CELL_THERAPY",
+     "trials": 3,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 3,
+   "ref_nct": 3,
+   "trials_found": 3,
+   "nct_found": 3
+  },
+  {
+   "reference_id": "R-021",
+   "in_scope": true,
+   "names": [
+    "MB-102",
+    "MB102",
+    "CD123-CAR T cells (City of Hope)",
+    "CD123CAR-CD28-CD3zeta-EGFRt T lymphocytes"
+   ],
+   "candidates": [
+    {
+     "name": "MB-102",
+     "route": "ELIGIBLE",
+     "targets": [],
+     "modality": null,
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 8,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 3,
+   "ref_nct": 3,
+   "trials_found": 2,
+   "nct_found": 2
+  },
+  {
+   "reference_id": "R-022",
+   "in_scope": true,
+   "names": [
+    "CART123",
+    "CART-123 (Penn)",
+    "anti-CD123 lentivirally redirected autologous T cells"
+   ],
+   "candidates": [
+    {
+     "name": "CART123",
+     "route": "LOW_SUPPORT",
+     "targets": [],
+     "modality": "CAR_T",
+     "authority_modality": null,
+     "trials": 4,
+     "qualification": null
+    }
+   ],
+   "ref_trials": 4,
+   "ref_nct": 4,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-023",
+   "in_scope": true,
+   "names": [
+    "CATCHAML CD123-CAR T",
+    "CD123-CAR T cells (St. Jude)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-024",
+   "in_scope": true,
+   "names": [
+    "UniCAR02-T-CD123",
+    "UniCAR02-T plus TM123",
+    "TM123"
+   ],
+   "candidates": [
+    {
+     "name": "TM123",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": null,
+     "authority_modality": null,
+     "trials": 3,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 2,
+   "nct_found": 2
+  },
+  {
+   "reference_id": "R-025",
+   "in_scope": true,
+   "names": [
+    "Allo-RevCAR01-T-CD123",
+    "Allo-RevCAR01-T plus R-TM123",
+    "R-TM123",
+    "AVC-101"
+   ],
+   "candidates": [],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-026",
+   "in_scope": true,
+   "names": [
+    "SPRX002",
+    "ACLX-002",
+    "ARC-SparX CD123 program (SPRX002 + ARC-T cells)"
+   ],
+   "candidates": [
+    {
+     "name": "SPRX002",
+     "route": "ELIGIBLE",
+     "targets": [],
+     "modality": null,
+     "authority_modality": null,
+     "trials": 2,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 2,
+   "nct_found": 2
+  },
+  {
+   "reference_id": "R-027",
+   "in_scope": true,
+   "names": [
+    "IM23",
+    "IM23CAR-T",
+    "anti-CD123 CAR-T (Immunochina)"
+   ],
+   "candidates": [
+    {
+     "name": "IM23",
+     "route": "ELIGIBLE",
+     "targets": [],
+     "modality": "GENE_THERAPY",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-028",
+   "in_scope": true,
+   "names": [
+    "CD123-CD33 cCAR",
+    "compound CAR CD123-CD33 (iCell Gene Therapeutics)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-029",
+   "in_scope": true,
+   "names": [
+    "CD123/CLL1 CAR-T (STPHI_0001)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-030",
+   "in_scope": true,
+   "names": [
+    "anti-CD123 CAR-T (Chongqing Precision Biotech)",
+    "CD123 CAR-T cells (Chongqing)"
+   ],
+   "candidates": [],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-031",
+   "in_scope": true,
+   "names": [
+    "CD123-targeted CAR-NK cells (Chongqing Precision Biotech)",
+    "anti-CD123 CAR NK cells"
+   ],
+   "candidates": [
+    {
+     "name": "Anti-CD123 CAR NK cells",
+     "route": "LOW_SUPPORT",
+     "targets": [],
+     "modality": "CELL_THERAPY",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": null
+    }
+   ],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-032",
+   "in_scope": true,
+   "names": [
+    "JD123",
+    "JD123 injection",
+    "off-the-shelf CD123 CAR-NK"
+   ],
+   "candidates": [
+    {
+     "name": "JD123",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "CELL_THERAPY",
+     "authority_modality": "CELL_THERAPY",
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-033",
+   "in_scope": true,
+   "names": [
+    "allogeneic CD123-CAR-NK cells (Academy of Military Medical Sciences)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-034",
+   "in_scope": true,
+   "names": [
+    "donor-derived anti-CD123 CAR-T (CD123CAR-41BB-CD3zeta-EGFRt)",
+    "CART-123 (Chinese Academy of Military Medical Sciences)"
+   ],
+   "candidates": [],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-035",
+   "in_scope": true,
+   "names": [
+    "third-generation anti-CD123 CAR-T (Union Hospital, Tongji)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-036",
+   "in_scope": true,
+   "names": [
+    "anti-CD123 CAR-T (Senlang)",
+    "CD123 CAR-T cells (Hebei Senlang Biotechnology)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-037",
+   "in_scope": true,
+   "names": [
+    "anti-CD123 CAR-T (Southwest Hospital China)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-038",
+   "in_scope": true,
+   "names": [
+    "anti-CD123 CAR-T (Second Affiliated Hospital of Xi'an Jiaotong University)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-039",
+   "in_scope": true,
+   "names": [
+    "4SCAR123",
+    "4SCAR-CD123 (Geno-Immune multi-CAR platform)"
+   ],
+   "candidates": [],
+   "ref_trials": 6,
+   "ref_nct": 6,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-040",
+   "in_scope": true,
+   "names": [
+    "anti-TIM-3/CD123 CAR-T"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-041",
+   "in_scope": true,
+   "names": [
+    "CD123/CD33 CAR-T (Essen Biotech sequential CAR-T)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-042",
+   "in_scope": true,
+   "names": [
+    "CARCIK CD123/33",
+    "CARCIK-CD123/CD33 cytokine-induced killer cells"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-043",
+   "in_scope": true,
+   "names": [
+    "CD33/CD123/CLL-1 CAR-T (Tongji Hospital)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-044",
+   "in_scope": true,
+   "names": [
+    "CD123+CLL-1 dual-target CAR-T (Institute of Hematology & Blood Diseases Hospital)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-045",
+   "in_scope": true,
+   "names": [
+    "CD33/CD123 dual-target CAR-T module (Beijing Biotech adaptive platform)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-046",
+   "in_scope": true,
+   "names": [
+    "IL3-zetakine CAR-T",
+    "IL3 CAR T-cells (Zhejiang University)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-047",
+   "in_scope": true,
+   "names": [
+    "CD123-CD16 bispecific antibody-modified NK cells (BiKE-NK)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-048",
+   "in_scope": true,
+   "names": [
+    "CART123 (Institute of Hematology and Blood Transfusion, Prague)",
+    "autologous CAR123 T lymphocytes"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-049",
+   "in_scope": true,
+   "names": [
+    "multi-target CAR-T including CD123-CART (Zhujiang Hospital)"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-050",
+   "in_scope": true,
+   "names": [
+    "CLL1/CD33/CD123 CAR-T (Guangzhou Bio-gene Technology)"
+   ],
+   "candidates": [],
+   "ref_trials": 2,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-001",
+   "in_scope": false,
+   "names": [
+    "gemtuzumab ozogamicin",
+    "CMA-676",
+    "Mylotarg"
+   ],
+   "candidates": [
+    {
+     "name": "gemtuzumab ozogamicin",
+     "route": "EXCLUDED",
+     "targets": [],
+     "modality": "ANTIBODY_DRUG_CONJUGATE",
+     "authority_modality": "ANTIBODY_DRUG_CONJUGATE",
+     "trials": 81,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-002",
+   "in_scope": false,
+   "names": [
+    "tepotamig",
+    "JNJ-67571244"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-003",
+   "in_scope": false,
+   "names": [
+    "tamibarotene",
+    "SY-1425"
+   ],
+   "candidates": [
+    {
+     "name": "tamibarotene",
+     "route": "EXCLUDED",
+     "targets": [],
+     "modality": null,
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-004",
+   "in_scope": false,
+   "names": [
+    "magrolimab",
+    "Hu5F9-G4",
+    "5F9"
+   ],
+   "candidates": [
+    {
+     "name": "magrolimab",
+     "route": "EXCLUDED",
+     "targets": [],
+     "modality": "MONOCLONAL_ANTIBODY",
+     "authority_modality": "ANTIBODY",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-005",
+   "in_scope": false,
+   "names": [
+    "tegavivint",
+    "BC-2059"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-006",
+   "in_scope": false,
+   "names": [
+    "benralizumab",
+    "MEDI-563",
+    "Fasenra"
+   ],
+   "candidates": [
+    {
+     "name": "benralizumab",
+     "route": "EXCLUDED",
+     "targets": [],
+     "modality": null,
+     "authority_modality": "ANTIBODY",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-007",
+   "in_scope": false,
+   "names": [
+    "mavrilimumab",
+    "CAM-3001"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-008",
+   "in_scope": false,
+   "names": [
+    "tandem CLL-1/CD33 CAR-T",
+    "CLL1-CD33 cCAR"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-009",
+   "in_scope": false,
+   "names": [
+    "89Zr-labelled anti-CD123 antibody (preclinical immuno-PET imaging tracer)"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-010",
+   "in_scope": false,
+   "names": [
+    "211At-labelled anti-CD123 antibody radioimmunotherapy (Fred Hutchinson preclinical program)"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  }
+ ]
+}

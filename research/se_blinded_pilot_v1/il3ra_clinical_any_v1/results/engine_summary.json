@@ -1,0 +1,213 @@
+{
+  "run_id": "se:56d01728-11fc-4f38-9cd5-bd599331a106",
+  "problem_id": "nlq_430627b154e81d8e",
+  "query": null,
+  "interpretation": [],
+  "run_status": "INCOMPLETE",
+  "convergence_mode": "LIVE",
+  "convergence_meaning": "LIVE: the seed queries were re-issued to the live sources and produced no new candidates. No local-fixpoint or cache-served mode exists; if one is added it must report its own mode and must not be scored as live convergence.",
+  "incomplete_reasons": [
+    "mandatory source failures: clinicaltrials_gov (1 queries failed)",
+    "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_aacr, conference_asco, conference_ash, conference_eha, sec_edgar"
+  ],
+  "fatal_reasons": [
+    "mandatory source failures: clinicaltrials_gov (1 queries failed)"
+  ],
+  "elapsed_seconds": 187.4,
+  "stages": [
+    {
+      "name": "DISCOVERY",
+      "seconds": 114.2
+    },
+    {
+      "name": "ACQUISITION",
+      "seconds": 0.1
+    },
+    {
+      "name": "IDENTITY",
+      "seconds": 0.3
+    },
+    {
+      "name": "EXTRACTION",
+      "seconds": 40.3
+    },
+    {
+      "name": "CONSTRUCT_TARGETS",
+      "seconds": 0.0
+    },
+    {
+      "name": "NCIT_TARGETS",
+      "seconds": 0.1
+    },
+    {
+      "name": "TARGET_COMPATIBILITY",
+      "seconds": 0.0
+    },
+    {
+      "name": "LEXICON",
+      "seconds": 0.2
+    },
+    {
+      "name": "HUMAN_POC",
+      "seconds": 31.1
+    },
+    {
+      "name": "GATING",
+      "seconds": 0.0
+    },
+    {
+      "name": "SCORING",
+      "seconds": 0.0
+    }
+  ],
+  "exit_code": 3,
+  "counts": {
+    "total_candidates": 442,
+    "eligible": 25,
+    "review": 49,
+    "excluded": 149,
+    "low_support": 219,
+    "shown": 10
+  },
+  "blind_spots": [
+    "mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_aacr' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown"
+  ],
+  "sources": [
+    {
+      "family": "clinicaltrials_gov",
+      "outcome": "PARTIAL",
+      "queries": 46
+    },
+    {
+      "family": "company_pipeline_or_presentation",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "company_press_release",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_aacr",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_asco",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_ash",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_eha",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "pubmed",
+      "outcome": "SUCCESS",
+      "queries": 46
+    },
+    {
+      "family": "sec_edgar",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    }
+  ],
+  "top": [
+    {
+      "position": 1,
+      "name": "Pivekimab Sunirine",
+      "asset_id": "asset:93fae09ba831a1f89a71",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 2,
+      "name": "Talacotuzumab",
+      "asset_id": "asset:cd20fe2d5daad0d9fb33",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 3,
+      "name": "CD123/CLL1 CAR-T Cells",
+      "asset_id": "asset:3b2478dd351bbea757aa",
+      "section": "eligible",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 4,
+      "name": "MB-102",
+      "asset_id": "asset:e583fcb359d8be627096",
+      "section": "eligible",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 5,
+      "name": "MGD006",
+      "asset_id": "asset:344f94c0850cec9d18e3",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 6,
+      "name": "Tagraxofusp-erzs",
+      "asset_id": "asset:2cf9224d8a57e4b22593",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 7,
+      "name": "anti Tim-3/CD123 CAR-T cell therapy",
+      "asset_id": "asset:61c287bee0419933885c",
+      "section": "eligible",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 8,
+      "name": "Anti-CD123-CAR-transduced T cells",
+      "asset_id": "asset:31d501cc2d53d13d76da",
+      "section": "eligible",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 9,
+      "name": "Autologous CD33/CD123 dual-target CAR-T module",
+      "asset_id": "asset:1cd8da8addc2db40770e",
+      "section": "eligible",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 10,
+      "name": "CD33/CD123/CLL-1 CAR-T Cells",
+      "asset_id": "asset:7c938d902839f55665e6",
+      "section": "eligible",
+      "target_status": "UNRESOLVED"
+    }
+  ],
+  "artifacts": {
+    "result": "result.json",
+    "shortlist": "shortlist.txt",
+    "shortlist_json": "shortlist.json",
+    "memo": "memo.md",
+    "run_manifest": "run_manifest.json",
+    "acquisition_ledger": "acquisition_ledger.jsonl",
+    "log": "logs/run.log",
+    "custody": "custody",
+    "reproduce": "reproduce.sh",
+    "invocation": "invocation.json"
+  },
+  "artifact_root": "/home/djmann/se_runs/il3ra_pilot_v1/run"
+}

@@ -1,0 +1,212 @@
+S&E shortlist for nlq_430627b154e81d8e (run se:56d01728-11fc-4f38-9cd5-bd599331a106, as of 2026-10-25)
+ordering: declared_lexicographic_v1
+
+!! UNSCOREABLE: this run lost a source it depends on, so the assets below are drawn from an incomplete corpus and the absences mean nothing.
+   - mandatory source failures: clinicaltrials_gov (1 queries failed)
+Sources (run status INCOMPLETE):
+   clinicaltrials_gov: PARTIAL (46 queries, 595 found, 235 new, 1 retried)
+      error: 400 Client Error: Bad Request for url: https://clinicaltrials.gov/api/v2/studies?pageSize=250&query.intr=%28%22MP0533+%28multispecific+DARPin+CD3+Engager+Targeting+CD33%2C+CD123+and+CD70%29+monotherapy%2C+Part+2-Arm+A%22%29
+   company_pipeline_or_presentation: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   company_press_release: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_aacr: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_asco: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_ash: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_eha: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   pubmed: SUCCESS (46 queries, 2647 found, 1104 new, 8 retried)
+   sec_edgar: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+Documents by publisher: ClinicalTrials.gov 293, NCI Thesaurus 1, PubMed 305, chembl 1, drug_target_authority 1, open_targets 1
+Known blind spots: mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_aacr' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown
+
+1. Pivekimab Sunirine
+   Company: Fred Hutchinson Cancer Center, AbbVie, Children's Oncology Group
+   Modality: unresolved  -- no modality was read from the surrounding text
+   Authority modality: ANTIBODY_DRUG_CONJUGATE  -- ChEMBL_37 molecule type of DRUG:PIVEKIMAB SUNIRINE (CHEMBL4297991: Antibody drug conjugate)
+   Phase: PHASE_3  -- highest of 6 cited trial records
+   Trial registry status: ACTIVE_NOT_RECRUITING, RECRUITING, WITHDRAWN  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: CONFIRMED_TARGET TARGET:IL3RA
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:8681237d067330abcd29.
+   Review: Citation does not entail material claim claim:3d093a8f1a8569164e06.
+   Review: Citation does not entail material claim claim:8a8f90f11515ac827a1a.
+   ... and 9 more review items (--detail)
+   Why: found while searching IL3RA; named in 26 source documents
+   Why: target TARGET:IL3RA is CONFIRMED_TARGET, from 3 authority records (chembl, open_targets)
+   Why: 26 source documents: ClinicalTrials.gov, PubMed
+   Evidence: ClinicalTrials.gov NCT06034470, ClinicalTrials.gov NCT03386513, ClinicalTrials.gov NCT04086264, ClinicalTrials.gov NCT05320380, PubMed PMID:42696094, PubMed PMID:42612729, ... and 34 more
+
+2. Talacotuzumab
+   Company: Janssen Research & Development, LLC, CSL Limited, GWT-TUD GmbH
+   Modality: MONOCLONAL_ANTIBODY  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: ANTIBODY  -- ChEMBL_37 molecule type of DRUG:TALACOTUZUMAB (CHEMBL4297837: Antibody)
+   Phase: PHASE_3  -- highest of 5 cited trial records
+   Trial registry status: COMPLETED, TERMINATED, WITHDRAWN  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: CONFIRMED_TARGET TARGET:IL3RA
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:20b259c18a19f9d92e70.
+   Review: Citation does not entail material claim claim:00ae187c6f37efd5ee5b.
+   Review: Citation does not entail material claim claim:753f67f4dcacb3c2b3d1.
+   ... and 6 more review items (--detail)
+   Why: found while searching IL3RA; named in 21 source documents
+   Why: target TARGET:IL3RA is CONFIRMED_TARGET, from 3 authority records (chembl, open_targets)
+   Why: 21 source documents: ClinicalTrials.gov, PubMed
+   Evidence: ClinicalTrials.gov NCT02472145, PubMed PMID:34521609, PubMed PMID:32203138, PubMed PMID:31796915, ClinicalTrials.gov NCT01632852, PubMed PMID:37456846, ... and 27 more
+
+3. CD123/CLL1 CAR-T Cells
+   Company: Fujian Medical University
+   Modality: CAR_T  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: PHASE_3  -- highest of 1 cited trial records
+   Trial registry status: UNKNOWN  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:e854f7b8850d689b06c3.
+   Review: Citation does not entail material claim claim:f3f9175b1f1d68dcebb9.
+   Why: found while searching IL3RA; named in 1 source documents
+   Why: target TARGET:IL3RA is UNRESOLVED, with no authority record backing it
+   Why: 1 source documents: ClinicalTrials.gov
+   Evidence: ClinicalTrials.gov NCT03631576, ClinicalTrials.gov NCT03631576, ClinicalTrials.gov NCT03631576
+
+4. MB-102
+   Company: Mustang Bio, MediBeacon, Hangzhou Zhongmei Huadong Pharmaceutical Co., Ltd.
+   Modality: unresolved  -- no modality was read from the surrounding text
+   Authority modality: SMALL_MOLECULE  -- ChEMBL_37 molecule type of DRUG:RELMAPIRAZIN (CHEMBL1949708: Small molecule)
+   Phase: PHASE_3  -- highest of 7 cited trial records
+   Trial registry status: COMPLETED, RECRUITING, TERMINATED  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:5ea06cdd861bc6ebeb03.
+   Review: Citation does not entail material claim claim:91b08ad22d639cf14487.
+   Review: Citation does not entail material claim claim:c2433facde9670ba0593.
+   ... and 7 more review items (--detail)
+   Why: found while searching IL3RA; named in 22 source documents
+   Why: target TARGET:IL3RA is UNRESOLVED, with no authority record backing it
+   Why: 22 source documents: ClinicalTrials.gov, PubMed
+   Evidence: ClinicalTrials.gov NCT04109482, PubMed PMID:41431442, ClinicalTrials.gov NCT05777174, ClinicalTrials.gov NCT02772276, ClinicalTrials.gov NCT05425719, ClinicalTrials.gov NCT05943977, ... and 32 more
+
+5. MGD006
+   Company: City of Hope Medical Center, Children's Oncology Group, Sidney Kimmel Comprehensive Cancer Center at Johns Hopkins, MacroGenics, Washington University School of Medicine, Stichting Hemato-Oncologie voor Volwassenen Nederland
+   Modality: BISPECIFIC_ANTIBODY  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: ANTIBODY  -- ChEMBL_37 molecule type of DRUG:FLOTETUZUMAB (CHEMBL3990038: Antibody)
+   Phase: PHASE_2  -- highest of 7 cited trial records
+   Trial registry status: ACTIVE_NOT_RECRUITING, COMPLETED, NO_LONGER_AVAILABLE, TERMINATED, WITHDRAWN  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: CONFIRMED_TARGET TARGET:IL3RA
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:636753f5884658f92dbe.
+   Review: Citation does not entail material claim claim:ac430ee74b9b0ba8bb00.
+   Review: Citation does not entail material claim claim:86341ec8001b3f717902.
+   ... and 12 more review items (--detail)
+   Why: found while searching IL3RA; named in 27 source documents
+   Why: target TARGET:IL3RA is CONFIRMED_TARGET, from 3 authority records (chembl, open_targets)
+   Why: 27 source documents: ClinicalTrials.gov, PubMed
+   Evidence: ClinicalTrials.gov NCT03739606, ClinicalTrials.gov NCT04158739, ClinicalTrials.gov NCT05506956, ClinicalTrials.gov NCT04678466, ClinicalTrials.gov NCT02152956, ClinicalTrials.gov NCT04681105, ... and 39 more
+
+6. Tagraxofusp-erzs
+   Company: M.D. Anderson Cancer Center, French Innovative Leukemia Organisation, Gruppo Italiano Malattie EMatologiche dell'Adulto, Stemline Therapeutics, Inc., Jacqueline Garcia, MD, Jonsson Comprehensive Cancer Center, City of Hope Medical Center, University of Kansas Medical Center, Karen Ballen, MD, Stanford University, Joshua Zeidner, Therapeutic Advances in Childhood Leukemia Consortium, Dana-Farber Cancer Institute, University of Texas Southwestern Medical Center
+   Modality: CELL_THERAPY  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: PROTEIN  -- ChEMBL_37 molecule type of DRUG:TAGRAXOFUSP (CHEMBL4297573: Protein)
+   Phase: PHASE_2  -- highest of 21 cited trial records
+   Trial registry status: ACTIVE_NOT_RECRUITING, COMPLETED, RECRUITING, TERMINATED, WITHDRAWN  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: CONFIRMED_TARGET TARGET:IL3RA
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:1f759e020144d76a5b98.
+   Review: Citation does not entail material claim claim:e7c8d8e80ce0837336fe.
+   Review: Citation does not entail material claim claim:9bd7453e1e33a03fda12.
+   ... and 33 more review items (--detail)
+   Why: found while searching IL3RA; named in 42 source documents
+   Why: target TARGET:IL3RA is CONFIRMED_TARGET, from 5 authority records (chembl, open_targets)
+   Why: 42 source documents: ClinicalTrials.gov, PubMed
+   Evidence: ClinicalTrials.gov NCT05032183, ClinicalTrials.gov NCT07007052, ClinicalTrials.gov NCT04317781, ClinicalTrials.gov NCT04342962, ClinicalTrials.gov NCT02661022, ClinicalTrials.gov NCT05038592, ... and 84 more
+
+7. anti Tim-3/CD123 CAR-T cell therapy
+   Company: Xuzhou Medical University
+   Modality: CAR_T  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: PHASE_2  -- highest of 1 cited trial records
+   Trial registry status: RECRUITING  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:cfecec03842ff8e59711.
+   Review: Citation does not entail material claim claim:c29682033b275daa10d2.
+   Why: found while searching IL3RA; named in 1 source documents
+   Why: target TARGET:IL3RA is UNRESOLVED, with no authority record backing it
+   Why: 1 source documents: ClinicalTrials.gov
+   Evidence: ClinicalTrials.gov NCT06125652, ClinicalTrials.gov NCT06125652, ClinicalTrials.gov NCT06125652
+
+8. Anti-CD123-CAR-transduced T cells
+   Company: Southwest Hospital, China
+   Modality: CAR_T  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: PHASE_2  -- highest of 1 cited trial records
+   Trial registry status: UNKNOWN  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:4b73c3aef561e6a208ea.
+   Review: Citation does not entail material claim claim:c4c8dc2dbb5d97031165.
+   Why: found while searching IL3RA; named in 1 source documents
+   Why: target TARGET:IL3RA is UNRESOLVED, with no authority record backing it
+   Why: 1 source documents: ClinicalTrials.gov
+   Evidence: ClinicalTrials.gov NCT02937103, ClinicalTrials.gov NCT02937103, ClinicalTrials.gov NCT02937103
+
+9. Autologous CD33/CD123 dual-target CAR-T module
+   Company: Beijing Biotech
+   Modality: CAR_T  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: PHASE_2  -- highest of 1 cited trial records
+   Trial registry status: RECRUITING  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:3b164d4c3f08d752f8b3.
+   Review: Citation does not entail material claim claim:3a7236c4e3482b998a77.
+   Why: found while searching IL3RA; named in 1 source documents
+   Why: target TARGET:IL3RA is UNRESOLVED, with no authority record backing it
+   Why: 1 source documents: ClinicalTrials.gov
+   Evidence: ClinicalTrials.gov NCT07523555, ClinicalTrials.gov NCT07523555, ClinicalTrials.gov NCT07523555
+
+10. CD33/CD123/CLL-1 CAR-T Cells
+   Company: Tongji Hospital
+   Modality: CAR_T  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: PHASE_2  -- highest of 1 cited trial records
+   Trial registry status: NOT_YET_RECRUITING  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:e224158668d0bac5cdf1.
+   Review: Citation does not entail material claim claim:8dcb87987fdb7fb0c6e8.
+   Why: found while searching IL3RA; named in 1 source documents
+   Why: target TARGET:IL3RA is UNRESOLVED, with no authority record backing it
+   Why: 1 source documents: ClinicalTrials.gov
+   Evidence: ClinicalTrials.gov NCT06917105, ClinicalTrials.gov NCT06917105, ClinicalTrials.gov NCT06917105
+
+Held back as low-support (219 total, 10 shown):
+   - CART123 (UNRESOLVED)
+   - CD123 CAR-T cells (UNRESOLVED)
+   - CD123 targeted CAR-NK cells (UNRESOLVED)
+   - Anti-CD123 CAR NK cells (UNRESOLVED)
+   - CAR123 (UNRESOLVED)
+   - CART123 cells; cyclophosphamide; fludarabine (UNRESOLVED)
+   - CD123-CAR T (UNRESOLVED)
+   - CD123-CAR-NK cells (UNRESOLVED)
+   - IL3 CAR T-cells (UNRESOLVED)
+   - MP0533 (multispecific DARPin CD3 Engager Targeting CD33, CD123 and CD70) + azacitidine + venetoclax (UNRESOLVED)
+
+Excluded because (149 total, 10 shown):
+   - 4SCAR-CD22/CD123/CD38/CD10/CD20/TSLPR: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - ABT-869: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Acadesine: target.expression FAIL: An authority positively establishes a different target entity, and no queried target is part of it.
+   - Agatolimod sodium: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Albiglutide: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Alemtuzumab: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Alogliptin benzoate: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - AMG-386: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Amrubicin hydrochloride: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - anetumab ravtansine: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+
+Counts: eligible 25, review 49, excluded 149, low_support 219, total_candidates 442, shown 10
+Note: Order is declared and lexicographic, not a score: eligibility, then human efficacy, maturity, target confidence and evidence completeness, then name. Source coverage never moves an asset.

@@ -1,0 +1,23 @@
+DISCOVERY: 99 queries | 648 records | 1339 hits | 114.2s
+  clinicaltrials_gov: 46 queries | 303 records | 595 candidates | 1 failed
+  company_pipeline_or_presentation: 1 queries | 0 records | 0 candidates | 1 failed
+  company_press_release: 1 queries | 0 records | 0 candidates | 1 failed
+  conference_aacr: 1 queries | 0 records | 0 candidates | 1 failed
+  conference_asco: 1 queries | 0 records | 0 candidates | 1 failed
+  conference_ash: 1 queries | 0 records | 0 candidates | 1 failed
+  conference_eha: 1 queries | 0 records | 0 candidates | 1 failed
+  pubmed: 46 queries | 345 records | 2647 candidates | 0 failed
+  sec_edgar: 1 queries | 0 records | 0 candidates | 1 failed
+ACQUISITION: 648 records | 648 snapshots | 109 attempts | 87 semantic queries | 0 orphans | 0.1s
+IDENTITY: 1339 hits | 442 assets | 0.3s
+EXTRACTION: 1339 documents | 3610 claims | 3610 facts | 0 errors | 40.3s
+CONSTRUCT_TARGETS: 442 candidates | 124 described | 0.0s
+NCIT_TARGETS: 6 linked | 1 filled | 0.1s
+TARGET_COMPATIBILITY: 35 recorded | 0.0s
+LEXICON: 602 documents | 36378 vocabulary | 0.2s
+HUMAN_POC: 442 candidates | 223 qualified | 2 supported | 0 outside requested area | 31.1s
+GATING: 442 candidates | 223 default path | 219 low support | 223 evaluated | 0.0s
+SCORING: 0 profiles | 25 eligible | 149 excluded | 49 unresolved | 0.0s
+ERROR: S&E acquisition FAILED; this run is UNSCOREABLE and was not promoted.
+  - mandatory source failures: clinicaltrials_gov (1 queries failed)
+  --allow-incomplete cannot waive a failed mandatory source.
