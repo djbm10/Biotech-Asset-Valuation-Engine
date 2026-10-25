@@ -17,6 +17,9 @@ import re
 
 ONCOLOGY = "ONCOLOGY"
 AUTOIMMUNE = "AUTOIMMUNE"
+#: Non-malignant digestive disease (gi_area_evidence_v1). GI cancers stay ONCOLOGY;
+#: Crohn's disease and ulcerative colitis stay AUTOIMMUNE.
+GASTROINTESTINAL = "GASTROINTESTINAL"
 
 #: The compiler's placeholder for "no area stated". It is the absence of a constraint,
 #: not an area, and no requirement is built from it.
@@ -59,6 +62,18 @@ _AREA_TERMS: dict[str, tuple[str, ...]] = {
         "vitiligo",
         "alopecia areata",
     ),
+    # Bare "colitis" (DSS model induction), "diarrhea"/"nausea" (oncology adverse events)
+    # and "bowel preparation" (a procedure) are deliberately absent.
+    GASTROINTESTINAL: (
+        "constipation",
+        "irritable bowel",
+        "gastroparesis",
+        "functional dyspepsia",
+        "gastroesophageal reflux",
+        "fecal incontinence",
+        "faecal incontinence",
+        "functional gastrointestinal",
+    ),
 }
 
 #: Areas the evidence layer can observe. A requested area outside this set can never be
@@ -69,6 +84,8 @@ _ALIASES = {
     "CANCER": ONCOLOGY,
     "AUTOIMMUNITY": AUTOIMMUNE,
     "AUTOIMMUNE_DISEASE": AUTOIMMUNE,
+    "GI": GASTROINTESTINAL,
+    "GASTROENTEROLOGY": GASTROINTESTINAL,
 }
 
 _SEPARATORS = re.compile(r"[\s\-]+")

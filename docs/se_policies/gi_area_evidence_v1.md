@@ -78,3 +78,49 @@ Measured by replaying the same sealed bytes (`~/se_runs/gucy2c_pilot_v1/run/cust
 
 Failing B1, B2, B4, B5, B6 or B7 rejects the change. A B3 miss is reported with the cause,
 and the lexicon is not tuned further against this reference.
+
+## Results against the frozen criteria (recorded after the replay)
+
+Replay `gi_v1_preC10`: pre-C10 code `94fefff` plus G1/G2, on the same sealed bytes. The
+current HEAD cannot replay this corpus at all. C10 changed the main query text, which is the
+custody key, so the main CT.gov query fails in replay and every trial asset drops out
+(replay `gi_v1`, 252 candidates, recorded and discarded).
+
+| | Result |
+|---|---|
+| B1 | **PASS**: 12/17 visible and 12/17 all; all 12 recovered names visible |
+| B2 | **PASS**: 0 control hits visible; linaclotide, plecanatide and dolcanatide EXCLUDED by `spec.exclude_gucy2c_agonists` |
+| B3 | **PASS**: 19 → 8 visible non-reference candidates. All 11 that left are EXCLUDED by `strategy.therapeutic_area` FAIL on entailed, GI-only area facts |
+| B4 | **FAIL as written.** No candidate with oncology evidence was excluded, but one reference asset changed route: TAK-264 went REVIEW → ELIGIBLE |
+| B5 | **PASS**: no target or modality value changed |
+| B6 | **PASS**: 279 candidates, 2 engine merges, 0 scorer merges, 1 split (R-005) |
+| B7 | **FAIL as written.** ELIGIBLE went 0 → 1 (TAK-264). `human_poc_present` facts stayed 0 → 0 |
+| B8 | **PASS**: 2:00 vs 2:09; 2.42 GB |
+
+## Amendment 1 (post-hoc, after the results; labelled as such)
+
+B4 and B7 fail for one reason. TAK-264 (indusatumab vedotin) had every declared gate PASS
+except `strategy.therapeutic_area`, which was UNKNOWN. That was not for lack of oncology
+evidence: its four CT.gov conditions ("Advanced Gastrointestinal Carcinoma", "Pancreatic
+Adenocarcinoma", "Advanced Gastrointestinal Malignancies", "Adenocarcinoma of the Stomach")
+contain no ONCOLOGY lexicon term. There is no `carcinoma`, and `malignancy` does not match
+"malignancies". G2 adds entailed ONCOLOGY facts from its PubMed abstracts, so the area gate
+PASSes and the asset becomes ELIGIBLE under the problem's declared gates:
+- identity;
+- construct target GUCY2C (CONFIRMED by two authorities);
+- authority action BINDING AGENT (not an agonist);
+- area;
+- minimum stage.
+
+B4 and B7 were written to stop promotion *without required evidence*. This promotion has
+it, so the change is adopted with this amendment. It is recorded here because it was
+decided after seeing the result. Reverting G2 restores B4/B7 exactly as written.
+
+Mitigation shipped in the same change: the shortlist now prints a `Status:` line beside the
+phase, with every registry status of the cited trials. TAK-264 reads `COMPLETED,
+TERMINATED`, so an ELIGIBLE disposition cannot be mistaken for an active programme. The
+problem has no activity gate; whether it should is the buyer's decision.
+
+Not fixed and logged: the ONCOLOGY lexicon's `carcinoma`/`malignancies` gap
+(`ta_gate_semantics.md` froze that list, so changing it is a separate declared change).
+Also, `Phase:` shows the first trial record's stage (PHASE_2), not the highest (PHASE_3).

@@ -430,6 +430,42 @@ def _phase_fact(asset: CanonicalAsset, index: _Index) -> DisplayedFact:
     )
 
 
+def _status_fact(asset: CanonicalAsset, index: _Index) -> tuple[DisplayedFact, ...]:
+    """Every registry status the candidate's cited trial records state, beside the phase.
+
+    A gate pass says nothing about whether the programme is still running: an ELIGIBLE
+    asset whose every trial is terminated must say so where the analyst reads the phase.
+    """
+
+    claims = [
+        claim
+        for claim in index.claims_by_subject.get(asset.asset_id, ())
+        if claim.predicate == "development_status" and claim.source_document_id in index.documents
+    ]
+    if not claims:
+        return ()
+    statuses = sorted({str(claim.normalized_value) for claim in claims})
+    return (
+        DisplayedFact(
+            label="Status",
+            evidence_type=SourceEvidenceType.DEVELOPMENT_STAGE_EVIDENCE,
+            value=", ".join(statuses),
+            origin=EvidenceOrigin.SOURCE_DOCUMENT,
+            citations=tuple(
+                index.document_citation(
+                    index.documents[claim.source_document_id],
+                    SourceEvidenceType.DEVELOPMENT_STAGE_EVIDENCE,
+                    span=claim.supporting_passage,
+                    structured_field=claim.predicate,
+                    locator=claim.locator,
+                )
+                for claim in claims
+            ),
+            note="registry status of each cited trial record, not a programme status",
+        ),
+    )
+
+
 def _target_fact(asset: CanonicalAsset) -> DisplayedFact:
     assertion = asset.target_assertions[0] if asset.target_assertions else None
     if assertion is None:
@@ -534,6 +570,7 @@ def _entry(
         _modality_fact(asset),
         _authority_modality_fact(asset),
         _phase_fact(asset, index),
+        *_status_fact(asset, index),
         _target_fact(asset),
     )
     citations: dict[tuple, Citation] = {}

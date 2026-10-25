@@ -1,0 +1,208 @@
+{
+ "B1_recovered_not_visible": [],
+ "B6_total_candidates": [
+  279,
+  279
+ ],
+ "B6_engine_merges": [
+  2,
+  2
+ ],
+ "B3_left_view": [
+  {
+   "name": "fluorescein",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "isothiocyanate",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "vehicle",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "sennosides",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "creatinine",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "rifaximin",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "Magnesium oxide",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "lactulose",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "bisacodyl",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "sodium picosulfate",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  },
+  {
+   "name": "senna",
+   "route": "EXCLUDED",
+   "ta_gate": "FAIL",
+   "areas": [
+    "GASTROINTESTINAL"
+   ],
+   "all_claims_entailed": true
+  }
+ ],
+ "B3_ok": true,
+ "B4_oncology_evidence_excluded": [],
+ "route_changes": [
+  [
+   "Magnesium oxide",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "TAK-264",
+   "REVIEW",
+   "ELIGIBLE"
+  ],
+  [
+   "bisacodyl",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "creatinine",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "fluorescein",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "isothiocyanate",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "lactulose",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "rifaximin",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "senna",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "sennosides",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "sodium picosulfate",
+   "REVIEW",
+   "EXCLUDED"
+  ],
+  [
+   "vehicle",
+   "REVIEW",
+   "EXCLUDED"
+  ]
+ ],
+ "B2_agonists": {
+  "plecanatide": [
+   "EXCLUDED",
+   [
+    "spec.exclude_gucy2c_agonists"
+   ]
+  ],
+  "linaclotide": [
+   "EXCLUDED",
+   [
+    "spec.exclude_gucy2c_agonists"
+   ]
+  ],
+  "dolcanatide": [
+   "EXCLUDED",
+   [
+    "spec.exclude_gucy2c_agonists"
+   ]
+  ]
+ },
+ "B5_target_or_modality_changes": [],
+ "B7_eligible": [
+  0,
+  1
+ ],
+ "B7_eligible_names": [
+  "TAK-264"
+ ],
+ "B7_human_poc_present_facts": [
+  0,
+  0
+ ]
+}
