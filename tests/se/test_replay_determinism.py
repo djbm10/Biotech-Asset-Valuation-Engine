@@ -80,8 +80,10 @@ DOCUMENTS = [
         "document_id": "doc:pr:1",
         "title": "Example Bio reports data for CLN-978",
         "text": (
-            "Of 26 evaluable patients treated with CLN-978, 18 of 26 achieved a complete "
-            "response. CLN-978 is a CD19-directed T-cell engager in Phase 1."
+            # Names its disease: since gucy2c_pilot_remediation_v1 C9 an efficacy sentence
+            # supports human PoC for an oncology question only from a document that does.
+            "Of 26 evaluable patients with B-cell lymphoma treated with CLN-978, 18 of 26 "
+            "achieved a complete response. CLN-978 is a CD19-directed T-cell engager in Phase 1."
         ),
         "url": "https://example-bio.test/1",
         "publication_date": "2026-04-01",

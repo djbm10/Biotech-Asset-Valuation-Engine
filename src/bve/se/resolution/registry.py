@@ -120,7 +120,10 @@ _COFORMULATED_TYPES = frozenset({"COMBINATION_PRODUCT"})
 #: Structured intervention types that state the named thing is a drug. Exact and narrow on
 #: purpose: ``COMBINATION_PRODUCT`` is deliberately absent, because it is the type sponsors
 #: also give single agents, and ``BIOLOGICAL`` names a class of product, not a molecule.
-_STRUCTURED_DRUG_TYPES = frozenset({"DRUG"})
+#: gucy2c_pilot_remediation_v1 C11: CT.gov types cell, gene and vaccine products
+#: BIOLOGICAL. Every veto that precedes the structured route (class term, comparator, v6)
+#: still applies, which is what keeps "CAR-T cells" out while "LCAR-G08" qualifies.
+_STRUCTURED_DRUG_TYPES = frozenset({"DRUG", "BIOLOGICAL"})
 
 
 class AssetRegistry:
@@ -268,7 +271,7 @@ class AssetRegistry:
         existing = self.assets.get(asset_id)
         aliases = [value for value in [hit.asset_name, *merged_aliases] if value]
         # The source's own structured classification of what this intervention is. Only an
-        # explicit DRUG counts: ``COMBINATION_PRODUCT``, ``BEHAVIORAL``, ``OTHER`` and the
+        # explicit DRUG or BIOLOGICAL counts: ``COMBINATION_PRODUCT``, ``BEHAVIORAL``, ``OTHER`` and the
         # rest say nothing about whether the string names a molecule. It is recorded, not
         # acted on -- nomination routing reads it, identity does not.
         typed_drug = (hit.intervention_type or "").upper() in _STRUCTURED_DRUG_TYPES

@@ -67,6 +67,9 @@ class ConstructTargetEvidence(BaseModel):
     documents: list[SourceDocument] = Field(default_factory=list)
     claims: list[ExtractedClaim] = Field(default_factory=list)
     fact: NormalizedFact
+    #: ``target_action_type`` facts, one per distinct action type the same rows state, so
+    #: rows that disagree read as disagreeing facts (UNKNOWN), never as a blend.
+    action_facts: list[NormalizedFact] = Field(default_factory=list)
 
 
 def _id(prefix: str, *parts: str) -> str:
@@ -169,6 +172,40 @@ def attributed_targets_in(text: str) -> list[str]:
     does not satisfy.
     """
 
+    # gucy2c_pilot_remediation_v1 C7: a cue attributes within its own clause. "a tandem
+    # CAR, an IL-15 support element" names a payload, not a second binding arm.
+    found: set[str] = set()
+    for clause in _CLAUSE_BREAK.split(text):
+        found.update(_attributed_in_clause(clause))
+    return sorted(found)
+
+
+#: Punctuation that ends what an attributive cue can reach.
+_CLAUSE_BREAK = re.compile(r"[,;:()\[\]]")
+
+
+def _code_prefix_parts(token: str) -> int:
+    """How many leading parts of a hyphen compound are a product-code prefix (C7).
+
+    "EB-DUO-CAR-NK" starts with ``EB``, which resolves to nothing: the compound is a
+    product code, and ``DUO`` in it is part of a name, not KALRN. Parts before the first
+    cue are a prefix when any of them fails to resolve; "CD19-BCMA-CAR" has no such part.
+    """
+
+    parts = token.split("-")
+    prefix: list[str] = []
+    for part in parts:
+        if part.casefold() in _ATTRIBUTIVE_CUES:
+            break
+        prefix.append(part)
+    if len(prefix) < 2 or len(prefix) == len(parts):
+        return 0
+    if all(_resolve_symbol(part) for part in prefix if len(part) >= 2):
+        return 0
+    return len(prefix)
+
+
+def _attributed_in_clause(text: str) -> set[str]:
     tokens = re.split(r"[^A-Za-z0-9-]+", text)
     tokens = [token.strip("-") for token in tokens if token.strip("-")]
     cue_positions = [
@@ -178,7 +215,7 @@ def attributed_targets_in(text: str) -> list[str]:
         if part in _ATTRIBUTIVE_CUES
     ]
     if not cue_positions:
-        return []
+        return set()
     found: set[str] = set()
     for index, token in enumerate(tokens):
         if not any(abs(index - cue) <= _CUE_WINDOW for cue in cue_positions):
@@ -197,7 +234,10 @@ def attributed_targets_in(text: str) -> list[str]:
         if whole:
             found.add(whole)
             continue
-        for part in token.split("-"):
+        skip = _code_prefix_parts(token)
+        for position, part in enumerate(token.split("-")):
+            if position < skip:
+                continue
             if len(part) < 2 or part.casefold() in _ATTRIBUTIVE_CUES:
                 continue
             if not _SYMBOL_SHAPE.match(part):
@@ -205,7 +245,7 @@ def attributed_targets_in(text: str) -> list[str]:
             resolved = _resolve_symbol(part)
             if resolved:
                 found.add(resolved)
-    return sorted(found)
+    return found
 
 
 def _resolve_symbol(symbol: str) -> str | None:
@@ -407,6 +447,25 @@ def construct_target_evidence(
         supporting_claim_ids=[claim.claim_id for claim in claims],
         confidence=0.95,
     )
+    claim_by_hash = {
+        ref.evidence_hash: claim.claim_id
+        for ref, claim in zip([r for r in refs if r.canonical_target_id], claims, strict=True)
+    }
+    actions: dict[str, list[str]] = {}
+    for ref in refs:
+        if ref.action_type and ref.evidence_hash in claim_by_hash:
+            actions.setdefault(ref.action_type.upper(), []).append(claim_by_hash[ref.evidence_hash])
+    action_facts = [
+        NormalizedFact(
+            fact_id=_id("fact", asset.asset_id, "target_action_type", action),
+            subject_id=asset.asset_id,
+            fact_type="target_action_type",
+            value=action,
+            supporting_claim_ids=sorted(set(claim_ids)),
+            confidence=0.95,
+        )
+        for action, claim_ids in sorted(actions.items())
+    ]
     return ConstructTargetEvidence(
-        documents=list(documents.values()), claims=claims, fact=fact
+        documents=list(documents.values()), claims=claims, fact=fact, action_facts=action_facts
     )

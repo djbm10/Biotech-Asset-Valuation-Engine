@@ -188,6 +188,18 @@ class TargetEvidenceRef(StrictModel):
     evidence_hash: str = Field(min_length=1)
     canonical_target_id: str | None = None
     relationship_type: str = Field(min_length=1)
+    #: The authority row's own action type (AGONIST, INHIBITOR, BINDING AGENT ...), carried
+    #: so a question that excludes a mechanism direction has evidence to decide it on.
+    action_type: str | None = None
+
+    @model_serializer(mode="wrap")
+    def _omit_absent_action(self, handler):
+        # Absent stays absent in the dump, so every reference serialized before the field
+        # existed is byte-identical (frozen oracles and replay hashes compare dumps).
+        data = handler(self)
+        if self.action_type is None:
+            data.pop("action_type", None)
+        return data
 
 
 class CandidateTargetAssertion(StrictModel):
@@ -650,6 +662,20 @@ class StrategicGap(StrictModel):
     acceptable_deal_routes: list[str] = Field(default_factory=list)
     geographic_rights_requirements: list[BuyerRequirement] = Field(default_factory=list)
     missing_evidence_policy: MissingEvidencePolicy = MissingEvidencePolicy.REVIEW
+
+    @model_validator(mode="after")
+    def _reject_exploded_strings(self) -> StrategicGap:
+        # ``list("ONCOLOGY")`` is eight one-letter entries, each a valid ``str``. The gate
+        # then requires area IN [O, N, C, ...], which no evidence can ever satisfy, and the
+        # run still looks normal. No area or indication is one character long.
+        for field_name in ("therapeutic_areas", "indications"):
+            short = [v for v in getattr(self, field_name) if len(v.strip()) < 2]
+            if short:
+                raise ValueError(
+                    f"{field_name} has entries shorter than two characters {short!r}; a "
+                    "string was probably passed where a list of strings was expected"
+                )
+        return self
 
 
 class BuyerIdentity(StrictModel):

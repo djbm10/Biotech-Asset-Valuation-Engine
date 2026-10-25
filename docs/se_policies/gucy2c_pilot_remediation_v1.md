@@ -97,3 +97,47 @@ against the pilot's AI reference, labelled DEVELOPMENT.
 
 A criterion that fails is reported as failed. Recall gained by admitting large numbers
 of irrelevant candidates does not count as success (A5 guards it).
+
+## Amendment 1 (during implementation, before any replay of the changes)
+
+Spot-checking C2/C3 on the sealed records found a further recognition defect not in the
+frozen list: `QueryVocabulary.targets_in` matches target terms as substrings, so GUCY2C's
+`hstar` matched the study identifiers `NORTHSTAR003`, `northstar 02 001` and `hSTAR013`
+(NCT07747103, NCT05712421, NCT04431154, NCT02780492). **C3b:** a *query* vocabulary
+matches target terms shorter than six characters on word boundaries only (longer terms
+keep substring semantics: `hGUCY2C` in "Ad5.F35-hGUCY2C-PADRE" is GUCY2C, and a strict
+boundary lost it in the first spot-check); the whole-ontology indexing vocabulary is
+unchanged. Also in C3: a target whose sense the enclosing trial record has already
+established (a longer alias in the record) needs no second frame inside that record's own
+intervention text — without this, "EB-DUO-CAR-NK-CEA/GCC" lost its target in NCT07589517.
+C4's sole-occupant test ignores the C5 non-therapeutic intervention types. Acceptance
+criteria are unchanged.
+
+## Amendment 2 (after the first development replay, before acceptance is assessed)
+
+The first replay of C1–C9 left LCAR-G08, Ad5-hGCC-PADRE, Ad5.F35-hGUCY2C-PADRE (two
+spellings) and Lm-GUCY2C in LOW_SUPPORT although each is now correctly named. Cause: the
+structured-therapeutic route (`asset_qualification_tiered_evidence_v3`) accepts only
+intervention type `DRUG`; CT.gov types cell, gene and vaccine products `BIOLOGICAL`. In this
+corpus exactly 8 low-support candidates come from CT.gov records, all `BIOLOGICAL`: the 5
+named products above and 3 class labels ("CAR-T", "CAR-T cells", "gucy2c cart cells").
+**C11:** `BIOLOGICAL` counts as a structured therapeutic type. The class-term, comparator
+and v6 vetoes that precede the route are unchanged and keep the 3 class labels out. This
+modifies a v3 qualification decision; it is declared here and its cost outside this corpus
+is measured by the full regression suite before adoption. Acceptance criteria unchanged;
+the C11 effect is reported separately from C1–C9.
+
+## Test changes made by this remediation
+
+- `test_replay_determinism.py`: the synthetic press release for CLN-978 now names its
+  disease ("with B-cell lymphoma"). Under C9 a document naming no classified disease cannot
+  establish human PoC for an oncology question, so the fixture's only efficacy sentence
+  had moved to `human_efficacy_outside_requested_area` and the module's non-vacuity check
+  failed. This is the declared C9 cost: real sources that report a response without naming
+  the disease anywhere in the document lose the in-area human-PoC fact (kept as the
+  out-of-area fact). Loosening C9 to "withhold only when another classified area is named"
+  would readmit plecanatide, since constipation is not a classified area.
+- `test_study_identifier_boundary.py`: the stub vocabulary accepts the new `established`
+  keyword of `targets_in`.
+- `TargetEvidenceRef.action_type` is omitted from serialization when absent, so frozen
+  oracles (`test_target_reference_interface.py`) and pre-existing dumps are byte-identical.

@@ -104,7 +104,7 @@ class TestStructuredTrialIdentifiersNeverMintIdentity:
 class _StubVocabulary:
     """The boundary under test is identity, not vocabulary: this asserts neither."""
 
-    def targets_in(self, _text: str) -> set[str]:
+    def targets_in(self, _text: str, *, established=()) -> set[str]:
         return set()
 
     def modality_in(self, _text: str) -> str | None:

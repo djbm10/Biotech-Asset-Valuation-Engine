@@ -17,6 +17,7 @@ External analyst instructions: [`ANALYST_HANDOFF.md`](ANALYST_HANDOFF.md).
 | 3. Preregister | Analyst | `bve-se-pilot prereg --spec spec.json --criteria criteria.json --out prereg.json`. Commit and **push** all three files to the repo (`research/se_blinded_pilot_v1/<spec_id>/`), and email the commit SHA plus both hashes to a third party. |
 | 4. Build the answer key | Analyst, privately | `reference.json`, **kept outside the repo**. Can be done before or after step 5, but must never be shown to the engine operator before step 8. |
 | 5. Run discovery | Engine operator | Translates `spec.json` into an engine problem YAML by hand, then `bve-se-run --problem … --live` → `result.json` |
+| 5a. Check the translation | Engine operator | The problem must carry every spec constraint the engine can express. Areas and indications go in as lists, never as a bare string (pilot `gucy2c_oncology_v1` compiled `"ONCOLOGY"` into eight one-letter areas). Mechanism exclusions go in as `required_biology` requirements, for example `target_action_type NOT_IN [AGONIST]`. Record anything the engine cannot express in the run notes, so nobody assumes it was applied. |
 | 6. Export | Engine operator | `bve-se-pilot export --result result.json --spec-id … --engine-commit … --out candidates.json` |
 | 7. Seal | Engine operator | `bve-se-pilot seal --spec … --criteria … --candidates … --prereg … --out receipt.json` |
 | 8. Score | Analyst or evaluator | `bve-se-pilot score --receipt … --spec … --criteria … --candidates … --reference … --out report.json` |

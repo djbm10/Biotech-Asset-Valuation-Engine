@@ -64,6 +64,10 @@ def compile_intent(
     has been answered and the run proceeds.
     """
 
+    for label, value in (("therapeutic_areas", therapeutic_areas), ("indications", indications)):
+        # ``list(value)`` below would explode a bare string into its characters.
+        if isinstance(value, str):
+            raise TypeError(f"{label} must be a list of strings, not the string {value!r}")
     indication_supplied = bool(therapeutic_areas) or bool(indications)
     # A phrase the engine recognized as scientific and cannot enforce stops the run rather
     # than riding along unapplied: the user would otherwise read a shortlist believing their

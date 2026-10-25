@@ -232,6 +232,7 @@ def _evidence_ref(edge: DrugTargetEdge) -> TargetEvidenceRef:
         evidence_hash=edge.evidence_hash,
         canonical_target_id=edge.canonical_target_id,
         relationship_type=edge.relationship_type.value,
+        action_type=edge.action_type,
     )
 
 

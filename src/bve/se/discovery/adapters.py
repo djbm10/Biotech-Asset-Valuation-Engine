@@ -25,7 +25,7 @@ from bve.se.ontology.modality import (
     normalize_modality,
 )
 from bve.se.ontology.records import normalize_lookup_key
-from bve.se.discovery.alias_admission import searchable_target_aliases
+from bve.se.discovery.alias_admission import admitted_shared_aliases, searchable_target_aliases
 from bve.se.discovery.seeding import SeedProvenance
 from bve.se.ontology.targets import known_targets, target_aliases
 from bve.se.universe.provenance import describe_universe
@@ -281,6 +281,67 @@ def _extract_interventions(protocol: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
+#: C3 frame words: how a document says a short alias names the thing a product acts on.
+_TARGET_FRAME_WORDS = frozenset(
+    {
+        "targeting", "targeted", "directed", "specific", "positive", "expressing",
+        "expression", "protein", "antigen", "receptor", "car", "cart", "adc",
+        "bispecific", "anti", "against", "binding", "engager",
+    }
+)
+#: C3 applies to aliases of at most this many letters.
+_FRAME_REQUIRED_MAX_LETTERS = 3
+
+
+def _needs_target_frame(term: str, canonical: str) -> bool:
+    """A folded alias short and generic enough that it needs context (C3)."""
+
+    symbol = canonical.split(":", 1)[-1].casefold()
+    return (
+        term.isalpha()
+        and len(term) <= _FRAME_REQUIRED_MAX_LETTERS
+        and term != symbol
+    )
+
+
+#: Amendment 1: terms shorter than this must match as whole words. Longer ones keep
+#: substring semantics, which is how "hGUCY2C" (human GUCY2C) is still read as GUCY2C.
+_WORD_BOUNDED_BELOW = 6
+
+
+def _whole_word(term: str, lowered: str) -> bool:
+    if not term or term not in lowered:
+        return False
+    if len(term) >= _WORD_BOUNDED_BELOW:
+        return True
+    return re.search(rf"(?<![a-z0-9]){re.escape(term)}(?![a-z0-9])", lowered) is not None
+
+
+def _retrieval_aliases(canonical: str) -> tuple[str, ...]:
+    """What a registry is searched with for one target: never a refused shared alias (C2)."""
+
+    aliases = target_aliases(canonical) or (canonical,)
+    kept = tuple(alias for alias in aliases if not _claimed_by_another_target(alias, canonical))
+    return kept or (canonical,)
+
+
+def _claimed_by_another_target(alias: str, canonical: str) -> bool:
+    """True when the ontology says some other target also answers to ``alias`` (C2)."""
+
+    from bve.se.ontology.resolver import EntityType
+    from bve.se.ontology.targets import get_resolver
+
+    resolver = get_resolver()
+    if resolver is None:
+        return False
+    entity = resolver.get(canonical, EntityType.TARGET)
+    own = entity.canonical_id if entity else canonical
+    if alias in admitted_shared_aliases(own):
+        return False
+    claimants = resolver.claimants_of(alias, EntityType.TARGET)
+    return any(claimant != own for claimant in claimants)
+
+
 #: A query that names nothing, used to build the modality half of the indexing vocabulary.
 _EMPTY_QUERY = CompiledQuery(query_id="vocabulary", query="")
 
@@ -378,6 +439,14 @@ class QueryVocabulary:
     #: The subset of ``modalities`` the query actually asked for. Labelling scans every
     #: known modality, but eligibility may only be gated on what was requested.
     requested_modalities: frozenset[str] = frozenset()
+    #: ``(canonical, term)`` pairs that are target evidence only in a target frame (C3).
+    context_terms: frozenset[tuple[str, str]] = frozenset()
+    #: A follow-up query's lead names. Never target terms (C2): a lead says where to look,
+    #: not what a document is about.
+    lead_terms: tuple[str, ...] = ()
+    #: Amendment 1: a query vocabulary matches whole words only ("hstar" is not in
+    #: "northstar"). The whole-ontology indexing vocabulary keeps substring semantics.
+    word_bounded: bool = False
 
     @classmethod
     def for_query(cls, query: CompiledQuery) -> "QueryVocabulary":
@@ -402,8 +471,19 @@ class QueryVocabulary:
             # Query-supplied aliases are query-wide, not per-target, so they can only be
             # attributed to a specific target when the query names exactly one. With more
             # than one, attributing them to each would let an alias of A match B.
-            if len(query.target_ids) == 1:
-                terms.update(_fold(alias) for alias in query.aliases)
+            #
+            # gucy2c_pilot_remediation_v1 C2. Two exceptions, both of which turned the
+            # target vocabulary into something other than the target's names. A follow-up
+            # query's alias is the lead it is chasing, not a spelling of the target: adding
+            # it made every document mentioning "walking" GUCY2C-relevant. And a problem
+            # carries the full *recognition* alias set, so re-adding it here reinstated
+            # shared aliases (GUCY2C's "STAR") the frozen admission policy had refused.
+            if len(query.target_ids) == 1 and query.expansion_depth == 0:
+                terms.update(
+                    _fold(alias)
+                    for alias in query.aliases
+                    if not _claimed_by_another_target(alias, canonical)
+                )
             targets.append((canonical, tuple(sorted(terms))))
 
         requested = [normalize_modality(value) or value for value in query.modality_ids]
@@ -427,6 +507,19 @@ class QueryVocabulary:
             requested_modalities=frozenset(
                 canonical for canonical in requested if modality_aliases(canonical)
             ),
+            context_terms=frozenset(
+                (canonical, term)
+                for canonical, terms in targets
+                if not seeded
+                for term in terms
+                if _needs_target_frame(term, canonical)
+            ),
+            lead_terms=(
+                tuple(_fold(alias) for alias in query.aliases if alias)
+                if query.expansion_depth > 0
+                else ()
+            ),
+            word_bounded=True,
         )
 
     @staticmethod
@@ -452,7 +545,7 @@ class QueryVocabulary:
             targets=targets, modalities=QueryVocabulary.for_query(_EMPTY_QUERY).modalities
         )
 
-    def targets_in(self, text: str) -> set[str]:
+    def targets_in(self, text: str, *, established: Iterable[str] = ()) -> set[str]:
         """Every target the ontology spells somewhere in ``text``.
 
         Indexed rather than scanned. The published snapshot carries ~562k terms, and
@@ -475,7 +568,57 @@ class QueryVocabulary:
                 for canonical, term in index[window]:
                     if canonical not in found and term in lowered:
                         found.add(canonical)
+        if self.word_bounded and found:
+            found = {
+                canonical
+                for canonical in found
+                if any(
+                    _whole_word(term, lowered)
+                    for owner, terms in self.targets
+                    if owner == canonical
+                    for term in terms
+                )
+            }
+        if self.context_terms:
+            # ``established``: targets whose sense the enclosing document already settled
+            # (a trial record naming "guanylyl cyclase C" explains its own "CEA/GCC").
+            settled = set(established)
+            found = {
+                canonical
+                for canonical in found
+                if canonical in settled or self._target_sense_supported(canonical, lowered)
+            }
         return found
+
+    def _target_sense_supported(self, canonical: str, lowered: str) -> bool:
+        """C3: a very short alias alone is a string, not a mention of the target.
+
+        "GCC" is a cancer-center protocol prefix, the retinal ganglion cell complex, the
+        Gulf Cooperation Council and a chemotherapy regimen before it is guanylyl cyclase
+        C. The target sense is the one written in a target frame -- "targeting GCC",
+        "GCC-positive", "expression of GCC" -- or next to a longer name of the target.
+        """
+
+        context = {term for owner, term in self.context_terms if owner == canonical}
+        if not context:
+            return True
+        others = [
+            term
+            for owner, terms in self.targets
+            if owner == canonical
+            for term in terms
+            if term not in context
+        ]
+        if any(term and term in lowered for term in others):
+            return True
+        tokens = re.findall(r"[a-z0-9]+", lowered)
+        for index, token in enumerate(tokens):
+            if token in context and any(
+                neighbour in _TARGET_FRAME_WORDS
+                for neighbour in tokens[max(0, index - 2) : index + 3]
+            ):
+                return True
+        return False
 
     def modality_in(self, text: str) -> str | None:
         """Label text with its most specific supported modality.
@@ -535,7 +678,7 @@ class QueryVocabulary:
 
         terms: list[str] = []
         for canonical, _ in self.targets:
-            terms.extend(target_aliases(canonical) or (canonical,))
+            terms.extend(_retrieval_aliases(canonical))
         for canonical in sorted(self.requested_modalities):
             terms.extend(modality_query_terms(canonical))
         # Canonical IDs are internal identifiers (``T_CELL_ENGAGER``); sending them to a
@@ -556,7 +699,7 @@ class QueryVocabulary:
 
         target_terms: list[str] = []
         for canonical, _ in self.targets:
-            target_terms.extend(target_aliases(canonical) or (canonical,))
+            target_terms.extend(_retrieval_aliases(canonical))
         modality_terms: list[str] = []
         for canonical in sorted(self.requested_modalities):
             modality_terms.extend(modality_query_terms(canonical))
@@ -817,6 +960,158 @@ def _read_channel(declared: set[str]) -> ArmRelationship:
     return ArmRelationship.UNKNOWN
 
 
+#: Intervention types that are never a therapeutic product (C5). Radiation is absent on
+#: purpose: radioligands are registered as RADIATION as often as DRUG.
+_NON_THERAPEUTIC_TYPES = frozenset({"DIAGNOSTIC_TEST", "PROCEDURE", "BEHAVIORAL"})
+
+_ROUTE_SUFFIX = re.compile(
+    r"\s*\((?:iv|i\.v\.|sc|s\.c\.|po|p\.o\.|im|i\.m\.|oral|intravenous|subcutaneous|"
+    r"intramuscular|intratumou?ral)\)\s*$",
+    re.IGNORECASE,
+)
+_FORM_SUFFIX = re.compile(
+    r"\s+(?:cells?|cell\s+(?:injection|suspension|infusion|therapy)|injection|infusion|"
+    r"suspension|vaccine|for\s+injection)\s*$",
+    re.IGNORECASE,
+)
+
+
+def _code_like(value: str) -> bool:
+    """One token that reads as a product code: ``LCAR-G08``, ``Ad5-hGCC-PADRE``."""
+
+    if not value or any(ch.isspace() for ch in value):
+        return False
+    if any(ch.isdigit() for ch in value):
+        return True
+    return bool(re.search(r"[-/]", value)) and sum(ch.isupper() for ch in value) >= 2
+
+
+def _strip_product_form(name: str) -> str:
+    """Drop a trailing route parenthetical and product-form word (C6)."""
+
+    previous = None
+    value = name.strip()
+    while value != previous:
+        previous = value
+        value = _ROUTE_SUFFIX.sub("", value).strip()
+        value = _FORM_SUFFIX.sub("", value).strip()
+    return value
+
+
+def _structured_identity_name(name: str, primary_names: list[str]) -> str | None:
+    """C6: the code an intervention name carries under its form/route suffix, if any.
+
+    Outranks an extracted class word, because "Ad5-hGCC-PADRE vaccine" names one
+    product and "vaccine" names every vaccine.
+    """
+
+    from bve.se.discovery.class_terms import is_class_term
+
+    stripped = _strip_product_form(name)
+    if not _code_like(stripped) or is_class_term(stripped):
+        return None
+    if primary_names and not all(is_class_term(found) for found in primary_names):
+        if len(primary_names) == 1 and primary_names[0] == stripped:
+            return stripped
+        return None
+    return stripped
+
+
+def _arm_named_code(protocol: dict[str, Any], intervention_name: str) -> str | None:
+    """C6: the one development code a trial's title and listing EXPERIMENTAL arm both name.
+
+    For a record whose intervention is a descriptor ("Chimeric antigen receptor T cell
+    preparation targeting GCC") while the sponsor names the product everywhere else.
+    """
+
+    identification = protocol.get("identificationModule", {}) or {}
+    title = " ".join(
+        [identification.get("briefTitle", "") or "", identification.get("officialTitle", "") or ""]
+    )
+    codes = {
+        code
+        for code in extract_observed_asset_names(title, shape_scan=False)
+        if _code_like(code)
+    }
+    if len(codes) != 1:
+        return None
+    code = codes.pop()
+    key = _normalized_lookup(intervention_name)
+    for arm in (protocol.get("armsInterventionsModule", {}) or {}).get("armGroups", []) or []:
+        if str(arm.get("type") or "").upper() != "EXPERIMENTAL":
+            continue
+        members = {
+            _normalized_lookup(_strip_intervention_type_prefix(str(n)))
+            for n in arm.get("interventionNames") or []
+        }
+        if key not in members:
+            continue
+        arm_text = f"{arm.get('label') or ''} {arm.get('description') or ''}"
+        if _normalized_lookup(code) in _normalized_lookup(arm_text):
+            return code
+    return None
+
+
+def _sole_experimental_backbone(
+    protocol: dict[str, Any], *, ignore: set[str] = frozenset()  # type: ignore[assignment]
+) -> str | None:
+    """C4: the one intervention that is the sole occupant of an EXPERIMENTAL arm.
+
+    ``None`` when no such intervention exists or more than one does (a head-to-head of two
+    monotherapies says nothing about which one the protocol's target belongs to).
+    """
+
+    module = protocol.get("armsInterventionsModule", {}) or {}
+    occupants: set[str] = set()
+    for arm in module.get("armGroups", []) or []:
+        if str(arm.get("type") or "").upper() != "EXPERIMENTAL":
+            continue
+        names = {
+            _normalized_lookup(_strip_intervention_type_prefix(str(n)))
+            for n in arm.get("interventionNames") or []
+        }
+        names.discard("")
+        names -= ignore
+        if len(names) == 1:
+            occupants |= names
+    return occupants.pop() if len(occupants) == 1 else None
+
+
+def identity_name_for_intervention(
+    protocol: dict[str, Any], intervention: dict[str, Any]
+) -> str:
+    """The name an intervention is nominated under; shared by every CT.gov reader."""
+
+    name = str(intervention.get("name", "") or "").strip()
+    other_names = intervention.get("otherNames", []) or []
+    other_names_text = " ".join(other_names) if isinstance(other_names, list) else str(other_names)
+    primary_names = extract_observed_asset_names(name)
+    other_name_candidates = extract_observed_asset_names(other_names_text, shape_scan=False)
+    structured = _structured_identity_name(name, primary_names)
+    if structured is not None:
+        return structured
+    if len(primary_names) == 1:
+        from bve.se.discovery.class_terms import is_class_term
+
+        if not is_class_term(primary_names[0]):
+            return primary_names[0]
+    if not primary_names and len(name.split()) > 1 and len(other_name_candidates) == 1:
+        # CT.gov carries the product identity in ``otherNames`` when the intervention
+        # ``name`` is a descriptive label ("Fixed-dose subcutaneous coformulation") rather
+        # than a program name, so the field may supply the asset name. Restricted to
+        # multi-word labels: the extractor does not recognize all-caps trade names, so a
+        # single-token ``name`` like "Opdivo" is an identity it merely failed to match, and
+        # substituting the ``otherNames`` INN would silently discard the trade name.
+        return other_name_candidates[0]
+    if not primary_names or len(primary_names) == 1:
+        coded = _arm_named_code(protocol, name)
+        if coded is not None:
+            return coded
+    if len(primary_names) == 1:
+        return primary_names[0]
+    return name
+
+
 def _candidate_interventions(
     protocol: dict[str, Any],
     vocabulary: QueryVocabulary,
@@ -846,7 +1141,24 @@ def _candidate_interventions(
     protocol_modality = vocabulary.modality_in(serialized)
     selected: list[tuple[str, set[str], str | None]] = []
     all_interventions = _extract_interventions(protocol)
-    for intervention in all_interventions:
+    therapeutic = [
+        intervention
+        for intervention in all_interventions
+        if str(intervention.get("type") or "").upper() not in _NON_THERAPEUTIC_TYPES
+    ]
+    backbone = (
+        _sole_experimental_backbone(
+            protocol,
+            ignore={
+                _normalized_lookup(str(i.get("name", "")))
+                for i in all_interventions
+                if i not in therapeutic
+            },
+        )
+        if len(therapeutic) > 1
+        else None
+    )
+    for intervention in therapeutic:
         name = intervention.get("name", "").strip()
         other_names = intervention.get("otherNames", []) or []
         other_names_text = " ".join(other_names) if isinstance(other_names, list) else str(other_names)
@@ -870,35 +1182,30 @@ def _candidate_interventions(
             or observed_in_title
             or vocabulary.matches_requested_modality(intervention_context)
         ):
-            intervention_targets = vocabulary.targets_in(intervention_context)
+            intervention_targets = vocabulary.targets_in(
+                intervention_context, established=protocol_targets
+            )
             intervention_modality = vocabulary.modality_in(intervention_context)
             # Protocol-level target/modality text is safe only when there is one named
             # intervention. In combination studies, assigning it to every background drug creates
             # false candidate programs (e.g. supportive agents and combination partners).
-            if len(all_interventions) == 1:
+            if len(therapeutic) == 1:
                 intervention_targets = intervention_targets or protocol_targets
                 intervention_modality = intervention_modality or protocol_modality
-            if len(primary_names) == 1:
-                canonical_name = primary_names[0]
             elif (
-                not primary_names
-                and len(name.split()) > 1
-                and len(other_name_candidates) == 1
+                # C4. The exception is the protocol's backbone: the one intervention given
+                # alone in an experimental arm. PF-07062119 is monotherapy in dose
+                # escalation and the anti-PD-1/anti-VEGF partners never are; the target
+                # the protocol names is the backbone's, and only when it is a named drug.
+                not intervention_targets
+                and backbone is not None
+                and _normalized_lookup(name) == backbone
+                and primary_names
             ):
-                # CT.gov carries the product identity in ``otherNames`` when the
-                # intervention ``name`` is a descriptive label ("Fixed-dose subcutaneous
-                # coformulation") rather than a program name, so the field may supply the
-                # asset name. Restricted to multi-word labels: the extractor does not
-                # recognize all-caps trade names, so a single-token ``name`` like "Opdivo"
-                # is an identity it merely failed to match, and substituting the
-                # ``otherNames`` INN would silently discard the trade name. otherNames
-                # binds as an alias in that case instead of replacing the name.
-                canonical_name = other_name_candidates[0]
-            else:
-                canonical_name = name
+                intervention_targets = set(protocol_targets)
             selected.append(
                 (
-                    canonical_name,
+                    identity_name_for_intervention(protocol, intervention),
                     intervention_targets,
                     intervention_modality,
                 )
@@ -1167,7 +1474,13 @@ class ClinicalTrialsGovAdapter:
             if not _matches_follow_up(query, serialized):
                 continue
             protocol_targets = vocabulary.targets_in(lower)
-            if query.target_ids and not set(query.target_ids).issubset(protocol_targets):
+            # C2. A follow-up reaches trials of its lead that may never name the target; such
+            # a trial may yield the lead itself and nothing else, because the lead is the
+            # only thing the target context was ever inherited by.
+            lead_only = bool(query.target_ids) and not set(query.target_ids).issubset(
+                protocol_targets
+            )
+            if lead_only and not vocabulary.lead_terms:
                 continue
             if not vocabulary.matches_requested_modality(lower):
                 continue
@@ -1209,6 +1522,26 @@ class ClinicalTrialsGovAdapter:
             types_by_intervention = _intervention_types(protocol)
             arm_relationships = _arm_relationships(protocol)
             interventions = _candidate_interventions(protocol, vocabulary, serialized)
+            raw_names = {
+                _normalized_lookup(identity_name_for_intervention(protocol, item)): str(
+                    item.get("name", "")
+                ).strip()
+                for item in _extract_interventions(protocol)
+            }
+            if vocabulary.lead_terms:
+                leads = {_normalized_lookup(term) for term in vocabulary.lead_terms}
+                interventions = [
+                    (name, targets | set(query.target_ids), modality)
+                    if _normalized_lookup(name) in leads
+                    or _normalized_lookup(raw_names.get(_normalized_lookup(name), "")) in leads
+                    else (name, targets, modality)
+                    for name, targets, modality in interventions
+                    if not lead_only
+                    or _normalized_lookup(name) in leads
+                    or _normalized_lookup(raw_names.get(_normalized_lookup(name), "")) in leads
+                ]
+                if lead_only and not interventions:
+                    continue
             if not interventions:
                 fallback_name = identification.get("briefTitle") or nct_id or "unnamed program"
                 interventions = [(fallback_name, protocol_targets, vocabulary.modality_in(lower))]
@@ -1222,6 +1555,11 @@ class ClinicalTrialsGovAdapter:
             for intervention, intervention_targets, intervention_modality in interventions:
                 if query.target_ids and not set(query.target_ids).issubset(intervention_targets):
                     continue
+                # Registry lookups are keyed by the name the record wrote, not the identity
+                # name C6 may have recovered from under a suffix.
+                raw_key = _normalized_lookup(
+                    raw_names.get(_normalized_lookup(intervention)) or intervention
+                )
                 identity_key = f"{sponsor or ''}|{intervention}|{nct_id or ''}".casefold()
                 hit_id = _digest("hit", f"{snapshot_id}|{identity_key}")
                 hits.append(
@@ -1236,13 +1574,27 @@ class ClinicalTrialsGovAdapter:
                         target_terms=sorted(intervention_targets),
                         modality_terms=[intervention_modality] if intervention_modality else [],
                         aliases=list(
-                            aliases_by_intervention.get(_normalized_lookup(intervention), ())
+                            dict.fromkeys(
+                                [
+                                    *aliases_by_intervention.get(
+                                        _normalized_lookup(
+                                            raw_names.get(_normalized_lookup(intervention), "")
+                                            or intervention
+                                        ),
+                                        (),
+                                    ),
+                                    *(
+                                        [raw_names[_normalized_lookup(intervention)]]
+                                        if raw_names.get(_normalized_lookup(intervention))
+                                        not in (None, "", intervention)
+                                        else []
+                                    ),
+                                ]
+                            )
                         ),
-                        intervention_type=types_by_intervention.get(
-                            _normalized_lookup(intervention)
-                        ),
+                        intervention_type=types_by_intervention.get(raw_key),
                         arm_relationship=arm_relationships.get(
-                            _normalized_lookup(intervention), ArmRelationship.UNKNOWN
+                            raw_key, ArmRelationship.UNKNOWN
                         ).value,
                         # CT.gov's ``otherNames`` is an identity claim -- an unreliable
                         # one, which is why it still has to clear corroboration and veto.
@@ -1256,7 +1608,11 @@ class ClinicalTrialsGovAdapter:
                     )
                 )
                 aliases.add(intervention)
-                if query.expansion_depth < 1:
+                # C5. Only a name the shape-free extractor recognises is worth chasing; a
+                # lead such as "Walking" or "index" reaches every document that uses the word.
+                if query.expansion_depth < 1 and extract_observed_asset_names(
+                    intervention, shape_scan=False
+                ):
                     # Intervention names are leads: a drug seen here may appear in trials
                     # the target/modality query never reached. The trial's own NCT id is
                     # not -- searching it returns the trial already in hand. On a 2,908
@@ -1405,7 +1761,12 @@ class PubMedDiscoveryAdapter:
             # This decides relevance only. It is not an identity claim about anything in
             # the abstract; identity still has to be asserted and corroborated downstream.
             observed_targets = vocabulary.targets_in(text)
-            if query.target_ids and not set(query.target_ids).issubset(observed_targets):
+            # C2: an abstract reached by a follow-up and silent on the target may yield the
+            # lead itself, never the other drugs it happens to mention.
+            lead_only = bool(query.target_ids) and not set(query.target_ids).issubset(
+                observed_targets
+            )
+            if lead_only and not vocabulary.lead_terms:
                 continue
             if not vocabulary.matches_requested_modality(text):
                 continue
@@ -1425,7 +1786,15 @@ class PubMedDiscoveryAdapter:
             if not _matches_follow_up(query, f"{title} {abstract}"):
                 continue
             observed_modality = vocabulary.modality_in(text)
+            leads = {_normalized_lookup(term) for term in vocabulary.lead_terms}
             for asset in extract_observed_asset_names(title, abstract):
+                if lead_only and _normalized_lookup(asset) not in leads:
+                    continue
+                asset_targets = (
+                    observed_targets | set(query.target_ids)
+                    if _normalized_lookup(asset) in leads
+                    else observed_targets
+                )
                 hits.append(
                     CandidateHit(
                         hit_id=_digest("hit", f"{serialized}|{asset}"),
@@ -1433,7 +1802,7 @@ class PubMedDiscoveryAdapter:
                         source_document_id=document_id,
                         query=query.query,
                         asset_name=asset,
-                        target_terms=sorted(observed_targets),
+                        target_terms=sorted(asset_targets),
                         modality_terms=[observed_modality] if observed_modality else [],
                         aliases=[title],
                         snippet=abstract[:500],

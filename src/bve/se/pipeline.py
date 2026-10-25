@@ -54,6 +54,11 @@ from bve.se.evidence.target_compatibility import (
     nongene_entities,
 )
 from bve.se.ontology.targets import get_authority
+from bve.se.ontology.therapeutic_areas import (
+    CLASSIFIED_AREAS,
+    canonical_therapeutic_area,
+    classify_therapeutic_areas,
+)
 from bve.se.ontology.ncit_cell_products import NCIT_CELL_PRODUCTS_KEY, ncit_cell_products
 from bve.se.ontology.ncit_entity_types import NCIT_ENTITY_TYPES_KEY, ncit_entity_types
 from bve.se.ontology.ncit_targets import (
@@ -577,6 +582,10 @@ def run_landscape_search(
             facts_by_asset[asset.asset_id] = supersede_construct_targets(
                 facts_by_asset.get(asset.asset_id, []), evidence.fact
             )
+            # C8: the same rows' action type, so "exclude agonists" has evidence to act on.
+            for action_fact in evidence.action_facts:
+                ledger.add_fact(action_fact)
+                facts_by_asset[asset.asset_id].append(action_fact)
             described += 1
         stage.count(candidates=len(registry.assets), described=described)
 
@@ -755,12 +764,22 @@ def run_landscape_search(
     pharmacologic_documents: dict[str, int] = {}
     gloss_documents: dict[str, int] = {}
     mentioning_documents: dict[str, int] = {}
+    # gucy2c_pilot_remediation_v1 C9: a question that states therapeutic areas asks for human
+    # proof of concept *in* them. "More patients on plecanatide than placebo" is constipation
+    # efficacy and says nothing to an oncology search; it is kept, under its own fact type.
+    requested_poc_areas = {
+        canonical_therapeutic_area(area)
+        for area in problem.strategic_gap.therapeutic_areas
+        if canonical_therapeutic_area(area) in CLASSIFIED_AREAS
+    }
+    other_area_supported = 0
     with telemetry.stage("HUMAN_POC") as stage:
         supported = 0
         qualified_assets = 0
         for asset_id, asset in registry.assets.items():
             names = [asset.canonical_name, *asset.aliases]
             statements = []
+            outside_area_statements = []
             #: Routes that need no corpus evidence: an ontology entry, a development code,
             #: a structured DRUG declaration. Checked first so the scan is skipped for the
             #: names that are already vouched for.
@@ -850,11 +869,15 @@ def run_landscape_search(
                 # The scan below therefore reads every document this loop can open. What the
                 # policy decides is whether an efficacy sentence may be drawn from it.
                 if may_establish_human_poc(document.document_type):
-                    statements.extend(
-                        efficacy_statements(
-                            text, asset_names=names, document_id=document.document_id
-                        )
+                    found = efficacy_statements(
+                        text, asset_names=names, document_id=document.document_id
                     )
+                    if requested_poc_areas and not (
+                        requested_poc_areas & set(classify_therapeutic_areas(text))
+                    ):
+                        outside_area_statements.extend(found)
+                    else:
+                        statements.extend(found)
             # An efficacy sentence is evidence about a result, never about whether the
             # string it mentions names a drug. Without positive asset evidence the
             # attribution would be correct and the identity still wrong, so the fact is
@@ -873,6 +896,37 @@ def run_landscape_search(
                     for claim_id, claim in ledger.claims.items()
                 },
             )
+            if outside_area_statements:
+                outside = human_poc_evidence(
+                    asset_id,
+                    results=[],
+                    statements=outside_area_statements,
+                    as_of_date=problem.buyer.as_of_date,
+                )
+                if outside is not None:
+                    renamed = "human_efficacy_outside_requested_area"
+                    for claim in outside.claims:
+                        ledger.add_claim(
+                            claim.model_copy(
+                                update={
+                                    "claim_id": claim.claim_id.replace("claim:", "claim:oa-", 1),
+                                    "predicate": renamed,
+                                }
+                            )
+                        )
+                    ledger.add_fact(
+                        outside.fact.model_copy(
+                            update={
+                                "fact_id": outside.fact.fact_id.replace("fact:", "fact:oa-", 1),
+                                "fact_type": renamed,
+                                "supporting_claim_ids": [
+                                    c.replace("claim:", "claim:oa-", 1)
+                                    for c in outside.fact.supporting_claim_ids
+                                ],
+                            }
+                        )
+                    )
+                    other_area_supported += 1
             if evidence is None:
                 continue
             for claim in evidence.claims:
@@ -884,6 +938,7 @@ def run_landscape_search(
             candidates=len(registry.assets),
             qualified=qualified_assets,
             supported=supported,
+            outside_requested_area=other_area_supported,
         )
 
     for asset_id, facts in facts_by_asset.items():

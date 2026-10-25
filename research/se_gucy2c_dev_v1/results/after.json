@@ -1,0 +1,776 @@
+{
+ "label": "after",
+ "grade": "DEVELOPMENT \u2014 disclosed example, AI reference, not validation",
+ "run_id": "se:ac217e77-66c0-4bab-8237-3948f6586e7c",
+ "run_status": "INCOMPLETE",
+ "counts": {
+  "candidates": 279,
+  "analyst_visible": 27,
+  "eligible": 0,
+  "review": 27,
+  "excluded": 26,
+  "low_support": 226,
+  "identity_merges": 2,
+  "source_documents": 147
+ },
+ "search_attempt_outcomes": {
+  "SUCCESS": 34,
+  "NOT_CONFIGURED": 7,
+  "NO_EVIDENCE_FOUND": 2,
+  "FAILED": 4
+ },
+ "score_all_candidates": {
+  "status": "UNVALIDATED",
+  "status_note": "DEVELOPMENT replay of a disclosed example",
+  "reference_id": "gucy2c_oncology_v1_ai_reference",
+  "reference_sha256": "DEVELOPMENT",
+  "n_candidates": 279,
+  "n_reference_in_scope": 17,
+  "true_positives": [
+   "R-001",
+   "R-002",
+   "R-003",
+   "R-004",
+   "R-005",
+   "R-006",
+   "R-007",
+   "R-008",
+   "R-009",
+   "R-010",
+   "R-011",
+   "R-015"
+  ],
+  "false_negatives": [
+   "R-012",
+   "R-013",
+   "R-014",
+   "R-016",
+   "R-017"
+  ],
+  "negative_control_hits": [
+   "C-001",
+   "C-002",
+   "C-003"
+  ],
+  "unadjudicated_candidates": [
+   "asset:00d41bc5e66ebe0264fa",
+   "asset:00dc31a2c4328d547133",
+   "asset:012f79c722ffeb9165ab",
+   "asset:016b878a9192795b9a83",
+   "asset:06b7d540820fcb5267d0",
+   "asset:06c2a5066c2cd63ec183",
+   "asset:0809d22702cafa99273b",
+   "asset:0881ea9bed00015f1ae6",
+   "asset:099c17376493255b8b3f",
+   "asset:09bd3ee3fe0ed601e281",
+   "asset:0a69e2d18654537e06f1",
+   "asset:0c37d0515ff26c1e56c4",
+   "asset:0c65e13ad3097b1cc5c2",
+   "asset:0e0bfe653505f5741903",
+   "asset:0f9ac8fd2e2f18775ad0",
+   "asset:13a94fa4b6f9b63b4ea0",
+   "asset:15d20d43dcd641b264c0",
+   "asset:15f15a6de1c6eb2db623",
+   "asset:16219a75afcf00648463",
+   "asset:16f59b373d6e67a4f1a8",
+   "asset:181cb256c13f9c71c1e1",
+   "asset:187d5e309dd05fd0f975",
+   "asset:18e7e57a3537ffa43184",
+   "asset:19e738a71b74749b2136",
+   "asset:1b46ff90c2a504b2f146",
+   "asset:1b4ac67c86821d306f80",
+   "asset:1d9a989448ee57046793",
+   "asset:1e1524d8c63ee5558b87",
+   "asset:1e7cb81dea69607c5db7",
+   "asset:1fb954fc8c17a0911930",
+   "asset:2057b0c97c8da418b1d0",
+   "asset:22affcba1422841fbbe0",
+   "asset:23795967c5391f2ab351",
+   "asset:2514e6fd3d8c80eb8e93",
+   "asset:258f8ccb65d6f50ce884",
+   "asset:260a6ab08e32d000aace",
+   "asset:2745fcf13864b8f6c01c",
+   "asset:2896a5339060890499f8",
+   "asset:28fc49885f8979290f9e",
+   "asset:2b07c86a43285825caf3",
+   "asset:2b78430177ef5de36b7e",
+   "asset:2bef1ef4a2db5446c652",
+   "asset:2c22598c832f3af74a39",
+   "asset:2cbdac35ac1f9ff8e746",
+   "asset:2d2e335e84a509ab37ab",
+   "asset:2df375f66fd5ae64c50e",
+   "asset:2e07444114de806a5aad",
+   "asset:2e350de559c6f43d3f60",
+   "asset:2eb87252a9b785670e6b",
+   "asset:2ee7dcd1f258492fe2bd",
+   "asset:2efc4186a6be7951fb13",
+   "asset:2f1433d10b517efd488f",
+   "asset:3326bed52bb5d9108611",
+   "asset:34726d70a69d02edaab7",
+   "asset:39c3c3ed8533f2eb9155",
+   "asset:3a403f7697524d7593a1",
+   "asset:3a6b0cb06e19314d7453",
+   "asset:3be377c205ffbfd3a169",
+   "asset:3d0eb101132ee79270aa",
+   "asset:3deed45eea0a98c90828",
+   "asset:3f0ba263b737691ef1a4",
+   "asset:3fa980d3035685604062",
+   "asset:40a7d5ac1ee66d13432d",
+   "asset:41221d8693d0f696a4da",
+   "asset:4297755ec61b8376e8bd",
+   "asset:436cfcc578461590083d",
+   "asset:43c3605ea750da0a4894",
+   "asset:43ffde0f78875e90476d",
+   "asset:447b1c02c7e4fc9986a8",
+   "asset:45b51a817615f0cc7604",
+   "asset:469351079a43649b57e7",
+   "asset:46a2c7036e218a177f91",
+   "asset:4803b7443264e22206ad",
+   "asset:4a2d6174b06432bc136a",
+   "asset:4a430acfa003865bfa27",
+   "asset:4a984adcdffa58728089",
+   "asset:4b2554503775a1896f7b",
+   "asset:4bc8aff4e20776117017",
+   "asset:4c7ffed8598558501151",
+   "asset:4d5656983e9244758e96",
+   "asset:4ddad1cd853dac7218c9",
+   "asset:4e36f99cbbeebb69b227",
+   "asset:4e8741a27378ca1f78f8",
+   "asset:4f177eda01b279a9647e",
+   "asset:5474ba4c0723e210efe7",
+   "asset:57588193879861e440ac",
+   "asset:589c8ffe321458c59264",
+   "asset:59664427322a09f855b5",
+   "asset:596f78bf62fe823dcd4b",
+   "asset:5b519ea2cac97d35670b",
+   "asset:5b7f48b9b25818159df4",
+   "asset:5bbf5289f1eb8af7798a",
+   "asset:5e441b87c70e703817ae",
+   "asset:5e8eb91aa4740387859c",
+   "asset:5fc137815ad3809d3e63",
+   "asset:60c11cad6abdbfc28b74",
+   "asset:633b9a7d91b541c20dc7",
+   "asset:635e15728ee638f5b967",
+   "asset:65222437cdd0ea76aa91",
+   "asset:662983b13f80b104bc57",
+   "asset:67a6977bf46c44be00c8",
+   "asset:694589590194faa955c1",
+   "asset:6a1f0f5c744ce2df8f96",
+   "asset:6a3dac7a265cae372dc2",
+   "asset:6ccbe16184eecfef8a70",
+   "asset:6cd6e711c05f4cbc6e8c",
+   "asset:72106cd8e277dc15121e",
+   "asset:7216716166d81aacf006",
+   "asset:723a49a8d824ef20926a",
+   "asset:728acf611522175bcc01",
+   "asset:763b33b051213b87a8ad",
+   "asset:773bda86500e0ee02a6d",
+   "asset:776ed4548efbac3c5363",
+   "asset:779957c0256464b1b17f",
+   "asset:77a02a2ec8b5bc9e67a9",
+   "asset:77d10e4ffaf21fd123cc",
+   "asset:7c25f22568f281a1f6d4",
+   "asset:7f2d75dbb4e4ea5f893b",
+   "asset:7faeb52c7c0ec842257c",
+   "asset:8053c58ecbfd36e0052d",
+   "asset:80d3e46d7047a91157fe",
+   "asset:818d0f8aab767fe0e14a",
+   "asset:83016dcba73ace48f8c2",
+   "asset:8318281c82b648a6efa5",
+   "asset:83a5dc213e8c799d3d91",
+   "asset:85ea87eb8714043a6d7c",
+   "asset:893671848337547ce833",
+   "asset:8a3b5a7c74ec18c414f8",
+   "asset:8acff9c00b7affdd1e6c",
+   "asset:8c167cdf662615548df9",
+   "asset:8c67a66c54cff635589d",
+   "asset:8d96ba4d776a9717d859",
+   "asset:8e1c1b1270fc694525fa",
+   "asset:8fba45582ae0418962e0",
+   "asset:90eb6a8a8f83493774e9",
+   "asset:91998879606448fb6624",
+   "asset:92caab0f25da05f32560",
+   "asset:93080d386663051ae439",
+   "asset:9385f2f0e12807e26951",
+   "asset:96ed9a9f2ed2eabff842",
+   "asset:9782a0ec7a5de5b5691f",
+   "asset:978e11a7a8b4c35965a8",
+   "asset:97964cd4b04edb88fd3b",
+   "asset:979980a1d766eb4cbbf4",
+   "asset:98fdbdb9a062538e5310",
+   "asset:9a1addc47607865bd5b1",
+   "asset:9ae9a0ac23ad33b9b9db",
+   "asset:9ce6e3398a8d27c1cba9",
+   "asset:9e93070ee8b517e6dc88",
+   "asset:9f8096c81e9770444ce4",
+   "asset:9fbe26876ef5eec54584",
+   "asset:a07fd03e7051e8cde695",
+   "asset:a0b1366a4bd09590b881",
+   "asset:a2876b740210e179673f",
+   "asset:a2b70276264c4585bf01",
+   "asset:a3071ec96d977e0b0337",
+   "asset:a3db1626d232a1552bbd",
+   "asset:a4239d70941b33e60189",
+   "asset:a5937edd0699c021c8f8",
+   "asset:a65df72125ba975e91b4",
+   "asset:a695dc00a9151f48a661",
+   "asset:a7ecafcf8aa7027909d5",
+   "asset:a9ddf7975e1f8eaf322f",
+   "asset:ab87cf298e4e4fb6104b",
+   "asset:abd6e93a318cdbd766f2",
+   "asset:ac9e7e7d1a7a9ef56471",
+   "asset:acfe9d2e7ea61f8d76a1",
+   "asset:ad118c2cde52bb316e77",
+   "asset:af0131a863562a733828",
+   "asset:b1a0692f320e53d4bb26",
+   "asset:b1ba7a37ed8b65f7f652",
+   "asset:b20a12690e85729dd291",
+   "asset:b2e44f40ee9d01301f09",
+   "asset:b44b21807e917d582a96",
+   "asset:b59d13fe01e0fbb763c5",
+   "asset:b8249d41a57ce4b740dc",
+   "asset:b95b07e4745fd05d7dd8",
+   "asset:b9dad7538c863ea011c3",
+   "asset:ba272559e71d28ed6f1e",
+   "asset:ba98248780c0be498ec8",
+   "asset:bd0355a8f2cc152f9c37",
+   "asset:bf17d78801adf5ce917d",
+   "asset:bf2ae66b52616b49d42b",
+   "asset:bf41fc00faa5eefbc9da",
+   "asset:bfedf9f6c493a3f13723",
+   "asset:c1742d8f6cb03ed746ce",
+   "asset:c2c3c95a7b980aac4da5",
+   "asset:c31103473773cf3fab9c",
+   "asset:c31b151540ba8cd1eaa9",
+   "asset:c62eebb53b8e0daff95c",
+   "asset:c67a6979d5d0ed34213a",
+   "asset:c7896bbc051cf0b834a4",
+   "asset:c7d42b9625e3f5aa628a",
+   "asset:c9061def12dadecf005f",
+   "asset:ca3aa5d8c96ee10bd778",
+   "asset:cbca6e072a17504dd42e",
+   "asset:cc7afa2c5defb6dc6177",
+   "asset:ccdeff715899f72589bf",
+   "asset:cd758e1535eb8a77ee2c",
+   "asset:ce3e9f144e9b44bf9448",
+   "asset:ce6b15a90c56add2a69e",
+   "asset:cf5a256c1678485bb846",
+   "asset:d027316b3d7e43c2e48e",
+   "asset:d0391b1b481c1a8357a3",
+   "asset:d15d3d4298e0f5c9d90c",
+   "asset:d38b5323db9e13845245",
+   "asset:d5305e826f4264778e85",
+   "asset:d564b4ecc54b693799f9",
+   "asset:d57a10707d44a445c303",
+   "asset:d5c43fc8cbe68c6d6e4c",
+   "asset:d6aea51925f1ac3b55eb",
+   "asset:d6f4abe53b371b5369bf",
+   "asset:d859c54cdd30b564f916",
+   "asset:d87b2f9308ab4c74254d",
+   "asset:d92349a661a80dd5196f",
+   "asset:dc79a944dd1e1c4aa64b",
+   "asset:dd31ff3d8f6c88fc9e2e",
+   "asset:dd3f75c9b8eb9d7b78d9",
+   "asset:df06e8a19915e0116325",
+   "asset:df0fb4fdb9d8d746aa7c",
+   "asset:df6708268300df0ace4a",
+   "asset:e0130f1810e362802d8e",
+   "asset:e04ebbc09c89aed284e3",
+   "asset:e0633f1dca5f0954000d",
+   "asset:e20716cb44a96fe3095a",
+   "asset:e56483355cc6f83056aa",
+   "asset:e58b7e92a07ce65319d1",
+   "asset:e82e3c2fb410b3c01521",
+   "asset:e8ae858d6c109483903e",
+   "asset:e8dc259c6621669b9e77",
+   "asset:e947b6fe3278d07a5f5d",
+   "asset:e9aea77897d81f97b0af",
+   "asset:ec6292d63c386ca5bebd",
+   "asset:ecccf676caa2ce439398",
+   "asset:ed0cb5a7d458215aef7d",
+   "asset:ed4df656cff357de68f4",
+   "asset:edea5a0106513fa6fb8b",
+   "asset:ee5e8579c3da15770e5f",
+   "asset:ef435953915225bed3c5",
+   "asset:f02023aaf7443d95c031",
+   "asset:f0811c8cf6e7d14b9d31",
+   "asset:f093583dc0eed59a2a4e",
+   "asset:f28e7cfef1369184f8e4",
+   "asset:f29be1ec58d674ab9fb3",
+   "asset:f334644f57b9de0abdb8",
+   "asset:f3a42d08de029823031e",
+   "asset:f43457b37eb566e9d941",
+   "asset:f5becd0f65aefdf8c325",
+   "asset:f633d9e2ee003af46725",
+   "asset:f6565dc8f2f50768cbdc",
+   "asset:f6e08cbdc00c9cbad2c9",
+   "asset:f769ce9444e424d9c8da",
+   "asset:f80e391349258e636c07",
+   "asset:f82afe66d28e341de76f",
+   "asset:f84775d59ce9ed68670a",
+   "asset:f8b5a20a3f2ac992c8ee",
+   "asset:fa3fdd022c408eeb2144",
+   "asset:fa6d137aff594a02d217",
+   "asset:fad4af4a78088316101c",
+   "asset:fdda64b74f36eadcb25c",
+   "asset:fe2956bfb7c5e9319f74",
+   "asset:fe69f1bdb512a77684c3",
+   "asset:fff0bbae83eda7f3de3b"
+  ],
+  "precision_strict": 0.043010752688172046,
+  "precision_adjudicated": 0.75,
+  "recall": 0.7058823529411765,
+  "target_accuracy": 1.0,
+  "target_accuracy_incl_unknown": 0.08333333333333333,
+  "target_unknown": 11,
+  "target_unadjudicable": 0,
+  "modality_accuracy": 0.3333333333333333,
+  "modality_accuracy_incl_unknown": 0.08333333333333333,
+  "modality_unknown": 9,
+  "modality_unadjudicable": 0,
+  "trial_coverage_overall": 0.5151515151515151,
+  "trial_coverage_recovered": 0.6296296296296297,
+  "unreferenced_trials": 0,
+  "merge_errors": [],
+  "split_errors": [
+   "R-005"
+  ],
+  "claims_total": 1280,
+  "claims_cited": 1280,
+  "claims_supported": 0,
+  "claims_unverifiable": 1280,
+  "misleading_claims": [],
+  "passes_thresholds": null,
+  "not_auto_scored": [
+   "whether cited sources actually support each claim (needs a human reader)",
+   "unadjudicated candidates: real misses in the reference vs engine false positives",
+   "unreferenced trials: correct additions vs wrong attributions",
+   "claims on fields the reference does not cover"
+  ],
+  "trial_coverage_overall_nct_only": 0.6538461538461539,
+  "reference_nct_trials": 26
+ },
+ "score_analyst_visible": {
+  "status": "UNVALIDATED",
+  "status_note": "DEVELOPMENT replay of a disclosed example",
+  "reference_id": "gucy2c_oncology_v1_ai_reference",
+  "reference_sha256": "DEVELOPMENT",
+  "n_candidates": 27,
+  "n_reference_in_scope": 17,
+  "true_positives": [
+   "R-001",
+   "R-002",
+   "R-003",
+   "R-007",
+   "R-008",
+   "R-010",
+   "R-011",
+   "R-015"
+  ],
+  "false_negatives": [
+   "R-004",
+   "R-005",
+   "R-006",
+   "R-009",
+   "R-012",
+   "R-013",
+   "R-014",
+   "R-016",
+   "R-017"
+  ],
+  "negative_control_hits": [],
+  "unadjudicated_candidates": [
+   "asset:00d41bc5e66ebe0264fa",
+   "asset:0881ea9bed00015f1ae6",
+   "asset:18e7e57a3537ffa43184",
+   "asset:19e738a71b74749b2136",
+   "asset:2cbdac35ac1f9ff8e746",
+   "asset:2ee7dcd1f258492fe2bd",
+   "asset:3fa980d3035685604062",
+   "asset:728acf611522175bcc01",
+   "asset:763b33b051213b87a8ad",
+   "asset:773bda86500e0ee02a6d",
+   "asset:7f2d75dbb4e4ea5f893b",
+   "asset:83a5dc213e8c799d3d91",
+   "asset:97964cd4b04edb88fd3b",
+   "asset:a65df72125ba975e91b4",
+   "asset:ac9e7e7d1a7a9ef56471",
+   "asset:e58b7e92a07ce65319d1",
+   "asset:ed0cb5a7d458215aef7d",
+   "asset:f3a42d08de029823031e",
+   "asset:f82afe66d28e341de76f"
+  ],
+  "precision_strict": 0.2962962962962963,
+  "precision_adjudicated": 1.0,
+  "recall": 0.47058823529411764,
+  "target_accuracy": 1.0,
+  "target_accuracy_incl_unknown": 0.125,
+  "target_unknown": 7,
+  "target_unadjudicable": 0,
+  "modality_accuracy": 0.5,
+  "modality_accuracy_incl_unknown": 0.125,
+  "modality_unknown": 6,
+  "modality_unadjudicable": 0,
+  "trial_coverage_overall": 0.36363636363636365,
+  "trial_coverage_recovered": 0.5454545454545454,
+  "unreferenced_trials": 0,
+  "merge_errors": [],
+  "split_errors": [],
+  "claims_total": 140,
+  "claims_cited": 140,
+  "claims_supported": 0,
+  "claims_unverifiable": 140,
+  "misleading_claims": [],
+  "passes_thresholds": null,
+  "not_auto_scored": [
+   "whether cited sources actually support each claim (needs a human reader)",
+   "unadjudicated candidates: real misses in the reference vs engine false positives",
+   "unreferenced trials: correct additions vs wrong attributions",
+   "claims on fields the reference does not cover"
+  ],
+  "trial_coverage_overall_nct_only": 0.46153846153846156,
+  "reference_nct_trials": 26
+ },
+ "reference_routing": {
+  "R-007": [
+   {
+    "name": "LYL273",
+    "route": "REVIEW",
+    "trials": [
+     "NCT05319314"
+    ],
+    "targets": [],
+    "authority_modality": "CELL_THERAPY"
+   }
+  ],
+  "R-009": [
+   {
+    "name": "LCAR-G08",
+    "route": "LOW_SUPPORT",
+    "trials": [
+     "NCT06197178"
+    ],
+    "targets": [],
+    "authority_modality": "CELL_THERAPY"
+   }
+  ],
+  "R-010": [
+   {
+    "name": "XKDCT080",
+    "route": "REVIEW",
+    "trials": [
+     "NCT05875402"
+    ],
+    "targets": [],
+    "authority_modality": null
+   }
+  ],
+  "R-004": [
+   {
+    "name": "Ad5-hGCC-PADRE",
+    "route": "LOW_SUPPORT",
+    "trials": [
+     "NCT01972737"
+    ],
+    "targets": [],
+    "authority_modality": null
+   }
+  ],
+  "R-003": [
+   {
+    "name": "PF-07062119",
+    "route": "REVIEW",
+    "trials": [
+     "NCT04171141"
+    ],
+    "targets": [],
+    "authority_modality": null
+   }
+  ],
+  "R-011": [
+   {
+    "name": "WD-01",
+    "route": "REVIEW",
+    "trials": [
+     "NCT06675513"
+    ],
+    "targets": [],
+    "authority_modality": null
+   }
+  ],
+  "R-005": [
+   {
+    "name": "Adenovirus 5/F35-Human Guanylyl Cyclase C-PADRE",
+    "route": "LOW_SUPPORT",
+    "trials": [
+     "NCT04111172"
+    ],
+    "targets": [],
+    "authority_modality": null
+   },
+   {
+    "name": "Ad5.F35-hGUCY2C-PADRE",
+    "route": "LOW_SUPPORT",
+    "trials": [
+     "NCT07417488"
+    ],
+    "targets": [],
+    "authority_modality": null
+   }
+  ],
+  "R-006": [
+   {
+    "name": "Lm-GUCY2C",
+    "route": "LOW_SUPPORT",
+    "trials": [
+     "NCT07417488"
+    ],
+    "targets": [],
+    "authority_modality": null
+   }
+  ],
+  "R-015": [
+   {
+    "name": "EB-DUO-CAR-NK-CEA/GCC",
+    "route": "REVIEW",
+    "trials": [
+     "NCT07589517",
+     "NCT07462650"
+    ],
+    "targets": [],
+    "authority_modality": null
+   }
+  ],
+  "C-002": [
+   {
+    "name": "plecanatide",
+    "route": "EXCLUDED",
+    "trials": [
+     "NCT05107219"
+    ],
+    "targets": [
+     "TARGET:GUCY2C"
+    ],
+    "authority_modality": "PROTEIN"
+   }
+  ],
+  "C-001": [
+   {
+    "name": "linaclotide",
+    "route": "EXCLUDED",
+    "trials": [
+     "NCT05107219"
+    ],
+    "targets": [
+     "TARGET:GUCY2C"
+    ],
+    "authority_modality": "PROTEIN"
+   }
+  ],
+  "R-008": [
+   {
+    "name": "IM96",
+    "route": "REVIEW",
+    "trials": [
+     "NCT05287165"
+    ],
+    "targets": [],
+    "authority_modality": null
+   }
+  ],
+  "R-002": [
+   {
+    "name": "TAK-164",
+    "route": "REVIEW",
+    "trials": [
+     "NCT03449030"
+    ],
+    "targets": [],
+    "authority_modality": null
+   }
+  ],
+  "C-003": [
+   {
+    "name": "dolcanatide",
+    "route": "EXCLUDED",
+    "trials": [
+     "NCT01983306"
+    ],
+    "targets": [
+     "TARGET:GUCY2C"
+    ],
+    "authority_modality": "PROTEIN"
+   }
+  ],
+  "R-001": [
+   {
+    "name": "TAK-264",
+    "route": "REVIEW",
+    "trials": [
+     "NCT02391038",
+     "NCT02202785",
+     "NCT01577758",
+     "NCT02202759"
+    ],
+    "targets": [
+     "TARGET:GUCY2C"
+    ],
+    "authority_modality": "ANTIBODY_DRUG_CONJUGATE"
+   }
+  ]
+ },
+ "control_gates": {
+  "plecanatide": [
+   [
+    "identity.distinct_asset",
+    "PASS"
+   ],
+   [
+    "target.expression",
+    "PASS"
+   ],
+   [
+    "spec.exclude_gucy2c_agonists",
+    "FAIL"
+   ],
+   [
+    "strategy.therapeutic_area",
+    "UNKNOWN"
+   ],
+   [
+    "evidence.minimum_stage",
+    "PASS"
+   ]
+  ],
+  "linaclotide": [
+   [
+    "identity.distinct_asset",
+    "PASS"
+   ],
+   [
+    "target.expression",
+    "PASS"
+   ],
+   [
+    "spec.exclude_gucy2c_agonists",
+    "FAIL"
+   ],
+   [
+    "strategy.therapeutic_area",
+    "UNKNOWN"
+   ],
+   [
+    "evidence.minimum_stage",
+    "PASS"
+   ]
+  ],
+  "dolcanatide": [
+   [
+    "identity.distinct_asset",
+    "PASS"
+   ],
+   [
+    "target.expression",
+    "PASS"
+   ],
+   [
+    "spec.exclude_gucy2c_agonists",
+    "FAIL"
+   ],
+   [
+    "strategy.therapeutic_area",
+    "UNKNOWN"
+   ],
+   [
+    "evidence.minimum_stage",
+    "PASS"
+   ]
+  ],
+  "eb-duo-car-nk-cea/gcc": [
+   [
+    "identity.distinct_asset",
+    "PASS"
+   ],
+   [
+    "target.expression",
+    "PASS"
+   ],
+   [
+    "spec.exclude_gucy2c_agonists",
+    "UNKNOWN"
+   ],
+   [
+    "strategy.therapeutic_area",
+    "PASS"
+   ],
+   [
+    "evidence.minimum_stage",
+    "PASS"
+   ]
+  ]
+ },
+ "checked_facts": [
+  {
+   "subject": "asset:68f84cd8076afbbd4edf",
+   "type": "construct_target_set",
+   "value": [
+    "TARGET:GUCY2C"
+   ]
+  },
+  {
+   "subject": "asset:68f84cd8076afbbd4edf",
+   "type": "therapeutic_area",
+   "value": "ONCOLOGY"
+  },
+  {
+   "subject": "asset:68f84cd8076afbbd4edf",
+   "type": "therapeutic_area",
+   "value": "ONCOLOGY"
+  },
+  {
+   "subject": "asset:1db33b53664ebe993505",
+   "type": "construct_target_set",
+   "value": [
+    "TARGET:GUCY2C"
+   ]
+  },
+  {
+   "subject": "asset:1db33b53664ebe993505",
+   "type": "target_action_type",
+   "value": "AGONIST"
+  },
+  {
+   "subject": "asset:b554b8e14f3693988362",
+   "type": "construct_target_set",
+   "value": [
+    "TARGET:GUCY2C"
+   ]
+  },
+  {
+   "subject": "asset:b554b8e14f3693988362",
+   "type": "target_action_type",
+   "value": "AGONIST"
+  },
+  {
+   "subject": "asset:9f64f659d19681dd4a6b",
+   "type": "construct_target_set",
+   "value": [
+    "TARGET:GUCY2C"
+   ]
+  },
+  {
+   "subject": "asset:9f64f659d19681dd4a6b",
+   "type": "target_action_type",
+   "value": "AGONIST"
+  },
+  {
+   "subject": "asset:1db33b53664ebe993505",
+   "type": "human_efficacy_outside_requested_area",
+   "value": true
+  }
+ ],
+ "timing": {
+  "wall_clock": "2:05.60",
+  "peak_rss_mb": 2449.421875
+ }
+}
