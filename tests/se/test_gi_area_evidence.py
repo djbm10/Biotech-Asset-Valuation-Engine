@@ -95,7 +95,8 @@ class TestPubMedAreaFacts:
             "Lactulose and magnesium oxide were compared. " + "Filler text. " * 80
             + "GUCY2C is also studied in colorectal cancer.",
         )
-        areas = {f.value: f for f in bundle.facts if f.fact_type == "therapeutic_area"}
+        # evidence_attribution_v1: an abstract's areas are document context now.
+        areas = {f.value: f for f in bundle.facts if f.fact_type == "document_therapeutic_area"}
         assert set(areas) == {GASTROINTESTINAL, ONCOLOGY}
         claims = {c.claim_id: c for c in bundle.claims}
         for fact in areas.values():
@@ -108,7 +109,8 @@ class TestPubMedAreaFacts:
 
     def test_no_clinical_claim_is_made(self, tmp_path) -> None:
         bundle, _ = _pubmed(tmp_path, "Constipation responders", "Response rate was 40%.")
-        assert {f.fact_type for f in bundle.facts} <= {"publication_relevance", "therapeutic_area"}
+        assert {f.fact_type for f in bundle.facts} <= {
+            "publication_relevance", "therapeutic_area", "document_therapeutic_area"}
 
 
 class TestStatusLine:
@@ -135,7 +137,7 @@ class TestStatusLine:
 
         asset, index = self._asset_and_index(["TERMINATED", "COMPLETED", "TERMINATED"])
         [fact] = _status_fact(asset, index)
-        assert fact.label == "Status"
+        assert fact.label == "Trial registry status"
         assert fact.value == "COMPLETED, TERMINATED"
         assert len(fact.citations) == 3
 

@@ -1,0 +1,905 @@
+{
+ "summary": {
+  "visible_before": 21,
+  "visible_after": 32,
+  "target_changes": [],
+  "modality_changes_count": 175,
+  "modality_changes_to_none": 174,
+  "modality_changes_other": {
+   "linaclotide": [
+    "CELL_THERAPY",
+    "PEPTIDE"
+   ]
+  },
+  "visible_modality_changes": {
+   "Magnesium oxide": [
+    "CELL_THERAPY",
+    null
+   ],
+   "aniline": [
+    "ANTIBODY_DRUG_CONJUGATE",
+    null
+   ],
+   "bisacodyl": [
+    "CELL_THERAPY",
+    null
+   ],
+   "creatinine": [
+    "MONOCLONAL_ANTIBODY",
+    null
+   ],
+   "dextran": [
+    "T_CELL_ENGAGER",
+    null
+   ],
+   "efinaconazole": [
+    "CELL_THERAPY",
+    null
+   ],
+   "ether": [
+    "RNA_THERAPEUTIC",
+    null
+   ],
+   "hematoporphyrin": [
+    "RNA_THERAPEUTIC",
+    null
+   ],
+   "lactulose": [
+    "CELL_THERAPY",
+    null
+   ],
+   "polyethylene glycol": [
+    "CELL_THERAPY",
+    null
+   ],
+   "rifaximin": [
+    "CELL_THERAPY",
+    null
+   ],
+   "sennosides": [
+    "RNA_THERAPEUTIC",
+    null
+   ]
+  }
+ },
+ "visible": {
+  "Ad5-hGCC-PADRE": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "VACCINE",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "VACCINE",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "Ad5.F35-hGUCY2C-PADRE": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "VACCINE",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "VACCINE",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "Adenovirus 5/F35-Human Guanylyl Cyclase C-PADRE": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "MONOCLONAL_ANTIBODY",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "MONOCLONAL_ANTIBODY",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "EB-DUO-CAR-NK-CEA/GCC": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CELL_THERAPY",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 2
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CELL_THERAPY",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 2
+   }
+  },
+  "IM96": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "LCAR-G08": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": "CELL_THERAPY",
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": "CELL_THERAPY",
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "LYL273": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": "CELL_THERAPY",
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": "CELL_THERAPY",
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "Lm-GUCY2C": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "VACCINE",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "VACCINE",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "Magnesium oxide": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": "CELL_THERAPY",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "PF-07062119": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": null,
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": null,
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "TAK-164": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [
+     "ONCOLOGY"
+    ],
+    "trials": 1
+   }
+  },
+  "TAK-264": {
+   "before": {
+    "route": "ELIGIBLE",
+    "ta_gate": "PASS",
+    "targets": [
+     "TARGET:GUCY2C"
+    ],
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "authority_modality": "ANTIBODY_DRUG_CONJUGATE",
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 4
+   },
+   "after": {
+    "route": "ELIGIBLE",
+    "ta_gate": "PASS",
+    "targets": [
+     "TARGET:GUCY2C"
+    ],
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "authority_modality": "ANTIBODY_DRUG_CONJUGATE",
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [
+     "ONCOLOGY"
+    ],
+    "trials": 4
+   }
+  },
+  "WD-01": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "XKDCT080": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CAR_T",
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 1
+   }
+  },
+  "amino acids": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": null,
+    "authority_modality": null,
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": null,
+    "asset_areas": [],
+    "context_areas": [
+     "ONCOLOGY"
+    ],
+    "trials": 0
+   }
+  },
+  "aniline": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "ANTIBODY_DRUG_CONJUGATE",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "ONCOLOGY"
+    ],
+    "trials": 0
+   }
+  },
+  "bisacodyl": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": "CELL_THERAPY",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "creatinine": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": "MONOCLONAL_ANTIBODY",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "dextran": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": "T_CELL_ENGAGER",
+    "authority_modality": "OLIGOSACCHARIDE",
+    "asset_areas": [],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "OLIGOSACCHARIDE",
+    "asset_areas": [],
+    "context_areas": [],
+    "trials": 0
+   }
+  },
+  "efinaconazole": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": "CELL_THERAPY",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [],
+    "trials": 0
+   }
+  },
+  "ether": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "RNA_THERAPEUTIC",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "ONCOLOGY"
+    ],
+    "trials": 0
+   }
+  },
+  "fluorescein": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "hematoporphyrin": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "RNA_THERAPEUTIC",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "ONCOLOGY"
+    ],
+    "trials": 0
+   }
+  },
+  "isothiocyanate": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "lactulose": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": "CELL_THERAPY",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "polyethylene glycol": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": "CELL_THERAPY",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "GASTROINTESTINAL",
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL",
+     "ONCOLOGY"
+    ],
+    "trials": 0
+   }
+  },
+  "rifaximin": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": "CELL_THERAPY",
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "senna": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": null,
+    "authority_modality": null,
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": null,
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "sennosides": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": "RNA_THERAPEUTIC",
+    "authority_modality": null,
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": null,
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "sodium picosulfate": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "vehicle": {
+   "before": {
+    "route": "EXCLUDED",
+    "ta_gate": "FAIL",
+    "targets": [],
+    "modality": null,
+    "authority_modality": null,
+    "asset_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": null,
+    "asset_areas": [],
+    "context_areas": [
+     "GASTROINTESTINAL"
+    ],
+    "trials": 0
+   }
+  },
+  "water": {
+   "before": {
+    "route": "REVIEW",
+    "ta_gate": "PASS",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [
+     "AUTOIMMUNE",
+     "GASTROINTESTINAL",
+     "ONCOLOGY"
+    ],
+    "context_areas": [],
+    "trials": 0
+   },
+   "after": {
+    "route": "REVIEW",
+    "ta_gate": "UNKNOWN",
+    "targets": [],
+    "modality": null,
+    "authority_modality": "SMALL_MOLECULE",
+    "asset_areas": [],
+    "context_areas": [
+     "AUTOIMMUNE",
+     "GASTROINTESTINAL",
+     "ONCOLOGY"
+    ],
+    "trials": 0
+   }
+  }
+ }
+}

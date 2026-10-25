@@ -142,6 +142,8 @@ class ShortlistEntry(BaseModel):
     position: int
     section: str
     disposition: str
+    #: evidence_attribution_v1 D1: the scope of an ELIGIBLE disposition, for JSON readers.
+    disposition_note: str | None = None
     #: Only ever the scientific ranker's rank. The display order does not produce one.
     rank: int | None = None
     tier: str | None = None
@@ -389,8 +391,28 @@ def _authority_modality_fact(asset: CanonicalAsset) -> DisplayedFact:
 _STAGE_PREDICATES = ("development_stage_order", "development_status", "development_stage")
 
 
+#: evidence_attribution_v1 D1: what ELIGIBLE does and does not mean.
+ELIGIBLE_SCOPE_NOTE = (
+    "meets the declared search criteria; not evidence of current development, "
+    "ownership or licensing availability"
+)
+
+#: evidence_attribution_v1 D3: labels for the registry stage orders (clinicaltrials.py).
+_STAGE_ORDER_LABEL = {2: "PHASE_1 or PHASE_1/2", 3: "PHASE_2", 4: "PHASE_3", 6: "PHASE_4"}
+
+
 def _phase_fact(asset: CanonicalAsset, index: _Index) -> DisplayedFact:
-    value = asset.development_stage or asset.development_status
+    orders = [
+        int(claim.normalized_value)
+        for claim in index.claims_by_subject.get(asset.asset_id, ())
+        if claim.predicate == "development_stage_order"
+        and claim.source_document_id in index.documents
+        and isinstance(claim.normalized_value, int | float)
+    ]
+    # D3: the highest stage any cited record states, not whichever record came first.
+    highest = _STAGE_ORDER_LABEL.get(max(orders)) if orders else None
+    value = highest or asset.development_stage or asset.development_status
+    scope = f"highest of {len(orders)} cited trial records" if highest else None
     citations = tuple(
         index.document_citation(
             index.documents[claim.source_document_id],
@@ -420,13 +442,14 @@ def _phase_fact(asset: CanonicalAsset, index: _Index) -> DisplayedFact:
             value=None,
             note=f"{note}; {verdict}" if verdict else note,
         )
+    phase_note: str | None = "; ".join(part for part in (scope, verdict) if part) or None
     return DisplayedFact(
         label="Phase",
         evidence_type=SourceEvidenceType.DEVELOPMENT_STAGE_EVIDENCE,
         value=value,
         origin=EvidenceOrigin.SOURCE_DOCUMENT,
         citations=citations,
-        note=verdict,
+        note=phase_note,
     )
 
 
@@ -447,7 +470,7 @@ def _status_fact(asset: CanonicalAsset, index: _Index) -> tuple[DisplayedFact, .
     statuses = sorted({str(claim.normalized_value) for claim in claims})
     return (
         DisplayedFact(
-            label="Status",
+            label="Trial registry status",
             evidence_type=SourceEvidenceType.DEVELOPMENT_STAGE_EVIDENCE,
             value=", ".join(statuses),
             origin=EvidenceOrigin.SOURCE_DOCUMENT,
@@ -461,7 +484,10 @@ def _status_fact(asset: CanonicalAsset, index: _Index) -> tuple[DisplayedFact, .
                 )
                 for claim in claims
             ),
-            note="registry status of each cited trial record, not a programme status",
+            note=(
+                "status of each cited trial record, not a programme status "
+                "(historical programmes are not excluded)"
+            ),
         ),
     )
 
@@ -587,6 +613,9 @@ def _entry(
         position=position,
         section=section,
         disposition=disposition.value,
+        disposition_note=(
+            ELIGIBLE_SCOPE_NOTE if disposition == OverallDisposition.ELIGIBLE else None
+        ),
         rank=ranked.rank if ranked is not None else None,
         tier=ranked.tier.value if ranked is not None else None,
         target_id=assertion.canonical_target_id if assertion else None,
@@ -890,7 +919,10 @@ def _render_entry(entry: ShortlistEntry, *, detail: bool) -> list[str]:
         if fact.note:
             line += f"  -- {fact.note}"
         lines.append(line)
-    lines.append(f"   Disposition: {entry.disposition}")
+    disposition = f"   Disposition: {entry.disposition}"
+    if entry.disposition_note:
+        disposition += f"  -- {entry.disposition_note}"
+    lines.append(disposition)
     reasons = [f"   Review: {reason}" for reason in entry.review_reasons]
     lines.extend(reasons if detail else _brief(reasons, _BRIEF_REASONS, "review items"))
     why = [f"   Why: {line}" for line in entry.why]

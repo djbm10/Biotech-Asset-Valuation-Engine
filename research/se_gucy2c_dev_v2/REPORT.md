@@ -126,6 +126,6 @@ What it does not establish:
   change).
 - 11 of 12 recovered assets still have target UNKNOWN; R-005 is still split; R-013/R-016
   are still generic; R-012/R-014/R-017 are not acquired.
-- `Phase:` shows the first trial record's stage, not the highest.
+- `Phase:` shows the first trial record's stage, not the highest. (Correction: for TAK-264 the two coincide, PHASE_2; fixed generally by evidence_attribution_v1 D3.)
 - The current HEAD cannot replay the pilot corpus (C10 changed the custody key). Any future
   GUCY2C measurement needs a new live acquisition.

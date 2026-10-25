@@ -124,3 +124,8 @@ problem has no activity gate; whether it should is the buyer's decision.
 Not fixed and logged: the ONCOLOGY lexicon's `carcinoma`/`malignancies` gap
 (`ta_gate_semantics.md` froze that list, so changing it is a separate declared change).
 Also, `Phase:` shows the first trial record's stage (PHASE_2), not the highest (PHASE_3).
+
+**Correction (2026-10-25, `evidence_attribution_v1`).** The sentence above is wrong about
+TAK-264. Its stage orders are 2 and 3, which mean PHASE1 and PHASE2, so PHASE_2 *was* its
+highest stage. The general point stands: the line showed the first record's stage, which
+is not guaranteed to be the highest. `evidence_attribution_v1` D3 now shows the highest.

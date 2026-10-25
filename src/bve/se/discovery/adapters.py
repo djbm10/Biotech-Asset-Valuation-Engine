@@ -1789,7 +1789,8 @@ class PubMedDiscoveryAdapter:
                         query=query.query,
                         asset_name=asset,
                         target_terms=sorted(asset_targets),
-                        modality_terms=[observed_modality] if observed_modality else [],
+                        modality_terms=_attributed_modality_terms(f"{title}\n{abstract}", asset),
+                        context_modality_terms=[observed_modality] if observed_modality else [],
                         aliases=[title],
                         snippet=abstract[:500],
                         provisional_identity_key=f"pubmed:{asset.casefold()}",
@@ -1804,6 +1805,15 @@ class PubMedDiscoveryAdapter:
             source_documents=list({doc.document_id: doc for doc in documents}.values()),
             materializations=list({m.record_id: m for m in materializations}.values()),
         )
+
+
+def _attributed_modality_terms(text: str, asset: str) -> list[str]:
+    """evidence_attribution_v1 R2: the modality a passage attributes to this asset, or none."""
+
+    from bve.se.evidence.attribution import attributed_modality
+
+    modality = attributed_modality(text, asset)
+    return [modality] if modality else []
 
 
 def _declared_evidence_type(mention: dict[str, Any]) -> SourceEvidenceType:
@@ -1959,7 +1969,8 @@ class IndexedDocumentAdapter:
                         company_name=mention.get("company_name"),
                         trial_id=mention.get("trial_id"),
                         target_terms=sorted(observed_targets),
-                        modality_terms=[observed_modality] if observed_modality else [],
+                        modality_terms=_attributed_modality_terms(f"{title}\n{text}", asset_name),
+                        context_modality_terms=[observed_modality] if observed_modality else [],
                         aliases=list(mention.get("aliases") or []),
                         alias_evidence_type=_declared_evidence_type(mention),
                         snippet=text[:500],

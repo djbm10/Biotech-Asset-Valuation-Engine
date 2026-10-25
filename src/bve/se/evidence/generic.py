@@ -11,6 +11,7 @@ import hashlib
 from pathlib import Path
 
 from bve.se.evidence import snapshot_cache
+from bve.se.evidence.attribution import attributed_areas
 from bve.se.evidence.clinicaltrials import ExtractionBundle
 from bve.se.ontology.therapeutic_areas import area_terms, classify_therapeutic_areas
 from bve.se.schemas.contracts import (
@@ -149,20 +150,33 @@ class PublicDocumentEvidenceExtractor:
             )
             claims.append(claim)
             facts.append(_fact(hit, claim, "modality_id", modality))
+        for modality in hit.context_modality_terms:
+            claim = _claim(
+                hit, document, predicate="document_modality_context", value=modality, passage=passage
+            )
+            claims.append(claim)
+            facts.append(_fact(hit, claim, "document_modality_context", modality))
 
         # One fact per area, each cited to a span that names that area. The generic passage
         # is the document head, while areas are classified over the whole text, so an area
         # observed further down cannot be entailed by it; and a shared fact would let one
         # unentailed area delete another that is supported.
+        #
+        # evidence_attribution_v1: those document-wide areas are context. The asset's own
+        # area needs a sentence that ties it to the area (R1), cited to that sentence.
         area_text = f"{passage}\n{raw_text}"
         for area in classify_therapeutic_areas(searchable):
             claim = _claim(
                 hit,
                 document,
-                predicate="therapeutic_area",
+                predicate="document_therapeutic_area",
                 value=area,
                 passage=_area_span(area_text, area),
             )
+            claims.append(claim)
+            facts.append(_fact(hit, claim, "document_therapeutic_area", area))
+        for area, sentence in attributed_areas(raw_text or passage, hit.asset_name or ""):
+            claim = _claim(hit, document, predicate="therapeutic_area", value=area, passage=sentence)
             claims.append(claim)
             facts.append(_fact(hit, claim, "therapeutic_area", area))
 

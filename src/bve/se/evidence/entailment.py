@@ -55,7 +55,9 @@ def check_structured_entailment(claim: ExtractedClaim) -> EntailmentResult:
         missing_values = []
     # An area is a class label no source writes verbatim; the passage supports it when it
     # names any of the class's lexicon terms.
-    if claim.predicate == "therapeutic_area" and isinstance(claim.normalized_value, str):
+    if claim.predicate in ("therapeutic_area", "document_therapeutic_area") and isinstance(
+        claim.normalized_value, str
+    ):
         if any(term in passage for term in area_terms(claim.normalized_value)):
             missing_values = []
     if claim.predicate == "modality_id" and claim.normalized_value == "T_CELL_ENGAGER":

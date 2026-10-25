@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 
 from bve.se.evidence import snapshot_cache
+from bve.se.evidence.attribution import attributed_areas
 from bve.se.evidence.clinicaltrials import ExtractionBundle
 from bve.se.evidence.generic import _area_span
 from bve.se.ontology.therapeutic_areas import classify_therapeutic_areas
@@ -12,7 +13,7 @@ from bve.se.schemas.contracts import CandidateHit, ExtractedClaim, NormalizedFac
 
 
 class PubMedEvidenceExtractor:
-    version = "pubmed_v2"
+    version = "pubmed_v3"
 
     def extract(self, hit: CandidateHit, document: SourceDocument) -> ExtractionBundle:
         if not document.snapshot_path:
@@ -43,21 +44,29 @@ class PubMedEvidenceExtractor:
             confidence=0.9,
         )
         claims, facts = [claim], [fact]
-        # gi_area_evidence_v1 G2: one area fact per area the title + abstract supports, each
-        # cited to a span naming it. Without these a PubMed-only asset's area was UNKNOWN by
-        # construction, however explicit the abstract.
-        for area in classify_therapeutic_areas(passage):
-            key = f"{hit.hit_id}|therapeutic_area|{area}"
+        # evidence_attribution_v1. The abstract's areas are context (gi_area_evidence_v1 G2
+        # made them asset facts, which gave every reagent in an oncology paper ONCOLOGY).
+        # Only a sentence that ties this asset to an area is a fact about the asset.
+        text = f"{record.get('title', '')}\n{record.get('abstract', '')}"
+        emitted = [
+            ("document_therapeutic_area", area, _area_span(passage, area))
+            for area in classify_therapeutic_areas(passage)
+        ] + [
+            ("therapeutic_area", area, sentence)
+            for area, sentence in attributed_areas(text, hit.asset_name or "")
+        ]
+        for fact_type, area, span in emitted:
+            key = f"{hit.hit_id}|{fact_type}|{area}"
             area_claim = claim.model_copy(update={
                 "claim_id": f"claim:{hashlib.sha256(key.encode()).hexdigest()[:20]}",
-                "predicate": "therapeutic_area",
+                "predicate": fact_type,
                 "normalized_value": area,
-                "supporting_passage": _area_span(passage, area),
+                "supporting_passage": span,
             })
             claims.append(area_claim)
             facts.append(fact.model_copy(update={
                 "fact_id": f"fact:{hashlib.sha256(key.encode()).hexdigest()[:20]}",
-                "fact_type": "therapeutic_area",
+                "fact_type": fact_type,
                 "value": area,
                 "supporting_claim_ids": [area_claim.claim_id],
             }))

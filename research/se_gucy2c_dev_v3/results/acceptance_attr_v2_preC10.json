@@ -1,0 +1,83 @@
+{
+ "E1_recovered_not_visible": [],
+ "E2_agonists": {
+  "plecanatide": [
+   "EXCLUDED",
+   [
+    "spec.exclude_gucy2c_agonists",
+    "strategy.therapeutic_area"
+   ]
+  ],
+  "linaclotide": [
+   "EXCLUDED",
+   [
+    "spec.exclude_gucy2c_agonists",
+    "strategy.therapeutic_area"
+   ]
+  ],
+  "dolcanatide": [
+   "EXCLUDED",
+   [
+    "spec.exclude_gucy2c_agonists",
+    "strategy.therapeutic_area"
+   ]
+  ]
+ },
+ "E3_examples": {
+  "dextran": {
+   "asset_areas": [],
+   "modality": null
+  },
+  "aniline": {
+   "asset_areas": [],
+   "modality": null
+  },
+  "ether": {
+   "asset_areas": [],
+   "modality": null
+  }
+ },
+ "E4_free_text_area_claims": 83,
+ "E4_unattributed": [],
+ "E5_new_fail_or_excluded": [
+  [
+   "dolcanatide",
+   [
+    "strategy.therapeutic_area"
+   ],
+   "EXCLUDED"
+  ],
+  [
+   "linaclotide",
+   [
+    "strategy.therapeutic_area"
+   ],
+   "EXCLUDED"
+  ],
+  [
+   "plecanatide",
+   [
+    "strategy.therapeutic_area"
+   ],
+   "EXCLUDED"
+  ],
+  [
+   "prucalopride",
+   [
+    "strategy.therapeutic_area"
+   ],
+   "EXCLUDED"
+  ]
+ ],
+ "E5_identity": {
+  "candidates": 279,
+  "merges": 2,
+  "target_changes": []
+ },
+ "E6_eligible": {
+  "TAK-264": [
+   "ONCOLOGY"
+  ]
+ },
+ "E7_ctgov_area_changes": []
+}

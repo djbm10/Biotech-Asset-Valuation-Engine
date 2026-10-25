@@ -270,6 +270,9 @@ class CandidateHit(StrictModel):
     trial_id: str | None = None
     target_terms: list[str] = Field(default_factory=list)
     modality_terms: list[str] = Field(default_factory=list)
+    #: evidence_attribution_v1: the modality the *document* discusses, kept as context.
+    #: Never the asset's modality unless a passage attributes it (``modality_terms``).
+    context_modality_terms: list[str] = Field(default_factory=list)
     aliases: list[str] = Field(default_factory=list)
     #: The source's own structural classification of the intervention, e.g. CT.gov
     #: ``DRUG`` / ``BIOLOGICAL`` / ``COMBINATION_PRODUCT``. Carried so that relationship

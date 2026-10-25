@@ -119,3 +119,42 @@ change, against `gi_v1_preC10`.
 **Expected cost, declared now.** Candidates excluded in v2 on document-level GI evidence
 whose GI sentences coordinate several drugs will return to REVIEW as UNKNOWN. The
 visible count may rise. That is the correct price of R3, and it is reported, not tuned.
+
+## Amendment 1 (after the first development replay, before acceptance is assessed)
+
+The first replay (`attr_v1_preC10`) exposed two R2 defects. Neither involves a product rule.
+
+- **The apposition window was too short.** It stopped after 5 tokens, so in "[3H]TAK-164,
+  a Guanylyl Cyclase C Targeted Antibody-Drug Conjugate" the span ended at
+  "Antibody-Drug" and matched the bare alias `antibody`. The registry clears a modality
+  when an asset's records disagree, so a true ADC lost its modality. The appositive now
+  runs to the end of its clause, up to 8 tokens.
+- **The head-noun form needed no determiner and allowed a one-token gap.** "disulfide-rich
+  peptide drugs" and "peptide therapeutics often" assigned PEPTIDE to the words `drugs` and
+  `often`. The form is now `a|an|the <modality phrase> X`: the phrase starts and ends on a
+  modality alias, and there is no gap.
+
+Both cases are regression tests. Acceptance is assessed on the second replay
+(`attr_v2_preC10`) only. The first replay is kept as a record.
+
+## Results against the frozen criteria (replay `attr_v2_preC10`)
+
+Code: `94fefff` + G1/G2 + this change, on the same sealed bytes; compared with `gi_v1_preC10`.
+
+| | Result |
+|---|---|
+| E1 | **PASS**: 12/17 visible and 12/17 all; all 12 recovered names visible |
+| E2 | **PASS**: 0 control hits; the 3 agonists stay EXCLUDED by `spec.exclude_gucy2c_agonists` |
+| E3 | **PASS**: dextran, aniline and ether have no asset area and no modality |
+| E4 | **PASS**: 83 free-text `therapeutic_area` claims, all citing an R1-attributing sentence |
+| E5 | **FAIL as written** at gate level, PASS at route level. No candidate changed route to EXCLUDED, and identity is unchanged (279 candidates, 2 merges, 0 target changes). But four already-EXCLUDED candidates gained a `strategy.therapeutic_area` FAIL on facts they did not have before: linaclotide, plecanatide, dolcanatide, prucalopride. Every such fact cites a sentence attributing GI use to that drug ("Plecanatide for the treatment of chronic idiopathic constipation…") |
+| E6 | **PASS**: 1 ELIGIBLE (TAK-264), with area ONCOLOGY from an R1 sentence (PMID 30631747 title) |
+| E7 | **PASS**: CT.gov area facts of all 12 recovered assets unchanged |
+| E8 | **PASS**: 2:02 vs 2:00; 2.51 GB |
+
+The E5 deviation is recorded as is and is not re-worded. The criterion was written to stop
+exclusion on *unattributed* facts, and these facts are attributed (type 3). It is
+reported so that a reader can reject it.
+
+Declared cost, realised: the 11 candidates v2 excluded on document-level GI evidence return
+to REVIEW as UNKNOWN. Visible goes 21 → 32, and strict visible precision 57.1% → 37.5%.

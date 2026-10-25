@@ -166,11 +166,9 @@ def _hit(source: str, *, snippet: str = "") -> CandidateHit:
     )
 
 
-def _ta_output(bundle):
-    facts = sorted(
-        (f for f in bundle.facts if f.fact_type == "therapeutic_area"), key=lambda f: f.value
-    )
-    claims = {c.claim_id: c for c in bundle.claims if c.predicate == "therapeutic_area"}
+def _ta_output(bundle, fact_type: str = "therapeutic_area"):
+    facts = sorted((f for f in bundle.facts if f.fact_type == fact_type), key=lambda f: f.value)
+    claims = {c.claim_id: c for c in bundle.claims if c.predicate == fact_type}
     return facts, claims
 
 
@@ -218,7 +216,10 @@ class TestExtraction:
         text = "Asset A in B cell lymphoma. " + "Filler sentence. " * 200 + "Patients with lupus."
         document = _document(tmp_path, text, name="long.txt")
         bundle = PublicDocumentEvidenceExtractor().extract(_hit("pubmed", snippet=text), document)
-        facts, claims = _ta_output(bundle)
+        # evidence_attribution_v1: only "Asset A in B cell lymphoma" is about the asset. The
+        # document-wide areas are context, and they keep the citation-position property.
+        assert [f.value for f in _ta_output(bundle)[0]] == [ONCOLOGY]
+        facts, claims = _ta_output(bundle, "document_therapeutic_area")
         assert [f.value for f in facts] == [AUTOIMMUNE, ONCOLOGY]
         autoimmune_claim = claims[facts[0].supporting_claim_ids[0]]
         assert "lupus" in autoimmune_claim.supporting_passage
