@@ -312,6 +312,18 @@ def _needs_target_frame(term: str, canonical: str) -> bool:
 _WORD_BOUNDED_BELOW = 6
 
 
+_FOLDED_CODE = re.compile(r"^([a-z]{1,6}) ?(\d{2,8}[a-z]?)$")
+
+
+def _code_spellings(folded: str) -> set[str]:
+    """Both spellings of a folded compact development code: ``xl 844`` and ``xl844``."""
+
+    match = _FOLDED_CODE.match(folded)
+    if not match:
+        return set()
+    return {f"{match.group(1)} {match.group(2)}", f"{match.group(1)}{match.group(2)}"}
+
+
 def _whole_word(term: str, lowered: str) -> bool:
     if not term or term not in lowered:
         return False
@@ -453,7 +465,13 @@ class QueryVocabulary:
                 # "target OR drug" and every seeded query would collapse back into the
                 # same target search -- which is exactly the search that cannot reach an
                 # asset whose documents never name its target.
-                targets.append((canonical, tuple(sorted({_fold(a) for a in query.aliases}))))
+                #
+                # intervention_identity_v1 N2: a code-shaped alias also matches its
+                # compact/separated spelling ("XL-844" <-> "XL844"), for this query only.
+                folded = {_fold(a) for a in query.aliases}
+                targets.append(
+                    (canonical, tuple(sorted(folded | {v for t in folded for v in _code_spellings(t)})))
+                )
                 continue
             terms = {_fold(canonical)}
             # Unambiguous aliases only, and re-derived here rather than trusted from the
@@ -741,6 +759,11 @@ def _intervention_aliases(protocol: dict[str, Any]) -> dict[str, tuple[str, ...]
             for value in values
             for observed in extract_observed_asset_names(str(value), shape_scan=False)
         ]
+        # intervention_identity_v1 N3: the original composite label, verbatim, so the
+        # registry records it as an edge (it resolves to no single drug, so it never merges).
+        label = intervention.get(_COMPOSITE_LABEL)
+        if label:
+            parts.append(str(label))
         if parts:
             aliases[_normalized_lookup(name)] = tuple(dict.fromkeys(parts))
     return aliases
@@ -1119,6 +1142,86 @@ def identity_name_for_intervention(
     return name
 
 
+#: ``Drug 1: A; Drug 2: B`` -- one labelled constituent per ``;``-separated segment.
+_ENUMERATED_SEGMENT = re.compile(r"^\s*(?:drug|agent|treatment)\s*\d+\s*:\s*(.+?)\s*$", re.IGNORECASE)
+#: ``A (B)``: one parenthetical at the end, nothing nested.
+_PAREN_PAIR = re.compile(r"^\s*([^()]+?)\s*\(([^()]+)\)\s*$")
+
+
+def _named(part: str) -> bool:
+    """A part is a drug name or code by the conservative extractor, not a descriptor."""
+
+    return bool(part.strip()) and bool(extract_observed_asset_names(part, shape_scan=False))
+
+
+def _composite_parts(name: str) -> tuple[str, list[str], list[str]] | None:
+    """``("enumerated", constituents, [])`` or ``("pair", [primary], [related])``; else None."""
+
+    segments = [s for s in name.split(";") if s.strip()]
+    if len(segments) >= 2:
+        matches = [_ENUMERATED_SEGMENT.match(s) for s in segments]
+        if all(matches):
+            return "enumerated", [m.group(1) for m in matches if m], []
+        return None
+    paren = _PAREN_PAIR.match(name)
+    if paren and _named(paren.group(1)) and _named(paren.group(2)):
+        return "pair", [paren.group(1).strip()], [paren.group(2).strip()]
+    if name.count("/") == 1 and " " not in name.strip():
+        first, second = (p.strip() for p in name.split("/"))
+        if _named(first) and _named(second):
+            return "pair", [first], [second]
+    return None
+
+
+#: Key under which an expanded constituent carries its original composite label.
+_COMPOSITE_LABEL = "bveCompositeLabel"
+
+
+def expand_composite_interventions(protocol: dict[str, Any]) -> dict[str, Any]:
+    """A copy of ``protocol`` with composite intervention labels expanded (N3).
+
+    Enumerated labels become one intervention per constituent; a two-name pair becomes the
+    first name with the second offered as a related name, which the registry classifies
+    against the authority exactly as it does ``otherNames``. The original label is kept as
+    a related name on every result. Nothing is merged here.
+    """
+
+    module = protocol.get("armsInterventionsModule") or {}
+    interventions = module.get("interventions") or []
+    renamed: dict[str, list[str]] = {}
+    expanded: list[dict[str, Any]] = []
+    for intervention in interventions:
+        name = str(intervention.get("name") or "").strip()
+        parsed = _composite_parts(name) if name else None
+        if parsed is None:
+            expanded.append(intervention)
+            continue
+        _kind, names, related = parsed
+        raw_other = intervention.get("otherNames") or []
+        other = raw_other if isinstance(raw_other, list) else [raw_other]
+        for constituent in names:
+            # The original label is provenance, not this constituent's own text: kept
+            # where the alias reader records it, never where nomination reads.
+            expanded.append({**intervention, "name": constituent,
+                             "otherNames": [*related, *other] if _kind == "pair" else other,
+                             _COMPOSITE_LABEL: name})
+        renamed[name] = names
+    if not renamed:
+        return protocol
+    arms = []
+    for arm in module.get("armGroups") or []:
+        labels: list[str] = []
+        for label in arm.get("interventionNames") or []:
+            prefix, _, bare = str(label).rpartition(": ")
+            if bare in renamed:
+                labels.extend(f"{prefix}: {n}" if prefix else n for n in renamed[bare])
+            else:
+                labels.append(label)
+        arms.append({**arm, "interventionNames": labels})
+    return {**protocol, "armsInterventionsModule": {**module, "interventions": expanded,
+                                                    "armGroups": arms}}
+
+
 def _candidate_interventions(
     protocol: dict[str, Any],
     vocabulary: QueryVocabulary,
@@ -1169,9 +1272,10 @@ def _candidate_interventions(
         name = intervention.get("name", "").strip()
         other_names = intervention.get("otherNames", []) or []
         other_names_text = " ".join(other_names) if isinstance(other_names, list) else str(other_names)
-        intervention_context = " ".join(
-            [name, intervention.get("description", ""), other_names_text]
-        ).casefold()
+        # intervention_identity_v1 N4: for a seeded query the description is not the
+        # intervention's own name for the drug -- "Placebo matching X" mentions X.
+        description_text = "" if vocabulary.identity_seeded else intervention.get("description", "")
+        intervention_context = f"{name} {description_text} {other_names_text}".casefold()
         primary_names = extract_observed_asset_names(name)
         other_name_candidates = extract_observed_asset_names(
             other_names_text, shape_scan=False
@@ -1530,6 +1634,9 @@ class ClinicalTrialsGovAdapter:
             # assert PDCD1. These names are carried to the hit as *candidates* only; the
             # registry decides what each one is against the ontology and merges nothing on
             # this field's say-so.
+            # intervention_identity_v1 N3: composite labels are expanded for extraction
+            # only; the snapshot and custody above keep the record exactly as served.
+            protocol = expand_composite_interventions(protocol)
             aliases_by_intervention = _intervention_aliases(protocol)
             types_by_intervention = _intervention_types(protocol)
             arm_relationships = _arm_relationships(protocol)
@@ -1554,6 +1661,11 @@ class ClinicalTrialsGovAdapter:
                 ]
                 if lead_only and not interventions:
                     continue
+            if not interventions and vocabulary.identity_seeded:
+                # intervention_identity_v1 N4: a seeded drug named somewhere in a record
+                # that has no intervention naming it is retrieval context; the record's
+                # title is not an asset.
+                continue
             if not interventions:
                 fallback_name = identification.get("briefTitle") or nct_id or "unnamed program"
                 interventions = [(fallback_name, protocol_targets, vocabulary.modality_in(lower))]

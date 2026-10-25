@@ -90,3 +90,15 @@ with the new code. Scored with the pilot scorer against the CHEK1 reference, whi
   sealed (new nominated names). Those fail as replay divergences, and they are reported.
 
 After this measurement, development stops.
+
+## Implementation clarifications (before measurement)
+
+- **N4 also covers the title fallback.** A CT.gov record with no qualifying intervention
+  falls back to its `briefTitle` as the candidate name. For a seeded query that fallback
+  nominated trial titles ("Evaluate the Safety of Linaclotide in IBS-C Patients in China")
+  on the seed's name appearing anywhere in the protocol. For seeded queries the fallback is
+  off. Target-vocabulary queries keep it.
+- **N3's original label is provenance, not text.** It is carried on each constituent under
+  a separate key, which the alias reader records as a related name (an UNCERTAIN edge) and
+  nomination never reads. Placing it in `otherNames` made a combination partner's own text
+  "name" the seed, which the first implementation's test caught.

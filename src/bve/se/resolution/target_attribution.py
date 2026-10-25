@@ -12,12 +12,25 @@ no path by which the context of discovery can influence the attribution.
 
 from __future__ import annotations
 
+import re
 from typing import Iterable
 
 from bve.se.ontology.mechanisms import DrugTargetAuthority
 from bve.se.ontology.records import EntityType
 from bve.se.ontology.resolver import BiomedicalEntityResolver, ResolutionStatus
 from bve.se.schemas.contracts import CandidateTargetAssertion, TargetAssertionStatus
+
+#: intervention_identity_v1 N1: exactly a compact development code -- 1-6 letters
+#: immediately followed by 2-8 digits, optionally one trailing letter. Nothing else is
+#: respelled: no fuzzy matching, no other spelling axis, never a target.
+_COMPACT_CODE = re.compile(r"^([A-Za-z]{1,6})(\d{2,8}[A-Za-z]?)$")
+
+
+def separated_code(name: str) -> str | None:
+    """``"XL844"`` -> ``"XL 844"``; ``None`` for anything that is not a compact code."""
+
+    match = _COMPACT_CODE.match(name.strip())
+    return f"{match.group(1)} {match.group(2)}" if match else None
 
 
 class OntologyTargetAttribution:
@@ -37,6 +50,18 @@ class OntologyTargetAttribution:
         self._authority = authority
         self._requested = list(dict.fromkeys(requested_target_ids))
 
+    def _resolve_one(self, name: str) -> str | None:
+        result = self._resolver.resolve(name, entity_type=EntityType.DRUG)
+        if result.status is ResolutionStatus.RESOLVED:
+            return result.canonical_id
+        # intervention_identity_v1 N1: a compact development code ("XL844") is retried with
+        # one separator ("XL 844"), which the lookup key already equates with "XL-844".
+        separated = separated_code(name)
+        if separated is None:
+            return None
+        retry = self._resolver.resolve(separated, entity_type=EntityType.DRUG)
+        return retry.canonical_id if retry.status is ResolutionStatus.RESOLVED else None
+
     def resolve_asset(self, asset_name: str, aliases: list[str]) -> str | None:
         """Find the canonical drug, by exact identifier or alias match only.
 
@@ -47,9 +72,9 @@ class OntologyTargetAttribution:
         for candidate in [asset_name, *aliases]:
             if not candidate:
                 continue
-            result = self._resolver.resolve(candidate, entity_type=EntityType.DRUG)
-            if result.status is ResolutionStatus.RESOLVED:
-                return result.canonical_id
+            resolved = self._resolve_one(candidate)
+            if resolved:
+                return resolved
         return None
 
     def resolve_drug(self, name: str) -> str | None:
@@ -63,8 +88,7 @@ class OntologyTargetAttribution:
 
         if not name or not name.strip():
             return None
-        result = self._resolver.resolve(name, entity_type=EntityType.DRUG)
-        return result.canonical_id if result.status is ResolutionStatus.RESOLVED else None
+        return self._resolve_one(name)
 
     def authority_names(self, asset_name: str, aliases: list[str]) -> tuple[str, ...]:
         """The authority's own queryable names for the drug this asset resolves to.
@@ -100,7 +124,13 @@ class OntologyTargetAttribution:
 
         if not name or not name.strip() or is_class_term(name):
             return None
-        return self._resolver.resolve_identifier(name, entity_type=EntityType.DRUG)
+        found = self._resolver.resolve_identifier(name, entity_type=EntityType.DRUG)
+        separated = None if found else separated_code(name)
+        return found or (
+            self._resolver.resolve_identifier(separated, entity_type=EntityType.DRUG)
+            if separated
+            else None
+        )
 
     def describes_target_or_class(self, name: str) -> bool:
         """Whether a name denotes a target or mechanism class rather than a drug.

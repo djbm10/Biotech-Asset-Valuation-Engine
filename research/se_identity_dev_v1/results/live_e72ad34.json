@@ -1,0 +1,89 @@
+{
+ "label": "live_e72ad34",
+ "grade": "DEVELOPMENT - disclosed example, AI reference, not validation",
+ "counts": {
+  "candidates": 712,
+  "eligible": 7,
+  "review": 93,
+  "excluded": 100,
+  "low_support": 512,
+  "engine_merges": 12
+ },
+ "all": {
+  "n_candidates": 712,
+  "recall": 0.8571428571428571,
+  "precision_strict": 0.016853932584269662,
+  "precision_adjudicated": 0.6666666666666666,
+  "true_positives": [
+   "R-001",
+   "R-002",
+   "R-003",
+   "R-004",
+   "R-005",
+   "R-006",
+   "R-007",
+   "R-008",
+   "R-009",
+   "R-011",
+   "R-012",
+   "R-014"
+  ],
+  "false_negatives": [
+   "R-010",
+   "R-013"
+  ],
+  "negative_control_hits": [
+   "C-001",
+   "C-002",
+   "C-003",
+   "C-005"
+  ],
+  "merge_errors": [],
+  "split_errors": [
+   "R-001",
+   "R-005"
+  ],
+  "trial_coverage_overall": 0.8125,
+  "trial_coverage_recovered": 0.8666666666666667,
+  "target_accuracy": 1.0,
+  "target_accuracy_incl_unknown": 0.6666666666666666,
+  "modality_accuracy_incl_unknown": 0.5,
+  "unadjudicated": 694
+ },
+ "visible": {
+  "n_candidates": 100,
+  "recall": 0.8571428571428571,
+  "precision_strict": 0.12,
+  "precision_adjudicated": 0.8571428571428571,
+  "true_positives": [
+   "R-001",
+   "R-002",
+   "R-003",
+   "R-004",
+   "R-005",
+   "R-006",
+   "R-007",
+   "R-008",
+   "R-009",
+   "R-011",
+   "R-012",
+   "R-014"
+  ],
+  "false_negatives": [
+   "R-010",
+   "R-013"
+  ],
+  "negative_control_hits": [],
+  "merge_errors": [],
+  "split_errors": [
+   "R-001",
+   "R-005"
+  ],
+  "trial_coverage_overall": 0.8125,
+  "trial_coverage_recovered": 0.8666666666666667,
+  "target_accuracy": 1.0,
+  "target_accuracy_incl_unknown": 0.6666666666666666,
+  "modality_accuracy_incl_unknown": 0.5,
+  "unadjudicated": 86
+ }
+}
