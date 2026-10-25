@@ -1,0 +1,24 @@
+Command exited with non-zero status 2
+	Command being timed: ".venv/bin/bve-se-search --problem research/se_blinded_pilot_v1/chek1_clinical_any_v1/engine_problem.yaml --output-dir /home/djmann/se_runs/chek1_pilot_v1/run --format shortlist --progress"
+	User time (seconds): 148.44
+	System time (seconds): 1.76
+	Percent of CPU this job got: 80%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:05.66
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2021608
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 536577
+	Voluntary context switches: 2674
+	Involuntary context switches: 1323
+	Swaps: 0
+	File system inputs: 16
+	File system outputs: 57536
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 2

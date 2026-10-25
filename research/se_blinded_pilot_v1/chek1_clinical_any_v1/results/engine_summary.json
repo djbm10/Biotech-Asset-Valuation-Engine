@@ -1,0 +1,210 @@
+{
+  "run_id": "se:a93f9efc-10fa-40d4-b0e0-db8781af6b2a",
+  "problem_id": "nlq_76f50f14cef9cd5e",
+  "query": null,
+  "interpretation": [],
+  "run_status": "INCOMPLETE",
+  "convergence_mode": "LIVE",
+  "convergence_meaning": "LIVE: the seed queries were re-issued to the live sources and produced no new candidates. No local-fixpoint or cache-served mode exists; if one is added it must report its own mode and must not be scored as live convergence.",
+  "incomplete_reasons": [
+    "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_aacr, conference_asco, conference_ash, conference_eha, sec_edgar"
+  ],
+  "fatal_reasons": [],
+  "elapsed_seconds": 171.5,
+  "stages": [
+    {
+      "name": "DISCOVERY",
+      "seconds": 79.3
+    },
+    {
+      "name": "ACQUISITION",
+      "seconds": 0.1
+    },
+    {
+      "name": "IDENTITY",
+      "seconds": 0.3
+    },
+    {
+      "name": "EXTRACTION",
+      "seconds": 6.1
+    },
+    {
+      "name": "CONSTRUCT_TARGETS",
+      "seconds": 0.0
+    },
+    {
+      "name": "NCIT_TARGETS",
+      "seconds": 0.1
+    },
+    {
+      "name": "TARGET_COMPATIBILITY",
+      "seconds": 0.0
+    },
+    {
+      "name": "LEXICON",
+      "seconds": 0.1
+    },
+    {
+      "name": "HUMAN_POC",
+      "seconds": 84.4
+    },
+    {
+      "name": "GATING",
+      "seconds": 0.0
+    },
+    {
+      "name": "SCORING",
+      "seconds": 0.0
+    }
+  ],
+  "exit_code": 2,
+  "counts": {
+    "total_candidates": 701,
+    "eligible": 3,
+    "review": 91,
+    "excluded": 98,
+    "low_support": 509,
+    "shown": 10
+  },
+  "blind_spots": [
+    "mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_aacr' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown",
+    "mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown"
+  ],
+  "sources": [
+    {
+      "family": "clinicaltrials_gov",
+      "outcome": "SUCCESS",
+      "queries": 30
+    },
+    {
+      "family": "company_pipeline_or_presentation",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "company_press_release",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_aacr",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_asco",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_ash",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "conference_eha",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    },
+    {
+      "family": "pubmed",
+      "outcome": "SUCCESS",
+      "queries": 30
+    },
+    {
+      "family": "sec_edgar",
+      "outcome": "NOT_CONFIGURED",
+      "queries": 1
+    }
+  ],
+  "top": [
+    {
+      "position": 1,
+      "name": "Prexasertib",
+      "asset_id": "asset:b2e0c1e295f0c07a4555",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 2,
+      "name": "SCH 900776",
+      "asset_id": "asset:c8681ddd695d882436b3",
+      "section": "eligible",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 3,
+      "name": "BBI-355",
+      "asset_id": "asset:bbea68642dda773bf07c",
+      "section": "eligible",
+      "target_status": "UNRESOLVED"
+    },
+    {
+      "position": 4,
+      "name": "rabusertib",
+      "asset_id": "asset:c65b72fb87f7d921c6c2",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 5,
+      "name": "UCN-01",
+      "asset_id": "asset:451419179f0efb9ab0d3",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 6,
+      "name": "AZD7762",
+      "asset_id": "asset:cd48b9d274cc2f03ea51",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 7,
+      "name": "GDC-0425",
+      "asset_id": "asset:6806a029686e6cd21904",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 8,
+      "name": "GDC-0575",
+      "asset_id": "asset:d9680ab73a0087ddf216",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 9,
+      "name": "MK-8776",
+      "asset_id": "asset:2ea0f75041391a00887c",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    },
+    {
+      "position": 10,
+      "name": "PF477736",
+      "asset_id": "asset:3ac3551c9f1781b43f6f",
+      "section": "review",
+      "target_status": "CONFIRMED_TARGET"
+    }
+  ],
+  "artifacts": {
+    "result": "result.json",
+    "shortlist": "shortlist.txt",
+    "shortlist_json": "shortlist.json",
+    "memo": "memo.md",
+    "run_manifest": "run_manifest.json",
+    "acquisition_ledger": "acquisition_ledger.jsonl",
+    "log": "logs/run.log",
+    "custody": "custody",
+    "reproduce": "reproduce.sh",
+    "invocation": "invocation.json"
+  },
+  "artifact_root": "/home/djmann/se_runs/chek1_pilot_v1/run"
+}

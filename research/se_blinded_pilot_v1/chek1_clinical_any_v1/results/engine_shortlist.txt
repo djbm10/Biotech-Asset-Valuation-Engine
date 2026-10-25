@@ -1,0 +1,208 @@
+S&E shortlist for nlq_76f50f14cef9cd5e (run se:a93f9efc-10fa-40d4-b0e0-db8781af6b2a, as of 2026-10-25)
+ordering: declared_lexicographic_v1
+
+Run status INCOMPLETE: the corpus is short of what the problem asked for. Present assets are still evidenced; absent ones may simply be unseen.
+   - mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_aacr, conference_asco, conference_ash, conference_eha, sec_edgar
+Sources (run status INCOMPLETE):
+   clinicaltrials_gov: SUCCESS (30 queries, 90 found, 23 new)
+   company_pipeline_or_presentation: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   company_press_release: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_aacr: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_asco: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_ash: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   conference_eha: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+   pubmed: SUCCESS (30 queries, 5362 found, 2483 new, 1 retried)
+   sec_edgar: NOT_CONFIGURED (1 queries, 0 found, 0 new)
+      error: connector not configured
+Documents by publisher: ClinicalTrials.gov 27, PubMed 402, chembl 1, drug_target_authority 1, open_targets 1
+Known blind spots: mandatory source 'company_pipeline_or_presentation' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'company_press_release' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_aacr' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_asco' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_ash' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'conference_eha' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown, mandatory source 'sec_edgar' has no configured connector; no evidence from it was acquired and this run cannot speak to what it would have shown
+
+1. Prexasertib
+   Company: Geoffrey Shapiro, MD, PhD, Eli Lilly and Company, Dana-Farber Cancer Institute, National Cancer Institute (NCI), Children's Oncology Group, St. Jude Children's Research Hospital
+   Modality: CELL_THERAPY  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: SMALL_MOLECULE  -- ChEMBL_37 molecule type of DRUG:PREXASERTIB (CHEMBL3544911: Small molecule)
+   Phase: PHASE_2  -- highest of 9 cited trial records
+   Trial registry status: COMPLETED, TERMINATED  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: CONFIRMED_TARGET TARGET:CHEK1
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:102ab25a13e31a712922.
+   Review: Citation does not entail material claim claim:0a9ff19bf37fec697c03.
+   Review: Citation does not entail material claim claim:55625cecb83b04cf90c9.
+   ... and 10 more review items (--detail)
+   Why: found while searching CHEK1; named in 62 source documents
+   Why: target TARGET:CHEK1 is CONFIRMED_TARGET, from 4 authority records (chembl, open_targets)
+   Why: 62 source documents: ClinicalTrials.gov, PubMed
+   Evidence: ClinicalTrials.gov NCT03057145, ClinicalTrials.gov NCT02514603, ClinicalTrials.gov NCT02735980, ClinicalTrials.gov NCT03735446, ClinicalTrials.gov NCT02203513, ClinicalTrials.gov NCT02873975, ... and 78 more
+
+2. SCH 900776
+   Company: National Cancer Institute (NCI)
+   Modality: unresolved  -- no modality was read from the surrounding text
+   Authority modality: SMALL_MOLECULE  -- ChEMBL_37 molecule type of DRUG:SCH-900776 (CHEMBL2386889: Small molecule)
+   Phase: PHASE_2  -- highest of 1 cited trial records
+   Trial registry status: COMPLETED  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: CONFIRMED_TARGET TARGET:CHEK1
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:5a19603a2930de02fcd1.
+   Why: found while searching CHEK1; named in 10 source documents
+   Why: target TARGET:CHEK1 is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 10 source documents: ClinicalTrials.gov, PubMed
+   Evidence: ClinicalTrials.gov NCT01870596, PubMed PMID:42914572, PubMed PMID:37531716, PubMed PMID:37451671, PubMed PMID:34112559, PubMed PMID:32579780, ... and 8 more
+
+3. BBI-355
+   Company: Boundless Bio, Inc.
+   Modality: unresolved  -- no modality was read from the surrounding text
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: PHASE_1 or PHASE_1/2  -- highest of 1 cited trial records
+   Trial registry status: TERMINATED  -- status of each cited trial record, not a programme status (historical programmes are not excluded)
+   Target: unresolved  -- UNRESOLVED: no drug->target authority record backs this candidate, so the target is inferred from nothing stronger than discovery context
+   Disposition: ELIGIBLE  -- meets the declared search criteria; not evidence of current development, ownership or licensing availability
+   Review: Citation does not entail material claim claim:4e4cc01cc4ea7b50971a.
+   Why: found while searching CHEK1; named in 3 source documents
+   Why: target TARGET:CHEK1 is UNRESOLVED, with no authority record backing it
+   Why: 3 source documents: ClinicalTrials.gov, PubMed
+   Evidence: ClinicalTrials.gov NCT05827614, PubMed PMID:42457651, PubMed PMID:41683580, ClinicalTrials.gov NCT05827614, ClinicalTrials.gov NCT05827614
+
+4. rabusertib  [REVIEW]
+   Company: unresolved  -- no company named in this corpus
+   Modality: SMALL_MOLECULE  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: SMALL_MOLECULE  -- ChEMBL_37 molecule type of DRUG:RABUSERTIB (CHEMBL3039517: Small molecule)
+   Phase: unresolved  -- no development stage was established for this candidate
+   Target: CONFIRMED_TARGET TARGET:CHEK1
+   Disposition: UNRESOLVED
+   Review: Observed identity_valid is missing, stale, ambiguous, or conflicting.
+   Review: Observed development_stage_order is missing, stale, ambiguous, or conflicting.
+   Why: found while searching CHEK1; named in 39 source documents
+   Why: target TARGET:CHEK1 is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 39 source documents: PubMed
+   Why: identity_validity: Observed identity_valid is missing, stale, ambiguous, or conflicting. Research fact type 'identity_valid'.
+   Why: evidence_floor: Observed development_stage_order is missing, stale, ambiguous, or conflicting. Research fact type 'development_stage_order'.
+   Evidence: PubMed PMID:41789585, PubMed PMID:41491222, PubMed PMID:41104666, PubMed PMID:40548926, PubMed PMID:39859189, PubMed PMID:37482342, ... and 35 more
+
+5. UCN-01  [REVIEW]
+   Company: unresolved  -- no company named in this corpus
+   Modality: SMALL_MOLECULE  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: SMALL_MOLECULE  -- ChEMBL_37 molecule type of DRUG:UCN-01 (CHEMBL574737: Small molecule)
+   Phase: unresolved  -- no development stage was established for this candidate
+   Target: CONFIRMED_TARGET TARGET:CHEK1
+   Disposition: UNRESOLVED
+   Review: Observed identity_valid is missing, stale, ambiguous, or conflicting.
+   Review: Observed development_stage_order is missing, stale, ambiguous, or conflicting.
+   Why: found while searching CHEK1; named in 40 source documents
+   Why: target TARGET:CHEK1 is CONFIRMED_TARGET, from 10 authority records (chembl, open_targets)
+   Why: 40 source documents: PubMed
+   Why: identity_validity: Observed identity_valid is missing, stale, ambiguous, or conflicting. Research fact type 'identity_valid'.
+   Why: evidence_floor: Observed development_stage_order is missing, stale, ambiguous, or conflicting. Research fact type 'development_stage_order'.
+   Evidence: PubMed PMID:27286453, PubMed PMID:28550769, PubMed PMID:42061770, PubMed PMID:40493122, PubMed PMID:38380364, PubMed PMID:38231350, ... and 44 more
+
+6. AZD7762  [REVIEW]
+   Company: unresolved  -- no company named in this corpus
+   Modality: SMALL_MOLECULE  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: SMALL_MOLECULE  -- ChEMBL_37 molecule type of DRUG:AZD-7762 (CHEMBL2041933: Small molecule)
+   Phase: unresolved  -- no development stage was established for this candidate
+   Target: CONFIRMED_TARGET TARGET:CHEK1
+   Disposition: UNRESOLVED
+   Review: Observed identity_valid is missing, stale, ambiguous, or conflicting.
+   Review: Observed development_stage_order is missing, stale, ambiguous, or conflicting.
+   Why: found while searching CHEK1; named in 52 source documents
+   Why: target TARGET:CHEK1 is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 52 source documents: PubMed
+   Why: identity_validity: Observed identity_valid is missing, stale, ambiguous, or conflicting. Research fact type 'identity_valid'.
+   Why: evidence_floor: Observed development_stage_order is missing, stale, ambiguous, or conflicting. Research fact type 'development_stage_order'.
+   Evidence: PubMed PMID:42882893, PubMed PMID:42870295, PubMed PMID:42729135, PubMed PMID:42522751, PubMed PMID:42348984, PubMed PMID:42324030, ... and 48 more
+
+7. GDC-0425  [REVIEW]
+   Company: unresolved  -- no company named in this corpus
+   Modality: SMALL_MOLECULE  -- read from the trial/protocol text this asset was discovered in, not asserted as a property of the molecule
+   Authority modality: SMALL_MOLECULE  -- ChEMBL_37 molecule type of DRUG:RG-7602 (CHEMBL5314388: Small molecule)
+   Phase: unresolved  -- no development stage was established for this candidate
+   Target: CONFIRMED_TARGET TARGET:CHEK1
+   Disposition: UNRESOLVED
+   Review: Observed identity_valid is missing, stale, ambiguous, or conflicting.
+   Review: Observed development_stage_order is missing, stale, ambiguous, or conflicting.
+   Why: found while searching CHEK1; named in 3 source documents
+   Why: target TARGET:CHEK1 is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 3 source documents: PubMed
+   Why: identity_validity: Observed identity_valid is missing, stale, ambiguous, or conflicting. Research fact type 'identity_valid'.
+   Why: evidence_floor: Observed development_stage_order is missing, stale, ambiguous, or conflicting. Research fact type 'development_stage_order'.
+   Evidence: PubMed PMID:28188299, PubMed PMID:27815358, PubMed PMID:27245274, open_targets b5d2858ef60f... (26.06), chembl 4349 (ChEMBL_37)
+
+8. GDC-0575  [REVIEW]
+   Company: unresolved  -- no company named in this corpus
+   Modality: unresolved  -- no modality was read from the surrounding text
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: unresolved  -- no development stage was established for this candidate
+   Target: CONFIRMED_TARGET TARGET:CHEK1
+   Disposition: UNRESOLVED
+   Review: Observed identity_valid is missing, stale, ambiguous, or conflicting.
+   Review: Observed development_stage_order is missing, stale, ambiguous, or conflicting.
+   Why: found while searching CHEK1; named in 7 source documents
+   Why: target TARGET:CHEK1 is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 7 source documents: PubMed
+   Why: identity_validity: Observed identity_valid is missing, stale, ambiguous, or conflicting. Research fact type 'identity_valid'.
+   Why: evidence_floor: Observed development_stage_order is missing, stale, ambiguous, or conflicting. Research fact type 'development_stage_order'.
+   Evidence: PubMed PMID:35379057, PubMed PMID:33897258, PubMed PMID:30352905, PubMed PMID:29788155, PubMed PMID:29535131, PubMed PMID:29409053, ... and 3 more
+
+9. MK-8776  [REVIEW]
+   Company: unresolved  -- no company named in this corpus
+   Modality: unresolved  -- no modality was read from the surrounding text
+   Authority modality: unresolved  -- UNKNOWN: no authority record of this asset's own drug; the discovery context is not used in its place
+   Phase: unresolved  -- no development stage was established for this candidate
+   Target: CONFIRMED_TARGET TARGET:CHEK1
+   Disposition: UNRESOLVED
+   Review: Observed identity_valid is missing, stale, ambiguous, or conflicting.
+   Review: Observed development_stage_order is missing, stale, ambiguous, or conflicting.
+   Why: found while searching CHEK1; named in 40 source documents
+   Why: target TARGET:CHEK1 is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 40 source documents: PubMed
+   Why: identity_validity: Observed identity_valid is missing, stale, ambiguous, or conflicting. Research fact type 'identity_valid'.
+   Why: evidence_floor: Observed development_stage_order is missing, stale, ambiguous, or conflicting. Research fact type 'development_stage_order'.
+   Evidence: PubMed PMID:37008945, PubMed PMID:35418303, PubMed PMID:38400057, PubMed PMID:30837643, PubMed PMID:27939202, PubMed PMID:27829224, ... and 36 more
+
+10. PF477736  [REVIEW]
+   Company: unresolved  -- no company named in this corpus
+   Modality: unresolved  -- no modality was read from the surrounding text
+   Authority modality: SMALL_MOLECULE  -- ChEMBL_37 molecule type of DRUG:PF-00477736 (CHEMBL3545137: Small molecule)
+   Phase: unresolved  -- no development stage was established for this candidate
+   Target: CONFIRMED_TARGET TARGET:CHEK1
+   Disposition: UNRESOLVED
+   Review: Observed identity_valid is missing, stale, ambiguous, or conflicting.
+   Review: Observed development_stage_order is missing, stale, ambiguous, or conflicting.
+   Why: found while searching CHEK1; named in 3 source documents
+   Why: target TARGET:CHEK1 is CONFIRMED_TARGET, from 2 authority records (chembl, open_targets)
+   Why: 3 source documents: PubMed
+   Why: identity_validity: Observed identity_valid is missing, stale, ambiguous, or conflicting. Research fact type 'identity_valid'.
+   Why: evidence_floor: Observed development_stage_order is missing, stale, ambiguous, or conflicting. Research fact type 'development_stage_order'.
+   Evidence: PubMed PMID:42838938, PubMed PMID:18694366, PubMed PMID:34782371, open_targets 2cd1e96acbb7... (26.06), chembl 4311 (ChEMBL_37)
+
+Held back as low-support (509 total, 10 shown):
+   - choice (CONFIRMED_OTHER_TARGET)
+   - OSI906 (CONFIRMED_OTHER_TARGET)
+   - roscovitine (CONFIRMED_OTHER_TARGET)
+   - zoledronic (CONFIRMED_OTHER_TARGET)
+   - abdominal (UNRESOLVED)
+   - absolute (UNRESOLVED)
+   - ABT888 (UNRESOLVED)
+   - AC 37 (UNRESOLVED)
+   - Acanthopanax (UNRESOLVED)
+   - ACR-368 (UNRESOLVED)
+
+Excluded because (98 total, 10 shown):
+   - abemaciclib: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - abiraterone: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Abiraterone Acetate: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - adavosertib: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Afatinib: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - alectinib: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Alisertib: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - Alpelisib: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - APR-246: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+   - arsenic trioxide: target.expression FAIL: Canonical construct targets do not satisfy the configured expression.
+
+Counts: eligible 3, review 91, excluded 98, low_support 509, total_candidates 701, shown 10
+Note: Order is declared and lexicographic, not a score: eligibility, then human efficacy, maturity, target confidence and evidence completeness, then name. Source coverage never moves an asset.

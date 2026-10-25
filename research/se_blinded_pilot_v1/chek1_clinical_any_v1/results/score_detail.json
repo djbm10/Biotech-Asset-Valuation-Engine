@@ -1,0 +1,512 @@
+{
+ "trial_coverage_all_ids": 0.3125,
+ "trial_coverage_nct_only": 0.3125,
+ "trial_counts": {
+  "all": [
+   15,
+   48
+  ],
+  "nct": [
+   15,
+   48
+  ]
+ },
+ "assets": [
+  {
+   "reference_id": "R-001",
+   "in_scope": true,
+   "names": [
+    "prexasertib",
+    "LY2606368",
+    "ACR-368",
+    "prexasertib mesylate"
+   ],
+   "candidates": [
+    {
+     "name": "ACR-368",
+     "route": "LOW_SUPPORT",
+     "targets": [],
+     "modality": "SMALL_MOLECULE",
+     "authority_modality": null,
+     "trials": 0,
+     "qualification": null
+    },
+    {
+     "name": "Prexasertib",
+     "route": "ELIGIBLE",
+     "targets": [
+      "TARGET:CHEK1"
+     ],
+     "modality": "CELL_THERAPY",
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 9,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 20,
+   "ref_nct": 20,
+   "trials_found": 9,
+   "nct_found": 9
+  },
+  {
+   "reference_id": "R-002",
+   "in_scope": true,
+   "names": [
+    "rabusertib",
+    "LY2603618",
+    "IC83"
+   ],
+   "candidates": [
+    {
+     "name": "rabusertib",
+     "route": "REVIEW",
+     "targets": [
+      "TARGET:CHEK1"
+     ],
+     "modality": "SMALL_MOLECULE",
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 7,
+   "ref_nct": 7,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-003",
+   "in_scope": true,
+   "names": [
+    "MK-8776",
+    "SCH 900776",
+    "SCH900776"
+   ],
+   "candidates": [
+    {
+     "name": "MK-8776",
+     "route": "REVIEW",
+     "targets": [
+      "TARGET:CHEK1"
+     ],
+     "modality": null,
+     "authority_modality": null,
+     "trials": 0,
+     "qualification": "ENTITY_CORROBORATED_SYNONYM"
+    },
+    {
+     "name": "SCH 900776",
+     "route": "ELIGIBLE",
+     "targets": [
+      "TARGET:CHEK1"
+     ],
+     "modality": null,
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 1,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 4,
+   "ref_nct": 4,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-004",
+   "in_scope": true,
+   "names": [
+    "AZD7762"
+   ],
+   "candidates": [
+    {
+     "name": "AZD7762",
+     "route": "REVIEW",
+     "targets": [
+      "TARGET:CHEK1"
+     ],
+     "modality": "SMALL_MOLECULE",
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 3,
+   "ref_nct": 3,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-005",
+   "in_scope": true,
+   "names": [
+    "PF-00477736",
+    "PF-477736"
+   ],
+   "candidates": [
+    {
+     "name": "PF-00477736",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "SMALL_MOLECULE",
+     "authority_modality": null,
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    },
+    {
+     "name": "PF477736",
+     "route": "REVIEW",
+     "targets": [
+      "TARGET:CHEK1"
+     ],
+     "modality": null,
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-006",
+   "in_scope": true,
+   "names": [
+    "XL844"
+   ],
+   "candidates": [
+    {
+     "name": "XL-844",
+     "route": "REVIEW",
+     "targets": [
+      "TARGET:CHEK1"
+     ],
+     "modality": null,
+     "authority_modality": null,
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-007",
+   "in_scope": true,
+   "names": [
+    "GDC-0425",
+    "RG7602",
+    "RG-7602"
+   ],
+   "candidates": [
+    {
+     "name": "GDC-0425",
+     "route": "REVIEW",
+     "targets": [
+      "TARGET:CHEK1"
+     ],
+     "modality": "SMALL_MOLECULE",
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-008",
+   "in_scope": true,
+   "names": [
+    "GDC-0575",
+    "ARRY-575",
+    "RG7741"
+   ],
+   "candidates": [
+    {
+     "name": "GDC-0575",
+     "route": "REVIEW",
+     "targets": [
+      "TARGET:CHEK1"
+     ],
+     "modality": null,
+     "authority_modality": null,
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-009",
+   "in_scope": true,
+   "names": [
+    "SRA737",
+    "CCT245737"
+   ],
+   "candidates": [
+    {
+     "name": "SRA737",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "SMALL_MOLECULE",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-010",
+   "in_scope": true,
+   "names": [
+    "LY2880070",
+    "ESP-001",
+    "ESP001"
+   ],
+   "candidates": [],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-011",
+   "in_scope": true,
+   "names": [
+    "BBI-355",
+    "BBI355"
+   ],
+   "candidates": [
+    {
+     "name": "BBI-355",
+     "route": "ELIGIBLE",
+     "targets": [],
+     "modality": null,
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "R-012",
+   "in_scope": true,
+   "names": [
+    "PEP07",
+    "PEP-07"
+   ],
+   "candidates": [
+    {
+     "name": "PEP07",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": null,
+     "authority_modality": null,
+     "trials": 2,
+     "qualification": "STRUCTURED_THERAPEUTIC"
+    }
+   ],
+   "ref_trials": 2,
+   "ref_nct": 2,
+   "trials_found": 2,
+   "nct_found": 2
+  },
+  {
+   "reference_id": "R-013",
+   "in_scope": true,
+   "names": [
+    "SMP-3124LP",
+    "SMP3124LP",
+    "SMP-3124"
+   ],
+   "candidates": [],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "R-014",
+   "in_scope": true,
+   "names": [
+    "XS-02",
+    "XS02"
+   ],
+   "candidates": [
+    {
+     "name": "XS-02",
+     "route": "REVIEW",
+     "targets": [],
+     "modality": "SMALL_MOLECULE",
+     "authority_modality": null,
+     "trials": 1,
+     "qualification": "DEVELOPMENT_CODE_AUTHORITY"
+    }
+   ],
+   "ref_trials": 1,
+   "ref_nct": 1,
+   "trials_found": 1,
+   "nct_found": 1
+  },
+  {
+   "reference_id": "C-001",
+   "in_scope": false,
+   "names": [
+    "adavosertib",
+    "AZD1775",
+    "MK-1775"
+   ],
+   "candidates": [
+    {
+     "name": "adavosertib",
+     "route": "EXCLUDED",
+     "targets": [],
+     "modality": null,
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-002",
+   "in_scope": false,
+   "names": [
+    "ceralasertib",
+    "AZD6738"
+   ],
+   "candidates": [
+    {
+     "name": "ceralasertib",
+     "route": "EXCLUDED",
+     "targets": [],
+     "modality": null,
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-003",
+   "in_scope": false,
+   "names": [
+    "berzosertib",
+    "M6620",
+    "VX-970"
+   ],
+   "candidates": [
+    {
+     "name": "berzosertib",
+     "route": "EXCLUDED",
+     "targets": [],
+     "modality": null,
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-004",
+   "in_scope": false,
+   "names": [
+    "PHI-101"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-005",
+   "in_scope": false,
+   "names": [
+    "gemcitabine",
+    "Gemzar",
+    "LY188011"
+   ],
+   "candidates": [
+    {
+     "name": "Gemcitabine",
+     "route": "EXCLUDED",
+     "targets": [],
+     "modality": null,
+     "authority_modality": "SMALL_MOLECULE",
+     "trials": 0,
+     "qualification": "DIRECT_APPROVED_NAME"
+    }
+   ],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-006",
+   "in_scope": false,
+   "names": [
+    "CCT244747"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-007",
+   "in_scope": false,
+   "names": [
+    "CHIR-124"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  },
+  {
+   "reference_id": "C-008",
+   "in_scope": false,
+   "names": [
+    "CBP501"
+   ],
+   "candidates": [],
+   "ref_trials": 0,
+   "ref_nct": 0,
+   "trials_found": 0,
+   "nct_found": 0
+  }
+ ]
+}
