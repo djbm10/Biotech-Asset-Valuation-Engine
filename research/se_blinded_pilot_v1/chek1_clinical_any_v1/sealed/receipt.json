@@ -1,0 +1,15 @@
+{
+  "version": "blinded-pilot-v1",
+  "spec_sha256": "6cc730eda238752801245c4f3adceefec1962dc0fe47022e54e1f0fd2b1bc08e",
+  "criteria_sha256": "c5fc5e9b6f9505f0493f35846efcdf4b1c8fedd6195f7e920e0a93eeee6093f2",
+  "candidates_sha256": "1b14a6d75350c5d17c5aaf56e664793911c3ccd9faa8b2d4b5289e398fa45bb2",
+  "spec_id": "chek1_clinical_any_v1",
+  "sealed_at": "2026-10-25T16:06:10.814210+00:00",
+  "scorer_commit": "80a0a0060a3158803e7f14e32788473c44959b6f",
+  "prereg_sha256": "59207d88dfe9484e9b2075f4fbc6347142fd0488245ac05e5921a2445ae5c5a5",
+  "prereg_commit": "80a0a0060a3158803e7f14e32788473c44959b6f",
+  "prereg_committed_at": "2026-10-25T12:01:48-04:00",
+  "prereg_on_remote": true,
+  "run_id": "se:a93f9efc-10fa-40d4-b0e0-db8781af6b2a",
+  "run_started_at": "2026-10-25T16:02:27.013770Z"
+}
