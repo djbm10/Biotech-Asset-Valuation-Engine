@@ -1,0 +1,2349 @@
+{
+  "label": "SYNTHETIC GROUND TRUTH: evaluation only; never an application input",
+  "must_not_merge": [
+    [
+      "SYN-0052",
+      "SYN-0053"
+    ]
+  ],
+  "programs": {
+    "SYN-0001": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "MB-323",
+        "MB323",
+        "MB9131"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Vartomab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0002": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "NP-430",
+        "NP430"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Fentomab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0003": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "SM-578",
+        "SM578"
+      ],
+      "company": "Silverleaf Therapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Halemab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0004": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "HB-964",
+        "HB964",
+        "HB7467"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Goramab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0005": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "EN-268",
+        "EN268"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Torzomab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0006": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "JK-833",
+        "JK833"
+      ],
+      "company": "Cinder Biotherapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Pelamab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0007": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "CW-373",
+        "CW373",
+        "CW2804"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Heslimab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0008": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "BG-185",
+        "BG185"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Yoromab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0009": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "PP-629",
+        "PP629"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Selimab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0010": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "MG-952",
+        "MG952",
+        "MG9454"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Galrimab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0011": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "RG-629",
+        "RG629"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Quinlimab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0012": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "MV-917",
+        "MV917"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Zelrimab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0013": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "PH-299",
+        "PH299",
+        "PH3088"
+      ],
+      "company": "Cinder Biotherapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Seltomab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0014": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "KP-979",
+        "KP979"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Clyzomab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0015": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "PX-904",
+        "PX904"
+      ],
+      "company": "Northbay Bio",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Braemab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0016": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "LW-395",
+        "LW395",
+        "LW5086"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Talimab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0017": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "WR-257",
+        "WR257"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Torlimab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0018": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "HS-832",
+        "HS832"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Heszomab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0019": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "AT-966",
+        "AT966",
+        "AT2001"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Yoremab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0020": {
+      "archetype": "in_scope_tl1a_mab",
+      "codes": [
+        "EZ-452",
+        "EZ452"
+      ],
+      "company": "Tamsin Biosciences",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Rosemab",
+      "note": "Anti-TL1A antagonist antibody in IBD, clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0021": {
+      "archetype": "in_scope_bispecific",
+      "codes": [
+        "TL-763"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Clyzobart",
+      "note": "TL1A x IL-23 bispecific antagonist in IBD.",
+      "resolvable_by_research": false
+    },
+    "SYN-0022": {
+      "archetype": "in_scope_bispecific",
+      "codes": [
+        "TC-292"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Zelvebart",
+      "note": "TL1A x IL-23 bispecific antagonist in IBD.",
+      "resolvable_by_research": false
+    },
+    "SYN-0023": {
+      "archetype": "in_scope_dr3_antagonist",
+      "codes": [
+        "CL-800"
+      ],
+      "company": "Tamsin Biosciences",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Yorvemab",
+      "note": "Anti-DR3 antagonist antibody in IBD.",
+      "resolvable_by_research": false
+    },
+    "SYN-0024": {
+      "archetype": "in_scope_dr3_antagonist",
+      "codes": [
+        "TJ-618"
+      ],
+      "company": "Corvane Bio",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Hesramab",
+      "note": "Anti-DR3 antagonist antibody in IBD.",
+      "resolvable_by_research": false
+    },
+    "SYN-0025": {
+      "archetype": "discontinued_historical_p2",
+      "codes": [
+        "RA-233"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Clytomab",
+      "note": "Discontinued anti-TL1A program with historical Phase 2 data: scientifically in scope, development inactive (a ranking and diligence matter, not a hard gate).",
+      "resolvable_by_research": false
+    },
+    "SYN-0026": {
+      "archetype": "discontinued_historical_p2",
+      "codes": [
+        "FG-637"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Halvemab",
+      "note": "Discontinued anti-TL1A program with historical Phase 2 data: scientifically in scope, development inactive (a ranking and diligence matter, not a hard gate).",
+      "resolvable_by_research": false
+    },
+    "SYN-0027": {
+      "archetype": "tl1a_preclinical",
+      "codes": [
+        "TD-961"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Daxamab",
+      "note": "Preclinical; buyer requires clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0028": {
+      "archetype": "tl1a_preclinical",
+      "codes": [
+        "DD-467"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Zelomab",
+      "note": "Preclinical; buyer requires clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0029": {
+      "archetype": "tl1a_preclinical",
+      "codes": [
+        "BD-888"
+      ],
+      "company": "Quarry Immunology",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Cortomab",
+      "note": "Preclinical; buyer requires clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0030": {
+      "archetype": "tl1a_preclinical",
+      "codes": [
+        "WH-120"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Zeltomab",
+      "note": "Preclinical; buyer requires clinical stage.",
+      "resolvable_by_research": false
+    },
+    "SYN-0031": {
+      "archetype": "tl1a_small_molecule",
+      "codes": [
+        "KL-695"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Selvepradib",
+      "note": "Oral small molecule; buyer requires an antibody.",
+      "resolvable_by_research": false
+    },
+    "SYN-0032": {
+      "archetype": "tl1a_small_molecule",
+      "codes": [
+        "XX-260"
+      ],
+      "company": "Pellucid Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fenvepradib",
+      "note": "Oral small molecule; buyer requires an antibody.",
+      "resolvable_by_research": false
+    },
+    "SYN-0033": {
+      "archetype": "tl1a_small_molecule",
+      "codes": [
+        "KL-728"
+      ],
+      "company": "Tamsin Biosciences",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Lunapradib",
+      "note": "Oral small molecule; buyer requires an antibody.",
+      "resolvable_by_research": false
+    },
+    "SYN-0034": {
+      "archetype": "dr3_agonist_antibody",
+      "codes": [
+        "ZF-823"
+      ],
+      "company": "Northbay Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Zelemab",
+      "note": "Antibody against the right axis with the wrong mechanism: a DR3 agonist.",
+      "resolvable_by_research": false
+    },
+    "SYN-0035": {
+      "archetype": "dr3_agonist_antibody",
+      "codes": [
+        "PL-179"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Torramab",
+      "note": "Antibody against the right axis with the wrong mechanism: a DR3 agonist.",
+      "resolvable_by_research": false
+    },
+    "SYN-0036": {
+      "archetype": "tl1a_cell_therapy",
+      "codes": [
+        "ZW-604"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Hesucel",
+      "note": "Cell therapy, not an antibody.",
+      "resolvable_by_research": false
+    },
+    "SYN-0037": {
+      "archetype": "tl1a_non_ibd",
+      "codes": [
+        "KR-428"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Zelvemab",
+      "note": "In-scope molecule class outside the buyer's indication. The gate engine cannot establish incompatibility from registry text, so UNRESOLVED is its expected output.",
+      "resolvable_by_research": false
+    },
+    "SYN-0038": {
+      "archetype": "tl1a_non_ibd",
+      "codes": [
+        "JV-418"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Hesimab",
+      "note": "In-scope molecule class outside the buyer's indication. The gate engine cannot establish incompatibility from registry text, so UNRESOLVED is its expected output.",
+      "resolvable_by_research": false
+    },
+    "SYN-0039": {
+      "archetype": "tl1a_non_ibd",
+      "codes": [
+        "PC-143"
+      ],
+      "company": "Vireo Labs",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Talumab",
+      "note": "In-scope molecule class outside the buyer's indication. The gate engine cannot establish incompatibility from registry text, so UNRESOLVED is its expected output.",
+      "resolvable_by_research": false
+    },
+    "SYN-0040": {
+      "archetype": "missing_target_researchable",
+      "codes": [
+        "GJ-848"
+      ],
+      "company": "Quarry Immunology",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Xanamab",
+      "note": "Target field blank in the vendor export; the public evidence library names TL1A.",
+      "resolvable_by_research": true
+    },
+    "SYN-0041": {
+      "archetype": "missing_target_researchable",
+      "codes": [
+        "ZH-235"
+      ],
+      "company": "Tamsin Biosciences",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Wenemab",
+      "note": "Target field blank in the vendor export; the public evidence library names TL1A.",
+      "resolvable_by_research": true
+    },
+    "SYN-0042": {
+      "archetype": "missing_target_researchable",
+      "codes": [
+        "ZA-586"
+      ],
+      "company": "Vireo Labs",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Keltomab",
+      "note": "Target field blank in the vendor export; the public evidence library names TL1A.",
+      "resolvable_by_research": true
+    },
+    "SYN-0043": {
+      "archetype": "undisclosed_target",
+      "codes": [
+        "PH-818"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "UNRESOLVED",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Halzomab",
+      "note": "Target undisclosed; nothing public resolves it.",
+      "resolvable_by_research": false
+    },
+    "SYN-0044": {
+      "archetype": "undisclosed_target",
+      "codes": [
+        "VM-901"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "UNRESOLVED",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Daxnemab",
+      "note": "Target undisclosed; nothing public resolves it.",
+      "resolvable_by_research": false
+    },
+    "SYN-0045": {
+      "archetype": "undisclosed_target",
+      "codes": [
+        "MJ-888"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "UNRESOLVED",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Quinamab",
+      "note": "Target undisclosed; nothing public resolves it.",
+      "resolvable_by_research": false
+    },
+    "SYN-0046": {
+      "archetype": "unreadable_modality",
+      "codes": [
+        "MK-193"
+      ],
+      "company": "Ostrava Biologics",
+      "expected_after_confirmed_research": "UNRESOLVED",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Roszomab",
+      "note": "Anti-TL1A program whose modality text the vocabulary cannot read; needs confirmation.",
+      "resolvable_by_research": false
+    },
+    "SYN-0047": {
+      "archetype": "unreadable_modality",
+      "codes": [
+        "CZ-620"
+      ],
+      "company": "Quarry Immunology",
+      "expected_after_confirmed_research": "UNRESOLVED",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Rosrimab",
+      "note": "Anti-TL1A program whose modality text the vocabulary cannot read; needs confirmation.",
+      "resolvable_by_research": false
+    },
+    "SYN-0048": {
+      "archetype": "unreadable_modality",
+      "codes": [
+        "LN-113"
+      ],
+      "company": "Tamsin Biosciences",
+      "expected_after_confirmed_research": "UNRESOLVED",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Talamab",
+      "note": "Anti-TL1A program whose modality text the vocabulary cannot read; needs confirmation.",
+      "resolvable_by_research": false
+    },
+    "SYN-0049": {
+      "archetype": "conflicting_phase",
+      "codes": [
+        "RK-922"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Bralimab",
+      "note": "Two vendor records for the same program disagree on phase.",
+      "resolvable_by_research": true
+    },
+    "SYN-0050": {
+      "archetype": "conflicting_phase",
+      "codes": [
+        "PW-198"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "UNRESOLVED",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Selamab",
+      "note": "Two vendor records for the same program disagree on phase.",
+      "resolvable_by_research": false
+    },
+    "SYN-0051": {
+      "archetype": "conflicting_target",
+      "codes": [
+        "KH-751"
+      ],
+      "company": "Corvane Bio",
+      "expected_after_confirmed_research": "UNRESOLVED",
+      "expected_disposition": "UNRESOLVED",
+      "name": "Mavemab",
+      "note": "Two vendor records disagree on the target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0052": {
+      "archetype": "shared_code_in_scope",
+      "codes": [
+        "XB-102",
+        "XB102"
+      ],
+      "company": "Corvane Bio",
+      "expected_after_confirmed_research": "ELIGIBLE",
+      "expected_disposition": "ELIGIBLE",
+      "name": "Lunimab",
+      "note": "In-scope anti-TL1A antibody whose code is also used by an unrelated oncology molecule.",
+      "resolvable_by_research": false
+    },
+    "SYN-0053": {
+      "archetype": "shared_code_unrelated",
+      "codes": [
+        "XB-102"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Pelorasib",
+      "note": "Unrelated oncology small molecule using the same code XB-102. Must never be merged.",
+      "resolvable_by_research": false
+    },
+    "SYN-0054": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "WN-743"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Halomab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0055": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "PC-368"
+      ],
+      "company": "Ostrava Biologics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Rosnetinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0056": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "LT-307"
+      ],
+      "company": "Tamsin Biosciences",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Mirvemab",
+      "note": "IBD program against a different target. Target text 'IL-23' is not an approved symbol, so the engine is expected to leave it UNRESOLVED (a conservative miss).",
+      "resolvable_by_research": false
+    },
+    "SYN-0057": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "BG-277"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Oberitinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0058": {
+      "archetype": "other_immunology",
+      "codes": [
+        "NP-775"
+      ],
+      "company": "Northbay Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Yorzomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0059": {
+      "archetype": "other_immunology",
+      "codes": [
+        "DS-648"
+      ],
+      "company": "Ostrava Biologics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Obernemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0060": {
+      "archetype": "other_immunology",
+      "codes": [
+        "FA-914"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Galzomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0061": {
+      "archetype": "oncology",
+      "codes": [
+        "HM-111"
+      ],
+      "company": "Pellucid Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Dritotinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0062": {
+      "archetype": "oncology",
+      "codes": [
+        "KN-181"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Rosumab",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0063": {
+      "archetype": "oncology",
+      "codes": [
+        "SJ-892"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Kasnevedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0064": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "NE-675"
+      ],
+      "company": "Aldermoor Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Xanatinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0065": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "MJ-357"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Lunratinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0066": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "DP-535"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fenrimab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0067": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "FW-234"
+      ],
+      "company": "Quarry Immunology",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Driemab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0068": {
+      "archetype": "other_immunology",
+      "codes": [
+        "JF-165"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Brarimab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0069": {
+      "archetype": "other_immunology",
+      "codes": [
+        "GE-441"
+      ],
+      "company": "Aldermoor Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Zelamab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0070": {
+      "archetype": "other_immunology",
+      "codes": [
+        "WL-525"
+      ],
+      "company": "Pellucid Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Hestomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0071": {
+      "archetype": "oncology",
+      "codes": [
+        "CG-952"
+      ],
+      "company": "Pellucid Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Loritinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0072": {
+      "archetype": "oncology",
+      "codes": [
+        "JZ-115"
+      ],
+      "company": "Corvane Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Daxrivedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0073": {
+      "archetype": "oncology",
+      "codes": [
+        "GP-838"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Selramab",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0074": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "PJ-143"
+      ],
+      "company": "Pellucid Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fennemab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0075": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "GF-218"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Junetinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0076": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "JJ-602"
+      ],
+      "company": "Aldermoor Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Mirutinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0077": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "PJ-216"
+      ],
+      "company": "Silverleaf Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Vellimab",
+      "note": "IBD program against a different target. Target text 'IL-23' is not an approved symbol, so the engine is expected to leave it UNRESOLVED (a conservative miss).",
+      "resolvable_by_research": false
+    },
+    "SYN-0078": {
+      "archetype": "other_immunology",
+      "codes": [
+        "VE-822"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Xanzomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0079": {
+      "archetype": "other_immunology",
+      "codes": [
+        "SB-452"
+      ],
+      "company": "Northbay Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Kasomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0080": {
+      "archetype": "other_immunology",
+      "codes": [
+        "BR-454"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Wenvemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0081": {
+      "archetype": "oncology",
+      "codes": [
+        "AZ-743"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Braivedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0082": {
+      "archetype": "oncology",
+      "codes": [
+        "RK-247"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Rosivedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0083": {
+      "archetype": "oncology",
+      "codes": [
+        "PH-490"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Tornetinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0084": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "ZT-755"
+      ],
+      "company": "Aldermoor Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Xanetinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0085": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "EZ-157"
+      ],
+      "company": "Vireo Labs",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Talrimab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0086": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "WG-761"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Driratinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0087": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "AT-759"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Rosimab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0088": {
+      "archetype": "other_immunology",
+      "codes": [
+        "JV-975"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fyrtomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0089": {
+      "archetype": "other_immunology",
+      "codes": [
+        "ET-635"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Zelramab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0090": {
+      "archetype": "other_immunology",
+      "codes": [
+        "FB-212"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Corramab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0091": {
+      "archetype": "oncology",
+      "codes": [
+        "CH-573"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Junvevedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0092": {
+      "archetype": "oncology",
+      "codes": [
+        "EG-736"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fyrzovedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0093": {
+      "archetype": "oncology",
+      "codes": [
+        "AB-365"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Pelravedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0094": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "WA-431"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Loretinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0095": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "DR-188"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Ulaomab",
+      "note": "IBD program against a different target. Target text 'IL-23' is not an approved symbol, so the engine is expected to leave it UNRESOLVED (a conservative miss).",
+      "resolvable_by_research": false
+    },
+    "SYN-0096": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "EW-261"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Clyatinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0097": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "CZ-955"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Ulaamab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0098": {
+      "archetype": "other_immunology",
+      "codes": [
+        "JJ-723"
+      ],
+      "company": "Pellucid Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Dririmab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0099": {
+      "archetype": "other_immunology",
+      "codes": [
+        "JM-578"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Nornemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0100": {
+      "archetype": "other_immunology",
+      "codes": [
+        "XT-500"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Quinomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0101": {
+      "archetype": "oncology",
+      "codes": [
+        "LW-252"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Lunlitinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0102": {
+      "archetype": "oncology",
+      "codes": [
+        "PD-260"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Kasimab",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0103": {
+      "archetype": "oncology",
+      "codes": [
+        "NT-286"
+      ],
+      "company": "Ostrava Biologics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Daxemab",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0104": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "VD-584"
+      ],
+      "company": "Vireo Labs",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Pelatinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0105": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "GV-109"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Enootinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0106": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "LJ-461"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Bratotinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0107": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "VT-803"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Toremab",
+      "note": "IBD program against a different target. Target text 'IL-23' is not an approved symbol, so the engine is expected to leave it UNRESOLVED (a conservative miss).",
+      "resolvable_by_research": false
+    },
+    "SYN-0108": {
+      "archetype": "other_immunology",
+      "codes": [
+        "LE-491"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Drinemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0109": {
+      "archetype": "other_immunology",
+      "codes": [
+        "AL-572"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Quinzomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0110": {
+      "archetype": "other_immunology",
+      "codes": [
+        "EL-621"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Kelimab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0111": {
+      "archetype": "oncology",
+      "codes": [
+        "XX-168"
+      ],
+      "company": "Tamsin Biosciences",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Enotomab",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0112": {
+      "archetype": "oncology",
+      "codes": [
+        "FZ-652"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Hallivedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0113": {
+      "archetype": "oncology",
+      "codes": [
+        "HP-936"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Santovedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0114": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "NF-709"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Sanzomab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0115": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "KC-590"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Juntomab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0116": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "NN-325"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Daxzotinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0117": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "XG-403"
+      ],
+      "company": "Cinder Biotherapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Irotomab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0118": {
+      "archetype": "other_immunology",
+      "codes": [
+        "ZL-928"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Daxumab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0119": {
+      "archetype": "other_immunology",
+      "codes": [
+        "RH-949"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Pelramab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0120": {
+      "archetype": "other_immunology",
+      "codes": [
+        "LP-846"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Ulaemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0121": {
+      "archetype": "oncology",
+      "codes": [
+        "VX-929"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fenovedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0122": {
+      "archetype": "oncology",
+      "codes": [
+        "CD-270"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Sanramab",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0123": {
+      "archetype": "oncology",
+      "codes": [
+        "SJ-347"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Yortotinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0124": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "NS-641"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Daxatinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0125": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "MM-100"
+      ],
+      "company": "Corvane Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Selutinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0126": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "KR-299"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Braamab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0127": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "BH-979"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Mavtomab",
+      "note": "IBD program against a different target. Target text 'IL-23' is not an approved symbol, so the engine is expected to leave it UNRESOLVED (a conservative miss).",
+      "resolvable_by_research": false
+    },
+    "SYN-0128": {
+      "archetype": "other_immunology",
+      "codes": [
+        "XK-995"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Velamab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0129": {
+      "archetype": "other_immunology",
+      "codes": [
+        "DR-558"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Ulaimab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0130": {
+      "archetype": "other_immunology",
+      "codes": [
+        "EW-268"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Wenamab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0131": {
+      "archetype": "oncology",
+      "codes": [
+        "TM-631"
+      ],
+      "company": "Vireo Labs",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Hesatinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0132": {
+      "archetype": "oncology",
+      "codes": [
+        "AT-206"
+      ],
+      "company": "Northbay Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Enozovedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0133": {
+      "archetype": "oncology",
+      "codes": [
+        "JS-715"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Lunzovedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0134": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "TK-862"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Daxnetinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0135": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "CJ-216"
+      ],
+      "company": "Aldermoor Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Velatinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0136": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "VF-377"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Clyotinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0137": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "RZ-436"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Torvemab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0138": {
+      "archetype": "other_immunology",
+      "codes": [
+        "BW-659"
+      ],
+      "company": "Vireo Labs",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Halrimab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0139": {
+      "archetype": "other_immunology",
+      "codes": [
+        "LA-734"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Selomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0140": {
+      "archetype": "other_immunology",
+      "codes": [
+        "KD-838"
+      ],
+      "company": "Quarry Immunology",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Lunvemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0141": {
+      "archetype": "oncology",
+      "codes": [
+        "HZ-472"
+      ],
+      "company": "Corvane Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Lunetinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0142": {
+      "archetype": "oncology",
+      "codes": [
+        "DS-860"
+      ],
+      "company": "Quarry Immunology",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Varutinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0143": {
+      "archetype": "oncology",
+      "codes": [
+        "MN-155"
+      ],
+      "company": "Cinder Biotherapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Rosetinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0144": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "EV-273"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Selvetinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0145": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "HE-288"
+      ],
+      "company": "Tamsin Biosciences",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Peltomab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0146": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "FT-491"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Xanitinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0147": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "RT-303"
+      ],
+      "company": "Ostrava Biologics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Kelritinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0148": {
+      "archetype": "other_immunology",
+      "codes": [
+        "KK-261"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Enovemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0149": {
+      "archetype": "other_immunology",
+      "codes": [
+        "DG-964"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Braimab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0150": {
+      "archetype": "other_immunology",
+      "codes": [
+        "BR-682"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Daxzomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0151": {
+      "archetype": "oncology",
+      "codes": [
+        "PV-448"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Hesratinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0152": {
+      "archetype": "oncology",
+      "codes": [
+        "KG-320"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Corravedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0153": {
+      "archetype": "oncology",
+      "codes": [
+        "EM-121"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Nornetinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0154": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "BH-968"
+      ],
+      "company": "Pellucid Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Selzotinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0155": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "XF-481"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Luntotinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0156": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "JG-113"
+      ],
+      "company": "Aldermoor Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fyrzomab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0157": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "WG-829"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Quinvetinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0158": {
+      "archetype": "other_immunology",
+      "codes": [
+        "AT-646"
+      ],
+      "company": "Silverleaf Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Rosnemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0159": {
+      "archetype": "other_immunology",
+      "codes": [
+        "DV-302"
+      ],
+      "company": "Silverleaf Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Goromab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0160": {
+      "archetype": "other_immunology",
+      "codes": [
+        "VF-664"
+      ],
+      "company": "Vireo Labs",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Kaszomab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0161": {
+      "archetype": "oncology",
+      "codes": [
+        "RB-807"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Vartovedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0162": {
+      "archetype": "oncology",
+      "codes": [
+        "BT-417"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Pelitinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0163": {
+      "archetype": "oncology",
+      "codes": [
+        "ZT-832"
+      ],
+      "company": "Yarrow Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Varimab",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0164": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "PJ-904"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Selvemab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0165": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "GP-573"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Selrimab",
+      "note": "IBD program against a different target. Target text 'IL-23' is not an approved symbol, so the engine is expected to leave it UNRESOLVED (a conservative miss).",
+      "resolvable_by_research": false
+    },
+    "SYN-0166": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "FM-992"
+      ],
+      "company": "Cinder Biotherapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Yorutinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0167": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "DW-929"
+      ],
+      "company": "Aldermoor Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Sanvetinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0168": {
+      "archetype": "other_immunology",
+      "codes": [
+        "TB-444"
+      ],
+      "company": "Pellucid Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fenamab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0169": {
+      "archetype": "other_immunology",
+      "codes": [
+        "BL-824"
+      ],
+      "company": "Vireo Labs",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Torumab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0170": {
+      "archetype": "other_immunology",
+      "codes": [
+        "JK-167"
+      ],
+      "company": "Corvane Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Clyramab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0171": {
+      "archetype": "oncology",
+      "codes": [
+        "DG-605"
+      ],
+      "company": "Halden Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Ulaitinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0172": {
+      "archetype": "oncology",
+      "codes": [
+        "WD-383"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Lunivedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0173": {
+      "archetype": "oncology",
+      "codes": [
+        "HT-729"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Braetinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0174": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "WB-245"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Corrimab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0175": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "CA-177"
+      ],
+      "company": "Silverleaf Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Bravemab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0176": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "CP-363"
+      ],
+      "company": "Corvane Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Varotinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0177": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "NV-433"
+      ],
+      "company": "Dunmore Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Kelnetinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0178": {
+      "archetype": "other_immunology",
+      "codes": [
+        "VN-486"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Irorimab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0179": {
+      "archetype": "other_immunology",
+      "codes": [
+        "TX-120"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Pelnemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0180": {
+      "archetype": "other_immunology",
+      "codes": [
+        "BJ-632"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Mavlimab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0181": {
+      "archetype": "oncology",
+      "codes": [
+        "CE-547"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Toromab",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0182": {
+      "archetype": "oncology",
+      "codes": [
+        "XX-913"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Pelevedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0183": {
+      "archetype": "oncology",
+      "codes": [
+        "HT-428"
+      ],
+      "company": "Zephyr Antibodies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fenratinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0184": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "BF-505"
+      ],
+      "company": "Silverleaf Therapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Obervemab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0185": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "VL-465"
+      ],
+      "company": "Cinder Biotherapeutics",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Quinrimab",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0186": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "PW-318"
+      ],
+      "company": "Westmark Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Oberritinib",
+      "note": "IBD program against a different target.",
+      "resolvable_by_research": false
+    },
+    "SYN-0187": {
+      "archetype": "other_target_ibd",
+      "codes": [
+        "HP-175"
+      ],
+      "company": "Foxglove Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Fenimab",
+      "note": "IBD program against a different target. Target text 'IL-23' is not an approved symbol, so the engine is expected to leave it UNRESOLVED (a conservative miss).",
+      "resolvable_by_research": false
+    },
+    "SYN-0188": {
+      "archetype": "other_immunology",
+      "codes": [
+        "BA-657"
+      ],
+      "company": "Northbay Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Daximab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0189": {
+      "archetype": "other_immunology",
+      "codes": [
+        "PK-665"
+      ],
+      "company": "Eastlake Immunotherapies",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Drivemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0190": {
+      "archetype": "other_immunology",
+      "codes": [
+        "CK-308"
+      ],
+      "company": "Redwater Bio",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Selnemab",
+      "note": "Different target and indication.",
+      "resolvable_by_research": false
+    },
+    "SYN-0191": {
+      "archetype": "oncology",
+      "codes": [
+        "PS-175"
+      ],
+      "company": "Brightwell Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Hesutinib",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    },
+    "SYN-0192": {
+      "archetype": "oncology",
+      "codes": [
+        "LS-414"
+      ],
+      "company": "Umberfield Pharma",
+      "expected_after_confirmed_research": "EXCLUDED",
+      "expected_disposition": "EXCLUDED",
+      "name": "Varlivedotin",
+      "note": "Oncology program.",
+      "resolvable_by_research": false
+    }
+  },
+  "rows": {
+    "exact_duplicates": 3,
+    "malformed": 2,
+    "total": 200
+  },
+  "seed": 20261026
+}

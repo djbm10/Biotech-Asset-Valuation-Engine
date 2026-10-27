@@ -1,0 +1,44 @@
+# Column-mapping profile for the SYNTHETIC demo landscape export.
+# A real deployment writes one of these per provider export (e.g. a Citeline or Cortellis
+# download, or an internal spreadsheet). DealScreen never needs the provider's API.
+name: synthetic_vendor_export_v1
+source_system: SYNTHETIC_VENDOR
+license_status: synthetic
+allowed_use: demonstration_only
+list_separator: ";"
+columns:
+  external_id: Drug ID
+  program_name: Drug Name
+  aliases: Synonyms
+  target: Target(s)
+  mechanism: Mechanism of Action
+  modality: Technology
+  therapeutic_area: Therapy Area
+  indication: Indication(s)
+  phase: Highest Phase
+  development_status: Development Status
+  as_of_date: Status Date
+  company: Originator
+  trial_ids: Trial IDs
+  us_rights: US Rights
+  geographic_rights: Territory Rights
+  partnerships: Deals / Partnerships
+  source_reference: Source URL
+  source_date: Last Updated
+  data_flags: Data Notes
+therapeutic_area_map:
+  Immunology: AUTOIMMUNE
+  Gastroenterology: GASTROINTESTINAL
+  Oncology: ONCOLOGY
+phase_map:
+  discovery: 0
+  preclinical: 1
+  phase 1: 2
+  phase 1/2: 2
+  phase 2: 3
+  phase 2/3: 3
+  phase 3: 4
+  pre-registration: 5
+  registered: 5
+  marketed: 6
+date_formats: ["%Y-%m-%d"]

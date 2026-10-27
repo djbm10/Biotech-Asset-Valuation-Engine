@@ -1,0 +1,35 @@
+{
+  "label": "SYNTHETIC public-style documents for the offline diligence agent",
+  "documents": [
+    {
+      "url": "https://example.org/synthetic-press/SYN-0040",
+      "title": "Quarry Immunology reports progress with Xanamab (synthetic press release)",
+      "date": "2026-06-15",
+      "text": "Quarry Immunology today announced dosing in a Phase 2 study of Xanamab. Xanamab is a monoclonal antibody targeting TL1A for moderate-to-severe ulcerative colitis. The company did not comment on partnering."
+    },
+    {
+      "url": "https://example.org/synthetic-press/SYN-0041",
+      "title": "Tamsin Biosciences reports progress with Wenemab (synthetic press release)",
+      "date": "2026-06-15",
+      "text": "Tamsin Biosciences today announced dosing in a Phase 2 study of Wenemab. Wenemab is a monoclonal antibody targeting TL1A for moderate-to-severe ulcerative colitis. The company did not comment on partnering."
+    },
+    {
+      "url": "https://example.org/synthetic-press/SYN-0042",
+      "title": "Vireo Labs reports progress with Keltomab (synthetic press release)",
+      "date": "2026-06-15",
+      "text": "Vireo Labs today announced dosing in a Phase 2 study of Keltomab. Keltomab is a monoclonal antibody targeting TL1A for moderate-to-severe ulcerative colitis. The company did not comment on partnering."
+    },
+    {
+      "url": "https://example.org/synthetic-registry-note/SYN-0049",
+      "title": "Registry update for Bralimab (synthetic)",
+      "date": "2026-08-01",
+      "text": "The sponsor lists Bralimab in an ongoing Phase 2 induction study in Crohn's disease."
+    },
+    {
+      "url": "https://example.org/synthetic-news/SYN-0004",
+      "title": "Halden Therapeutics signs regional deal for Goramab (synthetic)",
+      "date": "2026-09-20",
+      "text": "Halden Therapeutics granted Large Pharma B (synthetic) exclusive licensed U.S. rights to Goramab in September 2026."
+    }
+  ]
+}

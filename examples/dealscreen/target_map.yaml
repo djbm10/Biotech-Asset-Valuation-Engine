@@ -1,0 +1,36 @@
+# Offline target synonym map for fast runs and tests. It mirrors what the S&E ontology
+# resolves for the synthetic landscape (checked 2026-10-26). "IL-23" and "Undisclosed" are
+# deliberately absent: the ontology does not resolve them either.
+TL1A: TNFSF15
+TNFSF15: TNFSF15
+DR3: TNFRSF25
+TNFRSF25: TNFRSF25
+IL23A: IL23A
+ITGB7: ITGB7
+JAK1: JAK1
+S1PR1: S1PR1
+TNF: TNF
+IL1RL2: IL1RL2
+RIPK1: RIPK1
+TYK2: TYK2
+NLRP3: NLRP3
+GPR35: GPR35
+IL13: IL13
+IL17A: IL17A
+TSLP: TSLP
+IL4R: IL4R
+IL6R: IL6R
+FCGRT: FCGRT
+CD40LG: CD40LG
+STAT6: STAT6
+IFNAR1: IFNAR1
+BTK: BTK
+PDE4B: PDE4B
+EGFR: EGFR
+ERBB2: ERBB2
+TROP2: TACSTD2
+DLL3: DLL3
+CLDN18: CLDN18
+KRAS: KRAS
+CD19: CD19
+PDCD1: PDCD1

@@ -1,0 +1,52 @@
+# Hypothetical buyer specification for the synthetic DealScreen demonstration.
+# The buyer and its need are invented. No real company's strategy is represented.
+statement: >
+  Identify clinical-stage antibody-based programs that block the TL1A-DR3 axis in
+  inflammatory bowel disease. Exclude programs whose mechanism is not antagonism. Prefer
+  Phase 2 or later evidence. Keep scientific suitability separate from U.S. licensing-rights
+  availability.
+
+# HARD SCIENTIFIC REQUIREMENTS: an S&E BuyerProblemV2, evaluated by bve.se GateEngine.
+problem:
+  problem_id: dealscreen_demo_tl1a_ibd
+  version: "1"
+  buyer:
+    buyer_id: hypothetical_buyer
+    name: Hypothetical Pharma BD (synthetic demo)
+    as_of_date: "2026-10-26"
+  strategic_gap:
+    therapeutic_areas: [AUTOIMMUNE, GASTROINTESTINAL]
+    indications: [inflammatory bowel disease]
+    target_expression:
+      operator: ANY
+      targets:
+        - {canonical_id: TNFSF15, label: TL1A}
+        - {canonical_id: TNFRSF25, label: DR3}
+    modalities: [MONOCLONAL_ANTIBODY, BISPECIFIC_ANTIBODY]
+    required_biology:
+      - requirement_id: biology.mechanism_direction
+        domain: ELIGIBILITY
+        fact_type: mechanism_direction
+        operator: EQ
+        expected_value: ANTAGONIST
+        pass_condition: The program blocks TL1A-DR3 signalling (antagonist / neutralizing).
+        fail_condition: The program's stated mechanism is not antagonism (e.g. a DR3 agonist).
+        unknown_condition: The mechanism text states no direction.
+    phase_constraint:
+      operator: MINIMUM
+      phases: [PHASE1]
+
+# RANKING PREFERENCES: order candidates; never change a gate decision.
+preferences:
+  preferred_minimum_phase: PHASE2
+  prefer_active_development: true
+  prefer_more_registered_trials: true
+  buyer_capability_modalities: [MONOCLONAL_ANTIBODY]
+  relevant_market: US
+
+# COMMERCIAL DILIGENCE: asked separately; never a scientific gate.
+commercial:
+  required_market: US
+
+max_finalists: 10
+max_valuations: 3
