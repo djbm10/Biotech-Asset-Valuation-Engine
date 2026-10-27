@@ -20,5 +20,6 @@ peak-sales backtest.
   buy/watch/avoid list) and what each is based on.
 - [Conviction Update Layer](conviction-update-layer.md) — how evidence raises or lowers
   our confidence in a drug's key make-or-break question, with a visible audit trail.
+- [DealScreen](dealscreen.md) — screening a BD team's own landscape against a buyer's requirements, with analyst approvals, valuation handoff and an Excel deliverable.
 - [Drug → Target Authority](se-drug-target-authority.md) — how the tool decides what a drug
   actually acts on, and why it no longer assumes a drug hits the target we searched for.
