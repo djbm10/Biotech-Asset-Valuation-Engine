@@ -1,0 +1,57 @@
+{
+ "identity_flags": [
+  [
+   "PROPOSED_MERGE",
+   [
+    "RW-05",
+    "RW-07"
+   ],
+   "DRUG:BATOCLIMAB"
+  ],
+  [
+   "SAME_MOLECULE_DIFFERENT_HOLDER",
+   [
+    "RW-05",
+    "RW-06"
+   ],
+   "DRUG:BATOCLIMAB"
+  ],
+  [
+   "PROPOSED_MERGE",
+   [
+    "RW-15",
+    "RW-16"
+   ],
+   "DRUG:GEFURULIMAB"
+  ],
+  [
+   "SAME_MOLECULE_DIFFERENT_HOLDER",
+   [
+    "RW-06",
+    "RW-07"
+   ],
+   "DRUG:BATOCLIMAB"
+  ]
+ ],
+ "selected_readiness": {
+  "RW-08": {
+   "selected": true,
+   "ready": true,
+   "missing": []
+  },
+  "RW-05": {
+   "selected": true,
+   "ready": false,
+   "missing": [
+    "market.net_price_per_patient_usd (Net price per patient-year, USD)"
+   ]
+  },
+  "RW-04": {
+   "selected": true,
+   "ready": false,
+   "missing": [
+    "commercial-stage program (marketed or Phase 4): BVE's pre-approval rNPV path values remaining development risk and a launch curve, which does not describe a product already on the market. Not valued; a commercial-asset model with actual sales is required"
+   ]
+  }
+ }
+}

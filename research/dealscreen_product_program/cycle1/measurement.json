@@ -1,0 +1,91 @@
+{
+ "before": {
+  "eligible": 4,
+  "unresolved": 14,
+  "excluded": 22
+ },
+ "after": {
+  "eligible": 7,
+  "unresolved": 11,
+  "excluded": 22
+ },
+ "actions_applied": 9,
+ "refused": [],
+ "seconds_to_apply_and_rescreen": 0.26,
+ "effects": [
+  [
+   "IMVT-1402",
+   [
+    {
+     "overturns_source_fail": false,
+     "requirement_id": "modality.required",
+     "with_assertions": "PASS",
+     "without_assertions": "UNKNOWN"
+    },
+    {
+     "overturns_source_fail": false,
+     "requirement_id": "biology.mechanism_direction",
+     "with_assertions": "PASS",
+     "without_assertions": "UNKNOWN"
+    },
+    {
+     "overturns_source_fail": false,
+     "requirement_id": "strategy.indication",
+     "with_assertions": "PASS",
+     "without_assertions": "UNKNOWN"
+    },
+    {
+     "overturns_source_fail": false,
+     "requirement_id": "DISPOSITION",
+     "with_assertions": "ELIGIBLE",
+     "without_assertions": "UNRESOLVED"
+    }
+   ]
+  ],
+  [
+   "Efgartigimod alfa and hyaluronidase (SC)",
+   [
+    {
+     "overturns_source_fail": false,
+     "requirement_id": "strategy.indication",
+     "with_assertions": "PASS",
+     "without_assertions": "UNKNOWN"
+    }
+   ]
+  ],
+  [
+   "Batoclimab",
+   [
+    {
+     "overturns_source_fail": false,
+     "requirement_id": "strategy.indication",
+     "with_assertions": "PASS",
+     "without_assertions": "UNKNOWN"
+    },
+    {
+     "overturns_source_fail": false,
+     "requirement_id": "DISPOSITION",
+     "with_assertions": "ELIGIBLE",
+     "without_assertions": "UNRESOLVED"
+    }
+   ]
+  ],
+  [
+   "Orilanolimab (ALXN1830)",
+   [
+    {
+     "overturns_source_fail": false,
+     "requirement_id": "strategy.indication",
+     "with_assertions": "PASS",
+     "without_assertions": "UNKNOWN"
+    },
+    {
+     "overturns_source_fail": false,
+     "requirement_id": "DISPOSITION",
+     "with_assertions": "ELIGIBLE",
+     "without_assertions": "UNRESOLVED"
+    }
+   ]
+  ]
+ ]
+}

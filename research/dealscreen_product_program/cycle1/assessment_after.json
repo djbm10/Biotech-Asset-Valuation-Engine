@@ -1,0 +1,702 @@
+{
+  "label": "INTERNAL DEVELOPMENT: same AI environment prepared landscape, reference and review",
+  "categories": {
+    "in scope but left for review (missed)": 2,
+    "correct: eligible": 7,
+    "correct: excluded": 21,
+    "out of scope but left for review (noise)": 8,
+    "reference UNKNOWN": 2
+  },
+  "funnel": {
+    "assets_screened": 40,
+    "eligible": 7,
+    "eligible_by_us_rights_status": {
+      "UNKNOWN": 7
+    },
+    "excluded": 22,
+    "excluded_by_first_failed_requirement": {
+      "evidence.phase_constraint": 2,
+      "modality.required": 2,
+      "target.expression": 18
+    },
+    "unknown_decisions_by_requirement": {
+      "biology.mechanism_direction": 20,
+      "modality.required": 10,
+      "strategy.indication": 18,
+      "target.expression": 13
+    },
+    "unresolved": 11
+  },
+  "rows": [
+    {
+      "program_id": "RW-01",
+      "program": "Efgartigimod alfa (IV)",
+      "reference": "IN",
+      "engine": "UNRESOLVED",
+      "category": "in scope but left for review (missed)",
+      "gates_not_passed": {
+        "modality.required": "UNKNOWN"
+      },
+      "unreadable_source_values": [
+        "modality='Protein'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "Same molecule as RW-02 (different product/formulation)",
+      "rank": 5
+    },
+    {
+      "program_id": "RW-02",
+      "program": "Efgartigimod alfa and hyaluronidase (SC)",
+      "reference": "IN",
+      "engine": "UNRESOLVED",
+      "category": "in scope but left for review (missed)",
+      "gates_not_passed": {
+        "modality.required": "UNKNOWN"
+      },
+      "unreadable_source_values": [
+        "modality='Protein'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "Same molecule as RW-01",
+      "rank": 6
+    },
+    {
+      "program_id": "RW-03",
+      "program": "Rozanolixizumab",
+      "reference": "IN",
+      "engine": "ELIGIBLE",
+      "category": "correct: eligible",
+      "gates_not_passed": {},
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": 1
+    },
+    {
+      "program_id": "RW-04",
+      "program": "Nipocalimab",
+      "reference": "IN",
+      "engine": "ELIGIBLE",
+      "category": "correct: eligible",
+      "gates_not_passed": {},
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "M281 = earlier Momenta code",
+      "rank": 4
+    },
+    {
+      "program_id": "RW-05",
+      "program": "Batoclimab",
+      "reference": "IN",
+      "engine": "ELIGIBLE",
+      "category": "correct: eligible",
+      "gates_not_passed": {},
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [
+        "PROPOSED_MERGE:DRUG:BATOCLIMAB"
+      ],
+      "reference_identity_note": "Same molecule as RW-06 and RW-07",
+      "rank": 5
+    },
+    {
+      "program_id": "RW-06",
+      "program": "HBM9161",
+      "reference": "IN",
+      "engine": "ELIGIBLE",
+      "category": "correct: eligible",
+      "gates_not_passed": {},
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "Duplicate of RW-05 (territorial licensee)",
+      "rank": 2
+    },
+    {
+      "program_id": "RW-07",
+      "program": "RVT-1401",
+      "reference": "IN",
+      "engine": "ELIGIBLE",
+      "category": "correct: eligible",
+      "gates_not_passed": {},
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [
+        "PROPOSED_MERGE:DRUG:BATOCLIMAB"
+      ],
+      "reference_identity_note": "Duplicate of RW-05",
+      "rank": 6
+    },
+    {
+      "program_id": "RW-08",
+      "program": "IMVT-1402",
+      "reference": "IN",
+      "engine": "ELIGIBLE",
+      "category": "correct: eligible",
+      "gates_not_passed": {},
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": 3
+    },
+    {
+      "program_id": "RW-09",
+      "program": "Orilanolimab (ALXN1830)",
+      "reference": "IN",
+      "engine": "ELIGIBLE",
+      "category": "correct: eligible",
+      "gates_not_passed": {},
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": 7
+    },
+    {
+      "program_id": "RW-10",
+      "program": "Eculizumab",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "Eculizumab biosimilars RW-11/RW-12 share the INN",
+      "rank": null
+    },
+    {
+      "program_id": "RW-11",
+      "program": "Eculizumab-aeeb (BKEMV)",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "Distinct product sharing INN with RW-10",
+      "rank": null
+    },
+    {
+      "program_id": "RW-12",
+      "program": "Eculizumab-aagh (EPYSQLI)",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "Distinct product sharing INN with RW-10",
+      "rank": null
+    },
+    {
+      "program_id": "RW-13",
+      "program": "Ravulizumab",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-14",
+      "program": "Zilucoplan",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "modality.required": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [
+        "modality='Protein'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-15",
+      "program": "Gefurulimab",
+      "reference": "OUT",
+      "engine": "UNRESOLVED",
+      "category": "out of scope but left for review (noise)",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [
+        "PROPOSED_MERGE:DRUG:GEFURULIMAB"
+      ],
+      "reference_identity_note": "Same molecule as RW-16",
+      "rank": 4
+    },
+    {
+      "program_id": "RW-16",
+      "program": "ALXN1720",
+      "reference": "OUT",
+      "engine": "UNRESOLVED",
+      "category": "out of scope but left for review (noise)",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [
+        "PROPOSED_MERGE:DRUG:GEFURULIMAB"
+      ],
+      "reference_identity_note": "Duplicate of RW-15",
+      "rank": 3
+    },
+    {
+      "program_id": "RW-17",
+      "program": "Pozelimab + Cemdisiran",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "Composite program",
+      "rank": null
+    },
+    {
+      "program_id": "RW-18",
+      "program": "Iptacopan",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "modality.required": "FAIL",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-19",
+      "program": "Vemircopan (ALXN2050)",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "modality.required": "FAIL",
+        "biology.mechanism_direction": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-20",
+      "program": "Claseprubart",
+      "reference": "OUT",
+      "engine": "UNRESOLVED",
+      "category": "out of scope but left for review (noise)",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "modality.required": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": 2
+    },
+    {
+      "program_id": "RW-21",
+      "program": "Empasiprubart",
+      "reference": "OUT",
+      "engine": "UNRESOLVED",
+      "category": "out of scope but left for review (noise)",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": 8
+    },
+    {
+      "program_id": "RW-22",
+      "program": "Inebilizumab",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "biology.mechanism_direction": "UNKNOWN"
+      },
+      "unreadable_source_values": [
+        "mechanism='CD19 binding agent'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-23",
+      "program": "Rituximab (investigator-sponsored)",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "biology.mechanism_direction": "UNKNOWN"
+      },
+      "unreadable_source_values": [
+        "mechanism='MS4A1 binding agent'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "Multiple academic sponsors",
+      "rank": null
+    },
+    {
+      "program_id": "RW-24",
+      "program": "Ublituximab",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "biology.mechanism_direction": "UNKNOWN"
+      },
+      "unreadable_source_values": [
+        "mechanism='MS4A1 binding agent'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-25",
+      "program": "Mezagitamab (TAK-079)",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "biology.mechanism_direction": "UNKNOWN"
+      },
+      "unreadable_source_values": [
+        "mechanism='CD38 binding agent'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-26",
+      "program": "Telitacicept",
+      "reference": "OUT",
+      "engine": "UNRESOLVED",
+      "category": "out of scope but left for review (noise)",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "modality.required": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [
+        "modality='Protein'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "Sponsor changed between trials (RemeGen; Vor Biopharma)",
+      "rank": 1
+    },
+    {
+      "program_id": "RW-27",
+      "program": "Povetacicept",
+      "reference": "OUT",
+      "engine": "UNRESOLVED",
+      "category": "out of scope but left for review (noise)",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "modality.required": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [
+        "modality='Protein'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": 10
+    },
+    {
+      "program_id": "RW-28",
+      "program": "Iscalimab (CFZ533)",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-29",
+      "program": "Belimumab",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "strategy.therapeutic_area": "FAIL",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-30",
+      "program": "Satralizumab",
+      "reference": "OUT",
+      "engine": "UNRESOLVED",
+      "category": "out of scope but left for review (noise)",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": 7
+    },
+    {
+      "program_id": "RW-31",
+      "program": "Tocilizumab (investigator-sponsored)",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-32",
+      "program": "Remibrutinib",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "modality.required": "FAIL",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-33",
+      "program": "Tolebrutinib",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "modality.required": "FAIL"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-34",
+      "program": "Descartes-08",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "modality.required": "FAIL",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-35",
+      "program": "KYV-101",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "modality.required": "FAIL",
+        "biology.mechanism_direction": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-36",
+      "program": "CABA-201",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "modality.required": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN",
+        "evidence.phase_constraint": "FAIL"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-37",
+      "program": "Anitocabtagene autoleucel",
+      "reference": "OUT",
+      "engine": "EXCLUDED",
+      "category": "correct: excluded",
+      "gates_not_passed": {
+        "target.expression": "FAIL",
+        "modality.required": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "evidence.phase_constraint": "FAIL"
+      },
+      "unreadable_source_values": [
+        "modality='Gene'"
+      ],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-38",
+      "program": "SHR-2173",
+      "reference": "UNKNOWN",
+      "engine": "UNRESOLVED",
+      "category": "reference UNKNOWN",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "modality.required": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": 11
+    },
+    {
+      "program_id": "RW-39",
+      "program": "Cizutamig",
+      "reference": "UNKNOWN",
+      "engine": "EXCLUDED",
+      "category": "reference UNKNOWN",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN",
+        "strategy.indication": "UNKNOWN",
+        "evidence.phase_constraint": "FAIL"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": null
+    },
+    {
+      "program_id": "RW-40",
+      "program": "NMD670",
+      "reference": "OUT",
+      "engine": "UNRESOLVED",
+      "category": "out of scope but left for review (noise)",
+      "gates_not_passed": {
+        "target.expression": "UNKNOWN",
+        "modality.required": "UNKNOWN",
+        "biology.mechanism_direction": "UNKNOWN"
+      },
+      "unreadable_source_values": [],
+      "us_rights": "UNKNOWN",
+      "identity_flags": [],
+      "reference_identity_note": "",
+      "rank": 9
+    }
+  ]
+}
