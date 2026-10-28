@@ -313,7 +313,7 @@ def generate(out_dir: str | Path, *, seed: int = SEED) -> dict[str, Any]:
         from openpyxl import Workbook
 
         wb = Workbook()
-        ws = wb.active
+        ws = wb.worksheets[0]
         ws.title = "Landscape export"
         ws.append(HEADERS)
         for r in rows:

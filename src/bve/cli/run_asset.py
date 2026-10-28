@@ -44,6 +44,8 @@ _VALID_THERAPEUTIC_AREAS = {ta.value for ta in _TherapeuticArea}
 _VALID_STAGES = {s.value for s in _DevelopmentStage}
 _VALID_MODALITIES = {m.value for m in _Modality}
 _VALID_ENDPOINT_TYPES = {e.value for e in _EndpointType}
+#: The per-phase keys ``_build_design_adjusters`` reads; anything else is rejected.
+_TRIAL_DESIGN_PHASE_KEYS = frozenset({"evidence_design_quality", "comparator_fit", "regulatory_pathway_risk"})
 _VALID_MOA_PRECEDENT = {m.value for m in _MoAPrecedent}
 _VALID_SAMPLE_ADEQUACY = {s.value for s in _SampleSizeAdequacy}
 _VALID_SAFETY = {s.value for s in _SafetyProfile}
@@ -186,6 +188,13 @@ def _validate_config(cfg: dict, path: Path) -> None:
             if pc is None:
                 continue
             prefix = f"trial_design.{phase_key}"
+            # Fail closed on keys _build_design_adjusters does not read. Legacy names
+            # (evidence_design, approval_pathway, endpoint_basis) used to be dropped silently,
+            # so the phase was valued with the rct_double_blind defaults instead.
+            unread = sorted(set(pc) - _TRIAL_DESIGN_PHASE_KEYS)
+            _check(not unread,
+                   f"{prefix} has keys the design model does not read: {unread}; use "
+                   f"{sorted(_TRIAL_DESIGN_PHASE_KEYS)} (legacy keys are not migrated automatically)")
             if pc.get("evidence_design_quality"):
                 _check(pc["evidence_design_quality"] in _VALID_EVIDENCE_DESIGN_QUALITY,
                        f"{prefix}.evidence_design_quality must be one of {sorted(_VALID_EVIDENCE_DESIGN_QUALITY)}, got: {pc['evidence_design_quality']!r}")
@@ -645,7 +654,10 @@ def main():
     if apply_design:
         phase_summaries = []
         for ph, feat in (design_adjusters or {}).items():
-            phase_summaries.append(f"{ph.value}: {feat.evidence_design.value}/{feat.approval_pathway.value}")
+            phase_summaries.append(
+                f"{ph.value}: {feat.evidence_design_quality.value}/"
+                f"{feat.comparator_fit.value}/{feat.regulatory_pathway_risk.value}"
+            )
         print(f"  Design model: enabled ({'; '.join(phase_summaries)})")
     print(f"  MC sims:      {args.n_sims:,}")
     if market_model.competition_model and market_model.competition_model.competitors:

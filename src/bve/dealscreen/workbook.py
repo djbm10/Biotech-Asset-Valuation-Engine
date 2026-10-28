@@ -102,7 +102,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
     spec = ws.buyer()
 
     wb = Workbook()
-    readme = wb.active
+    readme = wb.worksheets[0]
     readme.title = "README"
     lines = [
         f"{MARKER} ({DEALSCREEN_VERSION})",
@@ -280,12 +280,16 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         standalone = runs.get("standalone", {}).get("summary", {}).get("rnpv_millions")
         for case, r in runs.items():
             sm = r["summary"]
-            scenario_rows.append([asset_id, assets[asset_id].program_name, case, sm["bear_rnpv_millions"],
-                                  sm["base_rnpv_millions"], sm["bull_rnpv_millions"], sm["rnpv_millions"],
+            check = r.get("scenario_check") or {"status": "NOT CHECKED", "reliable": False, "explanation": ""}
+            numbers: list[Any] = [sm["bear_rnpv_millions"], sm["base_rnpv_millions"], sm["bull_rnpv_millions"],
+                                  sm["rnpv_millions"]]
+            if not check["reliable"]:
+                numbers = ["BLOCKED"] * 4  # fail closed: an unexplained result is not shown as a value
+            scenario_rows.append([asset_id, assets[asset_id].program_name, case, *numbers,
                                   sm["cumulative_success_probability"], sm["peak_sales_millions"],
                                   sm["years_to_launch"], sm["mc_p10_millions"], sm["mc_p90_millions"],
                                   "PROTOTYPE (Lane 1 sign-off pending)" if r["prototype"] else "bve-asset",
-                                  r["output_json"]])
+                                  r["output_json"], check["status"], check["explanation"]])
             if case != "standalone":
                 deal = r["deal_terms"] or {}
                 milestones = sum(m["amount_millions"] for m in deal.get("milestones", []))
@@ -301,10 +305,11 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
     _sheet(wb, "Valuation Scenarios", ["Asset id", "Program", "Case", "Bear rNPV ($M)", "Base rNPV ($M)",
                                        "Bull rNPV ($M)", "Engine rNPV ($M)", "P(approval)", "Peak sales ($M)",
                                        "Years to launch", "MC P10 ($M)", "MC P90 ($M)", "Computation path",
-                                       "Source valuation.json"], scenario_rows,
+                                       "Source valuation.json", "Scenario ordering check",
+                                       "Ordering explanation"], scenario_rows,
            note="Values copied from BVE ValuationOutput files (bull/base/bear from the engine's own "
                 "scenario set). Hypothetical inputs; UNVALIDATED.", money_cols=(4, 5, 6, 7, 9, 11, 12),
-           widths={14: 70})
+           widths={14: 50, 15: 34, 16: 90})
     _sheet(wb, "Deal Comparison", ["Asset id", "Program", "Case", "Structure", "Upfront paid ($M)",
                                    "Milestones payable, face ($M)", "Royalty paid", "Buyer rNPV ($M)",
                                    "Standalone rNPV ($M)", "Difference vs standalone ($M)",

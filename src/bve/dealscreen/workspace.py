@@ -42,6 +42,7 @@ from bve.dealscreen.valuation_handoff import (
     build_config,
     check_readiness,
     run_valuation,
+    scenario_check,
 )
 
 
@@ -224,7 +225,8 @@ class Workspace:
                         config, self.root / "valuation" / asset_id.replace(":", "-"),
                         case=case, n_sims=n_sims, seed=seed, asset_id=asset_id,
                     )
-                    entry["runs"].append({**asdict(run), "deal_terms": deal})
+                    entry["runs"].append({**asdict(run), "deal_terms": deal,
+                                          "scenario_check": scenario_check(run.summary, deal)})
             results["assets"][asset_id] = entry
         _dump(self.root / "valuation" / "valuations.json", results)
         return results

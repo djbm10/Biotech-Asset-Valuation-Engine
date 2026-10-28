@@ -85,6 +85,12 @@ def build_memo(ws: Workspace) -> str:
             if not entry["readiness"]["ready"]:
                 not_ready.append(f"{s['program_name']} ({len(entry['readiness']['missing'])} missing)")
             continue
+        checks = {case: r.get("scenario_check") or {"reliable": False, "status": "NOT CHECKED"}
+                  for case, r in runs.items()}
+        if not all(c["reliable"] for c in checks.values()):
+            lines.append(f"- {s['program_name']}: valuation BLOCKED (unexplained scenario ordering); "
+                         "not shown.")
+            continue
         base = runs["standalone"]["summary"]
         deals = "; ".join(f"{case} {_m(r['summary']['rnpv_millions'])}"
                           for case, r in runs.items() if case != "standalone")
@@ -97,6 +103,9 @@ def build_memo(ws: Workspace) -> str:
             + f". Drivers: {market.get('addressable_patients_annual', 0):,} patients × "
             f"${market.get('net_price_per_patient_usd', 0):,.0f} × {market.get('peak_penetration', 0):.0%} "
             f"peak share; P(approval) {base['cumulative_success_probability']:.0%}."
+            + (" Scenarios are out of label order because the program is cost-dominated at these inputs "
+               "(value-destroying, not a computation error)."
+               if any(c["status"] != "ORDERED" for c in checks.values()) else "")
         )
     if not_ready:
         lines.append(f"- NOT READY FOR VALUATION (no invented inputs): {', '.join(not_ready)}.")

@@ -165,3 +165,19 @@ Other notes:
 | 1 (prototype valuation CLI only) | quant + clinical | **not given**; the prototype stays labelled and demo-only until given |
 
 No sign-off is claimed. The work goes on a feature branch and is not merged into `master`.
+
+---
+
+## Amendment 1 (2026-10-27): hardening
+
+Lane classification unchanged.
+
+| Item | Module | Effect on outputs | Sign-off |
+|---|---|---|---|
+| Console summary prints the current trial-design field names | `src/bve/cli/run_asset.py` | none (it crashed before) | engineering (not given) |
+| `_validate_config` rejects per-phase `trial_design` keys the builder does not read | `src/bve/cli/run_asset.py` | fail-closed: configs that used to crash now stop with a clear error | engineering (not given) |
+| Scenario-ordering check, with BLOCKED display for unexplained ordering | `src/bve/dealscreen/` | display only; engine numbers unchanged | engineering (not given) |
+| `types-PyYAML`, `types-openpyxl` in the `dev` extra | `pyproject.toml` | none | engineering (not given) |
+| **Proposed, not applied:** migrate RLAY's legacy trial-design keys | `examples/configs/relay_rly2608.yaml` | RLAY base rNPV $65M (silent defaults) → $39M | **Lane 1 quant + clinical, required, not given** |
+
+Evidence: `research/dealscreen_hardening_v1/FINANCIAL_AUDIT.md`.

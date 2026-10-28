@@ -36,7 +36,7 @@ platform = [
     "lxml>=5.0",
 ]
 
-dev = ["pytest>=7", "pytest-cov", "ruff", "mypy"]
+dev = ["pytest>=7", "pytest-cov", "ruff", "mypy", "types-PyYAML", "types-openpyxl"]
 
 # Only the source families that publish bulk proceedings as PDF need this, so it stays an
 # extra and the connector imports it lazily: an engine that cannot read a PDF should fail

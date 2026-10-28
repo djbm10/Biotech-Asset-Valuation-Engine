@@ -1,0 +1,31 @@
+--- a/examples/configs/relay_rly2608.yaml
++++ b/examples/configs/relay_rly2608.yaml
+@@ -231,19 +231,19 @@
+   apply_design_model: true
+ 
+   phase_2:
+-    endpoint_basis: "surrogate_validated"    # Neutral: pos_adjusters handles this
+-    evidence_design: "single_arm"            # ReDiscover Ph2 expansion: non-randomized
+-    approval_pathway: "accelerated_approval" # AA path plausible on ORR data; small positive
++    evidence_design_quality: "single_arm_objective"        # was evidence_design: single_arm (ORR is objective)
++    comparator_fit: "no_valid_comparator"                   # single-arm: no concurrent comparator
++    regulatory_pathway_risk: "accelerated_validated_surrogate"  # was approval_pathway: accelerated_approval
+ 
+   phase_3:
+-    endpoint_basis: "surrogate_validated"    # Neutral: pos_adjusters handles this
+-    evidence_design: "rct_comparative"       # Randomized vs. inavolisib: gold standard (reference)
+-    approval_pathway: "standard"             # Standard review expected post RCT package
++    evidence_design_quality: "rct_open_label"              # was evidence_design: rct_comparative; blinding not stated
++    comparator_fit: "matches_soc"                           # vs inavolisib + fulvestrant
++    regulatory_pathway_risk: "standard"                     # was approval_pathway: standard
+ 
+   nda_bla:
+-    endpoint_basis: "surrogate_validated"
+-    evidence_design: "rct_comparative"
+-    approval_pathway: "standard"
++    evidence_design_quality: "rct_open_label"
++    comparator_fit: "matches_soc"
++    regulatory_pathway_risk: "standard"
+ 
+ # ---------------------------------------------------------------------------
+ # Monte Carlo Uncertainty

@@ -1,0 +1,23 @@
+{
+  "design_model_off": {
+    "rnpv_millions": 44.0,
+    "prob_approval_pct": "26.3%",
+    "bear_rnpv": -117.0,
+    "base_rnpv": 44.0,
+    "bull_rnpv": 488.0
+  },
+  "what_legacy_config_actually_meant_if_run_(defaults)": {
+    "rnpv_millions": 65.0,
+    "prob_approval_pct": "29.8%",
+    "bear_rnpv": -118.0,
+    "base_rnpv": 65.0,
+    "bull_rnpv": 564.0
+  },
+  "proposed_migration": {
+    "rnpv_millions": 39.0,
+    "prob_approval_pct": "24.4%",
+    "bear_rnpv": -112.0,
+    "base_rnpv": 39.0,
+    "bull_rnpv": 449.0
+  }
+}

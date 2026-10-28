@@ -196,6 +196,54 @@ def read_summary(path: str | Path) -> dict[str, Any]:
         "mc_p10_millions": percentiles.get("p10"),
         "mc_p90_millions": percentiles.get("p90"),
         "mc_probability_positive": mc.get("probability_positive"),
+        "prob_adj_revenue_pv_millions": rnpv.get("prob_adj_revenue_pv_millions"),
+        "trial_costs_pv_millions": rnpv.get("trial_costs_pv_millions"),
         "analysis_date": data.get("meta", {}).get("analysis_date"),
         "git_commit": data.get("meta", {}).get("git_commit"),
+    }
+
+
+ORDERED = "ORDERED"
+EXPLAINED_COST_DOMINATED = "OUT_OF_ORDER_EXPLAINED_COST_DOMINATED"
+UNEXPLAINED = "OUT_OF_ORDER_UNEXPLAINED_BLOCKED"
+
+
+def scenario_check(summary: dict[str, Any], deal: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Check bear <= base <= bull on a saved valuation, without re-sorting or recomputing.
+
+    Scenario labels name input shocks (bear: PoS x0.70, price x0.55, +1 year, cost x1.2,
+    +2pp rate), not output ranks. When a program's probability-adjusted revenue does not
+    cover its probability-weighted costs (plus any payable deal milestones), a lower PoS
+    reduces expected spend more than expected revenue, and "bear" can exceed "base". That
+    case is explained from the saved numbers. Any other out-of-order result is BLOCKED:
+    shown as unreliable rather than presented as a valuation.
+    """
+    bear, base, bull = (summary["bear_rnpv_millions"], summary["base_rnpv_millions"],
+                        summary["bull_rnpv_millions"])
+    if bear <= base <= bull:
+        return {"status": ORDERED, "reliable": True, "explanation": ""}
+    revenue = summary.get("prob_adj_revenue_pv_millions")
+    costs = summary.get("trial_costs_pv_millions")
+    milestones = sum(m.get("amount_millions", 0.0) for m in (deal or {}).get("milestones", [])
+                     if m.get("direction", "payable") == "payable")
+    if revenue is not None and costs is not None and revenue <= costs + milestones:
+        return {
+            "status": EXPLAINED_COST_DOMINATED,
+            "reliable": True,
+            "explanation": (
+                f"Scenarios are out of order (bear {bear:,.0f} / base {base:,.0f} / bull {bull:,.0f}) "
+                f"because the program is cost-dominated at these inputs: probability-adjusted "
+                f"revenue PV {revenue:,.0f} vs probability-weighted development cost PV "
+                f"{costs:,.0f}" + (f" plus {milestones:,.0f} payable milestones (face)" if milestones else "")
+                + ". Lower PoS lowers expected spend faster than expected revenue. The asset "
+                "destroys value at these inputs; the ordering is not a computation error."
+            ),
+        }
+    return {
+        "status": UNEXPLAINED,
+        "reliable": False,
+        "explanation": (
+            f"Scenarios are out of order (bear {bear:,.0f} / base {base:,.0f} / bull {bull:,.0f}) "
+            "and the saved output does not explain it. Do not use this valuation."
+        ),
     }
