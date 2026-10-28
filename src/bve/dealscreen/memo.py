@@ -121,6 +121,23 @@ def build_memo(ws: Workspace) -> str:
         lines.append(f"- NOT READY FOR VALUATION (no invented inputs): {', '.join(not_ready)}.")
     lines.append("")
 
+    assertions = list(log.state.assertions.values())
+    if assertions:
+        asserters = sorted({a["reviewer_kind"] for a in assertions})
+        overrides = sum(len(s.get("overrides", [])) for s in screens.values())
+        changed = [s for s in screens.values() if s.get("assertion_effects")]
+        overturned = [s["program_name"] for s in screens.values()
+                      if any(e["overturns_source_fail"] for e in s.get("assertion_effects", []))]
+        idle = [s["program_name"] for s in screens.values()
+                if s.get("analyst_assertions") and not s.get("assertion_effects")]
+        lines.append(
+            f"**Analyst-entered facts.** {len(assertions)} cited assertion(s) by {', '.join(asserters)} "
+            f"reviewer(s) changed decisions for {len(changed)} program(s); {overrides} override a "
+            "different source value"
+            + (f"; **source FAILs overturned: {', '.join(overturned)}**" if overturned else "")
+            + (f"; no effect on: {', '.join(idle)}" if idle else "")
+            + ". Citations are in the Diligence sheet.")
+        lines.append("")
     unresolved = [s for s in screens.values() if s["disposition"] == "UNRESOLVED"]
     open_gates = Counter(
         d["requirement_id"] for s in unresolved for d in s["decisions"]

@@ -8,13 +8,20 @@ attaches the separate commercial assessment.
 
 from __future__ import annotations
 
+import dataclasses
 from collections import Counter
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
 from bve.dealscreen.buyer import BuyerSpec
 from bve.dealscreen.commercial import CommercialAssessment, assess
-from bve.dealscreen.facts import AssetFacts, FactBuilder, ReviewInputs, finding_claim
+from bve.dealscreen.facts import (
+    AssetFacts,
+    FactBuilder,
+    ReviewInputs,
+    assertion_claim,
+    finding_claim,
+)
 from bve.dealscreen.models import IdentityFlag, LandscapeAsset
 from bve.se.gates.engine import GateEngine
 from bve.se.schemas.contracts import GateStatus, OverallDisposition
@@ -50,6 +57,13 @@ class AssetScreen:
     machine_recommendation: str
     commercial: CommercialAssessment
     identity_flag_ids: list[str] = field(default_factory=list)
+    #: Active analyst assertions on this asset, with citations.
+    analyst_assertions: list[dict[str, Any]] = field(default_factory=list)
+    #: Assertions that replaced a readable, different source value.
+    overrides: list[dict[str, Any]] = field(default_factory=list)
+    #: Every gate whose status differs from the same screen without analyst assertions.
+    #: Empty with active assertions means they changed no decision.
+    assertion_effects: list[dict[str, Any]] = field(default_factory=list)
 
     def gate_status(self, requirement_id: str) -> str | None:
         for decision in self.decisions:
@@ -116,6 +130,23 @@ def screen_landscape(
     for asset in sorted(assets, key=lambda a: a.asset_id):
         facts = builder.build(asset, review)
         evaluation = engine.evaluate(spec.problem, subject_id=asset.asset_id, facts=facts.facts)
+        effects: list[dict[str, Any]] = []
+        if any(a.asset_id == asset.asset_id for a in review.assertions):
+            without = dataclasses.replace(
+                review, assertions=tuple(a for a in review.assertions if a.asset_id != asset.asset_id))
+            base = engine.evaluate(spec.problem, subject_id=asset.asset_id,
+                                   facts=builder.build(asset, without).facts)
+            before = {d.requirement_id: (d.analyst_override or d.status).value for d in base.decisions}
+            for d in evaluation.decisions:
+                now = (d.analyst_override or d.status).value
+                if before.get(d.requirement_id) != now:
+                    effects.append({"requirement_id": d.requirement_id, "without_assertions": before.get(d.requirement_id),
+                                    "with_assertions": now,
+                                    "overturns_source_fail": before.get(d.requirement_id) == "FAIL"})
+            if base.disposition != evaluation.disposition:
+                effects.append({"requirement_id": "DISPOSITION", "without_assertions": base.disposition.value,
+                                "with_assertions": evaluation.disposition.value,
+                                "overturns_source_fail": base.disposition.value == "EXCLUDED"})
         trial_ids = {
             t for c in asset.claims_for("trial_ids")
             for t in c.value_as_written.replace(",", ";").split(";") if t.strip()
@@ -150,11 +181,16 @@ def screen_landscape(
                     questions=spec.commercial.questions,
                     rejected_claim_ids=review.rejected_claim_ids,
                     confirmed_claim_ids=review.confirmed_claim_ids,
-                    confirmed_findings=tuple(
-                        finding_claim(f) for f in review.confirmed_findings
+                    confirmed_findings=(
+                        *(finding_claim(f) for f in review.confirmed_findings),
+                        *(assertion_claim(a) for a in review.assertions),
                     ),
                 ),
                 identity_flag_ids=sorted(flags_by_asset.get(asset.asset_id, [])),
+                analyst_assertions=[a.model_dump(mode="json") for a in review.assertions
+                                    if a.asset_id == asset.asset_id],
+                overrides=facts.overrides,
+                assertion_effects=effects,
             )
         )
 

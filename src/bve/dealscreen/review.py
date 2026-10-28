@@ -23,7 +23,7 @@ from pathlib import Path
 from typing import Any
 
 from bve.dealscreen.facts import ReviewInputs
-from bve.dealscreen.models import AgentFinding
+from bve.dealscreen.models import ASSERTABLE_FIELDS, AgentFinding, AnalystAssertion
 
 GENESIS = "0" * 64
 
@@ -39,6 +39,10 @@ class Action(str, Enum):
     WITHDRAW_FINALIST = "WITHDRAW_FINALIST"
     SELECT_FOR_VALUATION = "SELECT_FOR_VALUATION"
     DESELECT_FOR_VALUATION = "DESELECT_FOR_VALUATION"
+    #: A reviewer enters one cited field value for an asset (subject: the asset id).
+    ASSERT_FACT = "ASSERT_FACT"
+    #: A reviewer withdraws an earlier assertion (subject: that assertion's decision id).
+    RETRACT_FACT = "RETRACT_FACT"
 
 
 class ReviewerKind(str, Enum):
@@ -70,6 +74,8 @@ class ReviewState:
     identity_flags: dict[str, str] = field(default_factory=dict)  # flag -> resolution
     finalists: dict[str, dict[str, Any]] = field(default_factory=dict)  # asset -> approval record
     valuation_selected: dict[str, dict[str, Any]] = field(default_factory=dict)
+    #: Active assertions by decision id (retracted ones are removed, never edited).
+    assertions: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def subject_state(self, action: Action, subject_id: str) -> str:
         if action in (Action.CONFIRM_CLAIM, Action.REJECT_CLAIM):
@@ -80,6 +86,10 @@ class ReviewState:
             return self.identity_flags.get(subject_id, "OPEN")
         if action is Action.REQUEST_DILIGENCE:
             return f"{len(self.diligence_requests.get(subject_id, []))} open requests"
+        if action is Action.ASSERT_FACT:
+            return f"{sum(a['asset_id'] == subject_id for a in self.assertions.values())} active assertions"
+        if action is Action.RETRACT_FACT:
+            return "ACTIVE" if subject_id in self.assertions else "NOT_ACTIVE"
         if action in (Action.APPROVE_FINALIST, Action.WITHDRAW_FINALIST):
             return self.finalists.get(subject_id, {}).get("state", "NOT_A_FINALIST")
         return "SELECTED" if subject_id in self.valuation_selected else "NOT_SELECTED"
@@ -90,6 +100,7 @@ class ReviewState:
             rejected_claim_ids=frozenset(c for c, s in self.claims.items() if s == "REJECTED"),
             confirmed_claim_ids=frozenset(c for c, s in self.claims.items() if s == "CONFIRMED"),
             confirmed_findings=tuple(f for f in findings if f.finding_id in confirmed),
+            assertions=tuple(AnalystAssertion(**a) for a in self.assertions.values()),
         )
 
 
@@ -119,6 +130,17 @@ def _apply(state: ReviewState, record: dict[str, Any]) -> None:
         state.valuation_selected[subject] = {"state": new, **_who(record)}
     elif action is Action.DESELECT_FOR_VALUATION:
         state.valuation_selected.pop(subject, None)
+    elif action is Action.ASSERT_FACT:
+        d = record["detail"]
+        state.assertions[record["decision_id"]] = {
+            "assertion_id": record["decision_id"], "asset_id": subject, "field": d["field"],
+            "value": d["value"], "source_url": d["source_url"], "source_title": d.get("source_title", ""),
+            "source_date": d.get("source_date") or None, "evidence_span": d["evidence_span"],
+            "reviewer_id": record["reviewer_id"], "reviewer_kind": record["reviewer_kind"],
+            "timestamp": record["timestamp"], "rationale": record["rationale"],
+        }
+    elif action is Action.RETRACT_FACT:
+        state.assertions.pop(subject, None)
 
 
 def _who(record: dict[str, Any]) -> dict[str, Any]:
@@ -183,8 +205,21 @@ class DecisionLog:
                     f"an AI-prepared record can only list a candidate ({AI_CANDIDATE_STATE}); "
                     "approval needs a human analyst"
                 )
+        if action is Action.ASSERT_FACT:
+            _check_assertion(detail or {})
+            if context is None:
+                raise DecisionRejected("an assertion is checked against the workspace; pass its context")
         if context is not None:
             context.check(action, subject_id, self.state, new_state, reviewer_kind)
+            if action is Action.ASSERT_FACT and context.readable is not None:
+                d = detail or {}
+                if not context.readable(d["field"], d["value"]):
+                    raise DecisionRejected(
+                        f"{d['value']!r} cannot be read as a {d['field']} value, so it could not "
+                        "change any decision. Use the field's vocabulary (approved target symbol, "
+                        "modality term such as 'monoclonal antibody', phase label, a mechanism "
+                        "with a direction word, or an explicit rights statement)."
+                    )
         record = {
             "decision_id": f"dec:{len(self.records) + 1:05d}",
             "seq": len(self.records) + 1,
@@ -208,6 +243,32 @@ class DecisionLog:
         return record
 
 
+_REQUIRED_ASSERTION_KEYS = ("field", "value", "source_url", "evidence_span")
+
+
+def _check_assertion(detail: dict[str, Any]) -> None:
+    missing = [k for k in _REQUIRED_ASSERTION_KEYS if not str(detail.get(k) or "").strip()]
+    if missing:
+        raise DecisionRejected(
+            f"an assertion needs {', '.join(missing)}: a fact without a citation and quoted "
+            "evidence cannot be re-checked"
+        )
+    if detail["field"] not in ASSERTABLE_FIELDS:
+        raise DecisionRejected(
+            f"field {detail['field']!r} cannot be asserted; assertable: {sorted(ASSERTABLE_FIELDS)}"
+        )
+    if not str(detail["source_url"]).startswith(("http://", "https://")):
+        raise DecisionRejected("source_url must be an http(s) link to the cited source")
+    if detail["field"] == "us_rights":
+        from bve.dealscreen.commercial import rights_status
+
+        if rights_status(str(detail["evidence_span"])) != rights_status(str(detail["value"])):
+            raise DecisionRejected(
+                "a rights assertion must quote a source sentence that itself states that rights "
+                "status; the quoted evidence does not"
+            )
+
+
 @dataclass
 class DecisionContext:
     """What a decision is checked against before it is written."""
@@ -218,6 +279,8 @@ class DecisionContext:
     flag_ids: set[str]
     max_finalists: int = 10
     max_valuations: int = 3
+    #: (field, value) -> whether the value can be read; checked for ASSERT_FACT only.
+    readable: Any = None
 
     def check(
         self, action: Action, subject_id: str, state: ReviewState, new_state: str = "",
@@ -229,7 +292,10 @@ class DecisionContext:
             raise DecisionRejected(f"unknown agent finding {subject_id!r}")
         if action is Action.RESOLVE_IDENTITY_FLAG and subject_id not in self.flag_ids:
             raise DecisionRejected(f"unknown identity flag {subject_id!r}")
-        if action in (Action.REQUEST_DILIGENCE, Action.APPROVE_FINALIST, Action.SELECT_FOR_VALUATION) \
+        if action is Action.RETRACT_FACT and subject_id not in state.assertions:
+            raise DecisionRejected(f"no active assertion {subject_id!r} to retract")
+        if action in (Action.REQUEST_DILIGENCE, Action.APPROVE_FINALIST, Action.SELECT_FOR_VALUATION,
+                      Action.ASSERT_FACT) \
                 and subject_id not in self.dispositions:
             raise DecisionRejected(f"unknown asset {subject_id!r}")
         if action is Action.APPROVE_FINALIST:

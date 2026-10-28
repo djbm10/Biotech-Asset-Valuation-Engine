@@ -167,13 +167,19 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
             s["stage_order"], s["activity"], s["n_trials"],
             s["commercial"]["display"], ", ".join(s["commercial"]["partnerships"]),
             ", ".join(s["identity_flag_ids"]), "; ".join(cited),
+            "; ".join(f"{a['field']}={a['value']} ({a['reviewer_id']}, {a['reviewer_kind']}, {a['assertion_id']})"
+                      for a in s.get("analyst_assertions", [])),
+            "; ".join(f"{o['field']}: {o['asserted_value']} replaces {', '.join(o['superseded_claim_ids'])}"
+                      for o in s.get("overrides", [])),
+            _effects_text(s),
         ])
     _sheet(wb, "Screening", [
         "Asset id", "Program", "Aliases", "Company (per source)", "External id", "Scientific disposition",
         "Preference rank", "Machine recommendation", *[f"Gate: {r}" for r in requirement_ids],
         "Why not ELIGIBLE", "Target symbols", "Modality", "Stage order", "Activity", "Registered trials",
         "U.S. rights (independent of science)", "Partnerships (per source)", "Identity flags",
-        "Cited claim ids (asset:row:field)",
+        "Cited claim ids (asset:row:field)", "Analyst assertions", "Source values overridden by analyst",
+        "Gate changes caused by assertions",
     ], screening_rows, note=f"Gate engine: bve.se GateEngine. {screening['ranking_rule']}",
         widths={2: 26, 6: 16})
 
@@ -209,12 +215,22 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
                                f"{f.source_title} <{f.source_url}> ({f.document_date}); span: {f.evidence_span}",
                                " | ".join(f.limitations), finding_state.get(f.finding_id, "PROPOSED"),
                                f.finding_id])
+    for a in log.state.assertions.values():
+        diligence_rows.append([a["asset_id"], by_id[a["asset_id"]]["program_name"], "ANALYST_ASSERTION",
+                               a["field"], f"{a['field']} = {a['value']!r}", a["rationale"],
+                               (f"{a['source_title']} <{a['source_url']}> ({a['source_date']}); quote: "
+                               f"{a['evidence_span']}"),
+                               (f"Entered by {a['reviewer_id']} ({a['reviewer_kind']}); a cited source is not "
+                               "proof that its claim is true"), "ACTIVE", a["assertion_id"]])
     for asset_id, questions in log.state.diligence_requests.items():
         for q in questions:
             diligence_rows.append([asset_id, by_id[asset_id]["program_name"], "DILIGENCE_REQUEST", "", q,
                                    "Analyst-requested", "decision log", "", "OPEN", ""])
-    reviewer_actions = {r["subject_id"]: f"{r['action']} by {r['reviewer_id']} ({r['reviewer_kind']})"
-                        for r in log.records}
+    reviewer_actions: dict[str, str] = {}
+    for r in log.records:
+        label = f"{r['action']} by {r['reviewer_id']} ({r['reviewer_kind']}) [{r['decision_id']}]"
+        reviewer_actions[r["subject_id"]] = label
+        reviewer_actions[r["decision_id"]] = label
     for item in diligence_rows:
         # Column 10 holds the subject the log would name (finding or flag id) until filled.
         item[9] = reviewer_actions.get(item[9]) or reviewer_actions.get(item[3], "")
@@ -373,3 +389,16 @@ def _unit(key: str) -> str:
     if leaf.endswith("_annual"):
         return "patients / year"
     return ""
+
+
+def _effects_text(screen: dict[str, Any]) -> str:
+    if not screen.get("analyst_assertions"):
+        return ""
+    effects = screen.get("assertion_effects") or []
+    if not effects:
+        return "NO EFFECT: the assertions changed no gate"
+    return "; ".join(
+        ("OVERTURNS SOURCE FAIL " if e["overturns_source_fail"] else "")
+        + f"{e['requirement_id']}: {e['without_assertions']} -> {e['with_assertions']}"
+        for e in effects
+    )

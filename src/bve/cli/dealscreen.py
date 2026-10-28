@@ -68,6 +68,8 @@ def resolve_subject(ws: Workspace, action: Action, subject: str, field: str = ""
         if not matches:
             raise DecisionRejected(f"no agent finding for {subject} field {field!r}")
         return min(matches, key=lambda f: f.finding_id).finding_id
+    if action is Action.RETRACT_FACT:
+        return subject
     if action in (Action.CONFIRM_CLAIM, Action.REJECT_CLAIM):
         if asset is None:
             return subject
@@ -81,17 +83,24 @@ def resolve_subject(ws: Workspace, action: Action, subject: str, field: str = ""
 
 
 def _decide(ws: Workspace, *, action: str, subject: str, new_state: str, reviewer: str, rationale: str,
-            kind: ReviewerKind, field: str = "", question: str = "") -> dict[str, Any]:
+            kind: ReviewerKind, field: str = "", question: str = "",
+            assertion: dict[str, str] | None = None,
+            normalizer: TargetNormalizer | None = None) -> dict[str, Any]:
     act = Action(action)
     subject_id = resolve_subject(ws, act, subject, field)
-    detail = {"question": question} if question else {}
+    detail: dict[str, Any] = {"question": question} if question else {}
+    if act is Action.ASSERT_FACT:
+        detail = {"field": field, **(assertion or {})}
     return ws.decision_log().record(
         action=act, subject_id=subject_id, new_state=new_state, reviewer_id=reviewer,
-        rationale=rationale, reviewer_kind=kind, detail=detail, context=ws.decision_context(),
+        rationale=rationale, reviewer_kind=kind, detail=detail,
+        context=ws.decision_context(normalizer),
     )
 
 
-def apply_fixture(ws: Workspace, path: Path, phase: str) -> dict[str, Any]:
+def apply_fixture(ws: Workspace, path: Path, phase: str, *,
+                  normalizer: TargetNormalizer | None = None) -> dict[str, Any]:
+    """Replay a LABELLED synthetic/simulated reviewer file (reviewer kind SYNTHETIC_FIXTURE)."""
     applied, refused = [], []
     with path.open(encoding="utf-8") as handle:
         for row in csv.DictReader(handle):
@@ -101,7 +110,10 @@ def apply_fixture(ws: Workspace, path: Path, phase: str) -> dict[str, Any]:
                 rec = _decide(ws, action=row["action"], subject=row["external_id"], new_state=row["new_state"],
                               reviewer=row["reviewer_id"], rationale=row["rationale"],
                               kind=ReviewerKind.SYNTHETIC_FIXTURE, field=row.get("field", ""),
-                              question=row.get("question", ""))
+                              question=row.get("question", ""), normalizer=normalizer,
+                              assertion={k: row.get(k, "") for k in
+                                         ("value", "source_url", "source_title", "source_date",
+                                          "evidence_span")})
                 applied.append({"decision_id": rec["decision_id"], "action": rec["action"], "subject": row["external_id"]})
             except DecisionRejected as exc:
                 refused.append({"action": row["action"], "subject": row["external_id"], "reason": str(exc)})
@@ -262,6 +274,17 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--rationale", required=True); p.add_argument("--question", default="")
     p.add_argument("--reviewer-kind", default="HUMAN", choices=[k.value for k in ReviewerKind],
                    help="HUMAN, or AI_PREPARED for an assistant's unapproved candidate list")
+    p = sub.add_parser("assert", help="enter one cited field value for an asset"); ws_arg(p); norm_arg(p)
+    p.add_argument("--asset", required=True); p.add_argument("--field", required=True)
+    p.add_argument("--value", required=True); p.add_argument("--source-url", required=True)
+    p.add_argument("--quote", required=True, help="the evidence span, verbatim")
+    p.add_argument("--source-title", default=""); p.add_argument("--source-date", default="")
+    p.add_argument("--reviewer", required=True); p.add_argument("--rationale", required=True)
+    p.add_argument("--reviewer-kind", default="HUMAN", choices=[k.value for k in ReviewerKind])
+    p = sub.add_parser("retract", help="withdraw an assertion by its decision id"); ws_arg(p)
+    p.add_argument("--assertion", required=True); p.add_argument("--reviewer", required=True)
+    p.add_argument("--rationale", required=True)
+    p.add_argument("--reviewer-kind", default="HUMAN", choices=[k.value for k in ReviewerKind])
     p = sub.add_parser("apply-fixture", help="replay a LABELLED synthetic reviewer fixture"); ws_arg(p)
     p.add_argument("--file", required=True); p.add_argument("--phase", required=True)
     p = sub.add_parser("value"); ws_arg(p); p.add_argument("--assumptions", required=True)
@@ -304,6 +327,21 @@ def main(argv: list[str] | None = None) -> int:
                           field=args.field, question=args.question)
             print(f"recorded {rec['decision_id']}: {rec['action']} {rec['subject_id']} "
                   f"{rec['old_state']} -> {rec['new_state']}. Re-run `screen` to apply fact changes.")
+        elif args.command == "assert":
+            rec = _decide(ws, action="ASSERT_FACT", subject=args.asset, new_state="ASSERTED",
+                          reviewer=args.reviewer, rationale=args.rationale,
+                          kind=ReviewerKind(args.reviewer_kind), field=args.field,
+                          normalizer=_normalizer(args) if args.target_map else None,
+                          assertion={"value": args.value, "source_url": args.source_url,
+                                     "source_title": args.source_title, "source_date": args.source_date,
+                                     "evidence_span": args.quote})
+            print(f"recorded {rec['decision_id']}: {args.field}={args.value!r} on {rec['subject_id']}. "
+                  "Re-run `screen` to apply it.")
+        elif args.command == "retract":
+            rec = _decide(ws, action="RETRACT_FACT", subject=args.assertion, new_state="RETRACTED",
+                          reviewer=args.reviewer, rationale=args.rationale,
+                          kind=ReviewerKind(args.reviewer_kind))
+            print(f"recorded {rec['decision_id']}: retracted {args.assertion}. Re-run `screen`.")
         elif args.command == "apply-fixture":
             print(json.dumps(apply_fixture(ws, Path(args.file), args.phase), indent=2))
         elif args.command == "value":

@@ -152,8 +152,15 @@ class Workspace:
     def screening(self) -> dict[str, Any]:
         return json.loads((self.root / "screening.json").read_text(encoding="utf-8"))
 
-    def decision_context(self) -> DecisionContext:
+    def decision_context(self, target_normalizer: TargetNormalizer | None = None) -> DecisionContext:
+        """``target_normalizer`` is only used to check asserted target values (lazy)."""
         spec = self.buyer()
+        profile = self.profile()
+
+        def readable(field_name: str, value: str) -> bool:
+            normalizer = target_normalizer or ontology_target_normalizer()
+            return FactBuilder(profile, normalizer).readable(field_name, value)
+
         screening = self.screening()
         assets = self.assets()
         return DecisionContext(
@@ -163,6 +170,7 @@ class Workspace:
             flag_ids={f.flag_id for f in self.flags()},
             max_finalists=spec.max_finalists,
             max_valuations=spec.max_valuations,
+            readable=readable,
         )
 
     # -- step 3: research -------------------------------------------------------------
@@ -204,7 +212,8 @@ class Workspace:
             block = per_asset.get(asset.external_id)
             if block is not None:
                 block = {"owner": assumptions_doc.get("owner"), "label": assumptions_doc.get("label"), **block}
-            readiness: Readiness = check_readiness(asset, block)
+            readiness: Readiness = check_readiness(
+                asset, block, screened_stage_order=screening[asset_id].get("stage_order"))
             entry: dict[str, Any] = {"selected": selected, "readiness": asdict(readiness), "runs": []}
             if selected and readiness.ready and block is not None:
                 indication = ", ".join(

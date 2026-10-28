@@ -22,7 +22,13 @@ from typing import Any
 
 from bve.dealscreen.importer import split_list
 from bve.dealscreen.mapping import MappingProfile
-from bve.dealscreen.models import AgentFinding, ClaimOrigin, LandscapeAsset, SourceClaim
+from bve.dealscreen.models import (
+    AgentFinding,
+    AnalystAssertion,
+    ClaimOrigin,
+    LandscapeAsset,
+    SourceClaim,
+)
 from bve.se.ontology.modality import normalize_modality
 from bve.se.ontology.therapeutic_areas import canonical_therapeutic_area, classify_therapeutic_areas
 from bve.se.schemas.contracts import NormalizedFact
@@ -76,6 +82,8 @@ class ReviewInputs:
     rejected_claim_ids: frozenset[str] = frozenset()
     confirmed_claim_ids: frozenset[str] = frozenset()
     confirmed_findings: tuple[AgentFinding, ...] = ()
+    #: Active (not retracted) analyst assertions, oldest first.
+    assertions: tuple[AnalystAssertion, ...] = ()
 
 
 @dataclass
@@ -87,6 +95,24 @@ class AssetFacts:
     activity: str = "UNKNOWN"
     modality: str | None = None
     target_symbols: list[str] = field(default_factory=list)
+    #: Analyst assertions that replaced a readable, different source value on their field.
+    overrides: list[dict[str, Any]] = field(default_factory=list)
+
+
+def assertion_claim(assertion: AnalystAssertion) -> SourceClaim:
+    """An analyst assertion in claim form; its citation travels with it."""
+    return SourceClaim(
+        claim_id=assertion.assertion_id,
+        asset_id=assertion.asset_id,
+        field=assertion.field,
+        value_as_written=assertion.value,
+        origin=ClaimOrigin.ANALYST_ASSERTED,
+        source_system=f"analyst:{assertion.reviewer_id}",
+        dataset_version="decision_log",
+        source_reference=assertion.source_url,
+        source_date=assertion.source_date,
+        evidence_span=assertion.evidence_span,
+    )
 
 
 def finding_claim(finding: AgentFinding) -> SourceClaim:
@@ -118,6 +144,27 @@ class FactBuilder:
             return None
         return sorted({s for s in symbols if s})
 
+    def readable(self, field_name: str, text: str) -> bool:
+        """Whether a value for this field can be read by its normalizer (assertion check)."""
+        if not text.strip():
+            return False
+        if field_name in {"target", "mechanism", "modality", "phase"}:
+            return self._read(field_name, text) is not None
+        if field_name == "us_rights":
+            from bve.dealscreen.commercial import UNKNOWN, rights_status
+
+            return rights_status(text) != UNKNOWN
+        if field_name == "indication":
+            from bve.se.ontology.indication_compatibility import disease_id
+
+            return disease_id(text) is not None  # the indication gate reads NCIt names only
+        if field_name == "therapeutic_area":
+            from bve.se.ontology.therapeutic_areas import CLASSIFIED_AREAS
+
+            mapped = self.profile.therapeutic_area_map.get(text, text)
+            return canonical_therapeutic_area(mapped) in CLASSIFIED_AREAS
+        return True
+
     def _read(self, field_name: str, text: str) -> Any:
         if field_name == "target":
             return self._targets(text)
@@ -132,8 +179,11 @@ class FactBuilder:
     def build(self, asset: LandscapeAsset, review: ReviewInputs) -> AssetFacts:
         claims = [c for c in asset.claims if c.claim_id not in review.rejected_claim_ids]
         findings = [f for f in review.confirmed_findings if f.asset_id == asset.asset_id]
-        confirmed = {*review.confirmed_claim_ids, *(f.finding_id for f in findings)}
+        asserted = [a for a in review.assertions if a.asset_id == asset.asset_id]
+        confirmed = {*review.confirmed_claim_ids, *(f.finding_id for f in findings),
+                     *(a.assertion_id for a in asserted)}
         claims.extend(finding_claim(f) for f in findings)
+        claims.extend(assertion_claim(a) for a in asserted)
         result = AssetFacts(facts=[])
 
         name_claims = [c for c in claims if c.field == "program_name"]
@@ -195,7 +245,17 @@ class FactBuilder:
     ) -> NormalizedFact | None:
         decisive = [c for c in claims if c.claim_id in confirmed]
         if decisive:
-            claims = decisive[-1:]  # the latest analyst confirmation decides the field
+            winner = decisive[-1]  # the latest analyst confirmation decides the field
+            winning_value = self._read(field_name, winner.value_as_written)
+            superseded = [
+                c.claim_id for c in claims
+                if c is not winner and (v := self._read(field_name, c.value_as_written)) is not None
+                and v != winning_value
+            ]
+            if superseded and winner.origin is ClaimOrigin.ANALYST_ASSERTED:
+                result.overrides.append({"field": field_name, "asserted_value": winner.value_as_written,
+                                         "assertion_id": winner.claim_id, "superseded_claim_ids": superseded})
+            claims = [winner]
         readings: list[tuple[SourceClaim, Any]] = []
         for claim in claims:
             value = self._read(field_name, claim.value_as_written)

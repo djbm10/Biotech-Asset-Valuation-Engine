@@ -71,13 +71,34 @@ def identity_flags(
             asset_id: {drug for name in names if (drug := authority(name))}
             for asset_id, names in names_of.items()
         }
+        name_keys = {asset_id: {normalize_identity_name(n) for n in names} - {None}
+                     for asset_id, names in names_of.items()}
         for left, right in combinations(sorted(resolved), 2):
             common = resolved[left] & resolved[right]
             if not common:
                 continue
             a, b = by_id[left], by_id[right]
             if not a.company or _company_key(a.company) != _company_key(b.company):
-                continue  # MB-102 rule: an authority match across companies is not proposed
+                # Never merged. Raised only when the records reach the drug through DIFFERENT
+                # names: a match through one shared code is the MB-102 class (SHARED_CODE).
+                if name_keys[left] & name_keys[right]:
+                    continue
+                drug = min(common)
+                flag_id = _flag_id("SAME_MOLECULE_DIFFERENT_HOLDER", [left, right], drug)
+                flags[flag_id] = IdentityFlag(
+                    flag_id=flag_id,
+                    kind="SAME_MOLECULE_DIFFERENT_HOLDER",
+                    asset_ids=[left, right],
+                    shared_value=drug,
+                    relationship=IdentityRelationship.UNCERTAIN_RELATIONSHIP.value,
+                    basis=(
+                        f"Different names of these records resolve to {drug} in the identity "
+                        f"authority, but the records name different companies ({a.company or '?'}; "
+                        f"{b.company or '?'}). Possibly one molecule under territorial licensees or a "
+                        "former code; never merged. Review rights and territories for both."
+                    ),
+                )
+                continue
             drug = min(common)
             flag_id = _flag_id("PROPOSED_MERGE", [left, right], drug)
             flags[flag_id] = IdentityFlag(

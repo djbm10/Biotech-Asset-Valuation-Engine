@@ -22,6 +22,8 @@ class ClaimOrigin(str, Enum):
     SOURCE_PROVIDED = "SOURCE_PROVIDED"
     #: Proposed by the diligence agent from a cited public document. Not confirmed.
     AGENT_PROPOSED = "AGENT_PROPOSED"
+    #: Entered by a named reviewer with a citation (decision log ASSERT_FACT).
+    ANALYST_ASSERTED = "ANALYST_ASSERTED"
 
 
 class SourceClaim(Frozen):
@@ -133,3 +135,28 @@ class AgentFinding(Frozen):
     contradicts_claim_ids: list[str] = Field(default_factory=list)
     retrieved_at: str
 
+
+
+#: Fields an analyst may assert. Identity fields (name, external id) are not assertable:
+#: identity changes go through identity flags, never through a fact.
+ASSERTABLE_FIELDS: frozenset[str] = frozenset({
+    "target", "mechanism", "modality", "phase", "indication", "therapeutic_area",
+    "development_status", "us_rights", "geographic_rights", "partnerships", "company",
+})
+
+
+class AnalystAssertion(Frozen):
+    """One cited field value entered by a reviewer; the decision id is its claim id."""
+
+    assertion_id: str
+    asset_id: str
+    field: str
+    value: str
+    source_url: str
+    source_title: str = ""
+    source_date: date | None = None
+    evidence_span: str
+    reviewer_id: str
+    reviewer_kind: str
+    timestamp: str
+    rationale: str

@@ -69,7 +69,22 @@ class Readiness:
         return "READY" if self.ready else "NOT READY FOR VALUATION"
 
 
-def check_readiness(asset: LandscapeAsset, assumptions: dict[str, Any] | None) -> Readiness:
+#: Screen stage order at or above which a program is commercial-stage (marketed / Phase 4).
+COMMERCIAL_STAGE_ORDER = 6
+COMMERCIAL_STAGE_REASON = (
+    "commercial-stage program (marketed or Phase 4): BVE's pre-approval rNPV path values "
+    "remaining development risk and a launch curve, which does not describe a product already "
+    "on the market. Not valued; a commercial-asset model with actual sales is required"
+)
+
+
+def check_readiness(
+    asset: LandscapeAsset, assumptions: dict[str, Any] | None, *, screened_stage_order: int | None = None
+) -> Readiness:
+    commercial = (screened_stage_order is not None and screened_stage_order >= COMMERCIAL_STAGE_ORDER) or (
+        bool(assumptions) and (assumptions or {}).get("stage") == "approved")
+    if commercial:
+        return Readiness(asset.asset_id, False, missing=[COMMERCIAL_STAGE_REASON])
     if not assumptions:
         return Readiness(
             asset.asset_id, False,

@@ -58,7 +58,7 @@ class CommercialAssessment:
     def display(self) -> str:
         return {
             AVAILABLE: "AVAILABLE (source-provided, unverified)",
-            AVAILABLE_CONFIRMED: "AVAILABLE (analyst-confirmed)",
+            AVAILABLE_CONFIRMED: "AVAILABLE (analyst-asserted or -confirmed from a cited source; verify)",
             NOT_AVAILABLE: "NOT AVAILABLE (source-provided)",
             ENCUMBERED: "ENCUMBERED (source-provided)",
             CONFLICTING: "CONFLICTING SOURCES",
@@ -93,9 +93,11 @@ def assess(
     partnerships = [
         p.value_as_written for p in asset.claims_for("partnerships")
         if p.claim_id not in rejected_claim_ids
-    ]
-    if status == AVAILABLE and partnerships:
-        status = CONFLICTING  # "available" alongside a recorded partnership needs a human
+    ] + [c.value_as_written for c in confirmed_findings
+         if c.field == "partnerships" and c.asset_id == asset.asset_id]
+    if status in {AVAILABLE, AVAILABLE_CONFIRMED} and partnerships:
+        # "Available" alongside a recorded partnership needs a human, confirmed or not.
+        status = CONFLICTING
     open_questions = [] if status in {AVAILABLE_CONFIRMED} else list(questions)
     return CommercialAssessment(
         asset_id=asset.asset_id,
