@@ -10,7 +10,7 @@
 2. Confirm the branch and that `git status` shows only the user files above.
 3. Re-run, with temp files on the home disk because `/tmp` is a small tmpfs:
    `TMPDIR=$HOME/.cache/dealscreen_suite python -m pytest tests/dealscreen -q -p no:cacheprovider`
-   Expect 105 passed. `test_real_landscape.py` pins 4/14/22.
+   Expect 110 passed. `test_real_landscape.py` pins 4/14/22.
 
 ## DONE: Cycle 3, rights-holder vs availability (see ITERATION_LOG)
 

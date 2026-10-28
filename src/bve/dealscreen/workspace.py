@@ -18,9 +18,12 @@ the same screen and nothing is lost between sessions.
 
 from __future__ import annotations
 
+import contextlib
 import json
+import os
 import shutil
-from collections.abc import Callable
+import tempfile
+from collections.abc import Callable, Iterator
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any
@@ -48,6 +51,39 @@ from bve.dealscreen.valuation_handoff import (
 
 def _dump(path: Path, data: Any) -> None:
     path.write_text(json.dumps(data, indent=2, sort_keys=True, default=str) + "\n", encoding="utf-8")
+
+
+def _ontology_version() -> str | None:
+    """The installed S&E ontology version, without loading it when it is not installed."""
+    from bve.se.ontology.targets import default_snapshot_path
+
+    manifest = default_snapshot_path() / "manifest.json"
+    if not manifest.exists():
+        return None
+    try:
+        return str(json.loads(manifest.read_text()).get("ontology_version") or manifest.stat().st_mtime)
+    except (OSError, ValueError):
+        return None
+
+
+@contextlib.contextmanager
+def _ontology_disabled() -> Iterator[None]:
+    """Run with no S&E ontology snapshot installed, restoring the previous setting after."""
+    from bve.se.ontology.targets import reset_resolver_cache
+
+    key = "BVE_SE_ONTOLOGY_SNAPSHOT"
+    previous = os.environ.get(key)
+    with tempfile.TemporaryDirectory() as empty:
+        os.environ[key] = str(Path(empty) / "none")
+        reset_resolver_cache()
+        try:
+            yield
+        finally:
+            if previous is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = previous
+            reset_resolver_cache()
 
 
 def ontology_target_normalizer() -> TargetNormalizer:
@@ -100,6 +136,7 @@ class Workspace:
     def import_landscape(
         self, landscape: Path, profile_path: Path, buyer_path: Path, *, sheet: str | None = None,
         drug_authority: DrugAuthority | None = None,
+        target_normalizer: TargetNormalizer | None = None,
     ) -> ImportResult:
         profile = MappingProfile.from_yaml(profile_path)
         BuyerSpec.from_yaml(buyer_path)  # fail early on a bad spec
@@ -111,7 +148,55 @@ class Workspace:
         _dump(self.root / "import.json", result.model_dump(mode="json"))
         flags = identity_flags(result.assets, authority=drug_authority)
         _dump(self.root / "identity.json", [f.model_dump(mode="json") for f in flags])
+        if target_normalizer is not None:
+            self.write_target_cache(target_normalizer, result.assets, profile)
         return result
+
+    # -- target cache (Cycle 4) -------------------------------------------------------
+    @property
+    def target_cache_path(self) -> Path:
+        return self.root / "target_cache.json"
+
+    def write_target_cache(self, normalizer: TargetNormalizer, assets: list[LandscapeAsset],
+                           profile: MappingProfile) -> dict[str, str | None]:
+        """Resolve every distinct target string (and the parts FactBuilder splits) once."""
+        from bve.dealscreen.importer import split_list
+
+        strings: set[str] = set()
+        for asset in assets:
+            for claim in asset.claims_for("target"):
+                text = claim.value_as_written
+                strings.update(split_list(text.replace("/", profile.list_separator), profile.list_separator))
+        for term in self.buyer().problem.strategic_gap.target_expression.targets:
+            strings.add(term.canonical_id)
+        cache = {s: normalizer(s) for s in sorted(strings)}
+        _dump(self.target_cache_path, cache)
+        _dump(self.root / "target_cache_meta.json", {
+            "ontology_version": _ontology_version(),
+            "note": "Re-import to rebuild the cache after the S&E ontology snapshot changes.",
+            "strings": len(cache)})
+        return cache
+
+    def cached_normalizer(self) -> TargetNormalizer | None:
+        """A normalizer backed by the import-time cache; misses fall back to the ontology."""
+        if not self.target_cache_path.exists():
+            return None
+        cache: dict[str, str | None] = json.loads(self.target_cache_path.read_text())
+
+        def normalize(text: str) -> str | None:
+            if text in cache:
+                return cache[text]
+            return ontology_target_normalizer()(text)  # P4: never null-by-default
+
+        return normalize
+
+    def can_screen_without_ontology(self) -> bool:
+        """True when every buyer target id is already canonical per the cache (P2)."""
+        if not self.target_cache_path.exists():
+            return False
+        cache = json.loads(self.target_cache_path.read_text())
+        terms = self.buyer().problem.strategic_gap.target_expression.targets
+        return all(t.target_reference is None and cache.get(t.canonical_id) == t.canonical_id for t in terms)
 
     # -- loaders ----------------------------------------------------------------------
     def import_result(self) -> ImportResult:
@@ -138,7 +223,20 @@ class Workspace:
         return self.import_result().assets
 
     # -- step 2: screen ---------------------------------------------------------------
-    def screen(self, target_normalizer: TargetNormalizer) -> ScreeningResult:
+    def screen(self, target_normalizer: TargetNormalizer | None = None) -> ScreeningResult:
+        """With no normalizer, use the import-time target cache and, when safe, skip loading
+        the S&E ontology entirely (Cycle 4). Results are identical to the full path (tested)."""
+        if target_normalizer is None:
+            cached = self.cached_normalizer()
+            if cached is None:
+                return self._screen(ontology_target_normalizer())
+            if self.can_screen_without_ontology():
+                with _ontology_disabled():
+                    return self._screen(cached)
+            return self._screen(cached)
+        return self._screen(target_normalizer)
+
+    def _screen(self, target_normalizer: TargetNormalizer) -> ScreeningResult:
         spec = self.buyer()
         log = self.decision_log()
         review = log.state.review_inputs(self.findings())
@@ -158,7 +256,7 @@ class Workspace:
         profile = self.profile()
 
         def readable(field_name: str, value: str) -> bool:
-            normalizer = target_normalizer or ontology_target_normalizer()
+            normalizer = target_normalizer or self.cached_normalizer() or ontology_target_normalizer()
             return FactBuilder(profile, normalizer).readable(field_name, value)
 
         screening = self.screening()

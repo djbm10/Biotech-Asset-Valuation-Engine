@@ -111,3 +111,39 @@ cannot say "we know who holds U.S. rights, and we don't know whether they would 
 - Availability remains unknown everywhere: no public source in this landscape states it. That is the honest state of public data, not a tool defect.
 
 **Self-criticism:** "U.S. commercializer per FDA label" is evidence of commercial control, not of who owns the IP. The label text says exactly that, and nothing downstream treats it as availability.
+
+## Cycle 4: per-command latency (2026-10-28)
+
+**Problem (measured).** Each `bve-dealscreen screen` / `import` call took 47-54 s and 1.7 GB on
+the real landscape, almost all of it loading the S&E ontology. An analyst resolving 9 items
+through the CLI pays that on every re-screen.
+
+**Diagnosis.** DealScreen needs the ontology only to normalize vendor target strings, a fixed
+set per landscape. The gate engine also normalizes canonical symbols it already has, which is
+the identity for canonical input.
+
+**Criteria (frozen before code):**
+
+| | Criterion |
+|---|---|
+| P1 | At import, every distinct target string, plus each target sub-part the FactBuilder splits, is resolved once and stored in `target_cache.json` (raw → symbol or null) |
+| P2 | `screen` uses the cache and, when all buyer target ids are canonical per the cache, runs the gate engine without loading the ontology. Otherwise it falls back to the full ontology path and says so |
+| P3 | `screening.json` is byte-identical between the cached path and the full-ontology path on four workspaces: synthetic 200, real v1, real v2, and real v1 with the Cycle 1 assertions |
+| P4 | A cache miss (a new string, e.g. an asserted target not seen at import) falls back to the ontology for that string. Never null-by-default |
+| P5 | Measured `screen` wall time and peak memory before and after, reported as measured |
+
+**Result:**
+
+| Check | Result |
+|---|---|
+| P3, byte equality vs the full-ontology screen (`cycle4/equivalence_result.json`) | **identical in all four workspaces**: synthetic 200, real v1, real v2, real v1 + Cycle 1 assertions |
+| P5, CLI `bve-dealscreen screen` on the real landscape | **33.5 s / 1.71 GB → 0.53 s / 88 MB** |
+| P2, P4 | fallback rules tested; 110 DealScreen tests pass |
+
+**Self-challenge (fixed):**
+- the cache now records the ontology version it was built from (`target_cache_meta.json`);
+- target assertions are checked through the cache before falling back to the ontology.
+
+**Remaining:**
+- `import` still loads the ontology once, about 25-50 s, because it builds the cache and the identity flags.
+- A stale cache after an ontology upgrade is detectable through the metadata but not enforced; the analyst must re-import.

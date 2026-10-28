@@ -1,0 +1,22 @@
+{
+ "synthetic_200": {
+  "byte_identical": true,
+  "fast_path": true,
+  "cached_screen_seconds_in_process": 1.69
+ },
+ "real_v1": {
+  "byte_identical": true,
+  "fast_path": true,
+  "cached_screen_seconds_in_process": 0.89
+ },
+ "real_v2": {
+  "byte_identical": true,
+  "fast_path": true,
+  "cached_screen_seconds_in_process": 0.79
+ },
+ "real_v1_with_cycle1_assertions": {
+  "byte_identical": true,
+  "fast_path": true,
+  "cached_screen_seconds_in_process": 0.75
+ }
+}

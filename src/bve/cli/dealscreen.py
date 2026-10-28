@@ -256,7 +256,7 @@ def main(argv: list[str] | None = None) -> int:
     def norm_arg(p: argparse.ArgumentParser) -> None:
         p.add_argument("--target-map", help="YAML synonym->symbol map instead of the S&E ontology (fast, offline)")
 
-    p = sub.add_parser("import"); ws_arg(p)
+    p = sub.add_parser("import"); ws_arg(p); norm_arg(p)
     p.add_argument("--landscape", required=True); p.add_argument("--profile", required=True)
     p.add_argument("--buyer", required=True); p.add_argument("--sheet")
     p.add_argument("--identity-authority", action="store_true", help="propose merges via the S&E ontology")
@@ -302,14 +302,15 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "import":
             result = ws.import_landscape(Path(args.landscape), Path(args.profile), Path(args.buyer),
                                          sheet=args.sheet,
-                                         drug_authority=ontology_drug_authority() if args.identity_authority else None)
+                                         drug_authority=ontology_drug_authority() if args.identity_authority else None,
+                                         target_normalizer=_normalizer(args))
             print(json.dumps(result.manifest.model_dump(mode="json"), indent=2))
             for rej in result.rejected:
                 print(f"REJECTED row {rej.row_number}: {'; '.join(rej.reasons)}")
             for dup in result.duplicates:
                 print(f"DUPLICATE row {dup.row_number} = row {dup.duplicate_of_row}")
         elif args.command == "screen":
-            ws.screen(_normalizer(args))
+            ws.screen(_normalizer(args) if args.target_map else None)
             _print_queue(ws)
         elif args.command == "queue":
             _print_queue(ws)

@@ -49,3 +49,9 @@ Only the dimensions that changed are listed. Everything else is as in Audit 0.
 | 7 | Ownership, rights, licensing | U.S. rights holder kept separate from availability. Holder taken only from cited evidence (FDA labeler, or an assertion); conflicts shown | Real: holder known for 8/40, AVAILABLE 0/40; tests R1-R5 | PARTIAL (no availability data; no licensor/licensee extraction) |
 
 - **Gate D:** PARTIAL. Suitability, marketing status, holder, encumbrances and unknown availability are now distinct fields. Actual licensing availability has never been demonstrated, because no public source in hand states it.
+
+**After Cycle 4:**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 13 | Performance and reliability | Ontology loaded once at import; screens run from a target cache with identical results | CLI screen 33.5 s / 1.7 GB → 0.53 s / 88 MB; byte equality on 4 workspaces | PARTIAL → stronger (import still ~25-50 s) |
