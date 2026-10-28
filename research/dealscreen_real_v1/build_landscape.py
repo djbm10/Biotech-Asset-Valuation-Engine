@@ -271,12 +271,12 @@ def build() -> dict[str, Any]:
                      CTGOV_URL.format(latest["nct_id"]), latest["last_update"] or "", "collaborators")
         if label_mg:
             cells["Geographic Notes"] = f"U.S.-labelled product ({', '.join(label.get('brand_name') or [])})"
-            labeler = (label.get("manufacturer_name") or [""])[0]
-            if labeler:
-                cells["US Rights Holder"] = f"{labeler} (U.S. commercializer per FDA label)"
+            labelers = label.get("manufacturer_name") or []
+            if len(labelers) == 1:  # several labelers: leave blank rather than pick one
+                cells["US Rights Holder"] = f"{labelers[0]} (U.S. labeler per FDA label; not a rights statement)"
                 prov("US Rights Holder", cells["US Rights Holder"],
-                     "openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. "
-                     "commercialization, not of licensing terms or availability",
+                     "openFDA manufacturer_name: the U.S. labeler, which may be a manufacturer or "
+                     "distributor. Not evidence of IP ownership, licensing terms or availability",
                      sources[0], label_date, "manufacturer_name")
 
         # Target / mechanism / modality: authority first, verbatim registry text second.

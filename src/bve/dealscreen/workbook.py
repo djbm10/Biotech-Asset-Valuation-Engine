@@ -180,7 +180,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         "Why not ELIGIBLE", "Target symbols", "Modality", "Stage order", "Activity", "Registered trials",
         "U.S. licensing availability (independent of science)", "U.S. rights holder (evidence; not availability)",
         "Partnerships (per source)", "Identity flags",
-        "Cited claim ids (asset:row:field)", "Analyst assertions", "Source values overridden by analyst",
+        "Cited claim ids (asset:field:value-hash; row in Landscape)", "Analyst assertions", "Source values overridden by analyst",
         "Gate changes caused by assertions",
     ], screening_rows, note=f"Gate engine: bve.se GateEngine. {screening['ranking_rule']}",
         widths={2: 26, 6: 16})
@@ -224,6 +224,10 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
                                f"{a['evidence_span']}"),
                                (f"Entered by {a['reviewer_id']} ({a['reviewer_kind']}); a cited source is not "
                                "proof that its claim is true"), "ACTIVE", a["assertion_id"]])
+    for o in ws.refresh().get("orphaned_decisions", []):
+        diligence_rows.append(["", "", "ORPHANED_DECISION_AFTER_REFRESH", o["subject"], o["decision"],
+                               "Re-review against the refreshed landscape", o["reason"],
+                               "Kept in the decision log; no longer applied", "OPEN", ""])
     for asset_id, questions in log.state.diligence_requests.items():
         for q in questions:
             diligence_rows.append([asset_id, by_id[asset_id]["program_name"], "DILIGENCE_REQUEST", "", q,

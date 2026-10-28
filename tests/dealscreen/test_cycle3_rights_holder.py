@@ -42,7 +42,7 @@ def test_r3_r5_holder_only_from_fda_labeler_and_availability_unchanged(ws):
     s = _screens(ws)
     with_holder = {p for p, x in s.items() if x["commercial"]["us_rights_holder"]}
     assert with_holder == LABELLED_GMG
-    assert all("FDA label" in s[p]["commercial"]["us_rights_holder"] for p in with_holder)
+    assert all("labeler per FDA label; not a rights statement" in s[p]["commercial"]["us_rights_holder"] for p in with_holder)
     assert s["RW-05"]["commercial"]["us_rights_holder"] is None  # registry sponsor is not a holder
     assert {x["commercial"]["us_rights_status"] for x in s.values()} == {"UNKNOWN"}  # R2
 

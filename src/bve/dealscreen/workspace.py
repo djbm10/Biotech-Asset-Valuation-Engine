@@ -141,13 +141,27 @@ class Workspace:
         profile = MappingProfile.from_yaml(profile_path)
         BuyerSpec.from_yaml(buyer_path)  # fail early on a bad spec
         result = import_landscape(landscape, profile, sheet=sheet)
+        previous = self.import_result() if (self.root / "import.json").exists() else None
+        flags = identity_flags(result.assets, authority=drug_authority)
+        report = None
+        if previous is not None or self.decisions_path.exists():
+            from bve.dealscreen.refresh import refresh_report
+
+            # Computed before anything is written, so a failure leaves the workspace intact.
+            report = refresh_report(previous, result, self.decision_log().state, self.findings(), flags)
+        if previous is not None:  # a refresh: keep the old import, never overwrite it silently
+            history = self.root / "import_history"
+            history.mkdir(parents=True, exist_ok=True)
+            n = len(list(history.glob("import_*.json"))) + 1
+            shutil.copyfile(self.root / "import.json", history / f"import_{n:03d}.json")
         self.inputs.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(landscape, self.inputs / f"landscape{landscape.suffix.lower()}")
         shutil.copyfile(profile_path, self.inputs / "profile.yaml")
         shutil.copyfile(buyer_path, self.inputs / "buyer.yaml")
         _dump(self.root / "import.json", result.model_dump(mode="json"))
-        flags = identity_flags(result.assets, authority=drug_authority)
         _dump(self.root / "identity.json", [f.model_dump(mode="json") for f in flags])
+        if report is not None:
+            _dump(self.root / "refresh_report.json", report)
         if target_normalizer is not None:
             self.write_target_cache(target_normalizer, result.assets, profile)
         return result
@@ -195,8 +209,23 @@ class Workspace:
         if not self.target_cache_path.exists():
             return False
         cache = json.loads(self.target_cache_path.read_text())
+        meta_path = self.root / "target_cache_meta.json"
+        if meta_path.exists() and json.loads(meta_path.read_text()).get("ontology_version") != _ontology_version():
+            return False  # the installed ontology changed since import: use the full path
         terms = self.buyer().problem.strategic_gap.target_expression.targets
-        return all(t.target_reference is None and cache.get(t.canonical_id) == t.canonical_id for t in terms)
+        if not all(t.target_reference is None and cache.get(t.canonical_id) == t.canonical_id for t in terms):
+            return False
+        # Every target string a decision can introduce must already be cached, or the
+        # ontology-free path would read it as "no target" (Cycle 4 review H1).
+        from bve.dealscreen.importer import split_list
+
+        sep = self.profile().list_separator
+        state = self.decision_log().state
+        confirmed = {f for f, s in state.findings.items() if s == "CONFIRMED"}
+        strings = [a["value"] for a in state.assertions.values() if a["field"] == "target"]
+        strings += [f.proposed_value for f in self.findings() if f.finding_id in confirmed and f.field == "target"]
+        parts = {p for s in strings for p in split_list(s.replace("/", sep), sep)}
+        return parts <= set(cache)
 
     # -- loaders ----------------------------------------------------------------------
     def import_result(self) -> ImportResult:
@@ -211,6 +240,10 @@ class Workspace:
     def flags(self) -> list[IdentityFlag]:
         path = self.root / "identity.json"
         return [IdentityFlag(**f) for f in json.loads(path.read_text())] if path.exists() else []
+
+    def refresh(self) -> dict[str, Any]:
+        path = self.root / "refresh_report.json"
+        return json.loads(path.read_text()) if path.exists() else {}
 
     def findings(self) -> list[AgentFinding]:
         path = self.root / "findings.json"

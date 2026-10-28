@@ -147,3 +147,46 @@ the identity for canonical input.
 **Remaining:**
 - `import` still loads the ontology once, about 25-50 s, because it builds the cache and the identity flags.
 - A stale cache after an ontology upgrade is detectable through the metadata but not enforced; the analyst must re-import.
+
+## Cycle 5: decisions survive a vendor refresh (2026-10-28)
+
+**Problem (reproduced).**
+- Claim ids embed the row number (`asset:r3:target`).
+- An analyst rejected rozanolixizumab's target claim, so the program was UNRESOLVED. Re-importing the same 40 rows in a different order gave the claim the id `asset:r2:target`. The rejection silently stopped applying and the program went back to ELIGIBLE.
+- Any real export refresh reorders rows, so prior analyst work is lost with no warning.
+- This is my own design defect from the first build; no test covered a re-import.
+
+**Criteria (frozen before code):**
+
+| | Criterion |
+|---|---|
+| F1 | Claim ids are content-based (asset, field, value hash; occurrence index only for identical repeated values), so they are stable under row reordering. Row number and column stay on the claim as provenance |
+| F2 | Re-importing into an existing workspace is a refresh. The previous import is archived and a `refresh_report.json` lists: assets added and removed; per-asset field values added and removed; every logged decision whose subject (claim, finding, assertion asset, finalist) no longer exists, as ORPHANED, never dropped silently |
+| F3 | After a reordered re-export of identical content, every decision still applies and `screening.json` dispositions are identical (the rozanolixizumab regression) |
+| F4 | A changed source value orphans a decision on the old value and reports it. It is never transferred to the new value |
+| F5 | The workbook shows orphaned decisions in the Diligence sheet. The synthetic and real regressions keep their disposition counts |
+
+**Result (Cycle 5):**
+- The reproduced regression is fixed. Rozanolixizumab's rejected-target decision survives a reordered re-export (it stays UNRESOLVED), and all dispositions are identical.
+- A changed value orphans the old decision, reports it, and does not transfer it.
+- Removed assets are reported, the previous import is archived, and orphans appear in the workbook.
+
+**Adversarial review of Cycles 3-5 (AI reviewer, separate context; not human validation):**
+
+| Finding | Severity | Status |
+|---|---|---|
+| The Cycle 4 fast path read an asserted or confirmed target missing from the import-time cache as "no target"; P4 was false inside the fast path and my P4 test mocked the fallback | **High (blocking)** | Fixed: the fast path requires every target string reachable from assertions and confirmed findings to be cached, and a changed ontology version also forces the full path. Regression test reproduces the case |
+| "U.S. commercializer per FDA label" overclaims; openFDA `manufacturer_name` is the labeler (possibly a distributor) | M1 | Fixed: "U.S. labeler per FDA label; not a rights statement". Several labelers → left blank |
+| Claim ids ignored source, so identical values from two sources could swap decisions on reorder | M2 | Fixed: source reference and date are part of the id; test |
+| Legacy row-based ids reported as "value changed" | M3 | Fixed: reported as legacy ids to re-decide; test |
+| Refresh report false negatives: a decided asset whose content (or source/date) changed was not flagged; diligence requests not checked | M4 | Fixed: `decided_assets_with_changed_content`; values compared with source and date; diligence requests checked; test |
+| A failed refresh (e.g. tampered log) could leave a half-written workspace | M5 | Fixed: the report is computed before any write; test |
+| `_ontology_disabled` mutates process env (not thread-safe) and evicts a loaded resolver | L1 | Accepted and documented: CLI is single-threaded |
+| Canonical symbols re-resolving to themselves is assumed, not checked per entry | L3 | Accepted: holds on all four tested workspaces |
+
+After the fixes:
+- P3 was re-verified, byte-identical on all four workspaces;
+- 119 DealScreen tests pass;
+- Cycle 3's measurement still holds (8 holders, 0 AVAILABLE, 4/14/22) with the corrected label.
+
+**Self-criticism:** two of my own acceptance claims, P4 ("never null-by-default") and the R3 wording, were false or overstated until an independent context checked them. Every future cycle keeps this review step.

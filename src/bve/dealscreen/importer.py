@@ -109,6 +109,19 @@ def _asset_id(source_system: str, external_id: str) -> str:
     return f"ds:{digest}"
 
 
+def _claim_id(asset_id: str, field: str, value: str, seen: dict[str, int], source: str = "") -> str:
+    """Content-based id: stable when a refreshed export reorders rows (Cycle 5).
+
+    An identical value repeated for the same asset and field gets an occurrence suffix; which
+    row is first does not matter because the values are identical.
+    """
+    # The source reference and date are part of the identity, so reordering can never move a
+    # decision from one source's claim to another's (Cycle 5 review M2).
+    base = f"{asset_id}:{field}:{hashlib.sha256(f'{value}|{source}'.encode()).hexdigest()[:12]}"
+    seen[base] = seen.get(base, 0) + 1
+    return base if seen[base] == 1 else f"{base}~{seen[base]}"
+
+
 def split_list(text: str, separator: str) -> list[str]:
     return [part.strip() for part in text.split(separator) if part.strip()]
 
@@ -220,6 +233,7 @@ def _group_assets(
     for (system, external_id), members in grouped.items():
         asset_id = _asset_id(system, external_id)
         claims: list[SourceClaim] = []
+        seen: dict[str, int] = {}
         for row in members:
             source_date = _parse_date(row.fields.get("source_date", ""), profile.date_formats)
             reference = row.fields.get("source_reference") or None
@@ -228,7 +242,8 @@ def _group_assets(
                     continue
                 claims.append(
                     SourceClaim(
-                        claim_id=f"{asset_id}:r{row.row_number}:{field}",
+                        claim_id=_claim_id(asset_id, field, value, seen,
+                                           f"{reference or ''}|{source_date or ''}"),
                         asset_id=asset_id,
                         field=field,
                         value_as_written=value,

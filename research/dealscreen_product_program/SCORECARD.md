@@ -54,4 +54,14 @@ Only the dimensions that changed are listed. Everything else is as in Audit 0.
 
 | # | Dimension | Change | Evidence | Status |
 |---|---|---|---|---|
-| 13 | Performance and reliability | Ontology loaded once at import; screens run from a target cache with identical results | CLI screen 33.5 s / 1.7 GB → 0.53 s / 88 MB; byte equality on 4 workspaces | PARTIAL → stronger (import still ~25-50 s) |
+| 13 | Performance and reliability | Ontology loaded once at import; screens run from a target cache, and fall back to the full path when a decision introduces an uncached target or the ontology changed | CLI screen 33.5 s / 1.7 GB → 0.53 s / 88 MB; byte equality on 4 workspaces | PARTIAL → stronger (import still ~25-50 s) |
+
+**After Cycle 5 (and the review fixes):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 1 | Landscape ingestion and integrity | Re-import is a refresh: previous import archived; diff of assets and values with source and date; decisions checked | Tests F1-F5 + 6 review regressions | PARTIAL → stronger (no vendor-style refresh tested on real data) |
+| 10 | Review and approval | Decisions survive reordered refreshes; changed-value decisions orphaned and reported, never transferred; decided assets with changed content flagged | Reproduced regression now passes | PARTIAL |
+| 7 | Ownership, rights, licensing | Holder wording corrected to "U.S. labeler per FDA label; not a rights statement" | Review M1 | PARTIAL |
+
+- **Gate I:** PARTIAL. Refresh comparison works on reordered and edited public exports. It has not been tested with a real vendor export.
