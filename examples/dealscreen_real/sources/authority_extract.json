@@ -1,0 +1,774 @@
+{
+ "source": "S&E ontology snapshot (ChEMBL_37, Open Targets 26.06), resolver_v2",
+ "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2",
+ "names": {
+  "efgartigimod alfa": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:EFGARTIGIMOD ALFA",
+   "edges": [
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "ANTAGONIST",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "42c5e8fec8e1878713571c0cb48f03dba030ea8f81b4821a8e89afa384e61e25",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "ANTAGONIST",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "8425",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Protein",
+   "chembl_ids": [
+    "CHEMBL4297551"
+   ]
+  },
+  "ARGX-113": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:EFGARTIGIMOD ALFA",
+   "edges": [
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "ANTAGONIST",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "42c5e8fec8e1878713571c0cb48f03dba030ea8f81b4821a8e89afa384e61e25",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "ANTAGONIST",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "8425",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Protein",
+   "chembl_ids": [
+    "CHEMBL4297551"
+   ]
+  },
+  "rozanolixizumab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:ROZANOLIXIZUMAB",
+   "edges": [
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "b465cb885fa5a8f55d2f74e55ca2f7883aa2a48e295b5c52fccc7e9ea03249f6",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "7879",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL4297820"
+   ]
+  },
+  "nipocalimab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:NIPOCALIMAB",
+   "edges": [
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "ANTAGONIST",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "c389f63f4065e7fbd16cf2a0612855df7b043dd54697a4d1d78a43b5db0ff752",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "ANTAGONIST",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "8960",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL4594310"
+   ]
+  },
+  "batoclimab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:BATOCLIMAB",
+   "edges": [
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "0702987088c46d3cb777f502aef5f553490d5b1dbf462398ce3c8a1401f20d53",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "8961",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL4650514"
+   ]
+  },
+  "HBM9161": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:BATOCLIMAB",
+   "edges": [
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "0702987088c46d3cb777f502aef5f553490d5b1dbf462398ce3c8a1401f20d53",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "8961",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL4650514"
+   ]
+  },
+  "RVT-1401": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:BATOCLIMAB",
+   "edges": [
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "0702987088c46d3cb777f502aef5f553490d5b1dbf462398ce3c8a1401f20d53",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "8961",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL4650514"
+   ]
+  },
+  "IMVT-1402": {
+   "resolution": "UNRESOLVED",
+   "drug_id": null
+  },
+  "ALXN1830": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:ORILANOLIMAB",
+   "edges": [
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "ANTAGONIST",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "aca8ab4aea2b2e9b4f7cdbafdcf46088f4e225667be53cfd5e3feedcdd821030",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:FCGRT",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "ANTAGONIST",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "9375",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL4298117"
+   ]
+  },
+  "eculizumab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:ECULIZUMAB",
+   "edges": [
+    {
+     "target": "TARGET:C5",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "302b45b5c69679dfd40bdddf8ed7cb599dc7e904fa39f057aab88158e8b944a7",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:C5",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "1421",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL1201828"
+   ]
+  },
+  "ravulizumab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:RAVULIZUMAB",
+   "edges": [
+    {
+     "target": "TARGET:C5",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "e1a9e71965ece443b3b863f3f435a94a076fe779ca97daefdc0c504f3df968eb",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:C5",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "7364",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL3989986"
+   ]
+  },
+  "zilucoplan": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:ZILUCOPLAN",
+   "edges": [
+    {
+     "target": "TARGET:C5",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "78330f4aed8e78cb8c7874cd890789d2f16d6556a7005c4ffceb97fce0ae441d",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:C5",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "8724",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Protein",
+   "chembl_ids": [
+    "CHEMBL4298207"
+   ]
+  },
+  "gefurulimab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:GEFURULIMAB",
+   "edges": [],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL5095307"
+   ]
+  },
+  "ALXN1720": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:GEFURULIMAB",
+   "edges": [],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL5095307"
+   ]
+  },
+  "pozelimab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:POZELIMAB",
+   "edges": [
+    {
+     "target": "TARGET:C5",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "943d7adc68a0dd552fccc45faa6ed2075fce8518a20988ea46a811b54dfd667c",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:C5",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "8295",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL4298086"
+   ]
+  },
+  "cemdisiran": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:CEMDISIRAN",
+   "edges": [
+    {
+     "target": "TARGET:C5",
+     "relationship": "FAMILY_OR_COMPLEX_ASSOCIATION",
+     "action_type": "RNAI INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "6509f40dadbeaf8182efe4d8d84e5fa49efe1cf8b14ab3d26817c66d3e80d1b6",
+     "status": "USABLE"
+    },
+    {
+     "target": null,
+     "relationship": "DIRECT_TARGET",
+     "action_type": "RNAI INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "7912",
+     "status": "TARGET_NOT_IN_SNAPSHOT"
+    }
+   ],
+   "molecule_type": "Oligonucleotide",
+   "chembl_ids": [
+    "CHEMBL4297722"
+   ]
+  },
+  "iptacopan": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:IPTACOPAN",
+   "edges": [
+    {
+     "target": "TARGET:CFB",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "eb25d9a3cf09feee3db512bf259a5bc4c84dbc64a42466d3200b3a1ad1ee6d0e",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:CFB",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "0e997c129641bd76153d02be88ee077bf9f1c15bc17a3399157d981c57cd8416",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:CFB",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "7909",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:CFB",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "9957",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Small molecule",
+   "chembl_ids": [
+    "CHEMBL4594448"
+   ]
+  },
+  "ALXN2050": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:VEMIRCOPAN",
+   "edges": [],
+   "molecule_type": "Small molecule",
+   "chembl_ids": [
+    "CHEMBL4650325"
+   ]
+  },
+  "claseprubart": {
+   "resolution": "UNRESOLVED",
+   "drug_id": null
+  },
+  "empasiprubart": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:EMPASIPRUBART",
+   "edges": [],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL5314673"
+   ]
+  },
+  "inebilizumab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:INEBILIZUMAB",
+   "edges": [
+    {
+     "target": "TARGET:CD19",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "BINDING AGENT",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "c9084386723038f93b398b538c2e321acf57e77df9a9ec2e2ccdd213f496fbd8",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:CD19",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "BINDING AGENT",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "6078",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL2109334"
+   ]
+  },
+  "rituximab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:RITUXIMAB",
+   "edges": [
+    {
+     "target": "TARGET:MS4A1",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "BINDING AGENT",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "c6389ea0678b4fe7f739f54035a00f0a676eea0d92b8b7ab82856b024ad8604c",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:MS4A1",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "BINDING AGENT",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "1521",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL1201576"
+   ]
+  },
+  "ublituximab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:UBLITUXIMAB",
+   "edges": [
+    {
+     "target": "TARGET:MS4A1",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "BINDING AGENT",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "47a0e2ba5df04172400e29c5c05d6eebc015eb4fe2f23fd16a82bac91003e1da",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:MS4A1",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "BINDING AGENT",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "5945",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL2108354"
+   ]
+  },
+  "TAK-079": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:MEZAGITAMAB",
+   "edges": [
+    {
+     "target": "TARGET:CD38",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "BINDING AGENT",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "df85b02678e5cd3c8abea5bb970d7c20176ee69bba1c80f1097e5e4f2d2447f7",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:CD38",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "BINDING AGENT",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "8313",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL4297833"
+   ]
+  },
+  "telitacicept": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:TELITACICEPT",
+   "edges": [],
+   "molecule_type": "Protein",
+   "chembl_ids": [
+    "CHEMBL5095293"
+   ]
+  },
+  "povetacicept": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:POVETACICEPT",
+   "edges": [],
+   "molecule_type": "Protein",
+   "chembl_ids": [
+    "CHEMBL5095306"
+   ]
+  },
+  "CFZ533": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:ISCALIMAB",
+   "edges": [
+    {
+     "target": "TARGET:CD40",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "2d2982feaa12a4a766b908f122c2e12376b60e946ef2ebc0e0395de2a6bc103c",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:CD40",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "7957",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL4298210"
+   ]
+  },
+  "belimumab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:BELIMUMAB",
+   "edges": [
+    {
+     "target": "TARGET:TNFSF13B",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "478592ad374f3e2f2f8d534cadd25377cb698907c08d2d90e00479676cccf4de",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:TNFSF13B",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "1414",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL1789843"
+   ]
+  },
+  "satralizumab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:SATRALIZUMAB",
+   "edges": [
+    {
+     "target": "TARGET:IL6R",
+     "relationship": "FAMILY_OR_COMPLEX_ASSOCIATION",
+     "action_type": "ANTAGONIST",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "bfb9a952e6af854134ce3d23b133ea77ba3a8ec67d58ff82ac66ba7ca0d2e97a",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:IL6ST",
+     "relationship": "FAMILY_OR_COMPLEX_ASSOCIATION",
+     "action_type": "ANTAGONIST",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "bfb9a952e6af854134ce3d23b133ea77ba3a8ec67d58ff82ac66ba7ca0d2e97a",
+     "status": "USABLE"
+    },
+    {
+     "target": null,
+     "relationship": "DIRECT_TARGET",
+     "action_type": "ANTAGONIST",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "5973",
+     "status": "TARGET_NOT_IN_SNAPSHOT"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL3833307"
+   ]
+  },
+  "tocilizumab": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:TOCILIZUMAB",
+   "edges": [
+    {
+     "target": "TARGET:IL6R",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "6b55a83324b8ef840c48231c391ce4a70f2a1d52f6b7abad56a7784a55cc54e8",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:IL6R",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "1839",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL1237022"
+   ]
+  },
+  "remibrutinib": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:REMIBRUTINIB",
+   "edges": [],
+   "molecule_type": "Small molecule",
+   "chembl_ids": [
+    "CHEMBL4483575"
+   ]
+  },
+  "tolebrutinib": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:TOLEBRUTINIB",
+   "edges": [
+    {
+     "target": "TARGET:BTK",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "open_targets",
+     "release": "26.06",
+     "record": "a70b7048ec2b9a555c8494ad331d6bbe79bded58fd2330ab022ad67246d95154",
+     "status": "USABLE"
+    },
+    {
+     "target": "TARGET:BTK",
+     "relationship": "DIRECT_TARGET",
+     "action_type": "INHIBITOR",
+     "source": "chembl",
+     "release": "ChEMBL_37",
+     "record": "9370",
+     "status": "USABLE"
+    }
+   ],
+   "molecule_type": "Small molecule",
+   "chembl_ids": [
+    "CHEMBL4650323"
+   ]
+  },
+  "anitocabtagene autoleucel": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:ANITOCABTAGENE AUTOLEUCEL",
+   "edges": [],
+   "molecule_type": "Gene",
+   "chembl_ids": [
+    "CHEMBL5314723"
+   ]
+  },
+  "SHR-2173": {
+   "resolution": "UNRESOLVED",
+   "drug_id": null
+  },
+  "cizutamig": {
+   "resolution": "RESOLVED",
+   "drug_id": "DRUG:CIZUTAMIG",
+   "edges": [],
+   "molecule_type": "Antibody",
+   "chembl_ids": [
+    "CHEMBL6068226"
+   ]
+  },
+  "NMD670": {
+   "resolution": "UNRESOLVED",
+   "drug_id": null
+  }
+ }
+}

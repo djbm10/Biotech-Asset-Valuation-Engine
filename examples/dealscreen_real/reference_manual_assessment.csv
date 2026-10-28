@@ -1,0 +1,41 @@
+program_id,program,reference_scope,basis,identity_note
+RW-01,Efgartigimod alfa (IV),IN,FcRn-blocking IgG1 Fc fragment; U.S.-approved for gMG (Vyvgart),Same molecule as RW-02 (different product/formulation)
+RW-02,Efgartigimod alfa and hyaluronidase (SC),IN,Same FcRn blocker co-formulated for SC use; U.S.-approved (Vyvgart Hytrulo),Same molecule as RW-01
+RW-03,Rozanolixizumab,IN,Anti-FcRn mAb; U.S.-approved for gMG June 2023 (Rystiggo; UCB press release),
+RW-04,Nipocalimab,IN,Anti-FcRn mAb; U.S.-approved (Imaavy),M281 = earlier Momenta code
+RW-05,Batoclimab,IN,Anti-FcRn mAb; Phase 3 gMG; development status and rights in flux (Immunovant 10-Q Dec-2025),Same molecule as RW-06 and RW-07
+RW-06,HBM9161,IN,Batoclimab under Harbour BioMed's Greater China code,Duplicate of RW-05 (territorial licensee)
+RW-07,RVT-1401,IN,Batoclimab under an earlier code,Duplicate of RW-05
+RW-08,IMVT-1402,IN,Next-generation anti-FcRn mAb (Immunovant 10-Q Dec-2025); Phase 3 gMG,
+RW-09,Orilanolimab (ALXN1830),IN,Anti-FcRn mAb; gMG Phase 2 withdrawn (inactive),
+RW-10,Eculizumab,OUT,C5 inhibitor,Eculizumab biosimilars RW-11/RW-12 share the INN
+RW-11,Eculizumab-aeeb (BKEMV),OUT,C5 inhibitor biosimilar,Distinct product sharing INN with RW-10
+RW-12,Eculizumab-aagh (EPYSQLI),OUT,C5 inhibitor biosimilar,Distinct product sharing INN with RW-10
+RW-13,Ravulizumab,OUT,C5 inhibitor,
+RW-14,Zilucoplan,OUT,C5 inhibitor peptide,
+RW-15,Gefurulimab,OUT,C5-directed antibody (public knowledge; not in the sources used),Same molecule as RW-16
+RW-16,ALXN1720,OUT,Gefurulimab under its development code,Duplicate of RW-15
+RW-17,Pozelimab + Cemdisiran,OUT,C5 antibody + C5 siRNA combination,Composite program
+RW-18,Iptacopan,OUT,Factor B inhibitor small molecule,
+RW-19,Vemircopan (ALXN2050),OUT,Factor D inhibitor small molecule,
+RW-20,Claseprubart,OUT,Classical-pathway (C1s) complement antibody (public knowledge; not in sources used),
+RW-21,Empasiprubart,OUT,Complement C2 antibody (public knowledge; not in sources used),
+RW-22,Inebilizumab,OUT,CD19 B-cell depleting antibody,
+RW-23,Rituximab (investigator-sponsored),OUT,CD20 antibody; off-patent; no single owner,Multiple academic sponsors
+RW-24,Ublituximab,OUT,CD20 antibody,
+RW-25,Mezagitamab (TAK-079),OUT,CD38 antibody,
+RW-26,Telitacicept,OUT,TACI-Fc fusion (BLyS/APRIL),Sponsor changed between trials (RemeGen; Vor Biopharma)
+RW-27,Povetacicept,OUT,TACI-Fc (BAFF/APRIL) fusion,
+RW-28,Iscalimab (CFZ533),OUT,CD40 antibody,
+RW-29,Belimumab,OUT,BLyS antibody,
+RW-30,Satralizumab,OUT,IL-6 receptor antibody,
+RW-31,Tocilizumab (investigator-sponsored),OUT,IL-6 receptor antibody,
+RW-32,Remibrutinib,OUT,BTK inhibitor small molecule,
+RW-33,Tolebrutinib,OUT,BTK inhibitor small molecule,
+RW-34,Descartes-08,OUT,BCMA mRNA CAR-T,
+RW-35,KYV-101,OUT,CD19 CAR-T,
+RW-36,CABA-201,OUT,CD19 CAR-T (public knowledge; not in sources used),
+RW-37,Anitocabtagene autoleucel,OUT,BCMA CAR-T,
+RW-38,SHR-2173,UNKNOWN,Target not known to the reference preparer from the sources used,
+RW-39,Cizutamig,UNKNOWN,Target not known to the reference preparer from the sources used,
+RW-40,NMD670,OUT,Oral small molecule (ClC-1 inhibitor; public knowledge; not in sources used),

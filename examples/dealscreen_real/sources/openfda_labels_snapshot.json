@@ -1,0 +1,274 @@
+{
+ "source": "openFDA drug label API https://api.fda.gov/drug/label.json",
+ "retrieved_at": "2026-10-28T02:10:17+00:00",
+ "license": "public (U.S. FDA)",
+ "labels": {
+  "efgartigimod": {
+   "query": "openfda.generic_name:\"efgartigimod\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "7104d9e5-9910-47f5-9a93-741ac50f43b6",
+     "effective_time": "20260715",
+     "brand_name": [
+      "VYVGART Hytrulo"
+     ],
+     "generic_name": [
+      "EFGARTIGIMOD ALFA AND HYALURONIDASE (HUMAN RECOMBINANT)"
+     ],
+     "manufacturer_name": [
+      "argenx US"
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE VYVGART HYTRULO is indicated for the treatment of adult patients with: generalized myasthenia gravis (gMG) chronic inflammatory demyelinating polyneuropathy (CIDP) VYVGART HYTRULO is a combination of efgartigimod alfa, a neonatal Fc receptor blocker, and hyaluronidase, an endoglycosidase, indicated for the treatment of adult patients with: generalized myasthenia gravis (gMG) ( 1 ) chronic inflammatory demyelinating polyneuropathy (CIDP) ( 1 )",
+     "mechanism_of_action": "12.1 Mechanism of Action VYVGART HYTRULO is a coformulation of efgartigimod alfa and hyaluronidase. Efgartigimod alfa is a human IgG1 antibody fragment that binds to the neonatal Fc receptor (FcRn), resulting in the reduction of circulating IgG. Hyaluronidase increases permeability of the subcutaneous tissue by depolymerizing hyaluronan. This effect is transient, and permeability of the subcutaneous tissue is restored within 24 to 48 hours."
+    },
+    {
+     "set_id": "8aefc8e3-26d6-4ff6-aab9-a7542927e084",
+     "effective_time": "20260513",
+     "brand_name": [
+      "VYVGART"
+     ],
+     "generic_name": [
+      "EFGARTIGIMOD ALFA"
+     ],
+     "manufacturer_name": [
+      "argenx US"
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE VYVGART is indicated for the treatment of adult patients with generalized myasthenia gravis (gMG). VYVGART is a neonatal Fc receptor blocker indicated for the treatment of adult patients with generalized myasthenia gravis (gMG). ( 1 )",
+     "mechanism_of_action": "12.1 Mechanism of Action Efgartigimod alfa-fcab is a human IgG1 antibody fragment that binds to the neonatal Fc receptor (FcRn), resulting in the reduction of circulating IgG."
+    }
+   ]
+  },
+  "nipocalimab": {
+   "query": "openfda.generic_name:\"nipocalimab\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "8886274c-f2b2-48af-85c1-2f90bfe304b8",
+     "effective_time": "20260821",
+     "brand_name": [
+      "IMAAVY"
+     ],
+     "generic_name": [
+      "NIPOCALIMAB-AAHU"
+     ],
+     "manufacturer_name": [
+      "Janssen Biotech, Inc."
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE IMAAVY is a neonatal Fc receptor blocker indicated for the treatment of: generalized myasthenia gravis (gMG) in adult and pediatric patients 12 years of age and older who are anti-acetylcholine receptor (AChR) or anti-muscle-specific tyrosine kinase (MuSK) antibody positive. ( 1.1 ) warm autoimmune hemolytic anemia (wAIHA) in adult and pediatric patients 12 years of age and older currently or previously treated with corticosteroids. ( 1.2 ) 1.1 Generalized Myasthenia Gravis (gMG) IMAAVY is indicated for the treatment of generalized myasthenia gravis (gMG) in adult and pediatric patients 12 years of age and older who are anti-acetylcholine receptor (AChR) or anti-muscle-specific tyrosine kinase (MuSK) antibody positive. 1.2 Warm Autoimmune Hemolytic Anemia (wAIHA) IMAAVY is indicated for the treatment of warm autoimmune hemolytic anemia (wAIHA) in adult and pediatric patients 12 years of age and older currently or previously treated with corticosteroids.",
+     "mechanism_of_action": "12.1 Mechanism of Action Nipocalimab-aahu is a human IgG1 monoclonal antibody that binds to neonatal Fc receptor (FcRn), resulting in the reduction of circulating IgG levels."
+    }
+   ]
+  },
+  "zilucoplan": {
+   "query": "openfda.generic_name:\"zilucoplan\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "9f1d53d6-e495-4a3a-8bb9-680a15d25034",
+     "effective_time": "20260203",
+     "brand_name": [
+      "ZILBRYSQ"
+     ],
+     "generic_name": [
+      "ZILUCOPLAN"
+     ],
+     "manufacturer_name": [
+      "UCB, Inc."
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE ZILBRYSQ is indicated for the treatment of generalized myasthenia gravis (gMG) in adult patients who are anti-acetylcholine receptor (AChR) antibody positive. ZILBRYSQ is a complement inhibitor indicated for the treatment of generalized myasthenia gravis (gMG) in adult patients who are anti-acetylcholine receptor (AChR) antibody positive. ( 1 )",
+     "mechanism_of_action": "12.1 Mechanism of Action Zilucoplan binds to the complement protein C5 and inhibits its cleavage to C5a and C5b, preventing the generation of the terminal complement complex, C5b-9. The precise mechanism by which zilucoplan exerts its therapeutic effect in generalized myasthenia gravis is unknown but is presumed to involve reduction of C5b-9 deposition at the neuromuscular junction."
+    }
+   ]
+  },
+  "eculizumab": {
+   "query": "openfda.generic_name:\"eculizumab\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "002f9748-b0e8-4b6e-a38b-56930a839491",
+     "effective_time": "20260702",
+     "brand_name": [
+      "BKEMV"
+     ],
+     "generic_name": [
+      "ECULIZUMAB-AEEB"
+     ],
+     "manufacturer_name": [
+      "Amgen Inc"
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE BKEMV is a complement inhibitor indicated for: The treatment of patients with paroxysmal nocturnal hemoglobinuria (PNH) to reduce hemolysis. ( 1.1 ) The treatment of patients with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangiopathy. ( 1.2 ) Limitation of Use BKEMV is not indicated for the treatment of patients with Shiga toxin E. coli related hemolytic uremic syndrome (STEC-HUS). The treatment of generalized myasthenia gravis (gMG) in adult patients who are anti-acetylcholine receptor (AChR) antibody positive. ( 1.3 ) The treatment of neuromyelitis optica spectrum disorder (NMOSD) in adult patients who are anti-aquaporin-4 (AQP4) antibody positive. ( 1.4 ) 1.1 Paroxysmal Nocturnal Hemoglobinuria (PNH) BKEMV is indicated for the treatment of patients with paroxysmal nocturnal hemoglobinuria (PNH) to reduce hemolysis. 1.2 Atypical Hemolytic Uremic Syndrome (aHUS) BKEMV is indicated for the treatment of patients with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangiopathy. Limitation of Use BKEMV is not indicated for the treatment of patients with Shiga toxin E. coli related hemolytic uremic syndrome (STEC-HUS). 1.3 Generalized Myasthenia Gravis (gMG) BKEMV is indicated for the treatment of generalized myasthenia gravis (gMG) in adult patients who are anti-acetylcholine receptor (AChR) antibody positive. 1.4 Neuromyelitis Optica Spectrum Disorder (NMOSD) BKEMV is i",
+     "mechanism_of_action": "12.1 Mechanism of Action Eculizumab-aeeb, the active ingredient in BKEMV, is a monoclonal antibody that specifically binds to the complement protein C5 with high affinity, thereby inhibiting its cleavage to C5a and C5b and preventing the generation of the terminal complement complex C5b-9. Eculizumab products inhibit terminal complement-mediated intravascular hemolysis in PNH patients and complement-mediated thrombotic microangiopathy (TMA) in patients with aHUS. The precise mechanism by which eculizumab products exert their therapeutic effect in gMG patients is unknown, but is presumed to involve reduction of terminal complement complex C5b-9 deposition at the neuromuscular junction. The precise mechanism by which eculizumab products exert their therapeutic effect in NMOSD is unknown, but"
+    },
+    {
+     "set_id": "1fa1aa80-1c59-44d4-9841-b6c52882651b",
+     "effective_time": "20260706",
+     "brand_name": [
+      "EPYSQLI"
+     ],
+     "generic_name": [
+      "ECULIZUMAB-AAGH"
+     ],
+     "manufacturer_name": [
+      "Teva Pharmaceuticals USA, Inc."
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE EPYSQLI is a complement inhibitor indicated for: the treatment of patients with paroxysmal nocturnal hemoglobinuria (PNH) to reduce hemolysis. ( 1.1 ) the treatment of patients with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangiopathy. ( 1.2 ) Limitation of Use EPYSQLI is not indicated for the treatment of patients with Shiga toxin E. coli related hemolytic uremic syndrome (STEC-HUS). the treatment of generalized myasthenia gravis (gMG) in adult patients who are anti-acetylcholine receptor (AChR) antibody positive. ( 1.3 ) the treatment of neuromyelitis optica spectrum disorder (NMOSD) in adult patients who are anti-aquaporin-4 (AQP4) antibody positive. ( 1.4 ) 1.1 Paroxysmal Nocturnal Hemoglobinuria (PNH) EPYSQLI is indicated for the treatment of patients with paroxysmal nocturnal hemoglobinuria (PNH) to reduce hemolysis. 1.2 Atypical Hemolytic Uremic Syndrome (aHUS) EPYSQLI is indicated for the treatment of patients with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangiopathy. Limitation of Use EPYSQLI is not indicated for the treatment of patients with Shiga toxin E. coli related hemolytic uremic syndrome (STEC-HUS). 1.3 Generalized Myasthenia Gravis (gMG) EPYSQLI is indicated for the treatment of generalized myasthenia gravis (gMG) in adult patients who are anti-acetylcholine receptor (AChR) antibody positive. 1.4 Neuromyelitis Optica Spectrum Disorder (NMOSD",
+     "mechanism_of_action": "12.1 Mechanism of Action Eculizumab-aagh, the active ingredient in EPYSQLI, is a monoclonal antibody that specifically binds to the complement protein C5 with high affinity, thereby inhibiting its cleavage to C5a and C5b and preventing the generation of the terminal complement complex C5b-9. Eculizumab products inhibit terminal complement-mediated intravascular hemolysis in PNH patients and complement-mediated thrombotic microangiopathy (TMA) in patients with aHUS. The precise mechanism by which eculizumab products exert their therapeutic effect in gMG patients is unknown, but is presumed to involve reduction of terminal complement complex C5b-9 deposition at the neuromuscular junction. The precise mechanism by which eculizumab products exert their therapeutic effect in NMOSD is unknown, b"
+    },
+    {
+     "set_id": "ebcd67fa-b4d1-4a22-b33d-ee8bf6b9c722",
+     "effective_time": "20260708",
+     "brand_name": [
+      "SOLIRIS"
+     ],
+     "generic_name": [
+      "ECULIZUMAB"
+     ],
+     "manufacturer_name": [
+      "Alexion Pharmaceuticals Inc."
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE SOLIRIS is a complement inhibitor indicated for: the treatment of patients with paroxysmal nocturnal hemoglobinuria (PNH) to reduce hemolysis. ( 1.1 ) the treatment of patients with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangiopathy. ( 1.2 ) Limitation of Use SOLIRIS is not indicated for the treatment of patients with Shiga toxin E. coli related hemolytic uremic syndrome (STEC-HUS). the treatment of generalized myasthenia gravis (gMG) in adult and pediatric patients six years of age and older who are anti-acetylcholine receptor (AChR) antibody positive. ( 1.3 ) the treatment of neuromyelitis optica spectrum disorder (NMOSD) in adult patients who are anti-aquaporin-4 (AQP4) antibody positive. ( 1.4 ) 1.1 Paroxysmal Nocturnal Hemoglobinuria (PNH) SOLIRIS is indicated for the treatment of patients with paroxysmal nocturnal hemoglobinuria (PNH) to reduce hemolysis. 1.2 Atypical Hemolytic Uremic Syndrome (aHUS) SOLIRIS is indicated for the treatment of patients with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangiopathy. Limitation of Use SOLIRIS is not indicated for the treatment of patients with Shiga toxin E. coli related hemolytic uremic syndrome (STEC-HUS). 1.3 Generalized Myasthenia Gravis (gMG) SOLIRIS is indicated for the treatment of generalized myasthenia gravis (gMG) in adult and pediatric patients six years of age and older who are anti-acetylcholine re",
+     "mechanism_of_action": "12.1 Mechanism of Action Eculizumab, the active ingredient in SOLIRIS, is a monoclonal antibody that specifically binds to the complement protein C5 with high affinity, thereby inhibiting its cleavage to C5a and C5b and preventing the generation of the terminal complement complex C5b-9. SOLIRIS inhibits terminal complement-mediated intravascular hemolysis in PNH patients and complement-mediated thrombotic microangiopathy (TMA) in patients with aHUS. The precise mechanism by which eculizumab exerts its therapeutic effect in gMG patients is unknown, but is presumed to involve reduction of terminal complement complex C5b-9 deposition at the neuromuscular junction. The precise mechanism by which eculizumab exerts its therapeutic effect in NMOSD is unknown, but is presumed to involve inhibition"
+    }
+   ]
+  },
+  "ravulizumab": {
+   "query": "openfda.generic_name:\"ravulizumab\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "a9a590d9-0217-43c7-908d-e62a71279791",
+     "effective_time": "20251009",
+     "brand_name": [
+      "Ultomiris"
+     ],
+     "generic_name": [
+      "RAVULIZUMAB"
+     ],
+     "manufacturer_name": [
+      "Alexion Pharmaceuticals Inc."
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE ULTOMIRIS is a complement inhibitor indicated for: the treatment of adult and pediatric patients one month of age and older with paroxysmal nocturnal hemoglobinuria (PNH). ( 1.1 ) the treatment of adult and pediatric patients one month of age and older with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangiopathy (TMA). ( 1.2 ) Limitations of Use: ULTOMIRIS is not indicated for the treatment of patients with Shiga toxin E. coli related hemolytic uremic syndrome (STEC-HUS). the treatment of adult patients with generalized myasthenia gravis (gMG) who are anti-acetylcholine receptor (AChR) antibody-positive. ( 1.3 ) the treatment of adult patients with neuromyelitis optica spectrum disorder (NMOSD) who are anti-aquaporin-4 (AQP4) antibody-positive. ( 1.4 ) 1.1 Paroxysmal Nocturnal Hemoglobinuria ULTOMIRIS is indicated for the treatment of adult and pediatric patients one month of age and older with paroxysmal nocturnal hemoglobinuria (PNH). 1.2 Atypical Hemolytic Uremic Syndrome ULTOMIRIS is indicated for the treatment of adult and pediatric patients one month of age and older with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangiopathy (TMA). Limitations of Use: ULTOMIRIS is not indicated for the treatment of patients with Shiga toxin E. coli related hemolytic uremic syndrome (STEC-HUS). 1.3 Generalized Myasthenia Gravis ULTOMIRIS is indicated for the treatment of adul",
+     "mechanism_of_action": "12.1 Mechanism of Action Ravulizumab-cwvz is a terminal complement inhibitor that specifically binds to the complement protein C5 with high affinity, thereby inhibiting its cleavage to C5a (the proinflammatory anaphylatoxin) and C5b (the initiating subunit of the membrane attack complex [MAC or C5b-9]) thus preventing MAC formation. ULTOMIRIS inhibits terminal complement-mediated intravascular hemolysis in patients with PNH and complement-mediated thrombotic microangiopathy (TMA) in patients with aHUS. The precise mechanism by which ravulizumab-cwvz exerts its therapeutic effect in gMG patients is unknown, but is presumed to involve reduction of terminal complement complex C5b-9 deposition at the neuromuscular junction. The precise mechanism by which ravulizumab-cwvz exerts its therapeutic"
+    }
+   ]
+  },
+  "rozanolixizumab": {
+   "query": "openfda.brand_name:\"RYSTIGGO\"",
+   "http_status": 404,
+   "results": []
+  },
+  "inebilizumab": {
+   "query": "openfda.brand_name:\"UPLIZNA\"",
+   "http_status": 404,
+   "results": []
+  },
+  "satralizumab": {
+   "query": "openfda.generic_name:\"satralizumab\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "64c156a4-9bad-4d45-a294-0733c141f47b",
+     "effective_time": "20260622",
+     "brand_name": [
+      "Enspryng"
+     ],
+     "generic_name": [
+      "SATRALIZUMAB"
+     ],
+     "manufacturer_name": [
+      "Genentech, Inc."
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE ENSPRYNG is indicated for the treatment of neuromyelitis optica spectrum disorder (NMOSD) in adult patients who are anti-aquaporin-4 (AQP4) antibody positive. ENSPRYNG is an interleukin-6 (IL-6) receptor antagonist indicated for the treatment of neuromyelitis optica spectrum disorder (NMOSD) in adult patients who are anti-aquaporin-4 (AQP4) antibody positive. ( 1 )",
+     "mechanism_of_action": "12.1 Mechanism of Action The precise mechanism by which satralizumab-mwge exerts therapeutic effects in NMOSD is unknown but is presumed to involve inhibition of IL-6-mediated signaling through binding to soluble and membrane-bound IL-6 receptors."
+    }
+   ]
+  },
+  "rituximab": {
+   "query": "openfda.brand_name:\"RITUXAN\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "b172773b-3905-4a1c-ad95-bab4b6126563",
+     "effective_time": "20250106",
+     "brand_name": [
+      "Rituxan"
+     ],
+     "generic_name": [
+      "RITUXIMAB"
+     ],
+     "manufacturer_name": [
+      "Genentech, Inc."
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE RITUXAN is a CD20-directed cytolytic antibody indicated for the treatment of: Adult patients with Non-Hodgkin's Lymphoma (NHL) ( 1.1 ). Relapsed or refractory, low grade or follicular, CD20-positive B-cell NHL as a single agent. Previously untreated follicular, CD20-positive, B-cell NHL in combination with first line chemotherapy and, in patients achieving a complete or partial response to a rituximab product in combination with chemotherapy, as single-agent maintenance therapy. Non-progressing (including stable disease), low-grade, CD20-positive, B-cell NHL as a single agent after first-line cyclophosphamide, vincristine, and prednisone (CVP) chemotherapy. Previously untreated diffuse large B-cell, CD20-positive NHL in combination with (cyclophosphamide, doxorubicin, vincristine, and prednisone) (CHOP) or other anthracycline-based chemotherapy regimens. Pediatric patients aged 6 months and older with mature B-cell NHL and mature B-cell acute leukemia (B-AL) ( 1.1 ) Previously untreated, advanced stage, CD20-positive, diffuse large B-cell lymphoma (DLBCL), Burkitt lymphoma (BL), Burkitt-like lymphoma (BLL) or mature B-cell acute leukemia (B-AL) in combination with chemotherapy. Adult patients with Chronic Lymphocytic Leukemia (CLL) ( 1.2 ). Previously untreated and previously treated CD20-positive CLL in combination with fludarabine and cyclophosphamide (FC). Rheumatoid Arthritis (RA) in combination with methotrexate in adult patients with moderately-t",
+     "mechanism_of_action": "12.1 Mechanism of Action Rituximab is a monoclonal antibody that targets the CD20 antigen expressed on the surface of pre-B and mature B-lymphocytes. Upon binding to CD20, rituximab mediates B-cell lysis. Possible mechanisms of cell lysis include complement dependent cytotoxicity (CDC) and antibody dependent cell mediated cytotoxicity (ADCC). B cells are believed to play a role in the pathogenesis of rheumatoid arthritis (RA) and associated chronic synovitis. In this setting, B cells may be acting at multiple sites in the autoimmune/inflammatory process, including through production of rheumatoid factor (RF) and other autoantibodies, antigen presentation, T-cell activation, and/or proinflammatory cytokine production."
+    }
+   ]
+  },
+  "ublituximab": {
+   "query": "openfda.brand_name:\"BRIUMVI\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "3a77cd8c-811b-407c-9140-d0c5c26435c2",
+     "effective_time": "20260219",
+     "brand_name": [
+      "BRIUMVI"
+     ],
+     "generic_name": [
+      "UBLITUXIMAB"
+     ],
+     "manufacturer_name": [
+      "TG Therapeutics, Inc."
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE BRIUMVI is indicated for the treatment of relapsing forms of multiple sclerosis (MS), to include clinically isolated syndrome, relapsing-remitting disease, and active secondary progressive disease, in adults. BRIUMVI is a CD20-directed cytolytic antibody indicated for the treatment of relapsing forms of multiple sclerosis (MS), to include clinically isolated syndrome, relapsing-remitting disease, and active secondary progressive disease, in adults ( 1 , 14 ).",
+     "mechanism_of_action": "12.1 Mechanism of Action The precise mechanism by which ublituximab-xiiy exerts its therapeutic effects in multiple sclerosis is unknown, but is presumed to involve binding to CD20, a cell surface antigen present on pre-B and mature B lymphocytes. Following cell surface binding to B lymphocytes, ublituximab-xiiy results in cell lysis through mechanisms including antibody-dependent cellular cytolysis and complement-dependent cytolysis."
+    }
+   ]
+  },
+  "tocilizumab": {
+   "query": "openfda.brand_name:\"ACTEMRA\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "2e5365ff-cb2a-4b16-b2c7-e35c6bf2de13",
+     "effective_time": "20251216",
+     "brand_name": [
+      "ACTEMRA",
+      "Actemra",
+      "Actemra ACTPen"
+     ],
+     "generic_name": [
+      "TOCILIZUMAB"
+     ],
+     "manufacturer_name": [
+      "Genentech, Inc."
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE ACTEMRA \u00ae (tocilizumab) is an interleukin-6 (IL-6) receptor antagonist indicated for treatment of: Rheumatoid Arthritis (RA) ( 1.1 ) Adult patients with moderately to severely active rheumatoid arthritis who have had an inadequate response to one or more Disease-Modifying Anti-Rheumatic Drugs (DMARDs). Giant Cell Arteritis (GCA) ( 1.2 ) Adult patients with giant cell arteritis. Systemic Sclerosis-Associated Interstitial Lung Disease (SSc-ILD) ( 1.3 ) Slowing the rate of decline in pulmonary function in adult patients with systemic sclerosis-associated interstitial lung disease (SSc-ILD) Polyarticular Juvenile Idiopathic Arthritis (PJIA) ( 1.4 ) Patients 2 years of age and older with active polyarticular juvenile idiopathic arthritis. Systemic Juvenile Idiopathic Arthritis (SJIA) ( 1.5 ) Patients 2 years of age and older with active systemic juvenile idiopathic arthritis. Cytokine Release Syndrome (CRS) ( 1.6 ) Adults and pediatric patients 2 years of age and older with chimeric antigen receptor (CAR) T cell-induced severe or life-threatening cytokine release syndrome. Coronavirus Disease 2019 (COVID-19) ( 1.7 ) Hospitalized adult and pediatric patients aged 2 years and older with coronavirus disease 2019 (COVID-19) who are receiving systemic corticosteroids and require supplemental oxygen, non-invasive or invasive mechanical ventilation, or extracorporeal membrane oxygenation (ECMO). 1.1 Rheumatoid Arthritis (RA) ACTEMRA \u00ae (tocilizumab) is indicated fo",
+     "mechanism_of_action": "12.1 Mechanism of Action Tocilizumab binds to both soluble and membrane-bound IL-6 receptors (sIL-6R and mIL-6R), and has been shown to inhibit IL-6-mediated signaling through these receptors. IL-6 is a pleiotropic pro-inflammatory cytokine produced by a variety of cell types including T- and B-cells, lymphocytes, monocytes and fibroblasts. IL-6 has been shown to be involved in diverse physiological processes such as T-cell activation, induction of immunoglobulin secretion, initiation of hepatic acute phase protein synthesis, and stimulation of hematopoietic precursor cell proliferation and differentiation. IL-6 is also produced by synovial and endothelial cells leading to local production of IL-6 in joints affected by inflammatory processes such as rheumatoid arthritis."
+    }
+   ]
+  },
+  "belimumab": {
+   "query": "openfda.brand_name:\"BENLYSTA\"",
+   "http_status": 200,
+   "results": [
+    {
+     "set_id": "2fa3c528-1777-4628-8a55-a69dae2381a3",
+     "effective_time": "20260821",
+     "brand_name": [
+      "BENLYSTA"
+     ],
+     "generic_name": [
+      "BELIMUMAB"
+     ],
+     "manufacturer_name": [
+      "GlaxoSmithKline LLC"
+     ],
+     "indications_and_usage": "1 INDICATIONS AND USAGE BENLYSTA is indicated for the treatment of patients 5 years of age and older with: \u2022 Active systemic lupus erythematosus (SLE) who are receiving standard therapy, and \u2022 Active lupus nephritis who are receiving standard therapy. Limitations of Use The efficacy of BENLYSTA has not been evaluated in patients with severe active central nervous system (CNS) lupus. Use of BENLYSTA is not recommended in this situation. BENLYSTA is a B-lymphocyte stimulator (BLyS)-specific inhibitor indicated for the treatment of patients 5 years of age and older with: \u2022 Active systemic lupus erythematosus (SLE) who are receiving standard therapy; ( 1 ) \u2022 Active lupus nephritis who are receiving standard therapy. ( 1 ) Limitations of Use: The efficacy of BENLYSTA has not been evaluated in patients with severe active central nervous system lupus. Use of BENLYSTA is not recommended in this situation. ( 1 )",
+     "mechanism_of_action": "12.1 Mechanism of Action BENLYSTA is a BLyS-specific inhibitor that blocks the binding of soluble BLyS, a B-cell survival factor, to its receptors on B cells. BENLYSTA does not bind B cells directly, but by binding BLyS, BENLYSTA inhibits the survival of B cells, including autoreactive B cells, and reduces the differentiation of B cells into immunoglobulin-producing plasma cells."
+    }
+   ]
+  }
+ }
+}
