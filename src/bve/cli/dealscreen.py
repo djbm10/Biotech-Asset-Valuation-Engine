@@ -309,6 +309,11 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"REJECTED row {rej.row_number}: {'; '.join(rej.reasons)}")
             for dup in result.duplicates:
                 print(f"DUPLICATE row {dup.row_number} = row {dup.duplicate_of_row}")
+            refresh = ws.refresh()
+            if refresh and refresh.get("current_dataset") == result.manifest.dataset_version:
+                print(f"REFRESH: +{len(refresh['assets_added'])} / -{len(refresh['assets_removed'])} assets, "
+                      f"{len(refresh['field_changes'])} with changed fields, "
+                      f"{len(refresh['orphaned_decisions'])} ORPHANED decisions (see refresh_report.json)")
         elif args.command == "screen":
             ws.screen(_normalizer(args) if args.target_map else None)
             _print_queue(ws)
