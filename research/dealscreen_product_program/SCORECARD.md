@@ -41,3 +41,11 @@ Only the dimensions that changed are listed. Everything else is as in Audit 0.
 **Gate status:**
 - **Gate C:** technically demonstrated. Supported unknowns are resolved in-tool with evidence preserved and decisions recalculated. It is **not** demonstrated with a human, and analyst time is unmeasured.
 - **All other gates:** unchanged.
+
+**After Cycle 3:**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | U.S. rights holder kept separate from availability. Holder taken only from cited evidence (FDA labeler, or an assertion); conflicts shown | Real: holder known for 8/40, AVAILABLE 0/40; tests R1-R5 | PARTIAL (no availability data; no licensor/licensee extraction) |
+
+- **Gate D:** PARTIAL. Suitability, marketing status, holder, encumbrances and unknown availability are now distinct fields. Actual licensing availability has never been demonstrated, because no public source in hand states it.

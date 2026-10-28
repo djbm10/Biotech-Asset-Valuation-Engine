@@ -81,3 +81,33 @@ Findings, all fixed before acceptance:
 - **Tests:** 101 DealScreen tests pass. No AI review this cycle: the change is small and fully specified by tests. Noted as a process limitation.
 
 **Self-criticism:** this cycle fixes defects introduced by my own earlier design (no stage check; the MB-102 rule hiding licensee pairs). Both were reachable from the first build's own test data.
+
+## Cycle 3: U.S. rights holder separated from licensing availability (2026-10-28)
+
+**Problem.** Every one of the 40 real programs shows U.S. rights UNKNOWN, including three
+U.S.-marketed products whose FDA labeler is a public fact. DealScreen has one rights field and
+cannot say "we know who holds U.S. rights, and we don't know whether they would license"
+(audit finding 2, Gate D).
+
+**Criteria (frozen before code):**
+
+| | Criterion |
+|---|---|
+| R1 | A new optional canonical field `us_rights_holder` (profile-mapped) and an assertable field of the same name. The holder is shown separately from availability, with the evidence it came from |
+| R2 | A known holder never changes availability. With no explicit availability statement, availability stays UNKNOWN (test) |
+| R3 | A registry sponsor is not a holder. The real builder fills the holder only from an FDA labeler of a U.S. label listing the indication, and records that as "U.S. commercializer per FDA label", not as a license fact |
+| R4 | Different holder values for one asset are shown as conflicting, never resolved silently |
+| R5 | Real landscape, as a new versioned file (v1 stays pinned): programs with a sourced U.S. holder go from 0 to the count of gMG-labelled products. Programs shown AVAILABLE stay 0. Dispositions are unchanged (4/14/22) |
+
+**Result (real v2 landscape, real ontology; `cycle3_measurement.json`):**
+- Programs with a sourced U.S. holder: 0 → 8, exactly the gMG-labelled products (argenx ×2, Janssen, Alexion ×2, Amgen, Teva, UCB).
+- Availability: UNKNOWN for all 40; AVAILABLE for 0.
+- Dispositions unchanged at 4/14/22. v1 stays byte-identical and pinned.
+- Tests R1-R5 pass (105 DealScreen tests).
+
+**Not achieved:**
+- Rozanolixizumab has no holder because openFDA lacks its label (source gap). It can be closed by one cited assertion from UCB's release.
+- No licensor / licensee structure is extracted automatically. The 10-Q territory sentence does not name the asset, so it needs an analyst's judgement (shown in test R1).
+- Availability remains unknown everywhere: no public source in this landscape states it. That is the honest state of public data, not a tool defect.
+
+**Self-criticism:** "U.S. commercializer per FDA label" is evidence of commercial control, not of who owns the IP. The label text says exactly that, and nothing downstream treats it as availability.

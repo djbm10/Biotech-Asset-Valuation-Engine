@@ -106,6 +106,7 @@ PROGRAMS: list[dict[str, Any]] = [
 
 HEADERS = ["Program ID", "Program", "Aliases", "Target", "Mechanism", "Modality", "Therapeutic Area",
            "Indication", "Highest Phase", "Status", "Status Date", "Company", "Trial IDs", "US Rights",
+           "US Rights Holder",
            "Geographic Notes", "Partnerships", "Sources", "Source Date", "Notes"]
 _PHASE_RANK = {"PHASE1": 1, "PHASE1|PHASE2": 2, "PHASE2": 3, "PHASE2|PHASE3": 4, "PHASE3": 5, "PHASE4": 6}
 _PHASE_LABEL = {1: "Phase 1", 2: "Phase 1/2", 3: "Phase 2", 4: "Phase 2/3", 5: "Phase 3", 6: "Phase 4"}
@@ -270,6 +271,13 @@ def build() -> dict[str, Any]:
                      CTGOV_URL.format(latest["nct_id"]), latest["last_update"] or "", "collaborators")
         if label_mg:
             cells["Geographic Notes"] = f"U.S.-labelled product ({', '.join(label.get('brand_name') or [])})"
+            labeler = (label.get("manufacturer_name") or [""])[0]
+            if labeler:
+                cells["US Rights Holder"] = f"{labeler} (U.S. commercializer per FDA label)"
+                prov("US Rights Holder", cells["US Rights Holder"],
+                     "openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. "
+                     "commercialization, not of licensing terms or availability",
+                     sources[0], label_date, "manufacturer_name")
 
         # Target / mechanism / modality: authority first, verbatim registry text second.
         targets, actions, records, molecule_type = [], [], [], None
@@ -320,7 +328,13 @@ def build() -> dict[str, Any]:
         cells["Notes"] = "; ".join(notes)
         rows.append(cells)
 
+    # v1 (pinned regression) has no holder column; v2 adds it (Cycle 3).
     with (OUT / "landscape_fcrn_gmg.csv").open("w", newline="", encoding="utf-8") as handle:
+        v1 = [h for h in HEADERS if h != "US Rights Holder"]
+        writer = csv.DictWriter(handle, fieldnames=v1, extrasaction="ignore")
+        writer.writeheader()
+        writer.writerows(rows)
+    with (OUT / "landscape_fcrn_gmg_v2.csv").open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=HEADERS)
         writer.writeheader()
         writer.writerows(rows)

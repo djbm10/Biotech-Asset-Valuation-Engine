@@ -31,6 +31,7 @@ CANONICAL_FIELDS: tuple[str, ...] = (
     "company",
     "trial_ids",
     "us_rights",
+    "us_rights_holder",
     "geographic_rights",
     "partnerships",
     "source_reference",

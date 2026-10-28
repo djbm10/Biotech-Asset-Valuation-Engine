@@ -1,0 +1,37 @@
+# Column mapping for the REAL public FcRn / gMG landscape (built from public snapshots).
+name: public_fcrn_gmg_landscape_v2
+source_system: BVE_PUBLIC_SOURCES
+license_status: public
+allowed_use: research_only
+list_separator: ";"
+columns:
+  external_id: Program ID
+  program_name: Program
+  aliases: Aliases
+  target: Target
+  mechanism: Mechanism
+  modality: Modality
+  therapeutic_area: Therapeutic Area
+  indication: Indication
+  phase: Highest Phase
+  development_status: Status
+  as_of_date: Status Date
+  company: Company
+  trial_ids: Trial IDs
+  us_rights: US Rights
+  us_rights_holder: US Rights Holder
+  geographic_rights: Geographic Notes
+  partnerships: Partnerships
+  source_reference: Sources
+  source_date: Source Date
+  data_flags: Notes
+therapeutic_area_map: {}
+phase_map:
+  phase 1: 2
+  phase 1/2: 2
+  phase 2: 3
+  phase 2/3: 3
+  phase 3: 4
+  phase 4: 6
+  marketed: 6
+date_formats: ["%Y-%m-%d"]

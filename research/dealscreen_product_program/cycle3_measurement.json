@@ -1,0 +1,21 @@
+{
+ "funnel": {
+  "eligible": 4,
+  "unresolved": 14,
+  "excluded": 22
+ },
+ "programs_with_sourced_us_holder": 8,
+ "holders": {
+  "RW-02": "argenx US (U.S. commercializer per FDA label)",
+  "RW-01": "argenx US (U.S. commercializer per FDA label)",
+  "RW-12": "Teva Pharmaceuticals USA, Inc. (U.S. commercializer per FDA label)",
+  "RW-11": "Amgen Inc (U.S. commercializer per FDA label)",
+  "RW-10": "Alexion Pharmaceuticals Inc. (U.S. commercializer per FDA label)",
+  "RW-04": "Janssen Biotech, Inc. (U.S. commercializer per FDA label)",
+  "RW-13": "Alexion Pharmaceuticals Inc. (U.S. commercializer per FDA label)",
+  "RW-14": "UCB, Inc. (U.S. commercializer per FDA label)"
+ },
+ "availability_status_counts": {
+  "UNKNOWN": 40
+ }
+}

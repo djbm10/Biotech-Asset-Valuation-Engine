@@ -141,7 +141,7 @@ class AgentFinding(Frozen):
 #: identity changes go through identity flags, never through a fact.
 ASSERTABLE_FIELDS: frozenset[str] = frozenset({
     "target", "mechanism", "modality", "phase", "indication", "therapeutic_area",
-    "development_status", "us_rights", "geographic_rights", "partnerships", "company",
+    "development_status", "us_rights", "us_rights_holder", "geographic_rights", "partnerships", "company",
 })
 
 

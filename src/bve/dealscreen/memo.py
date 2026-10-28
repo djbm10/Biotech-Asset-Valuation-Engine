@@ -65,7 +65,9 @@ def build_memo(ws: Workspace) -> str:
         "",
         f"**Rights are a separate question.** Of the {funnel['eligible']} eligible programs, U.S. rights "
         "status is: " + ", ".join(f"{k.replace('_', ' ').lower()} {v}" for k, v in sorted(rights.items()))
-        + ". No program is shown as available without an explicit source statement.",
+        + f". A U.S. rights holder is evidenced for {sum(1 for s in eligible if s['commercial'].get('us_rights_holder'))}"
+        " of them; knowing the holder says nothing about availability. No program is shown as available "
+        "without an explicit statement.",
         "",
     ]
     if kinds == {"HUMAN"}:

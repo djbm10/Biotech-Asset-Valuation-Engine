@@ -7,6 +7,7 @@ RW-01,Status Date,2026-05-13,openFDA label effective_time,https://api.fda.gov/dr
 RW-01,Indication,Myasthenia Gravis; Generalized Myasthenia Gravis; MG - Myasthenia Gravis,ClinicalTrials.gov conditions,https://clinicaltrials.gov/study/NCT02965573,2026-10-28,"registry conditions, verbatim"
 RW-01,Therapeutic Area,Neurology,"curation (INTERNAL DEVELOPMENT): assigned from the myasthenia gravis indication, not stated by a source",,2026-10-28,
 RW-01,Company,argenx US,openFDA labeler (not a rights statement),https://api.fda.gov/drug/label.json?search=set_id:8aefc8e3-26d6-4ff6-aab9-a7542927e084,2026-05-13,manufacturer_name
+RW-01,US Rights Holder,argenx US (U.S. commercializer per FDA label),"openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. commercialization, not of licensing terms or availability",https://api.fda.gov/drug/label.json?search=set_id:8aefc8e3-26d6-4ff6-aab9-a7542927e084,2026-05-13,manufacturer_name
 RW-01,Target,FCGRT,ChEMBL / Open Targets drug->target edge,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 8425; open_targets 26.06 record 42c5e8fec8e1878713571c0cb48f03dba030ea8f81b4821a8e89afa384e61e25
 RW-01,Mechanism,FCGRT antagonist,ChEMBL / Open Targets action_type,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 8425; open_targets 26.06 record 42c5e8fec8e1878713571c0cb48f03dba030ea8f81b4821a8e89afa384e61e25
 RW-01,Modality,Protein,ChEMBL molecule_type,,ChEMBL_37,Protein
@@ -18,6 +19,7 @@ RW-02,Status Date,2026-07-15,openFDA label effective_time,https://api.fda.gov/dr
 RW-02,Indication,Generalized Myasthenia Gravis; New Onset Generalized Myasthenia Gravis (gMG); AChR-Ab Seropositive Generalized Myasthenia Gravis,ClinicalTrials.gov conditions,https://clinicaltrials.gov/study/NCT04735432,2026-10-28,"registry conditions, verbatim"
 RW-02,Therapeutic Area,Neurology,"curation (INTERNAL DEVELOPMENT): assigned from the myasthenia gravis indication, not stated by a source",,2026-10-28,
 RW-02,Company,argenx US,openFDA labeler (not a rights statement),https://api.fda.gov/drug/label.json?search=set_id:7104d9e5-9910-47f5-9a93-741ac50f43b6,2026-07-15,manufacturer_name
+RW-02,US Rights Holder,argenx US (U.S. commercializer per FDA label),"openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. commercialization, not of licensing terms or availability",https://api.fda.gov/drug/label.json?search=set_id:7104d9e5-9910-47f5-9a93-741ac50f43b6,2026-07-15,manufacturer_name
 RW-02,Target,FCGRT,ChEMBL / Open Targets drug->target edge,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 8425; open_targets 26.06 record 42c5e8fec8e1878713571c0cb48f03dba030ea8f81b4821a8e89afa384e61e25
 RW-02,Mechanism,FCGRT antagonist,ChEMBL / Open Targets action_type,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 8425; open_targets 26.06 record 42c5e8fec8e1878713571c0cb48f03dba030ea8f81b4821a8e89afa384e61e25
 RW-02,Modality,Protein,ChEMBL molecule_type,,ChEMBL_37,Protein
@@ -40,6 +42,7 @@ RW-04,Status Date,2026-08-21,openFDA label effective_time,https://api.fda.gov/dr
 RW-04,Indication,Myasthenia Gravis; Generalized Myasthenia Gravis,ClinicalTrials.gov conditions,https://clinicaltrials.gov/study/NCT03772587,2026-10-28,"registry conditions, verbatim"
 RW-04,Therapeutic Area,Neurology,"curation (INTERNAL DEVELOPMENT): assigned from the myasthenia gravis indication, not stated by a source",,2026-10-28,
 RW-04,Company,"Janssen Biotech, Inc.",openFDA labeler (not a rights statement),https://api.fda.gov/drug/label.json?search=set_id:8886274c-f2b2-48af-85c1-2f90bfe304b8,2026-08-21,manufacturer_name
+RW-04,US Rights Holder,"Janssen Biotech, Inc. (U.S. commercializer per FDA label)","openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. commercialization, not of licensing terms or availability",https://api.fda.gov/drug/label.json?search=set_id:8886274c-f2b2-48af-85c1-2f90bfe304b8,2026-08-21,manufacturer_name
 RW-04,Target,FCGRT,ChEMBL / Open Targets drug->target edge,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 8960; open_targets 26.06 record c389f63f4065e7fbd16cf2a0612855df7b043dd54697a4d1d78a43b5db0ff752
 RW-04,Mechanism,FCGRT antagonist,ChEMBL / Open Targets action_type,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 8960; open_targets 26.06 record c389f63f4065e7fbd16cf2a0612855df7b043dd54697a4d1d78a43b5db0ff752
 RW-04,Modality,Antibody,ChEMBL molecule_type,,ChEMBL_37,Antibody
@@ -101,6 +104,7 @@ RW-10,Status Date,2026-07-08,openFDA label effective_time,https://api.fda.gov/dr
 RW-10,Indication,"Generalized Myasthenia Gravis (gMG); Myasthenia Gravis; Myasthenia Gravis, Juvenile Form",ClinicalTrials.gov conditions,https://clinicaltrials.gov/study/NCT00727194,2026-10-28,"registry conditions, verbatim"
 RW-10,Therapeutic Area,Neurology,"curation (INTERNAL DEVELOPMENT): assigned from the myasthenia gravis indication, not stated by a source",,2026-10-28,
 RW-10,Company,Alexion Pharmaceuticals Inc.,openFDA labeler (not a rights statement),https://api.fda.gov/drug/label.json?search=set_id:ebcd67fa-b4d1-4a22-b33d-ee8bf6b9c722,2026-07-08,manufacturer_name
+RW-10,US Rights Holder,Alexion Pharmaceuticals Inc. (U.S. commercializer per FDA label),"openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. commercialization, not of licensing terms or availability",https://api.fda.gov/drug/label.json?search=set_id:ebcd67fa-b4d1-4a22-b33d-ee8bf6b9c722,2026-07-08,manufacturer_name
 RW-10,Target,C5,ChEMBL / Open Targets drug->target edge,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 1421; open_targets 26.06 record 302b45b5c69679dfd40bdddf8ed7cb599dc7e904fa39f057aab88158e8b944a7
 RW-10,Mechanism,C5 inhibitor,ChEMBL / Open Targets action_type,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 1421; open_targets 26.06 record 302b45b5c69679dfd40bdddf8ed7cb599dc7e904fa39f057aab88158e8b944a7
 RW-10,Modality,Antibody,ChEMBL molecule_type,,ChEMBL_37,Antibody
@@ -111,6 +115,7 @@ RW-11,Status Date,2026-07-02,openFDA label effective_time,https://api.fda.gov/dr
 RW-11,Indication,Myasthenia Gravis,openFDA drug label,https://api.fda.gov/drug/label.json?search=set_id:002f9748-b0e8-4b6e-a38b-56930a839491,2026-07-02,1 INDICATIONS AND USAGE BKEMV is a complement inhibitor indicated for: The treatment of patients with paroxysmal nocturnal hemoglobinuria (PNH) to reduce hemolysis. ( 1.1 ) The treatment of patients with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangiopa
 RW-11,Therapeutic Area,Neurology,"curation (INTERNAL DEVELOPMENT): assigned from the myasthenia gravis indication, not stated by a source",,2026-10-28,
 RW-11,Company,Amgen Inc,openFDA labeler (not a rights statement),https://api.fda.gov/drug/label.json?search=set_id:002f9748-b0e8-4b6e-a38b-56930a839491,2026-07-02,manufacturer_name
+RW-11,US Rights Holder,Amgen Inc (U.S. commercializer per FDA label),"openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. commercialization, not of licensing terms or availability",https://api.fda.gov/drug/label.json?search=set_id:002f9748-b0e8-4b6e-a38b-56930a839491,2026-07-02,manufacturer_name
 RW-11,Target,C5,ChEMBL / Open Targets drug->target edge,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 1421; open_targets 26.06 record 302b45b5c69679dfd40bdddf8ed7cb599dc7e904fa39f057aab88158e8b944a7
 RW-11,Mechanism,C5 inhibitor,ChEMBL / Open Targets action_type,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 1421; open_targets 26.06 record 302b45b5c69679dfd40bdddf8ed7cb599dc7e904fa39f057aab88158e8b944a7
 RW-11,Modality,Antibody,ChEMBL molecule_type,,ChEMBL_37,Antibody
@@ -121,6 +126,7 @@ RW-12,Status Date,2026-07-06,openFDA label effective_time,https://api.fda.gov/dr
 RW-12,Indication,Myasthenia Gravis,openFDA drug label,https://api.fda.gov/drug/label.json?search=set_id:1fa1aa80-1c59-44d4-9841-b6c52882651b,2026-07-06,1 INDICATIONS AND USAGE EPYSQLI is a complement inhibitor indicated for: the treatment of patients with paroxysmal nocturnal hemoglobinuria (PNH) to reduce hemolysis. ( 1.1 ) the treatment of patients with atypical hemolytic uremic syndrome (aHUS) to inhibit complement-mediated thrombotic microangio
 RW-12,Therapeutic Area,Neurology,"curation (INTERNAL DEVELOPMENT): assigned from the myasthenia gravis indication, not stated by a source",,2026-10-28,
 RW-12,Company,"Teva Pharmaceuticals USA, Inc.",openFDA labeler (not a rights statement),https://api.fda.gov/drug/label.json?search=set_id:1fa1aa80-1c59-44d4-9841-b6c52882651b,2026-07-06,manufacturer_name
+RW-12,US Rights Holder,"Teva Pharmaceuticals USA, Inc. (U.S. commercializer per FDA label)","openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. commercialization, not of licensing terms or availability",https://api.fda.gov/drug/label.json?search=set_id:1fa1aa80-1c59-44d4-9841-b6c52882651b,2026-07-06,manufacturer_name
 RW-12,Target,C5,ChEMBL / Open Targets drug->target edge,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 1421; open_targets 26.06 record 302b45b5c69679dfd40bdddf8ed7cb599dc7e904fa39f057aab88158e8b944a7
 RW-12,Mechanism,C5 inhibitor,ChEMBL / Open Targets action_type,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 1421; open_targets 26.06 record 302b45b5c69679dfd40bdddf8ed7cb599dc7e904fa39f057aab88158e8b944a7
 RW-12,Modality,Antibody,ChEMBL molecule_type,,ChEMBL_37,Antibody
@@ -132,6 +138,7 @@ RW-13,Status Date,2025-10-09,openFDA label effective_time,https://api.fda.gov/dr
 RW-13,Indication,Generalized Myasthenia Gravis,ClinicalTrials.gov conditions,https://clinicaltrials.gov/study/NCT03920293,2026-10-28,"registry conditions, verbatim"
 RW-13,Therapeutic Area,Neurology,"curation (INTERNAL DEVELOPMENT): assigned from the myasthenia gravis indication, not stated by a source",,2026-10-28,
 RW-13,Company,Alexion Pharmaceuticals Inc.,openFDA labeler (not a rights statement),https://api.fda.gov/drug/label.json?search=set_id:a9a590d9-0217-43c7-908d-e62a71279791,2025-10-09,manufacturer_name
+RW-13,US Rights Holder,Alexion Pharmaceuticals Inc. (U.S. commercializer per FDA label),"openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. commercialization, not of licensing terms or availability",https://api.fda.gov/drug/label.json?search=set_id:a9a590d9-0217-43c7-908d-e62a71279791,2025-10-09,manufacturer_name
 RW-13,Target,C5,ChEMBL / Open Targets drug->target edge,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 7364; open_targets 26.06 record e1a9e71965ece443b3b863f3f435a94a076fe779ca97daefdc0c504f3df968eb
 RW-13,Mechanism,C5 inhibitor,ChEMBL / Open Targets action_type,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 7364; open_targets 26.06 record e1a9e71965ece443b3b863f3f435a94a076fe779ca97daefdc0c504f3df968eb
 RW-13,Modality,Antibody,ChEMBL molecule_type,,ChEMBL_37,Antibody
@@ -143,6 +150,7 @@ RW-14,Status Date,2026-02-03,openFDA label effective_time,https://api.fda.gov/dr
 RW-14,Indication,"Generalized Myasthenia Gravis; Myasthenia Gravis, Generalized; Generalized Myasthenia Gravis (gMG)",ClinicalTrials.gov conditions,https://clinicaltrials.gov/study/NCT03315130,2026-10-28,"registry conditions, verbatim"
 RW-14,Therapeutic Area,Neurology,"curation (INTERNAL DEVELOPMENT): assigned from the myasthenia gravis indication, not stated by a source",,2026-10-28,
 RW-14,Company,"UCB, Inc.",openFDA labeler (not a rights statement),https://api.fda.gov/drug/label.json?search=set_id:9f1d53d6-e495-4a3a-8bb9-680a15d25034,2026-02-03,manufacturer_name
+RW-14,US Rights Holder,"UCB, Inc. (U.S. commercializer per FDA label)","openFDA labeler of a U.S. label listing myasthenia gravis; evidence of U.S. commercialization, not of licensing terms or availability",https://api.fda.gov/drug/label.json?search=set_id:9f1d53d6-e495-4a3a-8bb9-680a15d25034,2026-02-03,manufacturer_name
 RW-14,Target,C5,ChEMBL / Open Targets drug->target edge,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 8724; open_targets 26.06 record 78330f4aed8e78cb8c7874cd890789d2f16d6556a7005c4ffceb97fce0ae441d
 RW-14,Mechanism,C5 inhibitor,ChEMBL / Open Targets action_type,,ChEMBL_37 / OT 26.06,chembl ChEMBL_37 record 8724; open_targets 26.06 record 78330f4aed8e78cb8c7874cd890789d2f16d6556a7005c4ffceb97fce0ae441d
 RW-14,Modality,Protein,ChEMBL molecule_type,,ChEMBL_37,Protein

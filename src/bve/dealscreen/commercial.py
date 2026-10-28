@@ -53,6 +53,17 @@ class CommercialAssessment:
     us_rights_claim_ids: list[str]
     partnerships: list[str]
     open_questions: list[str] = field(default_factory=list)
+    #: Who holds U.S. rights, per the cited evidence. Independent of availability: knowing the
+    #: holder says nothing about whether it would license.
+    us_rights_holder: str | None = None
+    us_rights_holder_claim_ids: list[str] = field(default_factory=list)
+    us_rights_holder_conflict: list[str] = field(default_factory=list)
+
+    @property
+    def holder_display(self) -> str:
+        if self.us_rights_holder_conflict:
+            return "CONFLICTING: " + " | ".join(self.us_rights_holder_conflict)
+        return self.us_rights_holder or "UNKNOWN"
 
     @property
     def display(self) -> str:
@@ -98,6 +109,13 @@ def assess(
     if status in {AVAILABLE, AVAILABLE_CONFIRMED} and partnerships:
         # "Available" alongside a recorded partnership needs a human, confirmed or not.
         status = CONFLICTING
+    holder_claims = [c for c in asset.claims_for("us_rights_holder") if c.claim_id not in rejected_claim_ids]
+    holder_claims += [c for c in confirmed_findings
+                      if c.field == "us_rights_holder" and c.asset_id == asset.asset_id]
+    decisive = [c for c in holder_claims if c.claim_id in confirmed_claim_ids
+                or c in confirmed_findings]
+    chosen = decisive[-1:] or holder_claims
+    holders = list(dict.fromkeys(c.value_as_written.strip() for c in chosen))
     open_questions = [] if status in {AVAILABLE_CONFIRMED} else list(questions)
     return CommercialAssessment(
         asset_id=asset.asset_id,
@@ -110,4 +128,7 @@ def assess(
         us_rights_claim_ids=[c.claim_id for c in claims],
         partnerships=partnerships,
         open_questions=open_questions,
+        us_rights_holder=holders[0] if len(holders) == 1 else None,
+        us_rights_holder_claim_ids=[c.claim_id for c in chosen],
+        us_rights_holder_conflict=holders if len(holders) > 1 else [],
     )

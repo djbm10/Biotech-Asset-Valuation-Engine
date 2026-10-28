@@ -74,6 +74,7 @@ class AssetScreen:
     def to_dict(self) -> dict[str, Any]:
         data = asdict(self)
         data["commercial"]["display"] = self.commercial.display
+        data["commercial"]["holder_display"] = self.commercial.holder_display
         return data
 
 
