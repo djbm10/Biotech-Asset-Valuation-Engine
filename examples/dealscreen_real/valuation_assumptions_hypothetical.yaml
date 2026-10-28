@@ -1,0 +1,38 @@
+# HYPOTHETICAL financial inputs for REAL public programs. Not sourced, not owned by any analyst.
+# They exist only to exercise the valuation handoff; no number here is a market estimate.
+label: "HYPOTHETICAL_INPUTS_FOR_REAL_PROGRAMS (INTERNAL DEVELOPMENT; not sourced; not owned)"
+owner: "ai-dev-assistant (not a human analyst)"
+assets:
+  RW-08:   # IMVT-1402, Phase 3 per registry. Rights held via HanAll license per Immunovant 10-Q.
+    note: "Illustrative only. The program is not known to be available for license."
+    therapeutic_area: immunology
+    stage: phase_3
+    modality: biologic
+    discount_rate: 0.10
+    ownership: {royalty_rate: 0.0}
+    market:
+      addressable_patients_annual: 20000      # HYPOTHETICAL
+      net_price_per_patient_usd: 200000       # HYPOTHETICAL
+      peak_penetration: 0.10                  # HYPOTHETICAL
+      years_to_peak: 6
+      patent_life_years: 12
+    trials:
+      - {phase: phase_3, success_probability: 0.65, duration_years: 2.5, cost_millions: 200}   # HYPOTHETICAL
+      - {phase: nda_bla, success_probability: 0.90, duration_years: 1.0, cost_millions: 25}    # HYPOTHETICAL
+    deal_options:
+      license:
+        label: "U.S. license (HYPOTHETICAL terms)"
+        upfront_cost_millions: 500
+        royalty_rate: 0.15
+        milestones:
+          - {description: "U.S. approval", amount_millions: 400, trigger: approval, direction: payable}
+  RW-05:   # Batoclimab: deliberately incomplete
+    note: "Not valued: registered gMG trials terminated and rights may return to HanAll (10-Q). No price, cost or development path is owned."
+    therapeutic_area: immunology
+    stage: phase_3
+    modality: biologic
+    discount_rate: 0.10
+    market:
+      addressable_patients_annual: 20000
+      peak_penetration: 0.05
+  # RW-04 nipocalimab: no inputs. It is U.S.-marketed; a trial-path rNPV does not describe it.

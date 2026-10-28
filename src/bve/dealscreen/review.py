@@ -44,6 +44,14 @@ class Action(str, Enum):
 class ReviewerKind(str, Enum):
     HUMAN = "HUMAN"
     SYNTHETIC_FIXTURE = "SYNTHETIC_FIXTURE"
+    #: An AI assistant preparing a candidate list. It can never approve: its only finalist
+    #: state is CANDIDATE_NOT_APPROVED, and it cannot confirm or reject evidence.
+    AI_PREPARED = "AI_PREPARED"
+
+
+AI_CANDIDATE_STATE = "CANDIDATE_NOT_APPROVED"
+_AI_ALLOWED = {"APPROVE_FINALIST", "WITHDRAW_FINALIST", "SELECT_FOR_VALUATION",
+               "DESELECT_FOR_VALUATION", "REQUEST_DILIGENCE"}
 
 
 class DecisionRejected(ValueError):
@@ -164,8 +172,19 @@ class DecisionLog:
             raise DecisionRejected("a decision needs a reviewer identifier")
         if not rationale.strip():
             raise DecisionRejected("a decision needs a rationale")
+        if reviewer_kind is ReviewerKind.AI_PREPARED:
+            if action.value not in _AI_ALLOWED:
+                raise DecisionRejected(
+                    f"an AI-prepared record cannot {action.value}: evidence is confirmed or "
+                    "rejected only by a human analyst"
+                )
+            if action is Action.APPROVE_FINALIST and new_state != AI_CANDIDATE_STATE:
+                raise DecisionRejected(
+                    f"an AI-prepared record can only list a candidate ({AI_CANDIDATE_STATE}); "
+                    "approval needs a human analyst"
+                )
         if context is not None:
-            context.check(action, subject_id, self.state, new_state)
+            context.check(action, subject_id, self.state, new_state, reviewer_kind)
         record = {
             "decision_id": f"dec:{len(self.records) + 1:05d}",
             "seq": len(self.records) + 1,
@@ -201,7 +220,8 @@ class DecisionContext:
     max_valuations: int = 3
 
     def check(
-        self, action: Action, subject_id: str, state: ReviewState, new_state: str = ""
+        self, action: Action, subject_id: str, state: ReviewState, new_state: str = "",
+        reviewer_kind: ReviewerKind = ReviewerKind.HUMAN,
     ) -> None:
         if action in (Action.CONFIRM_CLAIM, Action.REJECT_CLAIM) and subject_id not in self.claim_ids:
             raise DecisionRejected(f"unknown claim {subject_id!r}")
@@ -220,6 +240,8 @@ class DecisionContext:
                     "finalist; correct the underlying claim first if the exclusion is wrong"
                 )
             expected = "APPROVED" if disposition == "ELIGIBLE" else "APPROVED_WITH_OPEN_QUESTIONS"
+            if reviewer_kind is ReviewerKind.AI_PREPARED:
+                expected = AI_CANDIDATE_STATE
             if new_state != expected:
                 raise DecisionRejected(
                     f"a {disposition} asset is approved with new_state {expected!r}; open "

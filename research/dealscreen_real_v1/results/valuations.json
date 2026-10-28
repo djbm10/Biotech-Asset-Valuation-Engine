@@ -1,0 +1,256 @@
+{
+  "assets": {
+    "ds:03f0cc68ca15": {
+      "readiness": {
+        "asset_id": "ds:03f0cc68ca15",
+        "defaults_used": [
+          "market.cogs_rate",
+          "market.sgna_rate_launch",
+          "market.sgna_rate_mature"
+        ],
+        "missing": [],
+        "ready": true,
+        "warnings": []
+      },
+      "runs": [
+        {
+          "asset_id": "ds:03f0cc68ca15",
+          "case": "standalone",
+          "command": [
+            "/home/djmann/projects/bve-b8/.venv/bin/python",
+            "-m",
+            "bve.cli.run_asset",
+            "--config",
+            "outputs/dealscreen_real/valuation/ds-03f0cc68ca15/standalone.yaml",
+            "--out",
+            "outputs/dealscreen_real/valuation/ds-03f0cc68ca15/standalone_bve_asset",
+            "--n-sims",
+            "5000",
+            "--seed",
+            "42"
+          ],
+          "config_path": "outputs/dealscreen_real/valuation/ds-03f0cc68ca15/standalone.yaml",
+          "deal_terms": null,
+          "output_json": "outputs/dealscreen_real/valuation/ds-03f0cc68ca15/standalone_valuation.json",
+          "prototype": false,
+          "scenario_check": {
+            "explanation": "",
+            "reliable": true,
+            "status": "ORDERED"
+          },
+          "summary": {
+            "analysis_date": "2026-10-27",
+            "base_rnpv_millions": 163.0,
+            "bear_rnpv_millions": -143.0,
+            "bull_rnpv_millions": 736.0,
+            "cumulative_success_probability": 0.585,
+            "git_commit": "fd4c6f8",
+            "mc_mean_millions": 177.0,
+            "mc_p10_millions": 5.0,
+            "mc_p90_millions": 385.0,
+            "mc_probability_positive": 0.9126,
+            "peak_sales_millions": 320.0,
+            "prob_adj_revenue_pv_millions": 353.0,
+            "rnpv_millions": 163.0,
+            "trial_costs_pv_millions": 189.8,
+            "years_to_launch": 3.5
+          }
+        },
+        {
+          "asset_id": "ds:03f0cc68ca15",
+          "case": "license",
+          "command": [
+            "/home/djmann/projects/bve-b8/.venv/bin/python",
+            "-m",
+            "bve.cli.dealscreen_value",
+            "--config",
+            "outputs/dealscreen_real/valuation/ds-03f0cc68ca15/license.yaml",
+            "--output-json",
+            "outputs/dealscreen_real/valuation/ds-03f0cc68ca15/license_valuation.json",
+            "--n-sims",
+            "5000",
+            "--seed",
+            "42"
+          ],
+          "config_path": "outputs/dealscreen_real/valuation/ds-03f0cc68ca15/license.yaml",
+          "deal_terms": {
+            "label": "U.S. license (HYPOTHETICAL terms)",
+            "milestones": [
+              {
+                "amount_millions": 400,
+                "description": "U.S. approval",
+                "direction": "payable",
+                "trigger": "approval"
+              }
+            ],
+            "royalty_rate": 0.15,
+            "upfront_cost_millions": 500
+          },
+          "output_json": "outputs/dealscreen_real/valuation/ds-03f0cc68ca15/license_valuation.json",
+          "prototype": true,
+          "scenario_check": {
+            "explanation": "",
+            "reliable": true,
+            "status": "ORDERED"
+          },
+          "summary": {
+            "analysis_date": "2026-10-27",
+            "base_rnpv_millions": -590.0,
+            "bear_rnpv_millions": -720.0,
+            "bull_rnpv_millions": -256.0,
+            "cumulative_success_probability": 0.585,
+            "git_commit": "fd4c6f8",
+            "mc_mean_millions": -581.0,
+            "mc_p10_millions": -695.0,
+            "mc_p90_millions": -440.0,
+            "mc_probability_positive": 0.0014,
+            "peak_sales_millions": 320.0,
+            "prob_adj_revenue_pv_millions": 267.0,
+            "rnpv_millions": -590.0,
+            "trial_costs_pv_millions": 857.4,
+            "years_to_launch": 3.5
+          }
+        }
+      ],
+      "selected": true
+    },
+    "ds:1c4494994407": {
+      "readiness": {
+        "asset_id": "ds:1c4494994407",
+        "defaults_used": [],
+        "missing": [
+          "therapeutic_area (BVE therapeutic area for PoS base rates, enum)",
+          "stage (Current development stage (analyst-confirmed), enum)",
+          "modality (BVE modality, enum)",
+          "discount_rate (Discount rate, fraction)",
+          "market.addressable_patients_annual (Addressable patients per year, patients)",
+          "market.net_price_per_patient_usd (Net price per patient-year, USD)",
+          "market.peak_penetration (Peak share of addressable patients, fraction)",
+          "market.years_to_peak (Years from launch to peak, years)",
+          "market.patent_life_years (Commercial / IP life from launch, years)",
+          "trials (Remaining development path: phase, success probability, duration, cost, list)",
+          "ownership.royalty_rate (Royalty already owed by the asset (0 if fully owned), fraction)"
+        ],
+        "ready": false,
+        "warnings": []
+      },
+      "runs": [],
+      "selected": false
+    },
+    "ds:1c4791cf5f1f": {
+      "readiness": {
+        "asset_id": "ds:1c4791cf5f1f",
+        "defaults_used": [],
+        "missing": [
+          "therapeutic_area (BVE therapeutic area for PoS base rates, enum)",
+          "stage (Current development stage (analyst-confirmed), enum)",
+          "modality (BVE modality, enum)",
+          "discount_rate (Discount rate, fraction)",
+          "market.addressable_patients_annual (Addressable patients per year, patients)",
+          "market.net_price_per_patient_usd (Net price per patient-year, USD)",
+          "market.peak_penetration (Peak share of addressable patients, fraction)",
+          "market.years_to_peak (Years from launch to peak, years)",
+          "market.patent_life_years (Commercial / IP life from launch, years)",
+          "trials (Remaining development path: phase, success probability, duration, cost, list)",
+          "ownership.royalty_rate (Royalty already owed by the asset (0 if fully owned), fraction)"
+        ],
+        "ready": false,
+        "warnings": []
+      },
+      "runs": [],
+      "selected": false
+    },
+    "ds:2cd858933ebc": {
+      "readiness": {
+        "asset_id": "ds:2cd858933ebc",
+        "defaults_used": [
+          "market.cogs_rate",
+          "market.sgna_rate_launch",
+          "market.sgna_rate_mature"
+        ],
+        "missing": [
+          "market.net_price_per_patient_usd (Net price per patient-year, USD)",
+          "market.years_to_peak (Years from launch to peak, years)",
+          "market.patent_life_years (Commercial / IP life from launch, years)",
+          "trials (Remaining development path: phase, success probability, duration, cost, list)",
+          "ownership.royalty_rate (Royalty already owed by the asset (0 if fully owned), fraction)"
+        ],
+        "ready": false,
+        "warnings": []
+      },
+      "runs": [],
+      "selected": true
+    },
+    "ds:997da1758d73": {
+      "readiness": {
+        "asset_id": "ds:997da1758d73",
+        "defaults_used": [],
+        "missing": [
+          "therapeutic_area (BVE therapeutic area for PoS base rates, enum)",
+          "stage (Current development stage (analyst-confirmed), enum)",
+          "modality (BVE modality, enum)",
+          "discount_rate (Discount rate, fraction)",
+          "market.addressable_patients_annual (Addressable patients per year, patients)",
+          "market.net_price_per_patient_usd (Net price per patient-year, USD)",
+          "market.peak_penetration (Peak share of addressable patients, fraction)",
+          "market.years_to_peak (Years from launch to peak, years)",
+          "market.patent_life_years (Commercial / IP life from launch, years)",
+          "trials (Remaining development path: phase, success probability, duration, cost, list)",
+          "ownership.royalty_rate (Royalty already owed by the asset (0 if fully owned), fraction)"
+        ],
+        "ready": false,
+        "warnings": []
+      },
+      "runs": [],
+      "selected": true
+    },
+    "ds:ea2a9c363df7": {
+      "readiness": {
+        "asset_id": "ds:ea2a9c363df7",
+        "defaults_used": [],
+        "missing": [
+          "therapeutic_area (BVE therapeutic area for PoS base rates, enum)",
+          "stage (Current development stage (analyst-confirmed), enum)",
+          "modality (BVE modality, enum)",
+          "discount_rate (Discount rate, fraction)",
+          "market.addressable_patients_annual (Addressable patients per year, patients)",
+          "market.net_price_per_patient_usd (Net price per patient-year, USD)",
+          "market.peak_penetration (Peak share of addressable patients, fraction)",
+          "market.years_to_peak (Years from launch to peak, years)",
+          "market.patent_life_years (Commercial / IP life from launch, years)",
+          "trials (Remaining development path: phase, success probability, duration, cost, list)",
+          "ownership.royalty_rate (Royalty already owed by the asset (0 if fully owned), fraction)"
+        ],
+        "ready": false,
+        "warnings": []
+      },
+      "runs": [],
+      "selected": false
+    },
+    "ds:f2f94e1feb57": {
+      "readiness": {
+        "asset_id": "ds:f2f94e1feb57",
+        "defaults_used": [],
+        "missing": [
+          "therapeutic_area (BVE therapeutic area for PoS base rates, enum)",
+          "stage (Current development stage (analyst-confirmed), enum)",
+          "modality (BVE modality, enum)",
+          "discount_rate (Discount rate, fraction)",
+          "market.addressable_patients_annual (Addressable patients per year, patients)",
+          "market.net_price_per_patient_usd (Net price per patient-year, USD)",
+          "market.peak_penetration (Peak share of addressable patients, fraction)",
+          "market.years_to_peak (Years from launch to peak, years)",
+          "market.patent_life_years (Commercial / IP life from launch, years)",
+          "trials (Remaining development path: phase, success probability, duration, cost, list)",
+          "ownership.royalty_rate (Royalty already owed by the asset (0 if fully owned), fraction)"
+        ],
+        "ready": false,
+        "warnings": []
+      },
+      "runs": [],
+      "selected": false
+    }
+  },
+  "label": "HYPOTHETICAL_INPUTS_FOR_REAL_PROGRAMS (INTERNAL DEVELOPMENT; not sourced; not owned)",
+  "owner": "ai-dev-assistant (not a human analyst)"
+}

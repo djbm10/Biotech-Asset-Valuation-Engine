@@ -163,8 +163,9 @@ def build() -> dict[str, Any]:
         cells: dict[str, str] = {h: "" for h in HEADERS}
         cells["Program ID"], cells["Program"] = p["id"], p["name"]
 
-        def prov(field: str, value: str, source: str, url: str, date: str, quote: str) -> None:
-            provenance.append({"program_id": p["id"], "field": field, "value": value, "source": source,
+        def prov(field: str, value: str, source: str, url: str, date: str, quote: str,
+                 program_id: str = p["id"]) -> None:
+            provenance.append({"program_id": program_id, "field": field, "value": value, "source": source,
                                "url": url, "source_date": date, "quote_or_record": quote})
 
         prov("Program", p["name"], "curation (INTERNAL DEVELOPMENT)", "", "2026-10-28",
@@ -206,6 +207,10 @@ def build() -> dict[str, Any]:
             cells["Status Date"] = label_date
             prov("Highest Phase", "Marketed", "openFDA drug label", sources[-1], label_date,
                  label["indications_and_usage"][:300])
+            prov("Status", cells["Status"], "openFDA drug label indications", sources[-1], label_date,
+                 label["indications_and_usage"][:300])
+            prov("Status Date", label_date, "openFDA label effective_time", sources[-1], label_date,
+                 label["effective_time"])
         elif ranks:
             best = max(r[0] for r in ranks)
             cells["Highest Phase"] = _PHASE_LABEL[best]
@@ -225,6 +230,8 @@ def build() -> dict[str, Any]:
             prov("Status", cells["Status"], "ClinicalTrials.gov overallStatus",
                  CTGOV_URL.format(latest["nct_id"]), cells["Status Date"],
                  "; ".join(f"{s['nct_id']}={s['overall_status']}" for _, s in ranks))
+            prov("Status Date", cells["Status Date"], "ClinicalTrials.gov lastUpdatePostDate",
+                 CTGOV_URL.format(latest["nct_id"]), cells["Status Date"], latest["nct_id"])
         if hits:
             nct = sorted({h["study"]["nct_id"] for h in hits})
             cells["Trial IDs"] = "; ".join(nct)
@@ -242,6 +249,9 @@ def build() -> dict[str, Any]:
             prov("Indication", "Myasthenia Gravis", "openFDA drug label", sources[0], label_date,
                  label["indications_and_usage"][:300])
         cells["Therapeutic Area"] = "Neurology" if cells["Indication"] else ""
+        if cells["Therapeutic Area"]:
+            prov("Therapeutic Area", "Neurology", "curation (INTERNAL DEVELOPMENT): assigned from the "
+                 "myasthenia gravis indication, not stated by a source", "", "2026-10-28", "")
 
         # Company: FDA labeler for a gMG-labelled product, otherwise latest lead sponsor.
         if label_mg:

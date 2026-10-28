@@ -1,0 +1,236 @@
+[
+ [
+  "RW-01",
+  "Efgartigimod alfa (IV)",
+  "modality.required",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-02",
+  "Efgartigimod alfa and hyaluronidase (SC)",
+  "modality.required",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-02",
+  "Efgartigimod alfa and hyaluronidase (SC)",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-05",
+  "Batoclimab",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-08",
+  "IMVT-1402",
+  "target.expression",
+  "agent finding to confirm"
+ ],
+ [
+  "RW-08",
+  "IMVT-1402",
+  "modality.required",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-08",
+  "IMVT-1402",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-08",
+  "IMVT-1402",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-09",
+  "Orilanolimab (ALXN1830)",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-15",
+  "Gefurulimab",
+  "target.expression",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-15",
+  "Gefurulimab",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-15",
+  "Gefurulimab",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-16",
+  "ALXN1720",
+  "target.expression",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-16",
+  "ALXN1720",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-16",
+  "ALXN1720",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-20",
+  "Claseprubart",
+  "target.expression",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-20",
+  "Claseprubart",
+  "modality.required",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-20",
+  "Claseprubart",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-20",
+  "Claseprubart",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-21",
+  "Empasiprubart",
+  "target.expression",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-21",
+  "Empasiprubart",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-26",
+  "Telitacicept",
+  "target.expression",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-26",
+  "Telitacicept",
+  "modality.required",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-26",
+  "Telitacicept",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-26",
+  "Telitacicept",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-27",
+  "Povetacicept",
+  "target.expression",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-27",
+  "Povetacicept",
+  "modality.required",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-27",
+  "Povetacicept",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-27",
+  "Povetacicept",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-30",
+  "Satralizumab",
+  "target.expression",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-30",
+  "Satralizumab",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-30",
+  "Satralizumab",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-38",
+  "SHR-2173",
+  "target.expression",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-38",
+  "SHR-2173",
+  "modality.required",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-38",
+  "SHR-2173",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-38",
+  "SHR-2173",
+  "strategy.indication",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-40",
+  "NMD670",
+  "target.expression",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-40",
+  "NMD670",
+  "modality.required",
+  "NO in-tool path (edit source or override not supported)"
+ ],
+ [
+  "RW-40",
+  "NMD670",
+  "biology.mechanism_direction",
+  "NO in-tool path (edit source or override not supported)"
+ ]
+]

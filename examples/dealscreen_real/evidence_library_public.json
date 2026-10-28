@@ -1,0 +1,19 @@
+{
+ "label": "REAL public documents, verbatim quotes only, fetched 2026-10-28 for the offline diligence agent",
+ "documents": [
+  {
+   "url": "https://www.ucb.com/newsroom/press-releases/article/ucb-announces-us-fda-approval-of-rystiggor-rozanolixizumab-noli-for-the-treatment-of-adults-with-generalized-myasthenia-gravis",
+   "title": "UCB announces US FDA approval of RYSTIGGO (rozanolixizumab-noli) for adults with generalized myasthenia gravis",
+   "date": "2023-06-27",
+   "text": "[UCB] today announced RYSTIGGO\u00ae (rozanolixizumab-noli)* has been approved by the U.S. Food and Drug Administration (FDA) [\u2026] [rozanolixizumab-noli] binds to the neonatal Fc receptor (FcRN), resulting in the reduction of circulating IgG [\u2026] It has been designed to block the interaction of FcRn and Immunoglobulin G (IgG).",
+   "note": "Verbatim fragments as returned by the fetch; bracketed words are editorial context, not source text."
+  },
+  {
+   "url": "https://www.sec.gov/Archives/edgar/data/1764013/000176401326000011/imvt-20251231.htm",
+   "title": "Immunovant, Inc. Form 10-Q for the quarterly period ended December 31, 2025",
+   "date": null,
+   "text": "The Company is pursuing a broad anti-FcRn strategy based on its lead asset, IMVT-1402. We have commenced discussions with HanAll regarding the potential return to HanAll of certain rights for batoclimab.",
+   "note": "Filing date not captured; period ended 2025-12-31. Verbatim sentences."
+  }
+ ]
+}

@@ -237,7 +237,9 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
                              "Scientific disposition", "Preference rank", "U.S. rights", "Rationale",
                              "Reviewer", "Reviewer kind", "Timestamp", "Decision id", "Selected for valuation"],
            finalist_rows, note=f"{len(finalist_rows)} approved finalist(s) (maximum {spec.max_finalists}). "
-                               "Only explicit logged approvals appear here.", widths={8: 60})
+                               "Only explicit logged decisions appear here; Reviewer kind says whether a human "
+                               "approved (HUMAN), an AI listed an unapproved candidate (AI_PREPARED), or the "
+                               "synthetic demo fixture decided (SYNTHETIC_FIXTURE).", widths={8: 60})
 
     # 5. Valuation Inputs --------------------------------------------------------------
     import yaml

@@ -21,7 +21,7 @@ _REQ_LABEL = {
 
 
 STAGE_LABEL = {0: "Discovery", 1: "Preclinical", 2: "Phase 1", 3: "Phase 2", 4: "Phase 3",
-               5: "Registration", 6: "Marketed"}
+               5: "Registration", 6: "Phase 4 or marketed"}
 
 
 def _m(value: float | None) -> str:
@@ -38,6 +38,9 @@ def build_memo(ws: Workspace) -> str:
     assumptions_path = ws.inputs / "valuation_assumptions.yaml"
     assumptions = yaml.safe_load(assumptions_path.read_text()) if assumptions_path.exists() else {}
     externals = {a.asset_id: a.external_id for a in ws.assets()}
+    manifest = ws.import_result().manifest
+    data_note = ("Synthetic landscape" if manifest.license_status == "synthetic" else
+                 f"Landscape built from {manifest.license_status} sources ({manifest.allowed_use})")
 
     finalists = sorted(log.state.finalists, key=lambda a: screens[a]["rank"] or 10**6)
     kinds = {rec["reviewer_kind"] for rec in log.state.finalists.values()}
@@ -48,7 +51,7 @@ def build_memo(ws: Workspace) -> str:
     lines = [
         f"# BD screening memo: {spec.problem.buyer.name}",
         "",
-        (f"> **{VALIDATION_GRADE}.** {VALIDATION_WARNING} Synthetic landscape; hypothetical "
+        (f"> **{VALIDATION_GRADE}.** {VALIDATION_WARNING} {data_note}; hypothetical "
          "financial inputs. This memo is not an investment or transaction recommendation."),
         "",
         f"**Need screened.** {' '.join(spec.statement.split())}",
@@ -65,10 +68,17 @@ def build_memo(ws: Workspace) -> str:
         + ". No program is shown as available without an explicit source statement.",
         "",
     ]
-    approver = (" by the labelled SYNTHETIC reviewer fixture, not a real analyst"
-                if kinds == {"SYNTHETIC_FIXTURE"} else "")
-    lines.append(f"**Finalists: {len(finalists)} approved{approver}** (rank order by declared "
-                 "preferences; rights shown separately):")
+    if kinds == {"HUMAN"}:
+        heading = f"**Finalists: {len(finalists)} approved by a human analyst**"
+    elif "AI_PREPARED" in kinds:
+        heading = (f"**Candidates: {len(finalists)} prepared by an AI assistant, NOT approved by a "
+                   "human analyst**")
+    elif kinds == {"SYNTHETIC_FIXTURE"}:
+        heading = (f"**Finalists: {len(finalists)} approved by the labelled SYNTHETIC reviewer "
+                   "fixture, not a real analyst**")
+    else:
+        heading = f"**Finalists: {len(finalists)} ({', '.join(sorted(kinds))} reviewers)**"
+    lines.append(heading + " (rank order by declared preferences; rights shown separately):")
     for asset_id in finalists:
         s = screens[asset_id]
         flag = "" if s["disposition"] == "ELIGIBLE" else " (open scientific question)"
@@ -119,8 +129,8 @@ def build_memo(ws: Workspace) -> str:
     rights_open = [screens[a]["program_name"] for a in finalists
                    if screens[a]["commercial"]["us_rights_status"] != "AVAILABLE_ANALYST_CONFIRMED"]
     lines.append("**Investigate next.**")
-    lines.append(f"- Confirm ownership and U.S. rights for {len(rights_open)} of {len(finalists)} finalists "
-                 "(none is analyst-confirmed).")
+    lines.append(f"- Confirm ownership and U.S. rights for {len(rights_open)} of {len(finalists)} listed "
+                 "programs (none is analyst-confirmed).")
     for asset_id in finalists:
         unknown = [d["requirement_id"] for d in screens[asset_id]["decisions"]
                    if (d["analyst_override"] or d["status"]) == "UNKNOWN"]

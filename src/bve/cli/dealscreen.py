@@ -260,6 +260,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--subject", required=True); p.add_argument("--field", default="")
     p.add_argument("--new-state", required=True); p.add_argument("--reviewer", required=True)
     p.add_argument("--rationale", required=True); p.add_argument("--question", default="")
+    p.add_argument("--reviewer-kind", default="HUMAN", choices=[k.value for k in ReviewerKind],
+                   help="HUMAN, or AI_PREPARED for an assistant's unapproved candidate list")
     p = sub.add_parser("apply-fixture", help="replay a LABELLED synthetic reviewer fixture"); ws_arg(p)
     p.add_argument("--file", required=True); p.add_argument("--phase", required=True)
     p = sub.add_parser("value"); ws_arg(p); p.add_argument("--assumptions", required=True)
@@ -298,7 +300,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{len(new)} new proposed finding(s); none affect screening until confirmed.")
         elif args.command == "decide":
             rec = _decide(ws, action=args.action, subject=args.subject, new_state=args.new_state,
-                          reviewer=args.reviewer, rationale=args.rationale, kind=ReviewerKind.HUMAN,
+                          reviewer=args.reviewer, rationale=args.rationale, kind=ReviewerKind(args.reviewer_kind),
                           field=args.field, question=args.question)
             print(f"recorded {rec['decision_id']}: {rec['action']} {rec['subject_id']} "
                   f"{rec['old_state']} -> {rec['new_state']}. Re-run `screen` to apply fact changes.")

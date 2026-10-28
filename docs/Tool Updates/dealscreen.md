@@ -3,6 +3,48 @@
 Plain-language updates on DealScreen, the workflow that takes the asset landscape a BD team
 already has and turns it into a defensible shortlist and first valuations.
 
+## 2026-10-28: tested on real public data; two valuation problems explained
+
+**What changed**
+
+DealScreen was run on 40 real myasthenia gravis programs built only from public sources:
+ClinicalTrials.gov, FDA labels and the ChEMBL drug database. Every cell records where it came
+from. Two valuation problems from the first version were also tracked down.
+
+**Why it matters**
+
+A synthetic demo only shows that the software runs. Real data shows what it gets right and
+where it gets stuck.
+
+**How it works, plainly**
+
+- **What happened on real data.**
+  - Nothing was wrongly included or wrongly excluded, compared with a reference written before
+    the run. That reference came from the same AI that built the tool, so this is an internal
+    check, not independent proof.
+  - Four of the nine programs that fit were found automatically. The other five, including
+    the market leader efgartigimod (Vyvgart), were put in "needs review", not rejected. The
+    reasons were wording, such as "Protein" instead of "antibody", or "Generalized Myasthenia
+    Gravis" instead of "Myasthenia Gravis", or a target that no structured source states.
+  - No source said who holds U.S. rights for any program, so the tool says "unknown" rather
+    than guessing.
+- **The two valuation problems.**
+  - One example drug valued higher in its "bear" case than its base case. That is correct
+    arithmetic for a drug that loses money even if it succeeds: a lower chance of success
+    means less money spent on trials. The tool now says so in plain words, and refuses to
+    show any out-of-order result it cannot explain.
+  - The canonical RLAY example crashed, and its design settings had been silently ignored,
+    which raised its value from $44M to $65M. It now stops with a clear error. The fix to the
+    example's settings needs sign-off from the valuation owners, so it is prepared but not applied.
+- **No more implied approvals.** An AI assistant can now list candidates but can never mark
+  anything approved or confirm evidence.
+
+**Proof it works**
+
+- 72 DealScreen tests, including one that pins the real-data result.
+- Report: `research/dealscreen_real_v1/REPORT.md`. Audit:
+  `research/dealscreen_hardening_v1/FINANCIAL_AUDIT.md`.
+
 ## 2026-10-27: first working version (synthetic demonstration)
 
 **What changed**

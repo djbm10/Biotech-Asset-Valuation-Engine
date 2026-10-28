@@ -1,0 +1,43 @@
+# HYPOTHETICAL buyer screening a REAL public landscape. The buyer is invented.
+statement: >
+  Identify clinical-stage (Phase 2 or later) antibody-based programs that block the neonatal
+  Fc receptor (FcRn) in myasthenia gravis. Exclude other mechanisms, cell therapies and small
+  molecules. Prefer Phase 3 or marketed evidence. Keep scientific suitability separate from
+  U.S. rights, ownership and licensing availability, none of which is assumed.
+problem:
+  problem_id: dealscreen_real_fcrn_gmg
+  version: "1"
+  buyer:
+    buyer_id: hypothetical_buyer
+    name: Hypothetical Pharma BD (real public landscape, INTERNAL DEVELOPMENT)
+    as_of_date: "2026-10-28"
+  strategic_gap:
+    therapeutic_areas: [AUTOIMMUNE]
+    indications: [myasthenia gravis]
+    target_expression:
+      operator: ANY
+      targets:
+        - {canonical_id: FCGRT, label: FcRn}
+    modalities: [MONOCLONAL_ANTIBODY, BISPECIFIC_ANTIBODY, FUSION_PROTEIN]
+    required_biology:
+      - requirement_id: biology.mechanism_direction
+        domain: ELIGIBILITY
+        fact_type: mechanism_direction
+        operator: EQ
+        expected_value: ANTAGONIST
+        pass_condition: The program blocks FcRn (antagonist / inhibitor).
+        fail_condition: The stated mechanism is not antagonism.
+        unknown_condition: The mechanism text states no direction.
+    phase_constraint:
+      operator: MINIMUM
+      phases: [PHASE2]
+preferences:
+  preferred_minimum_phase: PHASE3
+  prefer_active_development: true
+  prefer_more_registered_trials: true
+  buyer_capability_modalities: [MONOCLONAL_ANTIBODY]
+  relevant_market: US
+commercial:
+  required_market: US
+max_finalists: 10
+max_valuations: 3

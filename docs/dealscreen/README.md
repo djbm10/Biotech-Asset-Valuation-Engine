@@ -189,17 +189,33 @@ The other 7 finalists are NOT READY FOR VALUATION:
 - **Identity flags are resolved but not applied.** A merge decision is recorded, but this MVP
   does not merge records; one program reported under two external IDs stays two rows.
 - **The diligence agent is pattern-based** (sentence-level). No LLM provider is bundled.
-- **Valuation engine observations** (not changed here; Lane 1):
-  - for the rare-subgroup case, bear rNPV (−120) is above base (−127);
-  - `bve-asset` crashes on configs that enable the trial-design layer (`'TrialDesignFeatureSet'
-    object has no attribute 'evidence_design'` in the console summary). This is pre-existing,
-    and DealScreen configs do not use that layer.
+- **Valuation findings (2026-10-27 audit, `research/dealscreen_hardening_v1/FINANCIAL_AUDIT.md`):**
+  - Selimab's bear-above-base ordering is real arithmetic for a cost-dominated program, not an
+    engine error. DealScreen now explains such cases and BLOCKS any out-of-order result it cannot
+    explain.
+  - The RLAY `bve-asset` crash was a stale console line plus silently ignored legacy design keys.
+    The CLI now fails closed. The RLAY config migration is a proposed patch awaiting Lane 1 sign-off.
 - **The deal-terms path is a PROTOTYPE** awaiting Lane 1 quant + clinical sign-off. With no
   deal block it reproduces `bve-asset` exactly (tested).
 - **Workbook.** The export writes a separate companion file. It refuses to touch any existing
   workbook it did not create, and so cannot update an analyst's own workbook in place.
 
-## Five-minute walkthrough script
+## Real public landscape (INTERNAL DEVELOPMENT)
+
+A second demo runs DealScreen on 40 real FcRn / myasthenia gravis programs built only from
+public sources. Results, every source, the asset-by-asset assessment and a five-minute script
+using real assets: `research/dealscreen_real_v1/REPORT.md`.
+
+```bash
+python research/dealscreen_real_v1/build_landscape.py   # rebuild from saved snapshots (offline)
+W=outputs/dealscreen_real; E=examples/dealscreen_real
+bve-dealscreen import --workspace $W --landscape $E/landscape_fcrn_gmg.csv \
+    --profile $E/profile_public_landscape.yaml --buyer $E/buyer_fcrn_gmg.yaml --identity-authority
+bve-dealscreen screen --workspace $W
+bve-dealscreen research --workspace $W --provider offline:$E/evidence_library_public.json
+```
+
+## Five-minute walkthrough script (synthetic)
 
 1. **(0:00) The problem.** "Your team already has a 200-program landscape from its data provider.
    The bottleneck is not finding programs; it's deciding, defensibly, which ones fit *this* buyer."
