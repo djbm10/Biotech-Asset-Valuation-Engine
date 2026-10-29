@@ -65,3 +65,26 @@ recurrence across landscapes, fix risk. Criteria were written before any code.
   in this cycle.
 
 Baseline per asset: `measure/baseline_A1.json` (from the analyst's own workspace).
+
+## F8 (found during F2 testing; criteria before code)
+
+**Problem.** A vendor therapeutic-area label is not exclusive: myasthenia gravis is both
+neurological and autoimmune. When the indication text is unreadable, the vendor label
+"Neurology" alone becomes the whole area fact and the AUTOIMMUNE requirement FAILs, which
+EXCLUDES the program. Analyst finding #13 (belimumab RW-29) is this defect. It is masked on the
+real landscape only because belimumab also fails on target. A test-only copy with RW-05's
+indication written "gMG" reproduces a wrongful exclusion of an in-scope FcRn antibody.
+
+**Rank.** First by severity: it causes wrongful exclusions, which an analyst never sees in the
+review queue.
+
+**Criteria.**
+- When the only area evidence is a vendor TA label (no indication-derived area), and that label
+  does not include a requested area, the area fact is not emitted, so the gate is UNKNOWN, not FAIL.
+  The asset lists the reason ("vendor area label alone cannot exclude").
+- When an indication-derived area exists, behaviour is unchanged (FAIL is still possible when the
+  indication-derived areas and labels exclude all requested areas).
+- A vendor label that matches a requested area still PASSes.
+- Real landscape: no disposition changes except RW-29 (stays EXCLUDED on target); its TA gate goes
+  FAIL → UNKNOWN. Synthetic demo funnel unchanged, or every change explained.
+- S&E gate code unchanged.

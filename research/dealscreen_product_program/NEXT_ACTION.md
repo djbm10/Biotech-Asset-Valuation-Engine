@@ -1,7 +1,7 @@
 # Next action (restart checkpoint)
 
 **State at checkpoint (2026-10-28):**
-- Branch `dealscreen-mvp`. Cycles 1-5 are committed and pushed (see `ITERATION_LOG.md`).
+- Branch `dealscreen-mvp`. Cycles 1-5 and analyst-simulation cycle A1 are committed (see `ITERATION_LOG.md` and `analyst_simulation/ITERATION_LOG.md`).
 - Uncommitted user files: `AGENTS.md`, `research/universe/biotech_tickers.yaml`, `.claude/`, `.serena/`. Never stage them.
 - Never pop shared stashes.
 
@@ -9,12 +9,16 @@
 
 1. Read `PRODUCT_GOAL.md`, `SCORECARD.md` (latest sections at the bottom) and this file.
 2. Confirm the branch and that `git status` shows only the user files above.
-3. Run the DealScreen tests (expect 119 passed):
+3. Run the DealScreen tests (expect 169 passed):
    `TMPDIR=$HOME/.cache/dealscreen_suite python -m pytest tests/dealscreen -q -p no:cacheprovider`
    `/tmp` is a small tmpfs; keep test temp files on the home disk.
 4. For any cycle that changes screening, re-run
    `python research/dealscreen_product_program/cycle4/equivalence.py $HOME/.cache/cycle4_ws`
    (needs the ontology, ~5 min). Expect byte-identical results on all four workspaces.
+
+## Analyst-simulation loop
+
+See `analyst_simulation/`. Next: cycle A2 (see `analyst_simulation/PRIORITIZED_FIXES.md`, deferred items D2, D3 and the A1 residuals), then a fresh blind analyst run with a newly selected buyer spec not used to design any fix.
 
 ## Gate H session package: PREPARED (not run). See `gate_h_session/SESSION_PROTOCOL.md`. Running it needs a real BD professional.
 

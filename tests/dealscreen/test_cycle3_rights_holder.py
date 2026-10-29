@@ -49,7 +49,8 @@ def test_r3_r5_holder_only_from_fda_labeler_and_availability_unchanged(ws):
 
 def test_r5_dispositions_identical_to_v1(ws):
     f = ws.screening()["funnel"]
-    assert (f["eligible"], f["unresolved"], f["excluded"]) == (4, 14, 22)
+    # Cycle 3 left dispositions unchanged; cycle A1's indication reading moved 2 programs.
+    assert (f["eligible"], f["unresolved"], f["excluded"]) == (6, 12, 22)
 
 
 def test_r1_r4_asserted_holder_conflicting_with_source_is_shown_not_resolved(ws):

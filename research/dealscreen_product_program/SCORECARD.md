@@ -65,3 +65,14 @@ Only the dimensions that changed are listed. Everything else is as in Audit 0.
 | 7 | Ownership, rights, licensing | Holder wording corrected to "U.S. labeler per FDA label; not a rights statement" | Review M1 | PARTIAL |
 
 - **Gate I:** PARTIAL. Refresh comparison works on reordered and edited public exports. It has not been tested with a real vendor export.
+
+**After analyst-simulation cycle A1 (AI-SIMULATED analyst; 2026-10-28):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 3 | Screening accuracy and coverage | Qualified indication names read (disclosed) as NCIt parent; vendor area label alone can no longer exclude | Real: in-scope ELIGIBLE 4/9 → 6/9, 0 wrong (same-author reference); held-out 75k condition strings: 1 reading, correct | PARTIAL → stronger |
+| 9 | Ranking | Negated activity no longer ACTIVE; MARKETED separate | Real: 5 false ACTIVE → 0 | PARTIAL (terminated programs still not demoted) |
+| 11 | Financial readiness and correctness | Deal CLI refuses unread keys; prints discount rate used and perspective; `value` no longer crashes | Tests; analyst config reproduced | PARTIAL |
+| 12 | Excel and report quality | No "approved" for AI candidates; labeler wording; identity flags in memo; why no valuation ran | Simulated analyst + critic | PARTIAL (no human reader) |
+
+Gates H and B are unchanged: an AI-simulated analyst is not a human user or an independent curator.

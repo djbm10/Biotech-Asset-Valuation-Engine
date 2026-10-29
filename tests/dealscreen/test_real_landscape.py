@@ -64,13 +64,19 @@ def test_no_wrong_inclusion_or_exclusion_against_the_reference(real_ws):
 
 def test_pinned_real_result(real_ws):
     f = real_ws.screening()["funnel"]
-    assert (f["eligible"], f["unresolved"], f["excluded"]) == (4, 14, 22)
+    # 4/14/22 until cycle A1; RW-05 and RW-09 became ELIGIBLE when "Generalized Myasthenia Gravis"
+    # was read (disclosed) as myasthenia gravis. The v1 research results are unchanged history.
+    assert (f["eligible"], f["unresolved"], f["excluded"]) == (6, 12, 22)
     s = _by_program(real_ws)
-    assert {p for p, x in s.items() if x["disposition"] == "ELIGIBLE"} == {"RW-03", "RW-04", "RW-06", "RW-07"}
+    assert {p for p, x in s.items() if x["disposition"] == "ELIGIBLE"} == {
+        "RW-03", "RW-04", "RW-05", "RW-06", "RW-07", "RW-09"}
     # The documented misses, each with its cause:
     gate = {p: {d["requirement_id"]: d["status"] for d in x["decisions"]} for p, x in s.items()}
     assert gate["RW-01"]["modality.required"] == "UNKNOWN"  # "Protein" is not a modality term
-    assert gate["RW-05"]["strategy.indication"] == "UNKNOWN"  # "Generalized Myasthenia Gravis" wording
+    assert gate["RW-05"]["strategy.indication"] == "PASS"  # via the disclosed qualifier reading
+    assert s["RW-05"]["indication_readings"] == [{
+        "observed": "Generalized Myasthenia Gravis", "read_as": "Myasthenia Gravis",
+        "qualifier": "generalized", "rule": s["RW-05"]["indication_readings"][0]["rule"]}]
     assert gate["RW-08"]["target.expression"] == "UNKNOWN"  # no sourced target in the landscape
 
 

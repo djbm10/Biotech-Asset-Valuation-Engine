@@ -145,6 +145,12 @@ def _print_queue(ws: Workspace) -> None:
     print("Unresolved queue (first 25):")
     for s in [s for s in screening["screens"] if s["disposition"] == "UNRESOLVED"][:25]:
         print(f"  #{s['rank']:<3} {s['program_name']:<22} {s['review_reasons'][0][:110]}")
+    names = {s["asset_id"]: f"{s['program_name']} [{s['disposition']}]" for s in screening["screens"]}
+    flags = ws.flags()
+    if flags:
+        print("Identity flags (records may be the same molecule; not merged):")
+        for flag in flags:
+            print(f"  {flag.kind}: {' / '.join(names.get(a, a) for a in flag.asset_ids)} ({flag.shared_value})")
 
 
 def _show(ws: Workspace, subject: str) -> None:
@@ -159,6 +165,7 @@ def _show(ws: Workspace, subject: str) -> None:
                                          "supporting_or_contradictory_claim_ids")} for d in screen["decisions"]],
         "commercial": screen["commercial"], "unreadable_claims": screen["unreadable_claims"],
         "identity_flags": screen["identity_flag_ids"],
+        "indication_readings": screen.get("indication_readings", []),
         "source_rows": {n: rows[n].raw for n in asset.row_numbers},
         "findings": [f.model_dump(mode="json") for f in ws.findings() if f.asset_id == asset.asset_id],
     }, indent=2, default=str))
@@ -309,6 +316,10 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"REJECTED row {rej.row_number}: {'; '.join(rej.reasons)}")
             for dup in result.duplicates:
                 print(f"DUPLICATE row {dup.row_number} = row {dup.duplicate_of_row}")
+            names = {a.asset_id: f"{a.external_id} {a.program_name}" for a in result.assets}
+            for flag in ws.flags():
+                print(f"IDENTITY {flag.kind}: {' / '.join(names.get(a, a) for a in flag.asset_ids)} "
+                      f"(shared {flag.shared_value}; not merged, review with `queue`)")
             refresh = ws.refresh()
             if refresh and refresh.get("current_dataset") == result.manifest.dataset_version:
                 print(f"REFRESH: +{len(refresh['assets_added'])} / -{len(refresh['assets_removed'])} assets, "
@@ -351,7 +362,12 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "apply-fixture":
             print(json.dumps(apply_fixture(ws, Path(args.file), args.phase), indent=2))
         elif args.command == "value":
-            print(json.dumps(ws.value_selected(Path(args.assumptions), n_sims=args.n_sims), indent=2, default=str))
+            results = ws.value_selected(Path(args.assumptions), n_sims=args.n_sims)
+            print(json.dumps(results, indent=2, default=str))
+            if not any(e["runs"] for e in results["assets"].values()):
+                print("No valuation was run: a valuation runs only for a finalist approved and selected for "
+                      "valuation by a HUMAN reviewer whose inputs are READY (see readiness above).",
+                      file=sys.stderr)
         elif args.command == "export":
             from bve.dealscreen.workbook import export_workbook
 

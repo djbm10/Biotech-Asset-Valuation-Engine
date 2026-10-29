@@ -368,6 +368,7 @@ class Workspace:
                     entry["runs"].append({**asdict(run), "deal_terms": deal,
                                           "scenario_check": scenario_check(run.summary, deal)})
             results["assets"][asset_id] = entry
+        (self.root / "valuation").mkdir(parents=True, exist_ok=True)
         _dump(self.root / "valuation" / "valuations.json", results)
         return results
 

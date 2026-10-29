@@ -65,11 +65,22 @@ def build_memo(ws: Workspace) -> str:
         "",
         f"**Rights are a separate question.** Of the {funnel['eligible']} eligible programs, U.S. rights "
         "status is: " + ", ".join(f"{k.replace('_', ' ').lower()} {v}" for k, v in sorted(rights.items()))
-        + f". A U.S. rights holder is evidenced for {sum(1 for s in eligible if s['commercial'].get('us_rights_holder'))}"
-        " of them; knowing the holder says nothing about availability. No program is shown as available "
-        "without an explicit statement.",
+        + f". A U.S. labeler or holder is named in a cited source for "
+        f"{sum(1 for s in eligible if s['commercial'].get('us_rights_holder'))} of them (an FDA labeler is "
+        "not the legal owner, and neither says whether rights are available). No program is shown as "
+        "available without an explicit statement.",
         "",
     ]
+    readings = [s for s in eligible if s.get("indication_readings")]
+    if readings:
+        lines += [
+            f"**Indication wording read by rule.** {len(readings)} eligible program(s) have a qualified "
+            "indication name read as its NCIt parent (DealScreen policy v1): "
+            + "; ".join(f"{s['program_name']} ('{r['observed']}' as '{r['read_as']}')"
+                        for s in readings for r in s["indication_readings"][:1])
+            + ". Check the source wording if the qualifier matters to the buyer.",
+            "",
+        ]
     if kinds == {"HUMAN"}:
         heading = f"**Finalists: {len(finalists)} approved by a human analyst**"
     elif "AI_PREPARED" in kinds:
@@ -84,8 +95,12 @@ def build_memo(ws: Workspace) -> str:
     for asset_id in finalists:
         s = screens[asset_id]
         flag = "" if s["disposition"] == "ELIGIBLE" else " (open scientific question)"
+        twins = sorted({screens[o]["program_name"] for o in screens if o != asset_id
+                        and set(screens[o].get("identity_flag_ids", [])) & set(s.get("identity_flag_ids", []))})
+        twin = (f"; **identity flag: may be the same molecule as {', '.join(twins)} (not merged; do not "
+                "count separately until reviewed)**") if twins else ""
         lines.append(f"- {s['program_name']} ({s['company']}): {STAGE_LABEL.get(s['stage_order'], 'stage unknown')}"
-                     f"{flag}; U.S. rights {s['commercial']['display'].lower()}")
+                     f"{flag}; U.S. rights {s['commercial']['display'].lower()}{twin}")
     lines.append("")
 
     lines.append("**Preliminary valuations** (BVE engine via CLI; hypothetical analyst inputs; $M rNPV):")
@@ -121,6 +136,9 @@ def build_memo(ws: Workspace) -> str:
         )
     if not_ready:
         lines.append(f"- NOT READY FOR VALUATION (no invented inputs): {', '.join(not_ready)}.")
+    if not any(e.get("runs") for e in valuations.values()):
+        lines.append("- No valuation was run. A valuation runs only for a finalist that a HUMAN reviewer "
+                     "approved and selected for valuation, with READY inputs.")
     lines.append("")
 
     assertions = list(log.state.assertions.values())

@@ -29,6 +29,34 @@ from typing import Any
 PROTOTYPE_LABEL = "PROTOTYPE valuation path (DealScreen); Lane 1 quant + clinical sign-off pending"
 
 
+#: Top-level keys the shared bve-asset loader reads, plus this command's deal block.
+KNOWN_TOP_LEVEL_KEYS = frozenset({
+    "_meta", "analyst_notes", "asset", "company", "competition", "decision_framing", "limitations",
+    "market_model", "monte_carlo", "pos_adjusters", "sources", "strategic_takeout", "thesis_changers",
+    "trial_design", "trials", "deal_economics",
+})
+#: Known misplacements and where the value belongs (cycle A1 F3).
+MISPLACED_KEY_HINTS = {
+    "discount_rate": "asset.discount_rate",
+    "deal_options": "deal_economics (one deal per config)",
+    "deal": "deal_economics",
+    "market": "nothing (bve-asset also ignores a top-level market block; revenue inputs belong in market_model)",
+}
+
+
+class ConfigKeyError(ValueError):
+    """The config has top-level keys nothing reads; refusing beats silently using defaults."""
+
+
+def check_top_level_keys(cfg: dict[str, Any]) -> None:
+    unknown = sorted(set(cfg) - KNOWN_TOP_LEVEL_KEYS)
+    if unknown:
+        details = "; ".join(
+            f"{k!r} is not read" + (f" (did you mean {MISPLACED_KEY_HINTS[k]}?)" if k in MISPLACED_KEY_HINTS else "")
+            for k in unknown)
+        raise ConfigKeyError(f"unknown top-level config key(s): {details}. Nothing was valued.")
+
+
 def build_deal_economics(block: dict[str, Any] | None):
     from bve.models.deal_economics import DealEconomics, Milestone
 
@@ -46,6 +74,7 @@ def run(config_path: Path, *, n_sims: int, seed: int):
     from bve.valuation.valuation_engine import ValuationEngine
 
     cfg = ra._load_config(config_path)
+    check_top_level_keys(cfg)
     ra._validate_config(cfg, config_path)
     asset, company, trials, market_model = ra._build_objects(cfg)
     pos_adjusters, apply_pos = ra._build_pos_adjusters(cfg)
@@ -87,6 +116,18 @@ def run(config_path: Path, *, n_sims: int, seed: int):
     return engine.run(), deal
 
 
+def perspective_line(output: Any, deal: Any) -> str:
+    """Whose value this is, and the discount rate actually used (cycle A1 F3b)."""
+    rate = getattr(getattr(output, "rnpv", None), "discount_rate", None)
+    rate_text = f"{rate:.1%}" if isinstance(rate, (int, float)) else "see valuation.json"
+    if deal is None:
+        view = "asset-holder rNPV with no deal terms (not a buyer's deal NPV)"
+    else:
+        terms = ", ".join(f"{k}={v}" for k, v in deal.model_dump(mode="json").items() if v not in (None, [], 0, 0.0))
+        view = f"rNPV with deal terms applied ({terms or 'defaults'}); payable/receivable per DealEconomics fields"
+    return f"Perspective: {view}. Discount rate used: {rate_text}. {PROTOTYPE_LABEL}."
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="bve-dealscreen-value", description=__doc__.splitlines()[0])
     parser.add_argument("--config", required=True)
@@ -98,7 +139,11 @@ def main(argv: list[str] | None = None) -> int:
     if not config_path.exists():
         print(f"ERROR: config not found: {config_path}", file=sys.stderr)
         return 1
-    output, deal = run(config_path, n_sims=args.n_sims, seed=args.seed)
+    try:
+        output, deal = run(config_path, n_sims=args.n_sims, seed=args.seed)
+    except ConfigKeyError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
     out = Path(args.output_json)
     out.parent.mkdir(parents=True, exist_ok=True)
     output.save_json(out)
@@ -114,6 +159,7 @@ def main(argv: list[str] | None = None) -> int:
     s = output.summary_dict
     print(f"{s['asset_name']}: rNPV ${s['rnpv_millions']:,.1f}M "
           f"(bull {s['bull_rnpv']:,.1f} / base {s['base_rnpv']:,.1f} / bear {s['bear_rnpv']:,.1f}) -> {out}")
+    print(perspective_line(output, deal))
     return 0
 
 

@@ -37,6 +37,48 @@ def ws(tmp_path, monkeypatch):
     reset_resolver_cache()
 
 
+def _edited_ws(tmp_path, monkeypatch, edits: dict[str, dict[str, str]]):
+    """TEST-ONLY copy of the real landscape with named cells replaced (never the real file)."""
+    import csv
+
+    from bve.se.ontology.targets import reset_resolver_cache
+
+    monkeypatch.setenv("BVE_SE_ONTOLOGY_SNAPSHOT", str(tmp_path / "absent"))
+    reset_resolver_cache()
+    rows = list(csv.DictReader((REAL / "landscape_fcrn_gmg.csv").open(encoding="utf-8")))
+    for row in rows:
+        row.update(edits.get(row["Program ID"], {}))
+    copy = tmp_path / "landscape_edited.csv"
+    with copy.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    workspace = Workspace(tmp_path / "ws_edited")
+    workspace.import_landscape(copy, REAL / "profile_public_landscape.yaml", REAL / "buyer_fcrn_gmg.yaml")
+    workspace.screen(normalizer)
+    return workspace
+
+
+@pytest.fixture
+def ws_gap(tmp_path, monkeypatch):
+    """RW-05's indication written as the bare abbreviation "gMG", which no reader resolves, so the
+    indication gate stays open (cycle A1: the real wording is now read as myasthenia gravis)."""
+    from bve.se.ontology.targets import reset_resolver_cache
+
+    yield _edited_ws(tmp_path, monkeypatch, {"RW-05": {"Indication": "gMG"}})
+    reset_resolver_cache()
+
+
+@pytest.fixture
+def ws_area_fail(tmp_path, monkeypatch):
+    """RW-29 given an oncology indication, so the source area evidence genuinely FAILs (cycle A1:
+    the old example relied on a vendor-label-only FAIL that F8 removed)."""
+    from bve.se.ontology.targets import reset_resolver_cache
+
+    yield _edited_ws(tmp_path, monkeypatch, {"RW-29": {"Indication": "Breast Cancer"}})
+    reset_resolver_cache()
+
+
 def _ids(ws: Workspace) -> dict[str, str]:
     return {a.external_id: a.asset_id for a in ws.assets()}
 
@@ -85,7 +127,8 @@ def test_c3_ai_prepared_cannot_assert(ws):
         _assert(ws, "RW-05", "indication", "Myasthenia Gravis", kind=ReviewerKind.AI_PREPARED)
 
 
-def test_c4_assertion_resolves_through_the_gate_engine_and_leaves_imports_untouched(ws):
+def test_c4_assertion_resolves_through_the_gate_engine_and_leaves_imports_untouched(ws_gap):
+    ws = ws_gap
     before_import = (ws.root / "import.json").read_bytes()
     assert _screen(ws)["RW-05"]["disposition"] == "UNRESOLVED"
     rec = _assert(ws, "RW-05", "indication", "Myasthenia Gravis",
@@ -151,15 +194,17 @@ def test_asserting_unknown_rights_is_refused_but_an_explicit_statement_is_kept(w
 
 
 # -- regressions from the Cycle 1 adversarial review (AI reviewer) -----------------------
-def test_review1_multivalued_assertion_flipping_a_fail_is_disclosed(ws):
+def test_review1_multivalued_assertion_flipping_a_fail_is_disclosed(ws_area_fail):
     """Adding an indication can turn a source therapeutic-area FAIL into PASS: it must be listed."""
-    _assert(ws, "RW-29", "indication", "Myasthenia Gravis")  # RW-29: TA FAIL from 'Neurology'
+    ws = ws_area_fail
+    _assert(ws, "RW-29", "indication", "Myasthenia Gravis")  # source area: ONCOLOGY + NEUROLOGY
     effects = _screen(ws)["RW-29"]["assertion_effects"]
     ta = [e for e in effects if e["requirement_id"] == "strategy.therapeutic_area"]
     assert ta and ta[0]["overturns_source_fail"] and ta[0]["without_assertions"] == "FAIL"
 
 
-def test_review1_disposition_change_is_disclosed(ws):
+def test_review1_disposition_change_is_disclosed(ws_gap):
+    ws = ws_gap
     _assert(ws, "RW-05", "indication", "Myasthenia Gravis")
     effects = _screen(ws)["RW-05"]["assertion_effects"]
     assert {"requirement_id": "DISPOSITION", "without_assertions": "UNRESOLVED",

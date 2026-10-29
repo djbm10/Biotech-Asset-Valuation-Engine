@@ -57,3 +57,11 @@ Reference scope is scientific fit (IN/OUT/UNKNOWN); analyst mixed scientific and
 - **Tool output:** (a) the ELIGIBLE list ranks HBM9161 (#2, Harbour's Greater-China code, trials completed) and RVT-1401 (#4, a retired code) alongside approved drugs and counts batoclimab twice, while IMVT-1402 — the only late-stage FcRn program not yet marketed — sits in UNRESOLVED behind four non-FcRn programs; (b) the Finalists sheet header says "7 approved" when none is approved; (c) a valuation run with a misplaced key silently uses 12% and drops deal terms, so a $163M figure becomes $103M with no warning.
 - **Analyst write-up:** it recommends batoclimab as #1 on an unsourced efficacy claim and an inferred rights reversion, while the input row says all registered gMG trials are terminated — a leader could open a licensing conversation on a stalled asset. It also reports a wrong rNPV and blames the tool.
 - **Not misleading:** exclusions (all 22 confirmed correct against the reference); rights are never shown as available; AI cannot approve or assert. The safe use today is as a working file with a human re-check of every ELIGIBLE/UNRESOLVED FcRn row and any valuation input placement.
+
+---
+
+## Addendum (engineering, after the review): code review of the A1 fixes
+
+A separate AI code review of the fixes found 3 HIGH issues in the fixes themselves (area-name
+comparison, over-broad qualifier reading, missing memo disclosure). All were fixed with
+regression tests before commit; see `ITERATION_LOG.md`. The review above is unchanged.

@@ -173,15 +173,18 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
             "; ".join(f"{o['field']}: {o['asserted_value']} replaces {', '.join(o['superseded_claim_ids'])}"
                       for o in s.get("overrides", [])),
             _effects_text(s),
+            "; ".join(f"'{r['observed']}' read as '{r['read_as']}' ({r['qualifier']})"
+                      for r in s.get("indication_readings", [])),
         ])
     _sheet(wb, "Screening", [
         "Asset id", "Program", "Aliases", "Company (per source)", "External id", "Scientific disposition",
         "Preference rank", "Machine recommendation", *[f"Gate: {r}" for r in requirement_ids],
         "Why not ELIGIBLE", "Target symbols", "Modality", "Stage order", "Activity", "Registered trials",
-        "U.S. licensing availability (independent of science)", "U.S. rights holder (evidence; not availability)",
+        "U.S. licensing availability (independent of science)", "U.S. labeler/holder named in source (not owner, not availability)",
         "Partnerships (per source)", "Identity flags",
         "Cited claim ids (asset:field:value-hash; row in Landscape)", "Analyst assertions", "Source values overridden by analyst",
         "Gate changes caused by assertions",
+        "Indication names read as their NCIt parent (DealScreen policy v1)",
     ], screening_rows, note=f"Gate engine: bve.se GateEngine. {screening['ranking_rule']}",
         widths={2: 26, 6: 16})
 
@@ -258,7 +261,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
     _sheet(wb, "Finalists", ["Asset id", "Program", "Company (per source)", "Approval state",
                              "Scientific disposition", "Preference rank", "U.S. rights", "Rationale",
                              "Reviewer", "Reviewer kind", "Timestamp", "Decision id", "Selected for valuation"],
-           finalist_rows, note=f"{len(finalist_rows)} approved finalist(s) (maximum {spec.max_finalists}). "
+           finalist_rows, note=f"{finalist_count_text(log.state.finalists)} (maximum {spec.max_finalists}). "
                                "Only explicit logged decisions appear here; Reviewer kind says whether a human "
                                "approved (HUMAN), an AI listed an unapproved candidate (AI_PREPARED), or the "
                                "synthetic demo fixture decided (SYNTHETIC_FIXTURE).", widths={8: 60})
@@ -395,6 +398,22 @@ def _unit(key: str) -> str:
     if leaf.endswith("_annual"):
         return "patients / year"
     return ""
+
+
+def finalist_count_text(finalists: dict[str, dict[str, Any]]) -> str:
+    """Counts by approval state and reviewer kind; "approved" only for HUMAN APPROVED (cycle A1 F4)."""
+    counts: dict[str, int] = {}
+    for rec in finalists.values():
+        if rec["state"] == "APPROVED" and rec["reviewer_kind"] == "HUMAN":
+            label = "approved by a human analyst"
+        elif rec["state"] == "APPROVED":
+            label = f"approved by {rec['reviewer_kind']} (not a human analyst)"
+        else:
+            label = f"{rec['state'].replace('_', ' ').lower()} ({rec['reviewer_kind']})"
+        counts[label] = counts.get(label, 0) + 1
+    if not counts:
+        return "No finalists recorded"
+    return "; ".join(f"{n} {label}" for label, n in sorted(counts.items()))
 
 
 def _effects_text(screen: dict[str, Any]) -> str:

@@ -21,6 +21,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from bve.dealscreen.importer import split_list
+from bve.dealscreen.indications import qualified_indication
 from bve.dealscreen.mapping import MappingProfile
 from bve.dealscreen.models import (
     AgentFinding,
@@ -66,12 +67,24 @@ def mechanism_direction(text: str) -> str | None:
     return None
 
 
+_ACTIVE_WORD = re.compile(r"\b(active|ongoing|recruiting|in development)\b")
+_NEGATED_ACTIVE = re.compile(r"\b(no|not|non|without)[\s-]+(?:currently\s+)?(active|ongoing|recruiting)\b")
+
+
 def activity_status(text: str) -> str:
+    """ACTIVE, INACTIVE, MARKETED or UNKNOWN from status text.
+
+    A negated activity word ("no recruiting trial") is never ACTIVE (cycle A1 F1). MARKETED is
+    kept apart from ACTIVE so a marketed product does not count as active development.
+    """
     folded = text.casefold()
-    if any(w in folded for w in ("discontinu", "terminat", "inactive", "suspend", "halted", "no development")):
+    if any(w in folded for w in ("discontinu", "terminat", "inactive", "suspend", "halted", "no development",
+                                 "no longer", "not developed", "not in development", "withdrawn")):
         return "INACTIVE"
-    if any(w in folded for w in ("active", "ongoing", "recruiting", "in development")):
+    if _ACTIVE_WORD.search(_NEGATED_ACTIVE.sub(" ", folded)):
         return "ACTIVE"
+    if re.search(r"\bmarketed\b", folded):
+        return "MARKETED"
     return "UNKNOWN"
 
 
@@ -97,6 +110,8 @@ class AssetFacts:
     target_symbols: list[str] = field(default_factory=list)
     #: Analyst assertions that replaced a readable, different source value on their field.
     overrides: list[dict[str, Any]] = field(default_factory=list)
+    #: Qualified indication names also read as their NCIt parent (cycle A1 F2), disclosed.
+    indication_readings: list[dict[str, str]] = field(default_factory=list)
 
 
 def assertion_claim(assertion: AnalystAssertion) -> SourceClaim:
@@ -157,7 +172,8 @@ class FactBuilder:
         if field_name == "indication":
             from bve.se.ontology.indication_compatibility import disease_id
 
-            return disease_id(text) is not None  # the indication gate reads NCIt names only
+            # NCIt names, or a disclosed qualifier reading of one (consistent with import, review A1-3).
+            return disease_id(text) is not None or qualified_indication(text) is not None
         if field_name == "therapeutic_area":
             from bve.se.ontology.therapeutic_areas import CLASSIFIED_AREAS
 
@@ -176,7 +192,12 @@ class FactBuilder:
             return self.profile.stage_order(text)
         return text
 
-    def build(self, asset: LandscapeAsset, review: ReviewInputs) -> AssetFacts:
+    def build(
+        self,
+        asset: LandscapeAsset,
+        review: ReviewInputs,
+        requested_areas: frozenset[str] | None = None,
+    ) -> AssetFacts:
         claims = [c for c in asset.claims if c.claim_id not in review.rejected_claim_ids]
         findings = [f for f in review.confirmed_findings if f.asset_id == asset.asset_id]
         asserted = [a for a in review.assertions if a.asset_id == asset.asset_id]
@@ -212,18 +233,35 @@ class FactBuilder:
         indications = sorted(
             {i for c in indication_claims for i in split_list(c.value_as_written, self.profile.list_separator)}
         )
+        for indication in list(indications):
+            reading = qualified_indication(indication)
+            if reading is not None:
+                result.indication_readings.append(reading)
+                if reading["read_as"] not in indications:
+                    indications.append(reading["read_as"])
         if indications:
             result.facts.append(
                 self._fact(asset, "indication", indications, indication_claims, [], confirmed)
             )
         ta_claims = [c for c in claims if c.field == "therapeutic_area"]
-        areas: set[str] = set()
+        label_areas: set[str] = set()
         for claim in ta_claims:
             for label in split_list(claim.value_as_written, self.profile.list_separator):
                 mapped = self.profile.therapeutic_area_map.get(label)
-                areas.add(canonical_therapeutic_area(mapped or label))
+                label_areas.add(canonical_therapeutic_area(mapped or label))
+        indication_areas: set[str] = set()
         for indication in indications:
-            areas.update(classify_therapeutic_areas(indication))
+            indication_areas.update(classify_therapeutic_areas(indication))
+        areas = label_areas | indication_areas
+        if (requested_areas and not indication_areas and label_areas
+                and not label_areas & set(requested_areas)):
+            # A vendor area label is not exclusive (cycle A1 F8): alone it cannot exclude.
+            result.unreadable.extend(
+                {"claim_id": c.claim_id, "field": "therapeutic_area", "value": c.value_as_written,
+                 "reason": "vendor area label alone cannot exclude (areas are not exclusive); "
+                           "no readable indication gives an area"}
+                for c in ta_claims)
+            areas = set()
         if areas:
             result.facts.append(
                 self._fact(asset, "therapeutic_area", sorted(areas),

@@ -24,6 +24,7 @@ from bve.dealscreen.facts import (
 )
 from bve.dealscreen.models import IdentityFlag, LandscapeAsset
 from bve.se.gates.engine import GateEngine
+from bve.se.ontology.therapeutic_areas import UNSPECIFIED, canonical_therapeutic_area
 from bve.se.schemas.contracts import GateStatus, OverallDisposition
 
 SCREENING_VERSION = "dealscreen_screening_v1"
@@ -57,6 +58,8 @@ class AssetScreen:
     machine_recommendation: str
     commercial: CommercialAssessment
     identity_flag_ids: list[str] = field(default_factory=list)
+    #: Qualified indication names read as their NCIt parent (cycle A1 F2), shown to the analyst.
+    indication_readings: list[dict[str, str]] = field(default_factory=list)
     #: Active analyst assertions on this asset, with citations.
     analyst_assertions: list[dict[str, Any]] = field(default_factory=list)
     #: Assertions that replaced a readable, different source value.
@@ -127,16 +130,20 @@ def screen_landscape(
         for asset_id in flag.asset_ids:
             flags_by_asset.setdefault(asset_id, []).append(flag.flag_id)
 
+    # Canonical names on both sides; the "no area requirement" sentinel means no requirement (review A1-1).
+    requested_areas = frozenset(
+        canonical_therapeutic_area(str(getattr(a, "value", a)))
+        for a in spec.problem.strategic_gap.therapeutic_areas) - {UNSPECIFIED}
     screens: list[AssetScreen] = []
     for asset in sorted(assets, key=lambda a: a.asset_id):
-        facts = builder.build(asset, review)
+        facts = builder.build(asset, review, requested_areas)
         evaluation = engine.evaluate(spec.problem, subject_id=asset.asset_id, facts=facts.facts)
         effects: list[dict[str, Any]] = []
         if any(a.asset_id == asset.asset_id for a in review.assertions):
             without = dataclasses.replace(
                 review, assertions=tuple(a for a in review.assertions if a.asset_id != asset.asset_id))
             base = engine.evaluate(spec.problem, subject_id=asset.asset_id,
-                                   facts=builder.build(asset, without).facts)
+                                   facts=builder.build(asset, without, requested_areas).facts)
             before = {d.requirement_id: (d.analyst_override or d.status).value for d in base.decisions}
             for d in evaluation.decisions:
                 now = (d.analyst_override or d.status).value
@@ -169,6 +176,7 @@ def screen_landscape(
                 review_reasons=reasons,
                 facts=[f.model_dump(mode="json") for f in facts.facts],
                 unreadable_claims=facts.unreadable,
+                indication_readings=facts.indication_readings,
                 stage_order=facts.stage_order,
                 activity=facts.activity,
                 modality=facts.modality,
