@@ -1,0 +1,55 @@
+# PREVIEW - not human-approved; not a DealScreen valuation. This is the exact config the
+# valuation handoff would run. Inputs are the analyst's hypothetical assumptions; edit and run
+# with bve-dealscreen-value (deal terms) or bve-asset (standalone) to reproduce or challenge.
+analyst_notes: 'PREVIEW, NOT APPROVED: not a DealScreen valuation (NOT a human-approved
+  finalist; disposition UNRESOLVED). DealScreen handoff for RC118 (BVE_PUBLIC_SOURCES
+  CL-25). Financial inputs: ai-analyst-C (AI_PREPARED, NOT human-approved) [HYPOTHETICAL
+  (cycle C1 shared inputs) + AI_PREPARED assumptions; not sourced facts].'
+asset:
+  id: ds-1aa423abe25c
+  name: RC118
+  indication: Advanced Solid Tumor; Locally Advanced Solid Tumor; Metastatic Solid
+    Tumor; Unresectable Solid Tumor
+  therapeutic_area: oncology
+  stage: phase_2
+  modality: biologic
+  discount_rate: 0.1
+  royalty_rate: 0.0
+company:
+  id: asset-level-valuation
+  name: RemeGen Co., Ltd. (asset-level; balance sheet not modelled)
+  cash_millions: 0.0
+  debt_millions: 0.0
+  shares_outstanding_millions: 1.0
+trials:
+- phase: phase_2
+  success_probability: 0.35
+  duration_years: 2.0
+  cost_millions: 60
+- phase: phase_3
+  success_probability: 0.5
+  duration_years: 3.0
+  cost_millions: 180
+- phase: nda_bla
+  success_probability: 0.9
+  duration_years: 1.0
+  cost_millions: 20
+market_model:
+  addressable_patients_annual: 6000
+  net_price_per_patient_usd: 150000
+  peak_penetration: 0.15
+  years_to_peak: 5
+  patent_life_years: 12
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.35
+  sgna_rate_mature: 0.2
+pos_adjusters:
+  apply_pos_model: false
+limitations:
+- Hypothetical analyst-owned financial assumptions; not sourced facts.
+- 'Company NAV fields are placeholders: this is an asset-level valuation.'
+- Peak sales include a 0.80 compliance factor (engine default; not settable through
+  the bve-asset loader).
+deal_economics:
+  upfront_cost_millions: 400
+  milestones: []

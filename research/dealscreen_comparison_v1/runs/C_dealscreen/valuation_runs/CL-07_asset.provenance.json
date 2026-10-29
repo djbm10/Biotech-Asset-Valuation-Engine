@@ -1,0 +1,8 @@
+{
+  "config": "cfg_CL-07_asset.yaml",
+  "config_sha256": "efe5b49cf64f24ef41ea2e8fd9a0af25dcbf752a953f7ead26dc39fbe87fb1f1",
+  "deal_economics": null,
+  "label": "PROTOTYPE valuation path (DealScreen); Lane 1 quant + clinical sign-off pending",
+  "n_sims": 2000,
+  "seed": 42
+}

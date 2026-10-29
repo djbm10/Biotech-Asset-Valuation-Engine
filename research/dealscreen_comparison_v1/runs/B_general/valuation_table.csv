@@ -1,0 +1,19 @@
+program,remaining_phases,deal,scenario,peak_sales_musd,cum_pos,buyer_npv_musd
+CL-16 ATG-022,phase_3+nda_bla,license,bear,90.0,0.288,-357.6
+CL-16 ATG-022,phase_3+nda_bla,license,base,135.0,0.45,-378.4
+CL-16 ATG-022,phase_3+nda_bla,license,bull,180.0,0.6,-382.3
+CL-16 ATG-022,phase_3+nda_bla,acquisition,bear,90.0,0.288,-547.7
+CL-16 ATG-022,phase_3+nda_bla,acquisition,base,135.0,0.45,-497.8
+CL-16 ATG-022,phase_3+nda_bla,acquisition,bull,180.0,0.6,-429.5
+CL-07 LM-302,phase_3+nda_bla,license,bear,90.0,0.288,-357.6
+CL-07 LM-302,phase_3+nda_bla,license,base,135.0,0.45,-378.4
+CL-07 LM-302,phase_3+nda_bla,license,bull,180.0,0.6,-382.3
+CL-07 LM-302,phase_3+nda_bla,acquisition,bear,90.0,0.288,-547.7
+CL-07 LM-302,phase_3+nda_bla,acquisition,base,135.0,0.45,-497.8
+CL-07 LM-302,phase_3+nda_bla,acquisition,bull,180.0,0.6,-429.5
+CL-27 SKB315,phase_2+phase_3+nda_bla,license,bear,90.0,0.0806,-219.6
+CL-27 SKB315,phase_2+phase_3+nda_bla,license,base,135.0,0.1575,-240.5
+CL-27 SKB315,phase_2+phase_3+nda_bla,license,bull,180.0,0.252,-258.0
+CL-27 SKB315,phase_2+phase_3+nda_bla,acquisition,bear,90.0,0.0806,-494.2
+CL-27 SKB315,phase_2+phase_3+nda_bla,acquisition,base,135.0,0.1575,-488.3
+CL-27 SKB315,phase_2+phase_3+nda_bla,acquisition,bull,180.0,0.252,-470.3

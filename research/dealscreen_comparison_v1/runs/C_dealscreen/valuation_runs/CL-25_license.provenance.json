@@ -1,0 +1,33 @@
+{
+  "config": "cfg_CL-25_license.yaml",
+  "config_sha256": "1a05be15cbcd8027312b54dc3cea7fa635468a966878740f39427077729be8cd",
+  "deal_economics": {
+    "cdev_cost_share": 1.0,
+    "launch_year_offset": 0.0,
+    "milestones": [
+      {
+        "amount_millions": 150.0,
+        "description": "phase_2 success (AI assumption: 150 of 500)",
+        "direction": "payable",
+        "sales_threshold_millions": null,
+        "trigger": "phase_success",
+        "trigger_phase": "phase_2"
+      },
+      {
+        "amount_millions": 350.0,
+        "description": "Approval (AI assumption: 350 of 500)",
+        "direction": "payable",
+        "sales_threshold_millions": null,
+        "trigger": "approval",
+        "trigger_phase": null
+      }
+    ],
+    "profit_share_rate": 0.0,
+    "royalty_rate": 0.12,
+    "upfront_cost_millions": 100.0,
+    "upfront_receipt_millions": 0.0
+  },
+  "label": "PROTOTYPE valuation path (DealScreen); Lane 1 quant + clinical sign-off pending",
+  "n_sims": 2000,
+  "seed": 42
+}

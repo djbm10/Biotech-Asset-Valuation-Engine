@@ -1,0 +1,4 @@
+/home/djmann/projects/bve-b8/.venv/lib/python3.11/site-packages/pydantic/main.py:280: UserWarning: MarketModel for asset 'ds-1aa423abe25c' is using a linear uptake ramp. For specialty pharma assets (oncology, rare disease, CNS), an S-curve better reflects realistic KOL-driven adoption. Set adoption_curve_mode='s_curve' to suppress this warning.
+  validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+RC118: rNPV $-473.0M (bull -411.0 / base -473.0 / bear -489.0) -> val/CL-25_acquisition.json
+Perspective: rNPV with deal terms applied (upfront_cost_millions=400.0, cdev_cost_share=1.0); payable/receivable per DealEconomics fields. Discount rate used: 10.0%; peak sales include a 0.80 compliance factor (engine default; not settable through the bve-asset loader). PROTOTYPE valuation path (DealScreen); Lane 1 quant + clinical sign-off pending.
