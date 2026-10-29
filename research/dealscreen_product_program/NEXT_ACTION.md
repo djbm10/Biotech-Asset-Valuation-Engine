@@ -9,12 +9,16 @@
 
 1. Read `PRODUCT_GOAL.md`, `SCORECARD.md` (latest sections at the bottom) and this file.
 2. Confirm the branch and that `git status` shows only the user files above.
-3. Run the DealScreen tests (expect 248 passed):
+3. Run the DealScreen tests (expect 305 passed):
    `TMPDIR=$HOME/.cache/dealscreen_suite python -m pytest tests/dealscreen -q -p no:cacheprovider`
    `/tmp` is a small tmpfs; keep test temp files on the home disk.
 4. For any cycle that changes screening, re-run
    `python research/dealscreen_product_program/cycle4/equivalence.py $HOME/.cache/cycle4_ws`
    (needs the ontology, ~5 min). Expect byte-identical results on all four workspaces.
+
+## Comparison cycle C1 (2026-10-29)
+
+See `research/dealscreen_comparison_v1/REPORT.md`. Verdict: no demonstrated advantage over general Claude. Next: (1) resolve the critic's transaction-view false OPENs (IBI343, SHR-A1904) by importing vendor rights/deal fields; (2) give each tool-UNKNOWN a concrete next action to reduce anchoring; (3) review X1 isoform reading for landscape tuning; (4) Gate H human session.
 
 ## Analyst-simulation loop
 
