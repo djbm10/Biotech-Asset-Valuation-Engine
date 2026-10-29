@@ -190,6 +190,9 @@ def main(argv: list[str] | None = None) -> int:
         "deal_economics": deal.model_dump(mode="json") if deal is not None else None,
         "n_sims": args.n_sims,
         "seed": args.seed,
+        # Saved with the result, not only printed: an analyst who redirects output must still see them.
+        "perspective": perspective_line(output, deal),
+        "warnings": [w for w in [ordering_warning(output.summary_dict)] if w],
     }
     out.with_suffix(".provenance.json").write_text(json.dumps(provenance, indent=2, sort_keys=True))
     s = output.summary_dict

@@ -90,3 +90,4 @@ the ontology loaded).
 - **P8 / P10 (DealScreen's own prototype CLI, not the protected engine).** `bve-dealscreen-value`
   now prints the engine's effective tax rate with the perspective line and warns when bear/base/bull
   are out of order. The engine's own reporting (P8/P9 in the Lane 1 proposal) is unchanged.
+- **P10b (after C3).** The C3 analyst redirected output to files and reported that out-of-order scenarios were not flagged; the warning was console-only. It is now also saved in `*.provenance.json` with the perspective line.

@@ -135,6 +135,107 @@
   ],
   "reference_top_size": 15
  },
+ "runs/C2_dealscreen_after_fixes": {
+  "reference_IN_found": 29,
+  "reference_IN_total": 30,
+  "wrong_exclusions": [],
+  "reference_IN_unresolved": [
+   "CL-38"
+  ],
+  "wrong_inclusions": [],
+  "identity_groups_split": [],
+  "identity_contradictory_calls": [
+   [
+    "CL-20",
+    "CL-21"
+   ]
+  ],
+  "identity_wrong_merges": [],
+  "availability_asserted": [],
+  "shortlist": [
+   "CL-16",
+   "CL-24",
+   "CL-29",
+   "CL-27",
+   "CL-07",
+   "CL-20",
+   "CL-31",
+   "CL-13",
+   "CL-25",
+   "CL-37"
+  ],
+  "shortlist_critical": {},
+  "shortlist_same_molecule_twice": [],
+  "shortlist_overlap_reference_top": [
+   "CL-07",
+   "CL-13",
+   "CL-16",
+   "CL-20",
+   "CL-24",
+   "CL-25",
+   "CL-27",
+   "CL-29",
+   "CL-31",
+   "CL-37"
+  ],
+  "reference_top_size": 15
+ },
+ "runs/C3_dealscreen_final": {
+  "reference_IN_found": 23,
+  "reference_IN_total": 30,
+  "wrong_exclusions": [],
+  "reference_IN_unresolved": [
+   "CL-25",
+   "CL-38",
+   "CL-39",
+   "CL-43",
+   "CL-44",
+   "CL-46",
+   "CL-51"
+  ],
+  "wrong_inclusions": [],
+  "identity_groups_split": [
+   [
+    "CL-20",
+    "CL-21"
+   ]
+  ],
+  "identity_contradictory_calls": [
+   [
+    "CL-20",
+    "CL-21"
+   ]
+  ],
+  "identity_wrong_merges": [],
+  "availability_asserted": [],
+  "shortlist": [
+   "CL-07",
+   "CL-20",
+   "CL-16",
+   "CL-13",
+   "CL-08",
+   "CL-27",
+   "CL-24",
+   "CL-29",
+   "CL-31",
+   "CL-37"
+  ],
+  "shortlist_critical": {},
+  "shortlist_same_molecule_twice": [],
+  "shortlist_overlap_reference_top": [
+   "CL-07",
+   "CL-08",
+   "CL-13",
+   "CL-16",
+   "CL-20",
+   "CL-24",
+   "CL-27",
+   "CL-29",
+   "CL-31",
+   "CL-37"
+  ],
+  "reference_top_size": 15
+ },
  "runs/C_dealscreen [tool, with analyst target map]": {
   "reference_IN_found": 8,
   "reference_IN_total": 30,
