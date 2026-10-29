@@ -101,6 +101,26 @@ bve-dealscreen export   --workspace $W --out $W/deliverables/dealscreen.xlsx
 bve-dealscreen memo     --workspace $W --out $W/deliverables/bd_memo.md
 ```
 
+Entering facts you found yourself, and identity decisions:
+
+```bash
+# a human analyst enters a cited fact (URL + verbatim quote); re-screen to apply it
+bve-dealscreen assert  --workspace $W --asset RW-08 --field target --value FCGRT \
+    --source-url https://... --quote "verbatim sentence" --reviewer jdoe --rationale "10-Q"
+# an AI assistant cannot assert; it proposes, and a different human confirms
+bve-dealscreen propose --workspace $W --asset RW-08 --field target --value FCGRT \
+    --source-url https://... --quote "verbatim sentence" --reviewer ai-assistant
+bve-dealscreen decide  --workspace $W --action CONFIRM_FINDING --subject <prop:... id printed above> \
+    --new-state CONFIRMED --reviewer jdoe --rationale "checked the quote at the URL"
+# identity flags (printed at import and by `queue`): SAME_MOLECULE, DIFFERENT_MOLECULE or UNSURE.
+# A human SAME_MOLECULE groups records for counting in the memo; records are never merged.
+bve-dealscreen decide  --workspace $W --action RESOLVE_IDENTITY_FLAG --subject batoclimab \
+    --new-state SAME_MOLECULE --reviewer jdoe --rationale "RVT-1401 is the former code"
+```
+
+Valuation configs for `bve-dealscreen-value` put `discount_rate` under `asset:` and deal terms
+under `deal_economics:`; unknown top-level keys are refused rather than ignored.
+
 `research --provider ctgov` queries public ClinicalTrials.gov for an asset's own registered
 `NCT` IDs, at most 5 per question. The synthetic landscape uses `SYNTRIAL-` IDs, so the
 demo never reaches a real record.
