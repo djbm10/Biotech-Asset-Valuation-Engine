@@ -392,7 +392,8 @@ class Workspace:
         block = assumptions_doc.get("assets", {}).get(asset.external_id)
         if block is not None:
             block = {"owner": assumptions_doc.get("owner"), "label": assumptions_doc.get("label"), **block}
-        readiness = check_readiness(asset, block, screened_stage_order=screen.get("stage_order"))
+        readiness = check_readiness(asset, block, screened_stage_order=screen.get("stage_order"),
+                                    market_status=screen.get("market_status"))
         if not readiness.ready or block is None:
             raise DecisionRejected(f"{asset.external_id} is NOT READY for valuation: "
                                    + "; ".join(readiness.missing or ["no assumptions block"]))
@@ -439,7 +440,8 @@ class Workspace:
             if block is not None:
                 block = {"owner": assumptions_doc.get("owner"), "label": assumptions_doc.get("label"), **block}
             readiness: Readiness = check_readiness(
-                asset, block, screened_stage_order=screening[asset_id].get("stage_order"))
+                asset, block, screened_stage_order=screening[asset_id].get("stage_order"),
+                market_status=screening[asset_id].get("market_status"))
             entry: dict[str, Any] = {"selected": selected, "readiness": asdict(readiness), "runs": []}
             if selected and readiness.ready and block is not None:
                 indication = ", ".join(

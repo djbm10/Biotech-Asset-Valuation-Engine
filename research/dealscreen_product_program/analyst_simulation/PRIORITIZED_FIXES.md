@@ -202,3 +202,39 @@ these records may be the same molecule; see identity flags)". Counts and disposi
 
 **J4 criteria.** No "( reviewers)" text with zero finalists; Valuation Inputs header names the
 landscape's data source.
+
+## Cycle A5 — stage semantics and approval statements (criteria before code)
+
+Raised independently by the A1 critic ("rozanolixizumab curated as Phase 4"), the A2 analyst (#7: the
+offline library holds UCB's FDA-approval sentence but no stage finding is raised) and the A3 analyst
+(memo omits "marketed per source" for RW-03). Today stage order 6 is labelled "Phase 4 or marketed"
+for any of: a Phase 4 study, an ex-U.S. approval, or U.S. marketing.
+
+**K1 criteria (market status, display only).**
+- Each asset gets `market_status`: `US_MARKETED` when a status claim says marketed in the U.S. (or an FDA
+  label/approval); `MARKETED_NO_US_STATEMENT` when it says marketed/approved without a
+  jurisdiction; `PHASE4_STUDY_ONLY` when the phase is Phase 4 and no marketing claim exists; otherwise
+  none. Negated wording ("not approved", "not marketed") never sets a marketed status.
+- Memo and workbook show this instead of "Phase 4 or marketed". The commercial-stage valuation block
+  stays (stage order 6 still means approved somewhere), but its reason names the evidence: "U.S.-marketed
+  per source" vs "Phase 4 study; approval jurisdiction not stated".
+- No gate, disposition or rank changes (verified with the equivalence check and real-landscape pins).
+
+**K2 criteria (agent reads approval statements).**
+- The STAGE question proposes `development_status = "Marketed in U.S. (FDA approval stated in source)"`
+  when a sentence naming the asset says it was approved by the U.S. FDA. Not for: "submitted",
+  "accepted for review", "seeking approval", "not approved", "approval of [another drug]", or approval by
+  another agency only.
+- It is a finding: nothing changes until a human confirms it.
+- Real library: rozanolixizumab (RW-03) gets one such finding from UCB's release; no other asset does.
+- **K1 amendment (during build).** The value is named MARKETED_NO_US_STATEMENT: 'Approved in China' states a jurisdiction, just not the U.S.
+- **A5 review amendments (independent AI code review, before commit).** K1 rewritten clause by clause:
+  the U.S. must be named in the same clause as a product approval; IND, designation, protocol and
+  trial approvals do not count; negation and hedges are per clause; lowercase "us" is not the U.S.
+  K2 rewritten clause by clause with more phrasings ("received FDA approval", "U.S. approval of X",
+  "approved in the U.S.", "approved by the EMA and FDA"); hedges checked only inside the approval
+  clause; "expected", supplemental and sBLA/sNDA approvals excluded. Disclosed consequence (criteria
+  correction): once a human confirms a K2 finding, the asset's activity becomes MARKETED, which no
+  longer counts as "active development" in the buyer's ranking preference; this follows the buyer's
+  declared rule and is pinned by a test. Stage 6 without market evidence reads "Phase 4 or marketed
+  (no market evidence in source)".

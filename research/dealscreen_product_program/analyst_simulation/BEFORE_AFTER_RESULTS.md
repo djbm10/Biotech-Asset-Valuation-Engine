@@ -72,3 +72,11 @@ Measured by re-screening copies of the A2 analyst's own workspaces with the new 
 | A config setting `market_model.compliance_rate` | silently ignored | refused on DealScreen paths, naming the key |
 | Headline eligible count with 3 records of one molecule | no warning | funnel line states how many eligible records share open identity flags |
 | Engine labelling/source-table defects (P3-P7) | present | **unchanged** (protected); written up for Lane 1 |
+
+## Cycle A5
+
+| Measure | Before | After |
+|---|---|---|
+| Real stage-6 rows labelled "Phase 4 or marketed" | 10 | 0 (8 "Marketed in U.S. per source", 2 "Phase 4 study (approval jurisdiction not stated)") |
+| Approval statements turned into proposals | 0 | 1 (RW-03 from UCB's release; awaits a human) |
+| Gates / dispositions / ranks changed | — | none |

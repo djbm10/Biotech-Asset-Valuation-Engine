@@ -76,6 +76,40 @@ _PHASE_ORDER = {"1": 2, "1b": 2, "1/2": 2, "i": 2, "2": 3, "2a": 3, "2b": 3, "2/
 _PHASE_LABEL = {2: "Phase 1", 3: "Phase 2", 4: "Phase 3"}
 
 
+#: A stated U.S. FDA approval of the named asset (cycle A5 K2).
+#: U.S. approval phrasings (cycle A5 K2, widened after review A5-3).
+_US_APPROVAL_PHRASE = re.compile(
+    r"\bapproved by (?:the )?(?:\w+ and )?(?:the )?(?:u\.?s\.? )?(?:food and drug administration|fda)\b"
+    r"|\b(?:u\.?s\.? )?(?:fda|food and drug administration)(?: has)? approved\b"
+    r"|\b(?:fda|u\.?s\.?) approval (?:of|for)\b"
+    r"|\breceived (?:u\.?s\.? )?(?:fda|food and drug administration) approval\b"
+    r"|\bapproved in the (?:u\.?s\.?|united states)\b",
+    re.IGNORECASE)
+#: Hedges, negations and non-initial approvals, checked inside the approval clause only (review A5-3/4).
+_NOT_APPROVED = re.compile(
+    r"\b(?:not|no longer|seeking|submitted|submission|accepted for|under review|pending|plans? to|"
+    r"expect(?:s|ed)?|anticipat\w*|potential|if approved|supplemental|sbla|snda|label expansion)\b",
+    re.IGNORECASE)
+_APPROVAL_CLAUSE = re.compile(r"[;,]|\bwhile\b|\bwhereas\b|\bbut\b|\bwith\b", re.IGNORECASE)
+US_MARKETED_VALUE = "Marketed in U.S. (FDA approval stated in source)"
+
+
+def us_approval_stated(sentence: str, names: list[str]) -> bool:
+    """A clause of the sentence names the asset and states its U.S. FDA approval (cycle A5 K2).
+
+    The name, the approval phrase and the absence of hedges are all checked inside one clause, so
+    "X is used with Y, approved by the FDA" or "following FDA approval of Y, X entered Phase 3" do
+    not count for X. Conservative: a name separated from the phrase by a comma is missed.
+    """
+    keys = [n.casefold() for n in names if len(n) >= 3]
+    for clause in _APPROVAL_CLAUSE.split(sentence):
+        if not _US_APPROVAL_PHRASE.search(clause) or _NOT_APPROVED.search(clause):
+            continue
+        if any(k in clause.casefold() for k in keys):
+            return True
+    return False
+
+
 def _names(asset: LandscapeAsset) -> list[str]:
     return [asset.program_name, *asset.aliases]
 
@@ -115,12 +149,12 @@ class TextExtractor:
             for sentence in _SENTENCE.split(doc.text):
                 if not _mentions(sentence, names):
                     continue
-                for field, value in self._read(question, sentence):
+                for field, value in self._read(question, sentence, names):
                     findings.append(self._finding(asset, question, field, value, doc, sentence, now))
         unique = {f.finding_id: f for f in findings}
         return [unique[k] for k in sorted(unique)]
 
-    def _read(self, question: Question, sentence: str) -> list[tuple[str, str]]:
+    def _read(self, question: Question, sentence: str, names: list[str] | None = None) -> list[tuple[str, str]]:
         out: list[tuple[str, str]] = []
         if question in (Question.TARGET, Question.PRIORITY):
             for match in _TARGET_PHRASE.finditer(sentence):
@@ -131,6 +165,8 @@ class TextExtractor:
             orders = [_PHASE_ORDER[m.group(1).casefold()] for m in _PHASE.finditer(sentence)]
             if orders:
                 out.append(("phase", _PHASE_LABEL[max(orders)]))
+            if question is Question.STAGE and us_approval_stated(sentence, names or []):
+                out.append(("development_status", US_MARKETED_VALUE))
         if question in (Question.US_RIGHTS, Question.PRIORITY) and re.search(r"\brights?\b|licen", sentence, re.IGNORECASE):
             status = rights_status(sentence)
             if status != "UNKNOWN":

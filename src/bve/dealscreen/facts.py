@@ -101,6 +101,44 @@ def is_combination(program_name: str) -> bool:
     return len(parts) > 1 and len(drugs) > 1
 
 
+_CLAUSE = re.compile(r"[;,]|\bwhile\b|\bwhereas\b|\bbut\b", re.IGNORECASE)
+_PRODUCT_APPROVAL = re.compile(r"\b(marketed|approved|approval|launched|commercially available)\b", re.IGNORECASE)
+#: Regulatory events that are not a marketing approval (review A5-1/2).
+_NOT_MARKETING = re.compile(r"\b(ind|designation|fast track|breakthrough|orphan|clearance|irb|protocol|"
+                            r"trial|study|cta|priority review|accepted)\b", re.IGNORECASE)
+_NEGATION = re.compile(r"\b(not|never|no longer|not yet|withdrawn|pending|seeking|expected|planned)\b",
+                       re.IGNORECASE)
+#: A positive U.S. jurisdiction in the same clause. "us" only as capitalised US / U.S.
+_US_JURISDICTION = re.compile(r"(?<![-\w])(?:U\.S\.|US|USA|United States|FDA|Food and Drug Administration)\b")
+_EX_US = re.compile(r"\b(ex-?\s?u\.?s\.?|outside (?:the )?u\.?s\.?)", re.IGNORECASE)
+
+
+def market_status(status_texts: list[str], phase_texts: list[str]) -> str | None:
+    """US_MARKETED, MARKETED_NO_US_STATEMENT, PHASE4_STUDY_ONLY or None (cycle A5 K1).
+
+    Read clause by clause: a clause counts only when it states a product approval or marketing,
+    is not negated or hedged, is not another regulatory event (IND, designation, protocol), and
+    names the U.S. in that same clause. Display only: no gate reads it.
+    """
+    us = other = False
+    for text in status_texts:
+        for clause in _CLAUSE.split(text):
+            if (not _PRODUCT_APPROVAL.search(clause) or _NOT_MARKETING.search(clause)
+                    or _NEGATION.search(clause)):
+                continue
+            if _US_JURISDICTION.search(clause) and not _EX_US.search(clause):
+                us = True
+            else:
+                other = True
+    if us:
+        return "US_MARKETED"
+    if other:
+        return "MARKETED_NO_US_STATEMENT"
+    if any(re.search(r"\bphase\s*(4|iv)\b", t.casefold()) for t in phase_texts):
+        return "PHASE4_STUDY_ONLY"
+    return None
+
+
 def combine_activity(statuses: list[str]) -> str:
     """One activity value from several status claims (review A2-4).
 
@@ -137,6 +175,8 @@ class AssetFacts:
     target_symbols: list[str] = field(default_factory=list)
     #: Analyst assertions that replaced a readable, different source value on their field.
     overrides: list[dict[str, Any]] = field(default_factory=list)
+    #: Display-only market status (cycle A5 K1); never read by a gate.
+    market_status: str | None = None
     #: Qualified indication names also read as their NCIt parent (cycle A1 F2), disclosed.
     indication_readings: list[dict[str, str]] = field(default_factory=list)
 
@@ -305,6 +345,9 @@ class FactBuilder:
             )
         statuses = [activity_status(c.value_as_written) for c in claims if c.field == "development_status"]
         result.activity = combine_activity(statuses)
+        result.market_status = market_status(
+            [c.value_as_written for c in claims if c.field == "development_status"],
+            [c.value_as_written for c in claims if c.field == "phase"])
         return result
 
     def _single_valued(

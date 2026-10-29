@@ -78,13 +78,23 @@ COMMERCIAL_STAGE_REASON = (
 )
 
 
+_MARKET_EVIDENCE = {
+    "US_MARKETED": "U.S.-marketed per source",
+    "MARKETED_NO_US_STATEMENT": "marketed or approved per source, U.S. status not stated",
+    "PHASE4_STUDY_ONLY": "Phase 4 study; approval jurisdiction not stated (confirm before relying on this block)",
+}
+
+
 def check_readiness(
-    asset: LandscapeAsset, assumptions: dict[str, Any] | None, *, screened_stage_order: int | None = None
+    asset: LandscapeAsset, assumptions: dict[str, Any] | None, *, screened_stage_order: int | None = None,
+    market_status: str | None = None,
 ) -> Readiness:
     commercial = (screened_stage_order is not None and screened_stage_order >= COMMERCIAL_STAGE_ORDER) or (
         bool(assumptions) and (assumptions or {}).get("stage") == "approved")
     if commercial:
-        return Readiness(asset.asset_id, False, missing=[COMMERCIAL_STAGE_REASON])
+        evidence = _MARKET_EVIDENCE.get(market_status or "")
+        reason = f"{COMMERCIAL_STAGE_REASON} [evidence: {evidence}]" if evidence else COMMERCIAL_STAGE_REASON
+        return Readiness(asset.asset_id, False, missing=[reason])
     if not assumptions:
         return Readiness(
             asset.asset_id, False,

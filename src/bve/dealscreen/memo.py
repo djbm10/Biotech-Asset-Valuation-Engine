@@ -25,6 +25,22 @@ STAGE_LABEL = {0: "Discovery", 1: "Preclinical", 2: "Phase 1", 3: "Phase 2", 4: 
                5: "Registration", 6: "Phase 4 or marketed"}
 
 
+MARKET_LABEL = {
+    "US_MARKETED": "Marketed in U.S. per source",
+    "MARKETED_NO_US_STATEMENT": "Marketed or approved per source (no U.S. statement)",
+    "PHASE4_STUDY_ONLY": "Phase 4 study (approval jurisdiction not stated)",
+}
+
+
+def stage_label(screen: dict[str, Any]) -> str:
+    """Stage in words; stage order 6 is split by market evidence (cycle A5 K1)."""
+    if screen.get("stage_order") == 6 and screen.get("market_status") in MARKET_LABEL:
+        return MARKET_LABEL[screen["market_status"]]
+    if screen.get("stage_order") == 6:
+        return "Phase 4 or marketed (no market evidence in source)"
+    return STAGE_LABEL.get(screen.get("stage_order"), "stage unknown")  # type: ignore[arg-type]
+
+
 def _m(value: float | None) -> str:
     return "n/a" if value is None else f"${value:,.0f}M"
 
@@ -141,7 +157,7 @@ def build_memo(ws: Workspace) -> str:
         twin += (f"; **identity flag: may be the same molecule as {', '.join(twins)} (not merged; do not "
                  "count separately until reviewed)**") if twins else ""
         twin += _ACTIVITY_NOTE.get(s.get("activity", ""), "")
-        lines.append(f"- {s['program_name']} ({s['company']}): {STAGE_LABEL.get(s['stage_order'], 'stage unknown')}"
+        lines.append(f"- {s['program_name']} ({s['company']}): {stage_label(s)}"
                      f"{flag}; U.S. rights {s['commercial']['display'].lower()}{twin}")
     lines.append("")
 

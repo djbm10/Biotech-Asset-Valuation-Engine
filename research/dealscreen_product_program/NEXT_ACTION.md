@@ -9,7 +9,7 @@
 
 1. Read `PRODUCT_GOAL.md`, `SCORECARD.md` (latest sections at the bottom) and this file.
 2. Confirm the branch and that `git status` shows only the user files above.
-3. Run the DealScreen tests (expect 212 passed):
+3. Run the DealScreen tests (expect 248 passed):
    `TMPDIR=$HOME/.cache/dealscreen_suite python -m pytest tests/dealscreen -q -p no:cacheprovider`
    `/tmp` is a small tmpfs; keep test temp files on the home disk.
 4. For any cycle that changes screening, re-run
@@ -18,7 +18,7 @@
 
 ## Analyst-simulation loop
 
-See `analyst_simulation/`. Cycles A1-A4 done (A4: valuation transparency on DealScreen paths; engine findings P1-P7 proposed for Lane 1 in `docs/change_requests/proposed/valuation_transparency_from_analyst_simulation.md`). Next: the deferred backlog in `analyst_simulation/PRIORITIZED_FIXES.md` (approval-statement stage extraction, CT.gov research noise, partnerability as a buyer-declared preference).
+See `analyst_simulation/`. Cycles A1-A5 done (A5: market status vs Phase 4 and approval-statement proposals; A4: valuation transparency on DealScreen paths; engine findings P1-P7 proposed for Lane 1 in `docs/change_requests/proposed/valuation_transparency_from_analyst_simulation.md`). Next: the deferred backlog in `analyst_simulation/PRIORITIZED_FIXES.md` (approval-statement stage extraction, CT.gov research noise, partnerability as a buyer-declared preference).
 
 ## Gate H session package: PREPARED (not run). See `gate_h_session/SESSION_PROTOCOL.md`. Running it needs a real BD professional.
 

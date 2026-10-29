@@ -96,3 +96,21 @@
    set compliance is refused instead of silently ignored (test). DealScreen tests 212.
 6. **Still unsupported:** reproducible revenue bridge and honest assumption-source table (protected,
    proposal), valuation of marketed programs (no model), partnerability, Gate H.
+
+## Cycle A5 (2026-10-29)
+
+1. **Tried:** recurring findings from the A1 critic and A2/A3 analysts: "Phase 4" read as marketed;
+   UCB's FDA-approval sentence for rozanolixizumab in the library but no stage finding.
+2. **Changed:** K1 display-only market status (U.S.-marketed per source / marketed with no U.S. statement /
+   Phase 4 study only), used in memo, workbook and the commercial-block reason; K2 the agent proposes a
+   "Marketed in U.S." finding from a clause that names the asset and states its FDA approval.
+3. **Independent AI code review:** both first versions were wrong in ways that recreate the danger they
+   addressed ("US-based company; approved in EU" read as U.S.-marketed; hedge words anywhere suppressed
+   true statements; a name elsewhere in the sentence matched someone else's approval). Both rewritten
+   clause by clause, 30+ adversarial cases pinned. A disclosed consequence: a human-confirmed U.S.
+   approval makes activity MARKETED, which the buyer's "active development" preference does not count.
+4. **Measured:** real landscape stage-6 rows: 8 U.S.-marketed per source, 2 Phase 4 study only
+   (rozanolixizumab, telitacicept), where all 10 previously read "Phase 4 or marketed". The library
+   yields exactly one approval proposal (RW-03, UCB release). No gate, disposition or rank changed
+   (equivalence byte-identical; pins unchanged). DealScreen tests 248.
+5. **Still open:** confirming the RW-03 finding needs a human; ex-U.S. approvals are not extracted.

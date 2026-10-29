@@ -16,6 +16,7 @@ from typing import Any
 
 from bve.dealscreen import DEALSCREEN_VERSION, VALIDATION_GRADE, VALIDATION_WARNING
 from bve.dealscreen.groups import identity_groups
+from bve.dealscreen.memo import stage_label
 from bve.dealscreen.screening import explain_preference_key
 from bve.dealscreen.valuation_handoff import _compliance_limitation
 from bve.dealscreen.workspace import Workspace
@@ -183,6 +184,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
             explain_preference_key(spec, s["preference_key"], s["activity"]) if s["rank"] else "",
             "; ".join(f"{u['field']} '{u['value']}': {u.get('reason', 'not readable by the field normalizer')}"
                       for u in s.get("unreadable_claims", [])),
+            stage_label(s),
         ])
     _sheet(wb, "Screening", [
         "Asset id", "Program", "Aliases", "Company (per source)", "External id", "Scientific disposition",
@@ -196,6 +198,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         "Identity group (human-confirmed same molecule; records not merged)",
         "Rank reasons (compared left to right; rule unchanged by DealScreen)",
         "Source values not used, and why",
+        "Stage / market status in words",
     ], screening_rows, note=f"Gate engine: bve.se GateEngine. {screening['ranking_rule']}",
         widths={2: 26, 6: 16})
 

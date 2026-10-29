@@ -58,6 +58,8 @@ class AssetScreen:
     machine_recommendation: str
     commercial: CommercialAssessment
     identity_flag_ids: list[str] = field(default_factory=list)
+    #: Display-only market status (cycle A5 K1); never read by a gate.
+    market_status: str | None = None
     #: Qualified indication names read as their NCIt parent (cycle A1 F2), shown to the analyst.
     indication_readings: list[dict[str, str]] = field(default_factory=list)
     #: Active analyst assertions on this asset, with citations.
@@ -194,6 +196,7 @@ def screen_landscape(
                 facts=[f.model_dump(mode="json") for f in facts.facts],
                 unreadable_claims=facts.unreadable,
                 indication_readings=facts.indication_readings,
+                market_status=facts.market_status,
                 stage_order=facts.stage_order,
                 activity=facts.activity,
                 modality=facts.modality,
