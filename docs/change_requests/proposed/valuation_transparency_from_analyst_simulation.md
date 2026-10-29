@@ -18,3 +18,13 @@ were reproduced by engineering; they are not human-validated.
 DealScreen-side mitigations already in place (no engine change): unread keys refused on the
 DealScreen paths; the compliance factor disclosed on every DealScreen valuation display; the
 perspective line states the discount rate and whether deal terms were applied.
+
+## Addendum (2026-10-29): findings from the CLDN18.2 comparison (cycle C1)
+
+Source: `research/dealscreen_comparison_v1/CRITIC_BASELINE.md` (frozen 77775ef). AI-simulated.
+
+| # | Finding | Proposed change | Owner |
+|---|---|---|---|
+| P8 | `effective_tax_rate: 0.21` is applied but appears only in `valuation.json`, not in any summary a reader sees; the critic could not reproduce the base rNPV by hand without discovering it | Print the tax rate (and its source) in the console summary and the assumptions table | Lane 1 |
+| P9 | Bull/bear scenario shocks are applied but not listed as assumptions; reproducing a bull or bear number needs a re-run with the seed | List each scenario's shocks in the output and assumptions table | Lane 1 |
+| P10 | The prototype deal path can print out-of-order bear/base/bull without a warning (the DealScreen handoff flags this; the direct CLI does not) | Run the same ordering check in the prototype CLI | Lane 1 (prototype sign-off) |
