@@ -75,3 +75,24 @@
   Disputed: the reviewer called "T-DXd + pembrolizumab" a false positive; it is two drugs, so it
   stays a combination. Unconfirmed agent findings never enter the claims, so a source + finding mix
   occurs only after a human confirms, which is meant to apply. DealScreen tests 209.
+
+## Cycle A4 (2026-10-29)
+
+1. **Tried (A3 re-test, frozen c589367):** S&E regression on both buyers, then a thorough BD Finance
+   attempt to obtain, reproduce and challenge valuations for up to 3 programs.
+2. **Happened:** screening held (no wrong in/out calls on either buyer; ranks explainable). Valuation:
+   only IMVT-1402 had complete inputs; P(approval) and cost PV reproduced by hand; peak sales did not
+   (320 vs 400); setting `compliance_rate: 1.0` changed nothing; revenue-PV labels and the assumption
+   source table misled; marketed programs (4 of 6 FcRn eligibles) cannot be valued at all.
+3. **BD Finance objection:** a number whose bridge from inputs cannot be reproduced cannot go to a
+   Finance Director.
+4. **Changed (DealScreen only):** J1 unread `market_model` keys refused on DealScreen paths; the
+   engine's compliance default disclosed (value read from the engine, not hard-coded) in memo,
+   workbook, preview configs and the perspective line. J3 funnel line warns when eligible records
+   share open identity flags. J4 cosmetic fixes. **Engine findings P1-P7 written up as a Lane 1
+   proposal** (`docs/change_requests/proposed/valuation_transparency_from_analyst_simulation.md`); the
+   protected loader and engine were not changed.
+5. **Measured:** the 320-vs-400 gap is now explained on every DealScreen display; a config that tries to
+   set compliance is refused instead of silently ignored (test). DealScreen tests 212.
+6. **Still unsupported:** reproducible revenue bridge and honest assumption-source table (protected,
+   proposal), valuation of marketed programs (no model), partnerability, Gate H.

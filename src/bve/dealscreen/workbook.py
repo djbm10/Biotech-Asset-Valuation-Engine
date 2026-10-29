@@ -17,6 +17,7 @@ from typing import Any
 from bve.dealscreen import DEALSCREEN_VERSION, VALIDATION_GRADE, VALIDATION_WARNING
 from bve.dealscreen.groups import identity_groups
 from bve.dealscreen.screening import explain_preference_key
+from bve.dealscreen.valuation_handoff import _compliance_limitation
 from bve.dealscreen.workspace import Workspace
 
 MARKER = "BVE DealScreen companion workbook"
@@ -303,8 +304,9 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
             input_rows.append([asset_id, asset.program_name, "warning", warning, "", "DealScreen check", ""])
     _sheet(wb, "Valuation Inputs", ["Asset id", "Program", "Input", "Value", "Unit", "Source / owner",
                                     "Readiness"], input_rows,
-           note="Financial assumptions are HYPOTHETICAL analyst inputs for the synthetic demo, not "
-                "sourced facts. Nothing here is derived from a drug's name, target or phase.",
+           note="Financial assumptions are HYPOTHETICAL analyst inputs, not sourced facts "
+                f"(landscape: {ws.import_result().manifest.license_status} data). Nothing here is derived "
+                "from a drug's name, target or phase. " + _compliance_limitation(),
            widths={3: 40, 6: 48})
 
     # 6. Valuation Scenarios & 7. Deal Comparison --------------------------------------

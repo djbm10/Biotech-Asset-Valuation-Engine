@@ -167,3 +167,38 @@ with the matching flag ids listed. README example uses a flag id.
 "re-run screen" hint; README sheet count corrected.
 - **H2 amendment (during build).** Rank reasons per program appear in the workbook only; the memo
   has a one-page budget (600 words, an existing test) and points to the workbook column instead.
+
+## Cycle A4 — from the frozen A3 re-test (ANALYST_FINDINGS_A3.md, c589367); criteria before code
+
+**Diagnosis of the valuation findings (engineering, after the freeze).**
+- D1 (peak sales 320 vs 400): `MarketModel.compliance_rate` defaults to 0.80
+  (`src/bve/models/market_model.py`), and the shared `bve-asset` loader
+  (`src/bve/cli/run_asset.py::_build_objects`) builds `MarketModel` from a fixed list of 13 keys that
+  excludes `compliance_rate`, `gross_to_net_rate` and `price_basis`. A user's value is dropped silently.
+  The analyst's "setting it to 1.0 changes nothing" is therefore a loader defect, not a formula error.
+- D2, D3, D4, D6 (revenue-PV labels, authoritative-looking sources attached to hypothetical inputs,
+  redundant or mislabelled tornado rows, an undisclosed post-patent tail) are all in the protected
+  valuation engine and its reporting. **Not changed here.** They need Lane 1 sign-off and go into a
+  written proposal.
+
+| Rank | Id | Problem (A3 #) | Decision |
+|---|---|---|---|
+| 1 | J1 | Market inputs silently dropped by the loader; the 0.80 compliance default is invisible (D1) | FIX in DealScreen: refuse unread `market_model` keys; disclose the 0.80 default wherever DealScreen shows a valuation or config. Engine and loader unchanged; proposal written |
+| 2 | J2 | Engine output labelling and sources (D2-D6) | PROPOSAL only (protected) |
+| 3 | J3 | Headline "6 eligible" counts one molecule three times (D8) | FIX: funnel line states how many eligible records sit in open identity flags |
+| 4 | J4 | Memo "Finalists: 0 ( reviewers)" (D11); workbook says "synthetic demo" on real data (D12) | FIX |
+| — | — | Zilucoplan "Protein" and gefurulimab blank target (D7): source-data gaps with an in-tool path (`propose` → human confirmation) | No code change |
+| — | — | Marketed programs cannot be valued (D10): no commercial-stage model exists | BACKLOG (scope; Lane 1) |
+| — | — | Unresolved queue order (D9), pydantic warning (D13) | BACKLOG |
+
+**J1 criteria.** `bve-dealscreen-value` and the handoff refuse `market_model` keys the loader does not
+read (exit 2, naming the key and noting that `bve-asset` would ignore it). Every DealScreen valuation
+display (memo driver line, perspective line, preview config limitations) states "peak sales include a
+0.80 compliance factor (engine default; not settable through the bve-asset loader)". Results unchanged
+for valid configs.
+
+**J3 criteria.** When eligible records share an open identity flag, the memo funnel line adds "(N of
+these records may be the same molecule; see identity flags)". Counts and dispositions unchanged.
+
+**J4 criteria.** No "( reviewers)" text with zero finalists; Valuation Inputs header names the
+landscape's data source.

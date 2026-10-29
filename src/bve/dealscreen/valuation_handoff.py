@@ -102,6 +102,12 @@ def check_readiness(
     return Readiness(asset.asset_id, not missing, missing=missing, defaults_used=defaults)
 
 
+def _compliance_limitation() -> str:
+    from bve.cli.dealscreen_value import COMPLIANCE_NOTE
+
+    return COMPLIANCE_NOTE[0].upper() + COMPLIANCE_NOTE[1:] + "."
+
+
 def build_config(
     asset: LandscapeAsset,
     assumptions: dict[str, Any],
@@ -142,6 +148,7 @@ def build_config(
         "limitations": [
             "Hypothetical analyst-owned financial assumptions; not sourced facts.",
             "Company NAV fields are placeholders: this is an asset-level valuation.",
+            _compliance_limitation(),
         ],
     }
     if deal:

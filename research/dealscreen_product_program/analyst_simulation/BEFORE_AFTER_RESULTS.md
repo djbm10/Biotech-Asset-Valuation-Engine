@@ -63,3 +63,12 @@ Measured by re-screening copies of the A2 analyst's own workspaces with the new 
 | BD Finance can see the exact valuation config without approval | no | `value-config` writes it, labelled PREVIEW; nothing run or recorded |
 | Rank reasons visible | no | workbook column per program |
 | README identity example works | no | yes (flag ids printed by `queue`; a name resolving to several flags lists their ids) |
+
+## Cycle A4 (fixes from the A3 re-test)
+
+| Measure | Before A4 | After A4 |
+|---|---|---|
+| Peak sales 320 vs 400 explained to the reader | no (invisible ×0.80) | yes, on memo, workbook, preview config and console (factor read from the engine default) |
+| A config setting `market_model.compliance_rate` | silently ignored | refused on DealScreen paths, naming the key |
+| Headline eligible count with 3 records of one molecule | no warning | funnel line states how many eligible records share open identity flags |
+| Engine labelling/source-table defects (P3-P7) | present | **unchanged** (protected); written up for Lane 1 |

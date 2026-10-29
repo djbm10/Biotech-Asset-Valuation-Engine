@@ -44,6 +44,24 @@ MISPLACED_KEY_HINTS = {
 }
 
 
+#: market_model keys the shared bve-asset loader passes to MarketModel (run_asset._build_objects).
+#: Anything else (e.g. compliance_rate, gross_to_net_rate, price_basis) is dropped by that loader.
+KNOWN_MARKET_MODEL_KEYS = frozenset({
+    "total_addressable_market_millions", "addressable_patients_annual", "net_price_per_patient_usd",
+    "peak_penetration", "years_to_peak", "patent_life_years", "cogs_rate", "sgna_rate_launch",
+    "sgna_rate_mature", "lines_of_therapy", "competition_model", "lifecycle_events", "commercial_inputs",
+})
+#: Disclosed on every DealScreen valuation display (cycle A4 J1).
+def _compliance_default() -> float:
+    from bve.models.market_model import MarketModel
+
+    return float(MarketModel.model_fields["compliance_rate"].default)
+
+
+COMPLIANCE_NOTE = (f"peak sales include a {_compliance_default():.2f} compliance factor (engine default; "
+                   "not settable through the bve-asset loader)")
+
+
 class ConfigKeyError(ValueError):
     """The config has top-level keys nothing reads; refusing beats silently using defaults."""
 
@@ -55,6 +73,12 @@ def check_top_level_keys(cfg: dict[str, Any]) -> None:
             f"{k!r} is not read" + (f" (did you mean {MISPLACED_KEY_HINTS[k]}?)" if k in MISPLACED_KEY_HINTS else "")
             for k in unknown)
         raise ConfigKeyError(f"unknown top-level config key(s): {details}. Nothing was valued.")
+    market = cfg.get("market_model") or {}
+    dropped = sorted(set(market) - KNOWN_MARKET_MODEL_KEYS) if isinstance(market, dict) else []
+    if dropped:
+        raise ConfigKeyError(
+            f"market_model key(s) {dropped} are not read by the bve-asset loader and would be silently "
+            f"ignored (e.g. compliance stays at the 0.80 default). Nothing was valued.")
 
 
 def build_deal_economics(block: dict[str, Any] | None):
@@ -125,7 +149,7 @@ def perspective_line(output: Any, deal: Any) -> str:
     else:
         terms = ", ".join(f"{k}={v}" for k, v in deal.model_dump(mode="json").items() if v not in (None, [], 0, 0.0))
         view = f"rNPV with deal terms applied ({terms or 'defaults'}); payable/receivable per DealEconomics fields"
-    return f"Perspective: {view}. Discount rate used: {rate_text}. {PROTOTYPE_LABEL}."
+    return f"Perspective: {view}. Discount rate used: {rate_text}; {COMPLIANCE_NOTE}. {PROTOTYPE_LABEL}."
 
 
 def main(argv: list[str] | None = None) -> int:

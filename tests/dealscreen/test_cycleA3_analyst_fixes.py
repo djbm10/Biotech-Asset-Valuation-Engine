@@ -174,3 +174,30 @@ def test_review_a3_3_unused_source_values_are_listed_in_the_workbook(c5, tmp_pat
     col = header.index("Source values not used, and why")
     texts = [r[col] for r in rows[rows.index(header) + 1:] if r and r[col]]
     assert any("combination product" in t for t in texts)
+
+
+# -- cycle A4 (from the frozen A3 re-test) ---------------------------------------------
+def test_j1_unread_market_keys_refused_and_compliance_disclosed(fcrn, tmp_path):
+    from bve.cli.dealscreen_value import ConfigKeyError, check_top_level_keys
+
+    ids = {a.external_id: a.asset_id for a in fcrn.assets()}
+    config = fcrn.preview_config(ids["RW-08"], REAL / "valuation_assumptions_hypothetical.yaml")
+    check_top_level_keys(config)  # the handoff's own config passes
+    assert any("0.80 compliance" in lim for lim in config["limitations"])
+    config["market_model"]["compliance_rate"] = 1.0
+    with pytest.raises(ConfigKeyError, match="compliance_rate"):
+        check_top_level_keys(config)
+
+
+def test_j3_funnel_line_warns_about_open_identity_flags(fcrn):
+    from bve.dealscreen.memo import build_memo
+
+    funnel = next(line for line in build_memo(fcrn).splitlines() if line.startswith("**Funnel.**"))
+    assert "3 of the eligible records share open identity flags" in funnel
+
+
+def test_j4_no_empty_reviewer_heading(fcrn):
+    from bve.dealscreen.memo import build_memo
+
+    text = build_memo(fcrn)
+    assert "( reviewers)" not in text and "**Finalists: none recorded**" in text

@@ -29,6 +29,12 @@ def _m(value: float | None) -> str:
     return "n/a" if value is None else f"${value:,.0f}M"
 
 
+def _compliance() -> float:
+    from bve.cli.dealscreen_value import _compliance_default
+
+    return _compliance_default()
+
+
 _ACTIVITY_NOTE = {
     "INACTIVE": "; source status suggests development stopped (verify)",
     "MARKETED": "; marketed per source",
@@ -81,6 +87,15 @@ def build_memo(ws: Workspace) -> str:
         "",
     ]
     groups = identity_groups(ws.flags(), log)
+    eligible_set = {s["asset_id"] for s in eligible}
+    open_flagged = {a for f in ws.flags()
+                    if log.state.identity_resolutions.get(f.flag_id, {}).get("state")
+                    not in {"SAME_MOLECULE", "DIFFERENT_MOLECULE", "KEEP_SEPARATE"}
+                    for a in f.asset_ids if a in eligible_set and len(set(f.asset_ids) & eligible_set) > 1}
+    if open_flagged:
+        funnel_line = next(i for i, line in enumerate(lines) if line.startswith("**Funnel.**"))
+        lines[funnel_line] += (f" ({len(open_flagged)} of the eligible records share open identity flags "
+                               "and may be the same molecule; see identity flags.)")
     eligible_ids = [s["asset_id"] for s in eligible]
     if any(a in groups for a in eligible_ids):
         lines += [
@@ -108,6 +123,8 @@ def build_memo(ws: Workspace) -> str:
     elif kinds == {"SYNTHETIC_FIXTURE"}:
         heading = (f"**Finalists: {len(finalists)} approved by the labelled SYNTHETIC reviewer "
                    "fixture, not a real analyst**")
+    elif not finalists:
+        heading = "**Finalists: none recorded**"
     else:
         heading = f"**Finalists: {len(finalists)} ({', '.join(sorted(kinds))} reviewers)**"
     lines.append(heading + " (rank order by declared preferences, reasons per program in the workbook "
@@ -154,7 +171,8 @@ def build_memo(ws: Workspace) -> str:
             + (f"; to the buyer after terms: {deals}" if deals else "")
             + f". Drivers: {market.get('addressable_patients_annual', 0):,} patients × "
             f"${market.get('net_price_per_patient_usd', 0):,.0f} × {market.get('peak_penetration', 0):.0%} "
-            f"peak share; P(approval) {base['cumulative_success_probability']:.0%}."
+            f"peak share × {_compliance():.2f} compliance (engine default); P(approval) "
+            f"{base['cumulative_success_probability']:.0%}."
             + (" Scenarios are out of label order because the program is cost-dominated at these inputs "
                "(value-destroying, not a computation error)."
                if any(c["status"] != "ORDERED" for c in checks.values()) else "")
