@@ -288,6 +288,13 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--source-title", default=""); p.add_argument("--source-date", default="")
     p.add_argument("--reviewer", required=True); p.add_argument("--rationale", required=True)
     p.add_argument("--reviewer-kind", default="HUMAN", choices=[k.value for k in ReviewerKind])
+    p = sub.add_parser("propose", help="AI assistant: propose one cited fact for a human to confirm")
+    ws_arg(p); norm_arg(p)
+    p.add_argument("--asset", required=True); p.add_argument("--field", required=True)
+    p.add_argument("--value", required=True); p.add_argument("--source-url", required=True)
+    p.add_argument("--quote", required=True, help="the evidence span, verbatim")
+    p.add_argument("--source-title", default=""); p.add_argument("--source-date", default="")
+    p.add_argument("--reviewer", required=True, help="the assistant's identifier")
     p = sub.add_parser("retract", help="withdraw an assertion by its decision id"); ws_arg(p)
     p.add_argument("--assertion", required=True); p.add_argument("--reviewer", required=True)
     p.add_argument("--rationale", required=True)
@@ -354,6 +361,22 @@ def main(argv: list[str] | None = None) -> int:
                                      "evidence_span": args.quote})
             print(f"recorded {rec['decision_id']}: {args.field}={args.value!r} on {rec['subject_id']}. "
                   "Re-run `screen` to apply it.")
+        elif args.command == "propose":
+            assets = {a.external_id: a.asset_id for a in ws.assets()}
+            finding = ws.propose(
+                assets.get(args.asset, args.asset),
+                {"field": args.field, "value": args.value, "source_url": args.source_url,
+                 "source_title": args.source_title, "source_date": args.source_date,
+                 "evidence_span": args.quote},
+                reviewer_id=args.reviewer, target_normalizer=_normalizer(args) if args.target_map else None)
+            prior = ws.decision_log().state.findings.get(finding.finding_id)
+            if prior:
+                print(f"ALREADY {prior}: {finding.finding_id} was proposed before and a reviewer marked it "
+                      f"{prior}. Nothing new was recorded.")
+                return 0
+            print(f"proposed {finding.finding_id}: {args.field}={args.value!r}. It changes nothing until a "
+                  f"HUMAN runs: decide --action CONFIRM_FINDING --subject {finding.finding_id} "
+                  "--new-state CONFIRMED --reviewer <name> --rationale <why>")
         elif args.command == "retract":
             rec = _decide(ws, action="RETRACT_FACT", subject=args.assertion, new_state="RETRACTED",
                           reviewer=args.reviewer, rationale=args.rationale,

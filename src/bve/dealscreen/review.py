@@ -58,6 +58,11 @@ _AI_ALLOWED = {"APPROVE_FINALIST", "WITHDRAW_FINALIST", "SELECT_FOR_VALUATION",
                "DESELECT_FOR_VALUATION", "REQUEST_DILIGENCE"}
 
 
+#: Identity resolutions (cycle A2 G2). KEEP_SEPARATE is the legacy spelling of DIFFERENT_MOLECULE,
+#: accepted so earlier logs and the synthetic fixture stay valid.
+IDENTITY_RESOLUTIONS = frozenset({"SAME_MOLECULE", "DIFFERENT_MOLECULE", "UNSURE", "KEEP_SEPARATE"})
+
+
 class DecisionRejected(ValueError):
     """The action is not allowed in the current state; nothing was written."""
 
@@ -76,6 +81,10 @@ class ReviewState:
     valuation_selected: dict[str, dict[str, Any]] = field(default_factory=dict)
     #: Active assertions by decision id (retracted ones are removed, never edited).
     assertions: dict[str, dict[str, Any]] = field(default_factory=dict)
+    #: Content hash of each finding when it was confirmed (None for older logs).
+    finding_hashes: dict[str, str | None] = field(default_factory=dict)
+    #: Latest identity resolution per flag, with who decided it (cycle A2 G2).
+    identity_resolutions: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def subject_state(self, action: Action, subject_id: str) -> str:
         if action in (Action.CONFIRM_CLAIM, Action.REJECT_CLAIM):
@@ -95,13 +104,23 @@ class ReviewState:
         return "SELECTED" if subject_id in self.valuation_selected else "NOT_SELECTED"
 
     def review_inputs(self, findings: list[AgentFinding]) -> ReviewInputs:
-        confirmed = {f for f, s in self.findings.items() if s == "CONFIRMED"}
+        # A confirmed finding whose content changed after confirmation is not applied (review A2-3).
+        confirmed = {f for f, s in self.findings.items() if s == "CONFIRMED"
+                     and self.finding_hashes.get(f) in (None, *(finding_hash(x) for x in findings
+                                                                if x.finding_id == f))}
         return ReviewInputs(
             rejected_claim_ids=frozenset(c for c, s in self.claims.items() if s == "REJECTED"),
             confirmed_claim_ids=frozenset(c for c, s in self.claims.items() if s == "CONFIRMED"),
             confirmed_findings=tuple(f for f in findings if f.finding_id in confirmed),
             assertions=tuple(AnalystAssertion(**a) for a in self.assertions.values()),
         )
+
+
+def finding_hash(finding: AgentFinding) -> str:
+    """Hash of what a reviewer confirms: the value, field, source and quote."""
+    body = {k: str(getattr(finding, k)) for k in
+            ("finding_id", "asset_id", "field", "proposed_value", "source_url", "evidence_span")}
+    return hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
 
 
 def _hash(record: dict[str, Any]) -> str:
@@ -117,10 +136,12 @@ def _apply(state: ReviewState, record: dict[str, Any]) -> None:
         state.claims[subject] = new
     elif action in (Action.CONFIRM_FINDING, Action.REJECT_FINDING):
         state.findings[subject] = new
+        state.finding_hashes[subject] = record["detail"].get("finding_sha256")
     elif action is Action.REQUEST_DILIGENCE:
         state.diligence_requests.setdefault(subject, []).append(record["detail"].get("question", ""))
     elif action is Action.RESOLVE_IDENTITY_FLAG:
         state.identity_flags[subject] = new
+        state.identity_resolutions[subject] = {"state": new, **_who(record)}
     elif action is Action.APPROVE_FINALIST:
         state.finalists[subject] = {"state": new, **_who(record)}
     elif action is Action.WITHDRAW_FINALIST:
@@ -199,18 +220,27 @@ class DecisionLog:
                 raise DecisionRejected(
                     f"an AI-prepared record cannot {action.value}: evidence is confirmed or "
                     "rejected only by a human analyst"
+                    + ("; an assistant can record it for a human with `propose`"
+                       if action is Action.ASSERT_FACT else "")
                 )
             if action is Action.APPROVE_FINALIST and new_state != AI_CANDIDATE_STATE:
                 raise DecisionRejected(
                     f"an AI-prepared record can only list a candidate ({AI_CANDIDATE_STATE}); "
                     "approval needs a human analyst"
                 )
+        if action is Action.RESOLVE_IDENTITY_FLAG and new_state not in IDENTITY_RESOLUTIONS:
+            raise DecisionRejected(
+                f"identity resolution {new_state!r} is not recognised; use SAME_MOLECULE, "
+                "DIFFERENT_MOLECULE or UNSURE"
+            )
         if action is Action.ASSERT_FACT:
             _check_assertion(detail or {})
             if context is None:
                 raise DecisionRejected("an assertion is checked against the workspace; pass its context")
         if context is not None:
-            context.check(action, subject_id, self.state, new_state, reviewer_kind)
+            context.check(action, subject_id, self.state, new_state, reviewer_kind, reviewer_id)
+            if action is Action.CONFIRM_FINDING and subject_id in context.finding_hashes:
+                detail = {**(detail or {}), "finding_sha256": context.finding_hashes[subject_id]}
             if action is Action.ASSERT_FACT and context.readable is not None:
                 d = detail or {}
                 if not context.readable(d["field"], d["value"]):
@@ -259,6 +289,14 @@ def _check_assertion(detail: dict[str, Any]) -> None:
         )
     if not str(detail["source_url"]).startswith(("http://", "https://")):
         raise DecisionRejected("source_url must be an http(s) link to the cited source")
+    raw_date = str(detail.get("source_date") or "").strip()
+    if raw_date:
+        from datetime import date as _date
+
+        try:
+            _date.fromisoformat(raw_date)
+        except ValueError as exc:
+            raise DecisionRejected(f"source_date {raw_date!r} must be YYYY-MM-DD") from exc
     if detail["field"] == "us_rights":
         from bve.dealscreen.commercial import rights_status
 
@@ -281,15 +319,23 @@ class DecisionContext:
     max_valuations: int = 3
     #: (field, value) -> whether the value can be read; checked for ASSERT_FACT only.
     readable: Any = None
+    #: finding_id -> proposer id for AI proposals (the proposer cannot confirm its own proposal).
+    finding_proposers: dict[str, str] = field(default_factory=dict)
+    #: finding_id -> content hash, snapshotted into the confirming record (review A2-3).
+    finding_hashes: dict[str, str] = field(default_factory=dict)
 
     def check(
         self, action: Action, subject_id: str, state: ReviewState, new_state: str = "",
-        reviewer_kind: ReviewerKind = ReviewerKind.HUMAN,
+        reviewer_kind: ReviewerKind = ReviewerKind.HUMAN, reviewer_id: str | None = None,
     ) -> None:
         if action in (Action.CONFIRM_CLAIM, Action.REJECT_CLAIM) and subject_id not in self.claim_ids:
             raise DecisionRejected(f"unknown claim {subject_id!r}")
         if action in (Action.CONFIRM_FINDING, Action.REJECT_FINDING) and subject_id not in self.finding_ids:
             raise DecisionRejected(f"unknown agent finding {subject_id!r}")
+        if (action is Action.CONFIRM_FINDING and reviewer_id is not None
+                and self.finding_proposers.get(subject_id) == reviewer_id):
+            raise DecisionRejected("the assistant that proposed a fact cannot confirm it; a different "
+                                   "human analyst must check the quote")
         if action is Action.RESOLVE_IDENTITY_FLAG and subject_id not in self.flag_ids:
             raise DecisionRejected(f"unknown identity flag {subject_id!r}")
         if action is Action.RETRACT_FACT and subject_id not in state.assertions:

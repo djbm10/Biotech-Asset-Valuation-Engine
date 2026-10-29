@@ -1,0 +1,52 @@
+# HELD-OUT hypothetical buyer (cycle A2 re-test). Written after the A1/A2 fixes and committed
+# BEFORE the re-test; no fix was designed against it. INTERNAL DEVELOPMENT.
+statement: Identify clinical-stage (Phase 2 or later) inhibitors of terminal complement
+  (C5) in myasthenia gravis, antibody or peptide. Exclude other mechanisms, cell therapies
+  and small molecules. Prefer Phase 3 or marketed evidence. Keep scientific suitability
+  separate from U.S. rights, ownership and licensing availability, none of which is
+  assumed.
+problem:
+  problem_id: dealscreen_real_c5_gmg_heldout
+  version: '1'
+  buyer:
+    buyer_id: hypothetical_buyer_c5
+    name: "Hypothetical Pharma BD \u2014 C5 (held-out case, INTERNAL DEVELOPMENT)"
+    as_of_date: '2026-10-28'
+  strategic_gap:
+    therapeutic_areas:
+    - AUTOIMMUNE
+    indications:
+    - myasthenia gravis
+    target_expression:
+      operator: ANY
+      targets:
+      - canonical_id: C5
+        label: Complement C5
+    modalities:
+    - MONOCLONAL_ANTIBODY
+    - BISPECIFIC_ANTIBODY
+    - PEPTIDE
+    required_biology:
+    - requirement_id: biology.mechanism_direction
+      domain: ELIGIBILITY
+      fact_type: mechanism_direction
+      operator: EQ
+      expected_value: ANTAGONIST
+      pass_condition: The program inhibits C5 (antagonist / inhibitor).
+      fail_condition: The stated mechanism is not antagonism.
+      unknown_condition: The mechanism text states no direction.
+    phase_constraint:
+      operator: MINIMUM
+      phases:
+      - PHASE2
+preferences:
+  preferred_minimum_phase: PHASE3
+  prefer_active_development: true
+  prefer_more_registered_trials: true
+  buyer_capability_modalities:
+  - MONOCLONAL_ANTIBODY
+  relevant_market: US
+commercial:
+  required_market: US
+max_finalists: 10
+max_valuations: 3

@@ -88,6 +88,20 @@ def activity_status(text: str) -> str:
     return "UNKNOWN"
 
 
+def combine_activity(statuses: list[str]) -> str:
+    """One activity value from several status claims (review A2-4).
+
+    UNKNOWN is silence, not disagreement; ACTIVE with MARKETED is compatible (a marketed product
+    with ongoing trials). Only genuinely different readings are CONFLICTING.
+    """
+    known = set(statuses) - {"UNKNOWN"}
+    if not known:
+        return "UNKNOWN"
+    if known == {"ACTIVE", "MARKETED"}:
+        return "ACTIVE"
+    return known.pop() if len(known) == 1 else "CONFLICTING"
+
+
 @dataclass(frozen=True)
 class ReviewInputs:
     """The parts of the analyst decision log that change facts."""
@@ -268,8 +282,7 @@ class FactBuilder:
                            ta_claims or indication_claims, [], confirmed)
             )
         statuses = [activity_status(c.value_as_written) for c in claims if c.field == "development_status"]
-        result.activity = statuses[0] if statuses and len(set(statuses)) == 1 else (
-            "CONFLICTING" if statuses else "UNKNOWN")
+        result.activity = combine_activity(statuses)
         return result
 
     def _single_valued(

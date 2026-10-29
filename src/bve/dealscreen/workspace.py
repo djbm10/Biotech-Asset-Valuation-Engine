@@ -37,7 +37,7 @@ from bve.dealscreen.identity import DrugAuthority, identity_flags
 from bve.dealscreen.importer import import_landscape
 from bve.dealscreen.mapping import MappingProfile
 from bve.dealscreen.models import AgentFinding, IdentityFlag, ImportResult, LandscapeAsset
-from bve.dealscreen.review import DecisionContext, DecisionLog
+from bve.dealscreen.review import DecisionContext, DecisionLog, finding_hash
 from bve.dealscreen.screening import ScreeningResult, screen_landscape
 from bve.dealscreen.valuation_handoff import (
     Readiness,
@@ -294,11 +294,15 @@ class Workspace:
 
         screening = self.screening()
         assets = self.assets()
+        findings = self.findings()
         return DecisionContext(
             dispositions={s["asset_id"]: s["disposition"] for s in screening["screens"]},
             claim_ids={c.claim_id for a in assets for c in a.claims},
-            finding_ids={f.finding_id for f in self.findings()},
+            finding_ids={f.finding_id for f in findings},
             flag_ids={f.flag_id for f in self.flags()},
+            finding_proposers={f.finding_id: f.provider.removeprefix("ai_proposal:") for f in findings
+                               if f.provider.startswith("ai_proposal:")},
+            finding_hashes={f.finding_id: finding_hash(f) for f in findings},
             max_finalists=spec.max_finalists,
             max_valuations=spec.max_valuations,
             readable=readable,
@@ -322,6 +326,52 @@ class Workspace:
         _dump(self.root / "findings.json",
               [existing[k].model_dump(mode="json") for k in sorted(existing)])
         return new
+
+    def propose(
+        self, asset_id: str, detail: dict[str, Any], *, reviewer_id: str,
+        target_normalizer: TargetNormalizer | None = None,
+    ) -> AgentFinding:
+        """Record an AI assistant's cited fact as a proposal for a human (cycle A2 G1).
+
+        The same checks as a human assertion apply. The proposal is an agent finding: it changes
+        nothing until a HUMAN confirms it with CONFIRM_FINDING.
+        """
+        import hashlib
+        from datetime import UTC, date, datetime
+
+        from bve.dealscreen.review import DecisionRejected, _check_assertion
+
+        if not reviewer_id.strip():
+            raise DecisionRejected("a proposal needs a reviewer identifier")
+        if asset_id not in {a.asset_id for a in self.assets()}:
+            raise DecisionRejected(f"unknown asset {asset_id!r}")
+        _check_assertion(detail)
+        normalizer = target_normalizer or self.cached_normalizer() or ontology_target_normalizer()
+        if not FactBuilder(self.profile(), normalizer).readable(detail["field"], detail["value"]):
+            raise DecisionRejected(f"{detail['value']!r} cannot be read as a {detail['field']} value")
+        key = "|".join(str(detail.get(k, "")) for k in ("field", "value", "source_url", "evidence_span"))
+        raw_date = str(detail.get("source_date") or "").strip()
+        finding = AgentFinding(
+            finding_id=f"prop:{asset_id}:{hashlib.sha256(key.encode()).hexdigest()[:12]}",
+            asset_id=asset_id,
+            question="AI_PROPOSAL",
+            field=detail["field"],
+            proposed_value=detail["value"],
+            source_url=detail["source_url"],
+            source_title=str(detail.get("source_title") or detail["source_url"]),
+            document_date=date.fromisoformat(raw_date) if raw_date else None,
+            evidence_span=detail["evidence_span"],
+            provider=f"ai_proposal:{reviewer_id}",
+            limitations=["proposed by an AI assistant; re-check the quote at the URL before confirming",
+                         "changes nothing until a human analyst confirms it"],
+            retrieved_at=datetime.now(UTC).isoformat(timespec="seconds"),
+        )
+        existing = {f.finding_id: f for f in self.findings()}
+        if finding.finding_id in existing:
+            return existing[finding.finding_id]
+        existing[finding.finding_id] = finding
+        _dump(self.root / "findings.json", [existing[k].model_dump(mode="json") for k in sorted(existing)])
+        return finding
 
     # -- step 4: valuation ------------------------------------------------------------
     def value_selected(

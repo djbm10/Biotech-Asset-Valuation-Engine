@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 
 from bve.dealscreen import DEALSCREEN_VERSION, VALIDATION_GRADE, VALIDATION_WARNING
+from bve.dealscreen.groups import identity_groups
 from bve.dealscreen.workspace import Workspace
 
 MARKER = "BVE DealScreen companion workbook"
@@ -153,6 +154,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         for d in s["decisions"]:
             if d["requirement_id"] not in requirement_ids:
                 requirement_ids.append(d["requirement_id"])
+    groups = identity_groups(ws.flags(), log)
     screening_rows = []
     order = {"ELIGIBLE": 0, "UNRESOLVED": 1, "EXCLUDED": 2}
     for s in sorted(screens, key=lambda s: (order[s["disposition"]], s["rank"] or 10**6, s["program_name"])):
@@ -175,6 +177,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
             _effects_text(s),
             "; ".join(f"'{r['observed']}' read as '{r['read_as']}' ({r['qualifier']})"
                       for r in s.get("indication_readings", [])),
+            groups.get(s["asset_id"], ""),
         ])
     _sheet(wb, "Screening", [
         "Asset id", "Program", "Aliases", "Company (per source)", "External id", "Scientific disposition",
@@ -185,6 +188,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         "Cited claim ids (asset:field:value-hash; row in Landscape)", "Analyst assertions", "Source values overridden by analyst",
         "Gate changes caused by assertions",
         "Indication names read as their NCIt parent (DealScreen policy v1)",
+        "Identity group (human-confirmed same molecule; records not merged)",
     ], screening_rows, note=f"Gate engine: bve.se GateEngine. {screening['ranking_rule']}",
         widths={2: 26, 6: 16})
 
@@ -211,7 +215,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         state = log.state.identity_flags.get(flag.flag_id, "OPEN")
         for asset_id in flag.asset_ids:
             diligence_rows.append([asset_id, by_id[asset_id]["program_name"], f"IDENTITY_{flag.kind}",
-                                   flag.flag_id, flag.basis, "Decide: keep separate or merge",
+                                   flag.flag_id, flag.basis, "Decide (human): SAME_MOLECULE, DIFFERENT_MOLECULE or UNSURE; records are never merged",
                                    f"shared value {flag.shared_value!r}; relationship {flag.relationship}",
                                    "Shared codes are not identity evidence", state, flag.flag_id])
     for f in findings:

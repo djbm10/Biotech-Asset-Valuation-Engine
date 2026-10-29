@@ -2,21 +2,21 @@
  "synthetic_200": {
   "byte_identical": true,
   "fast_path": true,
-  "cached_screen_seconds_in_process": 0.84
+  "cached_screen_seconds_in_process": 0.81
  },
  "real_v1": {
   "byte_identical": true,
   "fast_path": true,
-  "cached_screen_seconds_in_process": 0.72
+  "cached_screen_seconds_in_process": 0.74
  },
  "real_v2": {
   "byte_identical": true,
   "fast_path": true,
-  "cached_screen_seconds_in_process": 0.63
+  "cached_screen_seconds_in_process": 0.67
  },
  "real_v1_with_cycle1_assertions": {
   "byte_identical": true,
   "fast_path": true,
-  "cached_screen_seconds_in_process": 0.7
+  "cached_screen_seconds_in_process": 0.68
  }
 }

@@ -88,3 +88,46 @@ review queue.
 - Real landscape: no disposition changes except RW-29 (stays EXCLUDED on target); its TA gate goes
   FAIL → UNKNOWN. Synthetic demo funnel unchanged, or every change explained.
 - S&E gate code unchanged.
+
+## Cycle A2 — ranked list and criteria (written before code, 2026-10-28)
+
+| Rank | Id | Problem | Decision |
+|---|---|---|---|
+| 1 | G1 (was D2) | The AI assistant finds cited evidence (e.g. the Immunovant 10-Q for IMVT-1402) but cannot hand it to a human: the human must redo the research. Analyst finding #8. | FIX: AI proposal → human confirmation |
+| 2 | G2 (was D3, partial) | Identity resolution takes any free-text state and changes nothing downstream; batoclimab still counts as three programs in the funnel and memo. | FIX: closed vocabulary; human-confirmed same-molecule groups shown and counted; records are not merged |
+| 3 | G3 | A terminated program (orilanolimab) is ELIGIBLE and its memo line does not say development stopped. | FIX: disclose source activity on candidate lines; ranking rule unchanged (a ranking change is a buyer-preference decision) |
+
+**G1 criteria.**
+- New command `bve-dealscreen propose` records a cited proposal (field, value, http(s) URL,
+  title, date, verbatim quote) as an agent finding with provider `ai_proposal:<reviewer>`.
+- Same checks as a human assertion: assertable field, readable value, http(s) URL, non-empty
+  quote, and a rights value must be stated by its quote. Refused proposals write nothing.
+- A proposal changes nothing until a HUMAN confirms it (`decide --action CONFIRM_FINDING`); an
+  AI_PREPARED confirmation stays refused. The screen before confirmation is byte-identical to
+  the screen without the proposal.
+- The finding carries the limitation "proposed by an AI assistant; re-check the quote at the URL
+  before confirming". The memo lists the number of proposals awaiting a human.
+
+**G2 criteria.**
+- `RESOLVE_IDENTITY_FLAG` accepts only SAME_MOLECULE, DIFFERENT_MOLECULE or UNSURE. Others are
+  refused.
+- Only a HUMAN SAME_MOLECULE resolution groups records. Grouping never merges claims or changes
+  any gate decision.
+- The memo states distinct-molecule counts for eligible programs ("6 eligible records = N
+  distinct molecules after human-confirmed identity"), and each candidate line names its group.
+  Unresolved flags keep the existing "may be the same molecule" warning.
+- The workbook Screening sheet has an "Identity group (human-confirmed)" column.
+
+**G3 criteria.**
+- Memo candidate lines say "development stopped per source" for INACTIVE and "no active trial per
+  source" when no activity is evidenced. Ranking is unchanged.
+- **G3 amendment (during build, before testing).** UNKNOWN activity is worded "development activity
+  not evidenced in source", not "no active trial per source": UNKNOWN also covers a blank status, and
+  silence is not evidence of no trial.
+- **A2 review amendments (after the independent AI code review, before commit).** INACTIVE is worded
+  "source status suggests development stopped (verify)" (trigger words such as "terminated" can
+  describe one trial, not the program); MARKETED gets "marketed per source"; activity from several
+  status claims ignores UNKNOWN and treats ACTIVE + MARKETED as ACTIVE; the distinct-molecule count is
+  "at most N". Added: bad dates refused for assertions and proposals; the proposer cannot confirm
+  its own proposal; a confirmation snapshots the finding's content hash, and a finding edited after
+  confirmation is not applied; group keys are unique per group.

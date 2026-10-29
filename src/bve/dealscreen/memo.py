@@ -9,6 +9,7 @@ from typing import Any
 import yaml
 
 from bve.dealscreen import VALIDATION_GRADE, VALIDATION_WARNING
+from bve.dealscreen.groups import distinct_count, identity_groups
 from bve.dealscreen.workspace import Workspace
 
 _REQ_LABEL = {
@@ -26,6 +27,14 @@ STAGE_LABEL = {0: "Discovery", 1: "Preclinical", 2: "Phase 1", 3: "Phase 2", 4: 
 
 def _m(value: float | None) -> str:
     return "n/a" if value is None else f"${value:,.0f}M"
+
+
+_ACTIVITY_NOTE = {
+    "INACTIVE": "; source status suggests development stopped (verify)",
+    "MARKETED": "; marketed per source",
+    "UNKNOWN": "; development activity not evidenced in source",
+    "CONFLICTING": "; sources disagree on development status",
+}
 
 
 def build_memo(ws: Workspace) -> str:
@@ -71,6 +80,16 @@ def build_memo(ws: Workspace) -> str:
         "available without an explicit statement.",
         "",
     ]
+    groups = identity_groups(ws.flags(), log)
+    eligible_ids = [s["asset_id"] for s in eligible]
+    if any(a in groups for a in eligible_ids):
+        lines += [
+            (f"**Distinct molecules.** {len(eligible_ids)} eligible records = "
+             f"at most {distinct_count(eligible_ids, groups)} distinct molecules after human-confirmed "
+             "identity (records are not merged; open identity flags and unflagged duplicates are not "
+             "counted as the same molecule)."),
+            "",
+        ]
     readings = [s for s in eligible if s.get("indication_readings")]
     if readings:
         lines += [
@@ -96,9 +115,14 @@ def build_memo(ws: Workspace) -> str:
         s = screens[asset_id]
         flag = "" if s["disposition"] == "ELIGIBLE" else " (open scientific question)"
         twins = sorted({screens[o]["program_name"] for o in screens if o != asset_id
-                        and set(screens[o].get("identity_flag_ids", [])) & set(s.get("identity_flag_ids", []))})
-        twin = (f"; **identity flag: may be the same molecule as {', '.join(twins)} (not merged; do not "
-                "count separately until reviewed)**") if twins else ""
+                        and set(screens[o].get("identity_flag_ids", [])) & set(s.get("identity_flag_ids", []))
+                        and not (asset_id in groups and groups.get(o) == groups[asset_id])})
+        same = sorted(screens[o]["program_name"] for o in screens
+                      if o != asset_id and asset_id in groups and groups.get(o) == groups[asset_id])
+        twin = (f"; same molecule as {', '.join(same)} (human-confirmed, {groups[asset_id]})" if same else "")
+        twin += (f"; **identity flag: may be the same molecule as {', '.join(twins)} (not merged; do not "
+                 "count separately until reviewed)**") if twins else ""
+        twin += _ACTIVITY_NOTE.get(s.get("activity", ""), "")
         lines.append(f"- {s['program_name']} ({s['company']}): {STAGE_LABEL.get(s['stage_order'], 'stage unknown')}"
                      f"{flag}; U.S. rights {s['commercial']['display'].lower()}{twin}")
     lines.append("")
@@ -166,6 +190,12 @@ def build_memo(ws: Workspace) -> str:
     rights_open = [screens[a]["program_name"] for a in finalists
                    if screens[a]["commercial"]["us_rights_status"] != "AVAILABLE_ANALYST_CONFIRMED"]
     lines.append("**Investigate next.**")
+    finding_state = log.state.findings
+    pending = [f for f in ws.findings()
+               if f.provider.startswith("ai_proposal") and finding_state.get(f.finding_id, "PROPOSED") == "PROPOSED"]
+    if pending:
+        lines.append(f"- {len(pending)} cited fact(s) proposed by an AI assistant await human confirmation "
+                     "(they change nothing until confirmed; re-check each quote at its URL).")
     lines.append(f"- Confirm ownership and U.S. rights for {len(rights_open)} of {len(finalists)} listed "
                  "programs (none is analyst-confirmed).")
     for asset_id in finalists:
