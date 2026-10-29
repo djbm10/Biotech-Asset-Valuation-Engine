@@ -40,3 +40,38 @@
 6. **Still difficult:** efgartigimod (buyer modality vocabulary), IMVT-1402 (needs a
    human-entered cited fact; AI cannot even propose one), identity merges not applicable,
    terminated programs not demoted, Phase 4 vs marketed, no efficacy evidence.
+
+## Cycle A2 (2026-10-28)
+
+- Ranked G1-G3 from A1 deferrals; criteria before code. Built `propose` (AI cited fact → human
+  confirmation), identity resolution vocabulary and human-confirmed groups, activity disclosure.
+- Independent AI code review: no governance break; 7 issues fixed before commit (bad dates crashed
+  and could poison later screens; the proposer could confirm its own proposal; confirmation did not
+  snapshot content; activity wording overstated; group keys could collapse; "at most"; silent
+  re-proposal). Commit bca8b72. README documented (6a03a89).
+- Held-out buyer spec (C5 in MG) committed before the re-test.
+- Fresh blind analyst re-test (frozen bada391): no wrong in/out gate calls on either buyer; found
+  the combination-modality defect, invisible rank reasons, the Finance reproduction gap, and README
+  / queue friction.
+
+## Cycle A3 (2026-10-28)
+
+1. **Tried:** the A2 analyst's FcRn regression and held-out C5 shortlist and valuation.
+2. **Happened:** Pozelimab + Cemdisiran (contains an siRNA) ranked #1 for an antibody/peptide
+   buyer; marketed products' ranks were unexplained; Finance could not see or reproduce a config.
+3. **BD objection:** a #1 candidate the buyer's own modality rule should not admit.
+4. **Changed:** H1 combination modality → UNKNOWN with reason; H2 rank reasons; H3 `value-config`
+   preview; H4/H5 identity subject and queue fixes. The ranking rule was not changed: whether a
+   marketed product counts as "active development" is a buyer decision.
+5. **Measured:** C5 funnel 5/11/24 → 4/12/24 with the one wrong eligibility removed; FcRn unchanged.
+6. **Still hard:** valuation needs a human approval (by design) and hypothetical inputs; no
+   partnerability concept; CT.gov research noise; approval-statement stage extraction; blank-target
+   rows need human-confirmed facts; Gate H not run.
+- A3 independent AI code review: 2 HIGH issues in my fixes, fixed before commit: (1) the combination
+  regex missed "A+B" spacing and fired on procedures/placebo ("+ Thymectomy", "+ placebo"); (2) the
+  preview config carried its "not approved" label only as a file comment, accepted EXCLUDED assets
+  and dropped the stage-mismatch warning. Also found: unused-source-value reasons (A1 F8, A3 H1) were
+  visible only in `show`; the workbook now has a "Source values not used, and why" column.
+  Disputed: the reviewer called "T-DXd + pembrolizumab" a false positive; it is two drugs, so it
+  stays a combination. Unconfirmed agent findings never enter the claims, so a source + finding mix
+  occurs only after a human confirms, which is meant to apply. DealScreen tests 209.

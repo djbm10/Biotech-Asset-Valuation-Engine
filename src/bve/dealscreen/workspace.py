@@ -374,6 +374,51 @@ class Workspace:
         return finding
 
     # -- step 4: valuation ------------------------------------------------------------
+    def preview_config(self, asset_id: str, assumptions_path: Path, deal: str | None = None) -> dict[str, Any]:
+        """The exact config the handoff would run, for BD Finance to read (cycle A3 H3).
+
+        Runs nothing and records nothing. Refused when inputs are not ready or the program is
+        commercial-stage, for the same reasons the handoff refuses.
+        """
+        from bve.dealscreen.review import DecisionRejected
+
+        assumptions_doc = yaml.safe_load(assumptions_path.read_text(encoding="utf-8")) or {}
+        asset = {a.asset_id: a for a in self.assets()}.get(asset_id)
+        if asset is None:
+            raise DecisionRejected(f"unknown asset {asset_id!r}")
+        screen = {s["asset_id"]: s for s in self.screening()["screens"]}[asset_id]
+        if screen["disposition"] == "EXCLUDED":
+            raise DecisionRejected(f"{asset.external_id} is EXCLUDED by the buyer's hard gates; no preview")
+        block = assumptions_doc.get("assets", {}).get(asset.external_id)
+        if block is not None:
+            block = {"owner": assumptions_doc.get("owner"), "label": assumptions_doc.get("label"), **block}
+        readiness = check_readiness(asset, block, screened_stage_order=screen.get("stage_order"))
+        if not readiness.ready or block is None:
+            raise DecisionRejected(f"{asset.external_id} is NOT READY for valuation: "
+                                   + "; ".join(readiness.missing or ["no assumptions block"]))
+        deal_terms = None
+        if deal:
+            options = block.get("deal_options") or {}
+            if deal not in options:
+                raise DecisionRejected(f"no deal option {deal!r}; available: {sorted(options)}")
+            deal_terms = options[deal]
+        indication = ", ".join(
+            f["value"] if isinstance(f["value"], str) else "; ".join(f["value"])
+            for f in screen["facts"] if f["fact_type"] == "indication") or "not reported"
+        config = build_config(asset, block, indication_label=indication, deal=deal_terms)
+        approved = (log := self.decision_log()).state.finalists.get(asset_id, {})
+        status = ("human-approved finalist" if approved.get("state") == "APPROVED"
+                  and approved.get("reviewer_kind") == "HUMAN" else "NOT a human-approved finalist")
+        # The label travels inside the data, not only in a file comment (review A3-2).
+        config["analyst_notes"] = (f"PREVIEW, NOT APPROVED: not a DealScreen valuation ({status}; "
+                                   f"disposition {screen['disposition']}"
+                                   + ("; selected for valuation" if asset_id in log.state.valuation_selected
+                                      else "") + "). " + config["analyst_notes"])
+        warning = _stage_warning(screen, block["stage"])
+        if warning:
+            config["limitations"] = [*config["limitations"], warning]
+        return config
+
     def value_selected(
         self, assumptions_path: Path, *, n_sims: int = 5_000, seed: int = 42,
         progress: Callable[[str], None] | None = None,

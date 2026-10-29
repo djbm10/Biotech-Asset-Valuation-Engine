@@ -9,7 +9,7 @@
 
 1. Read `PRODUCT_GOAL.md`, `SCORECARD.md` (latest sections at the bottom) and this file.
 2. Confirm the branch and that `git status` shows only the user files above.
-3. Run the DealScreen tests (expect 169 passed):
+3. Run the DealScreen tests (expect 209 passed):
    `TMPDIR=$HOME/.cache/dealscreen_suite python -m pytest tests/dealscreen -q -p no:cacheprovider`
    `/tmp` is a small tmpfs; keep test temp files on the home disk.
 4. For any cycle that changes screening, re-run
@@ -18,7 +18,7 @@
 
 ## Analyst-simulation loop
 
-See `analyst_simulation/`. Next: cycle A2 (see `analyst_simulation/PRIORITIZED_FIXES.md`, deferred items D2, D3 and the A1 residuals), then a fresh blind analyst run with a newly selected buyer spec not used to design any fix.
+See `analyst_simulation/`. Cycles A1-A3 done. Next: a fresh blind analyst re-test of A3 (FcRn + held-out C5), then the deferred backlog in `analyst_simulation/PRIORITIZED_FIXES.md` (approval-statement stage extraction, CT.gov research noise, partnerability as a buyer-declared preference).
 
 ## Gate H session package: PREPARED (not run). See `gate_h_session/SESSION_PROTOCOL.md`. Running it needs a real BD professional.
 

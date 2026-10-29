@@ -131,3 +131,39 @@ review queue.
   "at most N". Added: bad dates refused for assertions and proposals; the proposer cannot confirm
   its own proposal; a confirmation snapshots the finding's content hash, and a finding edited after
   confirmation is not applied; group keys are unique per group.
+
+## Cycle A3 — from the frozen A2 re-test (ANALYST_FINDINGS_A2.md, bada391); criteria before code
+
+| Rank | Id | Problem (A2 defect #) | Class | Decision |
+|---|---|---|---|---|
+| 1 | H1 | A combination ("Pozelimab + Cemdisiran": antibody + siRNA) passes the modality gate on the single vendor modality "Antibody", and ranks #1 for the held-out C5 buyer (#2, #1) | weak normalization: one modality value for a multi-component product | FIX |
+| 2 | H2 | Ranking reasons are invisible; marketed products rank below active-trial programs (#1) | unclear buyer requirement (whether marketed counts as "active development" is the buyer's call) | Do NOT change the rule; show each candidate's rank reasons in memo and workbook |
+| 3 | H3 | BD Finance cannot reproduce or challenge a valuation config without a human approval or invented company data (#3) | workflow | FIX: export the exact handoff config as a labelled, unapproved preview |
+| 4 | H4 | README identity example refused; `queue` never prints flag ids (#5) | doc + UX defect | FIX |
+| 5 | H5 | `queue` not in rank order (#11); candidate listing says "re-run screen" (#12); README says 8 sheets (#13) | cosmetic | FIX |
+| — | — | ctgov phase-only noise (#6), approval-statement stage extraction (#7), propose does not fetch the URL (#8), modality vocabulary hint (#9), blank-target rows (#10) | backlog | DEFER (recorded) |
+
+**H1 criteria.** When the program name joins components with " + " (or " plus "), and the
+modality evidence is a single value, the modality fact is not emitted: the gate is UNKNOWN, with
+the reason "combination product: one modality stated for several components". The target and
+other gates are unchanged. No other row on the real landscape changes. Analyst-asserted modality
+still applies (a human can state the combination's modality).
+
+**H2 criteria.** Memo candidate lines and a workbook "Rank reasons" column state the ranking key
+in words (meets preferred phase yes/no, development activity, stage, registered trials, buyer
+capability modality). The ranking rule and every rank are unchanged.
+
+**H3 criteria.** `bve-dealscreen value-config --asset <id> --assumptions <file> --out <yaml>
+[--deal <name>]` writes exactly the config the handoff would run (`build_config`), headed
+"PREVIEW — not human-approved; not a DealScreen valuation". It refuses when readiness fails
+(listing what is missing) or for commercial-stage programs. It does not run the engine and
+writes nothing to the decision log. `bve-dealscreen-value` accepts the file unchanged.
+
+**H4 criteria.** `queue` prints each flag's id. `RESOLVE_IDENTITY_FLAG --subject <name>` resolves a
+drug name or `DRUG:` value when it matches exactly one flag; when it matches several, it is refused
+with the matching flag ids listed. README example uses a flag id.
+
+**H5 criteria.** `queue` lists unresolved assets by rank; a candidate listing prints no
+"re-run screen" hint; README sheet count corrected.
+- **H2 amendment (during build).** Rank reasons per program appear in the workbook only; the memo
+  has a one-page budget (600 words, an existing test) and points to the workbook column instead.

@@ -110,7 +110,8 @@ def build_memo(ws: Workspace) -> str:
                    "fixture, not a real analyst**")
     else:
         heading = f"**Finalists: {len(finalists)} ({', '.join(sorted(kinds))} reviewers)**"
-    lines.append(heading + " (rank order by declared preferences; rights shown separately):")
+    lines.append(heading + " (rank order by declared preferences, reasons per program in the workbook "
+                           "Screening sheet; rights shown separately):")
     for asset_id in finalists:
         s = screens[asset_id]
         flag = "" if s["disposition"] == "ELIGIBLE" else " (open scientific question)"

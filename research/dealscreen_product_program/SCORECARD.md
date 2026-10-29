@@ -76,3 +76,13 @@ Only the dimensions that changed are listed. Everything else is as in Audit 0.
 | 12 | Excel and report quality | No "approved" for AI candidates; labeler wording; identity flags in memo; why no valuation ran | Simulated analyst + critic | PARTIAL (no human reader) |
 
 Gates H and B are unchanged: an AI-simulated analyst is not a human user or an independent curator.
+
+**After analyst-simulation cycles A2-A3 (AI-SIMULATED; 2026-10-28):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 2 | Identity reconciliation | Closed resolution vocabulary; human SAME_MOLECULE groups counted in memo ("at most N"); never merged | Tests; A2 analyst | PARTIAL → stronger |
+| 3 | Screening accuracy | Combination products no longer pass on one vendor modality | Held-out C5 buyer: 1 wrong eligibility → 0 | PARTIAL → stronger |
+| 5 | Resolving UNKNOWN decisions | AI assistant can propose cited facts; a different human confirms; content hash-pinned | A2 analyst recorded 4 proposals | DEMONSTRATED technically (no human confirmation yet) |
+| 11 | Financial readiness | `value-config` preview makes the exact handoff config reproducible without approval | Test; A2 finding #3 | PARTIAL |
+| 12 | Excel and report quality | Rank reasons column; identity groups; activity notes | A2 analyst | PARTIAL (no human reader) |

@@ -88,6 +88,19 @@ def activity_status(text: str) -> str:
     return "UNKNOWN"
 
 
+_JOINER = re.compile(r"\s*\+\s*|\s+plus\s+", re.IGNORECASE)
+#: Second "components" that are not drugs (review A3-1): a procedure, placebo or standard of care.
+_NON_DRUG = re.compile(r"^(placebo|thymectomy|surgery|radiotherapy|radiation|standard of care|soc|"
+                       r"best supportive care|bsc|ivig|plasma exchange|plex)\b", re.IGNORECASE)
+
+
+def is_combination(program_name: str) -> bool:
+    """A program named as two or more drug components joined by '+' or 'plus'."""
+    parts = [p.strip() for p in _JOINER.split(program_name.replace("\n", " ")) if p.strip()]
+    drugs = [p for p in parts if not _NON_DRUG.match(p)]
+    return len(parts) > 1 and len(drugs) > 1
+
+
 def combine_activity(statuses: list[str]) -> str:
     """One activity value from several status claims (review A2-4).
 
@@ -231,8 +244,17 @@ class FactBuilder:
             "modality": "modality_id",
             "phase": "development_stage_order",
         }
+        combination = is_combination(asset.program_name)
         for field_name, fact_type in single.items():
             field_claims = [c for c in claims if c.field == field_name]
+            if (combination and field_name == "modality" and field_claims
+                    and all(c.origin is ClaimOrigin.SOURCE_PROVIDED for c in field_claims)):
+                # One vendor modality cannot describe every component (cycle A3 H1).
+                result.unreadable.extend(
+                    {"claim_id": c.claim_id, "field": "modality", "value": c.value_as_written,
+                     "reason": "combination product: one modality stated for several components"}
+                    for c in field_claims)
+                continue
             fact = self._single_valued(asset, field_name, fact_type, field_claims, confirmed, result)
             if fact is not None:
                 result.facts.append(fact)

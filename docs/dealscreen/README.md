@@ -23,7 +23,7 @@ or an analyst spreadsheet). DealScreen then:
    through explicit, attributable approvals.
 6. **Hands up to three selected finalists to valuation** through BVE's own CLI and reads back
    the saved `valuation.json`. Missing financial inputs give NOT READY FOR VALUATION.
-7. **Writes** an 8-sheet companion workbook and a one-page memo.
+7. **Writes** a 9-sheet companion workbook and a one-page memo.
 
 ## Architecture
 
@@ -43,7 +43,7 @@ vendor CSV/XLSX ──► importer (mapping profile) ──► LandscapeAsset + 
         │
    finalists (≤10) ─► selected (≤3) ─► bve-asset / bve-dealscreen-value (subprocess) ─► valuation.json
                                                                    │
-                                     workbook (8 sheets) + memo ◄──┘ (numbers copied, never recomputed)
+                                     workbook (9 sheets) + memo ◄──┘ (numbers copied, never recomputed)
 ```
 
 | Module | Role |
@@ -114,7 +114,7 @@ bve-dealscreen decide  --workspace $W --action CONFIRM_FINDING --subject <prop:.
     --new-state CONFIRMED --reviewer jdoe --rationale "checked the quote at the URL"
 # identity flags (printed at import and by `queue`): SAME_MOLECULE, DIFFERENT_MOLECULE or UNSURE.
 # A human SAME_MOLECULE groups records for counting in the memo; records are never merged.
-bve-dealscreen decide  --workspace $W --action RESOLVE_IDENTITY_FLAG --subject batoclimab \
+bve-dealscreen decide  --workspace $W --action RESOLVE_IDENTITY_FLAG --subject idflag:<id from queue> \
     --new-state SAME_MOLECULE --reviewer jdoe --rationale "RVT-1401 is the former code"
 ```
 

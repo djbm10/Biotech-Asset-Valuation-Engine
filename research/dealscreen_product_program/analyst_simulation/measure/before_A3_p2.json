@@ -1,0 +1,665 @@
+{
+ "assets": {
+  "RW-01": {
+   "activity": "MARKETED",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Efgartigimod alfa (IV)",
+   "rank": null
+  },
+  "RW-02": {
+   "activity": "MARKETED",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Efgartigimod alfa and hyaluronidase (SC)",
+   "rank": null
+  },
+  "RW-03": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Rozanolixizumab",
+   "rank": null
+  },
+  "RW-04": {
+   "activity": "MARKETED",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Nipocalimab",
+   "rank": null
+  },
+  "RW-05": {
+   "activity": "INACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Batoclimab",
+   "rank": null
+  },
+  "RW-06": {
+   "activity": "UNKNOWN",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "HBM9161",
+   "rank": null
+  },
+  "RW-07": {
+   "activity": "UNKNOWN",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "RVT-1401",
+   "rank": null
+  },
+  "RW-08": {
+   "activity": "ACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "IMVT-1402",
+   "rank": 5
+  },
+  "RW-09": {
+   "activity": "INACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Orilanolimab (ALXN1830)",
+   "rank": null
+  },
+  "RW-10": {
+   "activity": "MARKETED",
+   "disposition": "ELIGIBLE",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "PASS"
+   },
+   "indication_gate": "PASS",
+   "program": "Eculizumab",
+   "rank": 2
+  },
+  "RW-11": {
+   "activity": "MARKETED",
+   "disposition": "ELIGIBLE",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "PASS"
+   },
+   "indication_gate": "PASS",
+   "program": "Eculizumab-aeeb (BKEMV)",
+   "rank": 5
+  },
+  "RW-12": {
+   "activity": "MARKETED",
+   "disposition": "ELIGIBLE",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "PASS"
+   },
+   "indication_gate": "PASS",
+   "program": "Eculizumab-aagh (EPYSQLI)",
+   "rank": 4
+  },
+  "RW-13": {
+   "activity": "MARKETED",
+   "disposition": "ELIGIBLE",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "PASS"
+   },
+   "indication_gate": "PASS",
+   "program": "Ravulizumab",
+   "rank": 3
+  },
+  "RW-14": {
+   "activity": "MARKETED",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "PASS"
+   },
+   "indication_gate": "PASS",
+   "program": "Zilucoplan",
+   "rank": 6
+  },
+  "RW-15": {
+   "activity": "ACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "Gefurulimab",
+   "rank": 4
+  },
+  "RW-16": {
+   "activity": "ACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "ALXN1720",
+   "rank": 3
+  },
+  "RW-17": {
+   "activity": "ACTIVE",
+   "disposition": "ELIGIBLE",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "PASS"
+   },
+   "indication_gate": "PASS",
+   "program": "Pozelimab + Cemdisiran",
+   "rank": 1
+  },
+  "RW-18": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "FAIL",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Iptacopan",
+   "rank": null
+  },
+  "RW-19": {
+   "activity": "INACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "FAIL",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "Vemircopan (ALXN2050)",
+   "rank": null
+  },
+  "RW-20": {
+   "activity": "ACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "Claseprubart",
+   "rank": 2
+  },
+  "RW-21": {
+   "activity": "ACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "Empasiprubart",
+   "rank": 8
+  },
+  "RW-22": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Inebilizumab",
+   "rank": null
+  },
+  "RW-23": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Rituximab (investigator-sponsored)",
+   "rank": null
+  },
+  "RW-24": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Ublituximab",
+   "rank": null
+  },
+  "RW-25": {
+   "activity": "UNKNOWN",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Mezagitamab (TAK-079)",
+   "rank": null
+  },
+  "RW-26": {
+   "activity": "ACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "Telitacicept",
+   "rank": 1
+  },
+  "RW-27": {
+   "activity": "ACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "Povetacicept",
+   "rank": 10
+  },
+  "RW-28": {
+   "activity": "UNKNOWN",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Iscalimab (CFZ533)",
+   "rank": null
+  },
+  "RW-29": {
+   "activity": "UNKNOWN",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "UNKNOWN",
+    "strategy.therapeutic_area": "UNKNOWN",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "UNKNOWN",
+   "program": "Belimumab",
+   "rank": null
+  },
+  "RW-30": {
+   "activity": "INACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "Satralizumab",
+   "rank": 7
+  },
+  "RW-31": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Tocilizumab (investigator-sponsored)",
+   "rank": null
+  },
+  "RW-32": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "FAIL",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "Remibrutinib",
+   "rank": null
+  },
+  "RW-33": {
+   "activity": "INACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "PASS",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "FAIL",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Tolebrutinib",
+   "rank": null
+  },
+  "RW-34": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "FAIL",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Descartes-08",
+   "rank": null
+  },
+  "RW-35": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "FAIL",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "KYV-101",
+   "rank": null
+  },
+  "RW-36": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "FAIL",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "CABA-201",
+   "rank": null
+  },
+  "RW-37": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "FAIL",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "FAIL"
+   },
+   "indication_gate": "PASS",
+   "program": "Anitocabtagene autoleucel",
+   "rank": null
+  },
+  "RW-38": {
+   "activity": "ACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "SHR-2173",
+   "rank": 11
+  },
+  "RW-39": {
+   "activity": "ACTIVE",
+   "disposition": "EXCLUDED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "FAIL",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "PASS",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "Cizutamig",
+   "rank": null
+  },
+  "RW-40": {
+   "activity": "ACTIVE",
+   "disposition": "UNRESOLVED",
+   "gates": {
+    "biology.mechanism_direction": "UNKNOWN",
+    "evidence.phase_constraint": "PASS",
+    "identity.distinct_asset": "PASS",
+    "modality.required": "UNKNOWN",
+    "strategy.indication": "PASS",
+    "strategy.therapeutic_area": "PASS",
+    "target.expression": "UNKNOWN"
+   },
+   "indication_gate": "PASS",
+   "program": "NMD670",
+   "rank": 9
+  }
+ },
+ "funnel": {
+  "assets_screened": 40,
+  "eligible": 5,
+  "eligible_by_us_rights_status": {
+   "UNKNOWN": 5
+  },
+  "excluded": 24,
+  "excluded_by_first_failed_requirement": {
+   "evidence.phase_constraint": 2,
+   "modality.required": 2,
+   "target.expression": 20
+  },
+  "unknown_decisions_by_requirement": {
+   "biology.mechanism_direction": 21,
+   "modality.required": 11,
+   "strategy.indication": 1,
+   "strategy.therapeutic_area": 1,
+   "target.expression": 14
+  },
+  "unresolved": 11
+ }
+}

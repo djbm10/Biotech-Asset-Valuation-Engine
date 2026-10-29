@@ -35,3 +35,31 @@ Multiple Myeloma (RRMM)" → "Refractory Multiple Myeloma"), which is correct. S
 **What a BD reviewer would still object to:** orilanolimab (development terminated) is ELIGIBLE
 and ranks 5 of 6 because inactivity is only a missing preference, not a demotion; rozanolixizumab
 shows as "Phase 4 or marketed"; batoclimab is still three records.
+
+## Cycle A2 re-test (fresh blind analyst on A1+A2 code, plus a held-out buyer)
+
+From the frozen `ANALYST_FINDINGS_A2.md` (bada391):
+
+| Measure | A1 analyst (pre-fix) | A2 analyst (post A1+A2) |
+|---|---|---|
+| FcRn funnel | 4 / 14 / 22 | 6 / 12 / 22 |
+| Wrong in/out gate calls found by the analyst (FcRn) | batoclimab split 3 ways; gMG wording | none |
+| Wrong in/out gate calls (held-out C5 buyer) | not run | none, but 1 wrong *eligibility* through modality: Pozelimab + Cemdisiran (siRNA component) passed as "Antibody" and ranked #1 |
+| `value` crash / silent valuation defaults | yes / yes | no / refused with location hint |
+| Workbook "approved" for AI candidates | yes | no |
+| AI-found cited facts usable by a human | no path | 4 proposals recorded for human confirmation (NOT COMPLETED BY HUMAN) |
+| Valuation reached | no | no (human approval required, by design; direct CLI needed invented company data) |
+
+## Cycle A3 (fixes from the A2 re-test)
+
+Measured by re-screening copies of the A2 analyst's own workspaces with the new code
+(`measure/before_A3_*.json`, `measure/after_A3_*.json`):
+
+| Measure | Before A3 | After A3 |
+|---|---|---|
+| Held-out C5 funnel | 5 / 11 / 24 | 4 / 12 / 24 |
+| Combination product ELIGIBLE on one vendor modality | RW-17 ELIGIBLE, rank 1 | RW-17 UNRESOLVED, reason disclosed; the other ranks each move up by one |
+| FcRn funnel and ranks | 6 / 12 / 22 | unchanged |
+| BD Finance can see the exact valuation config without approval | no | `value-config` writes it, labelled PREVIEW; nothing run or recorded |
+| Rank reasons visible | no | workbook column per program |
+| README identity example works | no | yes (flag ids printed by `queue`; a name resolving to several flags lists their ids) |

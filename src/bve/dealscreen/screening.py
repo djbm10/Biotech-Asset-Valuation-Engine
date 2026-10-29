@@ -115,6 +115,23 @@ def _preference_key(spec: BuyerSpec, facts: AssetFacts, n_trials: int) -> list[A
     ]
 
 
+def explain_preference_key(spec: BuyerSpec, key: list[Any], activity: str) -> str:
+    """The ranking key in words (cycle A3 H2). Ranks compare these in order, left to right."""
+    prefs = spec.preferences
+    meets, active, stage, trials, capability = (list(key) + [0, 0, -1, 0, 0])[:5]
+    parts = []
+    if prefs.preferred_stage_order is not None:
+        parts.append(f"meets preferred phase: {'yes' if meets else 'no'}")
+    if prefs.prefer_active_development:
+        parts.append(f"counts as active development: {'yes' if active else 'no'} (activity {activity})")
+    parts.append(f"stage order {stage if stage >= 0 else 'unknown'}")
+    if prefs.prefer_more_registered_trials:
+        parts.append(f"{trials} registered trial(s)")
+    if prefs.buyer_capability_modalities:
+        parts.append(f"buyer-capability modality: {'yes' if capability else 'no'}")
+    return "; ".join(parts)
+
+
 def screen_landscape(
     assets: list[LandscapeAsset],
     spec: BuyerSpec,

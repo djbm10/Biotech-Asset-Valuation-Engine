@@ -49,6 +49,11 @@ def _normalizer(args: argparse.Namespace) -> TargetNormalizer:
     return ontology_target_normalizer()
 
 
+#: Decisions that change facts, so a re-screen is needed to see them.
+_FACT_ACTIONS = {"CONFIRM_CLAIM", "REJECT_CLAIM", "CONFIRM_FINDING", "REJECT_FINDING", "ASSERT_FACT",
+                 "RETRACT_FACT"}
+
+
 def resolve_subject(ws: Workspace, action: Action, subject: str, field: str = "") -> str:
     """Map a human-friendly subject to the id the decision log records."""
     assets = ws.assets()
@@ -57,10 +62,19 @@ def resolve_subject(ws: Workspace, action: Action, subject: str, field: str = ""
     asset = by_ext.get(subject) or by_id.get(subject)
     if action is Action.RESOLVE_IDENTITY_FLAG:
         key = normalize_identity_name(subject)
-        for flag in ws.flags():
-            if subject == flag.flag_id or key == flag.shared_value:
+        flags = ws.flags()
+        for flag in flags:
+            if subject == flag.flag_id:
                 return flag.flag_id
-        raise DecisionRejected(f"no identity flag for {subject!r}")
+        wanted = {key, subject.strip().upper(), f"DRUG:{subject.strip().upper()}"}
+        flag_matches = [f for f in flags if f.shared_value in wanted]
+        if len(flag_matches) == 1:
+            return flag_matches[0].flag_id
+        if flag_matches:
+            raise DecisionRejected(
+                f"{subject!r} matches {len(flag_matches)} identity flags; pass one id: "
+                + "; ".join(f"{f.flag_id} ({f.kind})" for f in flag_matches))
+        raise DecisionRejected(f"no identity flag for {subject!r}; `queue` lists flag ids")
     if action in (Action.CONFIRM_FINDING, Action.REJECT_FINDING):
         if asset is None:
             return subject
@@ -143,14 +157,17 @@ def _print_queue(ws: Workspace) -> None:
     print(f"Funnel: {f['assets_screened']} screened = {f['eligible']} eligible + {f['unresolved']} unresolved "
           f"+ {f['excluded']} excluded")
     print("Unresolved queue (first 25):")
-    for s in [s for s in screening["screens"] if s["disposition"] == "UNRESOLVED"][:25]:
+    unresolved = sorted((s for s in screening["screens"] if s["disposition"] == "UNRESOLVED"),
+                        key=lambda s: s["rank"] or 10**6)
+    for s in unresolved[:25]:
         print(f"  #{s['rank']:<3} {s['program_name']:<22} {s['review_reasons'][0][:110]}")
     names = {s["asset_id"]: f"{s['program_name']} [{s['disposition']}]" for s in screening["screens"]}
     flags = ws.flags()
     if flags:
         print("Identity flags (records may be the same molecule; not merged):")
         for flag in flags:
-            print(f"  {flag.kind}: {' / '.join(names.get(a, a) for a in flag.asset_ids)} ({flag.shared_value})")
+            print(f"  {flag.flag_id} {flag.kind}: {' / '.join(names.get(a, a) for a in flag.asset_ids)} "
+                  f"({flag.shared_value})")
 
 
 def _show(ws: Workspace, subject: str) -> None:
@@ -288,6 +305,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--source-title", default=""); p.add_argument("--source-date", default="")
     p.add_argument("--reviewer", required=True); p.add_argument("--rationale", required=True)
     p.add_argument("--reviewer-kind", default="HUMAN", choices=[k.value for k in ReviewerKind])
+    p = sub.add_parser("value-config", help="write the exact valuation config the handoff would run "
+                                           "(PREVIEW: not approved, nothing is run)")
+    ws_arg(p); p.add_argument("--asset", required=True); p.add_argument("--assumptions", required=True)
+    p.add_argument("--out", required=True); p.add_argument("--deal", default=None)
     p = sub.add_parser("propose", help="AI assistant: propose one cited fact for a human to confirm")
     ws_arg(p); norm_arg(p)
     p.add_argument("--asset", required=True); p.add_argument("--field", required=True)
@@ -350,7 +371,8 @@ def main(argv: list[str] | None = None) -> int:
                           reviewer=args.reviewer, rationale=args.rationale, kind=ReviewerKind(args.reviewer_kind),
                           field=args.field, question=args.question)
             print(f"recorded {rec['decision_id']}: {rec['action']} {rec['subject_id']} "
-                  f"{rec['old_state']} -> {rec['new_state']}. Re-run `screen` to apply fact changes.")
+                  f"{rec['old_state']} -> {rec['new_state']}."
+                  + (" Re-run `screen` to apply it." if rec["action"] in _FACT_ACTIONS else ""))
         elif args.command == "assert":
             rec = _decide(ws, action="ASSERT_FACT", subject=args.asset, new_state="ASSERTED",
                           reviewer=args.reviewer, rationale=args.rationale,
@@ -361,6 +383,19 @@ def main(argv: list[str] | None = None) -> int:
                                      "evidence_span": args.quote})
             print(f"recorded {rec['decision_id']}: {args.field}={args.value!r} on {rec['subject_id']}. "
                   "Re-run `screen` to apply it.")
+        elif args.command == "value-config":
+            import yaml
+
+            assets = {a.external_id: a.asset_id for a in ws.assets()}
+            config = ws.preview_config(assets.get(args.asset, args.asset), Path(args.assumptions), args.deal)
+            out = Path(args.out)
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(
+                "# PREVIEW - not human-approved; not a DealScreen valuation. This is the exact config the\n"
+                "# valuation handoff would run. Inputs are the analyst's hypothetical assumptions; edit and run\n"
+                "# with bve-dealscreen-value (deal terms) or bve-asset (standalone) to reproduce or challenge.\n"
+                + yaml.safe_dump(config, sort_keys=False), encoding="utf-8")
+            print(f"wrote {out} (PREVIEW; nothing was valued or recorded)")
         elif args.command == "propose":
             assets = {a.external_id: a.asset_id for a in ws.assets()}
             finding = ws.propose(
