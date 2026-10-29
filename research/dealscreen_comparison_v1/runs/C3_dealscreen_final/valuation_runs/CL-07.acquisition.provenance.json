@@ -1,0 +1,16 @@
+{
+  "config": "val/CL-07.acquisition.yaml",
+  "config_sha256": "0e660baf563ce4ad4b1dfbb6a48f5b3ca482ebd9c8a6595c5ff4a11fa650b798",
+  "deal_economics": {
+    "cdev_cost_share": 1.0,
+    "launch_year_offset": 0.0,
+    "milestones": [],
+    "profit_share_rate": 0.0,
+    "royalty_rate": 0.0,
+    "upfront_cost_millions": 400.0,
+    "upfront_receipt_millions": 0.0
+  },
+  "label": "PROTOTYPE valuation path (DealScreen); Lane 1 quant + clinical sign-off pending",
+  "n_sims": 5000,
+  "seed": 42
+}

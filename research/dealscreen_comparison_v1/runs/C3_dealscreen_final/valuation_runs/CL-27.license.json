@@ -1,0 +1,525 @@
+{
+  "meta": {
+    "analysis_date": "2026-10-29",
+    "run_timestamp": "2026-10-29T18:18:52",
+    "git_commit": null,
+    "random_seed": 42,
+    "n_simulations": 5000,
+    "bve_version": "0.2.0",
+    "python_version": "3.11.17",
+    "package_versions": {
+      "pydantic": "2.14.1",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "pandas": "3.0.6",
+      "matplotlib": "3.11.2"
+    },
+    "config_path": "/home/djmann/.cache/compare_C3/val/CL-27.license.yaml",
+    "analyst_notes": "PREVIEW, NOT APPROVED: not a DealScreen valuation (NOT a human-approved finalist; disposition ELIGIBLE). DealScreen handoff for SKB315 (BVE_PUBLIC_SOURCES CL-27). Financial inputs: ai-analyst-C3 (AI_PREPARED, not approved by a human) [HYPOTHETICAL: protocol placeholders + C3 analyst assumptions (cogs/SG&A/milestone split)]."
+  },
+  "inputs": {
+    "asset": {
+      "id": "ds-1b1a19108b04",
+      "name": "SKB315",
+      "indication": "Advanced Solid Tumors; Gastroesophageal Junction Adenocarcinoma",
+      "indication_id": null,
+      "therapeutic_area": "oncology",
+      "stage": "phase_2",
+      "modality": "biologic",
+      "mechanism_of_action": null,
+      "biological_target": null,
+      "canonical_indication": null,
+      "canonical_target": null,
+      "canonical_moa": null,
+      "launch_year": null,
+      "patent_expiry_year": null,
+      "discount_rate": 0.1,
+      "effective_tax_rate": 0.21,
+      "nol_benefit_years": 0,
+      "approval_pathway": "standard",
+      "post_approval_rd_millions": 0.0,
+      "royalty_rate": 0.0,
+      "milestones_payable_millions": 0.0,
+      "upcoming_catalysts": [],
+      "competitor_assets": [],
+      "differentiation_notes": null,
+      "notes": null
+    },
+    "company": {
+      "id": "asset-level-valuation",
+      "name": "Sichuan Kelun-Biotech Biopharmaceutical Co., Ltd. (asset-level; balance sheet not modelled)",
+      "ticker": null,
+      "cash_millions": 0.0,
+      "debt_millions": 0.0,
+      "shares_outstanding_millions": 1.0,
+      "burn_rate_millions_per_quarter": null,
+      "asset_ids": [
+        "ds-1b1a19108b04"
+      ],
+      "ownership_stakes": {},
+      "current_price": null,
+      "market_cap_millions": null,
+      "notes": null
+    },
+    "trials": [
+      {
+        "asset_id": "ds-1b1a19108b04",
+        "phase": "phase_2",
+        "nct_id": null,
+        "title": null,
+        "success_probability": 0.35,
+        "primary_endpoint": null,
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 2.0,
+        "cost_millions": 60.0,
+        "spend_profile": "uniform",
+        "cost_source": "override",
+        "cost_breakdown": null,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": null,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": null
+      },
+      {
+        "asset_id": "ds-1b1a19108b04",
+        "phase": "phase_3",
+        "nct_id": null,
+        "title": null,
+        "success_probability": 0.5,
+        "primary_endpoint": null,
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 3.0,
+        "cost_millions": 180.0,
+        "spend_profile": "uniform",
+        "cost_source": "override",
+        "cost_breakdown": null,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": null,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": null
+      },
+      {
+        "asset_id": "ds-1b1a19108b04",
+        "phase": "nda_bla",
+        "nct_id": null,
+        "title": null,
+        "success_probability": 0.9,
+        "primary_endpoint": null,
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 1.0,
+        "cost_millions": 20.0,
+        "spend_profile": "uniform",
+        "cost_source": "override",
+        "cost_breakdown": null,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": null,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": null
+      }
+    ],
+    "market_model": {
+      "asset_id": "ds-1b1a19108b04",
+      "therapeutic_area": null,
+      "lines_of_therapy": [],
+      "addressable_patients_annual": 6000,
+      "net_price_per_patient_usd": 150000.0,
+      "price_basis": "net",
+      "gross_to_net_rate": null,
+      "compliance_rate": 0.8,
+      "total_addressable_market_millions": null,
+      "peak_penetration": 0.15,
+      "years_to_peak": 5,
+      "patent_life_years": 12,
+      "adoption_curve_mode": "auto",
+      "use_s_curve": false,
+      "competition_model": null,
+      "lifecycle_events": [],
+      "commercial_inputs": null,
+      "launch_archetype": null,
+      "geography_split": null,
+      "payer_access": null,
+      "commercial_model": null,
+      "modality": "biologic",
+      "cogs_rate": 0.12,
+      "sgna_rate_launch": 0.4,
+      "sgna_rate_mature": 0.25,
+      "sgna_ramp_years": 5
+    }
+  },
+  "outputs": {
+    "rnpv": {
+      "rnpv_millions": -244.0,
+      "peak_sales_millions": 108.0,
+      "gross_revenue_pv_millions": 142.0,
+      "prob_adj_revenue_pv_millions": 22.0,
+      "trial_costs_pv_millions": 266.2,
+      "cumulative_success_probability": 0.1575,
+      "years_to_launch": 6.0,
+      "discount_rate": 0.1,
+      "net_ownership": 1.0,
+      "phase_breakdown": [
+        {
+          "phase": "phase_2",
+          "prob_reaching": 1.0,
+          "pv_cost_gross": 54.55,
+          "pv_cost_weighted": 54.55,
+          "duration_years": 2.0,
+          "success_probability": 0.35
+        },
+        {
+          "phase": "phase_3",
+          "prob_reaching": 0.35,
+          "pv_cost_gross": 128.94,
+          "pv_cost_weighted": 45.13,
+          "duration_years": 3.0,
+          "success_probability": 0.5
+        },
+        {
+          "phase": "nda_bla",
+          "prob_reaching": 0.175,
+          "pv_cost_gross": 11.84,
+          "pv_cost_weighted": 2.07,
+          "duration_years": 1.0,
+          "success_probability": 0.9
+        }
+      ]
+    },
+    "nav": {
+      "asset_rnpv_millions": -244.0,
+      "net_cash_millions": 0.0,
+      "nav_millions": -244.0,
+      "shares_outstanding_millions": 1.0,
+      "nav_per_share": -244.0,
+      "current_price": null,
+      "implied_upside_pct": null
+    },
+    "scenarios": {
+      "bull": {
+        "label": "Bull",
+        "description": "Best-in-class clinical data; faster timelines; larger addressable market",
+        "rnpv_millions": -251.0,
+        "cumulative_success_probability": 0.292792,
+        "peak_sales_millions": 162.0,
+        "years_to_launch": 4.5,
+        "nav_millions": -251.0,
+        "nav_per_share": -251.0,
+        "delta_vs_base": null,
+        "key_assumption_changes": [],
+        "top_value_drivers": [],
+        "kill_criteria_triggered": false,
+        "memo_interpretation": ""
+      },
+      "base": {
+        "label": "Base",
+        "description": "Base case reflecting analyst estimates",
+        "rnpv_millions": -244.0,
+        "cumulative_success_probability": 0.1575,
+        "peak_sales_millions": 108.0,
+        "years_to_launch": 6.0,
+        "nav_millions": -244.0,
+        "nav_per_share": -244.0,
+        "delta_vs_base": null,
+        "key_assumption_changes": [],
+        "top_value_drivers": [],
+        "kill_criteria_triggered": false,
+        "memo_interpretation": ""
+      },
+      "bear": {
+        "label": "Bear",
+        "description": "Mixed clinical signal; pricing pressure; delays",
+        "rnpv_millions": -214.0,
+        "cumulative_success_probability": 0.054022,
+        "peak_sales_millions": 59.0,
+        "years_to_launch": 9.0,
+        "nav_millions": -214.0,
+        "nav_per_share": -214.0,
+        "delta_vs_base": null,
+        "key_assumption_changes": [],
+        "top_value_drivers": [],
+        "kill_criteria_triggered": false,
+        "memo_interpretation": ""
+      },
+      "upside_downside_ratio": 1.17
+    },
+    "monte_carlo": {
+      "n_simulations": 5000,
+      "mean_millions": -243.0,
+      "median_millions": -241.0,
+      "std_millions": 26.0,
+      "percentiles": {
+        "p5": -285.0,
+        "p10": -280.0,
+        "p25": -260.0,
+        "p50": -240.0,
+        "p75": -225.0,
+        "p90": -210.0,
+        "p95": -200.0
+      },
+      "probability_positive": 0.0,
+      "probability_above_500m": 0.0,
+      "probability_above_1b": 0.0
+    },
+    "sensitivities": [
+      {
+        "parameter": "Phase POS (\u00b120%)",
+        "low_rnpv": -267.0,
+        "high_rnpv": -222.0,
+        "swing": 45.0
+      },
+      {
+        "parameter": "Peak Sales (\u00b130%)",
+        "low_rnpv": -251.0,
+        "high_rnpv": -237.0,
+        "swing": 14.0
+      },
+      {
+        "parameter": "Peak Penetration (\u00b130%)",
+        "low_rnpv": -251.0,
+        "high_rnpv": -237.0,
+        "swing": 14.0
+      },
+      {
+        "parameter": "Discount Rate (\u00b12pp)",
+        "low_rnpv": -247.0,
+        "high_rnpv": -240.0,
+        "swing": 7.0
+      },
+      {
+        "parameter": "Patent Life (\u00b13 yrs)",
+        "low_rnpv": -247.0,
+        "high_rnpv": -242.0,
+        "swing": 5.0
+      },
+      {
+        "parameter": "Gross-to-Net Rate (\u00b110pp)",
+        "low_rnpv": -246.0,
+        "high_rnpv": -242.0,
+        "swing": 4.0
+      },
+      {
+        "parameter": "Competition (+1/+2 entrants)",
+        "low_rnpv": -251.0,
+        "high_rnpv": -247.0,
+        "swing": 4.0
+      },
+      {
+        "parameter": "Eff. Tax Rate (\u00b15pp)",
+        "low_rnpv": -245.0,
+        "high_rnpv": -242.0,
+        "swing": 3.0
+      }
+    ],
+    "strategic_takeout": null,
+    "strategic_takeout_note": "Not shown because the strategic takeout layer is not enabled; add a strategic_takeout block (enabled: true) to estimate a takeout value."
+  },
+  "dual_track": {
+    "investment": {
+      "assessed": false,
+      "stance": "not_assessed",
+      "valuation_label": "not_assessed",
+      "market_expectation_read": "not_assessed",
+      "evidence": "not_assessed",
+      "rnpv_millions": -244.0,
+      "comparison_ev_millions": null,
+      "comparison_ev_basis": null,
+      "rnpv_vs_ev_pct": null,
+      "nav_per_share": -244.0,
+      "current_price": null,
+      "implied_upside_pct": null,
+      "confidence": 0.0,
+      "confidence_label": "low",
+      "rationale": []
+    },
+    "bd": {
+      "assessed": false,
+      "strategic_relevance": "not_assessed",
+      "recommended_route": "not_assessed",
+      "timing": "not_assessed",
+      "best_acquirer": null,
+      "why_this_buyer": null,
+      "buyer_can_execute": null,
+      "recommended_action": null,
+      "p_strategic_transaction_12m": null,
+      "estimated_deal_value_low_millions": null,
+      "estimated_deal_value_high_millions": null,
+      "confidence": 0.0,
+      "confidence_label": "low",
+      "rationale": [],
+      "main_risks": []
+    },
+    "quadrant": "incomplete",
+    "headline": "Incomplete cross-read \u2014 missing investment view (no market price anchor) and BD view (no M&A assessment available).",
+    "divergence": false,
+    "notes": []
+  },
+  "assumptions": {
+    "key_assumptions": [
+      {
+        "parameter": "WACC (Discount Rate)",
+        "value": "10%",
+        "units": "% per year",
+        "source": "Damodaran biotech sector WACC; standard industry convention for clinical-stage assets",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "High",
+        "notes": "A \u00b12pp change in WACC shifts rNPV by ~10-15%. Use company-specific beta for more precision."
+      },
+      {
+        "parameter": "Commercial Horizon",
+        "value": "12 years post-launch",
+        "units": "years",
+        "source": "Estimated based on typical composition-of-matter patent + PTE; NCE status assumed",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Medium",
+        "notes": "Assumes no material generic/biosimilar entry until year 12. Actual IP position should be verified."
+      },
+      {
+        "parameter": "Net Economic Ownership",
+        "value": "100%",
+        "units": "%",
+        "source": "Implied by royalty_rate in config; adjust for any licensed-in/out deal terms",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Medium",
+        "notes": null
+      },
+      {
+        "parameter": "Addressable Patients (annual, US)",
+        "value": "6,000",
+        "units": "patients/year",
+        "source": "Public epidemiology data (SEER, IQVIA, company KOL slides); analyst adjustment for eligible fraction",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "Represents diagnosed + treated + biomarker-eligible patients in US per year."
+      },
+      {
+        "parameter": "Net Price per Patient / Year (US)",
+        "value": "$150,000",
+        "units": "USD/patient/year",
+        "source": "Benchmarked against approved comps; WAC \u00d7 (1 \u2013 GTN). See pricing_refs.py for comp table.",
+        "url": null,
+        "confidence": "Low",
+        "sensitivity": "High",
+        "notes": "Single biggest swing factor in peak sales. Validate against approved drug pricing in same class."
+      },
+      {
+        "parameter": "Gross-to-Net Discount",
+        "value": "30%",
+        "units": null,
+        "source": "SSR Health / CMS data benchmarks for biologic in oncology",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Medium",
+        "notes": "Applied to WAC to derive net realized price. G2N ranges widely by therapeutic area and payer mix."
+      },
+      {
+        "parameter": "COGS Rate",
+        "value": "12% of net revenue",
+        "units": "% of net revenue",
+        "source": "Industry benchmark for biologic; DiMasi / company gross margin disclosures",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "Peak Market Penetration",
+        "value": "15% of addressable patients",
+        "units": "% of addressable population",
+        "source": "Analyst estimate based on competitive positioning, differentiation, and comparable launch trajectories",
+        "url": null,
+        "confidence": "Low",
+        "sensitivity": "High",
+        "notes": "Reaches peak in year 5 post-launch. Modeled as linear ramp."
+      },
+      {
+        "parameter": "Years to Peak Sales",
+        "value": "5 years post-launch",
+        "units": "years",
+        "source": "Comparable product launches in specialty/oncology; faster for biomarker-selected populations",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "SG&A Structure",
+        "value": "40% (launch) \u2192 25% (mature) of revenue",
+        "units": "% of net revenue",
+        "source": "Industry benchmarks; specialty pharma commercial model. Net margin at maturity: 63%",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "POS Methodology",
+        "value": "Heuristic log-odds model",
+        "units": null,
+        "source": "Industry-prior base rates (Biomedtracker/IQVIA 2021) adjusted in log-odds space for endpoint quality, MoA precedent, biomarker selection, safety profile, and competitive dynamics.",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4609178/",
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "Base rates from Biomedtracker/IQVIA 2021. Adjusters calibrated to shift P by \u00b110-25pp per factor."
+      },
+      {
+        "parameter": "P(Success | PHASE 2)",
+        "value": "35%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 100%"
+      },
+      {
+        "parameter": "P(Success | PHASE 3)",
+        "value": "50%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 35%"
+      },
+      {
+        "parameter": "P(Success | NDA BLA)",
+        "value": "90%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 18%"
+      }
+    ],
+    "limitations": [
+      "Hypothetical analyst-owned financial assumptions; not sourced facts.",
+      "Company NAV fields are placeholders: this is an asset-level valuation.",
+      "Peak sales include a 0.80 compliance factor (engine default; not settable through the bve-asset loader)."
+    ],
+    "what_would_change_thesis": [
+      "Phase 2/3 ORR or PFS data significantly above or below the expected efficacy bar.",
+      "FDA grants or revokes Breakthrough Therapy designation (major POS signal).",
+      "Competitor drug achieves superior label (broader population, better efficacy, or lower price).",
+      "Unexpected safety findings (Grade 3+ on-target toxicities or SAEs) trigger clinical hold.",
+      "Payer/reimbursement environment shifts materially (Part D restructuring, IRA negotiation).",
+      "Company secures a partnership or acquisition offer at a significant premium to NAV.",
+      "Cash runway falls below 4 quarters without a clear financing path (increases dilution risk)."
+    ]
+  }
+}

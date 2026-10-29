@@ -1,0 +1,8 @@
+{
+  "config": "val/CL-20.none.yaml",
+  "config_sha256": "e337decf5311b62e5d7056c1df163000953d58b3cb6e89c6eb5a18449e635d57",
+  "deal_economics": null,
+  "label": "PROTOTYPE valuation path (DealScreen); Lane 1 quant + clinical sign-off pending",
+  "n_sims": 5000,
+  "seed": 42
+}
