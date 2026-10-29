@@ -1,0 +1,72 @@
+# Program list for the CLDN18.2 comparison landscape (cycle C1). INTERNAL DEVELOPMENT.
+# Chosen from the ClinicalTrials.gov snapshot (sources/ctgov_cldn18_snapshot.json) BEFORE any
+# workflow ran. "match" = case-insensitive substrings of registry intervention names / otherNames
+# used to attach trials. Identity is NOT asserted here: rows that may be the same molecule under
+# different codes are kept as separate records, as a vendor export would.
+# Inclusion: every named investigational agent in the snapshot, plus deliberate noise
+# (non-CLDN18.2 drugs that appear in the same trials; imaging agents).
+programs:
+  - {id: CL-01, name: Zolbetuximab, match: [zolbetuximab]}
+  - {id: CL-02, name: IMAB362, match: [imab362]}
+  - {id: CL-03, name: AZD0901, match: [azd0901]}
+  - {id: CL-04, name: CMG901, match: [cmg901]}
+  - {id: CL-05, name: Sonesitatug vedotin, match: [sonesitatug]}
+  - {id: CL-06, name: IBI343, match: [ibi343]}
+  - {id: CL-07, name: LM-302, match: [lm-302]}
+  - {id: CL-08, name: SHR-A1904, match: [shr-a1904]}
+  - {id: CL-09, name: TST001, match: [tst001]}
+  - {id: CL-10, name: ASP2138, match: [asp2138]}
+  - {id: CL-11, name: XNW27011, match: [xnw27011]}
+  - {id: CL-12, name: ASP546C, match: [asp546c]}
+  - {id: CL-13, name: Givastomig, match: [givastomig, tj033721]}
+  - {id: CL-14, name: EO-3021, match: [eo-3021]}
+  - {id: CL-15, name: SYSA1801, match: [sysa1801]}
+  - {id: CL-16, name: ATG-022, match: [atg-022]}
+  - {id: CL-17, name: AZD5863, match: [azd5863]}
+  - {id: CL-18, name: CT041 (satricabtagene autoleucel), match: [ct041]}
+  - {id: CL-19, name: AB011, match: [ab011]}
+  - {id: CL-20, name: QLS31905, match: [qls31905]}
+  - {id: CL-21, name: ANO31905, match: [ano31905]}
+  - {id: CL-22, name: FG-M108, match: [fg-m108, m108 monoclonal]}
+  - {id: CL-23, name: FG-B901, match: [fg-b901]}
+  - {id: CL-24, name: JS107, match: [js107]}
+  - {id: CL-25, name: RC118, match: [rc118]}
+  - {id: CL-26, name: RC148, match: [rc148]}
+  - {id: CL-27, name: SKB315, match: [skb315]}
+  - {id: CL-28, name: ASKB589, match: [askb589]}
+  - {id: CL-29, name: BL-M05D1, match: [bl-m05d1]}
+  - {id: CL-30, name: FL-301, match: [fl-301]}
+  - {id: CL-31, name: Spevatamig (PT886), match: [spevatamig, pt886]}
+  - {id: CL-32, name: BDC-4182, match: [bdc-4182]}
+  - {id: CL-33, name: SOT102, match: [sot102]}
+  - {id: CL-34, name: ZL-1211, match: [zl-1211]}
+  - {id: CL-35, name: BNT141, match: [bnt141]}
+  - {id: CL-36, name: AMG 910, match: [amg 910]}
+  - {id: CL-37, name: TORL-2-307-ADC, match: [torl-2-307-adc]}
+  - {id: CL-38, name: LCB02A, match: [lcb02a]}
+  - {id: CL-39, name: Q-1802, match: [q-1802]}
+  - {id: CL-40, name: MIL93, match: [mil93]}
+  - {id: CL-41, name: LB4330, match: [lb4330]}
+  - {id: CL-42, name: LB1908, match: [lb1908]}
+  - {id: CL-43, name: TQB2103, match: [tqb2103]}
+  - {id: CL-44, name: SG1906, match: [sg1906]}
+  - {id: CL-45, name: DR30303, match: [dr30303]}
+  - {id: CL-46, name: VBC108, match: [vbc108]}
+  - {id: CL-47, name: IBI345, match: [ibi345]}
+  - {id: CL-48, name: TAC01-CLDN18.2, match: [tac01-cldn18.2]}
+  - {id: CL-49, name: IMC002, match: [imc002]}
+  - {id: CL-50, name: LM-102, match: [lm-102]}
+  - {id: CL-51, name: AK132, match: [ak132]}
+  - {id: CL-52, name: 177Lu-DOTA-SNA040, match: [177lu-dota-sna040]}
+  - {id: CL-53, name: Bio-008, match: [bio-008]}
+  - {id: CL-54, name: SPX-101, match: [spx-101]}
+  - {id: CL-55, name: DA-3501, match: [da-3501]}
+  - {id: CL-56, name: EB-DNK102 (CLDN18.2/MUC1 CAR-NK), match: [eb-dnk102]}
+  # noise: not CLDN18.2-directed, but registered in the same trials
+  - {id: CL-57, name: Rilvegostomig (AZD2936), match: [rilvegostomig, azd2936]}
+  - {id: CL-58, name: Zanidatamab, match: [zanidatamab]}
+  - {id: CL-59, name: Volrustomig, match: [volrustomig]}
+  - {id: CL-60, name: QL1706, match: [ql1706]}
+  # noise: diagnostic imaging agents
+  - {id: CL-61, name: 89Zr-NY005, match: [89zr-ny005]}
+  - {id: CL-62, name: "[18F]F-RESCA-3A12", match: [resca-3a12]}

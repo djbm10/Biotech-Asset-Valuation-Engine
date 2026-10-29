@@ -1,0 +1,383 @@
+program_id,field,value,derived_from
+CL-01,Target,Claudin 18.2; HER2,NCT06962137 title (single investigational agent); https://api.fda.gov/drug/label.json?search=openfda.generic_name:zolbetuximab (quote)
+CL-01,Modality,Monoclonal antibody,NCT06962137 intervention description
+CL-01,Indication,CLDN18.2-Positive Gastric Cancer; CLDN18.2-Positive Gastroesophageal Junction Adenocarcinoma; Advanced Biliary Tract Cancer; Metastatic Biliary Tract Carcinoma; Locally Advanced Unresectable Gastroesophageal Junction (GEJ) Adenocarcinoma or Cancer; Locally Advanced Unresectable Gastric Adenocarcinoma or Cancer,registry conditions
+CL-01,Highest Phase,Marketed,registry phases / FDA label
+CL-01,Status,Marketed in U.S. (FDA label lists gastric/GEJ adenocarcinoma),registry overallStatus / FDA label
+CL-01,Company,"Astellas Pharma US, Inc.",registry lead sponsor (latest) / FDA labeler
+CL-01,Partnerships,"Astellas Pharma Inc; BeOne Medicines; Jazz Pharmaceuticals; Natera, Inc.; Roche Diagnostics GmbH; University of Alabama at Birmingham; University of Michigan",registry collaborators
+CL-02,Target,Claudin 18.2,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C85475?include=summary (quote)
+CL-02,Modality,Monoclonal antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C85475?include=summary (quote)
+CL-02,Indication,Locally Advanced Unresectable Gastroesophageal Junction (GEJ) Adenocarcinoma or Cancer; Locally Advanced Unresectable Gastric Adenocarcinoma or Cancer; Metastatic Gastric Adenocarcinoma or Cancer; Metastatic Gastroesophageal Junction (GEJ) Adenocarcinoma; CLDN18.2-positive Adenocarcinoma of the Gastroesophageal Junction; CLDN18.2-positive Adenocarcinoma of Esophagus,registry conditions
+CL-02,Highest Phase,Phase 4,registry phases / FDA label
+CL-02,Status,Active trial in registry,registry overallStatus / FDA label
+CL-02,Company,"Astellas Pharma Global Development, Inc.",registry lead sponsor (latest) / FDA labeler
+CL-03,Target,Claudin 18.2,NCT07143604 title (single investigational agent)
+CL-03,Modality,Antibody-drug conjugate,NCT06219941 intervention description
+CL-03,Indication,Gastric Cancer; Gastroesophageal Junction Cancer; Biliary Tract Cancer; Pancreatic Ductal Adenocarcinoma; Gastroesophageal Junction Adenocarcinoma; Esophageal Cancer,registry conditions
+CL-03,Highest Phase,Phase 3,registry phases / FDA label
+CL-03,Status,Active trial in registry,registry overallStatus / FDA label
+CL-03,Company,AstraZeneca,registry lead sponsor (latest) / FDA labeler
+CL-04,Target,Claudin 18.2,https://www.astrazeneca.com/media-centre/press-releases/2023/astrazeneca-enters-license-agreement-with-kym-biosciences-for-cmg901-a-claudin-182-antibody-drug-conjugate.html (quote)
+CL-04,Modality,Antibody-drug conjugate,NCT06219941 intervention description
+CL-04,Indication,Gastric Cancer; Gastroesophageal Junction Cancer; Biliary Tract Cancer; Pancreatic Ductal Adenocarcinoma; Advanced Solid Tumor; Gastric Cancer(Including Gastroesophageal Junction Adenocarcinoma),registry conditions
+CL-04,Highest Phase,Phase 2,registry phases / FDA label
+CL-04,Status,Active trial in registry,registry overallStatus / FDA label
+CL-04,Company,AstraZeneca,registry lead sponsor (latest) / FDA labeler
+CL-05,Target,Claudin 18.2,NCT07143604 title (single investigational agent)
+CL-05,Modality,Antibody-drug conjugate,https://www.onclive.com/view/clarity-gastric01-shows-os-benefit-with-sonesitatug-vedotin-in-pretreated-cldn18-2-gastroesophageal-carcinoma (quote)
+CL-05,Indication,Gastric Cancer; Gastroesophageal Junction Cancer; Gastroesophageal Junction Adenocarcinoma; Esophageal Cancer,registry conditions
+CL-05,Highest Phase,Phase 3,registry phases / FDA label
+CL-05,Status,Active trial in registry,registry overallStatus / FDA label
+CL-05,Company,AstraZeneca,registry lead sponsor (latest) / FDA labeler
+CL-06,Target,Claudin 18.2,https://www.rttnews.com/3658127/innovent-reports-ibi343-meets-primary-goal-in-phase-3-g-hope-001-trial-in-gastric-cancer.aspx (quote)
+CL-06,Modality,Imaging agent,NCT07415525 intervention description
+CL-06,Indication,Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma; Pancreatic Cancer; Locally Advanced Unresectable or Metastatic Solid Tumors; Advanced Gastric/Gastroesophageal Junction Adenocarcinoma; Advanced Pancreatic Cancer; Borderline Resectable Pancreatic Adenocarcinoma,registry conditions
+CL-06,Highest Phase,Phase 3,registry phases / FDA label
+CL-06,Status,Active trial in registry,registry overallStatus / FDA label
+CL-06,Company,Innovent Biologics (Suzhou) Co. Ltd.,registry lead sponsor (latest) / FDA labeler
+CL-06,Partnerships,Fortvita Biologics (USA)Inc.; Innovent Biologics (Suzhou) Co. Ltd.; Shanghai Jiao Tong University School of Medicine; TigerMed,registry collaborators
+CL-07,Target,Claudin 18.2,NCT06587425 title (single investigational agent)
+CL-07,Modality,Antibody-drug conjugate,NCT05994001 intervention description
+CL-07,Indication,Gastric or Gastroesophageal Junction Adenocarcinoma; Biliary Tract Cancer; Candonilimab; Claudin 18.2; Pancreatic Cancer; Chemotherapy Effect,registry conditions
+CL-07,Highest Phase,Phase 3,registry phases / FDA label
+CL-07,Status,Active trial in registry,registry overallStatus / FDA label
+CL-07,Company,"LaNova Medicines Zhejiang Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-07,Partnerships,"Affiliated Hospital of Jining Medical University; Shanghai Geriatric Medical Center; Xuhui Central Hospital, Shanghai",registry collaborators
+CL-08,Target,Claudin 18.2,NCT07450976 title (single investigational agent)
+CL-08,Modality,Antibody-drug conjugate,https://www.biospace.com/hengrui-pharma-partners-with-merck-kgaa-darmstadt-germany-to-advance-innovative-cancer-therapies (quote)
+CL-08,Indication,Biliary Tract Cancer; Gastric Cancer; HER2 + Gastric Cancer; CLDN18.2-positive Adenocarcinoma of the Gastroesophageal Junction; PD-L1 Positive; Second-line Advanced or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma,registry conditions
+CL-08,Highest Phase,Phase 3,registry phases / FDA label
+CL-08,Status,Active trial in registry,registry overallStatus / FDA label
+CL-08,Company,"Shanghai Hengrui Pharmaceutical Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-09,Target,Claudin 18.2,NCT05190575 title (single investigational agent)
+CL-09,Modality,Monoclonal antibody,NCT04396821 intervention description
+CL-09,Indication,Advanced Cancer; Gastric Cancer; Gastroesophageal-junction Cancer; Pancreatic Cancer; Biliary Tract Neoplasms,registry conditions
+CL-09,Highest Phase,Phase 2,registry phases / FDA label
+CL-09,Status,Active trial in registry,registry overallStatus / FDA label
+CL-09,Company,"Transcenta Therapeutics (Hangzhou) Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-09,Partnerships,Bristol-Myers Squibb; Transcenta Holding Limited,registry collaborators
+CL-10,Target,Claudin 18.2; CD3,https://www.placera.se/pressmeddelanden/astellas-doses-first-patient-in-phase-3-study-of-asp2138-in-cldn18-2-postive-and-her2-negative-locally-advanced-unresectable-or-metastatic-gastric-or-gastroesophageal-junction-gej-adenocarcinoma-20260825 (quote); https://www.placera.se/pressmeddelanden/astellas-doses-first-patient-in-phase-3-study-of-asp2138-in-cldn18-2-postive-and-her2-negative-locally-advanced-unresectable-or-metastatic-gastric-or-gastroesophageal-junction-gej-adenocarcinoma-20260825 (quote)
+CL-10,Modality,Bispecific antibody,https://www.placera.se/pressmeddelanden/astellas-doses-first-patient-in-phase-3-study-of-asp2138-in-cldn18-2-postive-and-her2-negative-locally-advanced-unresectable-or-metastatic-gastric-or-gastroesophageal-junction-gej-adenocarcinoma-20260825 (quote)
+CL-10,Indication,Pancreatic Ductal Adenocarcinoma; Gastric Adenocarcinoma; Gastroesophageal Junction (GEJ) Adenocarcinoma; Pancreatic Adenocarcinoma,registry conditions
+CL-10,Highest Phase,Phase 3,registry phases / FDA label
+CL-10,Status,Active trial in registry,registry overallStatus / FDA label
+CL-10,Company,"Astellas Pharma Global Development, Inc.",registry lead sponsor (latest) / FDA labeler
+CL-11,Target,Claudin 18.2,NCT07488676 title (single investigational agent)
+CL-11,Modality,Antibody-drug conjugate,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C227646?include=summary (quote)
+CL-11,Indication,Gastric or Gastro-esophageal Junction (GEJ) Adenocarcinoma; Pancreatic Adenocarcinoma; Pancreatic Adenocarcinoma Metastatic; Lung Cancer (NSCLC); Ovarian Cancer; Colorectal Cancer Metastatic,registry conditions
+CL-11,Highest Phase,Phase 2,registry phases / FDA label
+CL-11,Status,Active trial in registry,registry overallStatus / FDA label
+CL-11,Company,"Astellas Pharma Global Development, Inc.",registry lead sponsor (latest) / FDA labeler
+CL-11,Partnerships,Evopoint Biosciences Inc.,registry collaborators
+CL-12,Target,Claudin 18.2,NCT07488676 title (single investigational agent)
+CL-12,Modality,Antibody-drug conjugate,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C227646?include=summary (quote)
+CL-12,Indication,Gastric or Gastro-esophageal Junction (GEJ) Adenocarcinoma; Pancreatic Adenocarcinoma,registry conditions
+CL-12,Highest Phase,Phase 2,registry phases / FDA label
+CL-12,Status,Active trial in registry,registry overallStatus / FDA label
+CL-12,Company,"Astellas Pharma Global Development, Inc.",registry lead sponsor (latest) / FDA labeler
+CL-13,Target,Claudin 18.2; 4-1BB,https://natlawreview.com/press-releases/i-mab-announces-publication-givastomig-monotherapy-data-clinical-cancer (quote); https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180884?include=summary (quote)
+CL-13,Modality,Bispecific antibody,https://natlawreview.com/press-releases/i-mab-announces-publication-givastomig-monotherapy-data-clinical-cancer (quote)
+CL-13,Indication,Solid Tumor; Advanced Cancer; Metastatic Cancer; Gastric Cancer; Gastroesophageal Junction Carcinoma; Esophageal Adenocarcinoma,registry conditions
+CL-13,Highest Phase,Phase 2,registry phases / FDA label
+CL-13,Status,Active trial in registry,registry overallStatus / FDA label
+CL-13,Company,I-Mab Biopharma US Limited,registry lead sponsor (latest) / FDA labeler
+CL-14,Target,Claudin 18.2,NCT05980416 intervention description
+CL-14,Modality,Antibody-drug conjugate,NCT05980416 intervention description
+CL-14,Indication,Stomach Neoplasm; Gastrointestinal Neoplasms; Digestive System Neoplasm; Neoplasms by Site; Neoplasms,registry conditions
+CL-14,Highest Phase,Phase 1,registry phases / FDA label
+CL-14,Status,All registered trials terminated or withdrawn,registry overallStatus / FDA label
+CL-14,Company,Elevation Oncology,registry lead sponsor (latest) / FDA labeler
+CL-14,Partnerships,CSPC Pharmaceutical Group Limited; Eli Lilly and Company; GlaxoSmithKline,registry collaborators
+CL-15,Target,Claudin 18.2,NCT05009966 title (single investigational agent)
+CL-15,Modality,Antibody-drug conjugate,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C201073?include=summary (quote)
+CL-15,Indication,Advanced Solid Tumor; Gastric Cancer (GC); Gastroesophageal Junction (GEJ) Cancer; Pancreatic Cancer,registry conditions
+CL-15,Highest Phase,Phase 1,registry phases / FDA label
+CL-15,Status,Registry: no active trial (UNKNOWN),registry overallStatus / FDA label
+CL-15,Company,"CSPC ZhongQi Pharmaceutical Technology Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-16,Target,Claudin 18.2,https://cancernetwork.com/view/atg-022-receives-fda-orphan-drug-designation-for-gastric-pancreatic-cancers (quote)
+CL-16,Modality,Antibody-drug conjugate,https://cancernetwork.com/view/atg-022-receives-fda-orphan-drug-designation-for-gastric-pancreatic-cancers (quote)
+CL-16,Indication,Advanced Gastric or Gastroesophageal Junction Adenocarcinoma; Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma,registry conditions
+CL-16,Highest Phase,Phase 3,registry phases / FDA label
+CL-16,Status,Active trial in registry,registry overallStatus / FDA label
+CL-16,Company,Antengene Biologics Limited,registry lead sponsor (latest) / FDA labeler
+CL-16,Partnerships,Merck Sharp & Dohme LLC,registry collaborators
+CL-17,Target,Claudin 18.2; CD3,NCT06005493 intervention description; NCT06005493 intervention description
+CL-17,Modality,Bispecific antibody,NCT06005493 intervention description
+CL-17,Indication,Gastric Cancer; Gastro-esophageal Junction Cancer; Pancreatic Ductal Adenocarcinoma; Esophageal Adenocarcinoma,registry conditions
+CL-17,Highest Phase,Phase 2,registry phases / FDA label
+CL-17,Status,Active trial in registry,registry overallStatus / FDA label
+CL-17,Company,AstraZeneca,registry lead sponsor (latest) / FDA labeler
+CL-18,Target,Claudin 18.2,NCT06857786 title (single investigational agent)
+CL-18,Modality,CAR-T,NCT04581473 intervention description
+CL-18,Indication,Gastric Adenocarcinoma; Pancreatic Cancer; Gastroesophageal Junction Adenocarcinoma; Gastric Cancer,registry conditions
+CL-18,Highest Phase,Phase 2,registry phases / FDA label
+CL-18,Status,Active trial in registry,registry overallStatus / FDA label
+CL-18,Company,"CARsgen Therapeutics Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-18,Partnerships,Fudan University; Peking University Cancer Hospital & Institute,registry collaborators
+CL-19,Target,Claudin 18.2,NCT04400383 title (single investigational agent)
+CL-19,Modality,Monoclonal antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C173724?include=summary (quote)
+CL-19,Indication,Solid Tumor; Gastric Cancer; Pancreatic Adenocarcinoma,registry conditions
+CL-19,Highest Phase,Phase 1,registry phases / FDA label
+CL-19,Status,Registry: no active trial (COMPLETED),registry overallStatus / FDA label
+CL-19,Company,"CARsgen Therapeutics Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-19,Partnerships,Shanghai East Hospital,registry collaborators
+CL-20,Target,Claudin 18.2; CD3,NCT05278832 title (single investigational agent); https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C187103?include=summary (quote)
+CL-20,Modality,Bispecific antibody,https://www.biospace.com/qilu-pharmaceutical-announces-results-from-phase-i-clinical-study-for-its-novel-bispecific-antibody-qls31905-at-esmo-immuno-oncology-congress (quote)
+CL-20,Indication,Gastric Adenocarcinoma; Gastroesophageal Junction Adenocarcinoma; Advanced Solid Tumor; Solid Tumor; CLDN18.2-positive Advanced Biliary Tract Cancer; Pancreatic Cancer,registry conditions
+CL-20,Highest Phase,Phase 3,registry phases / FDA label
+CL-20,Status,Active trial in registry,registry overallStatus / FDA label
+CL-20,Company,"Qilu Pharmaceutical Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-21,Target,Claudin 18.2,"https://clinicaltrials.gov/api/v2/studies?query.term=ANO31905&fields=NCTId,BriefTitle,OfficialTitle,LeadSponsorName,OverallStatus,InterventionName,InterventionDescription&pageSize=3 (quote)"
+CL-21,Indication,Pancreatic Cancer,registry conditions
+CL-21,Highest Phase,Phase 2,registry phases / FDA label
+CL-21,Status,Active trial in registry,registry overallStatus / FDA label
+CL-21,Company,Anova Innovation Limited,registry lead sponsor (latest) / FDA labeler
+CL-22,Target,Claudin 18.2,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180828?include=summary (quote)
+CL-22,Modality,Monoclonal antibody,NCT06177041 intervention description
+CL-22,Indication,Claudin 18.2; Solid Tumor Malignancies; Locally Advanced Unresectable or Metastatic Gastric Cancer; Locally Advanced Unresectable or Metastatic Gastroesophageal Junction (GEJ) Adenocarcinoma; Pancreatic Cancer,registry conditions
+CL-22,Highest Phase,Phase 3,registry phases / FDA label
+CL-22,Status,Active trial in registry,registry overallStatus / FDA label
+CL-22,Company,"FutureGen Biopharmaceutical (Beijing) Co., Ltd",registry lead sponsor (latest) / FDA labeler
+CL-23,Target,PD-L1,https://clinicaltrials.gov/api/v2/studies/NCT07623707 (quote)
+CL-23,Modality,Bispecific antibody,https://clinicaltrials.gov/api/v2/studies/NCT07623707 (quote)
+CL-23,Indication,Claudin 18.2; Solid Tumor Malignancies,registry conditions
+CL-23,Highest Phase,Phase 2,registry phases / FDA label
+CL-23,Status,Active trial in registry,registry overallStatus / FDA label
+CL-23,Company,"FutureGen Biopharmaceutical (Beijing) Co., Ltd",registry lead sponsor (latest) / FDA labeler
+CL-24,Target,Claudin 18.2,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C190687?include=summary (quote)
+CL-24,Modality,Antibody-drug conjugate,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C190687?include=summary (quote)
+CL-24,Indication,Advanced Gastric or Gastroesophageal Junction Adenocarcinoma; Gastric Adenocarcinoma,registry conditions
+CL-24,Highest Phase,Phase 3,registry phases / FDA label
+CL-24,Status,Active trial in registry,registry overallStatus / FDA label
+CL-24,Company,"NingBo Junyan Hongshi Biosciences Co., Ltd",registry lead sponsor (latest) / FDA labeler
+CL-25,Target,Claudin 18.2,NCT05205850 intervention description
+CL-25,Modality,Antibody-drug conjugate,NCT05205850 intervention description
+CL-25,Indication,Advanced Solid Tumor; Unresectable Solid Tumor; Metastatic Solid Tumor; Locally Advanced Solid Tumor,registry conditions
+CL-25,Highest Phase,Phase 2,registry phases / FDA label
+CL-25,Status,Active trial in registry,registry overallStatus / FDA label
+CL-25,Company,"RemeGen Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-26,Target,PD-1,https://news.abbvie.com/2026-01-12-AbbVie-and-RemeGen-Announce-Exclusive-Licensing-Agreement-to-Develop-A-Novel-Bispecific-Antibody-for-Advanced-Solid-Tumors (quote)
+CL-26,Modality,Bispecific antibody,https://news.abbvie.com/2026-01-12-AbbVie-and-RemeGen-Announce-Exclusive-Licensing-Agreement-to-Develop-A-Novel-Bispecific-Antibody-for-Advanced-Solid-Tumors (quote)
+CL-26,Indication,Advanced Solid Tumor,registry conditions
+CL-26,Highest Phase,Phase 2,registry phases / FDA label
+CL-26,Status,Registry: no active trial (UNKNOWN),registry overallStatus / FDA label
+CL-26,Company,"RemeGen Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-27,Target,Claudin 18.2,NCT05367635 intervention description
+CL-27,Modality,Antibody-drug conjugate,NCT05367635 intervention description
+CL-27,Indication,Advanced Solid Tumors; Gastroesophageal Junction Adenocarcinoma,registry conditions
+CL-27,Highest Phase,Phase 2,registry phases / FDA label
+CL-27,Status,Active trial in registry,registry overallStatus / FDA label
+CL-27,Company,"Sichuan Kelun-Biotech Biopharmaceutical Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-28,Target,PD-1; Claudin 18.2,NCT05632939 title (single investigational agent); https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C179328?include=summary (quote)
+CL-28,Modality,Monoclonal antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C179328?include=summary (quote)
+CL-28,Indication,Gastric Cancer; Gastroesophageal Cancer (GC); Gastroesophageal Junction Adenocarcinoma; Gastric Adenocarcinoma,registry conditions
+CL-28,Highest Phase,Phase 3,registry phases / FDA label
+CL-28,Status,Active trial in registry,registry overallStatus / FDA label
+CL-28,Company,"AskGene Pharma, Inc.",registry lead sponsor (latest) / FDA labeler
+CL-28,Partnerships,"Jiangsu Aosaikang Biopharmaceutical Co., Ltd; Jiangsu Aosaikang Pharmaceutical Co., Ltd.",registry collaborators
+CL-29,Target,Claudin 18.2,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C215079?include=summary (quote)
+CL-29,Modality,Antibody-drug conjugate,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C215079?include=summary (quote)
+CL-29,Indication,Gastric Cancer; Gastroesophageal Junction Adenocarcinoma,registry conditions
+CL-29,Highest Phase,Phase 3,registry phases / FDA label
+CL-29,Status,Active trial in registry,registry overallStatus / FDA label
+CL-29,Company,"Sichuan Baili Pharmaceutical Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-29,Partnerships,"Baili-Bio (Chengdu) Pharmaceutical Co., Ltd.",registry collaborators
+CL-30,Target,Claudin 18.2,https://www.sec.gov/Archives/edgar/data/1509745/000110465923004066/tm233557d1_ex99-1.htm (quote)
+CL-30,Modality,Monoclonal antibody,https://www.sec.gov/Archives/edgar/data/1509745/000110465923004066/tm233557d1_ex99-1.htm (quote)
+CL-30,Indication,Pancreas Cancer; Gastric Cancer; Solid Tumor,registry conditions
+CL-30,Highest Phase,Phase 2,registry phases / FDA label
+CL-30,Status,All registered trials terminated or withdrawn,registry overallStatus / FDA label
+CL-30,Company,Flame Biosciences,registry lead sponsor (latest) / FDA labeler
+CL-31,Target,Claudin 18.2; CD47,NCT05482893 intervention description; NCT05482893 intervention description
+CL-31,Modality,Bispecific antibody,NCT05482893 intervention description
+CL-31,Indication,Gastric or Gastroesophageal Junction Adenocarcinoma; Pancreatic Ductal Adenocarcinoma; Biliary Tract Cancer (BTC); Colorectal Cancer,registry conditions
+CL-31,Highest Phase,Phase 2,registry phases / FDA label
+CL-31,Status,Active trial in registry,registry overallStatus / FDA label
+CL-31,Company,Phanes Therapeutics,registry lead sponsor (latest) / FDA labeler
+CL-31,Partnerships,Merck Sharp & Dohme LLC,registry collaborators
+CL-32,Target,Claudin 18.2,NCT06921837 intervention description
+CL-32,Modality,Monoclonal antibody,NCT06921837 intervention description
+CL-32,Indication,Gastric Cancer Adenocarcinoma Metastatic; Gastroesophageal Adenocarcinoma,registry conditions
+CL-32,Highest Phase,Phase 2,registry phases / FDA label
+CL-32,Status,Active trial in registry,registry overallStatus / FDA label
+CL-32,Company,"Bolt Biotherapeutics, Inc.",registry lead sponsor (latest) / FDA labeler
+CL-33,Target,Claudin 18.2,NCT05525286 intervention description
+CL-33,Modality,Antibody-drug conjugate,NCT05525286 intervention description
+CL-33,Indication,Pancreatic Cancer,registry conditions
+CL-33,Highest Phase,Phase 2,registry phases / FDA label
+CL-33,Status,All registered trials terminated or withdrawn,registry overallStatus / FDA label
+CL-33,Company,SOTIO Biotech a.s.,registry lead sponsor (latest) / FDA labeler
+CL-34,Target,Claudin 18.2,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C191757?include=summary (quote)
+CL-34,Modality,Monoclonal antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C191757?include=summary (quote)
+CL-34,Indication,Advanced Solid Tumor,registry conditions
+CL-34,Highest Phase,Phase 1,registry phases / FDA label
+CL-34,Status,Registry: no active trial (COMPLETED),registry overallStatus / FDA label
+CL-34,Company,"Zai Biopharmaceutical (Suzhou) Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-35,Target,Claudin 18.2,https://www.sec.gov/Archives/edgar/data/1776985/000177698523000050/bnt_2023q2ex99x1quarterlyr.htm (quote)
+CL-35,Modality,Monoclonal antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C179620?include=summary (quote)
+CL-35,Indication,Solid Tumor; Gastric Cancer; Gastroesophageal Junction Adenocarcinoma; Esophageal Adenocarcinoma; Pancreatic Cancer; Biliary Tract Cancer,registry conditions
+CL-35,Highest Phase,Phase 2,registry phases / FDA label
+CL-35,Status,All registered trials terminated or withdrawn,registry overallStatus / FDA label
+CL-35,Company,BioNTech SE,registry lead sponsor (latest) / FDA labeler
+CL-36,Target,Claudin 18.2; CD3,NCT04260191 title (single investigational agent); https://ckb.jax.org/therapy/show/11026 (quote)
+CL-36,Modality,Bispecific antibody,NCT04260191 title (single investigational agent)
+CL-36,Indication,Gastric and Gastroesophageal Junction Adenocarcinoma,registry conditions
+CL-36,Highest Phase,Phase 1,registry phases / FDA label
+CL-36,Status,All registered trials terminated or withdrawn,registry overallStatus / FDA label
+CL-36,Company,Amgen,registry lead sponsor (latest) / FDA labeler
+CL-37,Target,Claudin 18.2,https://www.cismef.org/page/detail/en/NCI_CO_C185565 (quote)
+CL-37,Modality,Antibody-drug conjugate,NCT05156866 intervention description
+CL-37,Indication,Advanced Solid Tumor; Gastric Cancer; Pancreas Cancer; Gastroesophageal Junction Adenocarcinoma,registry conditions
+CL-37,Highest Phase,Phase 1,registry phases / FDA label
+CL-37,Status,Active trial in registry,registry overallStatus / FDA label
+CL-37,Company,"TORL Biotherapeutics, LLC",registry lead sponsor (latest) / FDA labeler
+CL-37,Partnerships,Translational Research in Oncology,registry collaborators
+CL-38,Target,Claudin 18.2,NCT07460375 intervention description
+CL-38,Modality,Monoclonal antibody,NCT07460375 intervention description
+CL-38,Indication,Advanced Solid Tumors,registry conditions
+CL-38,Highest Phase,Phase 2,registry phases / FDA label
+CL-38,Status,Active trial in registry,registry overallStatus / FDA label
+CL-38,Company,"LigaChem Biosciences, Inc.",registry lead sponsor (latest) / FDA labeler
+CL-38,Partnerships,"AntibodyChem Biosciences, Inc.",registry collaborators
+CL-39,Target,Claudin 18.2; PD-L1,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180675?include=summary (quote); https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180675?include=summary (quote)
+CL-39,Modality,Bispecific antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180675?include=summary (quote)
+CL-39,Indication,Advanced Solid Tumors,registry conditions
+CL-39,Highest Phase,Phase 1,registry phases / FDA label
+CL-39,Status,Registry: no active trial (UNKNOWN),registry overallStatus / FDA label
+CL-39,Company,QureBio Ltd.,registry lead sponsor (latest) / FDA labeler
+CL-40,Target,Claudin 18.2,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C179602?include=summary (quote)
+CL-40,Modality,Monoclonal antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C179602?include=summary (quote)
+CL-40,Indication,Advanced Malignancies,registry conditions
+CL-40,Highest Phase,Phase 1,registry phases / FDA label
+CL-40,Status,Registry: no active trial (UNKNOWN),registry overallStatus / FDA label
+CL-40,Company,"Beijing Mabworks Biotech Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-41,Target,Claudin 18.2,NCT06468358 intervention description
+CL-41,Indication,Solid Tumor,registry conditions
+CL-41,Highest Phase,Phase 2,registry phases / FDA label
+CL-41,Status,Active trial in registry,registry overallStatus / FDA label
+CL-41,Company,"L & L Bio Co., Ltd., Ningbo, China",registry lead sponsor (latest) / FDA labeler
+CL-41,Partnerships,Shanghai East Hospital,registry collaborators
+CL-42,Target,Claudin 18.2,NCT05539430 intervention description
+CL-42,Modality,CAR-T,NCT05539430 intervention description
+CL-42,Indication,Gastric Cancer; Gastroesophageal-junction Cancer; Esophageal Cancer; Pancreatic Cancer,registry conditions
+CL-42,Highest Phase,Phase 1,registry phases / FDA label
+CL-42,Status,Active trial in registry,registry overallStatus / FDA label
+CL-42,Company,Legend Biotech USA Inc,registry lead sponsor (latest) / FDA labeler
+CL-43,Target,Claudin 18.2,NCT05867563 intervention description
+CL-43,Modality,Antibody-drug conjugate,NCT05867563 intervention description
+CL-43,Indication,Advanced Malignant Neoplasm,registry conditions
+CL-43,Highest Phase,Phase 1,registry phases / FDA label
+CL-43,Status,Registry: no active trial (UNKNOWN),registry overallStatus / FDA label
+CL-43,Company,"Chia Tai Tianqing Pharmaceutical Group Nanjing Shunxin Pharmaceutical Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-44,Target,Claudin 18.2; CD47,NCT05857332 title (single investigational agent); https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C200799?include=summary (quote)
+CL-44,Modality,Bispecific antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C200799?include=summary (quote)
+CL-44,Indication,Locally Advanced Unresectable or Metastatic Solid Tumors,registry conditions
+CL-44,Highest Phase,Phase 1,registry phases / FDA label
+CL-44,Status,Active trial in registry,registry overallStatus / FDA label
+CL-44,Company,"Hangzhou Sumgen Biotech Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-45,Target,Claudin 18.2,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C198698?include=summary (quote)
+CL-45,Indication,Malignant Neoplasm of Digestive System,registry conditions
+CL-45,Highest Phase,Phase 1,registry phases / FDA label
+CL-45,Status,All registered trials terminated or withdrawn,registry overallStatus / FDA label
+CL-45,Company,"Zhejiang Doer Biologics Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-46,Target,Claudin 18.2,NCT07700160 title (single investigational agent)
+CL-46,Modality,Antibody-drug conjugate,NCT07700160 title (single investigational agent)
+CL-46,Indication,Advanced Solid Tumors,registry conditions
+CL-46,Highest Phase,Phase 2,registry phases / FDA label
+CL-46,Status,Active trial in registry,registry overallStatus / FDA label
+CL-46,Company,VelaVigo Bio Inc,registry lead sponsor (latest) / FDA labeler
+CL-47,Target,Claudin 18.2,NCT05199519 title (single investigational agent)
+CL-47,Modality,CAR-T,NCT05199519 intervention description
+CL-47,Indication,CLDN18.2 Positive Solid Tumors,registry conditions
+CL-47,Highest Phase,Phase 1,registry phases / FDA label
+CL-47,Status,Registry: no active trial (COMPLETED),registry overallStatus / FDA label
+CL-47,Company,Innovent Biologics (Suzhou) Co. Ltd.,registry lead sponsor (latest) / FDA labeler
+CL-48,Target,Claudin 18.2,NCT05862324 intervention description
+CL-48,Indication,Metastatic Solid Tumor,registry conditions
+CL-48,Highest Phase,Phase 2,registry phases / FDA label
+CL-48,Status,Active trial in registry,registry overallStatus / FDA label
+CL-48,Company,"Triumvira Immunologics, Inc.",registry lead sponsor (latest) / FDA labeler
+CL-49,Target,Claudin 18.2,NCT05946226 title (single investigational agent)
+CL-49,Modality,CAR-T,NCT05472857 intervention description
+CL-49,Indication,Advanced Digestive System Tumor; Gastric Cancer; Pancreatic Cancer; Advanced Ovarian Carcinoma; Gastroesophageal Junction Adenocarcinoma,registry conditions
+CL-49,Highest Phase,Phase 1,registry phases / FDA label
+CL-49,Status,Registry: no active trial (UNKNOWN),registry overallStatus / FDA label
+CL-49,Company,"Suzhou Immunofoco Biotechnology Co., Ltd",registry lead sponsor (latest) / FDA labeler
+CL-49,Partnerships,Changhai Hospital,registry collaborators
+CL-50,Target,Claudin 18.2,NCT04735796 title (single investigational agent)
+CL-50,Modality,Monoclonal antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C183147?include=summary (quote)
+CL-50,Indication,Advanced Solid Tumors; Advanced Solid Tumor,registry conditions
+CL-50,Highest Phase,Phase 2,registry phases / FDA label
+CL-50,Status,All registered trials terminated or withdrawn,registry overallStatus / FDA label
+CL-50,Company,"LaNova Medicines Development Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-50,Partnerships,First Affiliated Hospital of Harbin Medical University; First Affiliated Hospital of Zhejiang University; Shanghai Zhongshan Hospital; Sir Run Run Shaw Hospital,registry collaborators
+CL-51,Target,Claudin 18.2; CD47,NCT06166472 title (single investigational agent); NCT06166472 title (single investigational agent)
+CL-51,Modality,Bispecific antibody,NCT06166472 title (single investigational agent)
+CL-51,Indication,Advanced Malignant Solid Tumor,registry conditions
+CL-51,Highest Phase,Phase 1,registry phases / FDA label
+CL-51,Status,Registry: no active trial (UNKNOWN),registry overallStatus / FDA label
+CL-51,Company,Akeso,registry lead sponsor (latest) / FDA labeler
+CL-52,Target,Claudin 18.2,NCT07595237 title (single investigational agent)
+CL-52,Modality,Radioligand,NCT07595237 intervention description
+CL-52,Indication,Advanced Solid Tumors (Such as Gastric Cancer); Advanced Solid Tumors (Such as Adenocarcinoma at the Gastroesophageal Junction); Advanced Solid Tumors (Such as Pancreatic Cancer); Advanced Solid Tumors (Such as Cholangiocarcinoma),registry conditions
+CL-52,Highest Phase,Phase 1,registry phases / FDA label
+CL-52,Status,Active trial in registry,registry overallStatus / FDA label
+CL-52,Company,SmartNuclide Biopharma,registry lead sponsor (latest) / FDA labeler
+CL-53,Indication,"Solid Tumor, Adult",registry conditions
+CL-53,Highest Phase,Phase 1,registry phases / FDA label
+CL-53,Status,Registry: no active trial (UNKNOWN),registry overallStatus / FDA label
+CL-53,Company,Shijiazhuang Yiling Pharmaceutical Co. Ltd,registry lead sponsor (latest) / FDA labeler
+CL-54,Target,Claudin 18.2,NCT05231733 title (single investigational agent)
+CL-54,Modality,Monoclonal antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C189018?include=summary (quote)
+CL-54,Indication,Solid Tumors,registry conditions
+CL-54,Highest Phase,Phase 1,registry phases / FDA label
+CL-54,Status,All registered trials terminated or withdrawn,registry overallStatus / FDA label
+CL-54,Company,"SparX Biotech(Jiangsu) Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-55,Target,Claudin 18.2,https://www.asiae.co.kr/en/article/2025062415383793065 (quote)
+CL-55,Modality,Antibody-drug conjugate,https://www.asiae.co.kr/en/article/2025062415383793065 (quote)
+CL-55,Indication,Gastric (Stomach) Cancer; GastroEsophageal Cancer; Pancreatic Ductal Adenocarcinoma (mPDAC),registry conditions
+CL-55,Highest Phase,Phase 1,registry phases / FDA label
+CL-55,Status,Active trial in registry,registry overallStatus / FDA label
+CL-55,Company,"Dong-A ST Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-56,Target,Claudin 18.2; MUC1,NCT07627711 intervention description; NCT07627711 intervention description
+CL-56,Modality,CAR-NK,NCT07627711 intervention description
+CL-56,Indication,Pancreatic Ductal Adenocarcinoma (PDAC); Unresectable Locally Advanced; Metastatic Disease; Unresectable Locally Advanced or Metastatic Disease,registry conditions
+CL-56,Highest Phase,Phase 2,registry phases / FDA label
+CL-56,Status,Active trial in registry,registry overallStatus / FDA label
+CL-56,Company,Beijing Biotech,registry lead sponsor (latest) / FDA labeler
+CL-57,Target,PD-1; TIGIT,NCT06005493 intervention description; NCT06005493 intervention description
+CL-57,Modality,Bispecific antibody,NCT06005493 intervention description
+CL-57,Indication,Gastric Cancer; Gastro-esophageal Junction Cancer; Pancreatic Ductal Adenocarcinoma; Esophageal Adenocarcinoma; Gastroesophageal Junction Adenocarcinoma; Esophageal Cancer,registry conditions
+CL-57,Highest Phase,Phase 3,registry phases / FDA label
+CL-57,Status,Active trial in registry,registry overallStatus / FDA label
+CL-57,Company,AstraZeneca,registry lead sponsor (latest) / FDA labeler
+CL-58,Target,HER2,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C130010?include=summary (quote)
+CL-58,Modality,Bispecific antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C130010?include=summary (quote)
+CL-58,Indication,Gastroesophageal Adenocarcinoma,registry conditions
+CL-58,Highest Phase,Phase 2,registry phases / FDA label
+CL-58,Status,Active trial in registry,registry overallStatus / FDA label
+CL-58,Company,American Association for Cancer Research,registry lead sponsor (latest) / FDA labeler
+CL-58,Partnerships,"Astellas Pharma Inc; BeOne Medicines; Jazz Pharmaceuticals; Natera, Inc.; Roche Diagnostics GmbH",registry collaborators
+CL-59,Target,PD-1; CTLA-4,NCT05702229 intervention description; NCT05702229 intervention description
+CL-59,Modality,Bispecific antibody,NCT05702229 intervention description
+CL-59,Indication,Gastric Cancer,registry conditions
+CL-59,Highest Phase,Phase 2,registry phases / FDA label
+CL-59,Status,Active trial in registry,registry overallStatus / FDA label
+CL-59,Company,AstraZeneca,registry lead sponsor (latest) / FDA labeler
+CL-60,Target,PD-1; CTLA-4,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C162774?include=summary (quote); https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C162774?include=summary (quote)
+CL-60,Modality,Monoclonal antibody,https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C162774?include=summary (quote)
+CL-60,Indication,Advanced Solid Tumor,registry conditions
+CL-60,Highest Phase,Phase 2,registry phases / FDA label
+CL-60,Status,Active trial in registry,registry overallStatus / FDA label
+CL-60,Company,"Qilu Pharmaceutical Co., Ltd.",registry lead sponsor (latest) / FDA labeler
+CL-61,Target,Claudin 18.2,NCT04989010 title (single investigational agent)
+CL-61,Modality,Imaging agent,NCT04989010 intervention description
+CL-61,Indication,"Solid Tumor, Adult",registry conditions
+CL-61,Status,Registry: no active trial (UNKNOWN),registry overallStatus / FDA label
+CL-61,Company,Wuxi No. 4 People's Hospital,registry lead sponsor (latest) / FDA labeler
+CL-62,Target,Claudin 18.2,https://clinicaltrials.gov/api/v2/studies/NCT06203613 (quote)
+CL-62,Modality,Imaging agent,NCT06602037 intervention description
+CL-62,Indication,Neoplasms Pancreatic; Positron Emission Tomography; Pancreatic Neoplasms; Igestive System Neoplasms,registry conditions
+CL-62,Status,Active trial in registry,registry overallStatus / FDA label
+CL-62,Company,RenJi Hospital,registry lead sponsor (latest) / FDA labeler

@@ -1,0 +1,1386 @@
+{
+ "retrieved": "2026-10-29",
+ "curator": "AI curator (INTERNAL DEVELOPMENT)",
+ "items": [
+  {
+   "program_id": "CL-01",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"IMAB362\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C85475?include=summary",
+   "title": "NCI Thesaurus concept C85475 (Zolbetuximab)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-01",
+   "fact_type": "approval",
+   "quote": "VYLOY, in combination with fluoropyrimidine- and platinum-containing chemotherapy, is indicated for the first-line treatment of adults with locally advanced unresectable or metastatic human epidermal growth factor receptor 2 (HER2)‑negative gastric or gastroesophageal junction (GEJ) adenocarcinoma whose tumors are claudin (CLDN) 18.2 positive as determined by an FDA-approved test [see Dosage and Administration ( 2.1 ) and Clinical Studies ( 14 )].",
+   "url": "https://api.fda.gov/drug/label.json?search=openfda.generic_name:zolbetuximab",
+   "title": "fda",
+   "date": "2026-08-11",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-01",
+   "fact_type": "approval",
+   "quote": "\"submission_type\": \"ORIG\", \"submission_number\": \"1\", \"submission_status\": \"AP\", \"submission_status_date\": \"20241018\"",
+   "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.generic_name:zolbetuximab",
+   "title": "fda2",
+   "date": "2024-10-18",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-01",
+   "fact_type": "approval",
+   "quote": "(TSE: 4503, President and CEO: Naoki Okamura, “Astellas”) today announced that the European Commission (EC) has approved VYLOY TM (zolbetuximab) in combination with fluoropyrimidine- and platinum-containing chemotherapy for the first-line treatment of adult patients with locally advanced unresectable or metastatic human epidermal growth factor receptor 2 (HER2)-negative gastric or gastroesophageal junction (GEJ) adenocarcinoma whose tumors are claudin (CLDN) 18.2 positive.",
+   "url": "https://newsroom.astellas.com/2024-09-24-Astellas-Receives-Approval-from-the-European-Commission-for-VYLOYTM-zolbetuximab-in-Combination-with-Chemotherapy-for-Advanced-Gastric-and-Gastroesophageal-Junction-Cancer",
+   "title": "Global News | Astellas",
+   "date": "2024-09-24",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-01",
+   "fact_type": "licensing",
+   "quote": "In addition, Ganymed's shareholders will become eligible to receive up to EUR 860 million in further contingent payments based on progress in the development of IMAB362, Ganymed's most advanced clinical program.",
+   "url": "https://www.americanpharmaceuticalreview.com/1315-News/240151-Astellas-to-Acquire-Ganymed-Pharmaceuticals/",
+   "title": "Astellas to Acquire Ganymed Pharmaceuticals  | American Pharmaceutical Review - The Review of American Pharmaceutical Business & Technology",
+   "date": "2016-10",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-01",
+   "fact_type": "licensing",
+   "quote": "Under the agreement, Astellas will pay EUR 422 million to acquire 100% of the equity in Ganymed.",
+   "url": "https://www.americanpharmaceuticalreview.com/1315-News/240151-Astellas-to-Acquire-Ganymed-Pharmaceuticals/",
+   "title": "Astellas to Acquire Ganymed Pharmaceuticals  | American Pharmaceutical Review - The Review of American Pharmaceutical Business & Technology",
+   "date": "2016-10",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-01",
+   "fact_type": "target",
+   "quote": "Zolbetuximab-clzb is a claudin 18.2 (CLDN18.2)-directed cytolytic antibody that depletes CLDN18.2-positive cells via antibody-dependent cellular cytotoxicity (ADCC) and complement-dependent cytotoxicity (CDC).",
+   "url": "https://api.fda.gov/drug/label.json?search=openfda.generic_name:zolbetuximab",
+   "title": "fda",
+   "date": "2026-08-11",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-01",
+   "fact_type": "target",
+   "quote": "A chimeric immunoglobulin G1 (IgG1) monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C85475?include=summary",
+   "title": "NCI Thesaurus concept C85475 (Zolbetuximab)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-02",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"IMAB362\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C85475?include=summary",
+   "title": "NCI Thesaurus concept C85475 (Zolbetuximab)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-02",
+   "fact_type": "licensing",
+   "quote": "In addition, Ganymed's shareholders will become eligible to receive up to EUR 860 million in further contingent payments based on progress in the development of IMAB362, Ganymed's most advanced clinical program.",
+   "url": "https://www.americanpharmaceuticalreview.com/1315-News/240151-Astellas-to-Acquire-Ganymed-Pharmaceuticals/",
+   "title": "Astellas to Acquire Ganymed Pharmaceuticals  | American Pharmaceutical Review - The Review of American Pharmaceutical Business & Technology",
+   "date": "2016-10",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-02",
+   "fact_type": "licensing",
+   "quote": "Under the agreement, Astellas will pay EUR 422 million to acquire 100% of the equity in Ganymed.",
+   "url": "https://www.americanpharmaceuticalreview.com/1315-News/240151-Astellas-to-Acquire-Ganymed-Pharmaceuticals/",
+   "title": "Astellas to Acquire Ganymed Pharmaceuticals  | American Pharmaceutical Review - The Review of American Pharmaceutical Business & Technology",
+   "date": "2016-10",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-02",
+   "fact_type": "target",
+   "quote": "A chimeric immunoglobulin G1 (IgG1) monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C85475?include=summary",
+   "title": "NCI Thesaurus concept C85475 (Zolbetuximab)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-03",
+   "fact_type": "alias",
+   "quote": "Sonesitatug vedotin (AZD0901) is a CLDN18.2-directed antibody-drug conjugate (ADC) with a monomethyl auristatin E payload.",
+   "url": "https://www.onclive.com/view/clarity-gastric01-shows-os-benefit-with-sonesitatug-vedotin-in-pretreated-cldn18-2-gastroesophageal-carcinoma",
+   "title": "CLARITY-Gastric01 Shows OS Benefit With Sonesitatug Vedotin in Pretreated CLDN18.2+ Gastroesophageal Carcinoma | OncLive",
+   "date": "2026-10-25",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-03",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"CMG901\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180413?include=summary",
+   "title": "NCI Thesaurus concept C180413 (Sonesitatug Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-03",
+   "fact_type": "licensing",
+   "quote": "AstraZeneca and KYM Biosciences Inc. i have entered into a global exclusive licence agreement for CMG901, a potential first-in-class antibody drug conjugate (ADC) targeting Claudin 18.2, a promising therapeutic target in gastric cancer.",
+   "url": "https://www.astrazeneca.com/media-centre/press-releases/2023/astrazeneca-enters-license-agreement-with-kym-biosciences-for-cmg901-a-claudin-182-antibody-drug-conjugate.html",
+   "title": "AstraZeneca enters license agreement with KYM Biosciences for CMG901, a Claudin-18.2 antibody drug conjugate",
+   "date": "2023-02-23",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-03",
+   "fact_type": "licensing",
+   "quote": "AstraZeneca will make an upfront payment of $63m on transaction closing and additional development and sales-related milestone payments of up to $1.1bn to KYM Biosciences as well as tiered royalties up to low double digits.",
+   "url": "https://www.astrazeneca.com/media-centre/press-releases/2023/astrazeneca-enters-license-agreement-with-kym-biosciences-for-cmg901-a-claudin-182-antibody-drug-conjugate.html",
+   "title": "AstraZeneca enters license agreement with KYM Biosciences for CMG901, a Claudin-18.2 antibody drug conjugate",
+   "date": "2023-02-23",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-03",
+   "fact_type": "status",
+   "quote": "Sonesitatug vedotin improved overall survival (OS) vs investigator’s choice of therapy in patients with previously treated Claudin 18.2 (CLDN18.2)–positive advanced or metastatic gastroesophageal carcinoma (GEC) , meeting one of the dual primary end points in the third- or later-line population of the phase 3 CLARITY-Gastric01 trial (NCT06346392).",
+   "url": "https://www.onclive.com/view/clarity-gastric01-shows-os-benefit-with-sonesitatug-vedotin-in-pretreated-cldn18-2-gastroesophageal-carcinoma",
+   "title": "CLARITY-Gastric01 Shows OS Benefit With Sonesitatug Vedotin in Pretreated CLDN18.2+ Gastroesophageal Carcinoma | OncLive",
+   "date": "2026-10-25",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-03",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of sonesitatug, a monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), conjugated, via a cleavable linker, to the microtubule-disrupting cytotoxic agent monomethyl auristatin E (MMAE), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180413?include=summary",
+   "title": "NCI Thesaurus concept C180413 (Sonesitatug Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-04",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"CMG901\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180413?include=summary",
+   "title": "NCI Thesaurus concept C180413 (Sonesitatug Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-04",
+   "fact_type": "licensing",
+   "quote": "AstraZeneca and KYM Biosciences Inc. i have entered into a global exclusive licence agreement for CMG901, a potential first-in-class antibody drug conjugate (ADC) targeting Claudin 18.2, a promising therapeutic target in gastric cancer.",
+   "url": "https://www.astrazeneca.com/media-centre/press-releases/2023/astrazeneca-enters-license-agreement-with-kym-biosciences-for-cmg901-a-claudin-182-antibody-drug-conjugate.html",
+   "title": "AstraZeneca enters license agreement with KYM Biosciences for CMG901, a Claudin-18.2 antibody drug conjugate",
+   "date": "2023-02-23",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-04",
+   "fact_type": "licensing",
+   "quote": "AstraZeneca will make an upfront payment of $63m on transaction closing and additional development and sales-related milestone payments of up to $1.1bn to KYM Biosciences as well as tiered royalties up to low double digits.",
+   "url": "https://www.astrazeneca.com/media-centre/press-releases/2023/astrazeneca-enters-license-agreement-with-kym-biosciences-for-cmg901-a-claudin-182-antibody-drug-conjugate.html",
+   "title": "AstraZeneca enters license agreement with KYM Biosciences for CMG901, a Claudin-18.2 antibody drug conjugate",
+   "date": "2023-02-23",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-04",
+   "fact_type": "modality",
+   "quote": "CMG901 is a novel antibody drug conjugate targeting Claudin 18.2, and consists of an anti-Claudin 18.2 monoclonal antibody, a protease-degradable linker, and a cytotoxic small molecule monomethyl auristatin E (MMAE).",
+   "url": "https://www.astrazeneca.com/media-centre/press-releases/2023/astrazeneca-enters-license-agreement-with-kym-biosciences-for-cmg901-a-claudin-182-antibody-drug-conjugate.html",
+   "title": "AstraZeneca enters license agreement with KYM Biosciences for CMG901, a Claudin-18.2 antibody drug conjugate",
+   "date": "2023-02-23",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-04",
+   "fact_type": "other",
+   "quote": "KYM Biosciences is a joint venture established by affiliates of Keymed Biosciences and Lepu Biopharma.",
+   "url": "https://www.astrazeneca.com/media-centre/press-releases/2023/astrazeneca-enters-license-agreement-with-kym-biosciences-for-cmg901-a-claudin-182-antibody-drug-conjugate.html",
+   "title": "AstraZeneca enters license agreement with KYM Biosciences for CMG901, a Claudin-18.2 antibody drug conjugate",
+   "date": "2023-02-23",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-04",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of sonesitatug, a monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), conjugated, via a cleavable linker, to the microtubule-disrupting cytotoxic agent monomethyl auristatin E (MMAE), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180413?include=summary",
+   "title": "NCI Thesaurus concept C180413 (Sonesitatug Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-05",
+   "fact_type": "alias",
+   "quote": "Sonesitatug vedotin (AZD0901) is a CLDN18.2-directed antibody-drug conjugate (ADC) with a monomethyl auristatin E payload.",
+   "url": "https://www.onclive.com/view/clarity-gastric01-shows-os-benefit-with-sonesitatug-vedotin-in-pretreated-cldn18-2-gastroesophageal-carcinoma",
+   "title": "CLARITY-Gastric01 Shows OS Benefit With Sonesitatug Vedotin in Pretreated CLDN18.2+ Gastroesophageal Carcinoma | OncLive",
+   "date": "2026-10-25",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-05",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"CMG901\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180413?include=summary",
+   "title": "NCI Thesaurus concept C180413 (Sonesitatug Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-05",
+   "fact_type": "status",
+   "quote": "Sonesitatug vedotin improved overall survival (OS) vs investigator’s choice of therapy in patients with previously treated Claudin 18.2 (CLDN18.2)–positive advanced or metastatic gastroesophageal carcinoma (GEC) , meeting one of the dual primary end points in the third- or later-line population of the phase 3 CLARITY-Gastric01 trial (NCT06346392).",
+   "url": "https://www.onclive.com/view/clarity-gastric01-shows-os-benefit-with-sonesitatug-vedotin-in-pretreated-cldn18-2-gastroesophageal-carcinoma",
+   "title": "CLARITY-Gastric01 Shows OS Benefit With Sonesitatug Vedotin in Pretreated CLDN18.2+ Gastroesophageal Carcinoma | OncLive",
+   "date": "2026-10-25",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-05",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of sonesitatug, a monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), conjugated, via a cleavable linker, to the microtubule-disrupting cytotoxic agent monomethyl auristatin E (MMAE), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180413?include=summary",
+   "title": "NCI Thesaurus concept C180413 (Sonesitatug Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-06",
+   "fact_type": "alias",
+   "quote": "Arcotatug tavatecan or IBI343 Arcotatug tavatecan is a recombinant human anti-CLDN18.2 monoclonal antibody-drug conjugate, or ADC, and is currently under NMPA's review.",
+   "url": "https://www.rttnews.com/3658127/innovent-reports-ibi343-meets-primary-goal-in-phase-3-g-hope-001-trial-in-gastric-cancer.aspx",
+   "title": "Innovent Reports IBI343 Meets Primary Goal In Phase 3 G-HOPE-001 Trial In Gastric Cancer",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-06",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"IBI343\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C189808?include=summary",
+   "title": "NCI Thesaurus concept C189808 (Arcotatug Tavatecan)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-06",
+   "fact_type": "licensing",
+   "quote": "OSAKA, Japan and CAMBRIDGE, Massachusetts, October 21, 2025 – Takeda ( TSE:4502/NYSE:TAK ) today announced that it has entered into a license and collaboration agreement with Innovent Biologics (HKEX: 01801) for the development, manufacturing and commercialization of two late-stage oncology medicines, IBI363 and IBI343, worldwide outside of Greater China.",
+   "url": "https://www.takeda.com/newsroom/newsreleases/2025/innovent/",
+   "title": "Takeda Announces Oncology Partnership with Innovent",
+   "date": "2025-10-21",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-06",
+   "fact_type": "modality",
+   "quote": "IBI343 is a next-generation investigational antibody-drug conjugate (ADC) that targets the Claudin 18.2 protein, which is often expressed in gastric and pancreatic cancer cells.",
+   "url": "https://www.takeda.com/newsroom/newsreleases/2025/innovent/",
+   "title": "Takeda Announces Oncology Partnership with Innovent",
+   "date": "2025-10-21",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-06",
+   "fact_type": "status",
+   "quote": "(1801.HK), a biopharmaceutical company, announced that its Arcotatug tavatecan, or IBI343, met its primary endpoint after the interim analysis of the Phase 3 study of Arcotatug Tavatecan in the treatment of previously treated locally advanced unresectable or metastatic CLDN18.2-positive gastric or gastroesophageal junction adenocarcinoma (G/GEJA) who have received at least two prior systemic therapies.",
+   "url": "https://www.rttnews.com/3658127/innovent-reports-ibi343-meets-primary-goal-in-phase-3-g-hope-001-trial-in-gastric-cancer.aspx",
+   "title": "Innovent Reports IBI343 Meets Primary Goal In Phase 3 G-HOPE-001 Trial In Gastric Cancer",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-06",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of arcotatug, a Fc-silenced humanized immunoglobulin G1 (IgG1) monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), conjugated, via a cleavable linker, to the cytotoxic agent and DNA topoisomerase I inhibitor exatecan, with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C189808?include=summary",
+   "title": "NCI Thesaurus concept C189808 (Arcotatug Tavatecan)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-07",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"TPX-4589\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C185853?include=summary",
+   "title": "NCI Thesaurus concept C185853 (Tecotabart Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-07",
+   "fact_type": "licensing",
+   "quote": "TPX-4589 (LM-302) On May 4, 2022, we entered into a license agreement (the LaNova License Agreement) with LaNova Medicines Limited (LaNova) for an exclusive, royalty-bearing license to intellectual property related to LM-302, a clinical stage anti-Claudin18.2 antibody drug conjugate (the LaNova Product), on a worldwide basis excluding Greater China and South Korea (the Company Territory).",
+   "url": "https://www.sec.gov/Archives/edgar/data/1595893/000095017022015542/tptx-20220630.htm",
+   "title": "10-Q",
+   "date": "2022-08",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-07",
+   "fact_type": "licensing",
+   "quote": "Pursuant to the LaNova License Agreement, we paid LaNova an upfront cash payment of $25.0 million in June 2022 and may be obligated to pay milestone payments, which include up to $195.0 million in development and regulatory milestones and up to $880.0 million in sales milestones, and tiered royalty payments based on percentages (ranging from the mid-single digits to the mid-teens) of net sales (subject to customary deductions).",
+   "url": "https://www.sec.gov/Archives/edgar/data/1595893/000095017022015542/tptx-20220630.htm",
+   "title": "10-Q",
+   "date": "2022-08",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-07",
+   "fact_type": "licensing",
+   "quote": "Bristol Myers Squibb terminated its deal with LaNova Medicines covering the Claudin18.2-targeting ADC LM-302/TPX-4589, ApexOnco has learned.",
+   "url": "https://www.oncologypipeline.com/apexonco/node/909",
+   "title": "Bristol changes tack in Claudin18.2 | ApexOnco - Clinical Trials news and analysis",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-07",
+   "fact_type": "licensing",
+   "quote": "LaNova, meanwhile, previously had a licensing agreement in place with Bristol Myers Squibb for LM-302, an anti-Claudin18.2 ADC in early clinical development, but handed back rights last year, according to an ApexOnco report.",
+   "url": "https://pharmaphorum.com/news/msd-az-partner-lanova-bought-sino-biopharm-951m",
+   "title": "MSD, AZ partner LaNova bought by Sino Biopharm for $951m | pharmaphorum",
+   "date": "2025-07",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-07",
+   "fact_type": "status",
+   "quote": "On April 11, 2024 LaNova Medicines Ltd. reported the initiation of its first Phase III clinical trial for LM-302 (anti-Claudin 18.2 ADC) in China (Press release, LaNova Medicines, APR 11, 2024, View Source [SID1234655991]).",
+   "url": "https://www.1stoncology.com/blog/?p=105551",
+   "title": "LaNova Medicines Initiates First Phase III Clinical Trial for LM-302 in China – 1stOncology™: Cancer Intelligence Service",
+   "date": "2024-04-11",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-07",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of a monoclonal antibody directed against the tumor-associated antigen (TAA) claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) conjugated via a cleavable linker, to the microtubule-disrupting cytotoxic agent monomethyl auristatin E (MMAE), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C185853?include=summary",
+   "title": "NCI Thesaurus concept C185853 (Tecotabart Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-08",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"SHR-A1904\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C181025?include=summary",
+   "title": "NCI Thesaurus concept C181025 (Garetatug Rezetecan)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-08",
+   "fact_type": "licensing",
+   "quote": "Merck KGaA, Darmstadt, Germany, will receive exclusive rights to develop, manufacture and commercialize HRS-1167 worldwide, outside of mainland China, an exclusive option to develop, manufacture and commercialize SHR-A1904 worldwide, outside of mainland China, and an option to co-promote HRS-1167 and SHR-A1904 in mainland China.",
+   "url": "https://www.biospace.com/hengrui-pharma-partners-with-merck-kgaa-darmstadt-germany-to-advance-innovative-cancer-therapies",
+   "title": "Hengrui Pharma Partners with Merck KGaA, Darmstadt, Germany, to Advance Innovative Cancer Therapies - BioSpace",
+   "date": "2023-10-30",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-08",
+   "fact_type": "licensing",
+   "quote": "Hengrui Pharma will receive payments for technology transfer as well as an option exercise for the Claudin-18.2 ADC for up to €90 million.",
+   "url": "https://www.biospace.com/hengrui-pharma-partners-with-merck-kgaa-darmstadt-germany-to-advance-innovative-cancer-therapies",
+   "title": "Hengrui Pharma Partners with Merck KGaA, Darmstadt, Germany, to Advance Innovative Cancer Therapies - BioSpace",
+   "date": "2023-10-30",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-08",
+   "fact_type": "modality",
+   "quote": "SHR-A1904 is an antibody drug conjugate (ADC) targeting Claudin 18.2, internally developed by Hengrui with intellectual property rights.",
+   "url": "https://www.biospace.com/hengrui-pharma-partners-with-merck-kgaa-darmstadt-germany-to-advance-innovative-cancer-therapies",
+   "title": "Hengrui Pharma Partners with Merck KGaA, Darmstadt, Germany, to Advance Innovative Cancer Therapies - BioSpace",
+   "date": "2023-10-30",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-08",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of garetatug, an immunoglobulin G1 (IgG1) monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) conjugated, via a cleavable linker, to rezetecan, an exatecan derivative and topoisomerase 1 inhibitor, with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C181025?include=summary",
+   "title": "NCI Thesaurus concept C181025 (Garetatug Rezetecan)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-09",
+   "fact_type": "alias",
+   "quote": "For company's lead oncology asset, the Claudin18.2-targeting antibody osemitamab (TST001, A Humanized ADCC Enhanced Claudin18.2 mAb for Solid Tumors ) , reached key milestones for the treatment of gastric or gastroesophageal junction (G/GEJ) cancer.",
+   "url": "https://www.biospace.com/transcenta-holding-limited-stock-code-6628-hk-announce-2024-interim-results",
+   "title": "Transcenta Holding Limited (Stock Code: 6628.HK) Announce 2024 Interim Results - BioSpace",
+   "date": "2024",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-09",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"TST001\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C173726?include=summary",
+   "title": "NCI Thesaurus concept C173726 (Osemitamab)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-09",
+   "fact_type": "status",
+   "quote": "( Agilent ) , a world leader in CDx development, for Claudin18.2 specific IHC CDx Assay to support TranStar301 global Phase III pivotal trial of osemitamab ( TST001 ) in combination with checkpoint inhibitor and chemotherapy.",
+   "url": "https://www.biospace.com/transcenta-holding-limited-stock-code-6628-hk-announce-2024-interim-results",
+   "title": "Transcenta Holding Limited (Stock Code: 6628.HK) Announce 2024 Interim Results - BioSpace",
+   "date": "2024",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-09",
+   "fact_type": "target",
+   "quote": "A recombinant humanized immunoglobulin G1 (IgG1) monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C173726?include=summary",
+   "title": "NCI Thesaurus concept C173726 (Osemitamab)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-10",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"ASP2138\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C187658?include=summary",
+   "title": "NCI Thesaurus concept C187658 (Emaretamig)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-10",
+   "fact_type": "modality",
+   "quote": "ASP2138 is an investigational subcutaneously administered bispecific antibody designed to bind to CLDN18.2, a protein expressed on certain tumor cells, and CD3-positive T cells, a type of white blood cell with the ability to kill cancer cells.",
+   "url": "https://www.placera.se/pressmeddelanden/astellas-doses-first-patient-in-phase-3-study-of-asp2138-in-cldn18-2-postive-and-her2-negative-locally-advanced-unresectable-or-metastatic-gastric-or-gastroesophageal-junction-gej-adenocarcinoma-20260825",
+   "title": "Astellas Doses First Patient in Phase 3 Study of ASP2138 in CLDN18.2-postive and HER2-negative locally advanced unresectable or metastatic gastric or gastroesophageal junction (GEJ) adenocarcinoma | Placera.se",
+   "date": "2026-08-25",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-10",
+   "fact_type": "status",
+   "quote": "(TSE: 4503, President and CEO: Naoki Okamura, \"Astellas\") today announced that the first patient has been dosed in a Phase 3 study evaluating ASP2138 in combination with chemotherapy and pembrolizumab as first-line treatment in adults with locally advanced unresectable or metastatic gastric or gastroesophageal junction (GEJ) adenocarcinoma, whose tumors are Claudin 18.2 (CLDN18.2)-positive and HER2-negative.",
+   "url": "https://www.placera.se/pressmeddelanden/astellas-doses-first-patient-in-phase-3-study-of-asp2138-in-cldn18-2-postive-and-her2-negative-locally-advanced-unresectable-or-metastatic-gastric-or-gastroesophageal-junction-gej-adenocarcinoma-20260825",
+   "title": "Astellas Doses First Patient in Phase 3 Study of ASP2138 in CLDN18.2-postive and HER2-negative locally advanced unresectable or metastatic gastric or gastroesophageal junction (GEJ) adenocarcinoma | Placera.se",
+   "date": "2026-08-25",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-10",
+   "fact_type": "target",
+   "quote": "A bispecific antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18) and the human T-cell surface antigen CD3, with potential immunostimulatory and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C187658?include=summary",
+   "title": "NCI Thesaurus concept C187658 (Emaretamig)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-11",
+   "fact_type": "alias",
+   "quote": "ASP546C/XNW27011: Astellas has worldwide rights excluding China's mainland, Hong Kong, Macau, and Taiwan.",
+   "url": "https://www.astellas.com/en/science/research-and-development/pipeline",
+   "title": "Pipeline | Astellas",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-11",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"XNW27011\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C227646?include=summary",
+   "title": "NCI Thesaurus concept C227646 (Anti-Claudin 18.2 Antibody-drug Conjugate ASP546C)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-11",
+   "fact_type": "licensing",
+   "quote": "Under the terms of the agreement, Evopoint will receive an upfront payment of $130 million, with up to $70 million in near-term payments.",
+   "url": "https://www.pharmafocusasia.com/index.php/news/astellas-secures-global-rights-to-investigational-cldn182-targeting",
+   "title": "Astellas Secures Global Rights to Investigational CLDN18.2-Targeting ADC XNW27011 from Evopoint",
+   "date": "2025-05",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-11",
+   "fact_type": "licensing",
+   "quote": "(TSE: 4503, President and CEO: Naoki Okamura, \"Astellas\") and Evopoint Biosciences (Evopoint Biosciences Co., Ltd.) today announced they have entered into an exclusive license agreement for XNW27011, a novel investigational clinical-stage antibody-drug conjugate (ADC) targeting CLDN18.2.",
+   "url": "https://www.drugdiscoveryonline.com/doc/astellas-enters-exclusive-license-clinical-stage-antibody-drug-targeting-cldn-0001",
+   "title": "Astellas Enters Exclusive License Agreement With Evopoint Biosciences For XNW27011, A Novel Clinical-Stage Antibody-Drug Conjugate Targeting CLDN18.2",
+   "date": "2025-05-29",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-11",
+   "fact_type": "licensing",
+   "quote": "The agreement grants Astellas a worldwide (excluding China's mainland, Hong Kong, Macao and Taiwan region) exclusive license to develop and commercialize XNW27011.",
+   "url": "https://www.drugdiscoveryonline.com/doc/astellas-enters-exclusive-license-clinical-stage-antibody-drug-targeting-cldn-0001",
+   "title": "Astellas Enters Exclusive License Agreement With Evopoint Biosciences For XNW27011, A Novel Clinical-Stage Antibody-Drug Conjugate Targeting CLDN18.2",
+   "date": "2025-05-29",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-11",
+   "fact_type": "licensing",
+   "quote": "Under the terms of the agreement, Evopoint will receive a $130 million upfront payment and is eligible to receive up to $70 million near-term payments, and additional milestone payments associated with development, regulatory and commercialization milestones totaling up to $1.34 billion, as well as royalties on net sales of XNW27011, if approved.",
+   "url": "https://www.drugdiscoveryonline.com/doc/astellas-enters-exclusive-license-clinical-stage-antibody-drug-targeting-cldn-0001",
+   "title": "Astellas Enters Exclusive License Agreement With Evopoint Biosciences For XNW27011, A Novel Clinical-Stage Antibody-Drug Conjugate Targeting CLDN18.2",
+   "date": "2025-05-29",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-11",
+   "fact_type": "status",
+   "quote": "XNW27011 is currently undergoing a Phase 1/2 clinical trial in China, focusing on patients with CLDN18.2-expressing solid tumours, including gastric, gastroesophageal, and pancreatic cancers.",
+   "url": "https://www.pharmafocusasia.com/index.php/news/astellas-secures-global-rights-to-investigational-cldn182-targeting",
+   "title": "Astellas Secures Global Rights to Investigational CLDN18.2-Targeting ADC XNW27011 from Evopoint",
+   "date": "2025-05",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-11",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of a monoclonal antibody directed against the tumor-associated antigen (TAA) claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) conjugated to a topoisomerase 1 inhibitor (TOP1i), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C227646?include=summary",
+   "title": "NCI Thesaurus concept C227646 (Anti-Claudin 18.2 Antibody-drug Conjugate ASP546C)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-12",
+   "fact_type": "alias",
+   "quote": "ASP546C/XNW27011: Astellas has worldwide rights excluding China's mainland, Hong Kong, Macau, and Taiwan.",
+   "url": "https://www.astellas.com/en/science/research-and-development/pipeline",
+   "title": "Pipeline | Astellas",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-12",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"XNW27011\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C227646?include=summary",
+   "title": "NCI Thesaurus concept C227646 (Anti-Claudin 18.2 Antibody-drug Conjugate ASP546C)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-12",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of a monoclonal antibody directed against the tumor-associated antigen (TAA) claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) conjugated to a topoisomerase 1 inhibitor (TOP1i), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C227646?include=summary",
+   "title": "NCI Thesaurus concept C227646 (Anti-Claudin 18.2 Antibody-drug Conjugate ASP546C)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-13",
+   "fact_type": "alias",
+   "quote": "Givastomig (TJ033721 / ABL111) is a bispecific antibody targeting Claudin 18.2 (CLDN18.2)-positive tumor cells.",
+   "url": "https://natlawreview.com/press-releases/i-mab-announces-publication-givastomig-monotherapy-data-clinical-cancer",
+   "title": "I-Mab Announces Publication of Givastomig Monotherapy Data in Cli",
+   "date": "2025-06-30",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-13",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"TJ033721\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180884?include=summary",
+   "title": "NCI Thesaurus concept C180884 (Givastomig)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-13",
+   "fact_type": "licensing",
+   "quote": "Givastomig is being jointly developed through a global partnership with ABL Bio, in which I-Mab is the lead party and shares worldwide rights, excluding Greater China and South Korea, equally with ABL Bio.",
+   "url": "https://natlawreview.com/press-releases/i-mab-announces-publication-givastomig-monotherapy-data-clinical-cancer",
+   "title": "I-Mab Announces Publication of Givastomig Monotherapy Data in Cli",
+   "date": "2025-06-30",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-13",
+   "fact_type": "target",
+   "quote": "A bispecific antibody composed of a human, Fc-silenced immunoglobulin G1 (IgG1) monoclonal antibody targeting the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18) fused with a single chain variable fragment (scFv) targeting 4-1BB (CD137; tumor necrosis factor receptor superfamily member 9; TNFRSF9), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180884?include=summary",
+   "title": "NCI Thesaurus concept C180884 (Givastomig)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-14",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"SYSA1801\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C201073?include=summary",
+   "title": "NCI Thesaurus concept C201073 (Anti-Claudin 18.2 Antibody-drug Conjugate EO-3021)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-14",
+   "fact_type": "licensing",
+   "quote": "(Nasdaq: ELEV), a clinical stage biopharmaceutical company focused on the development of precision oncology products for patients with genomically defined cancers, today announced that it has entered into an exclusive license agreement with CSPC Megalith Biopharmaceutical Co., Ltd, a subsidiary of CSPC Pharmaceutical Group Limited (CSPC; HKEX: 01093) to develop and commercialize EO-3021 (SYSA1801), a differentiated, clinical stage antibody drug conjugate (ADC) targeting Claudin18.2, in all global territories outside Greater China (mainland China, Hong Kong, Macau and Taiwan).",
+   "url": "https://www.sec.gov/Archives/edgar/data/1783032/000155837022011277/elev-20220727xex99d1.htm",
+   "title": "",
+   "date": "2022-07-28",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-14",
+   "fact_type": "licensing",
+   "quote": "In exchange, CSPC will receive a one-time, upfront payment of $27 million.",
+   "url": "https://www.sec.gov/Archives/edgar/data/1783032/000155837022011277/elev-20220727xex99d1.htm",
+   "title": "",
+   "date": "2022-07-28",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-14",
+   "fact_type": "status",
+   "quote": "EO-3021 is a Claudin 18.2 antibody-drug conjugate (ADC), which Elevation Oncology was developing for the treatment of advanced, unresectable or metastatic gastric and gastroesophageal junction (GEJ) cancers.",
+   "url": "https://www.sec.gov/Archives/edgar/data/1783032/000110465925025878/tm259617d1_ex99-1.htm",
+   "title": "elev",
+   "date": "2025-03-20",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-14",
+   "fact_type": "status",
+   "quote": "“Based on these data, we have decided to discontinue further development of EO-3021.",
+   "url": "https://www.sec.gov/Archives/edgar/data/1783032/000110465925025878/tm259617d1_ex99-1.htm",
+   "title": "elev",
+   "date": "2025-03-20",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-14",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of a human monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) conjugated to the microtubule-disrupting cytotoxic agent monomethyl auristatin E (MMAE), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C201073?include=summary",
+   "title": "NCI Thesaurus concept C201073 (Anti-Claudin 18.2 Antibody-drug Conjugate EO-3021)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-15",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"SYSA1801\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C201073?include=summary",
+   "title": "NCI Thesaurus concept C201073 (Anti-Claudin 18.2 Antibody-drug Conjugate EO-3021)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-15",
+   "fact_type": "licensing",
+   "quote": "(Nasdaq: ELEV), a clinical stage biopharmaceutical company focused on the development of precision oncology products for patients with genomically defined cancers, today announced that it has entered into an exclusive license agreement with CSPC Megalith Biopharmaceutical Co., Ltd, a subsidiary of CSPC Pharmaceutical Group Limited (CSPC; HKEX: 01093) to develop and commercialize EO-3021 (SYSA1801), a differentiated, clinical stage antibody drug conjugate (ADC) targeting Claudin18.2, in all global territories outside Greater China (mainland China, Hong Kong, Macau and Taiwan).",
+   "url": "https://www.sec.gov/Archives/edgar/data/1783032/000155837022011277/elev-20220727xex99d1.htm",
+   "title": "",
+   "date": "2022-07-28",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-15",
+   "fact_type": "licensing",
+   "quote": "In exchange, CSPC will receive a one-time, upfront payment of $27 million.",
+   "url": "https://www.sec.gov/Archives/edgar/data/1783032/000155837022011277/elev-20220727xex99d1.htm",
+   "title": "",
+   "date": "2022-07-28",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-15",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of a human monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) conjugated to the microtubule-disrupting cytotoxic agent monomethyl auristatin E (MMAE), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C201073?include=summary",
+   "title": "NCI Thesaurus concept C201073 (Anti-Claudin 18.2 Antibody-drug Conjugate EO-3021)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-16",
+   "fact_type": "modality",
+   "quote": "The FDA has granted orphan drug designation to ATG-022, a Claudin 18.2 (CLDN18.2) antibody-drug conjugate (ADC), for the treatment of patients with gastric cancer and pancreatic cancer, according to a press release from developer Antengene Corporation Limited.",
+   "url": "https://cancernetwork.com/view/atg-022-receives-fda-orphan-drug-designation-for-gastric-pancreatic-cancers",
+   "title": "ATG-022 Receives FDA Orphan Drug Designation for Gastric/Pancreatic Cancers | CancerNetwork",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-17",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"HBM7022\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C206446?include=summary",
+   "title": "NCI Thesaurus concept C206446 (Anti-Claudin18.2/Anti-CD3 Bispecific Antibody AZD5863)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-17",
+   "fact_type": "target",
+   "quote": "An affinity-optimized T-cell engaging (TCE) and human bispecific antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18) and the human T-cell surface antigen CD3, with potential immunostimulatory and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C206446?include=summary",
+   "title": "NCI Thesaurus concept C206446 (Anti-Claudin18.2/Anti-CD3 Bispecific Antibody AZD5863)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-18",
+   "fact_type": "alias",
+   "quote": "The NDA submission is mainly based on the results of an open-label, multicenter, randomized controlled confirmatory Phase II clinical trial (CT041-ST-01, NCT04581473) conducted in China .",
+   "url": "https://www.biospace.com/press-releases/carsgen-therapeutics-announces-nda-acceptance-of-satri-cel-by-chinas-nmpa",
+   "title": "CARsgen Therapeutics Announces NDA Acceptance of Satri-cel by China's NMPA - BioSpace",
+   "date": "2025-06",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-18",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"CT041\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C150382?include=summary",
+   "title": "NCI Thesaurus concept C150382 (Satricabtagene Autoleucel)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-18",
+   "fact_type": "approval",
+   "quote": "A 22% confirmed objective response rate against a 4% comparator arm was enough to win regulatory history: satricabtagene autoleucel became the first CAR-T cell therapy conditionally approved for a solid tumor indication anywhere in the world when China’s NMPA granted clearance on June 22, 2026.",
+   "url": "https://www.clinicaltrialvanguard.com/news/carsgens-satricabtagene-autoleucel-approved-for-gastric-cancer-in-china/",
+   "title": "CARsgen’s satricabtagene autoleucel approved for gastric cancer in China",
+   "date": "2026-08-19",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-18",
+   "fact_type": "target",
+   "quote": "Zonghai Li, Founder, Chairman of the Board, Chief Executive Officer, and Chief Scientific Officer of CARsgen Therapeutics , said, \"We are delighted to announce that the NDA for our self-developed Claudin18.2-targeted CAR T-cell product satri-cel has been accepted for review by China's NMPA.",
+   "url": "https://www.biospace.com/press-releases/carsgen-therapeutics-announces-nda-acceptance-of-satri-cel-by-chinas-nmpa",
+   "title": "CARsgen Therapeutics Announces NDA Acceptance of Satri-cel by China's NMPA - BioSpace",
+   "date": "2025-06",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-18",
+   "fact_type": "target",
+   "quote": "A preparation of autologous T-lymphocytes ex vivo transduced with a lentiviral vector encoding for a chimeric antigen receptor (CAR) specific for the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C150382?include=summary",
+   "title": "NCI Thesaurus concept C150382 (Satricabtagene Autoleucel)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-19",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"AB011\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C173724?include=summary",
+   "title": "NCI Thesaurus concept C173724 (Anti-claudin18.2 Monoclonal Antibody AB011)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-19",
+   "fact_type": "target",
+   "quote": "A recombinant humanized monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C173724?include=summary",
+   "title": "NCI Thesaurus concept C173724 (Anti-claudin18.2 Monoclonal Antibody AB011)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-20",
+   "fact_type": "modality",
+   "quote": "QLS31905, developed by Qilu Pharmaceutical, is a bispecific T cell engager (BiTE) that targets Claudin18.2.",
+   "url": "https://www.biospace.com/qilu-pharmaceutical-announces-results-from-phase-i-clinical-study-for-its-novel-bispecific-antibody-qls31905-at-esmo-immuno-oncology-congress",
+   "title": "Qilu Pharmaceutical Announces Results from Phase I Clinical Study for Its Novel Bispecific Antibody QLS31905 at ESMO Immuno-Oncology Congress - BioSpace",
+   "date": "2023-12-11",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-20",
+   "fact_type": "status",
+   "quote": "On 22 July, Qilu Pharma launched a Phase III trial (n=602) for QLS31905, the world's first CLDN18.2/CD3 bispecific antibody (BsAb) in late-stage development.",
+   "url": "https://global.pharmcube.com/news/detail/16ce1e2a8baf44889e902eefde49effc",
+   "title": "Qilu Pharma Advances First-in-Class CLDN18.2/CD3 BsAb to Phase III",
+   "date": "2025-07-25",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-20",
+   "fact_type": "target",
+   "quote": "A bispecific antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18) and the human T-cell surface antigen CD3, with potential immunostimulatory and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C187103?include=summary",
+   "title": "NCI Thesaurus concept C187103 (Anti-Claudin18.2/Anti-CD3 Bispecific Antibody QLS31905)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-21",
+   "fact_type": "other",
+   "quote": "A Phase Ib/Ⅱ Clinical Study to Evaluate the Safety and Efficacy of ANO31905 for Injection in Combination With Chemotherapy as the First-line Treatment for Patients With CLDN18.2-Positive Locally Advanced",
+   "url": "https://clinicaltrials.gov/api/v2/studies?query.term=ANO31905&fields=NCTId,BriefTitle,OfficialTitle,LeadSponsorName,OverallStatus,InterventionName,InterventionDescription&pageSize=3",
+   "title": "ct_ANO31905",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-22",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"M108\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180828?include=summary",
+   "title": "NCI Thesaurus concept C180828 (Gaspantatug)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-22",
+   "fact_type": "target",
+   "quote": "A monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180828?include=summary",
+   "title": "NCI Thesaurus concept C180828 (Gaspantatug)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-23",
+   "fact_type": "target",
+   "quote": "FG-B901 is a recombinant humanized IgG2 bispecific antibody targeting PD-L1 and CD40.",
+   "url": "https://clinicaltrials.gov/api/v2/studies/NCT07623707",
+   "title": "fgb",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-24",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"JS107\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C190687?include=summary",
+   "title": "NCI Thesaurus concept C190687 (Anti-Claudin 18.2 Antibody-drug Conjugate JS107)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-24",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of a humanized monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) conjugated to the microtubule-disrupting cytotoxic agent monomethyl auristatin E (MMAE), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C190687?include=summary",
+   "title": "NCI Thesaurus concept C190687 (Anti-Claudin 18.2 Antibody-drug Conjugate JS107)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-25",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"RC118\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180906?include=summary",
+   "title": "NCI Thesaurus concept C180906 (Ciletatug Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-25",
+   "fact_type": "modality",
+   "quote": "Self-developed, RC118 is RemeGen's latest advanced antibody-drug conjugate (ADC) used to treat patients with solid tumors positive for Claudin 18.2 expressions.",
+   "url": "https://www.biospace.com/remegen-s-rc118-for-injection-targeting-claudin-18-2-in-patients-with-gastric-and-pancreatic-cancers-granted-two-orphan-drug-designations-by-u-s-fda",
+   "title": "RemeGen's RC118 for Injection Targeting Claudin 18.2 in Patients with Gastric and Pancreatic Cancers Granted Two Orphan Drug Designations by U.S. FDA - BioSpace",
+   "date": "2022-12-12",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-25",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of ciletatug, a humanized immunoglobulin G1 kappa (IgG1k) monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin 18.2 (CLDN18.2; A2 isoform of claudin-18), conjugated to the microtubule-disrupting cytotoxic agent monomethyl auristatin E (MMAE), with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180906?include=summary",
+   "title": "NCI Thesaurus concept C180906 (Ciletatug Vedotin)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-26",
+   "fact_type": "alias",
+   "quote": "A Phase 2, Randomized, Multicenter Study to Evaluate the Efficacy and Safety of RC148 (ABBV-1480) in Combination With Telisotuzumab Adizutecan With or Without Chemotherapy as a First-Line or Second-Line Therapy for Unresectable Colorectal Cancer",
+   "url": "https://clinicaltrials.gov/api/v2/studies?query.term=RC148&fields=NCTId,BriefTitle,OfficialTitle,LeadSponsorName,OverallStatus,InterventionName,InterventionDescription&pageSize=3",
+   "title": "ct_RC148",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-26",
+   "fact_type": "licensing",
+   "quote": "Under the terms of the agreement, AbbVie will receive exclusive rights to develop, manufacture, and commercialize RC148 outside of the Greater China territory.",
+   "url": "https://news.abbvie.com/2026-01-12-AbbVie-and-RemeGen-Announce-Exclusive-Licensing-Agreement-to-Develop-A-Novel-Bispecific-Antibody-for-Advanced-Solid-Tumors",
+   "title": "AbbVie and RemeGen Announce Exclusive Licensing Agreement to Develop A Novel Bispecific Antibody for Advanced Solid Tumors - Jan 12, 2026",
+   "date": "2026-01-12",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-26",
+   "fact_type": "target",
+   "quote": "12, 2026 / PRNewswire / -- AbbVie (NYSE: ABBV) and RemeGen today announced an exclusive licensing agreement for the development, manufacturing and commercialization of RC148, a novel investigational Programmed Cell Death-1 (PD-1)/Vascular Endothelial Growth Factor (VEGF)-targeted bispecific antibody.",
+   "url": "https://news.abbvie.com/2026-01-12-AbbVie-and-RemeGen-Announce-Exclusive-Licensing-Agreement-to-Develop-A-Novel-Bispecific-Antibody-for-Advanced-Solid-Tumors",
+   "title": "AbbVie and RemeGen Announce Exclusive Licensing Agreement to Develop A Novel Bispecific Antibody for Advanced Solid Tumors - Jan 12, 2026",
+   "date": "2026-01-12",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-27",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"MK-1200\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C187690?include=summary",
+   "title": "NCI Thesaurus concept C187690 (Anti-Claudin 18.2 Antibody-drug Conjugate SKB315)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-27",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of a monoclonal antibody directed against the tumor-associated antigen (TAA) claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) that is site-specifically conjugated, via a stable linker, to a cytotoxic DNA topoisomerase I (Top I) inhibitor, with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C187690?include=summary",
+   "title": "NCI Thesaurus concept C187690 (Anti-Claudin 18.2 Antibody-drug Conjugate SKB315)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-28",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"ASKB589\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C179328?include=summary",
+   "title": "NCI Thesaurus concept C179328 (Omectatug)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-28",
+   "fact_type": "target",
+   "quote": "A monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C179328?include=summary",
+   "title": "NCI Thesaurus concept C179328 (Omectatug)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-29",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of a wild-type Fc-containing immunoglobulin (IgG) monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) (5103F3) conjugated, via a cathepsin B cleavable linker, to the camptothecin derivative and topoisomerase 1 inhibitor Ed-04, with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C215079?include=summary",
+   "title": "NCI Thesaurus concept C215079 (Anti-Claudin 18.2 Antibody-drug Conjugate BL-M05D1)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-30",
+   "fact_type": "licensing",
+   "quote": "FL-301 is being developed through an exclusive license from NovaRock Biotherapeutics for territories excluding China and is currently in a Phase 1 clinical trial in cancer patients in China.",
+   "url": "https://www.sec.gov/Archives/edgar/data/1509745/000110465923004066/tm233557d1_ex99-1.htm",
+   "title": "leap",
+   "date": "2023-01",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-30",
+   "fact_type": "licensing",
+   "quote": "(Nasdaq:LPTX), a biotechnology company focused on developing targeted and immuno-oncology therapeutics , and Flame Biosciences, Inc., a privately-held biotechnology company, today announced that the companies have entered into a definitive merger agreement pursuant to which Leap has acquired Flame and its assets, including FL-301, its clinical stage anti-Claudin18.2 monoclonal antibody, FL-302, its preclinical anti-Claudin18.2/CD137 bispecific monoclonal antibody, FL-501, its preclinical anti-GDF15 monoclonal antibody, and net cash of approximately $50 million as of December 31, 2022.",
+   "url": "https://www.sec.gov/Archives/edgar/data/1509745/000110465923004066/tm233557d1_ex99-1.htm",
+   "title": "leap",
+   "date": "2023-01",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-30",
+   "fact_type": "modality",
+   "quote": "FL-301 is a fully human monoclonal antibody that binds to and blocks Claudin18.2.",
+   "url": "https://www.sec.gov/Archives/edgar/data/1509745/000110465923004066/tm233557d1_ex99-1.htm",
+   "title": "leap",
+   "date": "2023-01",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-31",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"PT886\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C190118?include=summary",
+   "title": "NCI Thesaurus concept C190118 (Spevatamig)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-31",
+   "fact_type": "modality",
+   "quote": "Spevatamig is a first-in-class native IgG-like bispecific antibody (bsAb) targeting claudin 18.2 and CD47.",
+   "url": "https://www.biospace.com/press-releases/phanes-therapeutics-announces-updated-phase-2-clinical-trial-results-of-spevatamig-pt886-in-combination-with-chemotherapy-in-frontline-treatment-of-metastatic-pdac-at-the-2026-asco-annual-meeting",
+   "title": "Phanes Therapeutics Announces Updated Phase 2 Clinical Trial Results of Spevatamig (PT886) in Combination with Chemotherapy in Frontline Treatment of Metastatic PDAC at the 2026 ASCO Annual Meeting - BioSpace",
+   "date": "2026",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-31",
+   "fact_type": "target",
+   "quote": "A bispecific antibody directed against both the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18) and the human cell surface antigen CD47, with potential immunostimulating, phagocytosis-inducing and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C190118?include=summary",
+   "title": "NCI Thesaurus concept C190118 (Spevatamig)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-32",
+   "fact_type": "modality",
+   "quote": "BDC-4182 is a next-generation BoltbodyTM ISAC targeting claudin 18.2, a clinically validated target with expression in gastric cancer, gastroesophageal junction cancer, pancreatic cancer, and other tumor types.",
+   "url": "https://www.1stoncology.com/blog/?p=110876",
+   "title": "Bolt Biotherapeutics Reports First Quarter 2026 Financial Results and Provides Business Update – 1stOncology™: Cancer Intelligence Service",
+   "date": "2026",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-33",
+   "fact_type": "alias",
+   "quote": "PRAGUE, Czech Republic, April 12, 2021 (GLOBE NEWSWIRE) -- SOTIO , a clinical stage immuno-oncology company owned by PPF Group , announced new preclinical data of its antibody - drug conjugate (ADC) , SOT102 (formerly SO-N102), for the treatment of solid tumors in a virtual poster presentation at the 2021 American Association of Cancer Research (AACR) Annual Meeting .",
+   "url": "https://www.biospace.com/sotio-demonstrates-strong-potential-of-sot102-adc-targeting-claudin-18-2-for-treatment-of-solid-tumors-in-preclinical-studies",
+   "title": "SOTIO Demonstrates Strong Potential of SOT102 (ADC Targeting Claudin 18.2) for Treatment of Solid Tumors in Preclinical Studies - BioSpace",
+   "date": "2021-04-12",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-33",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of an immunoglobulin G1 (IgG1) monoclonal antibody directed against the tumor-associated antigen (TAA) claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) that is site-specifically conjugated, via a non-cleavable amide/peptide linker, to a derivative of the cytotoxic anthracycline PNU-159682, with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C190788?include=summary",
+   "title": "NCI Thesaurus concept C190788 (Anti-Claudin 18.2 Antibody-drug Conjugate SOT102)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-34",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"ZL-1211\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C191757?include=summary",
+   "title": "NCI Thesaurus concept C191757 (Anti-CLDN18.2 Monoclonal Antibody ZL-1211)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-34",
+   "fact_type": "target",
+   "quote": "An engineered monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C191757?include=summary",
+   "title": "NCI Thesaurus concept C191757 (Anti-CLDN18.2 Monoclonal Antibody ZL-1211)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-35",
+   "fact_type": "modality",
+   "quote": "BNT141 codes for an IgG1 antibody targeting the cancer cell surface marker CLDN18.2 and was being studied in a first-in-human, open-label, multi-site Phase 1/2 clinical trial (NCT04683939) with expansion cohorts in patients with CLDN18.2-positive tumors.",
+   "url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698523000050/bnt_2023q2ex99x1quarterlyr.htm",
+   "title": "Document",
+   "date": "2023-08",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-35",
+   "fact_type": "status",
+   "quote": "Based on results from an interim analysis, we have decided to discontinue the study, and we are working on an optimized version of the product candidate for further clinical development.",
+   "url": "https://www.sec.gov/Archives/edgar/data/1776985/000177698523000050/bnt_2023q2ex99x1quarterlyr.htm",
+   "title": "Document",
+   "date": "2023-08",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-35",
+   "fact_type": "target",
+   "quote": "A lipid nanoparticle (LNP) encapsulating a messenger RNA (mRNA) encoding for a monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C179620?include=summary",
+   "title": "NCI Thesaurus concept C179620 (mRNA-encoded Anti-Claudin18.2 Monoclonal Antibody BNT141)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-36",
+   "fact_type": "modality",
+   "quote": "AMG 910 is a bispecific T-cell engager (BiTE) that targets CLDN18.2 expressed on tumor cells, and the CD3 antigen found on cytotoxic T cell lymphocytes, potentially resulting in T cell directed lysis of tumor cells (Ann Oncol. 2020 Sep 1;31(Supple. 4):S928-S929).",
+   "url": "https://ckb.jax.org/therapy/show/11026",
+   "title": "Therapy Detail",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-37",
+   "fact_type": "alias",
+   "quote": "Elatatug Vedotin NCIt concept Preferred Label : Elatatug Vedotin; NCIt synonyms : ADC TORL-2-307-ADC; CLDN18.2-307-ADC; Anti-CLDN18.2/MMAE ADC TORL-2-307-ADC; Anti-CLDN18.2 ADC TORL-2-307-ADC; Anti-Claudin18.2/MMAE Antibody-drug Conjugate TORL-2-307-ADC; NCIt definition : An antibody-drug conjugate (ADC) composed of a monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18) conjugated, via a cleavable linker, to the microtubule-disrupting cytotoxic agent monomethyl auristatin E (MMAE), with potential antineoplastic activity.",
+   "url": "https://www.cismef.org/page/detail/en/NCI_CO_C185565",
+   "title": "Elatatug Vedotin - CISMeF",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-38",
+   "fact_type": "modality",
+   "quote": "LCB02A is a new drug candidate developed using Ligachem Bioscience's proprietary ADC platform technology, ConjuAll™.",
+   "url": "https://www.asiae.co.kr/en/article/2026041416334105627",
+   "title": "Ligachem Bioscience Submits Global Phase 1/2 IND Application for Claudin18.2 ADC 'LCB02A' - The Asia Business Daily",
+   "date": "2026-04-14",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-38",
+   "fact_type": "status",
+   "quote": "LCB02A received its official clinical trial registration number (NCT07460375) from the world's largest clinical information platform, ClinicalTrials.gov, on March 10, marking the official start of its clinical development.",
+   "url": "https://www.asiae.co.kr/en/article/2026041416334105627",
+   "title": "Ligachem Bioscience Submits Global Phase 1/2 IND Application for Claudin18.2 ADC 'LCB02A' - The Asia Business Daily",
+   "date": "2026-04-14",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-39",
+   "fact_type": "target",
+   "quote": "A bispecific antibody directed against both the immunosuppressive ligand programmed cell death-1 ligand 1 (PD-L1; cluster of differentiation 274; CD274) and the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immune checkpoint inhibitory, immunostimulatory and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C180675?include=summary",
+   "title": "NCI Thesaurus concept C180675 (Anti-PD-L1/Claudin18.2 Bispecific Antibody Q-1802)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-40",
+   "fact_type": "target",
+   "quote": "A recombinant humanized immunoglobulin G1 (IgG1) monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C179602?include=summary",
+   "title": "NCI Thesaurus concept C179602 (Anti-claudin 18.2 Monoclonal Antibody MIL93)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-41",
+   "fact_type": "target",
+   "quote": "anti-claudin18.2/IL-10 fusion protein",
+   "url": "https://clinicaltrials.gov/api/v2/studies?query.term=LB4330&fields=NCTId,BriefTitle,OfficialTitle,LeadSponsorName,OverallStatus,InterventionName,InterventionDescription&pageSize=3",
+   "title": "ct_LB4330",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-42",
+   "fact_type": "target",
+   "quote": "A preparation of autologous T-lymphocytes engineered to express a chimeric antigen receptor (CAR) specific for the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C192206?include=summary",
+   "title": "NCI Thesaurus concept C192206 (Autologous Anti-Claudin18.2 CAR T-cells LB1908)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-43",
+   "fact_type": "target",
+   "quote": "An antibody-drug conjugate (ADC) composed of a humanized monoclonal antibody directed against the tumor-associated antigen (TAA) claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) conjugated via a cleavable linker, to an undisclosed cytotoxic agent, with potential antineoplastic activity.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C200908?include=summary",
+   "title": "NCI Thesaurus concept C200908 (Anti-CLDN18.2 Antibody-drug Conjugate TQB2103)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-44",
+   "fact_type": "target",
+   "quote": "A recombinant, immunoglobulin G1 (IgG1) bispecific antibody directed against both the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18) and the human cell surface antigen CD47, with potential immunostimulating, phagocytosis-inducing and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C200799?include=summary",
+   "title": "NCI Thesaurus concept C200799 (Anti-CLDN18.2/CD47 Bispecific Antibody SG1906)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-45",
+   "fact_type": "target",
+   "quote": "A fusion protein composed of a recombinant humanized anti-Claudin18.2 (CLDN18.2; A2 isoform of claudin-18) heavy chain antibody (VHH) fused to an engineered immunoglobulin gamma-1 (IgG1) Fc fragment, with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C198698?include=summary",
+   "title": "NCI Thesaurus concept C198698 (Anti-CLDN18.2 Heavy Chain Antibody Fc Fusion Protein DR30303)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-46",
+   "fact_type": "target",
+   "quote": "Phase 1/2a Open-label Clinical Trial Evaluating VBC108, a CLDN18.2 and CDH17-directed Bi-specific Antibody Drug Conjugate, in Participants With Advanced Malignant Solid Tumors",
+   "url": "https://clinicaltrials.gov/api/v2/studies?query.term=VBC108&fields=NCTId,BriefTitle,OfficialTitle,LeadSponsorName,OverallStatus,InterventionName,InterventionDescription&pageSize=3",
+   "title": "ct_VBC108",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-47",
+   "fact_type": "target",
+   "quote": "A preparation of T-lymphocytes engineered to express a chimeric antigen receptor (CAR) specific for the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C185607?include=summary",
+   "title": "NCI Thesaurus concept C185607 (Anti-Claudin18.2 CAR T Cells IBI345)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-48",
+   "fact_type": "target",
+   "quote": "A preparation of autologous T-lymphocytes that have been genetically engineered to express a T-cell Antigen Coupler (TAC), comprised of a domain that targets the tumor-associated antigen (TAA) claudin 18.2 (CLDN18.2; A2 isoform of claudin-18) and another domain that binds to the endogenous T-cell receptor (TCR), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C201811?include=summary",
+   "title": "NCI Thesaurus concept C201811 (Autologous Anti-CLDN18.2 TAC T-cells TAC01-CLDN18.2)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-49",
+   "fact_type": "modality",
+   "quote": "IMC002 is an autologous CLDN18.2-targeting CAR-T cell directed by a high specific anti-CLDN18.2 VHH, the specificity of which was confirmed by a membrane proteome array assay.",
+   "url": "https://www.biospace.com/immunofoco-biotech-to-unveil-solid-tumor-car-t-programs-clinical-trial-data-at-2024-asco-meeting",
+   "title": "Immunofoco Biotech to Unveil Solid Tumor CAR-T Programs Clinical Trial Data at 2024 ASCO Meeting - BioSpace",
+   "date": "2024-05",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-50",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"LM-102\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C183147?include=summary",
+   "title": "NCI Thesaurus concept C183147 (Tecotabart)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-50",
+   "fact_type": "target",
+   "quote": "A recombinant humanized monoclonal antibody directed against the tumor-associated antigen (TAA) claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C183147?include=summary",
+   "title": "NCI Thesaurus concept C183147 (Tecotabart)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-51",
+   "fact_type": "target",
+   "quote": "A bispecific antibody directed against both the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18) and the human cell surface antigen CD47, with potential immunostimulating, phagocytosis-inducing and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C204802?include=summary",
+   "title": "NCI Thesaurus concept C204802 (Anti-CLDN18.2/CD47 Bispecific Antibody AK132)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-52",
+   "fact_type": "target",
+   "quote": "A Clinical Study Evaluating the Safety, Tolerability, Biodistribution, Dose Determination, and Preliminary Efficacy of ¹⁷⁷Lu-DOTA-SNA040 in Patients With Claudin 18.2-positive Advanced Solid Tumors",
+   "url": "https://clinicaltrials.gov/api/v2/studies?query.term=177Lu-DOTA-SNA040&fields=NCTId,BriefTitle,OfficialTitle,LeadSponsorName,OverallStatus,InterventionName,InterventionDescription&pageSize=3",
+   "title": "ct_177Lu-DOTA-SNA040",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-54",
+   "fact_type": "target",
+   "quote": "A humanized monoclonal antibody directed against the tumor-associated antigen (TAA) Claudin18.2 (CLDN18.2; A2 isoform of claudin-18), with potential immunostimulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C189018?include=summary",
+   "title": "NCI Thesaurus concept C189018 (Anti-Claudin-18.2 Monoclonal Antibody SPX-101)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-55",
+   "fact_type": "target",
+   "quote": "'DA-3501' is an ADC candidate that targets 'Claudin 18.2', a protein exposed during the carcinogenesis of gastric mucosal cells.",
+   "url": "https://www.asiae.co.kr/en/article/2025062415383793065",
+   "title": "Dong-A ST and Aptys Submit IND Application for Phase 1 Clinical Trial of ADC Novel Drug 'DA-3501' - The Asia Business Daily",
+   "date": "2025-06-24",
+   "fetched": true
+  },
+  {
+   "program_id": "CL-56",
+   "fact_type": "target",
+   "quote": "Allogeneic CAR-NK cells engineered with a dual-recognition CAR targeting CLDN18.2 and MUC1.",
+   "url": "https://clinicaltrials.gov/api/v2/studies?query.term=EB-DNK102&fields=NCTId,BriefTitle,OfficialTitle,LeadSponsorName,OverallStatus,InterventionName,InterventionDescription&pageSize=3",
+   "title": "ct_EB-DNK102",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-57",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"AZD2936\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C188211?include=summary",
+   "title": "NCI Thesaurus concept C188211 (Rilvegostomig)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-57",
+   "fact_type": "target",
+   "quote": "A bispecific antibody directed against the negative immunoregulatory human cell receptor programmed cell death protein 1 (PD-1; PDCD1; CD279) and the co-inhibitory molecule and immune checkpoint inhibitor T-cell immunoreceptor with immunoglobulin (Ig) and immunoreceptor tyrosine-based inhibitory motif (ITIM) domains (TIGIT), with potential immune checkpoint inhibitory and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C188211?include=summary",
+   "title": "NCI Thesaurus concept C188211 (Rilvegostomig)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-58",
+   "fact_type": "target",
+   "quote": "An engineered immunoglobulin G1 (IgG1) bi-specific monoclonal antibody that targets two different non-overlapping epitopes of the human tumor-associated antigen (TAA) epidermal growth factor receptor 2 (HER2), ECD2 and ECD4, with potential immunomodulating and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C130010?include=summary",
+   "title": "NCI Thesaurus concept C130010 (Zanidatamab)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-59",
+   "fact_type": "target",
+   "quote": "An engineered fragment crystallizable (Fc) domain bispecific human immunoglobulin G1 (IgG1) monoclonal antibody directed against the human negative immunoregulatory checkpoint receptors programmed cell death protein 1 (PD-1; PDCD1; CD279) and cytotoxic T-lymphocyte-associated antigen 4 (CTLA4; CTLA-4), with potential immune checkpoint inhibitory and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C171937?include=summary",
+   "title": "NCI Thesaurus concept C171937 (Volrustomig)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-60",
+   "fact_type": "alias",
+   "quote": "{\"name\":\"QL1706\",",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C162774?include=summary",
+   "title": "NCI Thesaurus concept C162774 (Iparomlimab/Tuvonralimab)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-60",
+   "fact_type": "target",
+   "quote": "A mixture of the two engineered monoclonal antibodies iparomlimab, which is an immunoglobulin G4 (IgG4) monoclonal antibody directed against the human negative immunoregulatory checkpoint receptor programmed cell death protein 1 (PD-1; PDCD1; CD279) and tuvonralimab, which is an IgG1 monoclonal antibody directed against the cytotoxic T-lymphocyte-associated antigen 4 (CTLA4; CTLA-4), with potential immune checkpoint inhibitory and antineoplastic activities.",
+   "url": "https://api-evsrest.nci.nih.gov/api/v1/concept/ncit/C162774?include=summary",
+   "title": "NCI Thesaurus concept C162774 (Iparomlimab/Tuvonralimab)",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-61",
+   "fact_type": "target",
+   "quote": "Safety Study of 89Zr-Anti-CLDN18.2 mAbs PET-CT Imaging in Patients With CLDN18.2 Positive Solid Tumors",
+   "url": "https://clinicaltrials.gov/api/v2/studies?query.term=89Zr-NY005&fields=NCTId,BriefTitle,OfficialTitle,LeadSponsorName,OverallStatus,InterventionName,InterventionDescription&pageSize=3",
+   "title": "ct_89Zr-NY005",
+   "date": null,
+   "fetched": true
+  },
+  {
+   "program_id": "CL-62",
+   "fact_type": "target",
+   "quote": "Clinical Study of CLDN18.2 PET/CT for Noninvasive Diagnosis of Gastric and Pancreatic Cancer",
+   "url": "https://clinicaltrials.gov/api/v2/studies/NCT06203613",
+   "title": "resca",
+   "date": null,
+   "fetched": true
+  }
+ ],
+ "not_found": [
+  "CL-53"
+ ]
+}

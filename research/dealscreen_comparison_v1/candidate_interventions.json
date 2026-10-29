@@ -1,0 +1,2751 @@
+[
+ {
+  "intervention": "1 mg/kg IV FL-301",
+  "ncts": [
+   "NCT05181865"
+  ],
+  "sponsors": [
+   "Flame Biosciences"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "WITHDRAWN"
+  ],
+  "other_names": [
+   "FL-301"
+  ]
+ },
+ {
+  "intervention": "10 mg/kg IV FL-301",
+  "ncts": [
+   "NCT05181865"
+  ],
+  "sponsors": [
+   "Flame Biosciences"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "WITHDRAWN"
+  ],
+  "other_names": [
+   "FL-301"
+  ]
+ },
+ {
+  "intervention": "124I-18B10(10L) PET/CT",
+  "ncts": [
+   "NCT04883970"
+  ],
+  "sponsors": [
+   "Peking University Cancer Hospital & Institute"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "177Lu-DOTA-SNA040",
+  "ncts": [
+   "NCT07595237"
+  ],
+  "sponsors": [
+   "SmartNuclide Biopharma"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "18F-FDG",
+  "ncts": [
+   "NCT05436093"
+  ],
+  "sponsors": [
+   "Peking University Cancer Hospital & Institute"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "20 mg/kg IV FL-301",
+  "ncts": [
+   "NCT05181865"
+  ],
+  "sponsors": [
+   "Flame Biosciences"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "WITHDRAWN"
+  ],
+  "other_names": [
+   "FL-301"
+  ]
+ },
+ {
+  "intervention": "3 mg/kg IV FL-301",
+  "ncts": [
+   "NCT05181865"
+  ],
+  "sponsors": [
+   "Flame Biosciences"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "WITHDRAWN"
+  ],
+  "other_names": [
+   "FL-301"
+  ]
+ },
+ {
+  "intervention": "30 mg/kg IV FL-301",
+  "ncts": [
+   "NCT05181865"
+  ],
+  "sponsors": [
+   "Flame Biosciences"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "WITHDRAWN"
+  ],
+  "other_names": [
+   "FL-301"
+  ]
+ },
+ {
+  "intervention": "89Zr-NY005",
+  "ncts": [
+   "NCT04989010"
+  ],
+  "sponsors": [
+   "Wuxi No. 4 People's Hospital"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "AB011 Injection",
+  "ncts": [
+   "NCT04400383"
+  ],
+  "sponsors": [
+   "CARsgen Therapeutics Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": [
+   "recombinant humanized anti-CLDN 18.2 monoclonal antibody injection",
+   "recombinant humanized anti-Claudin 18.2 monoclonal antibody injection"
+  ]
+ },
+ {
+  "intervention": "AK132",
+  "ncts": [
+   "NCT06166472"
+  ],
+  "sponsors": [
+   "Akeso"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "AMG 910",
+  "ncts": [
+   "NCT04260191"
+  ],
+  "sponsors": [
+   "Amgen"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "ANO31905",
+  "ncts": [
+   "NCT07444541"
+  ],
+  "sponsors": [
+   "Anova Innovation Limited"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "ASKB589",
+  "ncts": [
+   "NCT06206733"
+  ],
+  "sponsors": [
+   "AskGene Pharma, Inc."
+  ],
+  "phases": [
+   "PHASE3"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "ASP2138",
+  "ncts": [
+   "NCT05365581",
+   "NCT07024615",
+   "NCT07673887"
+  ],
+  "sponsors": [
+   "Astellas Pharma Global Development, Inc."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE3"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "ASP546C",
+  "ncts": [
+   "NCT07488676"
+  ],
+  "sponsors": [
+   "Astellas Pharma Global Development, Inc."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "XNW27011"
+  ]
+ },
+ {
+  "intervention": "ATG-022",
+  "ncts": [
+   "NCT07327229",
+   "NCT07795346"
+  ],
+  "sponsors": [
+   "Antengene Biologics Limited"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "AZD0901",
+  "ncts": [
+   "NCT05702229",
+   "NCT06219941",
+   "NCT06346392",
+   "NCT07143604"
+  ],
+  "sponsors": [
+   "AstraZeneca"
+  ],
+  "phases": [
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING",
+   "RECRUITING"
+  ],
+  "other_names": [
+   "CMG901",
+   "Sonesitatug Vedotin"
+  ]
+ },
+ {
+  "intervention": "AZD2936",
+  "ncts": [
+   "NCT06005493"
+  ],
+  "sponsors": [
+   "AstraZeneca"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "Rilvegostomig"
+  ]
+ },
+ {
+  "intervention": "AZD4360",
+  "ncts": [
+   "NCT06921928"
+  ],
+  "sponsors": [
+   "AstraZeneca"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "AZD5863",
+  "ncts": [
+   "NCT06005493"
+  ],
+  "sponsors": [
+   "AstraZeneca"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "AZD6422 CLDN18.2 CAR-T product",
+  "ncts": [
+   "NCT05981235"
+  ],
+  "sponsors": [
+   "Peking University"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": [
+   "AZD6422"
+  ]
+ },
+ {
+  "intervention": "Anrotinib",
+  "ncts": [
+   "NCT05608785"
+  ],
+  "sponsors": [
+   "Henan Cancer Hospital"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Autologous dual-target CAR-T cells selected from the predefined target library.",
+  "ncts": [
+   "NCT07523529"
+  ],
+  "sponsors": [
+   "Beijing Biotech"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "BDC-4182",
+  "ncts": [
+   "NCT06921837"
+  ],
+  "sponsors": [
+   "Bolt Biotherapeutics, Inc."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "BL-M05D1",
+  "ncts": [
+   "NCT07518147"
+  ],
+  "sponsors": [
+   "Sichuan Baili Pharmaceutical Co., Ltd."
+  ],
+  "phases": [
+   "PHASE3"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "BNT141",
+  "ncts": [
+   "NCT04683939"
+  ],
+  "sponsors": [
+   "BioNTech SE"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Benmelstobart",
+  "ncts": [
+   "NCT05934331"
+  ],
+  "sponsors": [
+   "LaNova Medicines Zhejiang Co., Ltd."
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Bio-008",
+  "ncts": [
+   "NCT06027346"
+  ],
+  "sponsors": [
+   "Shijiazhuang Yiling Pharmaceutical Co. Ltd"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "CAR T cells",
+  "ncts": [
+   "NCT07103668"
+  ],
+  "sponsors": [
+   "Suzhou Immunofoco Biotechnology Co., Ltd"
+  ],
+  "phases": [
+   "PHASE3"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "CAR-BCMA T cell",
+  "ncts": [
+   "NCT03302403"
+  ],
+  "sponsors": [
+   "Kang YU"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "BCMA-redirected Autologous Cell"
+  ]
+ },
+ {
+  "intervention": "CAR-CD19 T cell",
+  "ncts": [
+   "NCT03302403"
+  ],
+  "sponsors": [
+   "Kang YU"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "CD19-redirected Autologous Cell"
+  ]
+ },
+ {
+  "intervention": "CAR-CLD18 T Cells",
+  "ncts": [
+   "NCT03159819"
+  ],
+  "sponsors": [
+   "Changhai Hospital"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "Claudin18.2-redirected Autologous Cells"
+  ]
+ },
+ {
+  "intervention": "CAR-CLD18 T cell",
+  "ncts": [
+   "NCT03302403"
+  ],
+  "sponsors": [
+   "Kang YU"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "Claudin18.2-redirected Autologous Cell"
+  ]
+ },
+ {
+  "intervention": "CAR-CLDN18.2 T-Cells",
+  "ncts": [
+   "NCT03874897"
+  ],
+  "sponsors": [
+   "Peking University"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": [
+   "Chimeric Antigen Receptor T Cells Targeting Claudin18.2"
+  ]
+ },
+ {
+  "intervention": "CAR-DC treatment",
+  "ncts": [
+   "NCT07504445"
+  ],
+  "sponsors": [
+   "Peking University Shenzhen Hospital"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "CAR-GPC3 T cell",
+  "ncts": [
+   "NCT03302403"
+  ],
+  "sponsors": [
+   "Kang YU"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "GPC3-redirected Autologous Cell"
+  ]
+ },
+ {
+  "intervention": "CAR-T cells targeting GPC3, Mesothelin, Claudin18.2, GUCY2C, B7-H3, PSCA, PSMA, MUC1, TGF\u03b2, HER2, Lewis-Y, AXL, or EGFR",
+  "ncts": [
+   "NCT03198052"
+  ],
+  "sponsors": [
+   "Second Affiliated Hospital of Guangzhou Medical University"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "Administration of CAR-T cells through vein or interventional technique."
+  ]
+ },
+ {
+  "intervention": "CB CAR-NK18.2",
+  "ncts": [
+   "NCT06464965"
+  ],
+  "sponsors": [
+   "Zhejiang Provincial People's Hospital"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "CBG131 CAR-T Cell Infusion",
+  "ncts": [
+   "NCT07394205"
+  ],
+  "sponsors": [
+   "First Affiliated Hospital of Wenzhou Medical University"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "CMG901",
+  "ncts": [
+   "NCT04805307"
+  ],
+  "sponsors": [
+   "Keymed Biosciences Co.Ltd"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "CPO102",
+  "ncts": [
+   "NCT05043987"
+  ],
+  "sponsors": [
+   "Conjupro Biotherapeutics, Inc."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "WITHDRAWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "CT041",
+  "ncts": [
+   "NCT04404595"
+  ],
+  "sponsors": [
+   "CARsgen Therapeutics Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "CT041 autologous CAR T-cell injection",
+  "ncts": [
+   "NCT04581473",
+   "NCT05911217"
+  ],
+  "sponsors": [
+   "CARsgen Therapeutics Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING",
+   "RECRUITING"
+  ],
+  "other_names": [
+   "CAR T-cell injection",
+   "Single Group Assignment"
+  ]
+ },
+ {
+  "intervention": "CT048 Autologous Injection (CT048)",
+  "ncts": [
+   "NCT05393986"
+  ],
+  "sponsors": [
+   "Peking University"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "CT048 Autologous CAR T-cell Injection"
+  ]
+ },
+ {
+  "intervention": "Cadonilimab, LM-302, S-1, paclitaxel",
+  "ncts": [
+   "NCT06519591"
+  ],
+  "sponsors": [
+   "Ruijin Hospital"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Cell injection",
+  "ncts": [
+   "NCT05284968"
+  ],
+  "sponsors": [
+   "Peking University"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Chimeric antigen receptor T cell preparation targeting Claudin18.2",
+  "ncts": [
+   "NCT05952375"
+  ],
+  "sponsors": [
+   "The Affiliated Hospital of Qingdao University"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Claudin 18.2 CAR-T",
+  "ncts": [
+   "NCT05472857"
+  ],
+  "sponsors": [
+   "Suzhou Immunofoco Biotechnology Co., Ltd"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "IMC002"
+  ]
+ },
+ {
+  "intervention": "Claudin18.2 CAR-T cells",
+  "ncts": [
+   "NCT05620732"
+  ],
+  "sponsors": [
+   "Shenzhen University General Hospital"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Claudin18.2 Targeted Activated Dendritic Cells",
+  "ncts": [
+   "NCT07416240"
+  ],
+  "sponsors": [
+   "Hainan Cancer Hospital"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Claudin18.2 Targeted CAR-T Cells",
+  "ncts": [
+   "NCT07416240"
+  ],
+  "sponsors": [
+   "Hainan Cancer Hospital"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Claudin18.2-Targeted Chimeric Antigen Receptor T Cell Injection",
+  "ncts": [
+   "NCT06353152"
+  ],
+  "sponsors": [
+   "Peking University"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Claudin18.2-targeted CAR-DCs",
+  "ncts": [
+   "NCT06946615"
+  ],
+  "sponsors": [
+   "Second Affiliated Hospital, Zhejiang University, School of Medicine"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Claudin18.2-targeted CAR-T Cells",
+  "ncts": [
+   "NCT06946615"
+  ],
+  "sponsors": [
+   "Second Affiliated Hospital, Zhejiang University, School of Medicine"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "DA-3501",
+  "ncts": [
+   "NCT07481357"
+  ],
+  "sponsors": [
+   "Dong-A ST Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "DR30303",
+  "ncts": [
+   "NCT05639153"
+  ],
+  "sponsors": [
+   "Zhejiang Doer Biologics Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Drug: CT041 autologous CAR T-cell injection",
+  "ncts": [
+   "NCT06857786"
+  ],
+  "sponsors": [
+   "Peking University"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Drug\uff1aLM-102",
+  "ncts": [
+   "NCT04735796"
+  ],
+  "sponsors": [
+   "LaNova Medicines Limited"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Dual-targeting CLDN18.2 and PD-L1 CAR-T cells",
+  "ncts": [
+   "NCT06084286"
+  ],
+  "sponsors": [
+   "Sichuan University"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "EB-DNK101 dual-targeting CAR-NK cells (MSLN + MUC1)",
+  "ncts": [
+   "NCT07480928",
+   "NCT07627711"
+  ],
+  "sponsors": [
+   "Beijing Biotech"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "MSLN/MUC1 Dual-CAR NK, Dual-target CAR-NK (MSLN/MUC1)"
+  ]
+ },
+ {
+  "intervention": "EB-DNK102 dual-targeting CAR-NK cells (CLDN18.2 + MUC1)",
+  "ncts": [
+   "NCT07480928",
+   "NCT07627711"
+  ],
+  "sponsors": [
+   "Beijing Biotech"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "CLDN18.2/MUC1 Dual-CAR NK, Dual-target CAR-NK (CLDN18.2/MUC1)"
+  ]
+ },
+ {
+  "intervention": "EB-DT-CAR-NK",
+  "ncts": [
+   "NCT07551362"
+  ],
+  "sponsors": [
+   "Beijing Biotech"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "EBNK-1822H2 dual-target CLDN18.2/HER2 CAR-NK cells",
+  "ncts": [
+   "NCT07622940"
+  ],
+  "sponsors": [
+   "Beijing Biotech"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "Dual-target CAR-NK; EBNK-1822H2"
+  ]
+ },
+ {
+  "intervention": "EO-3021",
+  "ncts": [
+   "NCT05980416"
+  ],
+  "sponsors": [
+   "Elevation Oncology"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "FG-B901",
+  "ncts": [
+   "NCT07704866"
+  ],
+  "sponsors": [
+   "FutureGen Biopharmaceutical (Beijing) Co., Ltd"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "FG-M108",
+  "ncts": [
+   "NCT07383922",
+   "NCT07704866"
+  ],
+  "sponsors": [
+   "FutureGen Biopharmaceutical (Beijing) Co., Ltd"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": [
+   "M108"
+  ]
+ },
+ {
+  "intervention": "Givastomig",
+  "ncts": [
+   "NCT07432295"
+  ],
+  "sponsors": [
+   "I-Mab Biopharma US Limited"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "TJ033721"
+  ]
+ },
+ {
+  "intervention": "HEC-016(0.5\u00d710^6 CAR-T Cells)",
+  "ncts": [
+   "NCT05277987"
+  ],
+  "sponsors": [
+   "Shenzhen Fifth People's Hospital"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "HEC-016(0.5\u00d710^6.5 CAR-T Cells)",
+  "ncts": [
+   "NCT05277987"
+  ],
+  "sponsors": [
+   "Shenzhen Fifth People's Hospital"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "HEC-016(0.5\u00d710^7 CAR-T Cells)",
+  "ncts": [
+   "NCT05277987"
+  ],
+  "sponsors": [
+   "Shenzhen Fifth People's Hospital"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "IBI315",
+  "ncts": [
+   "NCT05608785"
+  ],
+  "sponsors": [
+   "Henan Cancer Hospital"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "IBI343",
+  "ncts": [
+   "NCT05458219",
+   "NCT06238843",
+   "NCT06770439",
+   "NCT07025889",
+   "NCT07066098",
+   "NCT07415525"
+  ],
+  "sponsors": [
+   "Innovent Biologics (Suzhou) Co. Ltd.",
+   "Ruijin Hospital",
+   "Zhejiang University"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING",
+   "NOT_YET_RECRUITING",
+   "RECRUITING"
+  ],
+  "other_names": [
+   "AG regimen",
+   "Arcotatug Tavatecan"
+  ]
+ },
+ {
+  "intervention": "IBI343 combined with IBI308",
+  "ncts": [
+   "NCT06321913"
+  ],
+  "sponsors": [
+   "Harbin Medical University"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "IBI343+ capecitabine",
+  "ncts": [
+   "NCT07692750"
+  ],
+  "sponsors": [
+   "Zhejiang Cancer Hospital"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "IBI343+Capecitabine+oxaliplatin",
+  "ncts": [
+   "NCT07692750"
+  ],
+  "sponsors": [
+   "Zhejiang Cancer Hospital"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "IBI343,Gemcitabine, Albumin-bound Paclitaxel",
+  "ncts": [
+   "NCT07483554"
+  ],
+  "sponsors": [
+   "Innovent Biologics (Suzhou) Co. Ltd."
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "IBI343,sintilimab,oxaliplatin,S-1",
+  "ncts": [
+   "NCT07483567"
+  ],
+  "sponsors": [
+   "Innovent Biologics (Suzhou) Co. Ltd."
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "IBI345",
+  "ncts": [
+   "NCT05199519"
+  ],
+  "sponsors": [
+   "Innovent Biologics (Suzhou) Co. Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "IMAB362",
+  "ncts": [
+   "NCT01671774"
+  ],
+  "sponsors": [
+   "Astellas Pharma Global Development, Inc."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "IMC002 injection",
+  "ncts": [
+   "NCT05946226"
+  ],
+  "sponsors": [
+   "Suzhou Immunofoco Biotechnology Co., Ltd"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "Autologous Claudin 18.2 specific CAR-T cell injection"
+  ]
+ },
+ {
+  "intervention": "IMC008",
+  "ncts": [
+   "NCT05837299"
+  ],
+  "sponsors": [
+   "Changhai Hospital"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "NKG2D receptor-modified autologous CAR -T cells targeting CLDN18.2"
+  ]
+ },
+ {
+  "intervention": "Immunotherapy",
+  "ncts": [
+   "NCT07000253"
+  ],
+  "sponsors": [
+   "Academisch Medisch Centrum - Universiteit van Amsterdam (AMC-UvA)"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Interleukin-2 (1 million IU)",
+  "ncts": [
+   "NCT01671774"
+  ],
+  "sponsors": [
+   "Astellas Pharma Global Development, Inc."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Interleukin-2 (3 million IU)",
+  "ncts": [
+   "NCT01671774"
+  ],
+  "sponsors": [
+   "Astellas Pharma Global Development, Inc."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "JS107 for Injection",
+  "ncts": [
+   "NCT07284134"
+  ],
+  "sponsors": [
+   "Shanghai Junshi Bioscience Co., Ltd."
+  ],
+  "phases": [
+   "PHASE3"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "KD-496",
+  "ncts": [
+   "NCT05583201",
+   "NCT06134960"
+  ],
+  "sponsors": [
+   "Peking University",
+   "jianming xu"
+  ],
+  "phases": [
+   "EARLY_PHASE1",
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING",
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LB1410",
+  "ncts": [
+   "NCT06468358"
+  ],
+  "sponsors": [
+   "L & L Bio Co., Ltd., Ningbo, China"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LB1908",
+  "ncts": [
+   "NCT05539430"
+  ],
+  "sponsors": [
+   "Legend Biotech USA Inc"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LB4330",
+  "ncts": [
+   "NCT05707676",
+   "NCT06468358"
+  ],
+  "sponsors": [
+   "L & L Bio Co., Ltd., Ningbo, China"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING",
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LCAR-C182A cells",
+  "ncts": [
+   "NCT03890198"
+  ],
+  "sponsors": [
+   "First Affiliated Hospital Xi'an Jiaotong University"
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LCAR-C18S cells",
+  "ncts": [
+   "NCT04467853"
+  ],
+  "sponsors": [
+   "Shanghai East Hospital"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LCB02A",
+  "ncts": [
+   "NCT07460375"
+  ],
+  "sponsors": [
+   "LigaChem Biosciences, Inc."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LM-102 Injection",
+  "ncts": [
+   "NCT05008445"
+  ],
+  "sponsors": [
+   "LaNova Medicines Development Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LM-302",
+  "ncts": [
+   "NCT05001516",
+   "NCT05934331",
+   "NCT05994001",
+   "NCT06351020",
+   "NCT07108504"
+  ],
+  "sponsors": [
+   "LaNova Medicines Zhejiang Co., Ltd.",
+   "Shanghai Zhongshan Hospital",
+   "Turning Point Therapeutics, Inc."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING",
+   "COMPLETED",
+   "NOT_YET_RECRUITING",
+   "RECRUITING"
+  ],
+  "other_names": [
+   "ClAUDIN 18.2-ADC"
+  ]
+ },
+ {
+  "intervention": "LM-302 Injection",
+  "ncts": [
+   "NCT05161390",
+   "NCT07385703"
+  ],
+  "sponsors": [
+   "LaNova Medicines Zhejiang Co., Ltd.",
+   "Shanghai Chia Tai Tianqing Pharmaceutical Technology Development Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "COMPLETED",
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LM-302+Candonilimab+Capecitabine",
+  "ncts": [
+   "NCT06587425"
+  ],
+  "sponsors": [
+   "Shanghai Zhongshan Hospital"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "ADC-Claudin18.2+AK104+Capecitabine"
+  ]
+ },
+ {
+  "intervention": "LM-302, Cadonilimab, S-1, paclitaxel",
+  "ncts": [
+   "NCT07556640"
+  ],
+  "sponsors": [
+   "Ruijin Hospital"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LM-302, S-1, paclitaxel",
+  "ncts": [
+   "NCT07556640"
+  ],
+  "sponsors": [
+   "Ruijin Hospital"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "LY011",
+  "ncts": [
+   "NCT04966143"
+  ],
+  "sponsors": [
+   "Shanghai Longyao Biotechnology Inc., Ltd."
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Local Treatment (Non-surgical)",
+  "ncts": [
+   "NCT06468280"
+  ],
+  "sponsors": [
+   "Shanghai Zhongshan Hospital"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Local treatment (Surgical)",
+  "ncts": [
+   "NCT06468280"
+  ],
+  "sponsors": [
+   "Shanghai Zhongshan Hospital"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "M108 monoclonal antibody",
+  "ncts": [
+   "NCT06177041"
+  ],
+  "sponsors": [
+   "FutureGen Biopharmaceutical (Beijing) Co., Ltd"
+  ],
+  "phases": [
+   "PHASE3"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Mesothelin and Claudin 18.2 CAR-T cells",
+  "ncts": [
+   "NCT07066995"
+  ],
+  "sponsors": [
+   "Essen Biotech"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Q-1802",
+  "ncts": [
+   "NCT04856150"
+  ],
+  "sponsors": [
+   "QureBio Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "QL1706",
+  "ncts": [
+   "NCT06446388"
+  ],
+  "sponsors": [
+   "Qilu Pharmaceutical Co., Ltd."
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "QL2107 Injection",
+  "ncts": [
+   "NCT06942767",
+   "NCT07151872"
+  ],
+  "sponsors": [
+   "Qilu Pharmaceutical Co., Ltd."
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "QLS31905",
+  "ncts": [
+   "NCT05278832",
+   "NCT06041035",
+   "NCT06446388",
+   "NCT07079228",
+   "NCT07716449"
+  ],
+  "sponsors": [
+   "Qilu Pharmaceutical Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING",
+   "RECRUITING",
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "QLS31905 for Injection",
+  "ncts": [
+   "NCT06942767",
+   "NCT07151872"
+  ],
+  "sponsors": [
+   "Qilu Pharmaceutical Co., Ltd."
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "RC118",
+  "ncts": [
+   "NCT06038396"
+  ],
+  "sponsors": [
+   "RemeGen Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": [
+   "RC118 for injection"
+  ]
+ },
+ {
+  "intervention": "RC118 for injection",
+  "ncts": [
+   "NCT04914117"
+  ],
+  "sponsors": [
+   "RemeGen Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "RC118-ADC",
+  "ncts": [
+   "NCT05205850"
+  ],
+  "sponsors": [
+   "RemeGen Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "RC118 for injection"
+  ]
+ },
+ {
+  "intervention": "RC148",
+  "ncts": [
+   "NCT06038396"
+  ],
+  "sponsors": [
+   "RemeGen Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "RP2D, IV FL-301",
+  "ncts": [
+   "NCT05181865"
+  ],
+  "sponsors": [
+   "Flame Biosciences"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "WITHDRAWN"
+  ],
+  "other_names": [
+   "FL-301"
+  ]
+ },
+ {
+  "intervention": "Radiotherapy",
+  "ncts": [
+   "NCT07000253"
+  ],
+  "sponsors": [
+   "Academisch Medisch Centrum - Universiteit van Amsterdam (AMC-UvA)"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Recombinant Humanized Monoclonal Antibody MIL93",
+  "ncts": [
+   "NCT04671875"
+  ],
+  "sponsors": [
+   "Beijing Mabworks Biotech Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Retrospective cohort, no intervention",
+  "ncts": [
+   "NCT06962137"
+  ],
+  "sponsors": [
+   "Universitaire Ziekenhuizen KU Leuven"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Rilvegostomig",
+  "ncts": [
+   "NCT05702229",
+   "NCT07431281"
+  ],
+  "sponsors": [
+   "AstraZeneca"
+  ],
+  "phases": [
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "AZD2936"
+  ]
+ },
+ {
+  "intervention": "SG1906",
+  "ncts": [
+   "NCT05857332"
+  ],
+  "sponsors": [
+   "Hangzhou Sumgen Biotech Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SHR-1701",
+  "ncts": [
+   "NCT06881017"
+  ],
+  "sponsors": [
+   "China Medical University, China"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SHR-A1811",
+  "ncts": [
+   "NCT06881017"
+  ],
+  "sponsors": [
+   "China Medical University, China"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SHR-A1904",
+  "ncts": [
+   "NCT06649292",
+   "NCT06881017"
+  ],
+  "sponsors": [
+   "China Medical University, China",
+   "Shanghai Hengrui Pharmaceutical Co., Ltd."
+  ],
+  "phases": [
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING",
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SHR-A1904 for Injection",
+  "ncts": [
+   "NCT07450976"
+  ],
+  "sponsors": [
+   "Suzhou Suncadia Biopharmaceuticals Co., Ltd."
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SIBP-A18",
+  "ncts": [
+   "NCT06985368"
+  ],
+  "sponsors": [
+   "Shanghai Institute Of Biological Products"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SKB315 for injection",
+  "ncts": [
+   "NCT05367635",
+   "NCT07609667"
+  ],
+  "sponsors": [
+   "Sichuan Kelun-Biotech Biopharmaceutical Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING",
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SOT102",
+  "ncts": [
+   "NCT05525286"
+  ],
+  "sponsors": [
+   "SOTIO Biotech a.s."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "TERMINATED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SPX-101",
+  "ncts": [
+   "NCT05231733"
+  ],
+  "sponsors": [
+   "SparX Biotech(Jiangsu) Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "WITHDRAWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SUV2208A",
+  "ncts": [
+   "NCT07680257"
+  ],
+  "sponsors": [
+   "Celest Therapeutics (Shanghai) Co., Ltd."
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SUV2208A cell injection",
+  "ncts": [
+   "NCT07680257"
+  ],
+  "sponsors": [
+   "Celest Therapeutics (Shanghai) Co., Ltd."
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "SYSA1801 for injection",
+  "ncts": [
+   "NCT05009966"
+  ],
+  "sponsors": [
+   "CSPC ZhongQi Pharmaceutical Technology Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Sacituzumab Tirumotecan + Tagitanlimab",
+  "ncts": [
+   "NCT07701681"
+  ],
+  "sponsors": [
+   "Sun Yat-sen University"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Sonesitatug vedotin",
+  "ncts": [
+   "NCT07431281"
+  ],
+  "sponsors": [
+   "AstraZeneca"
+  ],
+  "phases": [
+   "PHASE3"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "AZD0901"
+  ]
+ },
+ {
+  "intervention": "Spevatamig (PT886)",
+  "ncts": [
+   "NCT05482893"
+  ],
+  "sponsors": [
+   "Phanes Therapeutics"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Surgery",
+  "ncts": [
+   "NCT07000253"
+  ],
+  "sponsors": [
+   "Academisch Medisch Centrum - Universiteit van Amsterdam (AMC-UvA)"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "TAC01-CLDN18.2",
+  "ncts": [
+   "NCT05862324"
+  ],
+  "sponsors": [
+   "Triumvira Immunologics, Inc."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "TILs and CAR-TILs targeting HER2, Mesothelin, PSCA, MUC1, Lewis-Y, GPC3, AXL, EGFR, Claudin18.2/6, ROR1, GD1, or B7-H3",
+  "ncts": [
+   "NCT04842812"
+  ],
+  "sponsors": [
+   "Second Affiliated Hospital of Guangzhou Medical University"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "TORL-2-307-ADC",
+  "ncts": [
+   "NCT05156866"
+  ],
+  "sponsors": [
+   "TORL Biotherapeutics, LLC"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "TORL-2-307-MAB",
+  "ncts": [
+   "NCT05159440"
+  ],
+  "sponsors": [
+   "TORL Biotherapeutics, LLC"
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "TQB2103 for injection",
+  "ncts": [
+   "NCT05867563"
+  ],
+  "sponsors": [
+   "Chia Tai Tianqing Pharmaceutical Group Nanjing Shunxin Pharmaceutical Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "TQB2450",
+  "ncts": [
+   "NCT05608785",
+   "NCT06222944"
+  ],
+  "sponsors": [
+   "Henan Cancer Hospital",
+   "Peking University"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "TST001",
+  "ncts": [
+   "NCT04396821",
+   "NCT04495296",
+   "NCT05190575",
+   "NCT05608785"
+  ],
+  "sponsors": [
+   "Henan Cancer Hospital",
+   "Shanghai Zhongshan Hospital",
+   "Transcenta Therapeutics (Hangzhou) Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING",
+   "COMPLETED",
+   "UNKNOWN"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Targeted Systemic Therapy",
+  "ncts": [
+   "NCT07000253"
+  ],
+  "sponsors": [
+   "Academisch Medisch Centrum - Universiteit van Amsterdam (AMC-UvA)"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Tegafur, Gimeracil and Oteracil Potassium Capsules",
+  "ncts": [
+   "NCT05934331"
+  ],
+  "sponsors": [
+   "LaNova Medicines Zhejiang Co., Ltd."
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Tislelizumab, LM-302 and S-1",
+  "ncts": [
+   "NCT07569068"
+  ],
+  "sponsors": [
+   "Ruijin Hospital"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "VBC108",
+  "ncts": [
+   "NCT07700160"
+  ],
+  "sponsors": [
+   "VelaVigo Bio Inc"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Volrustomig",
+  "ncts": [
+   "NCT05702229"
+  ],
+  "sponsors": [
+   "AstraZeneca"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "XELOX",
+  "ncts": [
+   "NCT05702229"
+  ],
+  "sponsors": [
+   "AstraZeneca"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "XKDCT225",
+  "ncts": [
+   "NCT06782425"
+  ],
+  "sponsors": [
+   "Shenzhen Celconta Life Science Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "XNW27011",
+  "ncts": [
+   "NCT06792435"
+  ],
+  "sponsors": [
+   "Astellas Pharma Global Development, Inc."
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "ZL-1211",
+  "ncts": [
+   "NCT05065710"
+  ],
+  "sponsors": [
+   "Zai Biopharmaceutical (Suzhou) Co., Ltd."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Zanidatamab",
+  "ncts": [
+   "NCT07290985"
+  ],
+  "sponsors": [
+   "American Association for Cancer Research"
+  ],
+  "phases": [
+   "PHASE2"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "Zolbetuximab",
+  "ncts": [
+   "NCT03528629",
+   "NCT06468280",
+   "NCT07290985",
+   "NCT07431281",
+   "NCT07723534",
+   "NCT07829757",
+   "NCT07872722"
+  ],
+  "sponsors": [
+   "American Association for Cancer Research",
+   "Astellas Pharma Global Development, Inc.",
+   "Astellas Pharma Inc",
+   "AstraZeneca",
+   "Midhun Malla",
+   "National Cancer Center, Japan",
+   "Shanghai Zhongshan Hospital"
+  ],
+  "phases": [
+   "NA",
+   "PHASE2",
+   "PHASE3",
+   "PHASE4"
+  ],
+  "statuses": [
+   "COMPLETED",
+   "NOT_YET_RECRUITING",
+   "RECRUITING"
+  ],
+  "other_names": [
+   "IMAB362",
+   "Vyloy"
+  ]
+ },
+ {
+  "intervention": "Zoledronic acid",
+  "ncts": [
+   "NCT01671774"
+  ],
+  "sponsors": [
+   "Astellas Pharma Global Development, Inc."
+  ],
+  "phases": [
+   "PHASE1"
+  ],
+  "statuses": [
+   "COMPLETED"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "[18F]F-RESCA-3A12",
+  "ncts": [
+   "NCT06602037"
+  ],
+  "sponsors": [
+   "RenJi Hospital"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "[18F]F-3A12"
+  ]
+ },
+ {
+  "intervention": "[89Zr]Zr-DFO-SHR1920",
+  "ncts": [
+   "NCT06602037"
+  ],
+  "sponsors": [
+   "RenJi Hospital"
+  ],
+  "phases": [
+   "NA"
+  ],
+  "statuses": [
+   "RECRUITING"
+  ],
+  "other_names": [
+   "[89Zr]Zr-SHR1920"
+  ]
+ },
+ {
+  "intervention": "claudin18.2 CAR-T",
+  "ncts": [
+   "NCT07266311"
+  ],
+  "sponsors": [
+   "Chengdu Ucello Biotechnology Co., Ltd."
+  ],
+  "phases": [
+   "EARLY_PHASE1"
+  ],
+  "statuses": [
+   "NOT_YET_RECRUITING"
+  ],
+  "other_names": []
+ },
+ {
+  "intervention": "zolbetuximab",
+  "ncts": [
+   "NCT01630083",
+   "NCT03504397",
+   "NCT03505320",
+   "NCT03653507",
+   "NCT03816163",
+   "NCT06396091",
+   "NCT06732856",
+   "NCT06881017",
+   "NCT06901531",
+   "NCT06962137"
+  ],
+  "sponsors": [
+   "Asan Medical Center",
+   "Astellas Pharma Global Development, Inc.",
+   "China Medical University, China",
+   "Universitaire Ziekenhuizen KU Leuven"
+  ],
+  "phases": [
+   "PHASE1",
+   "PHASE2",
+   "PHASE3"
+  ],
+  "statuses": [
+   "ACTIVE_NOT_RECRUITING",
+   "COMPLETED",
+   "NOT_YET_RECRUITING",
+   "RECRUITING"
+  ],
+  "other_names": [
+   "IMAB362",
+   "VYLOY"
+  ]
+ }
+]
