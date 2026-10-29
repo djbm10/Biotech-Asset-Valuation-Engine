@@ -14,6 +14,7 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from bve.dealscreen.transaction import TransactionPreferences
 from bve.se.schemas.contracts import PHASE_STAGE_ORDER, BuyerProblemV2
 
 
@@ -53,6 +54,7 @@ class CommercialDiligence(BaseModel):
     )
 
 
+
 class BuyerSpec(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
@@ -60,6 +62,8 @@ class BuyerSpec(BaseModel):
     problem: BuyerProblemV2
     preferences: Preferences = Field(default_factory=Preferences)
     commercial: CommercialDiligence = Field(default_factory=CommercialDiligence)
+    #: Optional buyer-declared transaction preferences (cycle C1 X5); never affect scientific gates.
+    transaction: TransactionPreferences | None = None
     max_finalists: int = Field(default=10, ge=1, le=10)
     max_valuations: int = Field(default=3, ge=1, le=3)
 

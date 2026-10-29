@@ -121,6 +121,20 @@ def build_memo(ws: Workspace) -> str:
              "counted as the same molecule)."),
             "",
         ]
+    declared = [s for s in eligible if s.get("transaction_rank")]
+    if declared:
+        tiers = Counter(s["transaction"]["tier"] for s in declared)
+        lines.append("**Transaction view (buyer-declared preferences; separate from science).** "
+                     + ", ".join(f"{k.replace('_', ' ').lower()} {v}" for k, v in sorted(tiers.items()))
+                     + ". OPEN means no declared obstacle was found, not that rights are available:")
+        for s in sorted(declared, key=lambda s: s["transaction_rank"])[:10]:
+            why = "; ".join(s["transaction"]["reasons"] + s["transaction"]["notes"])
+            lines.append(f"- #{s['transaction_rank']} {s['program_name']}: {s['transaction']['tier']} ({why})")
+        lines.append("")
+    isoforms = sorted({r["observed"] + " → " + r["read_as"] for s in eligible for r in s.get("target_readings", [])})
+    if isoforms:
+        lines += [(f"**Target names read as genes.** {', '.join(isoforms)}: the target authority is gene-level, "
+                   "so an isoform-specific claim is not checked; verify isoform selectivity in diligence."), ""]
     readings = [s for s in eligible if s.get("indication_readings")]
     if readings:
         lines += [

@@ -180,11 +180,15 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
             _effects_text(s),
             "; ".join(f"'{r['observed']}' read as '{r['read_as']}' ({r['qualifier']})"
                       for r in s.get("indication_readings", [])),
+            "; ".join(f"'{r['observed']}' read as gene {r['read_as']} (isoform not distinguished)"
+                      for r in s.get("target_readings", [])),
             groups.get(s["asset_id"], ""),
             explain_preference_key(spec, s["preference_key"], s["activity"]) if s["rank"] else "",
             "; ".join(f"{u['field']} '{u['value']}': {u.get('reason', 'not readable by the field normalizer')}"
                       for u in s.get("unreadable_claims", [])),
             stage_label(s),
+            (s.get("transaction") or {}).get("tier", ""), s.get("transaction_rank"),
+            "; ".join((s.get("transaction") or {}).get("reasons", []) + (s.get("transaction") or {}).get("notes", [])),
         ])
     _sheet(wb, "Screening", [
         "Asset id", "Program", "Aliases", "Company (per source)", "External id", "Scientific disposition",
@@ -195,10 +199,12 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         "Cited claim ids (asset:field:value-hash; row in Landscape)", "Analyst assertions", "Source values overridden by analyst",
         "Gate changes caused by assertions",
         "Indication names read as their NCIt parent (DealScreen policy v1)",
+        "Target names read as their gene (isoform not distinguished)",
         "Identity group (human-confirmed same molecule; records not merged)",
         "Rank reasons (compared left to right; rule unchanged by DealScreen)",
         "Source values not used, and why",
         "Stage / market status in words",
+        "Transaction tier (buyer-declared; not availability)", "Transaction rank", "Transaction reasons",
     ], screening_rows, note=f"Gate engine: bve.se GateEngine. {screening['ranking_rule']}",
         widths={2: 26, 6: 16})
 

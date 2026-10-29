@@ -61,6 +61,19 @@ class Document:
     title: str
     document_date: date | None
     text: str
+    #: The date as written when it is not a full ISO date ("2016-10", "2016"), else None.
+    date_as_written: str | None = None
+
+
+def parse_document_date(raw: object) -> tuple[date | None, str | None]:
+    """A full ISO date, or (None, the text) for a partial or unreadable date (cycle C1 X2)."""
+    text = str(raw or "").strip()
+    if not text:
+        return None, None
+    try:
+        return date.fromisoformat(text), None
+    except ValueError:
+        return None, text
 
 
 #: Split after sentence punctuation that follows a lowercase letter, digit or ")", so an
@@ -182,7 +195,9 @@ class TextExtractor:
         doc: Document, sentence: str, now: str,
     ) -> AgentFinding:
         limitations = list(self.LIMITS)
-        if doc.document_date is None:
+        if doc.document_date is None and doc.date_as_written:
+            limitations.append(f"Partial or unreadable date {doc.date_as_written!r}: exact date not known.")
+        elif doc.document_date is None:
             limitations.append("The document has no date; currency cannot be judged.")
         current = [c for c in asset.claims_for(field)]
         contradicts = [c.claim_id for c in current if not _agrees(field, c.value_as_written, value, self)]
@@ -232,12 +247,10 @@ class OfflineEvidenceProvider:
                  clock: Callable[[], str] | None = None) -> None:
         data = json.loads(Path(library).read_text(encoding="utf-8"))
         self.documents = [
-            Document(
-                url=d["url"], title=d["title"],
-                document_date=date.fromisoformat(d["date"]) if d.get("date") else None,
-                text=d["text"],
-            )
+            Document(url=d["url"], title=d["title"], document_date=parsed[0], text=d["text"],
+                     date_as_written=parsed[1])
             for d in data["documents"]
+            for parsed in [parse_document_date(d.get("date"))]
         ]
         self.extractor = TextExtractor(target_normalizer, self.name)
         self.clock = clock or (lambda: "offline")

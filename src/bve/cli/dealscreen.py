@@ -183,6 +183,7 @@ def _show(ws: Workspace, subject: str) -> None:
         "commercial": screen["commercial"], "unreadable_claims": screen["unreadable_claims"],
         "identity_flags": screen["identity_flag_ids"],
         "indication_readings": screen.get("indication_readings", []),
+        "target_readings": screen.get("target_readings", []),
         "source_rows": {n: rows[n].raw for n in asset.row_numbers},
         "findings": [f.model_dump(mode="json") for f in ws.findings() if f.asset_id == asset.asset_id],
     }, indent=2, default=str))

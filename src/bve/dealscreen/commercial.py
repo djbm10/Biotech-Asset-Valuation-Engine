@@ -21,10 +21,24 @@ AVAILABLE_CONFIRMED = "AVAILABLE_ANALYST_CONFIRMED"
 NOT_AVAILABLE = "NOT_AVAILABLE_PER_SOURCE"
 ENCUMBERED = "ENCUMBERED_PER_SOURCE"
 UNKNOWN = "UNKNOWN"
+#: Cycle C1 X4: neither is availability.
+RETURNED = "RIGHTS_RETURNED_TO_ORIGINATOR_PER_SOURCE"
+OPTION = "OPTION_HELD_BY_THIRD_PARTY_PER_SOURCE"
 CONFLICTING = "CONFLICTING"
 
 _NEGATED = re.compile(r"\b(not available|unavailable|no rights|rights retained by)\b", re.IGNORECASE)
 _ENCUMBERED = re.compile(r"\b(licen[cs]ed|partnered|option(ed)?|co-?develop\w*|co-?promot\w*|exclusive|encumber\w*)\b", re.IGNORECASE)
+#: A return of RIGHTS (review C1-6): the verb must sit next to "rights", or a license/deal must be
+#: terminated. "Patients returned to the clinic" is not a rights statement.
+_RETURNED = re.compile(
+    r"\brights?\b[^.;]{0,40}\b(?:returned|handed back|reverted|regained)\b"
+    r"|\b(?:returned|handed back|reverted|regained)\b[^.;]{0,40}\brights?\b"
+    r"|\bterminat\w* (?:the |its |our |their )?(?:license|licence|licensing|agreement|deal|collaboration)\b",
+    re.IGNORECASE)
+#: An option over rights, not "a treatment option".
+_OPTION = re.compile(r"\boption (?:to|on|for) (?:\w+ ){0,2}(?:licen[cs]\w*|rights|acquir\w*|exclusive)",
+                     re.IGNORECASE)
+_EXERCISED = re.compile(r"\bexercis\w*\b", re.IGNORECASE)
 _AVAILABLE = re.compile(r"\b(available|seeking (a )?partner\w*|open to partner\w*)\b", re.IGNORECASE)
 #: "Unpartnered" says no license is recorded. That is not availability.
 _UNKNOWN = re.compile(
@@ -37,6 +51,10 @@ def rights_status(text: str) -> str:
         return UNKNOWN
     if _NEGATED.search(text):
         return NOT_AVAILABLE
+    if _RETURNED.search(text):
+        return RETURNED
+    if _OPTION.search(text) and not _EXERCISED.search(text):
+        return OPTION
     if _ENCUMBERED.search(text):
         return ENCUMBERED
     if _AVAILABLE.search(text):
@@ -72,6 +90,8 @@ class CommercialAssessment:
             AVAILABLE_CONFIRMED: "AVAILABLE (analyst-asserted or -confirmed from a cited source; verify)",
             NOT_AVAILABLE: "NOT AVAILABLE (source-provided)",
             ENCUMBERED: "ENCUMBERED (source-provided)",
+            RETURNED: "RIGHTS RETURNED TO ORIGINATOR (source-provided; not a statement of availability)",
+            OPTION: "OPTION HELD BY A THIRD PARTY (source-provided; exercise not stated)",
             CONFLICTING: "CONFLICTING SOURCES",
             UNKNOWN: "UNKNOWN",
         }[self.us_rights_status]

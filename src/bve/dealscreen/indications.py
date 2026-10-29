@@ -102,4 +102,106 @@ def qualified_indication(text: str) -> dict[str, str] | None:
     }
 
 
-__all__ = ["POLICY", "QUALIFIERS", "qualified_indication"]
+POLICY_V2 = "DealScreen indication reading v2"
+#: Disease-extent qualifiers ("locally advanced unresectable X" is a form of X). Stacked freely.
+EXTENT_QUALIFIERS: tuple[str, ...] = ("locally advanced", "advanced", "metastatic", "unresectable",
+                                      "inoperable")
+_INNER_ACRONYM = re.compile(r"\s*\([A-Za-z]{2,6}\)")
+#: "<marker>-positive X", "<marker>+ X", "<marker>-high X", "<marker>-expressing X": a biomarker
+#: subset of X. "negative" subsets are forms of X too.
+_BIOMARKER_PREFIX = re.compile(r"^(?P<marker>[\w.\-/]+?)(?:[\s-]+(?:positive|negative|high|low|expressing)|\+)\s+",
+                               re.IGNORECASE)
+#: The marker must look like a gene/protein symbol (a digit, or >= 2 capitals), so "Gram-negative" or
+#: "Triple-negative" are not read as biomarker subsets (review C1-5).
+_MARKER_SHAPE = re.compile(r"\d|[A-Z].*[A-Z]")
+
+
+def _strip_all(text: str) -> tuple[str, list[str]]:
+    """Strip leading severity/extent qualifiers repeatedly; return the remainder and what was removed."""
+    removed: list[str] = []
+    current = text.strip()
+    while True:
+        folded = current.casefold()
+        hit = next((q for q in (*EXTENT_QUALIFIERS, *QUALIFIERS) if folded.startswith(q + " ")), None)
+        if hit is None:
+            return current, removed
+        removed.append(hit)
+        current = current[len(hit) + 1:].strip()
+
+
+def _read_part(part: str) -> tuple[str, list[str]] | None:
+    """A specific NCIt label for one (uncoordinated) phrase, with the steps applied."""
+    if (label := _specific(part)) is not None:
+        return label, []
+    rest, removed = _strip_all(part)
+    if removed and (label := _specific(rest)) is not None:
+        return label, removed
+    return None
+
+
+def _coordinated(text: str) -> list[str]:
+    """'A or B <head>' -> ['B <head>', 'A <head>']; 'X or Cancer' -> ['X']; qualifier coordination
+    ('Locally Advanced or Metastatic X') -> ['X'] (review C1-4).
+
+    The shared head is the LONGEST suffix of the right phrase that makes 'A <suffix>' a specific
+    concept, so a suffix never cuts into the head ('Small Cell or Non-Small Cell Lung Cancer' gives
+    'Small Cell Lung Cancer', not a site-less concept). Each candidate must still resolve specifically.
+    """
+    pieces = [p.strip() for p in re.split(r"\s+or\s+", text, flags=re.IGNORECASE) if p.strip()]
+    if len(pieces) != 2:
+        return [text]
+    left, right = pieces
+    if right.casefold() in GENERIC_REMAINDERS:
+        return [left]
+    qualifier_words = {*EXTENT_QUALIFIERS, *QUALIFIERS}
+    if left.casefold() in qualifier_words:
+        rest, _ = _strip_all(right)
+        return [rest]
+    words = right.split()
+    out = [right]
+    for k in range(len(words) - 1, 0, -1):
+        candidate = f"{left} {' '.join(words[-k:])}"
+        if _specific(candidate) is not None:
+            out.append(candidate)
+            break
+    return out
+
+
+def indication_readings(text: str) -> list[dict[str, str]]:
+    """All disclosed NCIt readings of an indication name the authority cannot identify (v1 + v2).
+
+    v2 adds: inline acronyms removed ("Junction (GEJ) Adenocarcinoma"), a biomarker-subset prefix
+    read as the disease ("CLDN18.2-positive X" -> X), stacked extent qualifiers ("locally advanced
+    unresectable X" -> X), and two-way coordination ("Gastric or GEJ adenocarcinoma" -> both). Each
+    reading must land on a specific concept (same depth and generic-word guards as v1).
+    """
+    if not text or not text.strip() or _resolve(text):
+        return []
+    v1 = qualified_indication(text)
+    if v1 is not None:
+        return [v1]
+    steps: list[str] = []
+    candidate = _INNER_ACRONYM.sub("", text).strip()
+    if candidate != text.strip():
+        steps.append("acronym removed")
+    marker = _BIOMARKER_PREFIX.match(candidate)
+    if marker and _MARKER_SHAPE.search(marker.group("marker")):
+        candidate = candidate[marker.end():].strip()
+        steps.append(f"biomarker subset '{marker.group(0).strip()}'")
+    readings: dict[str, dict[str, str]] = {}
+    for part in _coordinated(candidate):
+        result = _read_part(part)
+        if result is None:
+            continue
+        label, removed = result
+        detail = steps + ([f"qualifiers {removed}"] if removed else []) + (
+            ["coordination expanded"] if part not in (candidate,) else [])
+        if not detail:
+            continue  # nothing was read beyond what the authority already knows
+        readings.setdefault(label, {"observed": text, "read_as": label, "qualifier": "; ".join(detail),
+                                    "rule": f"{POLICY_V2}: {'; '.join(detail)}"})
+    return list(readings.values())
+
+
+__all__ = ["EXTENT_QUALIFIERS", "POLICY", "POLICY_V2", "QUALIFIERS", "indication_readings",
+           "qualified_indication"]

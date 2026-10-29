@@ -39,6 +39,7 @@ from bve.dealscreen.mapping import MappingProfile
 from bve.dealscreen.models import AgentFinding, IdentityFlag, ImportResult, LandscapeAsset
 from bve.dealscreen.review import DecisionContext, DecisionLog, finding_hash
 from bve.dealscreen.screening import ScreeningResult, screen_landscape
+from bve.dealscreen.targets import isoform_base, requested_isoforms
 from bve.dealscreen.valuation_handoff import (
     Readiness,
     ValuationRun,
@@ -181,6 +182,7 @@ class Workspace:
             for claim in asset.claims_for("target"):
                 text = claim.value_as_written
                 strings.update(split_list(text.replace("/", profile.list_separator), profile.list_separator))
+        strings |= {b for s in list(strings) if (b := isoform_base(s))}  # cycle C1 X1
         for term in self.buyer().problem.strategic_gap.target_expression.targets:
             strings.add(term.canonical_id)
         cache = {s: normalizer(s) for s in sorted(strings)}
@@ -190,6 +192,11 @@ class Workspace:
             "note": "Re-import to rebuild the cache after the S&E ontology snapshot changes.",
             "strings": len(cache)})
         return cache
+
+    def _requested_isoforms(self) -> dict[str, str]:
+        """gene -> isoform number the buyer named in a target label (cycle C1 review C1-3)."""
+        terms = self.buyer().problem.strategic_gap.target_expression.targets
+        return requested_isoforms([(t.canonical_id, t.label) for t in terms])
 
     def cached_normalizer(self) -> TargetNormalizer | None:
         """A normalizer backed by the import-time cache; misses fall back to the ontology."""
@@ -225,6 +232,7 @@ class Workspace:
         strings = [a["value"] for a in state.assertions.values() if a["field"] == "target"]
         strings += [f.proposed_value for f in self.findings() if f.finding_id in confirmed and f.field == "target"]
         parts = {p for s in strings for p in split_list(s.replace("/", sep), sep)}
+        parts |= {b for p in parts if (b := isoform_base(p))}
         return parts <= set(cache)
 
     # -- loaders ----------------------------------------------------------------------
@@ -274,7 +282,7 @@ class Workspace:
         log = self.decision_log()
         review = log.state.review_inputs(self.findings())
         result = screen_landscape(
-            self.assets(), spec, FactBuilder(self.profile(), target_normalizer),
+            self.assets(), spec, FactBuilder(self.profile(), target_normalizer, self._requested_isoforms()),
             review=review, identity_flags=self.flags(),
         )
         _dump(self.root / "screening.json", result.to_dict())
@@ -290,7 +298,7 @@ class Workspace:
 
         def readable(field_name: str, value: str) -> bool:
             normalizer = target_normalizer or self.cached_normalizer() or ontology_target_normalizer()
-            return FactBuilder(profile, normalizer).readable(field_name, value)
+            return FactBuilder(profile, normalizer, self._requested_isoforms()).readable(field_name, value)
 
         screening = self.screening()
         assets = self.assets()
@@ -347,7 +355,7 @@ class Workspace:
             raise DecisionRejected(f"unknown asset {asset_id!r}")
         _check_assertion(detail)
         normalizer = target_normalizer or self.cached_normalizer() or ontology_target_normalizer()
-        if not FactBuilder(self.profile(), normalizer).readable(detail["field"], detail["value"]):
+        if not FactBuilder(self.profile(), normalizer, self._requested_isoforms()).readable(detail["field"], detail["value"]):
             raise DecisionRejected(f"{detail['value']!r} cannot be read as a {detail['field']} value")
         key = "|".join(str(detail.get(k, "")) for k in ("field", "value", "source_url", "evidence_span"))
         raw_date = str(detail.get("source_date") or "").strip()

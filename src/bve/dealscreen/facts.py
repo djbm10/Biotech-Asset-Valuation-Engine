@@ -21,7 +21,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from bve.dealscreen.importer import split_list
-from bve.dealscreen.indications import qualified_indication
+from bve.dealscreen.indications import indication_readings
 from bve.dealscreen.mapping import MappingProfile
 from bve.dealscreen.models import (
     AgentFinding,
@@ -30,6 +30,8 @@ from bve.dealscreen.models import (
     LandscapeAsset,
     SourceClaim,
 )
+from bve.dealscreen.targets import POLICY as TARGET_POLICY
+from bve.dealscreen.targets import isoform_base, isoform_consistent
 from bve.se.ontology.modality import normalize_modality
 from bve.se.ontology.therapeutic_areas import canonical_therapeutic_area, classify_therapeutic_areas
 from bve.se.schemas.contracts import NormalizedFact
@@ -175,6 +177,8 @@ class AssetFacts:
     target_symbols: list[str] = field(default_factory=list)
     #: Analyst assertions that replaced a readable, different source value on their field.
     overrides: list[dict[str, Any]] = field(default_factory=list)
+    #: Isoform target names read as their gene (cycle C1 X1), disclosed.
+    target_readings: list[dict[str, str]] = field(default_factory=list)
     #: Display-only market status (cycle A5 K1); never read by a gate.
     market_status: str | None = None
     #: Qualified indication names also read as their NCIt parent (cycle A1 F2), disclosed.
@@ -214,14 +218,37 @@ def finding_claim(finding: AgentFinding) -> SourceClaim:
 
 
 class FactBuilder:
-    def __init__(self, profile: MappingProfile, target_normalizer: TargetNormalizer) -> None:
+    def __init__(self, profile: MappingProfile, target_normalizer: TargetNormalizer,
+                 requested_isoforms: dict[str, str] | None = None) -> None:
         self.profile = profile
         self.normalize_target = target_normalizer
+        #: gene -> isoform number the buyer named (e.g. CLDN18 -> "2"); a different isoform is not read.
+        self.requested_isoforms = requested_isoforms or {}
 
     # -- per-field readers: claim text -> normalized value or None ---------------------
+    def _target(self, part: str) -> str | None:
+        """One target name; an isoform name falls back to its gene (cycle C1 X1, review C1-3)."""
+        symbol = self.normalize_target(part)
+        if symbol is None and (base := isoform_base(part)):
+            gene = self.normalize_target(base)
+            if gene and isoform_consistent(part, gene, self.requested_isoforms):
+                symbol = gene
+        return symbol
+
+    def target_readings(self, text: str) -> list[dict[str, str]]:
+        parts = split_list(text.replace("/", self.profile.list_separator), self.profile.list_separator)
+        out = []
+        for part in parts:
+            base = isoform_base(part)
+            if (base and self.normalize_target(part) is None and (gene := self.normalize_target(base))
+                    and isoform_consistent(part, gene, self.requested_isoforms)):
+                out.append({"observed": part, "read_as": gene, "rule": f"{TARGET_POLICY}: isoform not "
+                            "distinguished by the gene-level target authority"})
+        return out
+
     def _targets(self, text: str) -> list[str] | None:
         parts = split_list(text.replace("/", self.profile.list_separator), self.profile.list_separator)
-        symbols = [self.normalize_target(part) for part in parts]
+        symbols = [self._target(part) for part in parts]
         if not parts or any(symbol is None for symbol in symbols):
             return None
         return sorted({s for s in symbols if s})
@@ -240,7 +267,7 @@ class FactBuilder:
             from bve.se.ontology.indication_compatibility import disease_id
 
             # NCIt names, or a disclosed qualifier reading of one (consistent with import, review A1-3).
-            return disease_id(text) is not None or qualified_indication(text) is not None
+            return disease_id(text) is not None or bool(indication_readings(text))
         if field_name == "therapeutic_area":
             from bve.se.ontology.therapeutic_areas import CLASSIFIED_AREAS
 
@@ -264,6 +291,8 @@ class FactBuilder:
         asset: LandscapeAsset,
         review: ReviewInputs,
         requested_areas: frozenset[str] | None = None,
+        witness_targets: frozenset[str] | None = None,
+        witness_all: bool = False,
     ) -> AssetFacts:
         claims = [c for c in asset.claims if c.claim_id not in review.rejected_claim_ids]
         findings = [f for f in review.confirmed_findings if f.asset_id == asset.asset_id]
@@ -296,6 +325,8 @@ class FactBuilder:
                     for c in field_claims)
                 continue
             fact = self._single_valued(asset, field_name, fact_type, field_claims, confirmed, result)
+            if fact is None and field_name == "target" and witness_targets:
+                fact = self._partial_target(asset, field_claims, witness_targets, witness_all, confirmed, result)
             if fact is not None:
                 result.facts.append(fact)
                 if fact_type == "development_stage_order" and not fact.contradicting_claim_ids:
@@ -304,14 +335,14 @@ class FactBuilder:
                     result.modality = fact.value
                 if fact_type == "construct_target_set" and not fact.contradicting_claim_ids:
                     result.target_symbols = list(fact.value)
+                    result.target_readings = [r for c in field_claims for r in self.target_readings(c.value_as_written)]
 
         indication_claims = [c for c in claims if c.field == "indication"]
         indications = sorted(
             {i for c in indication_claims for i in split_list(c.value_as_written, self.profile.list_separator)}
         )
         for indication in list(indications):
-            reading = qualified_indication(indication)
-            if reading is not None:
+            for reading in indication_readings(indication):  # v1 + v2 (cycle C1 X3)
                 result.indication_readings.append(reading)
                 if reading["read_as"] not in indications:
                     indications.append(reading["read_as"])
@@ -349,6 +380,36 @@ class FactBuilder:
             [c.value_as_written for c in claims if c.field == "development_status"],
             [c.value_as_written for c in claims if c.field == "phase"])
         return result
+
+    def _partial_target(
+        self, asset: LandscapeAsset, claims: list[SourceClaim], witness: frozenset[str], witness_all: bool,
+        confirmed: set[str], result: AssetFacts,
+    ) -> NormalizedFact | None:
+        """A partial target set, only as a positive witness of the requested targets (cycle C1 X6).
+
+        Used only when no claim is fully readable. The latest analyst-confirmed claim decides, as in
+        ``_single_valued``; otherwise every claim must give the same readable set. The set must contain a
+        requested target (ANY) or all of them (ALL), so it can never cause a FAIL (review C1-1/2).
+        """
+        sep = self.profile.list_separator
+        decisive = [c for c in claims if c.claim_id in confirmed]
+        considered = decisive[-1:] or claims
+        sets, missing_by_claim = [], {}
+        for claim in considered:
+            read = {p: self._target(p) for p in split_list(claim.value_as_written.replace("/", sep), sep)}
+            sets.append(frozenset(v for v in read.values() if v))
+            missing_by_claim[claim.claim_id] = [p for p, v in read.items() if v is None]
+        if not sets or len(set(sets)) != 1:
+            return None
+        resolved = sets[0]
+        if not (witness <= resolved if witness_all else resolved & witness):
+            return None
+        for claim in considered:
+            result.unreadable.append(
+                {"claim_id": claim.claim_id, "field": "target", "value": claim.value_as_written,
+                 "reason": f"partial target set: {missing_by_claim[claim.claim_id]} unreadable; used only as a "
+                           "positive witness of the requested target(s)"})
+        return self._fact(asset, "construct_target_set", sorted(resolved), considered, [], confirmed)
 
     def _single_valued(
         self,

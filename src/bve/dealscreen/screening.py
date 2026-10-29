@@ -23,6 +23,7 @@ from bve.dealscreen.facts import (
     finding_claim,
 )
 from bve.dealscreen.models import IdentityFlag, LandscapeAsset
+from bve.dealscreen.transaction import assess_transaction, transaction_ranks
 from bve.se.gates.engine import GateEngine
 from bve.se.ontology.therapeutic_areas import UNSPECIFIED, canonical_therapeutic_area
 from bve.se.schemas.contracts import GateStatus, OverallDisposition
@@ -58,6 +59,12 @@ class AssetScreen:
     machine_recommendation: str
     commercial: CommercialAssessment
     identity_flag_ids: list[str] = field(default_factory=list)
+    #: Buyer-declared transaction view (cycle C1 X5): tier, reasons, notes. Never read by a gate.
+    transaction: dict[str, Any] = field(default_factory=dict)
+    #: Rank among ELIGIBLE programs by transaction tier, then scientific rank (None if not declared).
+    transaction_rank: int | None = None
+    #: Isoform target names read as their gene (cycle C1 X1), shown to the analyst.
+    target_readings: list[dict[str, str]] = field(default_factory=list)
     #: Display-only market status (cycle A5 K1); never read by a gate.
     market_status: str | None = None
     #: Qualified indication names read as their NCIt parent (cycle A1 F2), shown to the analyst.
@@ -153,16 +160,21 @@ def screen_landscape(
     requested_areas = frozenset(
         canonical_therapeutic_area(str(getattr(a, "value", a)))
         for a in spec.problem.strategic_gap.therapeutic_areas) - {UNSPECIFIED}
+    expression = spec.problem.strategic_gap.target_expression
+    # A partial target set is a positive witness only; never for an exact combination (cycle C1 X6).
+    witness = (None if expression.operator.value == "EXACT_COMBINATION" else
+               frozenset(t.canonical_id for t in expression.targets))
+    witness_all = expression.operator.value == "ALL"  # ALL needs every requested target (review C1-1)
     screens: list[AssetScreen] = []
     for asset in sorted(assets, key=lambda a: a.asset_id):
-        facts = builder.build(asset, review, requested_areas)
+        facts = builder.build(asset, review, requested_areas, witness, witness_all)
         evaluation = engine.evaluate(spec.problem, subject_id=asset.asset_id, facts=facts.facts)
         effects: list[dict[str, Any]] = []
         if any(a.asset_id == asset.asset_id for a in review.assertions):
             without = dataclasses.replace(
                 review, assertions=tuple(a for a in review.assertions if a.asset_id != asset.asset_id))
             base = engine.evaluate(spec.problem, subject_id=asset.asset_id,
-                                   facts=builder.build(asset, without, requested_areas).facts)
+                                   facts=builder.build(asset, without, requested_areas, witness, witness_all).facts)
             before = {d.requirement_id: (d.analyst_override or d.status).value for d in base.decisions}
             for d in evaluation.decisions:
                 now = (d.analyst_override or d.status).value
@@ -197,6 +209,7 @@ def screen_landscape(
                 unreadable_claims=facts.unreadable,
                 indication_readings=facts.indication_readings,
                 market_status=facts.market_status,
+                target_readings=facts.target_readings,
                 stage_order=facts.stage_order,
                 activity=facts.activity,
                 modality=facts.modality,
@@ -224,9 +237,26 @@ def screen_landscape(
         )
 
     _rank(screens)
+    _transaction(screens, spec, flags_by_asset)
     return ScreeningResult(
         problem_id=spec.problem.problem_id, screens=screens, funnel=funnel(screens, assets)
     )
+
+
+def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: dict[str, list[str]]) -> None:
+    names = {s.asset_id: s.program_name for s in screens}
+    for screen in screens:
+        twins = sorted({names[o] for o, f in flags_by_asset.items()
+                        if o != screen.asset_id and set(f) & set(flags_by_asset.get(screen.asset_id, []))})
+        view = assess_transaction(
+            spec.transaction, market_status=screen.market_status,
+            rights_status=screen.commercial.us_rights_status, rights_holder=screen.commercial.us_rights_holder,
+            company=screen.company, identity_twins=twins)
+        screen.transaction = {"tier": view.tier, "reasons": view.reasons, "notes": view.notes}
+    ranks = transaction_ranks([{"asset_id": s.asset_id, "disposition": s.disposition, "rank": s.rank,
+                                "transaction": s.transaction} for s in screens])
+    for screen in screens:
+        screen.transaction_rank = ranks.get(screen.asset_id)
 
 
 def _rank(screens: list[AssetScreen]) -> None:

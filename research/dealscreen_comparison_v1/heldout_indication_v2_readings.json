@@ -1,0 +1,34 @@
+[
+ [
+  "Find clinical-stage CD19 cell therapies for relapsed or refractory B-cell lymphoma.",
+  [
+   "Refractory B-Cell Non-Hodgkin Lymphoma"
+  ]
+ ],
+ [
+  "Multiple Myeloma (MM)",
+  [
+   "Multiple Myeloma"
+  ]
+ ],
+ [
+  "Relapsed or Refractory Multiple Myeloma",
+  [
+   "Refractory Multiple Myeloma",
+   "Multiple Myeloma"
+  ]
+ ],
+ [
+  "Relapsed or Refractory Multiple Myeloma (RRMM)",
+  [
+   "Refractory Multiple Myeloma",
+   "Multiple Myeloma"
+  ]
+ ],
+ [
+  "Ulcerative Colitis (UC)",
+  [
+   "Ulcerative Colitis"
+  ]
+ ]
+]
