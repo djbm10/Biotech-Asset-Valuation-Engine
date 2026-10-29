@@ -118,6 +118,21 @@ bve-dealscreen decide  --workspace $W --action RESOLVE_IDENTITY_FLAG --subject i
     --new-state SAME_MOLECULE --reviewer jdoe --rationale "RVT-1401 is the former code"
 ```
 
+Optional buyer-declared transaction preferences (a separate view; never changes a scientific gate,
+disposition or scientific rank, and never implies availability):
+
+```yaml
+transaction:
+  marketed: exclude            # exclude | deprioritize | ignore (U.S.-marketed per source)
+  deprioritized_holders: [Example Pharma Inc]   # whole-word match: cited holder first, else registry sponsor
+  encumbered_rights: deprioritize               # licensed or optioned per source
+```
+
+The memo and workbook then show a transaction tier (OPEN / DEPRIORITIZED / EXCLUDED_BY_BUYER_PREFERENCE)
+with reasons, and a transaction rank next to the scientific rank. OPEN means no declared obstacle was
+found, not that rights are available. Rights quotes may state returned rights or an option; neither is
+availability.
+
 Valuation configs for `bve-dealscreen-value` put `discount_rate` under `asset:` and deal terms
 under `deal_economics:`; unknown top-level keys are refused rather than ignored.
 
