@@ -1,0 +1,57 @@
+# HYPOTHETICAL buyer (cycle C1 comparison). Frozen before any workflow ran. INTERNAL DEVELOPMENT.
+# The same text is given to all three workflows (spreadsheet SOP, general Claude, DealScreen).
+statement: >
+  We are a mid-size U.S. oncology company with antibody-drug-conjugate manufacturing. We want to
+  in-license or acquire one or two Claudin 18.2 (CLDN18.2)-directed therapeutic programs for gastric
+  or gastro-oesophageal junction (GEJ) adenocarcinoma. In scope: antibody-drug conjugates and
+  bispecific or T-cell-engaging antibodies, Phase 1 or later with human data. Out of scope: cell
+  therapies (CAR-T, CAR-NK), naked monoclonal antibodies, imaging agents and programs whose target is
+  not CLDN18.2. Transaction preferences: we need U.S. rights (ideally ex-China or global); a program
+  whose U.S. rights are already held by a large pharmaceutical company is not attractive unless those
+  rights have been returned; we do not want an already-marketed product; prefer Phase 2 or later and
+  active development; we value assets we could manufacture (ADCs). Do not assume any program is
+  available: availability must be evidenced. Scientific suitability, ownership, rights and
+  availability must be kept separate.
+problem:
+  problem_id: dealscreen_comparison_cldn18_gastric
+  version: "1"
+  buyer:
+    buyer_id: hypothetical_buyer_cldn18
+    name: Hypothetical U.S. oncology BD (CLDN18.2 comparison, INTERNAL DEVELOPMENT)
+    as_of_date: "2026-10-29"
+  strategic_gap:
+    therapeutic_areas: [ONCOLOGY]
+    indications: [gastric adenocarcinoma, gastroesophageal junction adenocarcinoma]
+    target_expression:
+      operator: ANY
+      targets:
+        - {canonical_id: CLDN18, label: Claudin 18.2}
+    modalities: [ANTIBODY_DRUG_CONJUGATE, BISPECIFIC_ANTIBODY, T_CELL_ENGAGER]
+    phase_constraint:
+      operator: MINIMUM
+      phases: [PHASE1]
+preferences:
+  preferred_minimum_phase: PHASE2
+  prefer_active_development: true
+  prefer_more_registered_trials: true
+  buyer_capability_modalities: [ANTIBODY_DRUG_CONJUGATE]
+  relevant_market: US
+commercial:
+  required_market: US
+  questions:
+    - Who originated the program, and who holds U.S. (and ex-China) development and commercialization rights?
+    - Is there an existing license, option or collaboration, and have any rights been returned?
+    - Is the program marketed anywhere, and is development active or discontinued?
+    - Is the owner explicitly seeking a partner for the U.S. or ex-China?
+max_finalists: 10
+max_valuations: 3
+# ---- Added by workflow C2 (AI_PREPARED) in a workspace COPY; frozen input untouched. ----
+# Translation of the statement's transaction preferences:
+#  "we do not want an already-marketed product"             -> marketed: exclude
+#  "U.S. rights already held by a large pharmaceutical company is not attractive unless returned"
+#                                                            -> deprioritized_holders (large pharma names)
+#  licensed/optioned programs are encumbered                 -> encumbered_rights: deprioritize
+transaction:
+  marketed: exclude
+  deprioritized_holders: [AstraZeneca, Astellas, Merck, MSD, Takeda, Bristol-Myers Squibb, Bristol Myers Squibb, AbbVie, Amgen, Eli Lilly, Roche, Pfizer, Novartis, Sanofi, GSK, Johnson & Johnson, BioNTech, Jazz Pharmaceuticals]
+  encumbered_rights: deprioritize

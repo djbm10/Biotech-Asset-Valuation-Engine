@@ -1,0 +1,14 @@
+# AI_PREPARED analyst synonym map (workflow C2). Vendor target text -> HGNC symbol.
+# CLDN18.2 is the A2 isoform of claudin-18; HGNC gene symbol CLDN18 (buyer uses canonical_id CLDN18).
+Claudin 18.2: CLDN18
+CLDN18.2: CLDN18
+CLDN18: CLDN18
+HER2: ERBB2
+CD3: CD3E
+4-1BB: TNFRSF9
+CD47: CD47
+PD-L1: CD274
+PD-1: PDCD1
+TIGIT: TIGIT
+CTLA-4: CTLA4
+MUC1: MUC1

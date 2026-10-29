@@ -1,0 +1,33 @@
+{
+  "config": "vc/CL-16_license.yaml",
+  "config_sha256": "ea8354910493dee7349f7b96b3fbfcb40c4715e85b2be2d8fbb8d3af9d253752",
+  "deal_economics": {
+    "cdev_cost_share": 1.0,
+    "launch_year_offset": 0.0,
+    "milestones": [
+      {
+        "amount_millions": 200.0,
+        "description": "Phase 3 success (C2 split assumption)",
+        "direction": "payable",
+        "sales_threshold_millions": null,
+        "trigger": "phase_success",
+        "trigger_phase": "phase_3"
+      },
+      {
+        "amount_millions": 300.0,
+        "description": "Approval (C2 split assumption)",
+        "direction": "payable",
+        "sales_threshold_millions": null,
+        "trigger": "approval",
+        "trigger_phase": null
+      }
+    ],
+    "profit_share_rate": 0.0,
+    "royalty_rate": 0.12,
+    "upfront_cost_millions": 100.0,
+    "upfront_receipt_millions": 0.0
+  },
+  "label": "PROTOTYPE valuation path (DealScreen); Lane 1 quant + clinical sign-off pending",
+  "n_sims": 2000,
+  "seed": 42
+}

@@ -1,0 +1,50 @@
+# PREVIEW - not human-approved; not a DealScreen valuation. This is the exact config the
+# valuation handoff would run. Inputs are the analyst's hypothetical assumptions; edit and run
+# with bve-dealscreen-value (deal terms) or bve-asset (standalone) to reproduce or challenge.
+analyst_notes: 'PREVIEW, NOT APPROVED: not a DealScreen valuation (NOT a human-approved
+  finalist; disposition ELIGIBLE). DealScreen handoff for ATG-022 (BVE_PUBLIC_SOURCES
+  CL-16). Financial inputs: AI_PREPARED workflow C2 (not analyst-owned; NOT COMPLETED
+  BY HUMAN) [HYPOTHETICAL (shared protocol inputs + C2 labelled assumptions: cogs
+  0.15, sgna 0.35/0.20, milestone split 200/300, modality biologic)].'
+asset:
+  id: ds-5b6cd1a3e308
+  name: ATG-022
+  indication: Advanced Gastric or Gastroesophageal Junction Adenocarcinoma; Unresectable
+    or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma; Gastroesophageal
+    Junction Adenocarcinoma; Advanced Gastric Adenocarcinoma
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: biologic
+  discount_rate: 0.1
+  royalty_rate: 0.0
+company:
+  id: asset-level-valuation
+  name: Antengene Biologics Limited (asset-level; balance sheet not modelled)
+  cash_millions: 0.0
+  debt_millions: 0.0
+  shares_outstanding_millions: 1.0
+trials:
+- phase: phase_3
+  success_probability: 0.5
+  duration_years: 3.0
+  cost_millions: 180
+- phase: nda_bla
+  success_probability: 0.9
+  duration_years: 1.0
+  cost_millions: 20
+market_model:
+  addressable_patients_annual: 6000
+  net_price_per_patient_usd: 150000
+  peak_penetration: 0.15
+  years_to_peak: 5
+  patent_life_years: 12
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.35
+  sgna_rate_mature: 0.2
+pos_adjusters:
+  apply_pos_model: false
+limitations:
+- Hypothetical analyst-owned financial assumptions; not sourced facts.
+- 'Company NAV fields are placeholders: this is an asset-level valuation.'
+- Peak sales include a 0.80 compliance factor (engine default; not settable through
+  the bve-asset loader).
