@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import resource
 import sys
 import time
@@ -271,6 +272,36 @@ def run_demo(args: argparse.Namespace) -> dict[str, Any]:
     return report
 
 
+#: Arguments that are file or directory paths given by the user (made absolute before anchoring).
+_PATH_ARGS = ("workspace", "landscape", "profile", "buyer", "assumptions", "out", "file", "target_map", "examples")
+
+
+def _anchor_to_repository(args: argparse.Namespace) -> None:
+    """Make the S&E data files findable from any working directory (cycle C1 X7).
+
+    The S&E ontology files use paths relative to the repository root ("data/se/..."). Run from any
+    other directory they silently load nothing and every target reads as unknown. User paths are made
+    absolute first, then the process moves to the repository root when the data is there and not here.
+    """
+    for name in _PATH_ARGS:
+        value = getattr(args, name, None)
+        if isinstance(value, str) and value:
+            setattr(args, name, str(Path(value).expanduser().resolve()))
+    provider = getattr(args, "provider", None)
+    if isinstance(provider, str) and provider.startswith("offline:"):
+        args.provider = "offline:" + str(Path(provider.removeprefix("offline:")).expanduser().resolve())
+    repo = Path(__file__).resolve().parents[3]
+    if not Path("data/se").exists() and (repo / "data" / "se").exists():
+        os.chdir(repo)
+    if getattr(args, "command", "") in {"import", "screen"} and not getattr(args, "target_map", None):
+        from bve.dealscreen.workspace import _ontology_version
+
+        if _ontology_version() is None:
+            print("WARNING: no S&E ontology snapshot found; every target will read as unknown and identity "
+                  "authority lookups will be empty. Run from the repository, set BVE_SE_ONTOLOGY_SNAPSHOT, or "
+                  "pass --target-map.", file=sys.stderr)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="bve-dealscreen", description="BVE DealScreen (UNVALIDATED MVP)")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -332,6 +363,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--examples", default=str(EXAMPLES)); p.add_argument("--landscape", default="landscape_200.xlsx")
     p.add_argument("--n-sims", type=int, default=5_000)
     args = parser.parse_args(argv)
+    _anchor_to_repository(args)
 
     ws = Workspace(args.workspace)
     try:

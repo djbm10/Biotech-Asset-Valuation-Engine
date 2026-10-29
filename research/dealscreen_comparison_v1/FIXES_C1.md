@@ -64,3 +64,29 @@ reference-IN ELIGIBLE 0/30 → 14/30; reference-OUT or UNRESOLVED made ELIGIBLE:
 supplied library: crash → 32 proposals. Remaining wrong exclusion: LCB02A (vendor modality cell says
 "Monoclonal antibody"; needs a human-confirmed fact). FcRn/C5 pinned results unchanged; fast-path
 equivalence byte-identical. DealScreen tests 303.
+
+## X7 (found from the C2 re-run; criteria before code)
+
+**Observed:** the C2 analyst saw 0 eligible "as installed" where engineering measured 14. Root cause
+(verified in its workspace: `target_cache_meta.json` ontology_version null; even "CLDN18" cached as
+null): the S&E ontology snapshot path defaults to the RELATIVE path `data/se/ontology/current`, so
+running DealScreen from any directory other than the repository root silently loads no ontology and
+every target, and every identity lookup, reads as unknown. The baseline C run also ran outside the
+repository root, so its "0 eligible" had two causes (this, and isoform names, which fail even with
+the ontology loaded).
+**Severity:** silent, total loss of target screening with no warning; generic to every landscape.
+**Criteria:**
+- DealScreen resolves the default snapshot against the installed repository when the relative path
+  does not exist in the current directory (S&E code unchanged; DealScreen sets the documented
+  override only when it is unset and the anchored path exists).
+- If no ontology is available and no `--target-map` was given, `import` and `screen` print a
+  WARNING naming the consequence; the import manifest records it.
+- Measured: the same commands from `~/.cache/...` and from the repo root give the same funnel.
+- **X7 built.** Implemented at the CLI: user paths made absolute, then the process runs from the
+  repository root when `data/se` is there and not in the current directory; a WARNING when no ontology
+  is available and no `--target-map` was given. Amendment: the manifest does not record the warning
+  (console only). Measured: the CLDN18.2 import from `~/.cache/x7` gives 14 / 25 / 23 with the
+  ontology loaded and 7 identity flags, identical to the repository-root run.
+- **P8 / P10 (DealScreen's own prototype CLI, not the protected engine).** `bve-dealscreen-value`
+  now prints the engine's effective tax rate with the perspective line and warns when bear/base/bull
+  are out of order. The engine's own reporting (P8/P9 in the Lane 1 proposal) is unchanged.

@@ -261,3 +261,24 @@ def test_review_c1_7_holder_match_is_whole_word():
     v = assess_transaction(prefs, market_status=None, rights_status="UNKNOWN", rights_holder=None,
                            company="Sonoma Biotherapeutics", identity_twins=[])
     assert v.tier == "OPEN"
+
+
+# -- X7 working-directory independence; P8/P10 prototype disclosures -----------------------------
+def test_x7_paths_made_absolute_and_repository_anchored(tmp_path, monkeypatch):
+    import argparse
+    import os
+
+    from bve.cli.dealscreen import _anchor_to_repository
+
+    monkeypatch.chdir(tmp_path)
+    args = argparse.Namespace(command="queue", workspace="ws", provider="offline:lib.json", target_map=None)
+    _anchor_to_repository(args)
+    assert args.workspace == str(tmp_path / "ws") and args.provider == f"offline:{tmp_path / 'lib.json'}"
+    assert Path(os.getcwd()) == Path(__file__).resolve().parents[2]   # data/se is found from here
+
+
+def test_p10_ordering_warning():
+    from bve.cli.dealscreen_value import ordering_warning
+
+    assert ordering_warning({"bear_rnpv": -10, "base_rnpv": 5, "bull_rnpv": 20}) is None
+    assert "out of order" in ordering_warning({"bear_rnpv": 10, "base_rnpv": 5, "bull_rnpv": 20})

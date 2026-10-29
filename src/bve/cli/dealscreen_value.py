@@ -149,7 +149,19 @@ def perspective_line(output: Any, deal: Any) -> str:
     else:
         terms = ", ".join(f"{k}={v}" for k, v in deal.model_dump(mode="json").items() if v not in (None, [], 0, 0.0))
         view = f"rNPV with deal terms applied ({terms or 'defaults'}); payable/receivable per DealEconomics fields"
-    return f"Perspective: {view}. Discount rate used: {rate_text}; {COMPLIANCE_NOTE}. {PROTOTYPE_LABEL}."
+    tax = getattr(getattr(output, "asset", None), "effective_tax_rate", None)
+    tax_text = f"; effective tax rate {tax:.0%} (engine input)" if isinstance(tax, (int, float)) else ""
+    return (f"Perspective: {view}. Discount rate used: {rate_text}{tax_text}; {COMPLIANCE_NOTE}. "
+            f"{PROTOTYPE_LABEL}.")
+
+
+def ordering_warning(summary: dict[str, Any]) -> str | None:
+    """Warn when bear > base or base > bull (review P10); the DealScreen handoff already checks this."""
+    bear, base, bull = summary.get("bear_rnpv"), summary.get("base_rnpv"), summary.get("bull_rnpv")
+    if bear is None or base is None or bull is None or bear <= base <= bull:
+        return None
+    return (f"WARNING: scenarios out of order (bear {bear:,.1f} / base {base:,.1f} / bull {bull:,.1f}); the "
+            "scenario shocks interact with costs or deal terms. Do not present bear/base/bull as a range.")
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -184,6 +196,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{s['asset_name']}: rNPV ${s['rnpv_millions']:,.1f}M "
           f"(bull {s['bull_rnpv']:,.1f} / base {s['base_rnpv']:,.1f} / bear {s['bear_rnpv']:,.1f}) -> {out}")
     print(perspective_line(output, deal))
+    if (warning := ordering_warning(s)):
+        print(warning)
     return 0
 
 
