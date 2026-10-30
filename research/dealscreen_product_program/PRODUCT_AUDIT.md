@@ -79,3 +79,32 @@ xfailed.
 1. No in-tool resolution of unknowns (finding 1).
 2. No commercial rights intelligence (findings 2 and 5).
 3. No real analyst or independent evaluation (finding 3, external dependency).
+
+## Audit 1 (2026-10-30, after comparison cycle C1 @ 3d0f98d)
+
+AI-simulated, internal development. Full evidence: `research/dealscreen_comparison_v1/REPORT.md`,
+`CRITIC_FINAL.md`, `scores.json`. New frozen challenge: CLDN18.2 (gastric/GEJ), 30 reference-IN programs.
+
+**Verdict: no demonstrated advantage over a general Claude analyst with the same spreadsheet.**
+
+| Workflow | Found / wrongly excluded / unresolved | Wrong inclusions | Tool calls |
+|---|---|---|---|
+| A spreadsheet SOP | 29 / 1 / 0 | 0 | ~19 |
+| B general Claude | 30 / 0 / 0 | 0 | ~16 |
+| C3 DealScreen + analyst | 23 / 0 / 7 | 0 | ~30 |
+
+- **Where DealScreen is better:** never asserts wrong eligibility; refuses paraphrased rights quotes;
+  never infers availability; separates scientific eligibility from transaction attractiveness;
+  cross-code identity flags; human-only, hash-chained approvals.
+- **Where it is worse:** recall (tool UNKNOWNs anchor the analyst; RC118 a real miss), evidence
+  checkability, valuation reproducibility by hand, and roughly double the effort.
+- **Costly risks:** transaction view tiered Takeda-held IBI343 and Merck KGaA-optioned SHR-A1904 as
+  OPEN without in-tool rights evidence; tax rate and scenario shocks missing from deliverables
+  (protected engine, proposals P8/P9, blocked on Lane 1 sign-off).
+
+### Updated largest obstacles
+
+1. Rights/availability still depends on evidence the tool does not hold (import vendor deal fields).
+2. Tool-UNKNOWNs without a concrete next action reduce recall versus an unaided analyst.
+3. Valuations a Finance Director cannot rebuild by hand (Lane 1 sign-off needed).
+4. No real human session (Gate H) — every result above is AI-simulated.
