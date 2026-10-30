@@ -1,0 +1,63 @@
+program,disposition,scientific_rank,transaction_tier,transaction_rank,us_rights_status,reasons
+LM-302,ELIGIBLE,1,OPEN,1,UNKNOWN,no declared obstacle found; availability not evidenced
+QLS31905,ELIGIBLE,2,OPEN,2,UNKNOWN,no declared obstacle found; availability not evidenced
+AZD0901,ELIGIBLE,3,DEPRIORITIZED,10,UNKNOWN,registry sponsor / labeler matches 'AstraZeneca' (not a rights statement; verify)
+SHR-A1904,ELIGIBLE,4,OPEN,3,UNKNOWN,no declared obstacle found; availability not evidenced
+Sonesitatug vedotin,ELIGIBLE,5,DEPRIORITIZED,11,UNKNOWN,registry sponsor / labeler matches 'AstraZeneca' (not a rights statement; verify)
+ASP2138,ELIGIBLE,6,DEPRIORITIZED,12,UNKNOWN,registry sponsor / labeler matches 'Astellas' (not a rights statement; verify)
+ATG-022,ELIGIBLE,7,OPEN,4,UNKNOWN,no declared obstacle found; availability not evidenced
+JS107,ELIGIBLE,8,OPEN,5,UNKNOWN,no declared obstacle found; availability not evidenced
+BL-M05D1,ELIGIBLE,9,OPEN,6,UNKNOWN,no declared obstacle found; availability not evidenced
+SKB315,ELIGIBLE,10,OPEN,7,UNKNOWN,no declared obstacle found; availability not evidenced
+XNW27011,ELIGIBLE,11,DEPRIORITIZED,13,UNKNOWN,registry sponsor / labeler matches 'Astellas' (not a rights statement; verify)
+ASP546C,ELIGIBLE,12,DEPRIORITIZED,14,UNKNOWN,registry sponsor / labeler matches 'Astellas' (not a rights statement; verify)
+Spevatamig (PT886),ELIGIBLE,13,OPEN,8,UNKNOWN,no declared obstacle found; availability not evidenced
+TORL-2-307-ADC,ELIGIBLE,14,OPEN,9,UNKNOWN,no declared obstacle found; availability not evidenced
+FL-301,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+ZL-1211,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+Zanidatamab,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+BDC-4182,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+LCB02A,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+LB1908,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+EB-DNK102 (CLDN18.2/MUC1 CAR-NK),EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+Zolbetuximab,EXCLUDED,,EXCLUDED_BY_BUYER_PREFERENCE,,UNKNOWN,marketed in the U.S. per source; U.S. rights holder per cited evidence matches 'Astellas'
+177Lu-DOTA-SNA040,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+ASKB589,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+CT041 (satricabtagene autoleucel),EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+IMC002,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+MIL93,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+SPX-101,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+BNT141,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+IMAB362,EXCLUDED,,DEPRIORITIZED,,UNKNOWN,registry sponsor / labeler matches 'Astellas' (not a rights statement; verify)
+QL1706,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+IBI345,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+LM-102,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+TST001,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+FG-B901,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+FG-M108,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+AB011,EXCLUDED,,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+IBI343,UNRESOLVED,1,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+Rilvegostomig (AZD2936),UNRESOLVED,2,DEPRIORITIZED,,UNKNOWN,registry sponsor / labeler matches 'AstraZeneca' (not a rights statement; verify)
+RC118,UNRESOLVED,3,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+CMG901,UNRESOLVED,4,DEPRIORITIZED,,UNKNOWN,registry sponsor / labeler matches 'AstraZeneca' (not a rights statement; verify)
+LB4330,UNRESOLVED,5,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+VBC108,UNRESOLVED,6,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+ANO31905,UNRESOLVED,7,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+AZD5863,UNRESOLVED,8,DEPRIORITIZED,,UNKNOWN,registry sponsor / labeler matches 'AstraZeneca' (not a rights statement; verify)
+Givastomig,UNRESOLVED,9,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+TAC01-CLDN18.2,UNRESOLVED,10,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+Volrustomig,UNRESOLVED,11,DEPRIORITIZED,,UNKNOWN,registry sponsor / labeler matches 'AstraZeneca' (not a rights statement; verify)
+SOT102,UNRESOLVED,12,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+RC148,UNRESOLVED,13,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+DA-3501,UNRESOLVED,14,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+SG1906,UNRESOLVED,15,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+[18F]F-RESCA-3A12,UNRESOLVED,16,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+EO-3021,UNRESOLVED,17,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+SYSA1801,UNRESOLVED,18,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+TQB2103,UNRESOLVED,19,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+AK132,UNRESOLVED,20,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+AMG 910,UNRESOLVED,21,DEPRIORITIZED,,UNKNOWN,registry sponsor / labeler matches 'Amgen' (not a rights statement; verify)
+Bio-008,UNRESOLVED,22,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+DR30303,UNRESOLVED,23,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+Q-1802,UNRESOLVED,24,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
+89Zr-NY005,UNRESOLVED,25,OPEN,,UNKNOWN,no declared obstacle found; availability not evidenced
