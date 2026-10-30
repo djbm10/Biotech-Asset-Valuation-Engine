@@ -38,6 +38,7 @@ from bve.dealscreen.importer import import_landscape
 from bve.dealscreen.mapping import MappingProfile
 from bve.dealscreen.models import AgentFinding, IdentityFlag, ImportResult, LandscapeAsset
 from bve.dealscreen.review import DecisionContext, DecisionLog, finding_hash
+from bve.dealscreen.rights import RightsEvent, RightsImport, RightsProfile, import_rights
 from bve.dealscreen.screening import ScreeningResult, screen_landscape
 from bve.dealscreen.targets import isoform_base, requested_isoforms
 from bve.dealscreen.valuation_handoff import (
@@ -257,6 +258,33 @@ class Workspace:
         path = self.root / "findings.json"
         return [AgentFinding(**f) for f in json.loads(path.read_text())] if path.exists() else []
 
+    # -- rights evidence (cycle R1) -----------------------------------------------------
+    def import_rights(self, rights_file: Path, profile_path: Path) -> RightsImport:
+        """Import a deals/rights export. A re-import keeps the previous one in import_history."""
+        profile = RightsProfile.from_yaml(profile_path)
+        result = import_rights(rights_file, profile)
+        target = self.root / "rights.json"
+        if target.exists():
+            history = self.root / "import_history"
+            history.mkdir(parents=True, exist_ok=True)
+            n = len(list(history.glob("rights_*.json"))) + 1
+            shutil.copyfile(target, history / f"rights_{n:03d}.json")
+        self.inputs.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(rights_file, self.inputs / f"rights{rights_file.suffix.lower()}")
+        shutil.copyfile(profile_path, self.inputs / "rights_profile.yaml")
+        _dump(target, result.model_dump(mode="json"))
+        return result
+
+    def rights_import(self) -> RightsImport | None:
+        path = self.root / "rights.json"
+        if not path.exists():
+            return None
+        return RightsImport.model_validate_json(path.read_text(encoding="utf-8"))
+
+    def rights_events(self) -> list[RightsEvent] | None:
+        imported = self.rights_import()
+        return None if imported is None else imported.events
+
     def decision_log(self) -> DecisionLog:
         return DecisionLog(self.decisions_path)
 
@@ -283,7 +311,7 @@ class Workspace:
         review = log.state.review_inputs(self.findings())
         result = screen_landscape(
             self.assets(), spec, FactBuilder(self.profile(), target_normalizer, self._requested_isoforms()),
-            review=review, identity_flags=self.flags(),
+            review=review, identity_flags=self.flags(), rights_events=self.rights_events(),
         )
         _dump(self.root / "screening.json", result.to_dict())
         return result

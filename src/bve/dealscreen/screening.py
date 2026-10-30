@@ -23,6 +23,7 @@ from bve.dealscreen.facts import (
     finding_claim,
 )
 from bve.dealscreen.models import IdentityFlag, LandscapeAsset
+from bve.dealscreen.rights import ENCUMBRANCE_POSITIONS, RightsEvent, rights_position
 from bve.dealscreen.transaction import assess_transaction, transaction_ranks
 from bve.se.gates.engine import GateEngine
 from bve.se.ontology.therapeutic_areas import UNSPECIFIED, canonical_therapeutic_area
@@ -148,6 +149,7 @@ def screen_landscape(
     *,
     review: ReviewInputs | None = None,
     identity_flags: list[IdentityFlag] | None = None,
+    rights_events: list[RightsEvent] | None = None,
 ) -> ScreeningResult:
     review = review or ReviewInputs()
     engine = GateEngine()
@@ -237,22 +239,46 @@ def screen_landscape(
         )
 
     _rank(screens)
-    _transaction(screens, spec, flags_by_asset)
+    _transaction(screens, spec, flags_by_asset, assets, rights_events)
     return ScreeningResult(
         problem_id=spec.problem.problem_id, screens=screens, funnel=funnel(screens, assets)
     )
 
 
-def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: dict[str, list[str]]) -> None:
+def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: dict[str, list[str]],
+                 assets: list[LandscapeAsset], rights_events: list[RightsEvent] | None) -> None:
     names = {s.asset_id: s.program_name for s in screens}
+    external = {a.asset_id: a.external_id for a in assets}
+    by_program: dict[str, list[RightsEvent]] = {}
+    for event in rights_events or []:
+        by_program.setdefault(event.external_id, []).append(event)
+    prefs = spec.transaction
+    territory = frozenset(t.upper() for t in (prefs.territory if prefs and prefs.territory
+                                               else [spec.commercial.required_market]))
+    dates = [e.effective_date for e in rights_events or [] if e.effective_date]
+    as_of = max(dates) if dates else None
     for screen in screens:
         twins = sorted({names[o] for o, f in flags_by_asset.items()
                         if o != screen.asset_id and set(f) & set(flags_by_asset.get(screen.asset_id, []))})
+        events = by_program.get(external.get(screen.asset_id, ""), [])
+        position = None
+        if rights_events is not None and events:
+            position = rights_position(events, territory=territory, originator=screen.company, as_of=as_of,
+                                       max_age_days=prefs.max_evidence_age_days if prefs else 730)
+            if screen.commercial.us_rights_status in {"AVAILABLE_PER_SOURCE", "AVAILABLE_ANALYST_CONFIRMED"} \
+                    and position.position in ENCUMBRANCE_POSITIONS:
+                position.position = "CONFLICTING_EVIDENCE"
+                position.reasons.append("the landscape rights field states availability; the rights file "
+                                        "records an active grant")
         view = assess_transaction(
-            spec.transaction, market_status=screen.market_status,
+            prefs, market_status=screen.market_status,
             rights_status=screen.commercial.us_rights_status, rights_holder=screen.commercial.us_rights_holder,
-            company=screen.company, identity_twins=twins)
-        screen.transaction = {"tier": view.tier, "reasons": view.reasons, "notes": view.notes}
+            company=screen.company, identity_twins=twins, position=position)
+        screen.transaction = {"tier": view.tier, "reasons": view.reasons, "notes": view.notes,
+                              "rights_position": view.position, "rights_holder_per_evidence": view.holder,
+                              "diligence_questions": view.questions, "evidence": view.evidence,
+                              "stale": view.stale, "sort_bonus": view.sort_bonus,
+                              "territory": sorted(territory)}
     ranks = transaction_ranks([{"asset_id": s.asset_id, "disposition": s.disposition, "rank": s.rank,
                                 "transaction": s.transaction} for s in screens])
     for screen in screens:

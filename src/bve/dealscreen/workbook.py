@@ -189,6 +189,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
             stage_label(s),
             (s.get("transaction") or {}).get("tier", ""), s.get("transaction_rank"),
             "; ".join((s.get("transaction") or {}).get("reasons", []) + (s.get("transaction") or {}).get("notes", [])),
+            *_rights_cells(s.get("transaction") or {}),
         ])
     _sheet(wb, "Screening", [
         "Asset id", "Program", "Aliases", "Company (per source)", "External id", "Scientific disposition",
@@ -205,6 +206,9 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         "Source values not used, and why",
         "Stage / market status in words",
         "Transaction tier (buyer-declared; not availability)", "Transaction rank", "Transaction reasons",
+        "Rights position in buyer territory (per rights evidence)", "Rights holder per evidence (not availability)",
+        "Rights evidence (date; type; parties; territory; source; quote)", "Rights evidence stale?",
+        "Rights diligence questions",
     ], screening_rows, note=f"Gate engine: bve.se GateEngine. {screening['ranking_rule']}",
         widths={2: 26, 6: 16})
 
@@ -227,6 +231,12 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
                                    ("Absence of a license record is not availability"
                                     if s["commercial"]["us_rights_status"] == "UNKNOWN"
                                     else "Source-provided statement; unverified by BVE"), "OPEN", ""])
+        txn = s.get("transaction") or {}
+        if txn.get("diligence_questions"):
+            diligence_rows.append([s["asset_id"], s["program_name"], "RIGHTS", "rights_position",
+                                   txn.get("rights_position", ""), "; ".join(txn["diligence_questions"]),
+                                   "; ".join(e["event_id"] for e in txn.get("evidence", [])) or "no rights record",
+                                   "Rights-file evidence; unverified by BVE", "OPEN", ""])
     for flag in flags:
         state = log.state.identity_flags.get(flag.flag_id, "OPEN")
         for asset_id in flag.asset_ids:
@@ -448,3 +458,14 @@ def _effects_text(screen: dict[str, Any]) -> str:
         + f"{e['requirement_id']}: {e['without_assertions']} -> {e['with_assertions']}"
         for e in effects
     )
+
+
+def _rights_cells(txn: dict[str, Any]) -> list[Any]:
+    """Cycle R1: the specific evidence behind the commercial classification."""
+    evidence = "\n".join(
+        f"{e.get('date') or 'undated'}; {e['type']}; {e.get('grantee') or '-'} from {e.get('grantor') or '-'}; "
+        f"{e.get('territory') or 'territory not stated'}; {e['source']}; \"{(e.get('quote') or '')[:300]}\""
+        for e in txn.get("evidence", []))
+    return [txn.get("rights_position", ""), txn.get("rights_holder_per_evidence") or "",
+            evidence or "no rights record", "yes" if txn.get("stale") else "",
+            "; ".join(txn.get("diligence_questions", []))]

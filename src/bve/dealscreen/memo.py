@@ -126,10 +126,19 @@ def build_memo(ws: Workspace) -> str:
         tiers = Counter(s["transaction"]["tier"] for s in declared)
         lines.append("**Transaction view (buyer-declared preferences; separate from science).** "
                      + ", ".join(f"{k.replace('_', ' ').lower()} {v}" for k, v in sorted(tiers.items()))
-                     + ". OPEN means no declared obstacle was found, not that rights are available:")
+                     + ". No tier is a statement that rights are available; only a cited source can say "
+                     "that, and it is still unverified:")
         for s in sorted(declared, key=lambda s: s["transaction_rank"])[:10]:
-            why = "; ".join(s["transaction"]["reasons"] + s["transaction"]["notes"])
-            lines.append(f"- #{s['transaction_rank']} {s['program_name']}: {s['transaction']['tier']} ({why})")
+            t = s["transaction"]
+            why = "; ".join(t["reasons"] + t["notes"])
+            lines.append(f"- #{s['transaction_rank']} {s['program_name']}: {t['tier']}; rights position "
+                         f"{t.get('rights_position', 'n/a')} ({why})")
+            for e in t.get("evidence", [])[:3]:
+                lines.append(f"  - evidence: {e.get('date') or 'undated'} {e['type'].lower()}, "
+                             f"{e.get('grantee') or '-'} from {e.get('grantor') or '-'}, "
+                             f"{e.get('territory') or 'territory not stated'} <{e['source']}>")
+            if t.get("diligence_questions"):
+                lines.append(f"  - ask: {' '.join(t['diligence_questions'])}")
         lines.append("")
     isoforms = sorted({r["observed"] + " → " + r["read_as"] for s in eligible for r in s.get("target_readings", [])})
     if isoforms:

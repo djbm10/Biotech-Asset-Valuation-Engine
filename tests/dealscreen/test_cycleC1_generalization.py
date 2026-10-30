@@ -114,7 +114,7 @@ def _view(**over):
 
 
 def test_x5_tiers_and_reasons():
-    assert _view().tier == "OPEN" and "availability not evidenced" in _view().reasons[0]
+    assert _view().tier == "RIGHTS_UNRESOLVED" and "availability not evidenced" in _view().reasons  # R1: no OPEN
     assert _view(market_status="US_MARKETED").tier == "EXCLUDED_BY_BUYER_PREFERENCE"
     v = _view(company="BigPharma Inc (sponsor)")
     assert v.tier == "DEPRIORITIZED" and "not a rights statement" in v.reasons[0]
@@ -122,7 +122,7 @@ def test_x5_tiers_and_reasons():
     assert "per cited evidence" in v.reasons[0]
     assert _view(rights_status=OPTION).tier == "DEPRIORITIZED"
     assert "returned" in " ".join(_view(rights_status=RETURNED).notes)
-    assert _view(rights_status=RETURNED).tier == "OPEN"  # returned is not availability, nor an obstacle
+    assert _view(rights_status=RETURNED).tier == "NO_OBSTACLE_IN_RIGHTS_EVIDENCE"  # not availability
 
 
 def test_x5_not_declared_changes_nothing():
@@ -260,7 +260,7 @@ def test_review_c1_7_holder_match_is_whole_word():
     prefs = TransactionPreferences(deprioritized_holders=["Ono"])
     v = assess_transaction(prefs, market_status=None, rights_status="UNKNOWN", rights_holder=None,
                            company="Sonoma Biotherapeutics", identity_twins=[])
-    assert v.tier == "OPEN"
+    assert v.tier == "RIGHTS_UNRESOLVED"
 
 
 # -- X7 working-directory independence; P8/P10 prototype disclosures -----------------------------

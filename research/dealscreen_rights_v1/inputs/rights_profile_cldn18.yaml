@@ -1,0 +1,38 @@
+# Rights/deals mapping profile for the CLDN18.2 transcribed deals file (cycle R1).
+name: public_cldn18_rights_v1
+source_system: BVE_PUBLIC_SOURCES_DEALS
+license_status: public
+allowed_use: research_only
+columns:
+  deal_id: Deal ID
+  external_id: Program ID
+  event_type: Deal Type
+  exclusivity: Exclusivity
+  grantee: Licensee
+  grantor: Licensor
+  territory: Territory
+  event_date: Deal Date
+  status: Deal Status
+  related_deal_id: Related Deal
+  source_reference: Source URL
+  evidence_quote: Source Quote
+  source_date: Source Date
+event_type_map:
+  licensing: LICENSE
+  option: OPTION
+  option exercised: OPTION_EXERCISED
+  option lapsed: OPTION_LAPSED
+  co-development: CO_DEVELOPMENT
+  acquisition: ACQUISITION
+  termination: TERMINATION
+  rights returned: RIGHTS_RETURNED
+  seeking partner: AVAILABILITY_STATED
+status_map:
+  active: ACTIVE
+  terminated: TERMINATED
+  expired: EXPIRED
+  completed: COMPLETED
+exclusivity_map:
+  exclusive: EXCLUSIVE
+  non-exclusive: NON_EXCLUSIVE
+date_formats: ["%Y-%m-%d", "%Y-%m", "%Y"]

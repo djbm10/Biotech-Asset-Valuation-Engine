@@ -316,6 +316,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--landscape", required=True); p.add_argument("--profile", required=True)
     p.add_argument("--buyer", required=True); p.add_argument("--sheet")
     p.add_argument("--identity-authority", action="store_true", help="propose merges via the S&E ontology")
+    p = sub.add_parser("import-rights", help="import a deals/rights export (licenses, options, returns)")
+    ws_arg(p); p.add_argument("--rights", required=True); p.add_argument("--profile", required=True)
     p = sub.add_parser("screen"); ws_arg(p); norm_arg(p)
     p = sub.add_parser("queue"); ws_arg(p)
     p = sub.add_parser("show"); ws_arg(p); p.add_argument("--asset", required=True)
@@ -386,6 +388,16 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"REFRESH: +{len(refresh['assets_added'])} / -{len(refresh['assets_removed'])} assets, "
                       f"{len(refresh['field_changes'])} with changed fields, "
                       f"{len(refresh['orphaned_decisions'])} ORPHANED decisions (see refresh_report.json)")
+        elif args.command == "import-rights":
+            rights = ws.import_rights(Path(args.rights), Path(args.profile))
+            known = {a.external_id for a in ws.assets()}
+            print(f"rights dataset {rights.dataset_version}: {len(rights.events)} events, "
+                  f"{len(rights.rejected)} rejected rows (license {rights.license_status}/{rights.allowed_use})")
+            for rej in rights.rejected:
+                print(f"REJECTED rights row {rej['row_number']}: {'; '.join(rej['reasons'])}")
+            for ext in sorted({e.external_id for e in rights.events} - known):
+                print(f"UNLINKED: rights events for program id {ext!r} match no landscape program")
+            print("Re-run `screen` to apply.")
         elif args.command == "screen":
             ws.screen(_normalizer(args) if args.target_map else None)
             _print_queue(ws)
