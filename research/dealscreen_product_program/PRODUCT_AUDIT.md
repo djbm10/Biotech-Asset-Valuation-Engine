@@ -108,3 +108,45 @@ AI-simulated, internal development. Full evidence: `research/dealscreen_comparis
 2. Tool-UNKNOWNs without a concrete next action reduce recall versus an unaided analyst.
 3. Valuations a Finance Director cannot rebuild by hand (Lane 1 sign-off needed).
 4. No real human session (Gate H) — every result above is AI-simulated.
+
+## Audit 2 (2026-10-31, after cycle R1 revision 4)
+
+AI-simulated, internal development. Evidence: `research/dealscreen_rights_v1/` (acceptance criteria, three
+adversarial reviews and the responses, CLDN18.2 outputs before and after). Revision 4 is measured by the
+implementer only; it has not been re-reviewed by a separate context.
+
+**Verdict: the transaction view no longer misleads on the C1 failures, but DealScreen still shows no advantage over
+a general Claude analyst on commercial rights.**
+
+| Measure (CLDN18.2, frozen reference) | Baseline (0ee7752) | After R1 revision 4 |
+|---|---|---|
+| Third-party-held programs shown as unobstructed (OPEN or a top tier) | 4 definite + zanidatamab | 0 |
+| Programs labelled OPEN with no rights evidence | 50 of 62 | 0 (no OPEN tier; 49 read "no rights evidence") |
+| Deal programs right / partial / missed (15) | not measured | 10 / 4 / 1 (general Claude: 14 / 1 / 0) |
+| Scientific fields changed | — | 0 of 62; 0 of 312 assets on synthetic, FcRn v1/v2, C5 |
+| Reviewers' held-out inputs placed in a top tier that they flagged as errors (end-to-end workspaces) | — | revision 3: 12; revision 4: 0 (implementer-measured) |
+
+- **Better than before:** every rights call cites its row, quote, URL, dates and event id; a program reaches a top
+  tier only when its rights evidence is complete, specific, current and uncontested, and each failed check is named
+  with a question (revision 4; revision 3's narrower guard was bypassed 11 ways in review); returned rights,
+  options, sublicenses and acquisitions are modelled; the buyer territory is validated.
+- **Still worse than general Claude:** recall. DealScreen reads rights only from the imported file. It misses
+  SKB315's return and LM-302's return to LaNova/Sino Biopharm because the frozen library does not record them.
+- **Not demonstrated:** a real vendor deals export, a human analyst using the rights view (Gate H), an independent
+  reference (Gate B).
+
+**Addendum (2026-11-01, revision 5).** Round 4 (`REREVIEW3.md`) found that revision 4's checks ran in full only where
+a return decided the position: on copies of the CLDN18.2 workspace, test cases reached transaction #1-#3 in tier 0.
+Revision 5 replaces the checks with one gate on every path that blocks what it cannot read. Implementer-measured: the
+round-4 reviewer's flagged top-tier placements 13 → 0; no CLDN18.2 tier or call changed; one clean held-out case is
+now held back with an ownership question (a usefulness cost). The verdict above is unchanged. Round 5
+(`REREVIEW4.md`) reviews revision 5.
+
+### Updated largest obstacles
+
+1. Tool-UNKNOWNs without a concrete next action reduce recall versus an unaided analyst (C1 critic §2). Next cycle:
+   U1 (`research/dealscreen_unknown_actions_v1/ACCEPTANCE.md`).
+2. Rights recall is capped by the imported evidence; a licensed vendor deals export has not been tested. Parties
+   are matched by name only, so differently named subsidiaries create cautious conflicts.
+3. Valuations a Finance Director cannot rebuild by hand (Lane 1 sign-off needed).
+4. No real human session (Gate H) — every result above is AI-simulated.

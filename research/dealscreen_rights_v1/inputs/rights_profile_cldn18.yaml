@@ -1,4 +1,5 @@
 # Rights/deals mapping profile for the CLDN18.2 transcribed deals file (cycle R1).
+# For co-development rows, Licensee and Licensor name the two partners (no licensing direction).
 name: public_cldn18_rights_v1
 source_system: BVE_PUBLIC_SOURCES_DEALS
 license_status: public
@@ -23,6 +24,7 @@ event_type_map:
   option exercised: OPTION_EXERCISED
   option lapsed: OPTION_LAPSED
   co-development: CO_DEVELOPMENT
+  co-promotion option: CO_PROMOTION_OPTION
   acquisition: ACQUISITION
   termination: TERMINATION
   rights returned: RIGHTS_RETURNED

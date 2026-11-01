@@ -12,9 +12,9 @@ from __future__ import annotations
 from pathlib import Path
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
-from bve.dealscreen.transaction import TransactionPreferences
+from bve.dealscreen.transaction import TransactionPreferences, region_code
 from bve.se.schemas.contracts import PHASE_STAGE_ORDER, BuyerProblemV2
 
 
@@ -44,6 +44,7 @@ class Preferences(BaseModel):
 class CommercialDiligence(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
+    #: A region code (``rights_territory.REGIONS``); the buyer territory when ``transaction.territory`` is empty.
     required_market: str = "US"
     questions: list[str] = Field(
         default_factory=lambda: [
@@ -53,6 +54,10 @@ class CommercialDiligence(BaseModel):
         ]
     )
 
+    @field_validator("required_market")
+    @classmethod
+    def _region(cls, value: str) -> str:
+        return region_code(value)
 
 
 class BuyerSpec(BaseModel):

@@ -36,6 +36,7 @@ from bve.dealscreen import VALIDATION_WARNING
 from bve.dealscreen.agent import ClinicalTrialsGovProvider, OfflineEvidenceProvider, Question
 from bve.dealscreen.facts import TargetNormalizer
 from bve.dealscreen.review import Action, DecisionRejected, ReviewerKind
+from bve.dealscreen.rights_reader import RIGHTS_STATUS_WORDS, rights_reading
 from bve.dealscreen.workspace import Workspace, ontology_drug_authority, ontology_target_normalizer
 from bve.se.resolution.registry import normalize_identity_name
 
@@ -95,6 +96,19 @@ def resolve_subject(ws: Workspace, action: Action, subject: str, field: str = ""
     if asset is None:
         raise DecisionRejected(f"unknown asset {subject!r}")
     return asset.asset_id
+
+
+def rights_reading_note(value: str) -> str:
+    """How DealScreen reads an asserted U.S.-rights statement, printed when it is recorded so the analyst can reword
+    a statement that is not read as meant (review R1v4 T)."""
+    reading = rights_reading(value)
+    if not reading.understood:
+        return ("DealScreen cannot read all of it as a rights statement (not read: "
+                + "; ".join(repr(c) for c in reading.unread) + "); it keeps the program out of the top two "
+                "transaction tiers until it is reworded or retracted.")
+    words = RIGHTS_STATUS_WORDS.get(reading.status, reading.status).split(" (")[0]  # the source label does not apply
+    return (f"DealScreen reads it as: {words}"
+            + (f"; the offer is made by {', '.join(reading.parties)}" if reading.parties else "") + ".")
 
 
 def _decide(ws: Workspace, *, action: str, subject: str, new_state: str, reviewer: str, rationale: str,
@@ -428,6 +442,8 @@ def main(argv: list[str] | None = None) -> int:
                                      "evidence_span": args.quote})
             print(f"recorded {rec['decision_id']}: {args.field}={args.value!r} on {rec['subject_id']}. "
                   "Re-run `screen` to apply it.")
+            if args.field == "us_rights":
+                print(rights_reading_note(args.value))
         elif args.command == "value-config":
             import yaml
 

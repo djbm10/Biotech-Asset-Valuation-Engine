@@ -1,15 +1,16 @@
 # Next action (restart checkpoint)
 
-**State at checkpoint (2026-10-28):**
-- Branch `dealscreen-mvp`. Cycles 1-5 and analyst-simulation cycle A1 are committed (see `ITERATION_LOG.md` and `analyst_simulation/ITERATION_LOG.md`).
-- Uncommitted user files: `AGENTS.md`, `research/universe/biotech_tickers.yaml`, `.claude/`, `.serena/`. Never stage them.
+**State at checkpoint (2026-11-01):**
+- Branch `dealscreen-mvp`. Cycles 1-5, analyst-simulation cycles A1-A5, comparison cycle C1 and rights cycle R1 revision 5 are committed (see `ITERATION_LOG.md`). R1 revisions 2-4 were never committed separately; they are in the revision 5 commit.
+- Uncommitted user files: `AGENTS.md`, `research/universe/biotech_tickers.yaml`, `.claude/`, `.serena/`, `research/dealscreen_product_program/cycle4/equivalence_result.json`. Never stage them.
+- `research/dealscreen_unknown_actions_v1/ACCEPTANCE.md` holds the U1 acceptance criteria, frozen before U1 code on 2026-10-30 and committed on their own, separately from R1.
 - Never pop shared stashes.
 
 ## On restart
 
 1. Read `PRODUCT_GOAL.md`, `SCORECARD.md` (latest sections at the bottom) and this file.
 2. Confirm the branch and that `git status` shows only the user files above.
-3. Run the DealScreen tests (expect 305 passed):
+3. Run the DealScreen tests (expect 653 passed):
    `TMPDIR=$HOME/.cache/dealscreen_suite python -m pytest tests/dealscreen -q -p no:cacheprovider`
    `/tmp` is a small tmpfs; keep test temp files on the home disk.
 4. For any cycle that changes screening, re-run
@@ -19,6 +20,20 @@
 ## Comparison cycle C1 (2026-10-29)
 
 See `research/dealscreen_comparison_v1/REPORT.md`. Verdict: no demonstrated advantage over general Claude. Next: (1) resolve the critic's transaction-view false OPENs (IBI343, SHR-A1904) by importing vendor rights/deal fields; (2) give each tool-UNKNOWN a concrete next action to reduce anchoring; (3) review X1 isoform reading for landscape tuning; (4) Gate H human session.
+
+## Rights cycle R1 (2026-10-30)
+
+See `research/dealscreen_rights_v1/` (ACCEPTANCE, REVIEW/REREVIEW/REREVIEW2 and the responses). A deals/rights export
+is imported through a mapping profile; each program gets a cited rights position for the buyer territory; the `OPEN`
+tier is gone. A program reaches a top tier only when its rights evidence is complete, specific, current and
+uncontested (`top_tier_blockers` names each failed check). Since revision 5 one gate (`rights_gate`) checks this on
+every path and blocks anything it cannot read; its review is `REREVIEW4.md`. CLDN18.2: third-party-held programs shown as unobstructed 4 (+ zanidatamab) -> 0; 0 of 62 scientific
+fields changed; usefulness against general Claude unchanged (10/4/1 vs 14/1/0 on 15 deal programs, so no advantage).
+Gaps: SKB315's and LM-302's returns are not in the frozen library; a real vendor deals export is untested.
+
+**Next: cycle U1, give each tool-UNKNOWN a concrete next action** (`research/dealscreen_unknown_actions_v1/ACCEPTANCE.md`;
+C1 critic section 2). Baseline: 38 UNKNOWN requirement decisions on CLDN18.2 (indication 24, modality 8, target 4,
+phase 2). Then: X1 isoform reading review; Gate H human session.
 
 ## Analyst-simulation loop
 

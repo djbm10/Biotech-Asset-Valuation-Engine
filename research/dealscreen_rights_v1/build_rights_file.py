@@ -3,6 +3,15 @@
 Each row cites one library item by index; the quote is copied verbatim. Structured fields (type, parties,
 territory, date) are read from the quote only. Items carrying only payment terms are not rights events and
 are listed in SKIPPED. Run: python research/dealscreen_rights_v1/build_rights_file.py
+
+Revision after the R1 adversarial review (REVIEW.md section 1):
+- R08: "handed back rights last year" in a 2025-07 article -> Deal Date 2024 (year precision).
+- R10: the quote grants an option to *co-promote* in mainland China -> Deal Type "Co-promotion option".
+- R12: a co-development row names the two partners; the Licensee/Licensor columns carry no licensing
+  direction for this deal type (the quote: "I-Mab is the lead party and shares worldwide rights ... equally
+  with ABL Bio"). I-Mab, the lead party, is listed first.
+- R07 stays unlinked to R06: no quote states that Bristol Myers Squibb succeeded Turning Point, so the
+  tool must report the conflict rather than have the transcription resolve it.
 """
 import csv
 import json
@@ -23,13 +32,14 @@ ROWS = [
     (35, "R06", "Licensing", "Exclusive", "Turning Point Therapeutics", "LaNova Medicines",
      "worldwide basis excluding Greater China and South Korea", "2022-05-04", "", ""),
     (37, "R07", "Termination", "", "Bristol Myers Squibb", "LaNova Medicines", "", "", "Terminated", ""),
-    (38, "R08", "Rights returned", "", "Bristol Myers Squibb", "LaNova", "", "", "", ""),
+    (38, "R08", "Rights returned", "", "Bristol Myers Squibb", "LaNova", "", "2024", "", ""),
     (42, "R09", "Option", "Exclusive", "Merck KGaA, Darmstadt, Germany", "Hengrui", "worldwide, outside of mainland China",
      "2023-10-30", "", ""),
-    (42, "R10", "Option", "", "Merck KGaA, Darmstadt, Germany", "Hengrui", "mainland China", "2023-10-30", "", ""),
+    (42, "R10", "Co-promotion option", "", "Merck KGaA, Darmstadt, Germany", "Hengrui", "mainland China",
+     "2023-10-30", "", ""),
     (58, "R11", "Licensing", "Exclusive", "Astellas", "Evopoint Biosciences",
      "worldwide (excluding China's mainland, Hong Kong, Macao and Taiwan region)", "2025-05-29", "", ""),
-    (67, "R12", "Co-development", "", "ABL Bio", "I-Mab", "worldwide rights, excluding Greater China and South Korea",
+    (67, "R12", "Co-development", "", "I-Mab", "ABL Bio", "worldwide rights, excluding Greater China and South Korea",
      "", "", ""),
     (70, "R13", "Licensing", "Exclusive", "Elevation Oncology", "CSPC Megalith Biopharmaceutical",
      "all global territories outside Greater China (mainland China, Hong Kong, Macau and Taiwan)", "2022-07-28", "", ""),

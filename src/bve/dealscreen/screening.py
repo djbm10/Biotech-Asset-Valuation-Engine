@@ -11,6 +11,7 @@ from __future__ import annotations
 import dataclasses
 from collections import Counter
 from dataclasses import asdict, dataclass, field
+from datetime import date
 from typing import Any
 
 from bve.dealscreen.buyer import BuyerSpec
@@ -23,8 +24,23 @@ from bve.dealscreen.facts import (
     finding_claim,
 )
 from bve.dealscreen.models import IdentityFlag, LandscapeAsset
-from bve.dealscreen.rights import ENCUMBRANCE_POSITIONS, RightsEvent, rights_position
-from bve.dealscreen.transaction import assess_transaction, transaction_ranks
+from bve.dealscreen.rights import RightsEvent
+from bve.dealscreen.rights_gate import (
+    also_named,
+    guards_for,
+    program_key,
+    reconcile,
+    row_guards,
+)
+from bve.dealscreen.rights_position import RightsPosition, rights_position
+from bve.dealscreen.transaction import (
+    TransactionPreferences,
+    TransactionView,
+    assess_transaction,
+    holder_ambiguities,
+    position_from_field,
+    transaction_ranks,
+)
 from bve.se.gates.engine import GateEngine
 from bve.se.ontology.therapeutic_areas import UNSPECIFIED, canonical_therapeutic_area
 from bve.se.schemas.contracts import GateStatus, OverallDisposition
@@ -98,6 +114,9 @@ class ScreeningResult:
     funnel: dict[str, Any]
     ranking_rule: str = RANKING_RULE
     version: str = SCREENING_VERSION
+    #: Rights rows that could not be attached to a program (review R1v3 E3-ids): accepted rows whose program id
+    #: matches no landscape program, and rows rejected at import that name no program.
+    rights_import_issues: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
 
     def by_id(self) -> dict[str, AssetScreen]:
         return {s.asset_id: s for s in self.screens}
@@ -109,6 +128,7 @@ class ScreeningResult:
             "ranking_rule": self.ranking_rule,
             "funnel": self.funnel,
             "screens": [s.to_dict() for s in self.screens],
+            "rights_import_issues": self.rights_import_issues,
         }
 
 
@@ -150,6 +170,7 @@ def screen_landscape(
     review: ReviewInputs | None = None,
     identity_flags: list[IdentityFlag] | None = None,
     rights_events: list[RightsEvent] | None = None,
+    rights_rejected: list[dict[str, Any]] | None = None,
 ) -> ScreeningResult:
     review = review or ReviewInputs()
     engine = GateEngine()
@@ -239,50 +260,110 @@ def screen_landscape(
         )
 
     _rank(screens)
-    _transaction(screens, spec, flags_by_asset, assets, rights_events)
+    issues = _transaction(screens, spec, flags_by_asset, assets, rights_events, rights_rejected)
     return ScreeningResult(
-        problem_id=spec.problem.problem_id, screens=screens, funnel=funnel(screens, assets)
+        problem_id=spec.problem.problem_id, screens=screens, funnel=funnel(screens, assets),
+        rights_import_issues=issues,
     )
 
 
+def _reconcile_with_field(position: RightsPosition, screen: Any, territory: frozenset[str]) -> None:
+    """The top-tier gate on one program (``rights_gate.reconcile``), for callers that hold a screen."""
+    reconcile(position, screen.commercial, territory, company=getattr(screen, "company", None))
+
+
+def program_transaction(
+    events: list[RightsEvent],
+    commercial: CommercialAssessment,
+    *,
+    company: str | None,
+    territory: frozenset[str],
+    as_of: date | None,
+    max_age_days: int,
+    prefs: TransactionPreferences | None,
+    market_status: str | None = None,
+    identity_twins: list[str] | None = None,
+    guard: list[str] | None = None,
+) -> TransactionView:
+    """One program's rights position and transaction view: from its rights rows, or without any from its landscape
+    and analyst U.S.-rights statements. Either way the position passes the top-tier gate (``rights_gate.reconcile``).
+    ``company`` is the landscape company; it is a first contact, never assumed to be the owner."""
+    if events:
+        position = rights_position(events, territory=territory, as_of=as_of, max_age_days=max_age_days,
+                                   first_contact=company)
+    else:
+        position = position_from_field(commercial.us_rights_status, commercial.us_rights_holder, company,
+                                       basis=commercial.us_rights_basis, as_of=as_of, max_age_days=max_age_days,
+                                       holder_basis=commercial.us_rights_holder_basis)
+    reconcile(position, commercial, territory, company=company, as_of=as_of)
+    if events:
+        also_named(position, commercial)
+    return assess_transaction(prefs, market_status=market_status, rights_status=commercial.us_rights_status,
+                              rights_holder=commercial.us_rights_holder, company=company,
+                              identity_twins=identity_twins or [], position=position, guard=guard)
+
+
 def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: dict[str, list[str]],
-                 assets: list[LandscapeAsset], rights_events: list[RightsEvent] | None) -> None:
+                 assets: list[LandscapeAsset], rights_events: list[RightsEvent] | None,
+                 rights_rejected: list[dict[str, Any]] | None = None) -> dict[str, list[dict[str, Any]]]:
+    """Rights position and buyer-declared transaction view per program (cycle R1). Never reads a gate.
+    The registry sponsor is passed only as a suggested first contact, never as an owner. Every position, from the
+    rights file or from the landscape fields, passes the top-tier gate (``rights_gate``). Returns the rights rows
+    that could not be attached to a program."""
     names = {s.asset_id: s.program_name for s in screens}
-    external = {a.asset_id: a.external_id for a in assets}
+    external = {a.asset_id: program_key(a.external_id) for a in assets}
     by_program: dict[str, list[RightsEvent]] = {}
     for event in rights_events or []:
-        by_program.setdefault(event.external_id, []).append(event)
+        by_program.setdefault(program_key(event.external_id), []).append(event)
+    known = set(external.values())
+    unlinked = [e for key, events in by_program.items() if key not in known for e in events]
+    rows = row_guards(known, unlinked, list(rights_rejected or []))
     prefs = spec.transaction
     territory = frozenset(t.upper() for t in (prefs.territory if prefs and prefs.territory
                                                else [spec.commercial.required_market]))
-    dates = [e.effective_date for e in rights_events or [] if e.effective_date]
-    as_of = max(dates) if dates else None
+    max_age = prefs.max_evidence_age_days if prefs else 730
+    as_of = spec.problem.buyer.as_of_date
     for screen in screens:
         twins = sorted({names[o] for o, f in flags_by_asset.items()
                         if o != screen.asset_id and set(f) & set(flags_by_asset.get(screen.asset_id, []))})
-        events = by_program.get(external.get(screen.asset_id, ""), [])
-        position = None
-        if rights_events is not None and events:
-            position = rights_position(events, territory=territory, originator=screen.company, as_of=as_of,
-                                       max_age_days=prefs.max_evidence_age_days if prefs else 730)
-            if screen.commercial.us_rights_status in {"AVAILABLE_PER_SOURCE", "AVAILABLE_ANALYST_CONFIRMED"} \
-                    and position.position in ENCUMBRANCE_POSITIONS:
-                position.position = "CONFLICTING_EVIDENCE"
-                position.reasons.append("the landscape rights field states availability; the rights file "
-                                        "records an active grant")
-        view = assess_transaction(
-            prefs, market_status=screen.market_status,
-            rights_status=screen.commercial.us_rights_status, rights_holder=screen.commercial.us_rights_holder,
-            company=screen.company, identity_twins=twins, position=position)
+        key = external.get(screen.asset_id, "")
+        rejected = rows.rejected_by_program.get(key, [])
+        guard = guards_for(rows, key, rejected)
+        view = program_transaction(by_program.get(key, []), screen.commercial, company=screen.company,
+                                   territory=territory, as_of=as_of, max_age_days=max_age, prefs=prefs,
+                                   market_status=screen.market_status, identity_twins=twins, guard=guard)
+        questions = view.questions + [
+            f"Correct rights row {r['row']} and re-import the rights file; it may change this position."
+            for r in [{"row": x["row_number"]} for x in rejected] + rows.unattributed_rejected_rows] + [
+            f"Is rights row {u['row']} (program id '{u['program_id']}') about this program? If so, correct its id and "
+            "re-import." for u in rows.unlinked_rows if key in u["near_program_keys"]]
         screen.transaction = {"tier": view.tier, "reasons": view.reasons, "notes": view.notes,
                               "rights_position": view.position, "rights_holder_per_evidence": view.holder,
-                              "diligence_questions": view.questions, "evidence": view.evidence,
-                              "stale": view.stale, "sort_bonus": view.sort_bonus,
-                              "territory": sorted(territory)}
+                              "owner_per_evidence": view.owner, "diligence_questions": questions,
+                              "evidence": view.evidence, "stale": view.stale, "sort_bonus": view.sort_bonus,
+                              "top_tier_blockers": view.top_tier_blockers, "territory": sorted(territory),
+                              "position_reasons": view.position_reasons, "rights_rows_not_applied": view.guards}
+    _holder_ambiguity_notes(screens, prefs)
     ranks = transaction_ranks([{"asset_id": s.asset_id, "disposition": s.disposition, "rank": s.rank,
                                 "transaction": s.transaction} for s in screens])
     for screen in screens:
         screen.transaction_rank = ranks.get(screen.asset_id)
+    by_key = {external[s.asset_id]: s.program_name for s in screens if s.asset_id in external}
+    for row in rows.unlinked_rows + rows.unattributed_rejected_rows:
+        row["near_programs"] = [by_key[k] for k in row.pop("near_program_keys") if k in by_key]
+    return {"unlinked_rows": rows.unlinked_rows, "unattributed_rejected_rows": rows.unattributed_rejected_rows}
+
+
+def _holder_ambiguity_notes(screens: list[AssetScreen], prefs: Any) -> None:
+    """Warn when one declared counterparty name matches clearly different companies (review R1 P1)."""
+    party_names = sorted({n for s in screens for n in (s.company, s.transaction.get("rights_holder_per_evidence"),
+                                                       s.transaction.get("owner_per_evidence")) if n})
+    for declared, matched in holder_ambiguities(prefs, party_names).items():
+        note = (f"declared counterparty '{declared}' matches different companies ({'; '.join(matched)}); "
+                "declare the full name if only one is meant")
+        for screen in screens:
+            if any(f"'{declared}'" in r for r in screen.transaction.get("reasons", [])):
+                screen.transaction["notes"].append(note)
 
 
 def _rank(screens: list[AssetScreen]) -> None:

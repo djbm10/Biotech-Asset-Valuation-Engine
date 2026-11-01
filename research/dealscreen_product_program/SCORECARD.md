@@ -86,3 +86,21 @@ Gates H and B are unchanged: an AI-simulated analyst is not a human user or an i
 | 5 | Resolving UNKNOWN decisions | AI assistant can propose cited facts; a different human confirms; content hash-pinned | A2 analyst recorded 4 proposals | DEMONSTRATED technically (no human confirmation yet) |
 | 11 | Financial readiness | `value-config` preview makes the exact handoff config reproducible without approval | Test; A2 finding #3 | PARTIAL |
 | 12 | Excel and report quality | Rank reasons column; identity groups; activity notes | A2 analyst | PARTIAL (no human reader) |
+
+**After cycle R1 revision 4 (AI-SIMULATED; 2026-10-31):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 4 | Source traceability | Rights events keep file hash, row, URL, quote, dates with precision; every rights call cites them (JSON, workbook, memo) | `research/dealscreen_rights_v1/`; tests | PARTIAL → stronger |
+| 7 | Ownership, rights, licensing | Deals/rights export imported through a profile; a rights ledger per program and buyer territory (licenses, options, exercises, lapses, terminations, returns, acquisitions, sublicenses, co-development, availability statements); no OPEN tier; a top tier only when the evidence is complete, specific, current and uncontested | CLDN18.2: false unobstructed 4 → 0; 3 adversarial reviews; 122 held-out tests; reviewers' flagged held-out top-tier placements 12 → 0 (revision 4, implementer-measured) | NOT DEMONSTRATED → PARTIAL (recall capped by the imported file; no real vendor export) |
+| 9 | Ranking | Transaction rank uses evidence-based tiers and buyer-declared preferences, separate from the scientific rank | CLDN18.2 outputs | PARTIAL |
+| 12 | Excel and report quality | Rights evidence, stale flags and diligence questions in the Screening sheet and the memo, in words | regenerated outputs | PARTIAL (no human reader) |
+
+**After cycle R1 revision 5 (AI-SIMULATED; 2026-11-01):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | One fail-closed top-tier gate on the rights-file and field paths: ended grants checked beside a statement, the position must rest on the landscape company, every U.S.-rights statement and holder read by a strict reader, rights rows not applied guard the programs they may concern | 141 more held-out tests (653 in all); round-4 reviewer's flagged top-tier placements 13 → 0 (implementer-measured); CLDN18.2 calls unchanged | PARTIAL (unchanged: recall capped by the imported file; no real vendor export) |
+| 12 | Excel and report quality | Memo rights summary computed and in words; rows not applied listed with their parties; the "also exists" line counts the reasons it omits | regenerated outputs | PARTIAL (no human reader) |
+
+Gates H, B and I are unchanged.

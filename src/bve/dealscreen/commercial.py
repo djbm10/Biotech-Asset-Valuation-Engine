@@ -7,59 +7,29 @@ U.S. licensing availability is the field most easily over-read. The rules:
 - Silence, "not reported" or an empty cell is UNKNOWN. No license recorded is not a
   license available, and a trial sponsor is not shown to be the rights owner.
 - A recorded license, option or partnership covering the market is ENCUMBERED.
+
+The text reader is ``rights_reader`` (strict since cycle R1 revision 5); its names are re-exported here.
 """
 
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass, field
+from typing import Any
 
 from bve.dealscreen.models import LandscapeAsset, SourceClaim
-
-AVAILABLE = "AVAILABLE_PER_SOURCE"
-AVAILABLE_CONFIRMED = "AVAILABLE_ANALYST_CONFIRMED"
-NOT_AVAILABLE = "NOT_AVAILABLE_PER_SOURCE"
-ENCUMBERED = "ENCUMBERED_PER_SOURCE"
-UNKNOWN = "UNKNOWN"
-#: Cycle C1 X4: neither is availability.
-RETURNED = "RIGHTS_RETURNED_TO_ORIGINATOR_PER_SOURCE"
-OPTION = "OPTION_HELD_BY_THIRD_PARTY_PER_SOURCE"
-CONFLICTING = "CONFLICTING"
-
-_NEGATED = re.compile(r"\b(not available|unavailable|no rights|rights retained by)\b", re.IGNORECASE)
-_ENCUMBERED = re.compile(r"\b(licen[cs]ed|partnered|option(ed)?|co-?develop\w*|co-?promot\w*|exclusive|encumber\w*)\b", re.IGNORECASE)
-#: A return of RIGHTS (review C1-6): the verb must sit next to "rights", or a license/deal must be
-#: terminated. "Patients returned to the clinic" is not a rights statement.
-_RETURNED = re.compile(
-    r"\brights?\b[^.;]{0,40}\b(?:returned|handed back|reverted|regained)\b"
-    r"|\b(?:returned|handed back|reverted|regained)\b[^.;]{0,40}\brights?\b"
-    r"|\bterminat\w* (?:the |its |our |their )?(?:license|licence|licensing|agreement|deal|collaboration)\b",
-    re.IGNORECASE)
-#: An option over rights, not "a treatment option".
-_OPTION = re.compile(r"\boption (?:to|on|for) (?:\w+ ){0,2}(?:licen[cs]\w*|rights|acquir\w*|exclusive)",
-                     re.IGNORECASE)
-_EXERCISED = re.compile(r"\bexercis\w*\b", re.IGNORECASE)
-_AVAILABLE = re.compile(r"\b(available|seeking (a )?partner\w*|open to partner\w*)\b", re.IGNORECASE)
-#: "Unpartnered" says no license is recorded. That is not availability.
-_UNKNOWN = re.compile(
-    r"\b(not reported|unknown|undisclosed|n/?a|none recorded|unpartnered|no partner\w*)\b", re.IGNORECASE
+from bve.dealscreen.rights_reader import (
+    AVAILABLE,
+    AVAILABLE_CONFIRMED,
+    CONFLICTING,
+    ENCUMBERED,
+    NOT_AVAILABLE,
+    OPTION,
+    RETURNED,
+    RIGHTS_STATUS_WORDS,
+    UNKNOWN,
+    rights_reading,
+    rights_status,
 )
-
-
-def rights_status(text: str) -> str:
-    if not text.strip() or _UNKNOWN.search(text):
-        return UNKNOWN
-    if _NEGATED.search(text):
-        return NOT_AVAILABLE
-    if _RETURNED.search(text):
-        return RETURNED
-    if _OPTION.search(text) and not _EXERCISED.search(text):
-        return OPTION
-    if _ENCUMBERED.search(text):
-        return ENCUMBERED
-    if _AVAILABLE.search(text):
-        return AVAILABLE
-    return UNKNOWN
 
 
 @dataclass
@@ -76,6 +46,13 @@ class CommercialAssessment:
     us_rights_holder: str | None = None
     us_rights_holder_claim_ids: list[str] = field(default_factory=list)
     us_rights_holder_conflict: list[str] = field(default_factory=list)
+    #: The claims each status was read from, with their citations and dates (review R1v3 F1-analyst, E2-holder).
+    us_rights_basis: list[dict[str, Any]] = field(default_factory=list)
+    us_rights_holder_basis: list[dict[str, Any]] = field(default_factory=list)
+    #: Every U.S.-rights statement and holder not rejected, with how each reads; the top-tier gate checks them all,
+    #: not only the one the status was taken from (review R1v4 A3d, A3e, A6).
+    us_rights_all: list[dict[str, Any]] = field(default_factory=list)
+    us_rights_holder_all: list[dict[str, Any]] = field(default_factory=list)
 
     @property
     def holder_display(self) -> str:
@@ -112,7 +89,8 @@ def assess(
     extra = [c for c in confirmed_findings if c.field == "us_rights" and c.asset_id == asset.asset_id]
     claims.extend(extra)
     confirmed = [c for c in claims if c.claim_id in confirmed_claim_ids or c in extra]
-    statuses = {rights_status(c.value_as_written) for c in (confirmed[-1:] or claims)}
+    basis = confirmed[-1:] or claims
+    statuses = {rights_status(c.value_as_written) for c in basis}
     if not statuses:
         status = UNKNOWN
     elif len(statuses) > 1:
@@ -151,4 +129,27 @@ def assess(
         us_rights_holder=holders[0] if len(holders) == 1 else None,
         us_rights_holder_claim_ids=[c.claim_id for c in chosen],
         us_rights_holder_conflict=holders if len(holders) > 1 else [],
+        us_rights_basis=[_cited(c) for c in basis],
+        us_rights_holder_basis=[_cited(c) for c in chosen],
+        us_rights_all=[_cited(c) | _reading(c.value_as_written) for c in claims],
+        us_rights_holder_all=[_cited(c) for c in holder_claims],
     )
+
+
+def _reading(text: str) -> dict[str, Any]:
+    reading = rights_reading(text)
+    return {"reads": reading.status, "understood": reading.understood, "parties": list(reading.parties),
+            "unread": list(reading.unread)}
+
+
+def _cited(claim: SourceClaim) -> dict[str, Any]:
+    return {"claim_id": claim.claim_id, "value": claim.value_as_written, "origin": claim.origin.value,
+            "source_system": claim.source_system, "row": claim.row_number, "column": claim.column,
+            "source": claim.source_reference, "source_date": claim.source_date.isoformat() if claim.source_date else None,
+            "quote": claim.evidence_span}
+
+
+__all__ = [
+    "AVAILABLE", "AVAILABLE_CONFIRMED", "CONFLICTING", "ENCUMBERED", "NOT_AVAILABLE", "OPTION", "RETURNED",
+    "RIGHTS_STATUS_WORDS", "UNKNOWN", "CommercialAssessment", "assess", "rights_reading", "rights_status",
+]

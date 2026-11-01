@@ -17,6 +17,13 @@ from typing import Any
 from bve.dealscreen import DEALSCREEN_VERSION, VALIDATION_GRADE, VALIDATION_WARNING
 from bve.dealscreen.groups import identity_groups
 from bve.dealscreen.memo import stage_label
+from bve.dealscreen.rights_words import (
+    evidence_label,
+    evidence_parties,
+    evidence_quote,
+    evidence_when,
+    unapplied_row_words,
+)
 from bve.dealscreen.screening import explain_preference_key
 from bve.dealscreen.valuation_handoff import _compliance_limitation
 from bve.dealscreen.workspace import Workspace
@@ -195,7 +202,8 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         "Asset id", "Program", "Aliases", "Company (per source)", "External id", "Scientific disposition",
         "Preference rank", "Machine recommendation", *[f"Gate: {r}" for r in requirement_ids],
         "Why not ELIGIBLE", "Target symbols", "Modality", "Stage order", "Activity", "Registered trials",
-        "U.S. licensing availability (independent of science)", "U.S. labeler/holder named in source (not owner, not availability)",
+        "U.S.-rights field in the landscape, as read (not rights evidence; independent of science)",
+        "U.S. labeler/holder named in source (not owner, not availability)",
         "Partnerships (per source)", "Identity flags",
         "Cited claim ids (asset:field:value-hash; row in Landscape)", "Analyst assertions", "Source values overridden by analyst",
         "Gate changes caused by assertions",
@@ -207,8 +215,11 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         "Stage / market status in words",
         "Transaction tier (buyer-declared; not availability)", "Transaction rank", "Transaction reasons",
         "Rights position in buyer territory (per rights evidence)", "Rights holder per evidence (not availability)",
-        "Rights evidence (date; type; parties; territory; source; quote)", "Rights evidence stale?",
-        "Rights diligence questions",
+        "Owner / licensor per evidence",
+        "Rights evidence (rights row or statement; date; type; parties; territory; source; quote; event id)",
+        "Rights evidence stale?", "Rights diligence questions",
+        ("Clear position not counted for the top tiers because (complete / specific / current / uncontested; "
+        "includes rights rows not applied that may concern the program)"),
     ], screening_rows, note=f"Gate engine: bve.se GateEngine. {screening['ranking_rule']}",
         widths={2: 26, 6: 16})
 
@@ -224,19 +235,11 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
                                        d["rationale"], d["next_action"],
                                        "; ".join(d["supporting_or_contradictory_claim_ids"]) or "no evidence",
                                        "Source-provided evidence missing or conflicting", "OPEN", ""])
-        if s["commercial"]["us_rights_status"] not in {"AVAILABLE_ANALYST_CONFIRMED"}:
-            diligence_rows.append([s["asset_id"], s["program_name"], "COMMERCIAL", "us_rights",
-                                   s["commercial"]["display"], "; ".join(s["commercial"]["open_questions"]),
-                                   "; ".join(s["commercial"]["us_rights_claim_ids"]) or "no rights record",
-                                   ("Absence of a license record is not availability"
-                                    if s["commercial"]["us_rights_status"] == "UNKNOWN"
-                                    else "Source-provided statement; unverified by BVE"), "OPEN", ""])
-        txn = s.get("transaction") or {}
-        if txn.get("diligence_questions"):
-            diligence_rows.append([s["asset_id"], s["program_name"], "RIGHTS", "rights_position",
-                                   txn.get("rights_position", ""), "; ".join(txn["diligence_questions"]),
-                                   "; ".join(e["event_id"] for e in txn.get("evidence", [])) or "no rights record",
-                                   "Rights-file evidence; unverified by BVE", "OPEN", ""])
+        counted = (s["commercial"]["us_rights_status"] == "AVAILABLE_ANALYST_CONFIRMED"
+                   and (s.get("transaction") or {}).get("rights_position") == "AVAILABILITY_STATED_BY_SOURCE_UNVERIFIED")
+        if not counted:  # an analyst availability statement that is undated or stale still needs diligence
+            diligence_rows.append(_commercial_row(s))
+    diligence_rows += _import_issue_rows(screening.get("rights_import_issues") or {})
     for flag in flags:
         state = log.state.identity_flags.get(flag.flag_id, "OPEN")
         for asset_id in flag.asset_ids:
@@ -274,7 +277,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         # Column 10 holds the subject the log would name (finding or flag id) until filled.
         item[9] = reviewer_actions.get(item[9]) or reviewer_actions.get(item[3], "")
     _sheet(wb, "Diligence", ["Asset id", "Program", "Item type", "Requirement / field", "Question / status",
-                             "Next action", "Provenance", "Confidence limitations", "State",
+                             "Next action", "Provenance", "Confidence limitations", "Question state",
                              "Latest reviewer action"], diligence_rows,
            note="Open questions for non-excluded assets, identity flags and agent proposals. Agent "
                 "findings change nothing until confirmed in the decision log.",
@@ -460,12 +463,57 @@ def _effects_text(screen: dict[str, Any]) -> str:
     )
 
 
+def _commercial_row(s: dict[str, Any]) -> list[Any]:
+    """One diligence row per program for rights (cycle R1 review: no second, contradictory row)."""
+    txn = s.get("transaction") or {}
+    position = txn.get("rights_position", "")
+    status = (f"landscape rights field: {s['commercial']['display']}"
+              + (f" | rights position per evidence: {position}" if position else ""))
+    questions = list(dict.fromkeys([*txn.get("diligence_questions", []), *s["commercial"]["open_questions"]]))
+    provenance = "; ".join([*s["commercial"]["us_rights_claim_ids"],
+                            *(str(e["event_id"]) for e in txn.get("evidence", []))]) or "no rights record"
+    limitation = ("Absence of a license record is not availability"
+                  if position in {"", "NO_RIGHTS_EVIDENCE"} and s["commercial"]["us_rights_status"] == "UNKNOWN"
+                  else "Source-provided rights evidence; unverified by BVE")
+    return [s["asset_id"], s["program_name"], "COMMERCIAL", "rights", status, "; ".join(questions),
+            provenance, limitation, "OPEN", ""]
+
+
 def _rights_cells(txn: dict[str, Any]) -> list[Any]:
-    """Cycle R1: the specific evidence behind the commercial classification."""
+    """Cycle R1: the specific evidence behind the commercial classification, and why a clear position is not
+    counted for the top tiers (revision 4)."""
     evidence = "\n".join(
-        f"{e.get('date') or 'undated'}; {e['type']}; {e.get('grantee') or '-'} from {e.get('grantor') or '-'}; "
-        f"{e.get('territory') or 'territory not stated'}; {e['source']}; \"{(e.get('quote') or '')[:300]}\""
+        f"{evidence_label(e)}; {evidence_when(e)}; {e.get('type_words') or e['type']}; {evidence_parties(e)}; "
+        f"{e.get('territory') or 'territory not stated'}; {e['source']}; \"{evidence_quote(e, 1000)}\"; "
+        f"event {e.get('event_id')}"
         for e in txn.get("evidence", []))
     return [txn.get("rights_position", ""), txn.get("rights_holder_per_evidence") or "",
-            evidence or "no rights record", "yes" if txn.get("stale") else "",
-            "; ".join(txn.get("diligence_questions", []))]
+            txn.get("owner_per_evidence") or "", evidence or "no rights record", "yes" if txn.get("stale") else "",
+            "; ".join(txn.get("diligence_questions", [])),
+            "; ".join([*txn.get("top_tier_blockers", []),
+                       *(f"complete: {g}" for g in txn.get("rights_rows_not_applied", []))])]
+
+
+def _import_issue_rows(issues: dict[str, Any]) -> list[list[Any]]:
+    """Diligence rows for rights rows applied to no program, with what each names (review R1v3 E3-ids; R1v4 O-9,
+    R-lost). The program id column holds the id as written, so a row with an unmatched id can be found."""
+    rows: list[list[Any]] = []
+    for u in issues.get("unlinked_rows") or []:
+        question = (f"Rights row {u['row']} names program id '{u['program_id']}', which matches no landscape program "
+                    f"({unapplied_row_words(u)})")
+        near = u.get("near_programs") or []
+        limitation = ("Not applied to any program" + (f"; {', '.join(near)} kept out of the top two transaction tiers "
+                                                       "until it is resolved" if near else ""))
+        rows.append(["", "", "RIGHTS_ROW_NOT_ATTACHED", u["program_id"], question,
+                     "Correct the program id and re-import, or confirm the program is outside this landscape",
+                     f"{u['source']}; event {u['event_id']}", limitation, "OPEN", ""])
+    for u in issues.get("unattributed_rejected_rows") or []:
+        named = f"names program id '{u['program_id']}', which matches no program" if u.get("program_id") else (
+            "names no program")
+        question = (f"Rights row {u['row']} {named}, and was rejected at import ({'; '.join(u['reasons'])}): "
+                    f"{unapplied_row_words(u)}")
+        limitation = ("It may concern any program: no program is placed in the top two transaction tiers until it "
+                      "is corrected")
+        rows.append(["", "", "RIGHTS_ROW_REJECTED_NO_PROGRAM", u.get("program_id") or "", question,
+                     "Correct the row and re-import the rights file", f"rights row {u['row']}", limitation, "OPEN", ""])
+    return rows

@@ -17,7 +17,9 @@ or an analyst spreadsheet). DealScreen then:
    gate engine (`bve.se.gates.GateEngine`), with PASS / FAIL / UNKNOWN per requirement.
    Missing or conflicting evidence is UNKNOWN, never PASS or FAIL.
 3. **Keeps commercial rights separate.** U.S. rights are AVAILABLE only on an explicit
-   source statement; silence is UNKNOWN.
+   source statement; silence is UNKNOWN. An imported deals/rights export gives each program a
+   cited rights position in the buyer territory (licensed, optioned, shared, returned,
+   conflicting, ...) with diligence questions; absence of a deal is never availability.
 4. **Queues** unknowns, conflicts, shared codes and agent proposals for an analyst.
 5. **Records** analyst decisions in a hash-chained, append-only log. Finalists exist only
    through explicit, attributable approvals.
@@ -53,6 +55,10 @@ vendor CSV/XLSX ──► importer (mapping profile) ──► LandscapeAsset + 
 | `bve.dealscreen.facts` | Claims → `NormalizedFact`; unreadable → no fact; disagreement → contradicting claims |
 | `bve.dealscreen.screening` | Runs `GateEngine`, declared lexicographic preference ranking, funnel |
 | `bve.dealscreen.commercial` | Rights status, kept independent of science |
+| `bve.dealscreen.rights` / `rights_territory` | Deals/rights export import (profile, rejected rows, dates with precision); territory and party-name reading |
+| `bve.dealscreen.rights_ledger` / `rights_position` / `rights_model` / `rights_checks` / `rights_words` | Event replay per program; rights position; company, completeness and staleness checks; wording |
+| `bve.dealscreen.rights_gate` / `rights_reader` | The top-tier gate on both paths: every U.S.-rights statement and holder read, rights rows not applied guard the programs they may concern; the strict text reader |
+| `bve.dealscreen.transaction` | Buyer-declared transaction tiers (separate from science) |
 | `bve.dealscreen.review` | Decision log, approval rules (≤10 finalists, ≤3 valuations, EXCLUDED blocked) |
 | `bve.dealscreen.agent` | Diligence provider protocol: offline evidence library, public CT.gov |
 | `bve.dealscreen.valuation_handoff` | Readiness checklist, config writer, subprocess runner, output reader |
@@ -118,20 +124,105 @@ bve-dealscreen decide  --workspace $W --action RESOLVE_IDENTITY_FLAG --subject i
     --new-state SAME_MOLECULE --reviewer jdoe --rationale "RVT-1401 is the former code"
 ```
 
-Optional buyer-declared transaction preferences (a separate view; never changes a scientific gate,
-disposition or scientific rank, and never implies availability):
+Rights evidence and the transaction view (cycle R1). Rights come from a separate deals/rights export.
+They are never read from the landscape's sponsor, labeler or collaborator columns:
+
+```bash
+bve-dealscreen import-rights --workspace $W --rights deals.csv --profile rights_profile.yaml
+bve-dealscreen screen        --workspace $W      # re-screen to apply
+```
+
+The profile maps the vendor's columns to `deal_id`, `external_id`, `event_type`, `exclusivity`, `grantee`,
+`grantor`, `territory`, `event_date`, `status`, `related_deal_id`, `source_reference`, `evidence_quote` and
+`source_date`; `deal_id`, `external_id`, `event_type` and `source_reference` are required. It also maps the
+vendor's labels to canonical event types (`LICENSE`, `OPTION`, `OPTION_EXERCISED`, `OPTION_LAPSED`,
+`CO_DEVELOPMENT`, `CO_PROMOTION_OPTION`, `ACQUISITION`, `TERMINATION`, `RIGHTS_RETURNED`,
+`AVAILABILITY_STATED`), statuses and exclusivity. An unknown label rejects the row; it is never guessed.
+Every event keeps the file hash, row, URL, quote and dates, with their precision ("2024" is a year, not
+1 January). Example: `research/dealscreen_rights_v1/inputs/`.
+
+Per program and buyer territory, the events are replayed in date order into a rights position:
+
+| Position | Meaning |
+|---|---|
+| `CONFLICTING_EVIDENCE` | Records disagree: two exclusive holders, availability beside an active grant, an outcome that matches no grant, an outcome and grant the dates cannot order, or an option both exercised and lapsed |
+| `LICENSED_IN_TERRITORY_PER_EVIDENCE`, `OPTION_HELD_IN_TERRITORY_PER_EVIDENCE` | A third party holds a license or option over the territory. Every other grant over it is named too |
+| `RIGHTS_SHARED_IN_TERRITORY_PER_EVIDENCE` | Co-development, exercised co-promotion or non-exclusive rights; both partners named |
+| `GRANT_TERRITORY_UNSTATED` | An active grant whose territory text cannot be read with confidence (a possible encumbrance) |
+| `AVAILABILITY_STATED_BY_SOURCE_UNVERIFIED` | A dated, current source states availability or a partner search |
+| `RIGHTS_RETURNED_PER_EVIDENCE` | The grant ended per source, including a return or termination recorded without its grant (no territory written means the whole deal). Not availability |
+| `NOT_AVAILABLE_PER_SOURCE` | No rights record; the landscape or an analyst says the rights are not available. Treated like an encumbrance by `encumbered_rights` |
+| `OWNER_ACQUIRED_PER_EVIDENCE` | The owner was acquired; no third-party grant recorded |
+| `NOT_ENCUMBERED_IN_TERRITORY_PER_EVIDENCE` | Recorded grants cover other territories only. Not availability |
+| `NO_RIGHTS_EVIDENCE` | No record. The registry sponsor is shown only as a first contact, never as the owner |
+
+Optional buyer-declared preferences (a separate view; never changes a scientific gate, disposition or
+scientific rank):
 
 ```yaml
 transaction:
-  marketed: exclude            # exclude | deprioritize | ignore (U.S.-marketed per source)
-  deprioritized_holders: [Example Pharma Inc]   # whole-word match: cited holder first, else registry sponsor
-  encumbered_rights: deprioritize               # licensed or optioned per source
+  marketed: exclude                 # exclude | deprioritize | ignore (U.S.-marketed per source)
+  deprioritized_holders: [Example Pharma Inc]   # whole-word match on holders/owner per evidence, else the sponsor (flagged)
+  encumbered_rights: deprioritize   # a license or option over the territory per evidence
+  shared_rights: ignore             # co-development / co-promotion / non-exclusive
+  returned_rights: prefer           # prefer | neutral: sort returned rights first within their tier
+  territory: [US]                   # region codes (US, CA, EU, UK, JP, CN, HK, MO, TW, KR, ROW); anything else is refused
+  max_evidence_age_days: 730        # older evidence (before the buyer's as-of date) is flagged stale
 ```
 
-The memo and workbook then show a transaction tier (OPEN / DEPRIORITIZED / EXCLUDED_BY_BUYER_PREFERENCE)
-with reasons, and a transaction rank next to the scientific rank. OPEN means no declared obstacle was
-found, not that rights are available. Rights quotes may state returned rights or an option; neither is
-availability.
+Transaction tiers, in rank order: `AVAILABILITY_STATED_UNVERIFIED`, `NO_THIRD_PARTY_GRANT_IN_EVIDENCE`,
+`RIGHTS_UNRESOLVED`, `DEPRIORITIZED`, `EXCLUDED_BY_BUYER_PREFERENCE`. There is no `OPEN` tier, and no tier
+says rights are available. Only the four clear positions (returned, not encumbered, owner acquired,
+availability stated) can reach the first two tiers, and only when four checks pass on the records the position
+rests on and on everything else in the program's record (`transaction.top_tier_blockers` lists each failure as
+`check: detail`). The same gate (`rights_gate.reconcile`) runs whether the position comes from the rights file or
+from the landscape's and analysts' U.S.-rights fields, and anything it cannot read blocks:
+
+- **complete**: every outcome is attached to its grant and explained; no rights row for the program was rejected
+  at import; no rejected row names a program id that matches no program (such a row keeps every program out); no
+  row, applied or not, has a program id close to this program's ("AB 24" or "AB-024" beside "AB-24"; case, spaces,
+  punctuation and leading zeros ignored); an acquisition alone is not enough;
+- **specific**: the grants name licensor and licensee; an ending that names only the licensor is linked to its deal
+  by id; a return or termination recorded without its grant names both parties and a territory covering the
+  buyer's. The licensor the position rests on, the party that states availability and the recipient of a return
+  must be the program's company per the landscape, or a party linked to it by an acquisition in the rights file
+  (its acquirer, a company it acquired, or another company of the same acquirer); otherwise the question is "Does
+  X own this program, or hold it under a license from Y?";
+- **current**: each record has a date of its own (event date, else report date, read as the start of its period)
+  within `max_evidence_age_days` of the buyer's `as_of_date`; acquisitions and later reports never refresh it;
+  records and statements dated after the as-of date are not applied. When an availability statement decides the
+  position, every grant that ever covered the territory must have ended, by a dated record of its own, before the
+  statement;
+- **uncontested**: every landscape and analyst U.S.-rights statement and every named U.S. holder is read, not only
+  the one the field status came from. A contrary statement, or a holder who is neither the company nor the owner per
+  evidence, makes the position `CONFLICTING_EVIDENCE` and is cited. A holder written with a note ("Acme Bio (U.S.
+  rights licensed to …)") blocks, and the note is quoted. An analyst availability statement counts only with a
+  source date within the age limit, and is cited. A landscape "available" cell is never counted.
+
+Statements are read by a strict reader (`rights_reader`). The text is split into clauses (";", sentence ends,
+"but", "however", "whereas", "although"); each clause is an offer, a contest (not available, licensed, optioned,
+returned), consistent text, or not read. A statement reads as available only when every clause is read and one
+offers rights in a place that covers the U.S. Negations ("No U.S. rights available", "Available - no"), other
+places ("Available in Latin America"), hedges, future and questions ("May be available", "Available from 2027",
+"Available?") never read as available. An offer made by a named party other than the company blocks. `assert`
+prints how it read a U.S.-rights statement, so an analyst can reword one that is not read as meant.
+
+A failed check keeps the program in `RIGHTS_UNRESOLVED`, with "not counted for the top tiers: …" and a question
+naming what record would settle it. Program ids in the rights file match the landscape without regard to case or
+surrounding spaces. Rows that attach to no program, and rejected rows whose id matches no program, are listed with
+their type, date, parties and territory in the memo, the Diligence sheet (`RIGHTS_ROW_NOT_ATTACHED`,
+`RIGHTS_ROW_REJECTED_NO_PROGRAM`) and `screening.json` (`rights_import_issues`); each program they hold back lists
+them under `rights_rows_not_applied`. Party names are compared by company: corporate suffixes, business-line and
+country words ("Acme Pharma US, Inc.") and notes in parentheses are ignored, and so is an address written after the
+corporate form when each part of it is one word and the last is a country ("Acme Bio Co., Ltd., Lakeside, China");
+any other word ("Acme KGaA") makes a different company. The Screening sheet shows, per program: the position, the
+holder and owner per evidence, each cited event (rights row, date, type, parties, territory, URL, quote up to 1,000
+characters, event id), the stale flag, the blockers and the diligence questions. The memo shows the top ten in words,
+with up to three cited events each (rights row and quote) and their questions, and gives every other program with
+evidence its position, holder, newest evidence date, the first reason for the position, the first check that keeps
+it out of the top tiers, how many more reasons the workbook holds, and its rights rows. Its rights summary is
+computed: positions and tiers in words with counts, and how many programs have availability stated and how many of
+those pass every check.
 
 Valuation configs for `bve-dealscreen-value` put `discount_rate` under `asset:` and deal terms
 under `deal_economics:`; unknown top-level keys are refused rather than ignored.
@@ -290,6 +381,7 @@ bve-dealscreen research --workspace $W --provider offline:$E/evidence_library_pu
    review only what changed.
 2. **An indication-level negative-evidence contract and a reviewed synonym layer for vendor
    target and modality text.** Today these are the two largest sources of avoidable UNRESOLVED.
-3. **A rights and ownership evidence workflow.** Structured capture of license and option terms
-   from filings and press releases, with the analyst confirmation already built. U.S. rights
-   are the question BD most needs answered and the one the landscape data least often has.
+3. **A rights and ownership evidence workflow.** Cycle R1 added the import and the rights
+   ledger. What remains: a licensed deals export as the source (the R1 test file is a hand
+   transcription of 27 public quotes, so its recall is limited), analyst confirmation of
+   individual rights events, and a re-check when evidence turns stale.

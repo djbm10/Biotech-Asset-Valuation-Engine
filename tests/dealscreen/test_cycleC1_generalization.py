@@ -119,10 +119,14 @@ def test_x5_tiers_and_reasons():
     v = _view(company="BigPharma Inc (sponsor)")
     assert v.tier == "DEPRIORITIZED" and "not a rights statement" in v.reasons[0]
     v = _view(rights_holder="BigPharma Inc", company="Small Bio")
-    assert "per cited evidence" in v.reasons[0]
+    assert "per evidence 'BigPharma Inc'" in v.reasons[0]
     assert _view(rights_status=OPTION).tier == "DEPRIORITIZED"
     assert "returned" in " ".join(_view(rights_status=RETURNED).notes)
-    assert _view(rights_status=RETURNED).tier == "NO_OBSTACLE_IN_RIGHTS_EVIDENCE"  # not availability
+    # R1 revision 4 (review R1v3): a field reading "returned" names no parties, territory or date, so it is never
+    # counted for the top tiers; the failed check is named
+    returned = _view(rights_status=RETURNED)
+    assert returned.tier == "RIGHTS_UNRESOLVED" and returned.position == "RIGHTS_RETURNED_PER_EVIDENCE"
+    assert any(r.startswith("not counted for the top tiers: specific:") for r in returned.reasons)
 
 
 def test_x5_not_declared_changes_nothing():

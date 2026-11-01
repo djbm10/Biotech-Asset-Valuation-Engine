@@ -190,3 +190,98 @@ After the fixes:
 - Cycle 3's measurement still holds (8 holders, 0 AVAILABLE, 4/14/22) with the corrected label.
 
 **Self-criticism:** two of my own acceptance claims, P4 ("never null-by-default") and the R3 wording, were false or overstated until an independent context checked them. Every future cycle keeps this review step.
+
+## Cycle R1: rights-evidence ingestion and trustworthy transaction classification (2026-10-30)
+
+AI-simulated, internal development. Full record: `research/dealscreen_rights_v1/` (`ACCEPTANCE.md`, `REVIEW.md`,
+`REVIEW_RESPONSE.md`, `REREVIEW.md`, `REREVIEW_RESPONSE.md`, `REREVIEW2.md`, `REREVIEW2_RESPONSE.md`).
+
+**Problem (reproduced at 0ee7752).** Comparison cycle C1 found the transaction view called 50 of 62 CLDN18.2
+programs `OPEN` with no rights evidence at all. Takeda-licensed IBI343 (worldwide outside Greater China) was
+unresolved #1 and OPEN; Merck KGaA-optioned SHR-A1904 was transaction #3 and OPEN. "Deprioritized" came only from a
+registry-sponsor name match. Returned rights were invisible.
+
+**Criteria.** AC1–AC14, frozen before code in `ACCEPTANCE.md`; baseline in `baseline/`.
+
+**Change.**
+- A separate deals/rights export imports through its own profile (`rights.py`). Every event keeps the source
+  system, file hash, row, URL, quote and dates with their precision. Unknown labels and unreadable dates are
+  rejected rows, never guessed.
+- A per-program rights ledger (`rights_position.py`) replays the events in date order into a position in the
+  buyer territory: licensed, option held, shared, territory unreadable, conflicting, returned, owner acquired, not
+  encumbered, availability stated, or no rights evidence. Territory text is read conservatively
+  (`rights_territory.py`).
+- The transaction view (`transaction.py`) drops the `OPEN` tier. Only the four clear positions can reach the two
+  top tiers, and only with current, complete evidence. Scientific gates, dispositions and ranks are untouched.
+- Every classification shows its evidence (row, date, parties, territory, URL, quote, event id), its reasons and
+  its diligence questions in the JSON, the workbook and the memo.
+
+**Adversarial reviews (AI, separate contexts; not human validation).**
+
+| Round | Reviewed | Definite failures found | Outcome |
+|---|---|---|---|
+| 1 (`REVIEW.md`) | R1 | territory parsing (T1–T8), event order and matching (L1–L7), the sponsor used as owner, wrong holders | fixed in revision 2 |
+| 2 (`REREVIEW.md`) | revision 2 | 23, of which 12 were new paths into a top tier (undated or partial outcomes, unreadable or concluded availability statements, an unvalidated buyer territory, rejected rows and analyst encumbrances ignored) | fixed in revision 3; 52 held-out tests |
+| 3 (`REREVIEW2.md`) | revision 3 | 23 definite: 11 paths into a top tier (3 introduced by revision 3, 6 close variants of claimed fixes, 2 older), 3 false encumbrances, 9 label or wording errors; none in the CLDN18.2 output; AC14 FAIL | fixed in revision 4: tiers 0 and 1 became an allow-list (complete, specific, current, uncontested); 69 more held-out tests; the reviewer's flagged top-tier placements in its end-to-end workspaces 12 → 0 (implementer-measured) |
+| 4 (`REREVIEW3.md`) | revision 4 | 18 definite: 8 High (7 close variants of claimed fixes, 1 new: tier 0 or 1 while a third party may hold U.S. rights, or on contrary, undated or unattached evidence), 2 Medium (false encumbrances), 8 Low (wording); none in the CLDN18.2 output, but six High errors reached tier 0 or 1 end to end on copies of the CLDN18.2 workspace. Cause: the allow-list ran in full only on the "returned" path | fixed in revision 5: one fail-closed gate on every path (`REREVIEW3_RESPONSE.md`); 141 more held-out tests |
+| 5 (`REREVIEW4.md`) | revision 5 | pending at the time of the revision 5 commit | |
+
+**Measured result (CLDN18.2, against the frozen reference).**
+- False "unobstructed" (third-party U.S. rights shown OPEN or in a top tier): 4 definite plus zanidatamab at
+  baseline → 0 since R1.
+- IBI343 → licensed to Takeda, deprioritized. SHR-A1904 → option held by Merck KGaA, deprioritized, stale-flagged.
+  RC148, FL-301, XNW27011 → licensed per evidence. Givastomig → shared.
+- Not achieved: LM-302 stays conflicting (the library does not record that Bristol Myers Squibb succeeded Turning
+  Point), so AC13's "LM-302 returned" is not met. SKB315's return is missed (not in the library).
+- Usefulness against general Claude on the 15 deal programs: DealScreen 10 right / 4 partial / 1 missed; general
+  Claude 14 / 1 / 0. DealScreen is better on audit (every call cited, staleness explicit, no "no record" read as
+  "unencumbered"); general Claude is better on recall. No advantage is demonstrated.
+- Science: 0 of 62 CLDN18.2 scientific fields changed; 0 changes on synthetic, FcRn v1/v2 and C5 held-out
+  (pre-R1 vs revision 4, 312 assets); cycle-4 equivalence byte-identical on all four workspaces.
+- Revision 4 changed no CLDN18.2 tier or call; it changed the text of two excluded programs and added dates and
+  reasons to the memo's "also exists" line. Its gains are on held-out inputs only.
+
+**Self-criticism.** Revision 1 passed its own tests and still had 12 paths into a top tier that only an independent
+context found. Every rule that reads weak evidence (undated, unreadable, partial, concluded) must be written in the
+direction that cannot promote a program.
+
+**Revision 4 (2026-10-31).** Took the reviewer's single highest-value fix instead of patching cases one by one: a
+clear position reaches tier 0 or 1 only when no check names a blocker (`top_tier_blockers`, `check: detail`, shown
+with a question). Also: holder and analyst statements are reconciled with the rights file; program ids match without
+case; rows that attach to no program are listed in every output; a return recorded without its grant counts only
+when it returns the rights to the program's company; the event replay moved to `rights_ledger.py`; `bve.dealscreen`
+is mypy-clean. Revision 4 also found two problems of its own: a loose name match that would have absorbed a namesake's
+claim ("Acme" vs "Acme KGaA"), and a rule that held back "rights returned, now offered" (REREVIEW K3).
+
+**Self-criticism (revision 4).** Round 2 already asked for a promotion guard. Revision 3 built it as two flags,
+and round 3 found 11 new paths around them. The allow-list should have been built then. Revision 4 is
+implementer-measured only.
+
+**Revision 5 (2026-11-01).** Round 4 showed that revision 4's allow-list ran in full only where a return decided the
+position. Revision 5 makes it one fail-closed gate (`rights_gate.reconcile`) that runs on the rights-file path and the
+landscape/analyst field path alike and passes only what it can read:
+- grants that an availability statement clears must have ended, by a dated record of their own, before the
+  statement, and pass the same checks as on the returned path;
+- the licensor a clear position rests on, the party that states availability and the recipient of a return must be
+  the program's company per the landscape (or linked to it by a recorded acquisition); otherwise an ownership
+  question;
+- every landscape and analyst U.S.-rights statement and holder is read, by a strict clause reader
+  (`rights_reader.py`): a contrary statement or another holder makes the position conflicting; text it cannot read,
+  a holder's note, or an offer made by another party blocks; statements dated after the as-of date are not applied;
+- rights rows that were not applied guard the programs they may concern: a rejected row whose id matches no program
+  holds every program back, and a row whose id is close to a program's ("AB 24" beside "AB-24") holds that program;
+  each is listed with its parties in the JSON, workbook and memo.
+`screening.program_transaction` is now the single per-program path, so the held-out tests run production code.
+
+Measured by the implementer (`REREVIEW3_RESPONSE.md`): DealScreen tests 512 → 653 (141 held-out from round 4);
+every round-4 unsafe case is out of tiers 0 and 1; 22 of the 23 clean cases the reviewer expects in a top tier reach
+it (G17 is held back by the new company rule: a usefulness cost); the reviewer's flagged top-tier placements in its
+end-to-end workspaces 13 → 0. CLDN18.2: no tier, position, rank, holder or staleness changed; zolbetuximab's labeler
+note is now asked about; memo 1,609 → 1,701 words. Science: 0 of 62 CLDN18.2 fields; 0 changes on 312 assets across
+synthetic, FcRn v1/v2 and C5 held-out (pre-R1 0ee7752 vs revision 5); cycle-4 equivalence byte-identical on all four
+workspaces. Usefulness against general Claude unchanged (10 / 4 / 1 against 14 / 1 / 0).
+
+**Self-criticism (revision 5).** Revisions 2 to 4 added checks where a reviewer had found a failure, so each round
+found the same error entering by a path nobody had listed (a statement, a field, a holder's note, unread text, a row
+that was never applied). Revision 5 starts from the other end: what does a top-tier placement rest on, and is every
+part of it read? The cost is caution: near-namesakes and "Option available to partners" are held with a question.

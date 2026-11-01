@@ -10,6 +10,17 @@ import yaml
 
 from bve.dealscreen import VALIDATION_GRADE, VALIDATION_WARNING
 from bve.dealscreen.groups import distinct_count, identity_groups
+from bve.dealscreen.rights_reader import AVAILABLE, RIGHTS_STATUS_WORDS
+from bve.dealscreen.rights_words import (
+    FIELD_STATEMENT,
+    POSITION_WORDS,
+    evidence_label,
+    evidence_parties,
+    evidence_quote,
+    evidence_when,
+    unapplied_row_words,
+)
+from bve.dealscreen.transaction import STALE_NOTE, TIER_WORDS
 from bve.dealscreen.workspace import Workspace
 
 _REQ_LABEL = {
@@ -17,7 +28,23 @@ _REQ_LABEL = {
     "modality.required": "modality outside the allowed set",
     "biology.mechanism_direction": "mechanism unsuitable (e.g. agonist)",
     "strategy.therapeutic_area": "therapeutic area outside scope",
+    "strategy.indication": "indication outside scope",
     "evidence.phase_constraint": "below the minimum clinical phase",
+    "evidence.minimum_stage": "below the minimum development stage",
+    "evidence.human_poc": "human proof-of-concept requirement not met",
+    "evidence.evaluable_patients": "too few evaluable patients",
+}
+#: Gates in words for "lacks evidence" lists (review R1v4 O-13). A buyer-declared gate not listed keeps its id.
+_GATE_WORDS = {
+    "target.expression": "target",
+    "modality.required": "modality",
+    "biology.mechanism_direction": "mechanism direction",
+    "strategy.therapeutic_area": "therapeutic area",
+    "strategy.indication": "indication",
+    "evidence.phase_constraint": "clinical phase",
+    "evidence.minimum_stage": "development stage",
+    "evidence.human_poc": "human proof of concept",
+    "evidence.evaluable_patients": "evaluable patients",
 }
 
 
@@ -94,12 +121,7 @@ def build_memo(ws: Workspace) -> str:
         + ". Eligible means every hard gate passed on cited source claims (target "
         "expression, allowed modality, required biology, area, indication and phase). Unresolved means at least one gate lacks or has conflicting evidence.",
         "",
-        f"**Rights are a separate question.** Of the {funnel['eligible']} eligible programs, U.S. rights "
-        "status is: " + ", ".join(f"{k.replace('_', ' ').lower()} {v}" for k, v in sorted(rights.items()))
-        + f". A U.S. labeler or holder is named in a cited source for "
-        f"{sum(1 for s in eligible if s['commercial'].get('us_rights_holder'))} of them (an FDA labeler is "
-        "not the legal owner, and neither says whether rights are available). No program is shown as "
-        "available without an explicit statement.",
+        _rights_summary(funnel["eligible"], eligible, rights),
         "",
     ]
     groups = identity_groups(ws.flags(), log)
@@ -125,21 +147,24 @@ def build_memo(ws: Workspace) -> str:
     if declared:
         tiers = Counter(s["transaction"]["tier"] for s in declared)
         lines.append("**Transaction view (buyer-declared preferences; separate from science).** "
-                     + ", ".join(f"{k.replace('_', ' ').lower()} {v}" for k, v in sorted(tiers.items()))
+                     + ", ".join(f"{TIER_WORDS.get(k, k)} ({v})" for k, v in sorted(tiers.items()))
                      + ". No tier is a statement that rights are available; only a cited source can say "
                      "that, and it is still unverified:")
-        for s in sorted(declared, key=lambda s: s["transaction_rank"])[:10]:
-            t = s["transaction"]
-            why = "; ".join(t["reasons"] + t["notes"])
-            lines.append(f"- #{s['transaction_rank']} {s['program_name']}: {t['tier']}; rights position "
-                         f"{t.get('rights_position', 'n/a')} ({why})")
-            for e in t.get("evidence", [])[:3]:
-                lines.append(f"  - evidence: {e.get('date') or 'undated'} {e['type'].lower()}, "
-                             f"{e.get('grantee') or '-'} from {e.get('grantor') or '-'}, "
-                             f"{e.get('territory') or 'territory not stated'} <{e['source']}>")
-            if t.get("diligence_questions"):
-                lines.append(f"  - ask: {' '.join(t['diligence_questions'])}")
+        shown = sorted(declared, key=lambda s: s["transaction_rank"])[:10]
+        lines += [_transaction_line(s) for s in shown]
+        if any(_no_record(s["transaction"]) for s in shown):
+            lines.append("  (\"no rights record\": ask who holds rights in the buyer territory and whether any are "
+                         "licensed, optioned or shared; the registry sponsor is a first contact, not the owner.)")
+        listed = {s["asset_id"] for s in shown}
+        others = [s for s in screens.values() if s["asset_id"] not in listed
+                  and (s.get("transaction") or {}).get("evidence")]
+        if others:
+            lines.append(f"Rights evidence also exists for {len(others)} program(s) not listed above (see the "
+                         "workbook): " + "; ".join(_other_line(s) for s in sorted(others, key=_other_order)) + ".")
         lines.append("")
+    issues = _import_issue_lines(screening.get("rights_import_issues") or {}, tiers=bool(declared))
+    if issues:
+        lines += [*issues, ""]
     isoforms = sorted({r["observed"] + " → " + r["read_as"] for s in eligible for r in s.get("target_readings", [])})
     if isoforms:
         lines += [(f"**Target names read as genes.** {', '.join(isoforms)}: the target authority is gene-level, "
@@ -180,8 +205,7 @@ def build_memo(ws: Workspace) -> str:
         twin += (f"; **identity flag: may be the same molecule as {', '.join(twins)} (not merged; do not "
                  "count separately until reviewed)**") if twins else ""
         twin += _ACTIVITY_NOTE.get(s.get("activity", ""), "")
-        lines.append(f"- {s['program_name']} ({s['company']}): {stage_label(s)}"
-                     f"{flag}; U.S. rights {s['commercial']['display'].lower()}{twin}")
+        lines.append(f"- {s['program_name']} ({s['company']}): {stage_label(s)}{flag}; {_finalist_rights(s)}{twin}")
     lines.append("")
 
     lines.append("**Preliminary valuations** (BVE engine via CLI; hypothetical analyst inputs; $M rNPV):")
@@ -230,14 +254,18 @@ def build_memo(ws: Workspace) -> str:
         changed = [s for s in screens.values() if s.get("assertion_effects")]
         overturned = [s["program_name"] for s in screens.values()
                       if any(e["overturns_source_fail"] for e in s.get("assertion_effects", []))]
-        idle = [s["program_name"] for s in screens.values()
-                if s.get("analyst_assertions") and not s.get("assertion_effects")]
+        idle = [s for s in screens.values() if s.get("analyst_assertions") and not s.get("assertion_effects")]
+        # Rights-field assertions change no gate; they feed the transaction view (review R1v3, memo "no effect").
+        feeds = [s for s in idle if any(a["field"] in _RIGHTS_FIELDS for a in s["analyst_assertions"])]
+        quiet = [s["program_name"] for s in idle if s not in feeds]
         lines.append(
             f"**Analyst-entered facts.** {len(assertions)} cited assertion(s) by {', '.join(asserters)} "
-            f"reviewer(s) changed decisions for {len(changed)} program(s); {overrides} override a "
+            f"reviewer(s) changed gate decisions for {len(changed)} program(s); {overrides} override a "
             "different source value"
             + (f"; **source FAILs overturned: {', '.join(overturned)}**" if overturned else "")
-            + (f"; no effect on: {', '.join(idle)}" if idle else "")
+            + (f"; no effect on: {', '.join(quiet)}" if quiet else "")
+            + ("; rights assertions changed no gate but feed the transaction view for: "
+               + ", ".join(f"{s['program_name']} ({_tier_words(s)})" for s in feeds) if feeds else "")
             + ". Citations are in the Diligence sheet.")
         lines.append("")
     unresolved = [s for s in screens.values() if s["disposition"] == "UNRESOLVED"]
@@ -246,7 +274,7 @@ def build_memo(ws: Workspace) -> str:
         if (d["analyst_override"] or d["status"]) == "UNKNOWN"
     )
     rights_open = [screens[a]["program_name"] for a in finalists
-                   if screens[a]["commercial"]["us_rights_status"] != "AVAILABLE_ANALYST_CONFIRMED"]
+                   if (screens[a].get("transaction") or {}).get("rights_position") != _AVAILABILITY_POSITION]
     lines.append("**Investigate next.**")
     finding_state = log.state.findings
     pending = [f for f in ws.findings()
@@ -254,16 +282,25 @@ def build_memo(ws: Workspace) -> str:
     if pending:
         lines.append(f"- {len(pending)} cited fact(s) proposed by an AI assistant await human confirmation "
                      "(they change nothing until confirmed; re-check each quote at its URL).")
-    lines.append(f"- Confirm ownership and U.S. rights for {len(rights_open)} of {len(finalists)} listed "
-                 "programs (none is analyst-confirmed).")
+    if finalists:
+        lines.append(f"- Confirm ownership and U.S. rights for {len(rights_open)} of {len(finalists)} listed "
+                     f"programs ({len(finalists) - len(rights_open)} with availability stated).")
+    else:
+        lines.append("- Confirm ownership and rights in the buyer territory for any program you shortlist; the "
+                     "rights questions are in the workbook.")
+    conflicted = [s["program_name"] for s in eligible
+                  if (s.get("transaction") or {}).get("rights_position") == "CONFLICTING_EVIDENCE"]
+    if conflicted:
+        lines.append(f"- Resolve the conflicting rights evidence for {', '.join(conflicted)} (questions above).")
     for asset_id in finalists:
         unknown = [d["requirement_id"] for d in screens[asset_id]["decisions"]
                    if (d["analyst_override"] or d["status"]) == "UNKNOWN"]
         if unknown:
-            lines.append(f"- {screens[asset_id]['program_name']}: resolve {', '.join(unknown)}.")
+            lines.append(f"- {screens[asset_id]['program_name']}: resolve the "
+                         f"{', '.join(_GATE_WORDS.get(u, u) for u in unknown)} gate{'s' if len(unknown) > 1 else ''}.")
     if unresolved:
-        lines.append(f"- Work the {len(unresolved)}-program unresolved queue; open gates: "
-                     + ", ".join(f"{k} ({v})" for k, v in open_gates.most_common()) + ".")
+        lines.append(f"- Work the {len(unresolved)}-program unresolved queue; gates lacking evidence: "
+                     + ", ".join(f"{_GATE_WORDS.get(k, k)} ({v})" for k, v in open_gates.most_common()) + ".")
     lines.append("- Replace hypothetical market and deal inputs with owned, sourced assumptions.")
     return "\n".join(lines) + "\n"
 
@@ -283,3 +320,149 @@ def write_memo(ws: Workspace, path: str | Path) -> dict[str, Any]:
     except Exception as exc:  # noqa: BLE001 - docx is a convenience copy
         out["docx_error"] = str(exc)
     return out
+
+
+_GENERIC_REASONS = ("no rights or deal record", "availability not evidenced")
+#: Analyst-assertable fields that feed the transaction view, not a gate.
+_RIGHTS_FIELDS = frozenset({"us_rights", "us_rights_holder", "partnerships"})
+_AVAILABILITY_POSITION = "AVAILABILITY_STATED_BY_SOURCE_UNVERIFIED"
+
+
+def _tier_words(s: dict[str, Any]) -> str:
+    tier = (s.get("transaction") or {}).get("tier", "NOT_DECLARED")
+    return TIER_WORDS.get(tier, tier)
+
+
+def _import_issue_lines(issues: dict[str, Any], *, tiers: bool) -> list[str]:
+    """Rights rows applied to no program, with what each names (review R1v3 E3-ids; R1v4 O-9, R-lost): never only
+    on the import console. ``tiers``: transaction preferences are declared, so the guard on the top tiers applies."""
+    out: list[str] = []
+    unlinked = issues.get("unlinked_rows") or []
+    if unlinked:
+        near = any(u.get("near_programs") for u in unlinked)
+        out.append(f"**Rights rows attached to no program.** {len(unlinked)} accepted row(s) name a program id that "
+                   "matches no landscape program: "
+                   + "; ".join(f"row {u['row']} ({unapplied_row_words(u)})" for u in unlinked[:5])
+                   + ("; and more in the workbook" if len(unlinked) > 5 else "")
+                   + ". Correct the id, or confirm the program is outside this landscape"
+                   + ("; a program whose id is close is kept out of the top two transaction tiers until then"
+                      if near and tiers else "") + ".")
+    rejected = issues.get("unattributed_rejected_rows") or []
+    if rejected:
+        out.append(f"**Rejected rights rows not attached to any program.** {len(rejected)} row(s): "
+                   + "; ".join(f"row {u['row']} ({unapplied_row_words(u)}; rejected: {'; '.join(u['reasons'])})"
+                               for u in rejected[:5])
+                   + ("; and more in the workbook" if len(rejected) > 5 else "")
+                   + ". Any program may be affected"
+                   + (", so no program is placed in the top two transaction tiers until they are corrected and "
+                      "re-imported." if tiers else "; correct them and re-import the rights file."))
+    return out
+
+
+def _no_record(t: dict[str, Any]) -> bool:
+    return t.get("rights_position") == "NO_RIGHTS_EVIDENCE" and not t.get("evidence")
+
+
+_MEMO_EVIDENCE = 3  # evidence rows shown per program; the workbook has all of them
+_MEMO_QUOTE = 200  # characters of each quote shown; the workbook shows up to 1,000
+
+
+def _position_words(t: dict[str, Any]) -> str:
+    code = t.get("rights_position") or "NO_RIGHTS_EVIDENCE"
+    return POSITION_WORDS.get(code, code.replace("_", " ").lower()) + (" (stale evidence)" if t.get("stale") else "")
+
+
+def _evidence_line(e: dict[str, Any]) -> str:
+    quote = evidence_quote(e, _MEMO_QUOTE)
+    return (f"  - evidence ({evidence_label(e)}): {evidence_when(e)} {e.get('type_words') or e['type'].lower()}, "
+            f"{evidence_parties(e)}, {e.get('territory') or 'territory not stated'} <{e['source']}>"
+            + (f' "{quote}"' if quote else ""))
+
+
+def _transaction_line(s: dict[str, Any]) -> str:
+    """One ranked program in the transaction view: tier, position, why, evidence (with row and quote) and what
+    to ask. Tiers and positions are in words; the codes are in the workbook."""
+    t = s["transaction"]
+    head = f"- #{s['transaction_rank']} {s['program_name']}: {TIER_WORDS.get(t['tier'], t['tier'])}"
+    if _no_record(t):
+        why = [r for r in t["reasons"] + t["notes"] if not r.startswith(_GENERIC_REASONS)]
+        return (f"{head}; no rights record" + (f" ({'; '.join(why)})" if why else "")
+                + f"; first contact: registry sponsor '{s['company']}'")
+    why = [x for x in t["reasons"] + t["notes"] if x != STALE_NOTE]  # the position words already say "stale"
+    out = [f"{head}; rights position: {_position_words(t)} ({'; '.join(why)})"]
+    evidence = t.get("evidence", [])
+    out += [_evidence_line(e) for e in evidence[:_MEMO_EVIDENCE]]
+    if len(evidence) > _MEMO_EVIDENCE:
+        out.append(f"  - and {len(evidence) - _MEMO_EVIDENCE} more evidence row(s) in the workbook")
+    if t.get("diligence_questions"):
+        out.append(f"  - ask: {' '.join(t['diligence_questions'])}")
+    return "\n".join(out)
+
+
+def _other_order(s: dict[str, Any]) -> tuple[int, int, str]:
+    order = {"ELIGIBLE": 0, "UNRESOLVED": 1}.get(s["disposition"], 2)
+    return order, s.get("transaction_rank") or 10**6, s["program_name"]
+
+
+def _finalist_rights(s: dict[str, Any]) -> str:
+    """A finalist's rights in a few words: the position from the rights file when it has rows for the program, else
+    the landscape field as read. A field that says "unknown" never hides a recorded third-party grant."""
+    t = s.get("transaction") or {}
+    if any(e.get("type") != FIELD_STATEMENT for e in t.get("evidence", [])):
+        return f"rights position: {_position_words(t)}"
+    return f"U.S. rights {s['commercial']['display'].lower()}"
+
+
+def _other_line(s: dict[str, Any]) -> str:
+    """A program with rights evidence outside the top ten: position, holder, newest dated evidence, the first
+    reason for the position (not a buyer-preference match), the first check that keeps it out of the top tiers, how
+    many more reasons the workbook holds, and where the evidence is (review R1v3 AC10, R1v4 O-11)."""
+    t = s["transaction"]
+    where = (f"eligible, transaction #{s['transaction_rank']}" if s["disposition"] == "ELIGIBLE"
+             and s.get("transaction_rank") else s["disposition"].lower())
+    holder = t.get("rights_holder_per_evidence")
+    evidence = t.get("evidence", [])
+    rows = ", ".join(str(e.get("row")) for e in evidence if e.get("type") != FIELD_STATEMENT)
+    fields = sorted({evidence_label(e) for e in evidence if e.get("type") == FIELD_STATEMENT})
+    dates = [str(e.get("date") or e.get("source_date")) for e in evidence if e.get("date") or e.get("source_date")]
+    reasons = [r for r in (t.get("position_reasons") or t.get("reasons", [])) if not r.startswith(_GENERIC_REASONS)]
+    blockers = list(t.get("top_tier_blockers") or [])
+    why = reasons[:1] + [f"not counted for the top tiers: {b}" for b in blockers[:1]]
+    more = len(reasons) + len(blockers) - len(why)
+    return (f"{s['program_name']} ({where}): {_position_words(t)}" + (f", {holder}" if holder else "")
+            + (f", newest evidence {max(dates)}" if dates else ", no dated evidence")
+            + (f" ({'; '.join(why)})" if why else "")
+            + (f" (and {more} more reason(s) in the workbook)" if more else "")
+            + (f" [rights rows {rows}]" if rows else "") + (f" [{', '.join(fields)}]" if fields else ""))
+
+
+def _rights_summary(n_eligible: int, eligible: list[dict[str, Any]], rights: Counter[str]) -> str:
+    """Cycle R1: summarise rights from the cited evidence when there is any, else from the landscape field. Every
+    sentence is computed: the availability sentence counts the programs it describes (review R1v4 O-8, O-13)."""
+    txns = [s.get("transaction") or {} for s in eligible]
+    positions = Counter(t.get("rights_position", "NO_RIGHTS_EVIDENCE") for t in txns)
+    holders = sum(1 for s, t in zip(eligible, txns, strict=True)
+                  if t.get("rights_holder_per_evidence") or s["commercial"].get("us_rights_holder"))
+    if any(t.get("evidence") for t in txns):
+        body = ("the rights position in the buyer territory per cited evidence is: "
+                + ", ".join(f"{POSITION_WORDS.get(k, k)} ({v})" for k, v in sorted(positions.items())))
+    else:
+        body = "the landscape U.S.-rights field reads: " + ", ".join(
+            f"{RIGHTS_STATUS_WORDS.get(k, k)} ({v})" for k, v in sorted(rights.items()))
+    held = (f" A holder or labeler is named in cited evidence for {holders} (an FDA labeler is not the owner, and "
+            "neither says whether rights are available)." if holders else "")
+    available = [t for t in txns if t.get("rights_position") == _AVAILABILITY_POSITION]
+    checked = [t for t in available
+               if not (t.get("top_tier_blockers") or t.get("stale") or t.get("rights_rows_not_applied"))]
+    if available:
+        stated = (f" A source states availability for {len(available)} (read by rule, unverified); {len(checked)} "
+                  "pass every rights check (a recent dated statement, attributed to the program's company or to no "
+                  "other party, contradicted by no other cited evidence and by no rights row left unapplied)"
+                  + (f" and {len(available) - len(checked)} fail one (see the workbook)"
+                     if len(checked) < len(available) else "") + ".")
+    elif rights.get(AVAILABLE):
+        stated = (" None reaches the availability position: a vendor field reading \"available\" is unverified and "
+                  "not counted.")
+    else:
+        stated = " None reaches the availability position."
+    return f"**Rights are a separate question.** Of the {n_eligible} eligible programs, {body}.{held}{stated}"

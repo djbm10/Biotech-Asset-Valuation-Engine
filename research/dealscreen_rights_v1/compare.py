@@ -3,9 +3,10 @@ python compare.py BASELINE.json AFTER.json OUT.csv"""
 import csv
 import json
 import sys
+from pathlib import Path
 
-base = {s["asset_id"]: s for s in json.load(open(sys.argv[1]))["screens"]}
-after = {s["asset_id"]: s for s in json.load(open(sys.argv[2]))["screens"]}
+base = {s["asset_id"]: s for s in json.loads(Path(sys.argv[1]).read_text())["screens"]}
+after = {s["asset_id"]: s for s in json.loads(Path(sys.argv[2]).read_text())["screens"]}
 sci = ("disposition", "rank", "decisions", "machine_recommendation")
 changed = [a for a in base if any(base[a][k] != after[a][k] for k in sci)]
 print(f"AC8 scientific fields changed: {len(changed)} of {len(base)}")

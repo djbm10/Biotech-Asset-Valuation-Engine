@@ -285,6 +285,11 @@ class Workspace:
         imported = self.rights_import()
         return None if imported is None else imported.events
 
+    def rights_rejected(self) -> list[dict[str, Any]]:
+        """Rights rows refused at import; screening tells their program the evidence is incomplete."""
+        imported = self.rights_import()
+        return [] if imported is None else [dict(r) for r in imported.rejected]
+
     def decision_log(self) -> DecisionLog:
         return DecisionLog(self.decisions_path)
 
@@ -312,6 +317,7 @@ class Workspace:
         result = screen_landscape(
             self.assets(), spec, FactBuilder(self.profile(), target_normalizer, self._requested_isoforms()),
             review=review, identity_flags=self.flags(), rights_events=self.rights_events(),
+            rights_rejected=self.rights_rejected(),
         )
         _dump(self.root / "screening.json", result.to_dict())
         return result
