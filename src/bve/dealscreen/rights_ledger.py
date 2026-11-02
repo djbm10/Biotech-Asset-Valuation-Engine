@@ -116,14 +116,22 @@ class _Ledger:
         self.after_as_of = [e for e in events if as_of and e.window and e.window[0] > as_of]
         #: An ending or acquisition dated only to a year or month that contains the as-of date may come after it,
         #: so it is not applied either, and it blocks (review R1v7 DATE).
-        self.straddling = [e for e in events if as_of and e.event_type in _CLEARS and e.window
-                           and e.window[0] <= as_of < e.window[1]]
+        #: An availability statement so dated may also have been made after it (review R1v8 DATE-AV).
+        self.straddling = [e for e in events if as_of and e.event_type in _CLEARS | {AVAILABILITY_STATED}
+                           and e.window and e.window[0] <= as_of < e.window[1]]
+        #: A grant dated after the as-of date but reported in a source dated before it was known then: an agreed
+        #: grant that takes effect later. It is not applied as a grant, and it blocks (review R1v8 FUT).
+        self.announced = [e for e in self.after_as_of if as_of and e.event_type in _GRANT_TYPES and e.source_date
+                          and period_end(e.source_date, e.source_date_precision) <= as_of]
         later = {e.event_id for e in self.after_as_of + self.straddling}
         self.events = [e for e in events if e.event_id not in later]
         #: Why a clear position may not reach the top tiers ("check: detail"), see the module docstring.
         self.blockers: list[str] = [
             f"current: the {e.words} ({e.when}) is dated only to a period that contains the as-of date {as_of}, so "
             "it may come after it; it is not applied" for e in self.straddling]
+        self.blockers += [
+            f"current: the {e.words} ({e.when}) was reported before the as-of date {as_of} and takes effect after it, "
+            "so it had been agreed by then; it is not applied as a grant before it takes effect" for e in self.announced]
         #: The records a clear position rests on; the current check is judged on their own dates.
         self.deciding: list[RightsEvent] = []
         self.grants: list[_Grant] = []

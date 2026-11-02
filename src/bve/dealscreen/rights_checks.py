@@ -94,6 +94,12 @@ def _explain_leftovers(ledger: _Ledger, pos: RightsPosition, used: list[RightsEv
         pos.questions.append("On what day did " + "; ".join(_what(e) for e in ledger.straddling)
                              + f" take effect: before or after {ledger.as_of.isoformat()}?")
         used += ledger.straddling
+    if ledger.announced:  # review R1v8 FUT: agreed before the as-of date, effective after it
+        assert ledger.as_of is not None
+        pos.reasons.append(f"reported before the as-of date {ledger.as_of.isoformat()} but effective after it: "
+                           + "; ".join(_what(e) for e in ledger.announced))
+        pos.questions.append("Which rights in the buyer territory does " + "; ".join(_what(e) for e in ledger.announced)
+                             + f" grant, and from when? It was reported before {ledger.as_of.isoformat()}.")
     used += ledger.unapplied
     pos.reasons += ledger.notes
     pos.questions += ledger.questions

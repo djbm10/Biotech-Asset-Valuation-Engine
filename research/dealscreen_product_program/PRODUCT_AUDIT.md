@@ -116,6 +116,17 @@ were unread; offers were not compared with a non-U.S. buyer territory; year- or 
 start of the period. Revision 8 closes each. Implementer-measured: the reviewer's 6 end-to-end top-tier placements
 → 0; no CLDN18.2 field changed. The verdict above is unchanged, and revision 8 has not been reviewed.
 
+**Addendum (2026-11-02, revision 9).** Round 8 (`REREVIEW7.md`) found 6 High errors in revision 8:
+- party names in capitals or with condition words passed;
+- covering endings were accepted unread;
+- quote clauses naming a third party with no place passed;
+- future-effective grants that were already announced were dropped;
+- availability statements dated only to the as-of period counted.
+
+Revision 9 reads every cited quote with one party rule and closes each. Implementer-measured: the reviewer's 7
+end-to-end top-tier placements → 0; no CLDN18.2 field changed. The verdict above is unchanged, and revision 9 has
+not been reviewed.
+
 ### Updated largest obstacles
 
 1. Rights/availability still depends on evidence the tool does not hold (import vendor deal fields).

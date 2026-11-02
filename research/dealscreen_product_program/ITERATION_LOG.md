@@ -227,7 +227,8 @@ registry-sponsor name match. Returned rights were invisible.
 | 5 (`REREVIEW4.md`) | revision 5 | 19 definite: 11 High (paths into tier 0 or 1: dates read as codes, another party's offer, U.S. grants erased as party names, returns to a third party, Partnerships and Geographic Notes unread, notes in party and company names, status-flag endings, undated acquisitions, the field path and the gate ignoring the buyer territory), 4 Medium (false conflict or encumbrance), 4 Low (wording); none in the CLDN18.2 output; 18 flagged top-tier placements end to end on copies of the CLDN18.2 workspace. Cause: the gate passed what its reader marked as understood | fixed in revision 6: the gate's default inverted (plain forms only, `REREVIEW4_RESPONSE.md`); 90 more held-out tests |
 | 6 (`REREVIEW5.md`) | revision 6 | 14 definite: 6 High (the plain forms accepted texts that fit their words and meant the opposite: "U.S." hidden by lower-casing in party spans, pronouns and "the owner" counted as the company, notes inside the text dropped, "other places" fixed as non-U.S. for every buyer; ownership words and rights rows' quotes unread), 2 Medium (a {US, CA} buyer lost the U.S.-rights field; "or" not read), 6 Low; none in the CLDN18.2 output; end to end, test inputs took tier 0 and 1 places (ws_e #1–#7, ws_f #1–#5). Cause: the plain forms overrode the reader and read on lower-cased text in U.S. terms | fixed in revision 7 (`REREVIEW5_RESPONSE.md`); 72 more held-out tests |
 | 7 (`REREVIEW6.md`) | revision 7 | 7 definite: 5 High (the "other places" party span took any words, so "… and in the Americas to X", "for ROW", "elsewhere" passed; a quote's prefix before a colon was dropped as a speaker; options and "worldwide" in quotes unread; an offer's place not compared with a non-U.S. buyer; ending dates compared by the start of a year or month), 2 Low; none in the CLDN18.2 output; end to end, test inputs took #1–#6 in the top tiers (ws_g) | fixed in revision 8 (`REREVIEW6_RESPONSE.md`); 60 more held-out tests |
-| 8 | revision 8 | not yet reviewed | |
+| 8 (`REREVIEW7.md`) | revision 8 | 9 definite: 6 High (party names in capitals or with condition words passed; a covering ending, lapse or acquisition was accepted without reading its quote; quote clauses naming a third party with no place, or wider words not on the list, passed; a grant reported before the as-of date but effective after it was dropped; availability statements dated only to the as-of year or month counted), 3 Low; none in the CLDN18.2 output; end to end, test inputs took #1–#6 and RC118 in the top tiers (ws_h) | fixed in revision 9 (`REREVIEW7_RESPONSE.md`); 79 more held-out tests |
+| 9 | revision 9 | not yet reviewed | |
 
 **Measured result (CLDN18.2, against the frozen reference).**
 - False "unobstructed" (third-party U.S. rights shown OPEN or in a top tier): 4 definite plus zanidatamab at
@@ -345,6 +346,25 @@ changes; equivalence byte-identical; usefulness against general Claude unchanged
 **Self-criticism (revision 8).** Revision 7 tightened the half of each form that earlier reviews had attacked and left
 the other half open. Each part of an allow-list entry needs the same strictness: what it does not recognise, it
 must refuse.
+
+**Revision 9 (2026-11-02).** Answers `REREVIEW7.md`. Every cited row's quote is now read, whatever the row's own
+territory. A clause that names a company other than the row's parties and the program's company blocks, and so does
+an ending made partial or conditional. A capitalised name before "rights" that the territory reader cannot read also
+blocks. Party names may not hold joining, place or condition words in any letter case. A grant reported before the
+as-of date but effective after it blocks. Availability statements dated only to a period containing the as-of date
+are not applied. The quote's wider-word list was narrowed so that ordinary press words pass.
+
+Measured by the implementer (`REREVIEW7_RESPONSE.md`):
+- DealScreen tests 1,099 → 1,178.
+- The reviewer's end-to-end top-tier placements 7 → 0. TORL-2-307-ADC moves up as the intended usefulness fix.
+- CLDN18.2 identical to revision 8: 0 of 62 science fields and 0 of 62 transaction views changed.
+- Cross-version 0 of 312 changed; equivalence byte-identical.
+- 1 of 17 real CLDN18.2 quotes blocks under the new rule.
+- Usefulness against general Claude unchanged (10 / 4 / 1 against 14 / 1 / 0).
+
+**Self-criticism (revision 9).** The `territory <= own` shortcut was stated as a rule in revision 8 without asking
+which row types it was true for. It was true for grants only. A shortcut that skips reading evidence needs the same
+per-type check as any other rule.
 
 ## Cycle U1: a concrete next action for every tool UNKNOWN (2026-10-30 to 2026-11-01)
 

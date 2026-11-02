@@ -31,7 +31,12 @@ import re
 from datetime import date
 
 from bve.dealscreen.rights_reader import _NEGATED_GRANT, _NO_GRANT, _PLACEHOLDER, _TRIVIAL, _clauses
-from bve.dealscreen.rights_territory import _is_region, regions_named, same_company
+from bve.dealscreen.rights_territory import (
+    GENERIC_NAME_WORDS,
+    _is_region,
+    regions_named,
+    same_company,
+)
 
 #: Places after "ex-", "outside" or "excluding" ("Ex-China rights") become one token, kept only for a place the
 #: territory reader knows that is not the U.S.
@@ -72,8 +77,11 @@ _RIGHTS = r"(?:(?:the\s+)?(?:(?:us|global|worldwide|all|commercial|full|exregion
 _RETURNED = re.compile(rf"^{_RIGHTS}\s+(?:were\s+|have\s+been\s+|has\s+been\s+)?(?:returned|reverted)\s+to\s+"
                        rf"(?P<who>.+?){_YEAR}$")
 _REGAINED = re.compile(rf"^(?P<who>.+?)\s+(?:regained|reacquired)\s+{_RIGHTS}{_YEAR}$")
+#: Places the company may keep rights in: the U.S., the rest of the world, or both (review R1v8 usefulness).
+_KEPT_PLACE = r"(?:the\s+)?(?:us|u\.s\.?|united states|rest of (?:the )?world|row|exregion)"
+_KEPT_PLACES = rf"{_KEPT_PLACE}(?:\s*(?:,|and|,\s*and)\s*{_KEPT_PLACE})*"
 _RETAINS = re.compile(rf"^(?P<who>.+?)\s+(?:retains?|ha(?:s|ve) retained|holds?|owns?|keeps?)\s+(?:all\s+|full\s+|the\s+)?"
-                      rf"{_RIGHTS}(?:\s+(?:to the (?:program|asset)|in the us|for the us|exregion))?$")
+                      rf"{_RIGHTS}(?:\s+(?:to the (?:program|asset)|exregion|(?:in|for)\s+{_KEPT_PLACES}))?$")
 _RETAINED = re.compile(rf"^(?:{_RIGHTS}\s+(?:are\s+|is\s+)?)?retained(?:\s+by\s+(?P<who>.+))?$")
 _OWNED = re.compile(r"^(?:(?:wholly|fully)\s+)?owned(?:\s+by\s+(?P<who>.+))?$")
 #: A grant over named places other than the U.S., to a named party or none: "licensed in China only", "exclusive
@@ -90,19 +98,37 @@ _OTHER_PLACES = (
 #: A party written as a name and nothing else: capitalised words, digits and corporate punctuation ("Chinaco
 #: Pharma", "Acme Bio Co., Ltd."). A lower-case word, a dash or a second "to"/"in" is more text, which may name
 #: another place or party ("... and in the Americas to X", "... - X has the rest"), so it is not a name.
-_NAME_TOKEN = r"[A-Z0-9][A-Za-z0-9.&'’]*(?:-[A-Za-z0-9.&'’]+)*,?"
-_PARTY_NAME = re.compile(rf"{_NAME_TOKEN}(?:\s+{_NAME_TOKEN})*")
+_NAME_TOKEN = (r"(?:[A-Z0-9][A-Za-z0-9.&'’]*(?:-[A-Za-z0-9.&'’]+)*|(?:plc|ltd|inc|gmbh|llc|co|sa|ag|bv|nv|spa|srl|kk)"
+               r"\.?),?")
+#: "&" may join two name words ("L & M Bio"); the word "and" may not (review R1v8 usefulness).
+_PARTY_NAME = re.compile(rf"{_NAME_TOKEN}(?:\s+(?:&\s+)?{_NAME_TOKEN})*")
 #: Capitalised words that name a place the territory reader does not know, inside what looks like a name.
 _PLACE_WORD = re.compile(r"\b(?:americas?|american|europe(?:an)?|asian?|africa(?:n)?|pacific|world|worldwide|global|"
                          r"row|international|latam|apac|emea|nordics?|oceania|australia|states)\b", re.IGNORECASE)
+
+
+#: Words that join, place or condition a clause, read in any letter case: inside a party span they mean more text
+#: ("AND ELSEWHERE TO X", "And In California To X", "X Has ROFN", "Subject To X Approval"; review R1v8 PN-CASE,
+#: PN-WORD). A name containing one ("Kappa and Kappa") is refused too: an over-caution cost.
+_NOT_IN_NAME = frozenset({
+    "and", "or", "in", "to", "the", "for", "with", "by", "from", "at", "on", "into", "under", "via", "has", "have",
+    "had", "holds", "hold", "held", "gets", "got", "keeps", "retains", "owns", "is", "are", "was", "were", "be",
+    "rest", "remaining", "other", "others", "elsewhere", "stateside", "abroad", "overseas", "territory",
+    "territories", "region", "regions", "market", "markets", "country", "countries", "rofn", "rofr", "rofo", "first",
+    "look", "opt", "opt-in", "option", "options", "right", "rights", "negotiation", "refusal", "subject", "pending",
+    "consent", "approval", "approve", "until", "unless", "except", "excluding", "but", "after", "before", "if",
+    "only"})
 
 
 def _party_ok(party: str | None) -> bool:
     name = re.sub(r"\s+only$", "", (party or "").strip(" ,"), flags=re.IGNORECASE)
     if not name:
         return True
+    words = {w.strip(".,'’").casefold() for w in name.split()}
+    if "&" in name and {w.strip(".,'’").casefold() for w in name.split("&", 1)[0].split()} & GENERIC_NAME_WORDS:
+        return False  # "&" after a company word joins two companies ("Chinaco Pharma & Tessaly Pharma")
     return (bool(_PARTY_NAME.fullmatch(name)) and not regions_named(name) and not _PLACE_WORD.search(name)
-            and not _RIGHTS_TEXT.search(name))
+            and not _RIGHTS_TEXT.search(name) and not words & _NOT_IN_NAME)
 
 
 def _is_company(who: str | None, company: str | None, alone: bool = True) -> bool:

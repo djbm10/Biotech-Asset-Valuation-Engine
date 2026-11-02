@@ -541,9 +541,12 @@ def _decide(ledger: _Ledger, territory: frozenset[str], used: list[RightsEvent])
         if not owner:
             ledger.blockers.append(f"specific: who holds the {terr} rights now is not established")
         licensor = f" (licensor per evidence: {owner})" if owner else " (owner not established)"
+        # A grant reported before the as-of date but effective after it is not "another territory" (review R1v8
+        # Q-FUT): the question says only what the deals in force show.
+        scope = "Recorded deals in force on the as-of date" if ledger.announced else "Recorded deals"
         return RightsPosition(P_NOT_ENCUMBERED, holder=None, holders=[], reasons=[
             f"recorded grants do not cover {terr}; this is not a statement of availability"],
-            questions=[f"Who holds {terr} rights? Recorded deals cover other territories only{licensor}."])
+            questions=[f"Who holds {terr} rights? {scope} cover other territories only{licensor}."])
     if (returned_only := _return_only(ledger, territory, terr, used)) is not None:
         return returned_only
     recorded = "; ".join(_what(e) for e in ledger.unmatched)

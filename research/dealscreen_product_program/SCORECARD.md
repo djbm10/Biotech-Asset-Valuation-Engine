@@ -131,6 +131,14 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 9 (AI-SIMULATED; 2026-11-02):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | Every cited quote is read, whatever the row's territory. Another company named in a clause blocks, as do a partial or conditional ending and an unknown place before "rights". Party names are checked in any letter case. Grants reported before the as-of date but effective after it block, and so do availability statements dated only to the as-of period. Ordinary press words in quotes no longer block | 79 more held-out tests (1,178 in all); round-8 reviewer's end-to-end top-tier placements 7 → 0 (implementer-measured); CLDN18.2 calls unchanged; 1 of 17 real quotes blocks | PARTIAL (recall capped by the imported file; no real vendor export; revision 9 not reviewed) |
+
+Gates H, B and I are unchanged.
+
 **After cycle U1 revision 3 (AI-SIMULATED; 2026-11-01):**
 
 | # | Dimension | Change | Evidence | Status |
