@@ -35,11 +35,7 @@ from datetime import date
 from typing import Any
 
 from bve.dealscreen.rights import (
-    ACQUISITION,
     AVAILABILITY_STATED,
-    OPTION_LAPSED,
-    RIGHTS_RETURNED,
-    TERMINATION,
     RightsEvent,
 )
 from bve.dealscreen.rights_allow import is_rights_text, plain_form
@@ -50,20 +46,17 @@ from bve.dealscreen.rights_position import (
     SHARED_POSITIONS,
     RightsPosition,
 )
+from bve.dealscreen.rights_quote import quote_problem
 from bve.dealscreen.rights_reader import (
     AVAILABLE,
     AVAILABLE_CONFIRMED,
     CONTESTS,
     RIGHTS_STATUS_WORDS,
     UNKNOWN,
-    _clauses,
 )
 from bve.dealscreen.rights_reader import rights_reading as _rights_reading
 from bve.dealscreen.rights_territory import (
-    GENERIC_NAME_WORDS,
     content_note,
-    name_matches,
-    parse_territory,
     regions_named,
     same_company,
     split_note,
@@ -243,45 +236,6 @@ _WIDER = re.compile(r"\b(?:worldwide|world-wide|rest of (?:the )?world|all (?:ot
                     r"\boptions?\s+(?:to|on|for|over)\b(?=[^;.]{0,60}?\b(?:rights?|licen[cs]\w*|territor\w*|acqui\w*|"
                     r"negotiat\w*|commerciali\w*|programs?|assets?|markets?|countr\w*|regions?)\b)|(?-i:\bROW\b)",
                     re.IGNORECASE)
-#: A capitalised name just before "rights" ("Puerto Rico rights", "Ontario rights"): if the territory reader cannot
-#: read it as a place, the quote names a place DealScreen does not know (review R1v8 QW2).
-_NAMED_RIGHTS = re.compile(r"((?:[A-Z][\w.\-]*\s+)*[A-Z][\w.\-]*)\s+(?:(?:commercial|development|marketing|"
-                           r"co-promotion|sales)\s+)?rights\b")
-_RIGHTS_ADJECTIVES = frozenset({"exclusive", "commercial", "development", "full", "all", "remaining", "global",
-                                "worldwide", "co-promotion", "marketing", "sales"})
-#: Words in the quote of a row that ends or transfers rights that mean the ending is partial, conditional or not yet
-#: in effect, or that the rights went on to someone ("except U.S. co-promotion rights, which X keeps", "effective
-#: only after a transition", "re-licensed to X", "remain licensed"; review R1v8 COVER).
-_HEDGE = re.compile(r"\b(?:except|excluding|other than|save for|but|until|after|transition\w*|continu\w*|keeps?|kept|"
-                    r"retains?|retained|remains?|remained|re-?licen\w*|only|partial(?:ly)?|pending|subject to|"
-                    r"condition\w*|option\w*|sold|sells?|transferr?\w*|assign\w*)\b", re.IGNORECASE)
-_ENDS = frozenset({TERMINATION, RIGHTS_RETURNED, OPTION_LAPSED, ACQUISITION})
-#: A run of capitalised words, and corporate words that make it a company name (review R1v8 COVER, QW2).
-_CAP_SPAN = re.compile(r"[A-Z][\w.&'’\-]*(?:\s+(?:&\s+)?[A-Z][\w.&'’\-]*)*")
-_CORPORATE = (GENERIC_NAME_WORDS - {"us", "usa", "america", "americas", "japan", "europe", "china", "global",
-                                    "international", "development", "research", "oncology"}) | frozenset({
-    "inc", "ltd", "limited", "llc", "plc", "gmbh", "ag", "sa", "co", "corp", "corporation", "holdings", "group", "labs",
-    "laboratories", "partners", "ventures", "capital", "kgaa", "bv", "nv", "spa", "srl", "kk", "biotherapeutics",
-    "biomedical", "medical", "healthcare", "health", "genomics", "immunotherapeutics"})
-#: A capitalised word that holds, takes or receives rights is a party even without a corporate word ("Kappa holds
-#: ...", "sold to Kappa").
-_VERB_PARTY = re.compile(r"\b([A-Z][\w\-]*(?:\s+[A-Z][\w\-]*)*)(?=\s+(?:now\s+|also\s+|will\s+|has\s+|have\s+)?(?:holds?|held|"
-                         r"ha(?:s|ve)(?=\s+(?:[\w.\-]+\s+){0,3}?(?:rights?|options?|licen\w*|ROF[NRO]|first)\b)|acquired|acquires|licen[cs]es|licen[cs]ed|receives?|received|obtains?|obtained|keeps?|"
-                         r"kept|retains?|retained|owns?|owned|gets?|got)\b)")
-_TO_PARTY = re.compile(r"\b(?:sold|licen[cs]ed|granted|transferred|assigned|returned|reverted)\s+(?:\w+\s+){0,4}?"
-                       r"to\s+([A-Z][\w\-]*(?:\s+[A-Z][\w\-]*)*)")
-_ROLE_WORDS = frozenset({"company", "licensor", "licensee", "we", "it", "they", "both", "parties", "party", "agreement",
-                         "collaboration"})
-#: Corporate suffixes alone ("Ltd" after "Co.,") are part of the name before them, not a name.
-_SUFFIXES = frozenset({"inc", "ltd", "limited", "llc", "plc", "gmbh", "ag", "sa", "co", "corp", "corporation", "kgaa",
-                       "bv", "nv", "spa", "srl", "kk"})
-#: "X, a subsidiary of Y" or "an affiliate of Y" describes the row's party, it does not name another holder.
-_DESCRIBES = re.compile(r"\b(?:a|an|the)\s+(?:wholly[\s\-]owned\s+)?(?:subsidiary|affiliate|unit|division)\s+of\s+"
-                        r"[A-Z][\w.&'’\-]*(?:\s+(?:&\s+)?[A-Z][\w.&'’\-]*)*")
-_LEADING = frozenset({"the", "a", "an", "on", "in", "under", "upon", "as", "after", "following", "its", "their", "our",
-                      "this", "that", "both", "each", "all", "per", "with", "by", "for", "and", "or"})
-#: What a quote's clause about the buyer territory may say beside a grant over other places: that no grant was
-#: made there, or that the company kept the rights there.
 _QUOTE_FORMS = frozenset({_KEPT, "no grant stated"})
 
 
@@ -296,99 +250,22 @@ def _speaker_stripped(quote: str, e: dict[str, Any], company: str | None) -> str
     return quote[found.end():] if any(same_company(speaker, str(x)) for x in own) else quote
 
 
-def _other_parties(clause: str, known: list[str]) -> list[str]:
-    """Companies a clause names that are none of ``known``: a run of capitalised words with a corporate word, or a
-    capitalised word that holds, takes or receives rights. Places are not parties. No list of names is involved."""
-    def trimmed(text: str) -> str:
-        words = text.split()
-        while words and words[0].casefold() in _LEADING:
-            words = words[1:]
-        return " ".join(words).strip(" ,.;:")
-
-    clause = _DESCRIBES.sub(" ", clause)
-    found = [span for span in map(trimmed, (m.group(0) for m in _CAP_SPAN.finditer(clause)))
-             if span and {w.strip(".,'’").casefold() for w in span.split()} & _CORPORATE]
-    found += [trimmed(m.group(1)) for m in (*_VERB_PARTY.finditer(clause), *_TO_PARTY.finditer(clause))]
-    out = []
-    for span in dict.fromkeys(x for x in found if x):
-        if {w.strip(".,'’").casefold() for w in span.split()} <= _SUFFIXES:
-            continue  # "Ltd" alone, split from "Co., Ltd"
-        if regions_named(span) and not {w.strip(".,'’").casefold() for w in span.split()} & _CORPORATE:
-            continue  # a place ("Hong Kong", "Greater China"), not a party
-        if any(same_company(span, k) or name_matches(span, k) for k in known):
-            continue
-        if span.casefold() in _ROLE_WORDS:
-            continue  # "the Company", "Licensee", "It": a contract role or pronoun, which names a row party
-        out.append(span)
-    return out
-
-
-def _unread_places(clause: str, known: list[str]) -> list[str]:
-    """Capitalised names just before "rights" that are neither a place the territory reader reads nor a known party."""
-    out = []
-    for match in _NAMED_RIGHTS.finditer(clause):
-        words = [w for w in match.group(1).split() if w.casefold() not in _LEADING | _RIGHTS_ADJECTIVES]
-        span = " ".join(words).strip(" ,.;:")
-        if not span or regions_named(span) or span.casefold() in _ROLE_WORDS:
-            continue
-        if any(same_company(span, k) or name_matches(span, k) for k in known):
-            continue
-        out.append(span)
-    return out
-
-
 def _quote_problem(quote: str, e: dict[str, Any], company: str | None, as_of: date | None,
-                   territory: frozenset[str]) -> str | None:
+                   territory: frozenset[str], names: list[str] | None = None) -> str | None:
     """Why a cited row's quote blocks, or None. An availability statement's quote must be a plain form in the
-    buyer's terms. Any other row's quote is read clause by clause, whatever the row's own territory (review R1v8
-    COVER):
-
-    - a clause that names a company other than the row's own parties and the program's company blocks, unless it is
-      a plain form saying no grant was made or the company kept the rights (review R1v8 COVER, QW2);
-    - on a row that ends or transfers rights (termination, return, lapse, acquisition), a clause that makes the
-      ending partial, conditional or not yet in effect, or passes the rights on, blocks (review R1v8 COVER);
-    - on a row that does not cover the buyer territory, a clause that names a buyer-territory place the row does not
-      cover, or reaches wider (an option, "worldwide", "outside"), blocks unless it says that no grant was made there
-      or that the company kept the rights (review R1v7 QW)."""
+    buyer's terms. Any other row's quote is read fail closed, whatever the row's own territory: each clause must be
+    a plain form, a restatement of its own row, or say nothing about rights (``rights_quote``, review R1v9)."""
     text = _speaker_stripped(quote, e, company)
     if e.get("type") == AVAILABILITY_STATED:
         if accepted_form(text, company, as_of, territory, _rights_reading(text).understood):
             return None
         return ("is not one of the plain forms DealScreen accepts beside a clear position (it may carry a date, a "
                 "condition, another party or a place)")
-    own = parse_territory(str(e.get("territory") or "")) or frozenset()
-    known = [str(x) for x in (e.get("grantor"), e.get("grantee"), company) if x]
-    for clause in _clauses(text) or [text]:
-        kept = plain_form(clause, company, as_of, territory) in _QUOTE_FORMS
-        others = _other_parties(clause, known)
-        if others and not kept:
-            return (f"names {', '.join(others)}, which is not a party to the row or the program's company, so it may "
-                    "hold rights the row does not show")
-        unread = _unread_places(clause, known)
-        if unread and not kept:
-            return (f"names {', '.join(unread)} before 'rights', which DealScreen does not read as a place, so the "
-                    "row may reach the buyer territory")
-        hedge = _HEDGE.search(clause) if e.get("type") in _ENDS else None
-        if hedge and not kept:
-            return (f"says '{hedge.group(0)}', so the ending or transfer may be partial, conditional or not yet in "
-                    "effect, or the rights may have passed on")
-    if territory <= own:
-        return None  # the row itself covers the buyer territory: the ledger reads it as a grant or an ending there
-    for clause in _clauses(text) or [text]:
-        extra = (regions_named(clause) & territory) - own
-        wider = _WIDER.search(clause)
-        if not (extra or wider):
-            continue
-        if plain_form(clause, company, as_of, territory) in _QUOTE_FORMS:
-            continue
-        if extra:
-            return f"names {'/'.join(sorted(extra))}, in the buyer territory, which the row's own territory does not"
-        return f"says '{wider.group(0) if wider else ''}', which may reach beyond the row's own territory"
-    return None
+    return quote_problem(text, e, company, as_of, territory, names)
 
 
 def _read_quotes(found: _Findings, position: RightsPosition, company: str | None, as_of: date | None,
-                 territory: frozenset[str]) -> None:
+                 territory: frozenset[str], names: list[str] | None = None) -> None:
     """The quote on each cited rights row (review R1v6 QUOTE, R1v7 SPK/QW/QT). A quote that says nothing about rights
     or places adds nothing; otherwise see ``_quote_problem``."""
     for e in position.evidence:
@@ -399,7 +276,7 @@ def _read_quotes(found: _Findings, position: RightsPosition, company: str | None
                                                         or _WIDER.search(quote)):
             continue  # an availability quote that says nothing about rights adds nothing to the row
         # every other cited quote is read, whatever it says (review R1v8 COVER, QW2)
-        why = _quote_problem(quote, e, company, as_of, territory)
+        why = _quote_problem(quote, e, company, as_of, territory, names)
         if why is None:
             continue
         row = f"rights row {e.get('row')} ({e.get('type_words') or e.get('type')})"
@@ -488,10 +365,10 @@ def _offer_beside_grant(position: RightsPosition, claims: list[dict[str, Any]]) 
 
 
 def reconcile(position: RightsPosition, commercial: Any, territory: frozenset[str], *, company: str | None = None,
-              as_of: date | None = None) -> None:
+              as_of: date | None = None, names: list[str] | None = None) -> None:
     """Apply the gate to ``position`` in place (``rights_position`` and ``position_from_field`` build it fresh for
     each program). ``commercial`` is the program's ``CommercialAssessment``; ``company`` the landscape company,
-    used only to refuse."""
+    used only to refuse; ``names`` the program's own names and ids, which a rights row's quote may name."""
     statements = _statements(commercial)
     on_ledger = any(e.get("type") != FIELD_STATEMENT for e in position.evidence)
     if position.position in ENCUMBRANCE_POSITIONS | SHARED_POSITIONS:
@@ -513,7 +390,7 @@ def reconcile(position: RightsPosition, commercial: Any, territory: frozenset[st
     _read_statements(found, [c for c in statements if c not in later], company, rests_on, territory, as_of)
     _read_holders(found, position, [c for c in holders if c not in later], company, rests_on, covers_us)
     _read_other(found, [c for c in other if c not in later], company, as_of, territory)
-    _read_quotes(found, position, company, as_of, territory)
+    _read_quotes(found, position, company, as_of, territory, names)
     _read_names(found, position, company)
     for reason, cite in found.consistent:
         position.reasons.append(reason)

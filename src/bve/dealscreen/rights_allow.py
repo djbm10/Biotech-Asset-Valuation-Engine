@@ -31,6 +31,7 @@ import re
 from datetime import date
 
 from bve.dealscreen.rights_reader import _NEGATED_GRANT, _NO_GRANT, _PLACEHOLDER, _TRIVIAL, _clauses
+from bve.dealscreen.rights_signals import AREA_WORDS, CAP_SIGNALS, signal, sub_places
 from bve.dealscreen.rights_territory import (
     GENERIC_NAME_WORDS,
     _is_region,
@@ -120,15 +121,34 @@ _NOT_IN_NAME = frozenset({
     "only"})
 
 
+#: Legal forms that may follow a company word at the end of a name ("Chinaco Pharma Co., Ltd.").
+_LEGAL_FORMS = frozenset({"inc", "ltd", "limited", "llc", "plc", "gmbh", "ag", "sa", "co", "corp", "corporation", "kk",
+                          "bv", "nv", "spa", "srl", "kgaa", "group", "holdings"})
+
+
+def _name_words_ok(name: str) -> bool:
+    """No word of the name is a rights, place, time or hedge word in any case, or a place inside a buyer region;
+    and after the last company word only legal forms follow, so "Tessaly Pharma Everywhere Else", "Tessaly Pharma
+    NA" and "Tessaly Pharma Delaware" are not names (review R1v9 PN3). Fail closed: an unusual real name such as
+    "Harlow Partners" or "Global Pharma" is refused, a disclosed usefulness cost."""
+    tokens = [w.strip(".,'’()").casefold() for w in name.replace("&", " ").split() if w.strip(".,'’()&")]
+    parts = {p for t in tokens for p in t.split("-") if p}  # "NA-Tessaly Pharma": each part of a hyphenated word
+    if sub_places(name) or any(t in AREA_WORDS or t in CAP_SIGNALS or signal(t) for t in {*tokens, *parts}):
+        return False
+    company = [i for i, t in enumerate(tokens) if t in GENERIC_NAME_WORDS]
+    return not (company and any(t not in GENERIC_NAME_WORDS | _LEGAL_FORMS for t in tokens[company[-1] + 1:]))
+
+
 def _party_ok(party: str | None) -> bool:
     name = re.sub(r"\s+only$", "", (party or "").strip(" ,"), flags=re.IGNORECASE)
     if not name:
         return True
     words = {w.strip(".,'’").casefold() for w in name.split()}
-    if "&" in name and {w.strip(".,'’").casefold() for w in name.split("&", 1)[0].split()} & GENERIC_NAME_WORDS:
+    if "&" in name and {w.strip(".,'’").casefold() for w in name.split("&", 1)[0].split()} & (
+            GENERIC_NAME_WORDS | _LEGAL_FORMS):
         return False  # "&" after a company word joins two companies ("Chinaco Pharma & Tessaly Pharma")
     return (bool(_PARTY_NAME.fullmatch(name)) and not regions_named(name) and not _PLACE_WORD.search(name)
-            and not _RIGHTS_TEXT.search(name) and not words & _NOT_IN_NAME)
+            and not _RIGHTS_TEXT.search(name) and not words & _NOT_IN_NAME and _name_words_ok(name))
 
 
 def _is_company(who: str | None, company: str | None, alone: bool = True) -> bool:

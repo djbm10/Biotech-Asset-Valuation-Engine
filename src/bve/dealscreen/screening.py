@@ -324,6 +324,7 @@ def program_transaction(
     market_status: str | None = None,
     identity_twins: list[str] | None = None,
     guard: list[str] | None = None,
+    program_names: list[str] | None = None,
 ) -> TransactionView:
     """One program's rights position and transaction view: from its rights rows, or without any from its landscape
     and analyst U.S.-rights statements. Either way the position passes the top-tier gate (``rights_gate.reconcile``).
@@ -350,7 +351,10 @@ def program_transaction(
         if commercial.us_rights_basis or commercial.us_rights_holder:
             position.reasons.append(f"the landscape's U.S.-rights fields speak to the U.S. only; the buyer territory is "
                                     f"{'/'.join(sorted(territory))}, so they are not read as a position there")
-    reconcile(position, commercial, territory, company=company, as_of=as_of)
+    # The program's own names and ids: a rights row's quote may name the program without naming a holder.
+    names = [n.strip() for x in [*(program_names or []), *(e.external_id for e in events)]
+             for n in re.split(r"[()/;]", x or "") if n.strip()]
+    reconcile(position, commercial, territory, company=company, as_of=as_of, names=names)
     if events:
         also_named(position, commercial)
     _drop_noted_names(position)
@@ -387,7 +391,8 @@ def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: di
         guard = guards_for(rows, key, rejected)
         view = program_transaction(by_program.get(key, []), screen.commercial, company=screen.company,
                                    territory=territory, as_of=as_of, max_age_days=max_age, prefs=prefs,
-                                   market_status=screen.market_status, identity_twins=twins, guard=guard)
+                                   market_status=screen.market_status, identity_twins=twins, guard=guard,
+                                   program_names=[screen.program_name])
         questions = view.questions + [
             f"Correct rights row {r['row']} and re-import the rights file; it may change this position."
             for r in [{"row": x["row_number"]} for x in rejected] + rows.unattributed_rejected_rows] + [

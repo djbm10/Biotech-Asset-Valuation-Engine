@@ -127,6 +127,19 @@ Revision 9 reads every cited quote with one party rule and closes each. Implemen
 end-to-end top-tier placements → 0; no CLDN18.2 field changed. The verdict above is unchanged, and revision 9 has
 not been reviewed.
 
+**Addendum (2026-11-02, revision 10).** Round 9 (`REREVIEW8.md`) found 7 High errors in revision 9, each a gap in a
+closed word list:
+- third parties written without a corporate word or a listed verb;
+- endings not yet in effect, partial or disputed;
+- wider reach in unlisted words;
+- party names with area or signal words;
+- future-dated grants with no source date;
+- acquisitions of a party in no grant.
+
+Revision 10 replaces the lists with a reader that passes a quote only when it can place every name in it.
+Implementer-measured: the reviewer's 7 end-to-end top-tier placements → 0; no CLDN18.2 field changed. The verdict
+above is unchanged, and revision 10 has not been reviewed.
+
 ### Updated largest obstacles
 
 1. Rights/availability still depends on evidence the tool does not hold (import vendor deal fields).

@@ -228,7 +228,8 @@ registry-sponsor name match. Returned rights were invisible.
 | 6 (`REREVIEW5.md`) | revision 6 | 14 definite: 6 High (the plain forms accepted texts that fit their words and meant the opposite: "U.S." hidden by lower-casing in party spans, pronouns and "the owner" counted as the company, notes inside the text dropped, "other places" fixed as non-U.S. for every buyer; ownership words and rights rows' quotes unread), 2 Medium (a {US, CA} buyer lost the U.S.-rights field; "or" not read), 6 Low; none in the CLDN18.2 output; end to end, test inputs took tier 0 and 1 places (ws_e #1–#7, ws_f #1–#5). Cause: the plain forms overrode the reader and read on lower-cased text in U.S. terms | fixed in revision 7 (`REREVIEW5_RESPONSE.md`); 72 more held-out tests |
 | 7 (`REREVIEW6.md`) | revision 7 | 7 definite: 5 High (the "other places" party span took any words, so "… and in the Americas to X", "for ROW", "elsewhere" passed; a quote's prefix before a colon was dropped as a speaker; options and "worldwide" in quotes unread; an offer's place not compared with a non-U.S. buyer; ending dates compared by the start of a year or month), 2 Low; none in the CLDN18.2 output; end to end, test inputs took #1–#6 in the top tiers (ws_g) | fixed in revision 8 (`REREVIEW6_RESPONSE.md`); 60 more held-out tests |
 | 8 (`REREVIEW7.md`) | revision 8 | 9 definite: 6 High (party names in capitals or with condition words passed; a covering ending, lapse or acquisition was accepted without reading its quote; quote clauses naming a third party with no place, or wider words not on the list, passed; a grant reported before the as-of date but effective after it was dropped; availability statements dated only to the as-of year or month counted), 3 Low; none in the CLDN18.2 output; end to end, test inputs took #1–#6 and RC118 in the top tiers (ws_h) | fixed in revision 9 (`REREVIEW7_RESPONSE.md`); 79 more held-out tests |
-| 9 | revision 9 | not yet reviewed | |
+| 9 (`REREVIEW8.md`) | revision 9 | 7 definite High: third parties written without a corporate word or a listed verb (passive voice, possessives, colons, "a subsidiary of X") passed; endings not yet in effect, partial or disputed passed in unlisted words; wider reach in unlisted words passed, and the narrowed list stopped catching the licensee's own option; party names with area or signal words passed; future-dated grants with no or a coarse source date were dropped; an acquisition of a party in no grant gave an owner position. Low: false labels (program codes as companies, `NO_RIGHTS_EVIDENCE` beside cited rows) | 0 in the CLDN18.2 output |
+| 10 | revision 10 | not yet reviewed | |
 
 **Measured result (CLDN18.2, against the frozen reference).**
 - False "unobstructed" (third-party U.S. rights shown OPEN or in a top tier): 4 definite plus zanidatamab at
@@ -365,6 +366,27 @@ Measured by the implementer (`REREVIEW7_RESPONSE.md`):
 **Self-criticism (revision 9).** The `territory <= own` shortcut was stated as a rule in revision 8 without asking
 which row types it was true for. It was true for grants only. A shortcut that skips reading evidence needs the same
 per-type check as any other rule.
+
+**Revision 10 (2026-11-02).** Answers `REREVIEW8.md`. The quote reader now fails closed (`rights_quote`): every
+capitalised name in a cited quote must be placed as a row party, the program's company, the program, a place, a
+person, an adviser or a news source. The clause may use only the rights words that restate its own row type. Time
+and hedge words block an ending. Wide words and extra places, including states and provinces, block a row that does
+not cover the buyer territory. Revision 9's deny-lists are removed. Party names may not hold place, area or signal
+words. A future-dated grant blocks unless its source shows it was reported after the as-of date. An acquisition of
+a party in no grant blocks. Rows recorded but none applied have their own position.
+
+Measured by the implementer (`REREVIEW8_RESPONSE.md`):
+- DealScreen tests 1,178 → 1,300.
+- The reviewer's end-to-end top-tier placements (ws_i) 7 → 0.
+- CLDN18.2 identical to revision 9: 0 of 62 science fields and 0 of 62 transaction views changed; memo identical.
+- Cross-version 0 of 312 changed; equivalence byte-identical.
+- 1 of 17 real CLDN18.2 quotes blocks, as at revision 9.
+- Usefulness against general Claude unchanged (10 / 4 / 1 against 14 / 1 / 0).
+
+**Self-criticism (revision 10).** Three rounds added words to deny-lists, and each round's reviewer found the next
+missing word. The inversion REREVIEW8 asked for, passing only what can be placed, should have been made when the
+second list gap appeared. Running the real quotes through the new reader before committing found two false blocks
+(a currency code and "will pay … to acquire") that the synthetic tests did not.
 
 ## Cycle U1: a concrete next action for every tool UNKNOWN (2026-10-30 to 2026-11-01)
 

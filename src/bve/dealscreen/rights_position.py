@@ -113,6 +113,7 @@ from bve.dealscreen.rights_model import (
     P_CONFLICTING,
     P_LICENSED,
     P_NONE,
+    P_NOT_APPLIED,
     P_NOT_AVAILABLE,
     P_NOT_ENCUMBERED,
     P_OPTION,
@@ -550,6 +551,9 @@ def _decide(ledger: _Ledger, territory: frozenset[str], used: list[RightsEvent])
     if (returned_only := _return_only(ledger, territory, terr, used)) is not None:
         return returned_only
     recorded = "; ".join(_what(e) for e in ledger.unmatched)
+    if ledger.straddling or ledger.announced:  # review R1v9 LBL-NONE: rows exist; none applies on the as-of date
+        return RightsPosition(P_NOT_APPLIED, reasons=["rights rows are recorded, but none applies on the as-of date"],
+                              questions=[f"Who holds {terr} rights now?"])
     return RightsPosition(P_NONE, reasons=["no usable grant recorded"], questions=[
         f"Who holds {terr} rights now?" + (f" Recorded without the grant it concerns: {recorded}." if recorded else "")])
 
@@ -656,6 +660,7 @@ def rights_position(events: list[RightsEvent], *, territory: frozenset[str], as_
 
 __all__ = [
     "CLEAR_POSITIONS", "ENCUMBRANCE_POSITIONS", "P_AVAILABILITY", "P_CONFLICTING", "P_LICENSED", "P_NONE",
-    "P_NOT_AVAILABLE", "P_NOT_ENCUMBERED", "P_OPTION", "P_OWNER_ACQUIRED", "P_RETURNED", "P_SHARED", "P_UNSTATED", "SHARED_POSITIONS",
+    "P_NOT_APPLIED", "P_NOT_AVAILABLE", "P_NOT_ENCUMBERED", "P_OPTION", "P_OWNER_ACQUIRED", "P_RETURNED", "P_SHARED",
+    "P_UNSTATED", "SHARED_POSITIONS",
     "UNNAMED", "RightsPosition", "no_evidence_position", "own_date", "rights_position",
 ]

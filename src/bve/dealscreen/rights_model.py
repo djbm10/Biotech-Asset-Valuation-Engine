@@ -22,6 +22,8 @@ P_RETURNED = "RIGHTS_RETURNED_PER_EVIDENCE"
 P_OWNER_ACQUIRED = "OWNER_ACQUIRED_PER_EVIDENCE"
 P_NOT_ENCUMBERED = "NOT_ENCUMBERED_IN_TERRITORY_PER_EVIDENCE"
 P_NONE = "NO_RIGHTS_EVIDENCE"
+#: Rights rows exist, but none applies on the as-of date (each is dated across or after it; review R1v9 LBL-NONE).
+P_NOT_APPLIED = "RIGHTS_ROWS_NOT_APPLIED"
 #: A landscape or analyst statement that rights are not available (no rights record; review R1v3 NA-label).
 P_NOT_AVAILABLE = "NOT_AVAILABLE_PER_SOURCE"
 #: Third-party rights in the buyer territory, or rights not available (governed by ``encumbered_rights``).
@@ -112,6 +114,6 @@ def _kind_words(g: _Grant) -> str:
 
 __all__ = [
     "CLEAR_POSITIONS", "ENCUMBRANCE_POSITIONS", "P_AVAILABILITY", "P_CONFLICTING", "P_LICENSED", "P_NONE",
-    "P_NOT_AVAILABLE", "P_NOT_ENCUMBERED", "P_OPTION", "P_OWNER_ACQUIRED", "P_RETURNED", "P_SHARED", "P_UNSTATED",
+    "P_NOT_APPLIED", "P_NOT_AVAILABLE", "P_NOT_ENCUMBERED", "P_OPTION", "P_OWNER_ACQUIRED", "P_RETURNED", "P_SHARED", "P_UNSTATED",
     "SHARED_POSITIONS", "RightsPosition", "no_evidence_position",
 ]

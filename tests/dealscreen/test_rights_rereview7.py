@@ -115,7 +115,7 @@ def test_cover_r3_an_ending_after_a_transition_blocks():
                   "Termination effective only after a 12-month transition; Alpha Bio sells in the U.S. until 2026")
     v = run([ev(L, **US_LIC), end])
     _not_top(v)
-    assert blocked(v, "the ending or transfer may be partial")
+    assert blocked(v, "the quote on rights row")  # wording changed in revision 10 (rights_quote)
 
 
 def test_cover_r5_a_lapse_quote_naming_a_new_licensee_blocks():
@@ -188,8 +188,8 @@ def test_fut_a_grant_announced_before_the_as_of_date_blocks():
     later = ev(L, grantee="Tessaly Pharma", territory="United States", d="2025-07-01", src="2025-05-20")
     v = run([ev(L, **CHINA), later])
     _not_top(v)
-    assert blocked(v, "reported before the as-of date")
-    assert any("reported before the as-of date" in x for x in v.reasons)
+    assert blocked(v, "may have been agreed by the as-of date")  # wording since revision 10
+    assert any("not shown to have been reported after it" in x for x in v.reasons)
     # Q-FUT: the question does not say every recorded deal covers other territories only.
     assert not any("Recorded deals cover other territories only" in q for q in v.questions)
     assert any("Recorded deals in force on the as-of date" in q for q in v.questions)
@@ -209,7 +209,7 @@ def test_fut_after_a_return():
 
 def test_fut_a_grant_reported_after_the_as_of_date_is_still_not_applied():
     later = ev(L, grantee="Tessaly Pharma", territory="United States", d="2025-07-01", src="2025-06-20")
-    assert not blocked(run([ev(L, **CHINA), later]), "reported before the as-of date")
+    assert not blocked(run([ev(L, **CHINA), later]), "may have been agreed by the as-of date")
 
 
 # -- DATE-AV: an availability statement dated only to the as-of year or month ---------------------------------------
@@ -261,11 +261,11 @@ def test_usefulness_a_byline_suffix_or_parent_does_not_block(quote):
     assert run([ev(L, **US_LIC), end]).tier == TIER1
 
 
-def test_cost_a_byline_with_a_company_word_still_blocks():
-    """A disclosed cost: a news byline that contains a company word reads as a party."""
+def test_a_byline_with_a_company_word_is_a_news_source():
+    """Revision 9 disclosed this as a cost; revision 10 reads "X has learned" as a news source (review R1v9 §3)."""
     end = _quoted(ev(T, grantee="Alpha Bio", territory="United States", d="2025-01-15", related="D1"),
                   "Alpha Bio terminated its deal with Origin Bio covering NB-7, Biotech Wire has learned")
-    _not_top(run([ev(L, **US_LIC), end]))
+    assert run([ev(L, **US_LIC), end]).tier == TIER1
 
 
 def test_a_holder_with_has_and_a_rights_word_still_blocks():

@@ -131,6 +131,14 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 10 (AI-SIMULATED; 2026-11-02):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | The quote reader fails closed: a cited quote passes only when every name in it is placed and every rights word restates its row. Time and hedge words block endings; wide words and states or provinces block rows that do not cover the buyer territory. Future-dated grants block unless reported after the as-of date; an acquisition of a party in no grant blocks | 122 more held-out tests (1,300 in all); round-9 reviewer's end-to-end top-tier placements 7 → 0 (implementer-measured); CLDN18.2 calls unchanged; 1 of 17 real quotes blocks | PARTIAL (recall capped by the imported file; no real vendor export; revision 10 not reviewed) |
+
+Gates H, B and I are unchanged.
+
 **After cycle R1 revision 9 (AI-SIMULATED; 2026-11-02):**
 
 | # | Dimension | Change | Evidence | Status |

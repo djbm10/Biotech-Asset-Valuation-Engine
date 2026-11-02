@@ -215,21 +215,27 @@ from the landscape's and analysts' U.S.-rights fields, and anything it cannot re
   reader cannot read, unless it says the company keeps its rights. Anything else blocks, quoted, with a question. A
   Partnerships value that only names organisations is not rights evidence; one with ownership words ("owned by",
   "bought by", "subsidiary of") is. In a grant over other places the party must be a name and nothing else
-  (capitalised words and corporate punctuation, with no joining, place or condition word in any letter case;
-  "… to Acme Pharma and in the Americas to Beta Bio" and "… TO ACME PHARMA AND ELSEWHERE TO BETA BIO" are not
-  names). An offer that names places must cover the buyer territory. A rights row's own quote is read: a leading
-  "Name:" is dropped only when the name is the row's grantor or the company; an availability row's quote must be a
-  plain form. Every other row's quote is read, whatever the row's own territory. A clause blocks when:
-  - it names a company other than the row's parties and the program's company;
-  - on an ending, lapse or acquisition, it makes the ending partial, conditional or later ("except", "until",
-    "re-licensed", "remain");
-  - it names, before "rights", a place the territory reader does not know;
-  - or, for a row that does not cover the buyer territory, it names a buyer-territory place the row does not cover,
-    or an option or wider territory ("worldwide", "outside", "rest of the world").
+  (capitalised words and corporate punctuation, with no joining, place, area, condition or rights word in any letter
+  case, and only legal forms after the last company word; "… to Acme Pharma and in the Americas to Beta Bio",
+  "… TO ACME PHARMA AND ELSEWHERE TO BETA BIO" and "… Beta Bio Everywhere Else" are not names). An offer that names
+  places must cover the buyer territory. A rights row's own quote is read: a leading "Name:" is dropped only when the
+  name is the row's grantor or the company; an availability row's quote must be a plain form. Every other row's
+  quote is read, whatever the row's own territory, and a clause passes only when all of these hold:
+  - every capitalised name in it is placed: a party to the row, the program's company or the program, a place, a
+    code, a regulator, exchange or currency, a person, an adviser or a news source. Any other name blocks, with a
+    question about it;
+  - every rights word restates the row's type (a license may say "licenses" or "develop", not "option" or "holds");
+  - on an ending, lapse or acquisition, no word makes the ending later, conditional, contested or partial ("will",
+    "effective", "notice", "disputed", "except", "most"). A grant or an acquisition may use announcement words
+    ("will receive", "subject to closing");
+  - for a row that does not cover the buyer territory, no wider word ("other markets", "worldwide", "outside") and no
+    buyer-territory place the row does not cover, including states and provinces ("Puerto Rico", "Ontario").
 
-  In each case the clause still passes if it says no grant was made or the company kept the rights. A grant reported
-  before the as-of date but effective after it blocks, and so does an availability statement dated only to a year or
-  month that contains the as-of date. A note in parentheses
+  A clause also passes if it says no grant was made or the company kept the rights. A grant in the buyer territory
+  dated after the as-of date blocks unless its source date shows it was reported after the as-of date. An
+  acquisition of a party that is neither the company nor a party to a recorded grant blocks. An availability
+  statement dated only to a year or month that contains the as-of date blocks. When rights rows are recorded but none
+  applies on the as-of date, the position says so. A note in parentheses
   or brackets beside the company name, a rights row's grantor or grantee, or a holder blocks, the note is quoted,
   and the noted name is not shown as holder or owner (a place inside a legal name before its corporate form, as in
   "Acme Bio (Basel) Co., Ltd." or "Acme Bio (Hong Kong) Limited", is not a note). An analyst availability statement counts only with a source date within

@@ -24,7 +24,7 @@ from bve.dealscreen.rights import (
     RightsEvent,
     period_end,
 )
-from bve.dealscreen.rights_territory import party_key
+from bve.dealscreen.rights_territory import party_key, same_company
 
 _GRANT_TYPES = frozenset({LICENSE, OPTION, CO_DEVELOPMENT, CO_PROMOTION_OPTION})
 _ENDINGS = frozenset({TERMINATION, RIGHTS_RETURNED})
@@ -119,10 +119,13 @@ class _Ledger:
         #: An availability statement so dated may also have been made after it (review R1v8 DATE-AV).
         self.straddling = [e for e in events if as_of and e.event_type in _CLEARS | {AVAILABILITY_STATED}
                            and e.window and e.window[0] <= as_of < e.window[1]]
-        #: A grant dated after the as-of date but reported in a source dated before it was known then: an agreed
-        #: grant that takes effect later. It is not applied as a grant, and it blocks (review R1v8 FUT).
-        self.announced = [e for e in self.after_as_of if as_of and e.event_type in _GRANT_TYPES and e.source_date
-                          and period_end(e.source_date, e.source_date_precision) <= as_of]
+        #: A grant dated after the as-of date that reaches the buyer territory (or names no readable territory) may
+        #: have been agreed by then: unless its source is dated after the as-of date, it is not applied as a grant,
+        #: and it blocks (review R1v8 FUT; R1v9 FUT2: no source date, or one dated only to a period containing the
+        #: as-of date, is not evidence that it came later; in live use the row is already in today's export).
+        self.announced = [e for e in self.after_as_of if as_of and e.event_type in _GRANT_TYPES
+                          and not (e.source_date and e.source_date > as_of)
+                          and (e.territory is None or set(e.territory) & territory)]
         later = {e.event_id for e in self.after_as_of + self.straddling}
         self.events = [e for e in events if e.event_id not in later]
         #: Why a clear position may not reach the top tiers ("check: detail"), see the module docstring.
@@ -130,8 +133,11 @@ class _Ledger:
             f"current: the {e.words} ({e.when}) is dated only to a period that contains the as-of date {as_of}, so "
             "it may come after it; it is not applied" for e in self.straddling]
         self.blockers += [
-            f"current: the {e.words} ({e.when}) was reported before the as-of date {as_of} and takes effect after it, "
-            "so it had been agreed by then; it is not applied as a grant before it takes effect" for e in self.announced]
+            f"current: the {e.words} ({e.when}) takes effect after the as-of date {as_of}, and "
+            + (f"its source ({e.source_date_text}) does not show it was reported after then"
+               if e.source_date else "it has no source date to show it was reported after then")
+            + ", so it may have been agreed by the as-of date; it is not applied as a grant before it takes effect"
+            for e in self.announced]
         #: The records a clear position rests on; the current check is judged on their own dates.
         self.deciding: list[RightsEvent] = []
         self.grants: list[_Grant] = []
@@ -155,6 +161,7 @@ class _Ledger:
     def _acquisitions(self) -> tuple[dict[str, tuple[str, RightsEvent]], list[RightsEvent]]:
         holders = {party_key(e.grantee) for e in self.events if e.event_type in _GRANT_TYPES and e.grantee}
         holders |= {party_key(e.grantor) for e in self.events if e.event_type == CO_DEVELOPMENT and e.grantor}
+        parties = holders | {party_key(e.grantor) for e in self.events if e.event_type in _GRANT_TYPES and e.grantor}
         succession: dict[str, tuple[str, RightsEvent]] = {}
         owners: list[RightsEvent] = []
         for e in self.events:
@@ -189,6 +196,19 @@ class _Ledger:
                 self.blockers.append(f"current: an acquisition of {e.grantor} by {e.grantee} has no date, so it cannot "
                                      "show who holds the rights now")
                 self.questions.append(f"When did {e.grantee} acquire {e.grantor}? Cite a dated source.")
+                self.unapplied.append(e)
+                continue
+            if party_key(e.grantor) not in parties and not (self.company and (same_company(e.grantor, self.company)
+                                                                               or same_company(e.grantee,
+                                                                                               self.company))):
+                # review R1v9 ACQ-X: the acquired party is in no grant and the program's company is neither party,
+                # so the record does not show it is about this program's owner; it may hold rights itself
+                self.notes.append(f"{_what(e)}: {e.grantor} is neither the program's company nor a party to a "
+                                  "recorded grant; not applied")
+                self.blockers.append(f"specific: an acquisition of {e.grantor} by {e.grantee} ({e.when}) names "
+                                     "neither the program's company nor a party to a recorded grant, so it may "
+                                     "concern rights the records do not show")
+                self.questions.append(f"What rights to this program did {e.grantor} hold when {e.grantee} acquired it?")
                 self.unapplied.append(e)
                 continue
             succession[party_key(e.grantor)] = (e.grantee, e)
