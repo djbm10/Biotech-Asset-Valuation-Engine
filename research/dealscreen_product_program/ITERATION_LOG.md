@@ -229,7 +229,8 @@ registry-sponsor name match. Returned rights were invisible.
 | 7 (`REREVIEW6.md`) | revision 7 | 7 definite: 5 High (the "other places" party span took any words, so "… and in the Americas to X", "for ROW", "elsewhere" passed; a quote's prefix before a colon was dropped as a speaker; options and "worldwide" in quotes unread; an offer's place not compared with a non-U.S. buyer; ending dates compared by the start of a year or month), 2 Low; none in the CLDN18.2 output; end to end, test inputs took #1–#6 in the top tiers (ws_g) | fixed in revision 8 (`REREVIEW6_RESPONSE.md`); 60 more held-out tests |
 | 8 (`REREVIEW7.md`) | revision 8 | 9 definite: 6 High (party names in capitals or with condition words passed; a covering ending, lapse or acquisition was accepted without reading its quote; quote clauses naming a third party with no place, or wider words not on the list, passed; a grant reported before the as-of date but effective after it was dropped; availability statements dated only to the as-of year or month counted), 3 Low; none in the CLDN18.2 output; end to end, test inputs took #1–#6 and RC118 in the top tiers (ws_h) | fixed in revision 9 (`REREVIEW7_RESPONSE.md`); 79 more held-out tests |
 | 9 (`REREVIEW8.md`) | revision 9 | 7 definite High: third parties written without a corporate word or a listed verb (passive voice, possessives, colons, "a subsidiary of X") passed; endings not yet in effect, partial or disputed passed in unlisted words; wider reach in unlisted words passed, and the narrowed list stopped catching the licensee's own option; party names with area or signal words passed; future-dated grants with no or a coarse source date were dropped; an acquisition of a party in no grant gave an owner position. Low: false labels (program codes as companies, `NO_RIGHTS_EVIDENCE` beside cited rows) | 0 in the CLDN18.2 output |
-| 10 | revision 10 | not yet reviewed | |
+| 10 (`REREVIEW9.md`) | revision 10 | 8 definite High: lower-case third parties and grant words on endings passed (LOWER); names placed by shape or neighbour (PLACE); a known name's corporate words swallowed "U.S." (MASK); wider reach and later endings in unlisted words (WIDER3, HEDGE3); a future option exercise was dropped (FUT3); rows beside a statement, return or lapse were never read (UNCITED); party names without a company word (PN4). Medium: an affiliate or the company's own purchase read as the owner (OWNER-KEY). Usefulness: most real quotes would block when read directly; a "shares" class-order defect | 0 in the CLDN18.2 output |
+| 11 | revision 11 | not yet reviewed | |
 
 **Measured result (CLDN18.2, against the frozen reference).**
 - False "unobstructed" (third-party U.S. rights shown OPEN or in a top tier): 4 definite plus zanidatamab at
@@ -388,6 +389,29 @@ missing word. The inversion REREVIEW8 asked for, passing only what can be placed
 second list gap appeared. Running the real quotes through the new reader before committing found two false blocks
 (a currency code and "will pay … to acquire") that the synthetic tests did not.
 
+**Revision 11 (2026-11-02).** Answers `REREVIEW9.md`. The quote reader reads every word, not only names: a clause
+passes only when each word is a grammar word, an amount or date, a generic drug-development word, a word restating
+the row's own type, or a word from the program's own landscape record (`rights_vocab`). Names are placed only as a
+row party or the company (never absorbing a place word), the program, a place or an agency code. Datelines, speaker
+attributions, advisers and bylines are removed only when anchored. Every date is compared with the as-of date. A
+clear position cites, and the gate reads, every applied row. A future option exercise blocks. An acquisition counts
+for the owner only when the acquired party is a grant party or the company itself. Rows that give no position are
+never "no rights evidence".
+
+Measured by the implementer (`REREVIEW9_RESPONSE.md`):
+- DealScreen tests 1,327 → 1,436 (with U1 revision 6).
+- The reviewer's end-to-end top-tier placements (ws_j) 7 → 0; attack probes 79 → 0 top-tier placements (with the
+  harness's placeholder quote removed, 4 judgement calls and controls remain).
+- CLDN18.2: 0 of 62 science fields changed. Zolbetuximab and IMAB362 move from owner acquired to rows not applied
+  (OWNER-KEY's cost), with no tier change.
+- Cross-version 0 of 312 changed; equivalence byte-identical.
+- Real CLDN18.2 quotes read directly: 13 of 17 block (the reviewer counted 5 of 17 at revision 10). Usefulness on
+  the reviewer's 43 clean cases: 14 → 11 (placeholder removed) or 5 (harness unchanged).
+
+**Self-criticism (revision 11).** Revision 10's response counted "1 of 17 real quotes block" over the rows that reach
+the reader, which made a strict reader look harmless; the honest count reads every quote. Citing every row also made
+placeholder quotes in test fixtures and probe harnesses block, which first looked like a regression.
+
 ## Cycle U1: a concrete next action for every tool UNKNOWN (2026-10-30 to 2026-11-01)
 
 Acceptance criteria frozen before code (`research/dealscreen_unknown_actions_v1/ACCEPTANCE.md`, committed 1436d95).
@@ -402,13 +426,14 @@ requirement; a diagnostic never changes a gate, disposition or rank.
 | 2 (`REVIEW2.md`) | revision 2 | U1-7 not met: 2 high (an NCIt stage concept for the requested site called a different disease; a restatement that picked a different disease), 6 medium or medium-low (multi-word sites dropped and a spelling bug, acronym as basket, non-site words, negated target mentions, isoform and suffix errors, placeholders), 5 low | revision 3 (`REVIEW2_RESPONSE.md`) |
 | 3 (`REVIEW3.md`) | revision 3 | U1-1 to U1-6 met, U1-7 not: 9 definite (1 medium-high: the new "under a broader parent" class given to lymphomas, sarcomas and other organs; 2 medium: expression levels read as negation, Roman numerals and capitals switching off BASKET; 6 lower) | revision 4 (`REVIEW3_RESPONSE.md`) |
 | 4 (`REVIEW4.md`) | revision 4 | U1-1 to U1-6 met, U1-7 not: 2 medium (an all-caps qualifier made an "ALL" record a basket, a regression; stage concepts of neuroendocrine, small-cell and sarcoma lineages kept the "under a broader parent" class), 7 lower | revision 5 (`REVIEW4_RESPONSE.md`) |
-| 5 | revision 5 | not yet reviewed | |
+| 5 (`REVIEW5.md`) | revision 5 | U1-1 to U1-6 met, U1-7 not: 2 medium regressions ("ALL" before a qualifier or population word called a basket; another target's "negative or positive" cancelled the required target's negation), 1 low | revision 6 (`REVIEW5_RESPONSE.md`) |
+| 6 | revision 6 | not yet reviewed | |
 
 **Measured result (revision 3, implementer, AI-simulated).** CLDN18.2: 38 of 38 open gates carry a diagnostic
 (baseline 0). Held-out FcRn v1, FcRn v2, C5 and synthetic: 104 of 104. Science and transaction fields: 0 of 62 and
 0 of 312 programs changed; cycle-4 equivalence byte-identical on 4 of 4. No reference-IN program has a gastric or
 junction name called a different disease; SOT102 (reference IN) still points away, because its record names only
-pancreatic cancer. DealScreen tests 876 → 1,052 (revision 4: 1,099; CLDN18.2 outputs identical to revision 3; revision 5: 1,327 with R1 revision 10, CLDN18.2 outputs identical to revision 4).
+pancreatic cancer. DealScreen tests 876 → 1,052 (revision 4: 1,099; CLDN18.2 outputs identical to revision 3; revision 5: 1,327 with R1 revision 10, CLDN18.2 outputs identical to revision 4; revision 6: 1,436 with R1 revision 11, CLDN18.2 actions identical to revision 5).
 
 **Self-criticism (U1).** Revision 2 fixed the reviewed inputs and broke two common ones (spelled-out junction names,
 NCIt stage concepts), which a sweep over CLDN18.2's own names would have caught. A describing layer still misleads

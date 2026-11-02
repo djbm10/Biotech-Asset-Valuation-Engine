@@ -26,7 +26,7 @@ from bve.dealscreen.facts import (
     finding_claim,
     reviewed_claims,
 )
-from bve.dealscreen.models import IdentityFlag, LandscapeAsset
+from bve.dealscreen.models import ClaimOrigin, IdentityFlag, LandscapeAsset
 from bve.dealscreen.rights import RightsEvent
 from bve.dealscreen.rights_gate import (
     also_named,
@@ -42,6 +42,7 @@ from bve.dealscreen.rights_position import (
     rights_position,
 )
 from bve.dealscreen.rights_territory import content_note
+from bve.dealscreen.rights_vocab import program_vocabulary
 from bve.dealscreen.transaction import (
     TransactionPreferences,
     TransactionView,
@@ -305,6 +306,18 @@ def _drop_noted_names(position: RightsPosition) -> None:
                                     f"no {words} is shown")
 
 
+#: Landscape fields whose words a rights quote may use to name the program (its disease, target and modality).
+_PROGRAM_FIELDS = frozenset({"program_name", "aliases", "target", "mechanism", "modality", "therapeutic_area",
+                             "indication"})
+
+
+def _program_text(asset: LandscapeAsset) -> list[str]:
+    """The program's own words from the landscape: never an agent proposal, which is unconfirmed."""
+    return [asset.program_name, *asset.aliases, *(c.value_as_written for c in asset.claims
+                                                   if c.field in _PROGRAM_FIELDS
+                                                   and c.origin != ClaimOrigin.AGENT_PROPOSED)]
+
+
 def buyer_territory(spec: BuyerSpec) -> frozenset[str]:
     """The buyer territory the rights gate reads against: the transaction preference, else the required market."""
     prefs = spec.transaction
@@ -325,6 +338,7 @@ def program_transaction(
     identity_twins: list[str] | None = None,
     guard: list[str] | None = None,
     program_names: list[str] | None = None,
+    program_text: list[str] | None = None,
 ) -> TransactionView:
     """One program's rights position and transaction view: from its rights rows, or without any from its landscape
     and analyst U.S.-rights statements. Either way the position passes the top-tier gate (``rights_gate.reconcile``).
@@ -354,7 +368,8 @@ def program_transaction(
     # The program's own names and ids: a rights row's quote may name the program without naming a holder.
     names = [n.strip() for x in [*(program_names or []), *(e.external_id for e in events)]
              for n in re.split(r"[()/;]", x or "") if n.strip()]
-    reconcile(position, commercial, territory, company=company, as_of=as_of, names=names)
+    reconcile(position, commercial, territory, company=company, as_of=as_of, names=names,
+              vocabulary=program_vocabulary([*(program_text or []), *names]))
     if events:
         also_named(position, commercial)
     _drop_noted_names(position)
@@ -372,6 +387,7 @@ def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: di
     that could not be attached to a program."""
     names = {s.asset_id: s.program_name for s in screens}
     external = {a.asset_id: program_key(a.external_id) for a in assets}
+    texts = {a.asset_id: _program_text(a) for a in assets}
     by_program: dict[str, list[RightsEvent]] = {}
     for event in rights_events or []:
         by_program.setdefault(program_key(event.external_id), []).append(event)
@@ -392,7 +408,8 @@ def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: di
         view = program_transaction(by_program.get(key, []), screen.commercial, company=screen.company,
                                    territory=territory, as_of=as_of, max_age_days=max_age, prefs=prefs,
                                    market_status=screen.market_status, identity_twins=twins, guard=guard,
-                                   program_names=[screen.program_name])
+                                   program_names=[screen.program_name],
+                                   program_text=texts.get(screen.asset_id, []))
         questions = view.questions + [
             f"Correct rights row {r['row']} and re-import the rights file; it may change this position."
             for r in [{"row": x["row_number"]} for x in rejected] + rows.unattributed_rejected_rows] + [

@@ -161,7 +161,9 @@ every record a "different disease"), two high (D2 non-site "site words", D3 the 
 not met (N1–N13, two high). `REVIEW2_RESPONSE.md` gives revision 3's fix for each. `REVIEW3.md` reviewed revision 3: U1-1 to U1-6 met, U1-7
 not met (9 definite defects, the worst medium-high). `REVIEW3_RESPONSE.md` gives revision 4's fix for each. `REVIEW4.md`
 reviewed revision 4: U1-1 to U1-6 met, U1-7 not met (2 medium, 7 lower). `REVIEW4_RESPONSE.md` gives revision 5's
-fix for each it closes. U1 revision 5 has not been reviewed, so U1-7 is not claimed.
+fix for each it closes. `REVIEW5.md` reviewed revision 5: U1-1 to U1-6 met, U1-7 not met (2 medium regressions, 1 low). `REVIEW5_RESPONSE.md` gives revision 6's fix for each. U1 revision 6 has not been reviewed, so U1-7 is not claimed.
+
+**Revision 6 measurement (2026-11-02, with R1 revision 11).** CLDN18.2 38 of 38 and held-out 104 of 104 with no stray diagnostic; `unknown_actions.csv` identical to revision 5; science 0 of 62 and 0 of 312; equivalence 4 of 4. `after/measurement.json` lists Zolbetuximab and IMAB362 under U1-3 because their transaction view changed. That change comes from R1 revision 11 (an acquisition of a party in no grant is no longer "owner acquired"), not from U1; their disposition, rank and decisions are unchanged.
 
 ## Limits
 

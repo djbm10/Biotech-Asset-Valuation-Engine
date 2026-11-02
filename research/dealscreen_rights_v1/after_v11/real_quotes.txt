@@ -1,0 +1,53 @@
+1 CL-01 ACQUISITION RIGHTS_ROWS_NOT_APPLIED RIGHTS_UNRESOLVED
+   GATE  : no quote blocker
+   DIRECT: passes
+2 CL-02 ACQUISITION RIGHTS_ROWS_NOT_APPLIED RIGHTS_UNRESOLVED
+   GATE  : no quote blocker
+   DIRECT: passes
+3 CL-03 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: says 'i', which DealScreen does not read as restating the row (license), so it may show a holder, a reach or a condition the row does not
+4 CL-04 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: says 'i', which DealScreen does not read as restating the row (license), so it may show a holder, a reach or a condition the row does not
+5 CL-06 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: says 'late-stage', which DealScreen does not read as restating the row (license), so it may show a holder, a reach or a condition the row does not
+6 CL-07 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: names Company, which DealScreen cannot place as a party to the row, the program's company, the program or a place, so it may hold rights the row does not show
+7 CL-07 TERMINATION RIGHTS_RETURNED_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : no quote blocker
+   DIRECT: passes
+8 CL-07 RIGHTS_RETURNED RIGHTS_RETURNED_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : uncontested: the quote on rights row 8 (rights return) reads 'LaNova, meanwhile, previously had a licensing agreement in place with Bristol Myers Squibb for LM-302, an anti-Claudin18.2 ADC in early clinical development, but handed back rights last year, according to an ApexOnco report.', which says 
+   DIRECT: says 'meanwhile', which DealScreen does not read as restating the row (rights returned), so it may show a holder, a reach or a condition the row does not
+9 CL-08 OPTION OPTION_HELD_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: says 'co-promote', which DealScreen does not read as restating the row (option), so it may show a holder, a reach or a condition the row does not
+10 CL-08 CO_PROMOTION_OPTION NOT_ENCUMBERED_IN_TERRITORY_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : uncontested: the quote on rights row 10 (co-promotion option) reads 'Merck KGaA, Darmstadt, Germany, will receive exclusive rights to develop, manufacture and commercialize HRS-1167 worldwide, outside of mainland China, an exclusive option to develop, manufacture and commercialize SHR-A1904 worldwid
+   DIRECT: says 'worldwide', which may reach beyond the row's own territory
+11 CL-11 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: says 'region', which DealScreen does not read as restating the row (license), so it may show a holder, a reach or a condition the row does not
+12 CL-13 CO_DEVELOPMENT RIGHTS_SHARED_IN_TERRITORY_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : no quote blocker
+   DIRECT: says 'through', which DealScreen does not read as restating the row (co development), so it may show a holder, a reach or a condition the row does not
+13 CL-14 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: names Claudin18.2, which DealScreen cannot place as a party to the row, the program's company, the program or a place, so it may hold rights the row does not show
+14 CL-15 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: names Claudin18.2, which DealScreen cannot place as a party to the row, the program's company, the program or a place, so it may hold rights the row does not show
+15 CL-26 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: passes
+16 CL-30 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: says 'through', which DealScreen does not read as restating the row (license), so it may show a holder, a reach or a condition the row does not
+17 CL-30 ACQUISITION OWNER_ACQUIRED_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : uncontested: the quote on rights row 17 (acquisition) reads '(Nasdaq:LPTX), a biotechnology company focused on developing targeted and immuno-oncology therapeutics , and Flame Biosciences, Inc., a privately-held biotechnology company, today announced that the companies have entered into a definitive
+   DIRECT: says 'biotechnology', which DealScreen does not read as restating the row (acquisition), so it may show a holder, a reach or a condition the row does not
+through the gate: 3 of 17 quotes block (4 rows give a clear position alone)
+read directly:    13 of 17 quotes block

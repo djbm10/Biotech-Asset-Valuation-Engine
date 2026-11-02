@@ -53,7 +53,7 @@ def ev(kind: str, *, grantee: str | None = None, grantor: str | None = "Origin B
         grantee=grantee, grantor=grantor, territory_as_written=territory,
         territory=sorted(regions) if regions is not None else None, event_date=when, event_date_precision=precision,
         status=status, related_deal_id=related, source_system="TEST", dataset_version="TEST:x", row_number=n,
-        source_reference=f"https://example.test/{n}", evidence_quote=f"quote {n}", source_date=source,
+        source_reference=f"https://example.test/{n}", evidence_quote=None, source_date=source,
         source_date_precision=source_precision)
 
 
@@ -75,14 +75,18 @@ def analyst(field: str, value: str, src: str | None = "2025-03-01") -> SourceCla
                        source_date=date.fromisoformat(src) if src else None, evidence_span=f"span {n}")
 
 
+#: The program's own landscape words, as screening passes them (cycle R1 revision 11): a quote may name its disease.
+PROGRAM_TEXT = ("NB-7", "gastric cancer")
+
+
 def run(events: list[r.RightsEvent], *, company: str = "Origin Bio", landscape: tuple[SourceClaim, ...] = (),
         analysts: tuple[SourceClaim, ...] = (), territory: frozenset[str] = US,
-        guard: list[str] | None = None) -> TransactionView:
+        guard: list[str] | None = None, program_text: tuple[str, ...] = PROGRAM_TEXT) -> TransactionView:
     asset = LandscapeAsset(asset_id="A1", source_system="T", external_id="P1", program_name="Prog", company=company,
                            row_numbers=[1], claims=list(landscape))
     commercial = assess(asset, questions=["Q?"], confirmed_findings=analysts)
     return program_transaction(events, commercial, company=company, territory=territory, as_of=AS_OF,
-                               max_age_days=730, prefs=PREFS, guard=guard)
+                               max_age_days=730, prefs=PREFS, guard=guard, program_text=list(program_text))
 
 
 def blocked(v: TransactionView, words: str) -> bool:

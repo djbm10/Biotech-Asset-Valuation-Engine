@@ -224,7 +224,7 @@ def test_k2_a_termination_without_its_grant_and_without_a_territory_ended_the_wh
 @pytest.mark.parametrize("where", ["Japan", "Latin America"])
 def test_k2_a_termination_without_its_grant_elsewhere_or_unreadable_is_only_a_question(where):
     p = pos([ev(r.TERMINATION, grantee="Bigco", grantor="Origin Bio", territory=where, d="2024-08-01")])
-    assert p.position == rp.P_NONE and not top_tier(p)
+    assert p.position == rp.P_NOT_APPLIED and not top_tier(p)
     assert "Bigco" in " ".join(p.questions + p.reasons)
 
 

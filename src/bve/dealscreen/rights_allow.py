@@ -130,12 +130,15 @@ def _name_words_ok(name: str) -> bool:
     """No word of the name is a rights, place, time or hedge word in any case, or a place inside a buyer region;
     and after the last company word only legal forms follow, so "Tessaly Pharma Everywhere Else", "Tessaly Pharma
     NA" and "Tessaly Pharma Delaware" are not names (review R1v9 PN3). Fail closed: an unusual real name such as
-    "Harlow Partners" or "Global Pharma" is refused, a disclosed usefulness cost."""
+    "Harlow Partners" or "Global Pharma" is refused, a disclosed usefulness cost. A name of more than one word needs a
+    company or legal word (review R1v10 PN4)."""
     tokens = [w.strip(".,'’()").casefold() for w in name.replace("&", " ").split() if w.strip(".,'’()&")]
     parts = {p for t in tokens for p in t.split("-") if p}  # "NA-Tessaly Pharma": each part of a hyphenated word
     if sub_places(name) or any(t in AREA_WORDS or t in CAP_SIGNALS or signal(t) for t in {*tokens, *parts}):
         return False
     company = [i for i, t in enumerate(tokens) if t in GENERIC_NAME_WORDS]
+    if len(tokens) > 1 and not company and "&" not in name and not any(t in _LEGAL_FORMS for t in tokens):
+        return False  # review R1v10 PN4: "Tessaly Transpacific" has no company or legal word to show it is a name
     return not (company and any(t not in GENERIC_NAME_WORDS | _LEGAL_FORMS for t in tokens[company[-1] + 1:]))
 
 

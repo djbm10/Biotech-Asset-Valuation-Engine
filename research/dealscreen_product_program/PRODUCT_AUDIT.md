@@ -203,3 +203,20 @@ unchanged.
    are matched by name only, so differently named subsidiaries create cautious conflicts.
 3. Valuations a Finance Director cannot rebuild by hand (Lane 1 sign-off needed).
 4. No real human session (Gate H) — every result above is AI-simulated.
+
+**Addendum (2026-11-02, revision 11).** Round 10 (`REREVIEW9.md`) found 8 High errors in revision 10:
+- lower-case third parties passed, because only capitalised names were checked;
+- names were placed by their shape or the word next to them;
+- a known name's corporate words absorbed "U.S.";
+- wider reach and later endings in unlisted words;
+- a future option exercise was dropped;
+- rows beside a statement, a return or a lapse were never read;
+- party names had no company word.
+
+Revision 11 reads every word against a per-type allow-list and reads every row beside a clear position.
+Implementer-measured:
+- the reviewer's end-to-end top-tier placements went 7 → 0;
+- no CLDN18.2 science field changed;
+- read directly, 13 of 17 real quotes now block, so clean real wording rarely reaches a top tier.
+
+The verdict above is unchanged, and revision 11 has not been reviewed.

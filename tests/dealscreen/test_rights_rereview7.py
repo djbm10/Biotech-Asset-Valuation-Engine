@@ -253,12 +253,19 @@ def test_usefulness_the_narrowed_wider_list_still_blocks_real_reach(quote):
 # -- Usefulness on real press wording (fictional parties): bylines, suffixes and subsidiaries are not holders -------
 @pytest.mark.parametrize("quote", [
     "Alpha Bio terminated its deal with Origin Bio covering NB-7, Wirecast has learned",
-    ("Alpha Bio entered into a license agreement with Origin Bio Co., Ltd, a subsidiary of Origin Holdings Group "
-     "Limited, for U.S. rights to NB-7"),
     "Alpha Bio, Inc., and Origin Bio announced the end of the U.S. license"])
 def test_usefulness_a_byline_suffix_or_parent_does_not_block(quote):
     end = _quoted(ev(T, grantee="Alpha Bio", territory="United States", d="2025-01-15", related="D1"), quote)
     assert run([ev(L, **US_LIC), end]).tier == TIER1
+
+
+def test_usefulness_a_parent_named_on_the_license_row_does_not_block():
+    """Revision 11 reads every row beside a return, and an ending row restates the ending only: the parent sentence
+    moved to the license row it describes."""
+    lic = _quoted(ev(L, **US_LIC), ("Alpha Bio entered into a license agreement with Origin Bio Co., Ltd, a subsidiary "
+                                    "of Origin Holdings Group Limited, for U.S. rights to NB-7"))
+    end = ev(T, grantee="Alpha Bio", territory="United States", d="2025-01-15", related="D1")
+    assert run([lic, end]).tier == TIER1
 
 
 def test_a_byline_with_a_company_word_is_a_news_source():

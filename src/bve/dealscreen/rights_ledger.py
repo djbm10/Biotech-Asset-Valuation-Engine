@@ -7,6 +7,7 @@ records what each position rests on. Internal to the rights package: ``rights_po
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, field
 from datetime import date
 
@@ -24,7 +25,7 @@ from bve.dealscreen.rights import (
     RightsEvent,
     period_end,
 )
-from bve.dealscreen.rights_territory import party_key, same_company
+from bve.dealscreen.rights_territory import party_key
 
 _GRANT_TYPES = frozenset({LICENSE, OPTION, CO_DEVELOPMENT, CO_PROMOTION_OPTION})
 _ENDINGS = frozenset({TERMINATION, RIGHTS_RETURNED})
@@ -101,6 +102,23 @@ def own_date(e: RightsEvent) -> date | None:
     return w[0] if w else None
 
 
+_LEGAL_FORMS = frozenset({"inc", "incorporated", "ltd", "limited", "co", "corp", "corporation", "llc", "plc", "gmbh",
+                          "ag", "sa", "nv", "bv", "kk", "pte", "pty", "spa", "kgaa", "the"})
+
+
+def _one_entity(a: str | None, b: str | None) -> bool:
+    """Two names for one legal entity: the same words once legal forms and punctuation are removed. Stricter than
+    ``same_company``: "Acme Holdings", "Acme Bio US" and "Acme International" are other entities than "Acme"
+    (review R1v10 OWNER-KEY)."""
+    def words(name: str | None) -> list[str]:
+        low = re.sub(r"(?<![a-z])u\.\s?s\.\s?a\.?(?![a-z])", " usa ", (name or "").casefold())
+        low = re.sub(r"(?<![a-z])u\.\s?s\.?(?![a-z])", " us ", low)
+        return [w for w in re.sub(r"[^\w&]+", " ", low.replace("-", " ")).split() if w not in _LEGAL_FORMS]
+
+    wa, wb = words(a), words(b)
+    return bool(wa) and wa == wb
+
+
 class _Ledger:
     """Replays one program's rights events. See the module docstring for the rules."""
 
@@ -123,7 +141,8 @@ class _Ledger:
         #: have been agreed by then: unless its source is dated after the as-of date, it is not applied as a grant,
         #: and it blocks (review R1v8 FUT; R1v9 FUT2: no source date, or one dated only to a period containing the
         #: as-of date, is not evidence that it came later; in live use the row is already in today's export).
-        self.announced = [e for e in self.after_as_of if as_of and e.event_type in _GRANT_TYPES
+        #: An option exercise is a grant too (review R1v10 FUT3).
+        self.announced = [e for e in self.after_as_of if as_of and e.event_type in _GRANT_TYPES | {OPTION_EXERCISED}
                           and not (e.source_date and e.source_date > as_of)
                           and (e.territory is None or set(e.territory) & territory)]
         later = {e.event_id for e in self.after_as_of + self.straddling}
@@ -162,6 +181,10 @@ class _Ledger:
         holders = {party_key(e.grantee) for e in self.events if e.event_type in _GRANT_TYPES and e.grantee}
         holders |= {party_key(e.grantor) for e in self.events if e.event_type == CO_DEVELOPMENT and e.grantor}
         parties = holders | {party_key(e.grantor) for e in self.events if e.event_type in _GRANT_TYPES and e.grantor}
+        # a party's acquirer is a party too ("Gamma acquired Alpha; Origin Bio acquired Gamma")
+        while grown := {party_key(e.grantee) for e in self.events if e.event_type == ACQUISITION and e.grantee
+                        and party_key(e.grantor) in parties} - parties:
+            parties |= grown
         succession: dict[str, tuple[str, RightsEvent]] = {}
         owners: list[RightsEvent] = []
         for e in self.events:
@@ -198,11 +221,11 @@ class _Ledger:
                 self.questions.append(f"When did {e.grantee} acquire {e.grantor}? Cite a dated source.")
                 self.unapplied.append(e)
                 continue
-            if party_key(e.grantor) not in parties and not (self.company and (same_company(e.grantor, self.company)
-                                                                               or same_company(e.grantee,
-                                                                                               self.company))):
-                # review R1v9 ACQ-X: the acquired party is in no grant and the program's company is neither party,
-                # so the record does not show it is about this program's owner; it may hold rights itself
+            if party_key(e.grantor) not in parties and not (self.company and _one_entity(e.grantor, self.company)):
+                # review R1v9 ACQ-X, R1v10 OWNER-KEY: the acquired party is in no grant and is not the program's
+                # company itself (an affiliate, holding company or regional unit is another entity), so the record
+                # does not show it is about this program's owner; it may hold rights itself. The company buying
+                # someone else says nothing about who holds this program.
                 self.notes.append(f"{_what(e)}: {e.grantor} is neither the program's company nor a party to a "
                                   "recorded grant; not applied")
                 self.blockers.append(f"specific: an acquisition of {e.grantor} by {e.grantee} ({e.when}) names "

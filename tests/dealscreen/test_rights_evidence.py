@@ -259,11 +259,11 @@ def test_availability_plus_active_grant_conflicts():
 # -- AC7 stale -------------------------------------------------------------------------------------------
 def test_stale_and_undated_availability_are_not_counted():
     p = pos([ev(r.AVAILABILITY_STATED, grantor="Origin Bio", territory="worldwide", d="2019-01-01")])
-    assert p.stale and p.position == rp.P_NONE
+    assert p.stale and p.position == rp.P_NOT_APPLIED
     fresh = pos([ev(r.AVAILABILITY_STATED, grantor="Origin Bio", territory="worldwide", d="2025-03-01")])
     assert fresh.position == rp.P_AVAILABILITY and not fresh.stale
     undated = pos([ev(r.AVAILABILITY_STATED, grantor="Origin Bio", territory="worldwide", d=None)])
-    assert undated.position == rp.P_NONE
+    assert undated.position == rp.P_NOT_APPLIED
 
 
 def test_stale_license_flagged_with_question():

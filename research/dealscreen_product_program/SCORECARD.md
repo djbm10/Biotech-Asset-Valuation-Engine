@@ -131,11 +131,19 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 11 (AI-SIMULATED; 2026-11-02):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | Every word of every rights row's quote is read against a per-type allow-list plus the program's own record words; every applied row is read beside a clear position; dates are compared with the as-of date; a future option exercise blocks; an affiliate or the company's own purchase is not "owner acquired" | 1,436 tests; round-10 reviewer's end-to-end top-tier placements 7 → 0 and attack probes 79 → 0 (implementer-measured); CLDN18.2 science unchanged, 2 transaction views move to "rows not applied" with no tier change; read directly, 13 of 17 real quotes block | PARTIAL (recall capped by the imported file; no real vendor export; strict reader holds back most real wording; revision 11 not reviewed) |
+
+Gates H, B and I are unchanged.
+
 **After cycle R1 revision 10 (AI-SIMULATED; 2026-11-02):**
 
 | # | Dimension | Change | Evidence | Status |
 |---|---|---|---|---|
-| 7 | Ownership, rights, licensing | The quote reader fails closed: a cited quote passes only when every name in it is placed and every rights word restates its row. Time and hedge words block endings; wide words and states or provinces block rows that do not cover the buyer territory. Future-dated grants block unless reported after the as-of date; an acquisition of a party in no grant blocks | 122 more held-out tests (1,300 in all); round-9 reviewer's end-to-end top-tier placements 7 → 0 (implementer-measured); CLDN18.2 calls unchanged; 1 of 17 real quotes blocks | PARTIAL (recall capped by the imported file; no real vendor export; revision 10 not reviewed) |
+| 7 | Ownership, rights, licensing | The quote reader fails closed: a cited quote passes only when every name in it is placed and every rights word restates its row. Time and hedge words block endings; wide words and states or provinces block rows that do not cover the buyer territory. Future-dated grants block unless reported after the as-of date; an acquisition of a party in no grant blocks | 122 more held-out tests (1,300 in all); round-9 reviewer's end-to-end top-tier placements 7 → 0 (implementer-measured); CLDN18.2 calls unchanged; 1 of 17 real quotes blocks (misleading: counts only rows that reach the reader; see revision 11) | PARTIAL (recall capped by the imported file; no real vendor export; revision 10 not reviewed) |
 
 Gates H, B and I are unchanged.
 
@@ -143,7 +151,7 @@ Gates H, B and I are unchanged.
 
 | # | Dimension | Change | Evidence | Status |
 |---|---|---|---|---|
-| 7 | Ownership, rights, licensing | Every cited quote is read, whatever the row's territory. Another company named in a clause blocks, as do a partial or conditional ending and an unknown place before "rights". Party names are checked in any letter case. Grants reported before the as-of date but effective after it block, and so do availability statements dated only to the as-of period. Ordinary press words in quotes no longer block | 79 more held-out tests (1,178 in all); round-8 reviewer's end-to-end top-tier placements 7 → 0 (implementer-measured); CLDN18.2 calls unchanged; 1 of 17 real quotes blocks | PARTIAL (recall capped by the imported file; no real vendor export; revision 9 not reviewed) |
+| 7 | Ownership, rights, licensing | Every cited quote is read, whatever the row's territory. Another company named in a clause blocks, as do a partial or conditional ending and an unknown place before "rights". Party names are checked in any letter case. Grants reported before the as-of date but effective after it block, and so do availability statements dated only to the as-of period. Ordinary press words in quotes no longer block | 79 more held-out tests (1,178 in all); round-8 reviewer's end-to-end top-tier placements 7 → 0 (implementer-measured); CLDN18.2 calls unchanged; 1 of 17 real quotes blocks (misleading: counts only rows that reach the reader; see revision 11) | PARTIAL (recall capped by the imported file; no real vendor export; revision 9 not reviewed) |
 
 Gates H, B and I are unchanged.
 

@@ -251,7 +251,8 @@ def _speaker_stripped(quote: str, e: dict[str, Any], company: str | None) -> str
 
 
 def _quote_problem(quote: str, e: dict[str, Any], company: str | None, as_of: date | None,
-                   territory: frozenset[str], names: list[str] | None = None) -> str | None:
+                   territory: frozenset[str], names: list[str] | None = None,
+                   vocabulary: frozenset[str] = frozenset()) -> str | None:
     """Why a cited row's quote blocks, or None. An availability statement's quote must be a plain form in the
     buyer's terms. Any other row's quote is read fail closed, whatever the row's own territory: each clause must be
     a plain form, a restatement of its own row, or say nothing about rights (``rights_quote``, review R1v9)."""
@@ -261,11 +262,12 @@ def _quote_problem(quote: str, e: dict[str, Any], company: str | None, as_of: da
             return None
         return ("is not one of the plain forms DealScreen accepts beside a clear position (it may carry a date, a "
                 "condition, another party or a place)")
-    return quote_problem(text, e, company, as_of, territory, names)
+    return quote_problem(text, e, company, as_of, territory, names, vocabulary)
 
 
 def _read_quotes(found: _Findings, position: RightsPosition, company: str | None, as_of: date | None,
-                 territory: frozenset[str], names: list[str] | None = None) -> None:
+                 territory: frozenset[str], names: list[str] | None = None,
+                 vocabulary: frozenset[str] = frozenset()) -> None:
     """The quote on each cited rights row (review R1v6 QUOTE, R1v7 SPK/QW/QT). A quote that says nothing about rights
     or places adds nothing; otherwise see ``_quote_problem``."""
     for e in position.evidence:
@@ -276,7 +278,7 @@ def _read_quotes(found: _Findings, position: RightsPosition, company: str | None
                                                         or _WIDER.search(quote)):
             continue  # an availability quote that says nothing about rights adds nothing to the row
         # every other cited quote is read, whatever it says (review R1v8 COVER, QW2)
-        why = _quote_problem(quote, e, company, as_of, territory, names)
+        why = _quote_problem(quote, e, company, as_of, territory, names, vocabulary)
         if why is None:
             continue
         row = f"rights row {e.get('row')} ({e.get('type_words') or e.get('type')})"
@@ -365,10 +367,13 @@ def _offer_beside_grant(position: RightsPosition, claims: list[dict[str, Any]]) 
 
 
 def reconcile(position: RightsPosition, commercial: Any, territory: frozenset[str], *, company: str | None = None,
-              as_of: date | None = None, names: list[str] | None = None) -> None:
+              as_of: date | None = None, names: list[str] | None = None,
+              vocabulary: frozenset[str] = frozenset()) -> None:
     """Apply the gate to ``position`` in place (``rights_position`` and ``position_from_field`` build it fresh for
     each program). ``commercial`` is the program's ``CommercialAssessment``; ``company`` the landscape company,
-    used only to refuse; ``names`` the program's own names and ids, which a rights row's quote may name."""
+    used only to refuse; ``names`` the program's own names and ids, which a rights row's quote may name;
+    ``vocabulary`` the words of the program's own landscape record, which a quote may use
+    (``rights_vocab.program_vocabulary``)."""
     statements = _statements(commercial)
     on_ledger = any(e.get("type") != FIELD_STATEMENT for e in position.evidence)
     if position.position in ENCUMBRANCE_POSITIONS | SHARED_POSITIONS:
@@ -390,7 +395,7 @@ def reconcile(position: RightsPosition, commercial: Any, territory: frozenset[st
     _read_statements(found, [c for c in statements if c not in later], company, rests_on, territory, as_of)
     _read_holders(found, position, [c for c in holders if c not in later], company, rests_on, covers_us)
     _read_other(found, [c for c in other if c not in later], company, as_of, territory)
-    _read_quotes(found, position, company, as_of, territory, names)
+    _read_quotes(found, position, company, as_of, territory, names, vocabulary)
     _read_names(found, position, company)
     for reason, cite in found.consistent:
         position.reasons.append(reason)

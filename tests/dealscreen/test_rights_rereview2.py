@@ -48,7 +48,7 @@ def ev(kind: str, *, grantee: str | None = None, grantor: str | None = "Origin B
         territory=sorted(regions) if regions is not None else None,
         event_date=when, event_date_precision=precision, status=status, related_deal_id=related,
         source_system="TEST", dataset_version="TEST:x", row_number=n, source_reference=f"https://example.test/{n}",
-        evidence_quote=f"quote {n}", source_date=source, source_date_precision=source_precision)
+        evidence_quote=None, source_date=source, source_date_precision=source_precision)
 
 
 def pos(events, territory=US, as_of: date | None = date(2025, 6, 1), max_age=730, company: str | None = "Origin Bio"):
@@ -181,10 +181,10 @@ def test_n6_an_undated_statement_is_not_counted_beside_another_statement():
     unreadable = pos([ev(r.AVAILABILITY_STATED, grantor="Origin Bio", d=None),
                       ev(r.AVAILABILITY_STATED, grantor="Origin Bio", territory="Europe and Latin America",
                          d="2025-03-01")])
-    assert unreadable.position == rp.P_NONE and tier(unreadable) not in TOP  # N6a
+    assert unreadable.position == rp.P_NOT_APPLIED and tier(unreadable) not in TOP  # N6a
     completed = pos([ev(r.AVAILABILITY_STATED, grantor="Origin Bio", d=None),
                      ev(r.AVAILABILITY_STATED, grantor="Origin Bio", d="2025-03-01", status="COMPLETED")])
-    assert completed.position == rp.P_NONE and tier(completed) not in TOP  # N6b
+    assert completed.position == rp.P_NOT_APPLIED and tier(completed) not in TOP  # N6b
     superseded = pos([ev(r.AVAILABILITY_STATED, grantor="Origin Bio", d=None),
                       ev(r.AVAILABILITY_STATED, grantor="Origin Bio", d="2024-01-01"),
                       ev(r.LICENSE, grantee="Alpha Bio", territory="United States", d="2024-03-01"),
@@ -228,7 +228,7 @@ def test_n2_h1_an_exercise_with_no_recorded_option_is_evidence_of_a_us_license()
 
 def test_n7a_a_statement_is_judged_on_its_own_date_not_on_a_later_report():
     p = pos([ev(r.AVAILABILITY_STATED, grantor="Origin Bio", territory="worldwide", d="2015-03-01", src="2025-03-01")])
-    assert p.position == rp.P_NONE and tier(p) not in TOP
+    assert p.position == rp.P_NOT_APPLIED and tier(p) not in TOP
 
 
 def test_n10_records_dated_after_the_as_of_date_are_not_applied():
@@ -349,7 +349,7 @@ def test_p1_e7_a_termination_linked_to_the_option_deal_ends_the_license_split_fr
 
 def test_n3b_an_acquisition_outside_the_buyer_territory_does_not_change_the_us_owner():
     p = pos([ev(r.ACQUISITION, grantee="Gamma Corp", grantor="Origin Bio", territory="worldwide excluding the U.S.")])
-    assert p.position == rp.P_NONE and p.owner is None
+    assert p.position == rp.P_NOT_APPLIED and p.owner is None
     prefs = TransactionPreferences(encumbered_rights="deprioritize", deprioritized_holders=["Gamma Corp"])
     assert tier(p, prefs=prefs) == "RIGHTS_UNRESOLVED"
 

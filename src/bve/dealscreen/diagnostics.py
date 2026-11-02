@@ -76,12 +76,16 @@ _NEGATED = re.compile(r"\b(?:not|non|no|formerly|former|previously|ex|lacking|wi
 #: words ("null-Fc", "loss-of-function") name the target, not its absence (review U1 D2); "-independent" does not
 #: (D4).
 _NEGATION_WORDS = r"negative|neg|non[\s\-]?expressing|knock[\s\-]?out|independent"
-_NEGATED_AFTER = re.compile(rf"^(?:[\s\-]*(?:{_NEGATION_WORDS})\b|\s*\(\s*(?:{_NEGATION_WORDS}|formerly|former|"
+_NEGATED_AFTER = re.compile(rf"^(?:[\s\-–—]*(?:{_NEGATION_WORDS})\b|\s*\(\s*(?:{_NEGATION_WORDS}|formerly|former|"
                             r"previously)\s*\))", re.IGNORECASE)
 #: A symbol stated as both negative and positive ("X negative or positive", "X neg/pos", "X-negative and -positive")
 #: is not stated to be absent (review U1 R4 D3).
-_BOTH_STATES = re.compile(r"\b(?:negative|neg)\s*(?:/|\bor\b|\band\b|,)\s*-?\s*(?:positive|pos)\b|"
-                          r"\b(?:positive|pos)\s*(?:/|\bor\b|\band\b|,)\s*-?\s*(?:negative|neg)\b", re.IGNORECASE)
+_BOTH_STATES = re.compile(r"\b(?:negative|neg)\s*(?:/|\bor\b|\band\b|&|,)\s*-?\s*(?:positive|pos)\b|"
+                          r"\b(?:positive|pos)\s*(?:/|\bor\b|\band\b|&|,)\s*-?\s*(?:negative|neg)\b", re.IGNORECASE)
+#: The second state written right after a negated part that the list split off ("X neg" + "/pos"), never a positive
+#: that belongs to another target ("X negative, positive for Y"; review U1 R5 N2).
+_SECOND_STATE = re.compile(r"^\s*(?:/|\bor\b|\band\b|&|,)\s*-?\s*(?:positive|pos)\b(?!\s+(?:for|selection|selected)\b)",
+                           re.IGNORECASE)
 #: A parenthesised note that is only a negation stays with its symbol ("X (formerly)"); any other is its own part.
 _PAREN_NOTE = re.compile(r"\(([^()]*)\)")
 _NEGATION_ONLY = re.compile(rf"^\s*(?:{_NEGATION_WORDS}|formerly|former|previously)\s*$", re.IGNORECASE)
@@ -348,6 +352,20 @@ def _not_text(negated: dict[str, str]) -> str:
     return "; ".join(f"{_quoted([p])} states it is not {symbol}" for p, symbol in negated.items())
 
 
+def _both_states(part: str, values: list[str]) -> bool:
+    """The part itself states both negative and positive, or the second state follows it directly in its cell.
+    Another target's "negative or positive" elsewhere in the cell does not count (review U1 R5 N2)."""
+    if _BOTH_STATES.search(part):
+        return True
+    for value in values:
+        start = value.find(part)
+        while start != -1:
+            if _SECOND_STATE.match(value[start + len(part):]):
+                return True
+            start = value.find(part, start + 1)
+    return False
+
+
 def target_diagnostic(values: list[str], conflicting: bool, targets: list[Any], read: TargetReader,
                       separator: str) -> dict[str, Any]:
     required_ids = {t.canonical_id for t in targets}
@@ -363,9 +381,8 @@ def target_diagnostic(values: list[str], conflicting: bool, targets: list[Any], 
     matches = {p: ("required", "") if readings[p] in required_ids else _match_required(p, patterns) for p in parts}
     named = {p: m[1] for p, m in matches.items() if m and m[0] == "required"}
     isoforms = {p: m[1] for p, m in matches.items() if m and m[0] == "isoform"}
-    both = [v for v in values if _BOTH_STATES.search(v)]
     negated = {p: m[1] for p, m in matches.items()
-               if m and m[0] == "negated" and readings[p] is None and not any(p in v for v in both)}
+               if m and m[0] == "negated" and readings[p] is None and not _both_states(p, values)}
     placeholders = [p for p in parts if readings[p] is None and _placeholder(p)]
     maybe = [p for p in parts if p not in named and p not in isoforms and p not in negated and readings[p] is None
              and p not in placeholders and any(s.search(p) for s in stems)]
@@ -389,9 +406,11 @@ def target_diagnostic(values: list[str], conflicting: bool, targets: list[Any], 
                        + (f" ({'; '.join(extra)})" if extra else "") + ".",
                        "names the required target, but no target set was built", fact, "target")
     if maybe:
+        rest = [p for p in parts if p not in maybe]
+        also = f"; also on record: {_quoted(rest)}" if rest else ""
         return _result(SOURCE_MAY_NAME_REQUIRED_TARGET, values,
                        f"{_quoted(maybe)} contains {symbols} or its name, in a form neither the target "
-                       f"authority nor DealScreen reads; the requirement is {wanted}.",
+                       f"authority nor DealScreen reads; the requirement is {wanted}{also}.",
                        "the required target in a form DealScreen does not read", fact, "target")
     if others or unread_names:
         sentences = [f"The record names {', '.join(others)}; none is {wanted}."] if others else []

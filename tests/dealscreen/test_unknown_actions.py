@@ -773,3 +773,40 @@ def test_r5_d3_a_target_stated_both_negative_and_positive_is_not_stated_absent(v
 def test_r5_d3_a_negated_target_beside_another_positive_target_stays_negated():
     d = dg.target_diagnostic(["ABC1.2 negative; XYZ positive"], False, REQ, READ, ";")
     assert "'ABC1.2 negative' states it is not ABC1.2" in d["record"]
+
+
+# -- U1 revision 6: REVIEW5 N1, N2, N3 ---------------------------------------------------------------------------------
+@pytest.mark.parametrize("name", ["Relapsed ALL in adults", "Relapsed or refractory ALL in adults", "ALL in children",
+                                  "ALL RELAPSED", "ALL in adults", "ALL relapsed", "ALL patients", "ALL Adults",
+                                  "ALL REFRACTORY", "ALL - RELAPSED", "ALL ADVANCED", "ALL PATIENTS"])
+def test_r6_n1_all_before_a_qualifier_or_population_word_is_not_a_basket(name):
+    assert not ir.is_basket(name)
+    assert dg.indication_diagnostic([name], ALL_ADULT)["class"] != ir.BASKET
+
+
+@pytest.mark.parametrize("value, other", [
+    ("not ABC1.2; XYZ positive or negative", "XYZ"),
+    ("ABC1.2 negative, positive for XYZ", "XYZ"),
+    ("ABC1.2 negative; XYZ negative or positive", "XYZ"),
+    ("ABC1.2-negative, XYZ neg/pos", "XYZ"),
+    ("ABC1.2 negative (XYZ positive or negative)", "XYZ")])
+def test_r6_n2_another_targets_both_states_do_not_cancel_the_required_targets_negation(value, other):
+    d = dg.target_diagnostic([value], False, REQ, READ, ";")
+    assert d["class"] == dg.SOURCE_NAMES_OTHER_TARGETS, d
+    assert "states it is not ABC1" in d["record"] and other in d["record"]
+
+
+@pytest.mark.parametrize("value", ["ABC1.2 negative or positive", "ABC1.2 neg/pos", "ABC1.2-negative and -positive",
+                                   "ABC1.2 negative and positive cohorts", "ABC1.2 neg & pos"])
+def test_r6_n2_the_required_target_stated_both_ways_is_still_not_absent(value):
+    assert dg.target_diagnostic([value], False, REQ, READ, ";")["class"] != dg.SOURCE_STATES_NOT_REQUIRED_TARGET
+
+
+def test_r6_n3_an_en_dash_before_negative_is_a_negation():
+    d = dg.target_diagnostic(["ABC1.2–negative"], False, REQ, READ, ";")
+    assert d["class"] == dg.SOURCE_STATES_NOT_REQUIRED_TARGET
+
+
+def test_r6_the_may_name_sentence_lists_the_other_parts():
+    d = dg.target_diagnostic(["ABC1L2; XYZ"], False, REQ, READ, ";")
+    assert d["class"] == dg.SOURCE_MAY_NAME_REQUIRED_TARGET and "also on record: 'XYZ'" in d["record"]

@@ -431,9 +431,12 @@ def is_basket(name: str) -> bool:
 
 def _before_basket_word(name: str, end: int) -> bool:
     """Whether a word in capitals is followed by a basket word, so it reads as an ordinary word: "ALL COMERS",
-    "ALL SOLID TUMORS" (review U1 D3). "RELAPSED ALL" and "ALL, RELAPSED" are the acronym (review U1 R4 D1)."""
+    "ALL SOLID TUMORS" (review U1 D3). "RELAPSED ALL", "ALL, RELAPSED" and "ALL in adults" are the acronym (review U1
+    R4 D1, R5 N1)."""
     after = re.match(r"[\s\-]+([A-Za-z]+)", name[end:])
-    return after is not None and after.group(1).casefold() in _BASKET_WORDS - {"all"}
+    # only a tumour head, "solid" or "comers": a qualifier or population word after "ALL" ("ALL relapsed", "ALL in
+    # adults") keeps it the acronym (review U1 R5 N1)
+    return after is not None and after.group(1).casefold() in _BASKET_HEADS | {"solid", "comers"}
 
 
 def _acronym(token: str) -> bool:

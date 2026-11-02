@@ -551,10 +551,10 @@ def _decide(ledger: _Ledger, territory: frozenset[str], used: list[RightsEvent])
     if (returned_only := _return_only(ledger, territory, terr, used)) is not None:
         return returned_only
     recorded = "; ".join(_what(e) for e in ledger.unmatched)
-    if ledger.straddling or ledger.announced:  # review R1v9 LBL-NONE: rows exist; none applies on the as-of date
-        return RightsPosition(P_NOT_APPLIED, reasons=["rights rows are recorded, but none applies on the as-of date"],
-                              questions=[f"Who holds {terr} rights now?"])
-    return RightsPosition(P_NONE, reasons=["no usable grant recorded"], questions=[
+    # review R1v9 LBL-NONE, R1v10 LBL-NONE2: rows are recorded (this path is reached only with events), but none
+    # applies on the as-of date or gives a position; that is not the absence of rights evidence
+    return RightsPosition(P_NOT_APPLIED, reasons=[
+        "rights rows are recorded, but none applies on the as-of date to give a position"], questions=[
         f"Who holds {terr} rights now?" + (f" Recorded without the grant it concerns: {recorded}." if recorded else "")])
 
 
@@ -647,6 +647,9 @@ def rights_position(events: list[RightsEvent], *, territory: frozenset[str], as_
     if pos.position in CLEAR_POSITIONS:
         _owner_check(ledger, pos)
         _clear_checks(ledger, pos)
+        # review R1v10 UNCITED: a clear position cites every applied row, so the gate reads every quote (a grant
+        # over another territory beside a return may name who holds the buyer territory)
+        used += ledger.events
     else:
         _staleness(pos, ledger.decisive or used, as_of, max_age_days)
     _old_grants(ledger, pos, territory, as_of, max_age_days)

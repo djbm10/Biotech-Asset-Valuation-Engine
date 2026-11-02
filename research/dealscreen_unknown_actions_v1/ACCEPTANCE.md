@@ -127,3 +127,7 @@ Two changes were made during implementation. Neither loosens a criterion.
   under the request's site are different diseases (review D2). Cost: FIGO endometrial, adult liver and anal canal
   stage concepts are different diseases too. A capitalised acronym is a basket word only before a basket word
   ("ALL COMERS"; review D1). None of these changes a gate, disposition, rank or transaction field.
+- **After the fifth U1 review (revision 6), disclosed.** A capitalised acronym is the word "all" only before a tumour
+  head, "solid" or "comers", so "ALL relapsed" and "ALL in adults" are the acronym (review N1). A required target's
+  negation is cancelled only by a second state in its own part or written directly after it, never by another
+  target's "negative or positive" (review N2). None of these changes a gate, disposition, rank or transaction field.

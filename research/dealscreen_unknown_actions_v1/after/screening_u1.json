@@ -6507,9 +6507,8 @@
       ],
       "transaction": {
         "diligence_questions": [
-          "Would Astellas license or sell US rights?",
-          "Is this rights evidence still current?",
-          "Does the note 'U.S. labeler per FDA label; not a rights statement' that the landscape writes beside Astellas Pharma US, Inc. mean that a third party holds U.S. rights?"
+          "Who holds US rights now?",
+          "What rights to this program did Ganymed hold when Astellas acquired it?"
         ],
         "evidence": [
           {
@@ -6528,56 +6527,34 @@
             "territory": null,
             "type": "ACQUISITION",
             "type_words": "acquisition"
-          },
-          {
-            "column": "US Rights Holder",
-            "date": "2026-10-29",
-            "event_id": "ds:4cc0848e49c9:us_rights_holder:3d7989f84b04",
-            "grantee": null,
-            "grantor": null,
-            "origin": "SOURCE_PROVIDED",
-            "quote": "Astellas Pharma US, Inc. (U.S. labeler per FDA label; not a rights statement)",
-            "row": 1,
-            "source": "https://clinicaltrials.gov/study/NCT07872722; https://clinicaltrials.gov/study/NCT07723534; https://clinicaltrials.gov/study/NCT07829757; https://clinicaltrials.gov/study/NCT06732856; https://clinicaltrials.gov/study/NCT01630083",
-            "source_date": "2026-10-29",
-            "source_system": "BVE_PUBLIC_SOURCES",
-            "territory": "U.S. (the field's market)",
-            "type": "FIELD_STATEMENT",
-            "type_words": "U.S. rights holder",
-            "value": "Astellas Pharma US, Inc. (U.S. labeler per FDA label; not a rights statement)"
           }
         ],
         "notes": [
-          "may be the same molecule as IMAB362 (identity flag; check its resolution)",
-          "rights evidence is stale; confirm it is current"
+          "may be the same molecule as IMAB362 (identity flag; check its resolution)"
         ],
-        "owner_per_evidence": "Astellas",
+        "owner_per_evidence": null,
         "position_reasons": [
-          "Astellas acquired Ganymed (the company or its rights to this program) per source; no third-party grant recorded",
-          "an acquisition (reported 2016-10) naming Astellas, which this position rests on, is more than 730 days before 2026-10-29",
+          "rights rows are recorded, but none applies on the as-of date to give a position",
+          "an acquisition (reported 2016-10) naming Astellas: Ganymed is neither the program's company nor a party to a recorded grant; not applied",
           "the landscape also names a U.S. rights holder or labeler: Astellas Pharma US, Inc. (U.S. labeler per FDA label; not a rights statement)"
         ],
         "reasons": [
           "marketed in the U.S. per source",
-          "rights holder or owner per evidence 'Astellas' matches declared 'Astellas'",
-          "Astellas acquired Ganymed (the company or its rights to this program) per source; no third-party grant recorded",
-          "an acquisition (reported 2016-10) naming Astellas, which this position rests on, is more than 730 days before 2026-10-29",
+          "rights holder or owner per evidence 'Astellas Pharma US, Inc. (U.S. labeler per FDA label; not a rights statement)' matches declared 'Astellas'",
+          "rights rows are recorded, but none applies on the as-of date to give a position",
+          "an acquisition (reported 2016-10) naming Astellas: Ganymed is neither the program's company nor a party to a recorded grant; not applied",
           "the landscape also names a U.S. rights holder or labeler: Astellas Pharma US, Inc. (U.S. labeler per FDA label; not a rights statement)"
         ],
-        "rights_holder_per_evidence": "Astellas",
-        "rights_position": "OWNER_ACQUIRED_PER_EVIDENCE",
+        "rights_holder_per_evidence": null,
+        "rights_position": "RIGHTS_ROWS_NOT_APPLIED",
         "rights_rows_not_applied": [],
         "sort_bonus": 0,
-        "stale": true,
+        "stale": false,
         "territory": [
           "US"
         ],
         "tier": "EXCLUDED_BY_BUYER_PREFERENCE",
-        "top_tier_blockers": [
-          "complete: only an acquisition is recorded (reported 2016-10); it says nothing about licenses over US",
-          "current: an acquisition (reported 2016-10) naming Astellas is more than 730 days before 2026-10-29",
-          "uncontested: the landscape names the U.S. rights holder as 'Astellas Pharma US, Inc. (U.S. labeler per FDA label; not a rights statement)'; the note 'U.S. labeler per FDA label; not a rights statement' is not read, and it may name a third party"
-        ]
+        "top_tier_blockers": []
       },
       "transaction_rank": null,
       "unknown_diagnostics": {},
@@ -12269,8 +12246,8 @@
       ],
       "transaction": {
         "diligence_questions": [
-          "Would Astellas license or sell US rights?",
-          "Is this rights evidence still current?"
+          "Who holds US rights now?",
+          "What rights to this program did Ganymed hold when Astellas acquired it?"
         ],
         "evidence": [
           {
@@ -12292,32 +12269,28 @@
           }
         ],
         "notes": [
-          "may be the same molecule as Zolbetuximab (identity flag; check its resolution)",
-          "rights evidence is stale; confirm it is current"
+          "may be the same molecule as Zolbetuximab (identity flag; check its resolution)"
         ],
-        "owner_per_evidence": "Astellas",
+        "owner_per_evidence": null,
         "position_reasons": [
-          "Astellas acquired Ganymed (the company or its rights to this program) per source; no third-party grant recorded",
-          "an acquisition (reported 2016-10) naming Astellas, which this position rests on, is more than 730 days before 2026-10-29"
+          "rights rows are recorded, but none applies on the as-of date to give a position",
+          "an acquisition (reported 2016-10) naming Astellas: Ganymed is neither the program's company nor a party to a recorded grant; not applied"
         ],
         "reasons": [
-          "rights holder or owner per evidence 'Astellas' matches declared 'Astellas'",
-          "Astellas acquired Ganymed (the company or its rights to this program) per source; no third-party grant recorded",
-          "an acquisition (reported 2016-10) naming Astellas, which this position rests on, is more than 730 days before 2026-10-29"
+          "registry sponsor / labeler 'Astellas Pharma Global Development, Inc.' matches declared 'Astellas' (not a rights statement; verify)",
+          "rights rows are recorded, but none applies on the as-of date to give a position",
+          "an acquisition (reported 2016-10) naming Astellas: Ganymed is neither the program's company nor a party to a recorded grant; not applied"
         ],
-        "rights_holder_per_evidence": "Astellas",
-        "rights_position": "OWNER_ACQUIRED_PER_EVIDENCE",
+        "rights_holder_per_evidence": null,
+        "rights_position": "RIGHTS_ROWS_NOT_APPLIED",
         "rights_rows_not_applied": [],
         "sort_bonus": 0,
-        "stale": true,
+        "stale": false,
         "territory": [
           "US"
         ],
         "tier": "DEPRIORITIZED",
-        "top_tier_blockers": [
-          "complete: only an acquisition is recorded (reported 2016-10); it says nothing about licenses over US",
-          "current: an acquisition (reported 2016-10) naming Astellas is more than 730 days before 2026-10-29"
-        ]
+        "top_tier_blockers": []
       },
       "transaction_rank": null,
       "unknown_diagnostics": {},

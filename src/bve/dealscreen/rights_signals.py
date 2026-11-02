@@ -31,7 +31,7 @@ _RIGHT_KINDS: tuple[tuple[str, str], ...] = (
     ("transfer", r"transferr?\w*|assign\w*"),
     ("option", r"options?|opt-?in|opt|opts|opted|exercis\w*|unexercised"),
     ("codev", (r"co-?develop\w*|co-?commerciali[sz]\w*|co-?promot\w*|co-?exclusiv\w*|co-?market\w*|joint\w*|"
-              r"collaborat\w*|partner\w*|alliance\w*|shar\w*")),
+              r"collaborat\w*|partner\w*|alliance\w*|shared|sharing|co-?shar\w*|\w+-sharing")),
     ("end", (r"terminat\w*|return\w*|revert\w*|reversion|regain\w*|reacquir\w*|end|ends|ended|ending|lapse\w*|"
             r"expir\w*|discontinu\w*|cancel\w*|rescind\w*|withdr[ae]w\w*|exit\w*")),
     ("acquire", (r"acqui\w*|merg\w*|purchas\w*|buy|buys|bought|takeover|tender|shares?|shareholders?|stake|"
