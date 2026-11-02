@@ -521,8 +521,9 @@ def test_f1_analyst_availability_is_cited_dated_and_the_memo_says_what_it_fed(tm
     assert f"{fresh_name} (" in memo and "newest evidence 2026-04-01" in memo and "[analyst assertion]" in memo
     assert ("an analyst statement of availability ('U.S. rights available; seeking a partner') is dated 2015-01-01, "
             "more than 730 days before") in memo and "so it is not counted" in memo
-    assert "rights assertions changed no gate but feed the transaction view for:" in memo
-    assert f"{old_name} (rights unresolved)" in memo and f"{fresh_name} (availability stated, unverified)" in memo
+    assert "rights assertions changed no gate; the transaction view reads them" in memo
+    assert f"{old_name} (asserted: U.S. rights; transaction view now: rights unresolved)" in memo
+    assert f"{fresh_name} (asserted: U.S. rights; transaction view now: availability stated, unverified)" in memo
 
 
 def test_ac10_the_memo_summary_line_gives_the_reason_for_the_position_not_a_preference_match():

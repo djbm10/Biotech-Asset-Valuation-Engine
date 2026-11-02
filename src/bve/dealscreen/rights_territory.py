@@ -160,6 +160,22 @@ def split_note(name: str | None) -> tuple[str, str]:
     return " ".join(_NOTE.sub(" ", text).split()), "; ".join(n for n in notes if n)
 
 
+#: One word in parentheses right before a corporate form is part of the legal name: "Acme Bio (Basel) Co., Ltd.".
+_IN_LEGAL_NAME = re.compile(r"\(\s*(?P<word>[A-Za-z]+(?:\s+[A-Za-z]+)?)\s*\)"
+                            r"(?=\s*(?:co|corp|corporation|ltd|limited|inc|llc|gmbh|ag)\b\.?)", re.IGNORECASE)
+
+
+def content_note(name: str | None) -> str:
+    """The notes beside a party name that are content (``split_note``), leaving out a place in parentheses that is part
+    of the legal name before its corporate form: one word ("Acme Bio (Basel) Co., Ltd."; review R1v5 U3) or a region
+    the territory reader knows ("Acme Bio (Hong Kong) Limited"; review R1v6)."""
+    def keep(m: re.Match[str]) -> str:
+        word = m["word"]
+        return " " if " " not in word.strip() or _is_region(word) else m.group(0)
+
+    return split_note(_IN_LEGAL_NAME.sub(keep, name or ""))[1]
+
+
 _CORPORATE_FORM = re.compile(r"(?<![A-Za-z])(?:inc|incorporated|ltd|limited|co|corp|corporation|llc|plc|gmbh|ag|"
                              r"s\.?a|n\.?v|b\.?v)(?![A-Za-z])\.?", re.IGNORECASE)
 
@@ -211,5 +227,5 @@ def name_matches(declared: str, name: str | None) -> bool:
     return re.search(rf"(?<!\w){re.escape(key)}(?!\w)", target) is not None
 
 
-__all__ = ["GENERIC_NAME_WORDS", "GREATER_CHINA", "REGIONS", "drop_address", "name_matches", "parse_territory",
+__all__ = ["GENERIC_NAME_WORDS", "GREATER_CHINA", "REGIONS", "content_note", "drop_address", "name_matches", "parse_territory",
            "party_key", "regions_named", "same_company", "split_note"]

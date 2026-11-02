@@ -104,3 +104,21 @@ Gates H and B are unchanged: an AI-simulated analyst is not a human user or an i
 | 12 | Excel and report quality | Memo rights summary computed and in words; rows not applied listed with their parties; the "also exists" line counts the reasons it omits | regenerated outputs | PARTIAL (no human reader) |
 
 Gates H, B and I are unchanged.
+
+**After cycle R1 revision 6 (AI-SIMULATED; 2026-11-01):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | The top-tier gate's default inverted: beside a clear position a rights text passes only as a plain form; Partnerships, Geographic Notes and notes in party and company names are read; status-flag endings and undated acquisitions no longer clear a grant; the field path applies only to a U.S.-only buyer territory | 90 more held-out tests (743 in all); round-5 reviewer's flagged top-tier placements 18 → 0 (implementer-measured); CLDN18.2 calls unchanged | PARTIAL (unchanged: recall capped by the imported file; no real vendor export) |
+| 12 | Excel and report quality | The memo's availability sentence no longer describes checks as proof; assertions listed with their fields; a program's own rejected rights row shown in its line; `assert` says whether the gate accepts a text | regenerated outputs | PARTIAL (no human reader) |
+
+Gates H, B and I are unchanged.
+
+**After cycle R1 revision 7 (AI-SIMULATED; 2026-11-01):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | The plain forms read places as written and in the buyer's territory, refuse notes and cross-clause pronouns, and never accept what the reader cannot read; ownership words and rights rows' quotes are read; the U.S.-rights field is read for any buyer territory containing the U.S. | 72 more held-out tests (816 in all); round-6 reviewer's end-to-end top-tier placements 12 → 0 (implementer-measured); CLDN18.2 calls unchanged | PARTIAL (unchanged: recall capped by the imported file; no real vendor export; revision 7 not reviewed) |
+| 12 | Excel and report quality | Memo says which inputs were read; names-only Partnerships assertions not listed as read; `assert` gives the gate's verdict for the buyer territory | regenerated outputs | PARTIAL (no human reader) |
+
+Gates H, B and I are unchanged.

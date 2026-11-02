@@ -108,14 +108,19 @@ STATED = {"territory": "United States", "d": "2025-03-01"}
      "has no date, so its ending cannot be ordered against it"),  # A1c
     ([ev(L, territory="United States", d="2024-03-01"), ev(T, d="2025-01-01"), ev(AV, **STATED)],
      "names no licensee"),  # A1e
-    ([ev(L, **US_LICENSE), ev(AQ, grantee="Origin Bio", grantor="Alpha Bio", d=None), ev(AV, **STATED)],
-     "an acquisition (undated) naming Origin Bio has no date of its own"),  # A1d (judgement now decided)
-], ids=["A1a", "A1b", "A1c", "A1e", "A1d"])
+], ids=["A1a", "A1b", "A1c", "A1e"])
 def test_a1_an_ended_grant_beside_an_availability_statement_passes_the_returned_path_checks(events, words):
     v = run(events)
     assert v.position == rp.P_AVAILABILITY and v.tier == UNRESOLVED
     assert blocked(v, words), v.top_tier_blockers
     assert len(v.evidence) == len(events)  # the grant and its ending are cited beside the statement
+
+
+def test_a1d_an_undated_acquisition_never_merges_a_license_into_the_company():
+    """Revision 6 (review R1v5 O1): an undated acquisition is not applied, so Alpha Bio's U.S. license stays in force
+    beside the statement: a conflict, held out of the top tiers, with the acquisition named."""
+    v = run([ev(L, **US_LICENSE), ev(AQ, grantee="Origin Bio", grantor="Alpha Bio", d=None), ev(AV, **STATED)])
+    assert v.position == rp.P_CONFLICTING and v.tier == UNRESOLVED
 
 
 # -- A2: the party a statement comes from must be the landscape company (rule 2) ----------------------------------
@@ -181,7 +186,11 @@ def test_t_the_assert_command_says_how_it_read_the_statement():
 
     assert rights_reading_note("No U.S. rights available") == "DealScreen reads it as: not available."
     assert "cannot read all of it" in rights_reading_note("Available in Latin America")
-    assert rights_reading_note("Acme Bio is seeking a partner for U.S. rights").endswith("made by Acme Bio.")
+    note = rights_reading_note("Acme Bio is seeking a partner for U.S. rights")
+    assert "made by Acme Bio." in note and "not one of the plain forms" in note
+    # Revision 7 (review R1v6 L3b): the note names the buyer territory the gate reads against.
+    assert "accepts it as a plain form for the buyer territory (US): an offer" in rights_reading_note("Acme Bio is seeking a partner for U.S. "
+                                                                          "rights", "Acme Bio")
 
 
 def test_a7a_a_statement_covering_part_of_the_buyer_territory_is_blocked():

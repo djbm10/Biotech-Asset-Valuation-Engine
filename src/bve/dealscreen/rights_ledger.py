@@ -167,6 +167,13 @@ class _Ledger:
                 self.blockers.append(f"specific: an acquisition ({e.when}) covers only part of {self.terr}")
                 self.unapplied.append(e)
                 continue
+            if own_date(e) is None:  # review R1v5 O1: an undated acquisition cannot say who the company is now
+                self.notes.append(f"{_what(e)} has no date; not applied")
+                self.blockers.append(f"current: an acquisition of {e.grantor} by {e.grantee} has no date, so it cannot "
+                                     "show who holds the rights now")
+                self.questions.append(f"When did {e.grantee} acquire {e.grantor}? Cite a dated source.")
+                self.unapplied.append(e)
+                continue
             succession[party_key(e.grantor)] = (e.grantee, e)
             if party_key(e.grantor) not in holders:
                 owners.append(e)
@@ -230,9 +237,17 @@ class _Ledger:
         # A record naming only the licensor is a grant to a licensee not named, never to the licensor (R1v3 N1).
         g = _Grant(e, kind, shared, set(e.territory) if e.territory is not None else None,
                    holder=e.grantee or "", grantor=e.grantor)
-        if e.status in {"TERMINATED", "EXPIRED"}:
+        reported_later = bool(self.as_of and e.source_date and e.source_date > self.as_of)
+        if e.status in {"TERMINATED", "EXPIRED"} and reported_later:  # review R1v5 E2: not known on the as-of date
+            self.notes.append(f"{e.words} ({e.when}): its status '{e.status.lower()}' is reported in a source dated "
+                              f"{e.source_date_text}, after the as-of date {self.as_of}; not applied")
+        elif e.status in {"TERMINATED", "EXPIRED"}:
             g.active = False
             g.cleared_by.append(e)
+            if self.as_of and e.source_date is None:  # review R1v6 S2: the status may describe a later export
+                self.blockers.append(f"current: the {e.words} ({e.when}) is ended only by its status "
+                                     f"'{e.status.lower()}', which no source date places before the as-of date "
+                                     f"{self.as_of}")
             if kind == OPTION and e.status == "EXPIRED":  # an expired option lapsed (review R1v3 H5)
                 g.lapsed = e
         self.grants.append(g)

@@ -29,7 +29,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from bve.dealscreen.rights_territory import _EXCLUSION, _WORLD, regions_named
+from bve.dealscreen.rights_territory import _EXCLUSION, _WORLD, _is_region, regions_named
 
 AVAILABLE = "AVAILABLE_PER_SOURCE"
 AVAILABLE_CONFIRMED = "AVAILABLE_ANALYST_CONFIRMED"
@@ -105,7 +105,7 @@ _TRIVIAL = frozenset({"in", "the", "us", "for", "rights", "right", "yet", "to", 
                       "parties", "anyone", "and", "is", "are", "currently", "program", "asset"})
 _NOT_AVAILABLE = re.compile(
     r"\b(?:not|no longer|never)\b[^.;]{0,25}\bavailable\b"
-    r"|\bunavailable\b|\bno rights\b|\brights retained by\b"
+    r"|\bunavailable\b|\bno rights\b"
     r"|\b(?:no|none|nothing)\b(?:\s+(?:us|worldwide|global|other|further|more|commercial|development|licensing|"
     r"rights?|territor(?:y|ies)|of|the|program|asset|is|are|currently|now))*\s+available\b"
     r"|\bavailable\b[^.;]{0,30}?(?:[:?=(]|\s[-–—])\s*(?:no|n|none|not anymore|not at this time|"
@@ -131,23 +131,44 @@ _RETAINED = re.compile(r"^(?:the\s+)?(?:(?:US|worldwide|global|all)\s+)?(?:comme
 _CORE = re.compile(r"\b(?:available|seek(?:s|ing)?|sought|open to)\b", re.IGNORECASE)
 #: Party names follow these words in deal text ("licensed to ChinaCo"); places in them are not territories.
 _PARTY_SPAN = re.compile(r"\b(?:to|with|by|from)\s+(?:the\s+)?(?:[A-Z0-9][\w.&'’-]*\s*)+")
+
+
+def _erase_parties(clause: str) -> str:
+    """Party names after "to", "with", "by" or "from" are erased before places are read, so a place in a party name
+    ("licensed to Origin Bio China") is not a territory. A span that starts with a place ("an option to US rights",
+    "expanded to North America") is a territory, not a party (review R1v5 R4)."""
+    def erase(m: re.Match[str]) -> str:
+        words = re.sub(r"^\w+\s+(?:the\s+)?", "", m.group(0)).split()
+        return m.group(0) if any(_is_region(" ".join(words[:n])) for n in (1, 2, 3) if len(words) >= n) else " "
+
+    return _PARTY_SPAN.sub(erase, clause)
 _US_EXCLUDED = re.compile(r"(?:\b(?:excluding|outside(?:\s+of)?|except(?:\s+for)?|other than|not in|but not)\s+"
                           r"(?:the\s+)?|(?<![A-Za-z])ex-\s*)US\b", re.IGNORECASE)
 _CODE = re.compile(r"(?=[a-z0-9-]*[a-z])(?=[a-z0-9-]*\d)[a-z0-9-]+")
+#: A date or period is never a program code ("2H27", "FY27", "Q3", "post-2026", "1H2027"; review R1v5 R1).
+_DATE_TOKEN = re.compile(r"(?:[1-4]?h[12]?|fy|q[1-4]|cy|h[12]|(?:post|pre|after|before|from|by|until|end|mid|early|"
+                         r"late|since)-?)?-?(?:19|20)?\d{2,4}s?|q[1-4](?:-?(?:19|20)?\d{2})?|[1-4]?h[12]|"
+                         r"(?:[1-4]h|fy|q[1-4])-?(?:19|20)?\d{2}")
+#: Another party's role: never the one offering (review R1v5 R2).
+_ROLE = frozenset({"licensee", "licensees", "licensor", "collaborator", "collaborators", "partner", "partners",
+                   "acquirer", "acquirers", "buyer", "buyers"})
+_SEEK = frozenset({"seeking", "seeks", "seek", "sought"})
+_OPEN_TO = re.compile(r"\bopen to (?=(?:a |new |potential |strategic )?(?:partner|licens|out-licens|collaborat|"
+                      r"co-?(?:promot|develop|commerciali)|discussions|offers|deals?\b))", re.IGNORECASE)
 _TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9'’&\-]*|[?:=()]")
 #: Every word an offer may contain (lower case). Anything else leaves the clause unread.
 _VOCAB = frozenset({
-    "available", "availability", "seeking", "seeks", "seek", "sought", "open", "to", "for", "yes", "offers",
+    "available", "availability", "seeking", "seeks", "seek", "sought", "open", "for", "yes", "offers",
     "discussions", "partner", "partners", "partnership", "partnerships", "partnering", "licensee", "licensees",
     "licensing", "license", "licence", "out-licensing", "out-license", "out-licence", "outlicensing",
     "co-development", "codevelopment", "co-promotion", "copromotion", "co-commercialization", "co-commercialisation",
-    "collaboration", "collaborations", "collaborator", "collaborators", "acquisition", "acquirer", "acquirers",
-    "buyer", "buyers", "sale", "deal", "deals", "transaction", "transactions", "strategic", "commercial",
+    "collaboration", "collaborations", "collaborator", "collaborators", "acquisition",
+    "sale", "deal", "deals", "transaction", "transactions", "strategic", "commercial",
     "commercialization", "commercialisation", "development", "exclusive", "non-exclusive", "new", "potential",
-    "suitable", "rights", "right", "program", "programme", "asset", "candidate", "compound", "product", "its", "our",
+    "suitable", "rights", "right", "program", "programme", "asset", "candidate", "compound", "its", "our",
     "us", "worldwide", "global", "globally", "world", "territories", "territory", "markets", "all", "the", "a", "an",
     "of", "and", "in", "is", "are", "remains", "remain", "currently", "now", "actively", "company", "it", "we", "that",
-    "stated", "states", "says", "said", "per", ":", "owner",
+    "stated", "states", "says", "said", "per", ":", "owner", "or",
 })
 _GENERIC_SUBJECT = frozenset({"the", "company", "it", "we", "owner", "our", "its"})
 _SUBJECT_VERBS = frozenset({"is", "are", "remains", "has", "have", "stated", "states", "says", "said", "seeks",
@@ -158,7 +179,7 @@ def _covers_us(clause: str) -> bool:
     """Whether a clause about a grant, an offer or a refusal may concern the U.S.: it names the U.S. (not excluded),
     the world, the rest of the world after an exclusion ("ex-China"), or no place at all. Place words inside a party
     name ("licensed to Origin Bio China") are not territories."""
-    text = _PARTY_SPAN.sub(" ", clause)
+    text = _erase_parties(clause)
     if _US_EXCLUDED.search(text):
         return False
     named = regions_named(text)
@@ -185,15 +206,30 @@ def _offer(clause: str) -> tuple[bool, str | None]:
     """A plain present offer of U.S. rights or of rights with no place named, and the named party making it."""
     if not _CORE.search(clause):
         return False, None
-    tokens = _TOKEN.findall(clause)
+    tokens = _TOKEN.findall(_OPEN_TO.sub("open for ", clause))
     party, start = _subject(tokens)
     rest = [t.casefold() for t in tokens[start:]]
     has_us = "us" in rest
-    for token in rest:
-        if token in _VOCAB or (token == "only" and has_us) or _CODE.fullmatch(token):
+    sought = start > 0 and tokens[start - 1].casefold() in _SEEK
+    for i, token in enumerate(rest):
+        sought = sought or token in _SEEK
+        if token in _ROLE and not sought and not (i + 1 < len(rest) and rest[i + 1] == "sought"):
+            return False, None
+        if token in _VOCAB or (token == "only" and has_us) or (_CODE.fullmatch(token)
+                                                               and not _DATE_TOKEN.fullmatch(token)):
             continue
         return False, None
     return True, party
+
+
+#: "Ex-China rights", "rights outside China": everything but a place, so the U.S. too (review R1v5 U1).
+_EX_PLACE = re.compile(r"\b(?:ex-?\s*|outside\s+(?:of\s+)?)(?:the\s+)?(?P<place>[A-Za-z][A-Za-z .&-]*?)"
+                       r"(?=\s+(?:rights?|territor\w*|markets?|available)\b|\s*$|\s*,)", re.IGNORECASE)
+
+
+def _global_if_place(m: re.Match[str]) -> str:
+    place = m["place"].strip()
+    return " global " if _is_region(place) and "US" not in regions_named(place) else m.group(0)
 
 
 def _read_clause(clause: str) -> list[_Clause]:
@@ -207,7 +243,7 @@ def _read_clause(clause: str) -> list[_Clause]:
         clause = " ".join(rest.split())
     if _NOT_AVAILABLE.search(clause):
         return [_Clause(_CONTEST, clause, NOT_AVAILABLE) if _covers_us(clause) else _Clause(_CONSISTENT, clause)]
-    is_offer, party = _offer(clause)
+    is_offer, party = _offer(_EX_PLACE.sub(_global_if_place, clause))
     if is_offer:
         return [_Clause(_OFFER, clause, AVAILABLE, party)]
     if _CORE.search(clause) and _GRANT.search(clause):  # "licensed in China and available in the U.S."
@@ -215,6 +251,8 @@ def _read_clause(clause: str) -> list[_Clause]:
         read = [c for p in parts for c in _read_clause(p)] if len(parts) > 1 else []
         if read and all(c.kind != _UNREAD for c in read):
             return read
+        if read:  # review R1v5 FE4: a part is unread, so the grant's place is not known
+            return [_Clause(_UNREAD, clause)]
     if _RETURNED.search(clause):
         return [_Clause(_RETURN, clause, RETURNED)]
     if _OPTION.search(clause) and not _EXERCISED.search(clause):
@@ -224,7 +262,7 @@ def _read_clause(clause: str) -> list[_Clause]:
     if _RETAINED.fullmatch(clause):
         return [_Clause(_CONSISTENT, clause)]
     if _CORE.search(clause) and not _US_EXCLUDED.search(clause):
-        named = regions_named(_PARTY_SPAN.sub(" ", clause))
+        named = regions_named(_erase_parties(clause))
         if named and "US" not in named:  # an offer of other places only says nothing about the U.S.
             return [_Clause(_CONSISTENT, clause)]
     return [_Clause(_UNREAD, clause)]
@@ -237,6 +275,8 @@ def rights_reading(text: str) -> RightsReading:
     statuses = {c.status for c in clauses if c.status}
     if unread:
         statuses.discard(AVAILABLE)
+    if statuses == {RETURNED, AVAILABLE}:  # returned, then offered (review R1v5 K2): not a conflict
+        statuses = {AVAILABLE}
     status = UNKNOWN if not statuses else (statuses.pop() if len(statuses) == 1 else CONFLICTING)
     parties = tuple(dict.fromkeys(c.party for c in clauses if c.party)) if status == AVAILABLE else ()
     return RightsReading(status, not unread, parties, unread)

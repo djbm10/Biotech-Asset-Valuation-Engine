@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 
 from bve.dealscreen.rights import CO_DEVELOPMENT, OPTION, RightsEvent
 from bve.dealscreen.rights_ledger import UNNAMED, _Grant, _Ledger, own_date
-from bve.dealscreen.rights_territory import party_key, same_company
+from bve.dealscreen.rights_territory import content_note, party_key, same_company
 
 P_CONFLICTING = "CONFLICTING_EVIDENCE"
 P_LICENSED = "LICENSED_IN_TERRITORY_PER_EVIDENCE"
@@ -57,7 +57,7 @@ def no_evidence_position(first_contact: str | None = None) -> RightsPosition:
 def _is_company(ledger: _Ledger, name: str | None) -> bool:
     """The party is the program's company per the landscape: by name, or through recorded acquisitions (the
     company's acquirer, or a party the company acquired). The landscape company is used only to refuse."""
-    if not (name and ledger.company):
+    if not (name and ledger.company) or content_note(name):  # a note may name a licensee (review R1v5 N)
         return False
     names = {name, ledger.current(name)}
     companies = {ledger.company, ledger.current(ledger.company)}

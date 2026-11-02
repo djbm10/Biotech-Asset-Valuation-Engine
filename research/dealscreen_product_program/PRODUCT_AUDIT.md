@@ -102,6 +102,14 @@ AI-simulated, internal development. Full evidence: `research/dealscreen_comparis
   OPEN without in-tool rights evidence; tax rate and scenario shocks missing from deliverables
   (protected engine, proposals P8/P9, blocked on Lane 1 sign-off).
 
+**Addendum (2026-11-01, revision 7).** Round 6 (`REREVIEW5.md`) found 6 High errors in revision 6's plain forms:
+they read lower-cased text in U.S. terms, so a U.S. grant inside a party span, a pronoun subject, a note inside the
+text or a grant in a non-U.S. buyer's own territory passed; ownership words and rights rows' quotes were unread. End
+to end, 12 test placements reached tier 0 or 1. Revision 7 reads places as written, against the buyer territory,
+and never lets a plain form accept what the reader cannot read. Implementer-measured: the 12 placements → 0; the
+round-6 usefulness costs removed; no CLDN18.2 field changed. The verdict above is unchanged: no advantage over
+general Claude is demonstrated, and revision 7 has not been reviewed.
+
 ### Updated largest obstacles
 
 1. Rights/availability still depends on evidence the tool does not hold (import vendor deal fields).
@@ -141,6 +149,15 @@ Revision 5 replaces the checks with one gate on every path that blocks what it c
 round-4 reviewer's flagged top-tier placements 13 → 0; no CLDN18.2 tier or call changed; one clean held-out case is
 now held back with an ownership question (a usefulness cost). The verdict above is unchanged. Round 5
 (`REREVIEW4.md`) reviews revision 5.
+
+**Addendum (2026-11-01, revision 6).** Round 5 (`REREVIEW4.md`) found 11 High errors, all paths into tier 0 or 1 that
+the revision 5 gate passed because its reader marked a misreading as understood, or because the gate did not read
+the input at all (Partnerships, Geographic Notes, notes in names, non-U.S. territories). End to end on copies of the
+CLDN18.2 workspace, 18 test placements reached tier 0 or 1. Revision 6 inverts the gate's default: beside a clear
+position a rights text passes only as a plain form (`rights_allow.py`). Implementer-measured: the 18 flagged
+placements → 0; the reviewer's over-caution costs for Chinese originators ("Ex-China rights available",
+company-retains wording, a city inside a legal name) removed; no CLDN18.2 tier or call changed. The verdict above is
+unchanged: no advantage over general Claude is demonstrated, and revision 6 has not been reviewed.
 
 ### Updated largest obstacles
 

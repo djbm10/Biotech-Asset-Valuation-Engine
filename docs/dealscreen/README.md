@@ -180,8 +180,9 @@ from the landscape's and analysts' U.S.-rights fields, and anything it cannot re
 
 - **complete**: every outcome is attached to its grant and explained; no rights row for the program was rejected
   at import; no rejected row names a program id that matches no program (such a row keeps every program out); no
-  row, applied or not, has a program id close to this program's ("AB 24" or "AB-024" beside "AB-24"; case, spaces,
-  punctuation and leading zeros ignored); an acquisition alone is not enough;
+  row, applied or not, has a program id close to this program's ("AB 24", "AB-024", "AB-24 (ADC)", "AB-24A" or
+  "ABDN-24" beside "AB-24"); no unattached row whose id is close to no program names this program's company as a
+  party; an acquisition alone is not enough;
 - **specific**: the grants name licensor and licensee; an ending that names only the licensor is linked to its deal
   by id; a return or termination recorded without its grant names both parties and a territory covering the
   buyer's. The licensor the position rests on, the party that states availability and the recipient of a return
@@ -190,22 +191,43 @@ from the landscape's and analysts' U.S.-rights fields, and anything it cannot re
   X own this program, or hold it under a license from Y?";
 - **current**: each record has a date of its own (event date, else report date, read as the start of its period)
   within `max_evidence_age_days` of the buyer's `as_of_date`; acquisitions and later reports never refresh it;
-  records and statements dated after the as-of date are not applied. When an availability statement decides the
-  position, every grant that ever covered the territory must have ended, by a dated record of its own, before the
-  statement;
-- **uncontested**: every landscape and analyst U.S.-rights statement and every named U.S. holder is read, not only
-  the one the field status came from. A contrary statement, or a holder who is neither the company nor the owner per
-  evidence, makes the position `CONFLICTING_EVIDENCE` and is cited. A holder written with a note ("Acme Bio (U.S.
-  rights licensed to …)") blocks, and the note is quoted. An analyst availability statement counts only with a
-  source date within the age limit, and is cited. A landscape "available" cell is never counted.
+  records and statements dated after the as-of date are not applied, nor is a status ("terminated", "expired")
+  reported in a source dated after it; a status with no source date blocks, because nothing places it before the
+  as-of date. A company's deal row for another program guards this program only when its territory is unreadable
+  or overlaps the buyer territory. When an availability statement decides the position, every grant that ever
+  covered the territory must have ended, by a dated record of its own, before the statement; an ending stated only
+  by a status flag does not qualify. An acquisition with no date of its own is not applied;
+- **uncontested**: every landscape and analyst U.S.-rights statement, every named U.S. holder, and every
+  Partnerships and Geographic Notes value is read, for every buyer territory. A contrary statement, or a holder who
+  is neither the company nor the owner per evidence, makes the position `CONFLICTING_EVIDENCE` and is cited. Any
+  other rights text passes only if every clause is a plain form (`rights_allow`): a placeholder or no-grant phrase
+  ("unpartnered", "not licensed in the U.S."); a plain offer by the company, with no digits, no "to …" and no other
+  party ("U.S. rights available", "Ex-China rights available", "seeking a co-development partner"); the company
+  keeping the rights ("rights retained", "wholly owned by Acme Bio", "Acme Bio retains all rights outside Greater
+  China"); a return to the company dated by the as-of date; a grant over named places none of which is in the
+  buyer territory ("licensed in Greater China" for a U.S. buyer, but not "licensed in Europe" for an EU buyer).
+  Places are read as written, so "U.S." inside a party's name counts. A clause with a note in parentheses or
+  brackets, or (in a text of several clauses) a pronoun as its subject, is not a plain form; nor is a text the
+  reader cannot read, unless it says the company keeps its rights. Anything else blocks, quoted, with a question. A
+  Partnerships value that only names organisations is not rights evidence; one with ownership words ("owned by",
+  "bought by", "subsidiary of") is. A rights row's own quote is read: an availability row's quote must be a plain
+  form, and any row's quote that names a buyer-territory place the row does not cover blocks. A note in parentheses
+  or brackets beside the company name, a rights row's grantor or grantee, or a holder blocks, the note is quoted,
+  and the noted name is not shown as holder or owner (a place inside a legal name before its corporate form, as in
+  "Acme Bio (Basel) Co., Ltd." or "Acme Bio (Hong Kong) Limited", is not a note). An analyst availability statement counts only with a source date within
+  the age limit, and is cited. A landscape "available" cell is never counted.
 
 Statements are read by a strict reader (`rights_reader`). The text is split into clauses (";", sentence ends,
 "but", "however", "whereas", "although"); each clause is an offer, a contest (not available, licensed, optioned,
 returned), consistent text, or not read. A statement reads as available only when every clause is read and one
 offers rights in a place that covers the U.S. Negations ("No U.S. rights available", "Available - no"), other
 places ("Available in Latin America"), hedges, future and questions ("May be available", "Available from 2027",
-"Available?") never read as available. An offer made by a named party other than the company blocks. `assert`
-prints how it read a U.S.-rights statement, so an analyst can reword one that is not read as meant.
+"Available?"), dates ("Available 2H26", "post-2026") and offers by or to another party ("The licensee is seeking
+a partner", "Available to licensee") never read as available. `assert` prints how it read a U.S.-rights,
+Partnerships or Geographic Notes value and whether the gate accepts it as a plain form, so an analyst can reword one
+that is not read as meant; the verdict is the gate's own, for the workspace's buyer territory and as-of date. The
+landscape's U.S.-rights fields are read for any buyer territory that contains the U.S.; for a wider territory a
+clear U.S. position is not a clear position there, while a U.S. encumbrance keeps its effect.
 
 A failed check keeps the program in `RIGHTS_UNRESOLVED`, with "not counted for the top tiers: …" and a question
 naming what record would settle it. Program ids in the rights file match the landscape without regard to case or

@@ -1,7 +1,7 @@
 # Next action (restart checkpoint)
 
 **State at checkpoint (2026-11-01):**
-- Branch `dealscreen-mvp`. Cycles 1-5, analyst-simulation cycles A1-A5, comparison cycle C1 and rights cycle R1 revision 5 are committed (see `ITERATION_LOG.md`). R1 revisions 2-4 were never committed separately; they are in the revision 5 commit.
+- Branch `dealscreen-mvp`. Cycles 1-5, analyst-simulation cycles A1-A5, comparison cycle C1 and rights cycle R1 revision 7 are committed (see `ITERATION_LOG.md`). R1 revisions 2-4 were never committed separately; they are in the revision 5 commit. Revisions 6 and 7 are one commit.
 - Uncommitted user files: `AGENTS.md`, `research/universe/biotech_tickers.yaml`, `.claude/`, `.serena/`, `research/dealscreen_product_program/cycle4/equivalence_result.json`. Never stage them.
 - `research/dealscreen_unknown_actions_v1/ACCEPTANCE.md` holds the U1 acceptance criteria, frozen before U1 code on 2026-10-30 and committed on their own, separately from R1.
 - Never pop shared stashes.
@@ -10,7 +10,7 @@
 
 1. Read `PRODUCT_GOAL.md`, `SCORECARD.md` (latest sections at the bottom) and this file.
 2. Confirm the branch and that `git status` shows only the user files above.
-3. Run the DealScreen tests (expect 653 passed):
+3. Run the DealScreen tests (expect 816 passed):
    `TMPDIR=$HOME/.cache/dealscreen_suite python -m pytest tests/dealscreen -q -p no:cacheprovider`
    `/tmp` is a small tmpfs; keep test temp files on the home disk.
 4. For any cycle that changes screening, re-run
@@ -27,7 +27,8 @@ See `research/dealscreen_rights_v1/` (ACCEPTANCE, REVIEW/REREVIEW/REREVIEW2 and 
 is imported through a mapping profile; each program gets a cited rights position for the buyer territory; the `OPEN`
 tier is gone. A program reaches a top tier only when its rights evidence is complete, specific, current and
 uncontested (`top_tier_blockers` names each failed check). Since revision 5 one gate (`rights_gate`) checks this on
-every path and blocks anything it cannot read; its review is `REREVIEW4.md`. CLDN18.2: third-party-held programs shown as unobstructed 4 (+ zanidatamab) -> 0; 0 of 62 scientific
+every path; since revision 6 it passes a rights text only as a plain form (`rights_allow`), so anything else blocks.
+Revision 6 answers `REREVIEW4.md`; revision 7 answers `REREVIEW5.md` (`REREVIEW5_RESPONSE.md`): the plain forms read places as written, in the buyer territory, and never accept what the reader cannot read. Revision 7 has not been reviewed. CLDN18.2: third-party-held programs shown as unobstructed 4 (+ zanidatamab) -> 0; 0 of 62 scientific
 fields changed; usefulness against general Claude unchanged (10/4/1 vs 14/1/0 on 15 deal programs, so no advantage).
 Gaps: SKB315's and LM-302's returns are not in the frozen library; a real vendor deals export is untested.
 

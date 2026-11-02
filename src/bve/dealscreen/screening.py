@@ -9,6 +9,7 @@ attaches the separate commercial assessment.
 from __future__ import annotations
 
 import dataclasses
+import re
 from collections import Counter
 from dataclasses import asdict, dataclass, field
 from datetime import date
@@ -32,7 +33,13 @@ from bve.dealscreen.rights_gate import (
     reconcile,
     row_guards,
 )
-from bve.dealscreen.rights_position import RightsPosition, rights_position
+from bve.dealscreen.rights_position import (
+    CLEAR_POSITIONS,
+    RightsPosition,
+    no_evidence_position,
+    rights_position,
+)
+from bve.dealscreen.rights_territory import content_note
 from bve.dealscreen.transaction import (
     TransactionPreferences,
     TransactionView,
@@ -272,6 +279,29 @@ def _reconcile_with_field(position: RightsPosition, screen: Any, territory: froz
     reconcile(position, screen.commercial, territory, company=getattr(screen, "company", None))
 
 
+_OWN_LABEL = re.compile(r"\s+\((?:recorded[^()]*|shared)\)$")
+
+
+def _drop_noted_names(position: RightsPosition) -> None:
+    """A name written with a note is not shown as the holder or owner; the note may name another party (review
+    R1v6 NH). The name stays in the cited evidence and the reasons."""
+    for attr, words in (("holder", "holder"), ("owner", "owner")):
+        name = getattr(position, attr)
+        # DealScreen's own labels ("(shared)", "(recorded; conflicting)") are not notes from a source.
+        note = content_note(_OWN_LABEL.sub("", name)) if name else None
+        if note:
+            setattr(position, attr, None)
+            position.reasons.append(f"the {words} per evidence is written '{name}'; its note '{note}' is not read, so "
+                                    f"no {words} is shown")
+
+
+def buyer_territory(spec: BuyerSpec) -> frozenset[str]:
+    """The buyer territory the rights gate reads against: the transaction preference, else the required market."""
+    prefs = spec.transaction
+    return frozenset(t.upper() for t in (prefs.territory if prefs and prefs.territory
+                                         else [spec.commercial.required_market]))
+
+
 def program_transaction(
     events: list[RightsEvent],
     commercial: CommercialAssessment,
@@ -291,13 +321,29 @@ def program_transaction(
     if events:
         position = rights_position(events, territory=territory, as_of=as_of, max_age_days=max_age_days,
                                    first_contact=company)
-    else:
+    elif "US" in territory:
         position = position_from_field(commercial.us_rights_status, commercial.us_rights_holder, company,
                                        basis=commercial.us_rights_basis, as_of=as_of, max_age_days=max_age_days,
                                        holder_basis=commercial.us_rights_holder_basis)
+        if territory != frozenset({"US"}):
+            # review R1v6 TER-M: a U.S. encumbrance is an encumbrance over part of the territory and is kept; a clear
+            # U.S. position says nothing about the rest, so it is not a position over the territory
+            part = (f"the landscape's U.S.-rights fields speak to the U.S. only, part of the buyer territory "
+                    f"{'/'.join(sorted(territory))}")
+            if position.position in CLEAR_POSITIONS:
+                position = no_evidence_position(company)
+                position.reasons.append(f"{part}, so they are not read as a clear position there")
+            else:
+                position.reasons.append(part)
+    else:  # review R1v5 TER-F, TER2: the landscape's rights fields speak to the U.S. only
+        position = no_evidence_position(company)
+        if commercial.us_rights_basis or commercial.us_rights_holder:
+            position.reasons.append(f"the landscape's U.S.-rights fields speak to the U.S. only; the buyer territory is "
+                                    f"{'/'.join(sorted(territory))}, so they are not read as a position there")
     reconcile(position, commercial, territory, company=company, as_of=as_of)
     if events:
         also_named(position, commercial)
+    _drop_noted_names(position)
     return assess_transaction(prefs, market_status=market_status, rights_status=commercial.us_rights_status,
                               rights_holder=commercial.us_rights_holder, company=company,
                               identity_twins=identity_twins or [], position=position, guard=guard)
@@ -317,10 +363,10 @@ def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: di
         by_program.setdefault(program_key(event.external_id), []).append(event)
     known = set(external.values())
     unlinked = [e for key, events in by_program.items() if key not in known for e in events]
-    rows = row_guards(known, unlinked, list(rights_rejected or []))
+    companies = {external[s.asset_id]: s.company for s in screens if s.asset_id in external and s.company}
     prefs = spec.transaction
-    territory = frozenset(t.upper() for t in (prefs.territory if prefs and prefs.territory
-                                               else [spec.commercial.required_market]))
+    territory = buyer_territory(spec)
+    rows = row_guards(known, unlinked, list(rights_rejected or []), companies, territory)
     max_age = prefs.max_evidence_age_days if prefs else 730
     as_of = spec.problem.buyer.as_of_date
     for screen in screens:

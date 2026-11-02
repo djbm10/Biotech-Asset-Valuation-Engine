@@ -224,7 +224,9 @@ registry-sponsor name match. Returned rights were invisible.
 | 2 (`REREVIEW.md`) | revision 2 | 23, of which 12 were new paths into a top tier (undated or partial outcomes, unreadable or concluded availability statements, an unvalidated buyer territory, rejected rows and analyst encumbrances ignored) | fixed in revision 3; 52 held-out tests |
 | 3 (`REREVIEW2.md`) | revision 3 | 23 definite: 11 paths into a top tier (3 introduced by revision 3, 6 close variants of claimed fixes, 2 older), 3 false encumbrances, 9 label or wording errors; none in the CLDN18.2 output; AC14 FAIL | fixed in revision 4: tiers 0 and 1 became an allow-list (complete, specific, current, uncontested); 69 more held-out tests; the reviewer's flagged top-tier placements in its end-to-end workspaces 12 → 0 (implementer-measured) |
 | 4 (`REREVIEW3.md`) | revision 4 | 18 definite: 8 High (7 close variants of claimed fixes, 1 new: tier 0 or 1 while a third party may hold U.S. rights, or on contrary, undated or unattached evidence), 2 Medium (false encumbrances), 8 Low (wording); none in the CLDN18.2 output, but six High errors reached tier 0 or 1 end to end on copies of the CLDN18.2 workspace. Cause: the allow-list ran in full only on the "returned" path | fixed in revision 5: one fail-closed gate on every path (`REREVIEW3_RESPONSE.md`); 141 more held-out tests |
-| 5 (`REREVIEW4.md`) | revision 5 | pending at the time of the revision 5 commit | |
+| 5 (`REREVIEW4.md`) | revision 5 | 19 definite: 11 High (paths into tier 0 or 1: dates read as codes, another party's offer, U.S. grants erased as party names, returns to a third party, Partnerships and Geographic Notes unread, notes in party and company names, status-flag endings, undated acquisitions, the field path and the gate ignoring the buyer territory), 4 Medium (false conflict or encumbrance), 4 Low (wording); none in the CLDN18.2 output; 18 flagged top-tier placements end to end on copies of the CLDN18.2 workspace. Cause: the gate passed what its reader marked as understood | fixed in revision 6: the gate's default inverted (plain forms only, `REREVIEW4_RESPONSE.md`); 90 more held-out tests |
+| 6 (`REREVIEW5.md`) | revision 6 | 14 definite: 6 High (the plain forms accepted texts that fit their words and meant the opposite: "U.S." hidden by lower-casing in party spans, pronouns and "the owner" counted as the company, notes inside the text dropped, "other places" fixed as non-U.S. for every buyer; ownership words and rights rows' quotes unread), 2 Medium (a {US, CA} buyer lost the U.S.-rights field; "or" not read), 6 Low; none in the CLDN18.2 output; end to end, test inputs took tier 0 and 1 places (ws_e #1–#7, ws_f #1–#5). Cause: the plain forms overrode the reader and read on lower-cased text in U.S. terms | fixed in revision 7 (`REREVIEW5_RESPONSE.md`); 72 more held-out tests |
+| 7 | revision 7 | not yet reviewed | |
 
 **Measured result (CLDN18.2, against the frozen reference).**
 - False "unobstructed" (third-party U.S. rights shown OPEN or in a top tier): 4 definite plus zanidatamab at
@@ -285,3 +287,46 @@ workspaces. Usefulness against general Claude unchanged (10 / 4 / 1 against 14 /
 found the same error entering by a path nobody had listed (a statement, a field, a holder's note, unread text, a row
 that was never applied). Revision 5 starts from the other end: what does a top-tier placement rest on, and is every
 part of it read? The cost is caution: near-namesakes and "Option available to partners" are held with a question.
+
+**Revision 6 (2026-11-01).** Round 5 showed the revision 5 gate still trusted its reader: a text the reader marked as
+understood passed, and the reader misread dates as program codes ("Available 2H26"), another party's offer as the
+company's ("The licensee is seeking a partner"), and a U.S. option as a party name ("with an option to U.S. rights").
+Revision 6 inverts the default (`rights_allow.py`): beside a clear position a rights text passes only if every clause
+is a plain form (placeholder or no-grant phrase, a plain offer by the company, the company keeping or regaining the
+rights, a grant over other places only); anything else blocks, quoted and cited. The gate now also reads
+Partnerships and Geographic Notes, notes in company and rights-row party names, and runs for every buyer territory;
+the landscape's U.S.-rights fields are a position only for a buyer territory of exactly the U.S.; status-flag endings
+and undated acquisitions no longer clear a grant; unattached rows guard suffixed ids ("AB-24 (ADC)") and, when their
+id points nowhere, programs of a company they name. Memo and `assert` wording no longer overclaim (L1–L4).
+
+Measured by the implementer (`REREVIEW4_RESPONSE.md`): DealScreen tests 653 → 743 (90 held-out from round 5); every
+round-5 High and Medium case is out of tiers 0 and 1 or no longer a false conflict; the over-caution costs the reviewer
+named for Chinese originators ("Ex-China rights available", company-retains wording, a city inside a legal name) now
+reach the expected tier; the reviewer's flagged top-tier placements in its end-to-end workspaces 18 → 0. CLDN18.2: no
+tier, position, rank, holder or blocker changed. Science: 0 of 62 CLDN18.2 fields; 0 scientific or tier changes on
+312 assets (revision 5 vs 6); cycle-4 equivalence byte-identical. Usefulness against general Claude unchanged
+(10 / 4 / 1 against 14 / 1 / 0).
+
+**Self-criticism (revision 6).** Revision 5 claimed to fail closed but only failed closed on what its reader admitted
+it could not read. A gate is only as strict as the narrowest list of what it accepts; revision 6 writes that list
+down. The cost is more held-back programs on real free-text rights notes, each with a question.
+
+**Revision 7 (2026-11-01).** Round 6 showed revision 6's plain forms were a new way in: they ran on lower-cased
+text, so "U.S." inside "Licensed to Tessaly Pharma (U.S.)" vanished; "it" and "the owner" counted as the company;
+a note inside the text was dropped; "other places" meant "not the U.S." for every buyer; and a plain form could
+accept a text the reader had marked unread. Revision 7 reads places as written and compares them with the buyer
+territory, refuses notes and cross-clause pronouns, never lets a plain form widen the reader (except the company
+keeping its rights), reads ownership words and every rights row's quote, makes a contrary Partnerships or
+Geographic Notes text a conflict, reads the U.S.-rights field for any buyer territory containing the U.S., blocks a
+status ending with no source date, and limits a company's unrelated deal rows to those that may reach the buyer
+territory. It also removes the usefulness costs round 6 named ("Partnered in China; U.S. rights available",
+"(ex-China)", "partner(s)", "Open to partnering discussions", "(Hong Kong) Limited").
+
+Measured by the implementer (`REREVIEW5_RESPONSE.md`): DealScreen tests 744 → 816; the reviewer's end-to-end
+top-tier placements ws_e 7 → 0 and ws_f 5 → 0; every round-6 High and Medium case is out of tiers 0 and 1. CLDN18.2:
+every screening field identical to revision 6. Science: 0 of 62 CLDN18.2 fields; 0 of 312 cross-version assets;
+FcRn v2 shows no holder for 8 programs whose holder cell carries a source note (no tier change); cycle-4
+equivalence byte-identical. Usefulness against general Claude unchanged (10 / 4 / 1 against 14 / 1 / 0).
+
+**Self-criticism (revision 7).** Revision 6 wrote down what the gate accepts but checked it in a weaker form than the
+reader it was meant to restrain. An allow-list is only as strict as the reading of each item on it.

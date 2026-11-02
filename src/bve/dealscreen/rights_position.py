@@ -399,7 +399,10 @@ def _check_ended(ledger: _Ledger, g: _Grant, territory: frozenset[str], stated: 
     else:
         for c in endings:
             ended = f"the end of the {_kind_words(g)} to {_held_by(ledger, g)} ({_what(c)})"
-            if own_date(c) is None:
+            if c is g.event:  # review R1v5 E1, E3: a status on the grant's own record dates the grant, not its end
+                ledger.blockers.append(f"current: {ended} is stated only by the record's status, which gives the end "
+                                       "no date of its own, so it cannot be ordered against the availability statement")
+            elif own_date(c) is None:
                 ledger.blockers.append(f"current: {ended} has no date of its own, so it cannot be ordered against "
                                        "the availability statement")
             elif any(not _definitely_after(a, c) for a in stated):

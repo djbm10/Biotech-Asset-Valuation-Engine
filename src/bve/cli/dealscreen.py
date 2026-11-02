@@ -27,6 +27,7 @@ import os
 import resource
 import sys
 import time
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -36,7 +37,10 @@ from bve.dealscreen import VALIDATION_WARNING
 from bve.dealscreen.agent import ClinicalTrialsGovProvider, OfflineEvidenceProvider, Question
 from bve.dealscreen.facts import TargetNormalizer
 from bve.dealscreen.review import Action, DecisionRejected, ReviewerKind
-from bve.dealscreen.rights_reader import RIGHTS_STATUS_WORDS, rights_reading
+from bve.dealscreen.rights_allow import US_ONLY, is_rights_text
+from bve.dealscreen.rights_gate import accepted_form
+from bve.dealscreen.rights_reader import CONTESTS, RIGHTS_STATUS_WORDS, rights_reading
+from bve.dealscreen.screening import buyer_territory
 from bve.dealscreen.workspace import Workspace, ontology_drug_authority, ontology_target_normalizer
 from bve.se.resolution.registry import normalize_identity_name
 
@@ -98,17 +102,33 @@ def resolve_subject(ws: Workspace, action: Action, subject: str, field: str = ""
     return asset.asset_id
 
 
-def rights_reading_note(value: str) -> str:
-    """How DealScreen reads an asserted U.S.-rights statement, printed when it is recorded so the analyst can reword
-    a statement that is not read as meant (review R1v4 T)."""
+def rights_reading_note(value: str, company: str | None = None, field: str = "us_rights",
+                        territory: frozenset[str] = US_ONLY, as_of: date | None = None) -> str:
+    """How DealScreen reads an asserted rights text, printed when it is recorded so the analyst can reword a text
+    that is not read as meant (review R1v4 T). It gives the top-tier gate's own verdict (``accepted_form``) for the
+    buyer territory and as-of date, so the note and the gate cannot disagree (review R1v6 L3b)."""
     reading = rights_reading(value)
+    form = accepted_form(value, company, as_of, territory, reading.understood)
+    place = ", ".join(sorted(territory))
+    gate = (f" Beside a clear position, the top-tier gate accepts it as a plain form for the buyer territory "
+            f"({place}): {form}; it is still unverified." if form else
+            " It is not one of the plain forms the top-tier gate accepts for the buyer territory "
+            f"({place}) (it may carry a date, a condition, another party, a place, or words DealScreen does not "
+            "read), so it keeps the program out of the top two transaction tiers until it is reworded or "
+            "retracted.")
+    if field != "us_rights":
+        if field == "partnerships" and not is_rights_text(value):
+            return ("DealScreen reads this Partnerships value as names of organisations only; it is not read as "
+                    "rights evidence and changes no transaction tier.")
+        return f"DealScreen does not read this {field} value as a U.S.-rights statement; it is read only by the gate." \
+            + gate
     if not reading.understood:
         return ("DealScreen cannot read all of it as a rights statement (not read: "
-                + "; ".join(repr(c) for c in reading.unread) + "); it keeps the program out of the top two "
-                "transaction tiers until it is reworded or retracted.")
+                + "; ".join(repr(c) for c in reading.unread) + ")." + gate)
     words = RIGHTS_STATUS_WORDS.get(reading.status, reading.status).split(" (")[0]  # the source label does not apply
     return (f"DealScreen reads it as: {words}"
-            + (f"; the offer is made by {', '.join(reading.parties)}" if reading.parties else "") + ".")
+            + (f"; the offer is made by {', '.join(reading.parties)}" if reading.parties else "") + "."
+            + ("" if reading.status in CONTESTS else gate))
 
 
 def _decide(ws: Workspace, *, action: str, subject: str, new_state: str, reviewer: str, rationale: str,
@@ -407,8 +427,9 @@ def main(argv: list[str] | None = None) -> int:
             known = {a.external_id for a in ws.assets()}
             print(f"rights dataset {rights.dataset_version}: {len(rights.events)} events, "
                   f"{len(rights.rejected)} rejected rows (license {rights.license_status}/{rights.allowed_use})")
-            for rej in rights.rejected:
-                print(f"REJECTED rights row {rej['row_number']}: {'; '.join(rej['reasons'])}")
+            for rrow in rights.rejected:
+                reasons = rrow["reasons"] if isinstance(rrow["reasons"], list) else [rrow["reasons"]]
+                print(f"REJECTED rights row {rrow['row_number']}: {'; '.join(map(str, reasons))}")
             for ext in sorted({e.external_id for e in rights.events} - known):
                 print(f"UNLINKED: rights events for program id {ext!r} match no landscape program")
             print("Re-run `screen` to apply.")
@@ -442,8 +463,11 @@ def main(argv: list[str] | None = None) -> int:
                                      "evidence_span": args.quote})
             print(f"recorded {rec['decision_id']}: {args.field}={args.value!r} on {rec['subject_id']}. "
                   "Re-run `screen` to apply it.")
-            if args.field == "us_rights":
-                print(rights_reading_note(args.value))
+            if args.field in {"us_rights", "partnerships", "geographic_rights"}:
+                company = next((a.company for a in ws.assets() if a.asset_id == rec["subject_id"]), None)
+                spec = ws.buyer()
+                print(rights_reading_note(args.value, company, args.field, buyer_territory(spec),
+                                          spec.problem.buyer.as_of_date))
         elif args.command == "value-config":
             import yaml
 

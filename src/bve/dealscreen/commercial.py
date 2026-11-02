@@ -53,6 +53,8 @@ class CommercialAssessment:
     #: not only the one the status was taken from (review R1v4 A3d, A3e, A6).
     us_rights_all: list[dict[str, Any]] = field(default_factory=list)
     us_rights_holder_all: list[dict[str, Any]] = field(default_factory=list)
+    #: Every Partnerships and Geographic Notes value not rejected, cited; the gate reads them too (review R1v5 P).
+    other_rights_all: list[dict[str, Any]] = field(default_factory=list)
 
     @property
     def holder_display(self) -> str:
@@ -133,6 +135,10 @@ def assess(
         us_rights_holder_basis=[_cited(c) for c in chosen],
         us_rights_all=[_cited(c) | _reading(c.value_as_written) for c in claims],
         us_rights_holder_all=[_cited(c) for c in holder_claims],
+        other_rights_all=[_cited(c) | {"field": c.field} for f in ("partnerships", "geographic_rights")
+                          for c in asset.claims_for(f) if c.claim_id not in rejected_claim_ids]
+        + [_cited(c) | {"field": c.field} for c in confirmed_findings
+           if c.field in {"partnerships", "geographic_rights"} and c.asset_id == asset.asset_id],
     )
 
 

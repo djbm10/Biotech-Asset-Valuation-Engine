@@ -10,6 +10,7 @@ import yaml
 
 from bve.dealscreen import VALIDATION_GRADE, VALIDATION_WARNING
 from bve.dealscreen.groups import distinct_count, identity_groups
+from bve.dealscreen.rights_allow import is_rights_text
 from bve.dealscreen.rights_reader import AVAILABLE, RIGHTS_STATUS_WORDS
 from bve.dealscreen.rights_words import (
     FIELD_STATEMENT,
@@ -255,8 +256,11 @@ def build_memo(ws: Workspace) -> str:
         overturned = [s["program_name"] for s in screens.values()
                       if any(e["overturns_source_fail"] for e in s.get("assertion_effects", []))]
         idle = [s for s in screens.values() if s.get("analyst_assertions") and not s.get("assertion_effects")]
-        # Rights-field assertions change no gate; they feed the transaction view (review R1v3, memo "no effect").
-        feeds = [s for s in idle if any(a["field"] in _RIGHTS_FIELDS for a in s["analyst_assertions"])]
+        # Rights-field assertions change no gate; the transaction view reads them (review R1v3, memo "no effect").
+        # Each program is listed with the fields asserted, so a Partnerships note is not paired with a position it
+        # did not make (review R1v5 L2).
+        # A Partnerships value that only names organisations is not read as rights evidence (review R1v6 L2b).
+        feeds = [s for s in idle if any(_read_as_rights(a) for a in s["analyst_assertions"])]
         quiet = [s["program_name"] for s in idle if s not in feeds]
         lines.append(
             f"**Analyst-entered facts.** {len(assertions)} cited assertion(s) by {', '.join(asserters)} "
@@ -264,8 +268,10 @@ def build_memo(ws: Workspace) -> str:
             "different source value"
             + (f"; **source FAILs overturned: {', '.join(overturned)}**" if overturned else "")
             + (f"; no effect on: {', '.join(quiet)}" if quiet else "")
-            + ("; rights assertions changed no gate but feed the transaction view for: "
-               + ", ".join(f"{s['program_name']} ({_tier_words(s)})" for s in feeds) if feeds else "")
+            + ("; rights assertions changed no gate; the transaction view reads them, as one input among the "
+               "rights evidence, for: " + ", ".join(
+                   f"{s['program_name']} ({_asserted_fields(s)}; transaction view now: {_tier_words(s)})"
+                   for s in feeds) if feeds else "")
             + ". Citations are in the Diligence sheet.")
         lines.append("")
     unresolved = [s for s in screens.values() if s["disposition"] == "UNRESOLVED"]
@@ -324,7 +330,18 @@ def write_memo(ws: Workspace, path: str | Path) -> dict[str, Any]:
 
 _GENERIC_REASONS = ("no rights or deal record", "availability not evidenced")
 #: Analyst-assertable fields that feed the transaction view, not a gate.
-_RIGHTS_FIELDS = frozenset({"us_rights", "us_rights_holder", "partnerships"})
+_RIGHTS_FIELDS = frozenset({"us_rights", "us_rights_holder", "partnerships", "geographic_rights"})
+_FIELD_WORDS = {"us_rights": "U.S. rights", "us_rights_holder": "U.S. rights holder", "partnerships": "partnerships",
+                "geographic_rights": "geographic notes"}
+
+
+def _read_as_rights(a: dict[str, Any]) -> bool:
+    return a["field"] in _RIGHTS_FIELDS and (a["field"] != "partnerships" or is_rights_text(str(a.get("value", ""))))
+
+
+def _asserted_fields(s: dict[str, Any]) -> str:
+    fields = sorted({a["field"] for a in s["analyst_assertions"] if _read_as_rights(a)})
+    return "asserted: " + ", ".join(_FIELD_WORDS.get(f, f) for f in fields)
 _AVAILABILITY_POSITION = "AVAILABILITY_STATED_BY_SOURCE_UNVERIFIED"
 
 
@@ -384,11 +401,14 @@ def _transaction_line(s: dict[str, Any]) -> str:
     to ask. Tiers and positions are in words; the codes are in the workbook."""
     t = s["transaction"]
     head = f"- #{s['transaction_rank']} {s['program_name']}: {TIER_WORDS.get(t['tier'], t['tier'])}"
+    rows = _own_rows_not_applied(t)
     if _no_record(t):
         why = [r for r in t["reasons"] + t["notes"] if not r.startswith(_GENERIC_REASONS)]
-        return (f"{head}; no rights record" + (f" ({'; '.join(why)})" if why else "")
+        why += [g for g in rows if g not in why]
+        return (f"{head}; no rights record applied" + (f" ({'; '.join(why)})" if why else "")
                 + f"; first contact: registry sponsor '{s['company']}'")
     why = [x for x in t["reasons"] + t["notes"] if x != STALE_NOTE]  # the position words already say "stale"
+    why += [g for g in rows if g not in why]
     out = [f"{head}; rights position: {_position_words(t)} ({'; '.join(why)})"]
     evidence = t.get("evidence", [])
     out += [_evidence_line(e) for e in evidence[:_MEMO_EVIDENCE]]
@@ -397,6 +417,12 @@ def _transaction_line(s: dict[str, Any]) -> str:
     if t.get("diligence_questions"):
         out.append(f"  - ask: {' '.join(t['diligence_questions'])}")
     return "\n".join(out)
+
+
+def _own_rows_not_applied(t: dict[str, Any]) -> list[str]:
+    """Rights rows not applied that concern this program in particular: its own rejected rows and rows whose id or
+    party points to it (review R1v5 L4). Rows that may concern any program are in the import-issues section."""
+    return [g for g in t.get("rights_rows_not_applied", []) if not g.endswith("it may concern any program")]
 
 
 def _other_order(s: dict[str, Any]) -> tuple[int, int, str]:
@@ -455,11 +481,15 @@ def _rights_summary(n_eligible: int, eligible: list[dict[str, Any]], rights: Cou
     checked = [t for t in available
                if not (t.get("top_tier_blockers") or t.get("stale") or t.get("rights_rows_not_applied"))]
     if available:
-        stated = (f" A source states availability for {len(available)} (read by rule, unverified); {len(checked)} "
-                  "pass every rights check (a recent dated statement, attributed to the program's company or to no "
-                  "other party, contradicted by no other cited evidence and by no rights row left unapplied)"
-                  + (f" and {len(available) - len(checked)} fail one (see the workbook)"
-                     if len(checked) < len(available) else "") + ".")
+        n_blocked = len(available) - len(checked)
+        found = (f"for {len(checked)} DealScreen found nothing else among the rights texts, names, rows and row "
+                 "quotes it reads that it cannot read or that contradicts the statement (it reads a row's quote "
+                 "only for places and rights words)"
+                 + (f", and {n_blocked} have a blocker (see the workbook)" if n_blocked else "")
+                 if checked else f"all {n_blocked} have a blocker (see the workbook)")
+        stated = (f" A source states availability for {len(available)} (read by rule, unverified); {found}. This is "
+                  "not a check that any statement is true: DealScreen reads only plain wording, and who made the "
+                  "statement, when and on what terms must be confirmed with the company.")
     elif rights.get(AVAILABLE):
         stated = (" None reaches the availability position: a vendor field reading \"available\" is unverified and "
                   "not counted.")
