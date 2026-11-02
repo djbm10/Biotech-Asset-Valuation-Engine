@@ -83,3 +83,36 @@ Order of checks for one name: `BASKET` first (a basket name can resolve to an un
 - Changing any gate, the S&E authority or the rank.
 - An agent question that proposes indications from documents (it would surface RC118's orphan-designation title). This is the next candidate.
 - Reading INN names to flag contradictory vendor modality cells (IBI343 "Imaging agent" vs "arcotatug tavatecan").
+
+
+## Revision note (after code, disclosed)
+
+Two changes were made during implementation. Neither loosens a criterion.
+
+- **Class `OVERLAPS_REQUESTED` added (indication).** NCIt gives a concept several parents, so a name can resolve
+  to exactly one concept that is neither an ancestor nor a descendant of a requested concept, yet shares a subtype
+  with it. Held-out example: "colon carcinoma" against a "colorectal adenocarcinoma" request; both are parents of
+  "colon adenocarcinoma". The frozen list would have called it `DIFFERENT_DISEASE`, which misstates the authority
+  (U1-7). The action says: "reads as ... (NCIt), which is neither broader nor narrower than requested but shares
+  subtypes with it". Its place in the order is after `AMBIGUOUS_NAME` and before `AMBIGUOUS_NAME_ALL_BROADER`.
+  No CLDN18.2 record falls in this class.
+- **U1-6 count.** The criterion says "the 16 reference-IN programs". Measured on R1 final, 15 reference-IN
+  programs are UNRESOLVED. The 16th reference-IN program that is not ELIGIBLE, LCB02A, is EXCLUDED by a modality
+  FAIL; U1 covers only programs that are not excluded, so it gets no diagnostic. This is reported in
+  `MEASUREMENT.md`, not hidden.
+- **After the U1 review (revision 2), disclosed.** (1) An ambiguous name whose readings are all neither requested
+  nor broader is `DIFFERENT_DISEASE`, not `AMBIGUOUS_NAME`; the sentence lists every reading (review D13).
+  (2) A name the authority resolves to one concept that is not requested is `DIFFERENT_DISEASE` even when it names
+  a requested site; `NAMES_REQUESTED_SITE` is kept for names the authority cannot read (review J1). (3) A request
+  the authority does not resolve to one concept gets a request-level diagnostic, and no record is classed against
+  it (review D1). None of these changes a gate, disposition, rank or transaction field.
+- **After the second U1 review (revision 3), disclosed.** (1) Class `UNDER_REQUESTED_PARENT` added (indication):
+  a concept under a direct by-site parent of a requested concept, whose own names name one of the request's sites
+  (a "Stage IV <site> Cancer" concept beside a "<site> adenocarcinoma" request). The frozen list called it
+  `DIFFERENT_DISEASE`, which misstates the authority (review N1). It is ordered after `BROADER_THAN_REQUESTED` and
+  before `BASKET`. (2) Class `SOURCE_STATES_NOT_REQUIRED_TARGET` added (target): the record's only mention of the
+  required target is negated ("X-negative", "not X", "X knockout"); the frozen list called it "may name the
+  required target", the opposite of the record (review N6). (3) An empty requested-indication list gets an `OTHER`
+  diagnostic saying nothing is compared (review N12; not reachable through `screen`). (4) A suggested restatement
+  of an unresolvable request is given only for the concept whose label is the request; otherwise the readings are
+  listed for the buyer to choose (review N2). None of these changes a gate, disposition, rank or transaction field.

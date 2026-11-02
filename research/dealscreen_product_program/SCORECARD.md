@@ -130,3 +130,12 @@ Gates H, B and I are unchanged.
 | 7 | Ownership, rights, licensing | The "other places" form accepts only a name as the party; quotes keep conditions before a colon and are read for options and wider territories; offers must cover the buyer territory; year- or month-dated endings that contain the as-of date are not applied | 60 more held-out tests (876 in all); round-7 reviewer's end-to-end top-tier placements 6 → 0 (implementer-measured); CLDN18.2 calls unchanged | PARTIAL (recall capped by the imported file; no real vendor export; revision 8 not reviewed) |
 
 Gates H, B and I are unchanged.
+
+**After cycle U1 revision 3 (AI-SIMULATED; 2026-11-01):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 5 | Resolving UNKNOWN decisions | Every UNKNOWN gate on a program that is not excluded carries a diagnostic: what the record holds, as written (a class from the NCIt authority, the target and modality readers and the buyer's requirement), and the one cited fact that would decide the gate. Never changes a gate | CLDN18.2 38/38 (baseline 0/38); held-out 104/104; 0/62 and 0/312 science changes; `research/dealscreen_unknown_actions_v1/MEASUREMENT.md` | PARTIAL (U1-7 adversarial review of revision 3 not done; no human reader) |
+| 12 | Excel and report quality | Diligence sheet gives the DealScreen action beside the S&E text; Screening sheet gives the class per open gate and per name; the memo lists single-gate programs by gate and record class, with no class hidden | regenerated outputs (`after/`) | PARTIAL (no human reader) |
+
+Gates H, B and I are unchanged.

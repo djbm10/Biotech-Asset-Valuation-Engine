@@ -217,6 +217,15 @@ def finding_claim(finding: AgentFinding) -> SourceClaim:
     )
 
 
+def reviewed_claims(asset: LandscapeAsset, review: ReviewInputs) -> list[SourceClaim]:
+    """The claims a screen reads: rejected claims dropped, then confirmed agent findings and active analyst
+    assertions added, in that order."""
+    claims = [c for c in asset.claims if c.claim_id not in review.rejected_claim_ids]
+    claims.extend(finding_claim(f) for f in review.confirmed_findings if f.asset_id == asset.asset_id)
+    claims.extend(assertion_claim(a) for a in review.assertions if a.asset_id == asset.asset_id)
+    return claims
+
+
 class FactBuilder:
     def __init__(self, profile: MappingProfile, target_normalizer: TargetNormalizer,
                  requested_isoforms: dict[str, str] | None = None) -> None:
@@ -234,6 +243,10 @@ class FactBuilder:
             if gene and isoform_consistent(part, gene, self.requested_isoforms):
                 symbol = gene
         return symbol
+
+    def read_target(self, part: str) -> str | None:
+        """One target name, read exactly as the screen reads it."""
+        return self._target(part)
 
     def target_readings(self, text: str) -> list[dict[str, str]]:
         parts = split_list(text.replace("/", self.profile.list_separator), self.profile.list_separator)
@@ -294,13 +307,11 @@ class FactBuilder:
         witness_targets: frozenset[str] | None = None,
         witness_all: bool = False,
     ) -> AssetFacts:
-        claims = [c for c in asset.claims if c.claim_id not in review.rejected_claim_ids]
+        claims = reviewed_claims(asset, review)
         findings = [f for f in review.confirmed_findings if f.asset_id == asset.asset_id]
         asserted = [a for a in review.assertions if a.asset_id == asset.asset_id]
         confirmed = {*review.confirmed_claim_ids, *(f.finding_id for f in findings),
                      *(a.assertion_id for a in asserted)}
-        claims.extend(finding_claim(f) for f in findings)
-        claims.extend(assertion_claim(a) for a in asserted)
         result = AssetFacts(facts=[])
 
         name_claims = [c for c in claims if c.field == "program_name"]

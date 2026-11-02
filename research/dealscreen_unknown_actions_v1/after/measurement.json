@@ -1,0 +1,53 @@
+{
+  "U1-1": {
+    "unknown_decisions": 38,
+    "with_diagnostic": 38,
+    "missing": [],
+    "generic_actions_before": [
+      "Obtain specific, authority-comparable indication evidence.",
+      "Research fact type 'development_stage_order'.",
+      "Research fact type 'modality_id'.",
+      "Resolve the asset's construct-level target set."
+    ]
+  },
+  "U1-3": {
+    "programs_with_a_changed_decision_disposition_rank_or_transaction": []
+  },
+  "U1-6": {
+    "reference_in_unresolved": 15,
+    "reference_in_with_a_gastric_name_called_a_different_disease": [],
+    "reference_in_whose_indication_class_is_different_disease_or_unreadable": [
+      "SOT102"
+    ],
+    "basket_actions": 11,
+    "basket_actions_naming_the_requested_indications": 11,
+    "pd1_partner_target_actions": {
+      "RC148": [
+        "SOURCE_NAMES_OTHER_TARGETS",
+        "The record names 'PD-1', which the target authority does not read; it is not written as CLDN18 or its name"
+      ],
+      "Volrustomig": [
+        "SOURCE_NAMES_OTHER_TARGETS",
+        "The record names CTLA-4 (CTLA4); none is CLDN18 (Claudin 18.2). It also names 'PD-1', which the target authority does not read; it is not written as CLDN18 or its name"
+      ],
+      "Rilvegostomig (AZD2936)": [
+        "SOURCE_NAMES_OTHER_TARGETS",
+        "The record names TIGIT; none is CLDN18 (Claudin 18.2). It also names 'PD-1', which the target authority does not read; it is not written as CLDN18 or its name"
+      ]
+    }
+  },
+  "classes": {
+    "modality.required: SOURCE_MODALITY_UNREADABLE": 3,
+    "strategy.indication: UNREADABLE": 2,
+    "evidence.phase_constraint: NO_RECORD": 2,
+    "strategy.indication: BASKET": 11,
+    "strategy.indication: DIFFERENT_DISEASE": 2,
+    "strategy.indication: NAMES_REQUESTED_SITE": 4,
+    "strategy.indication: AMBIGUOUS_NAME_ALL_BROADER": 2,
+    "modality.required: NO_RECORD": 5,
+    "strategy.indication: BROADER_THAN_REQUESTED": 2,
+    "target.expression: NO_RECORD": 1,
+    "target.expression: SOURCE_NAMES_OTHER_TARGETS": 3,
+    "strategy.indication: READS_AS_REQUESTED": 1
+  }
+}

@@ -307,8 +307,50 @@ def build_memo(ws: Workspace) -> str:
     if unresolved:
         lines.append(f"- Work the {len(unresolved)}-program unresolved queue; gates lacking evidence: "
                      + ", ".join(f"{_GATE_WORDS.get(k, k)} ({v})" for k, v in open_gates.most_common()) + ".")
+        lines.extend(_one_gate_lines(unresolved))
     lines.append("- Replace hypothetical market and deal inputs with owned, sourced assumptions.")
     return "\n".join(lines) + "\n"
+
+
+def _one_gate_lines(unresolved: list[dict[str, Any]]) -> list[str]:
+    """Unresolved programs with a single open gate (cycle U1), grouped by that gate and by what the record
+    holds, with the cited fact that would settle the gate stated once per gate. Gates are named in words. Every
+    record phrase is shown, so no class is hidden behind "N more" (the closed class list bounds them; review U1 N13).
+    Bounded: at most _MEMO_GATES gate lines and _MEMO_NAMES names per phrase; the workbook Diligence sheet has every
+    program and its full record sentence."""
+    groups: dict[str, dict[str, list[str]]] = {}
+    settled_by: dict[str, str] = {}
+    for s in sorted(unresolved, key=lambda s: (s["rank"] or 10**6, s["program_name"])):
+        open_ids = [d["requirement_id"] for d in s["decisions"] if (d["analyst_override"] or d["status"]) == "UNKNOWN"]
+        if len(open_ids) != 1:
+            continue
+        diag = s.get("unknown_diagnostics", {}).get(open_ids[0], {})
+        if open_ids[0] not in settled_by:
+            how = f" (`assert --field {diag['field']}`)" if diag.get("field") else ""
+            verb = "passed only by" if diag.get("closes") == "pass" else "decided by"
+            settled_by[open_ids[0]] = f"{verb} {diag.get('fact') or 'the fact named in the Diligence sheet'}{how}"
+        summary = diag.get("summary") or "see the Diligence sheet"
+        groups.setdefault(open_ids[0], {}).setdefault(summary, []).append(s["program_name"])
+    if not groups:
+        return []
+    size = {gate: sum(len(names) for names in by.values()) for gate, by in groups.items()}
+    gates = sorted(groups, key=lambda gate: (-size[gate], gate))
+    out = [(f"- {sum(size.values())} unresolved program(s) have one open gate. By gate, the cited fact (source URL "
+            "and verbatim quote) that would settle it, then what the record holds:")]
+    for gate in gates[:_MEMO_GATES]:
+        phrases = sorted(groups[gate].items(), key=lambda item: (-len(item[1]), item[0]))
+        shown = [f"{summary}: {_name_list(names)}" for summary, names in phrases]
+        out.append(f"  - {_GATE_WORDS.get(gate, gate)} gate ({size[gate]}), {settled_by[gate]}: " + "; ".join(shown)
+                   + ".")
+    hidden = sum(size[gate] for gate in gates[_MEMO_GATES:])
+    if hidden:
+        out.append(f"  - {hidden} more on other gates (workbook Diligence sheet).")
+    return out
+
+
+def _name_list(names: list[str]) -> str:
+    extra = len(names) - _MEMO_NAMES
+    return ", ".join(names[:_MEMO_NAMES]) + (f" (+{extra} more)" if extra > 0 else "")
 
 
 def write_memo(ws: Workspace, path: str | Path) -> dict[str, Any]:
@@ -382,6 +424,9 @@ def _no_record(t: dict[str, Any]) -> bool:
 
 _MEMO_EVIDENCE = 3  # evidence rows shown per program; the workbook has all of them
 _MEMO_QUOTE = 200  # characters of each quote shown; the workbook shows up to 1,000
+#: Single-open-gate list (cycle U1): gate lines, and program names per record phrase.
+_MEMO_GATES = 6
+_MEMO_NAMES = 5
 
 
 def _position_words(t: dict[str, Any]) -> str:

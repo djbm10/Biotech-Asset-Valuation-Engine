@@ -20,7 +20,9 @@ or an analyst spreadsheet). DealScreen then:
    source statement; silence is UNKNOWN. An imported deals/rights export gives each program a
    cited rights position in the buyer territory (licensed, optioned, shared, returned,
    conflicting, ...) with diligence questions; absence of a deal is never availability.
-4. **Queues** unknowns, conflicts, shared codes and agent proposals for an analyst.
+4. **Queues** unknowns, conflicts, shared codes and agent proposals for an analyst. Each UNKNOWN
+   gate on a program that is not excluded carries a diagnostic (cycle U1): what the record holds,
+   as written, and the one cited fact that would decide the gate. It never changes a gate.
 5. **Records** analyst decisions in a hash-chained, append-only log. Finalists exist only
    through explicit, attributable approvals.
 6. **Hands up to three selected finalists to valuation** through BVE's own CLI and reads back
@@ -59,6 +61,7 @@ vendor CSV/XLSX ──► importer (mapping profile) ──► LandscapeAsset + 
 | `bve.dealscreen.rights_ledger` / `rights_position` / `rights_model` / `rights_checks` / `rights_words` | Event replay per program; rights position; company, completeness and staleness checks; wording |
 | `bve.dealscreen.rights_gate` / `rights_reader` | The top-tier gate on both paths: every U.S.-rights statement and holder read, rights rows not applied guard the programs they may concern; the strict text reader |
 | `bve.dealscreen.transaction` | Buyer-declared transaction tiers (separate from science) |
+| `bve.dealscreen.indication_relations` / `diagnostics` | Cycle U1: a class per UNKNOWN gate from the NCIt authority, the target and modality readers and the buyer's requirement; the record as written; the deciding fact |
 | `bve.dealscreen.review` | Decision log, approval rules (≤10 finalists, ≤3 valuations, EXCLUDED blocked) |
 | `bve.dealscreen.agent` | Diligence provider protocol: offline evidence library, public CT.gov |
 | `bve.dealscreen.valuation_handoff` | Readiness checklist, config writer, subprocess runner, output reader |

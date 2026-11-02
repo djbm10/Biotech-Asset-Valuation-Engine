@@ -345,3 +345,28 @@ changes; equivalence byte-identical; usefulness against general Claude unchanged
 **Self-criticism (revision 8).** Revision 7 tightened the half of each form that earlier reviews had attacked and left
 the other half open. Each part of an allow-list entry needs the same strictness: what it does not recognise, it
 must refuse.
+
+## Cycle U1: a concrete next action for every tool UNKNOWN (2026-10-30 to 2026-11-01)
+
+Acceptance criteria frozen before code (`research/dealscreen_unknown_actions_v1/ACCEPTANCE.md`, committed 1436d95).
+Each UNKNOWN decision on a program that is not excluded gets a diagnostic beside the S&E's generic action: a class
+describing the record (indication, target, modality, phase), the values as written and the cited fact that would
+decide the gate. Classes come only from the frozen NCIt authority, the target and modality readers and the buyer's
+requirement; a diagnostic never changes a gate, disposition or rank.
+
+| Round | Code | Findings | Response |
+|---|---|---|---|
+| 1 (`REVIEW.md`) | revision 1 | 1 critical (an unresolvable request made every record "a different disease"), 2 high (non-site "site" words; an acronym clean-up), lower ones | revision 2 (`REVIEW_RESPONSE.md`) |
+| 2 (`REVIEW2.md`) | revision 2 | U1-7 not met: 2 high (an NCIt stage concept for the requested site called a different disease; a restatement that picked a different disease), 6 medium or medium-low (multi-word sites dropped and a spelling bug, acronym as basket, non-site words, negated target mentions, isoform and suffix errors, placeholders), 5 low | revision 3 (`REVIEW2_RESPONSE.md`) |
+| 3 | revision 3 | not yet reviewed | |
+
+**Measured result (revision 3, implementer, AI-simulated).** CLDN18.2: 38 of 38 open gates carry a diagnostic
+(baseline 0). Held-out FcRn v1, FcRn v2, C5 and synthetic: 104 of 104. Science and transaction fields: 0 of 62 and
+0 of 312 programs changed; cycle-4 equivalence byte-identical on 4 of 4. No reference-IN program has a gastric or
+junction name called a different disease; SOT102 (reference IN) still points away, because its record names only
+pancreatic cancer. DealScreen tests 876 → 1,052.
+
+**Self-criticism (U1).** Revision 2 fixed the reviewed inputs and broke two common ones (spelled-out junction names,
+NCIt stage concepts), which a sweep over CLDN18.2's own names would have caught. A describing layer still misleads
+when its class name is stronger than the authority's relation: "different disease" needs the authority to say so.
+

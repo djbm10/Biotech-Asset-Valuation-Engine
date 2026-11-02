@@ -1,7 +1,7 @@
 # Next action (restart checkpoint)
 
 **State at checkpoint (2026-11-01):**
-- Branch `dealscreen-mvp`. Cycles 1-5, analyst-simulation cycles A1-A5, comparison cycle C1 and rights cycle R1 revision 8 are committed (see `ITERATION_LOG.md`). R1 revisions 2-4 were never committed separately; they are in the revision 5 commit. Revisions 6 and 7 are one commit.
+- Branch `dealscreen-mvp`. Cycles 1-5, analyst-simulation cycles A1-A5, comparison cycle C1, rights cycle R1 revision 8 and unknown-actions cycle U1 revision 3 are committed (see `ITERATION_LOG.md`). R1 revisions 2-4 were never committed separately; they are in the revision 5 commit. Revisions 6 and 7 are one commit.
 - Uncommitted user files: `AGENTS.md`, `research/universe/biotech_tickers.yaml`, `.claude/`, `.serena/`, `research/dealscreen_product_program/cycle4/equivalence_result.json`. Never stage them.
 - `research/dealscreen_unknown_actions_v1/ACCEPTANCE.md` holds the U1 acceptance criteria, frozen before U1 code on 2026-10-30 and committed on their own, separately from R1.
 - Never pop shared stashes.
@@ -10,7 +10,7 @@
 
 1. Read `PRODUCT_GOAL.md`, `SCORECARD.md` (latest sections at the bottom) and this file.
 2. Confirm the branch and that `git status` shows only the user files above.
-3. Run the DealScreen tests (expect 876 passed):
+3. Run the DealScreen tests (expect 1052 passed):
    `TMPDIR=$HOME/.cache/dealscreen_suite python -m pytest tests/dealscreen -q -p no:cacheprovider`
    `/tmp` is a small tmpfs; keep test temp files on the home disk.
 4. For any cycle that changes screening, re-run
@@ -32,9 +32,16 @@ Revision 6 answers `REREVIEW4.md`; revision 7 answers `REREVIEW5.md` (`REREVIEW5
 fields changed; usefulness against general Claude unchanged (10/4/1 vs 14/1/0 on 15 deal programs, so no advantage).
 Gaps: SKB315's and LM-302's returns are not in the frozen library; a real vendor deals export is untested.
 
-**Next: cycle U1, give each tool-UNKNOWN a concrete next action** (`research/dealscreen_unknown_actions_v1/ACCEPTANCE.md`;
-C1 critic section 2). Baseline: 38 UNKNOWN requirement decisions on CLDN18.2 (indication 24, modality 8, target 4,
-phase 2). Then: X1 isoform reading review; Gate H human session.
+## Unknown-actions cycle U1 (2026-11-01)
+
+See `research/dealscreen_unknown_actions_v1/` (ACCEPTANCE, MEASUREMENT, REVIEW, REVIEW2 and the responses). Each
+tool UNKNOWN on a program that is not excluded carries a diagnostic (`diagnostics.py`, `indication_relations.py`):
+CLDN18.2 38 of 38, held-out 104 of 104, no science change. Revision 3 answers `REVIEW2.md` and has not been
+reviewed, so U1-7 is open.
+
+**Next:** a fresh adversarial review of R1 revision 8 and U1 revision 3; then the highest-value product issue, a
+licensed vendor deals export (rights recall is capped by the rights file); X1 isoform reading review; Gate H human
+session.
 
 ## Analyst-simulation loop
 

@@ -197,6 +197,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
             (s.get("transaction") or {}).get("tier", ""), s.get("transaction_rank"),
             "; ".join((s.get("transaction") or {}).get("reasons", []) + (s.get("transaction") or {}).get("notes", [])),
             *_rights_cells(s.get("transaction") or {}),
+            _open_gate_classes(s),
         ])
     _sheet(wb, "Screening", [
         "Asset id", "Program", "Aliases", "Company (per source)", "External id", "Scientific disposition",
@@ -220,6 +221,7 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
         "Rights evidence stale?", "Rights diligence questions",
         ("Clear position not counted for the top tiers because (complete / specific / current / uncontested; "
         "includes rights rows not applied that may concern the program)"),
+        "Open gates: what the record holds (DealScreen class per gate; describes the record, never decides a gate)",
     ], screening_rows, note=f"Gate engine: bve.se GateEngine. {screening['ranking_rule']}",
         widths={2: 26, 6: 16})
 
@@ -231,10 +233,14 @@ def export_workbook(ws: Workspace, path: str | Path, *, replace_own: bool = Fals
             continue
         for d in s["decisions"]:
             if (d["analyst_override"] or d["status"]) == "UNKNOWN":
+                diag = s.get("unknown_diagnostics", {}).get(d["requirement_id"])
                 diligence_rows.append([s["asset_id"], s["program_name"], "GATE_UNKNOWN", d["requirement_id"],
-                                       d["rationale"], d["next_action"],
+                                       d["rationale"],
+                                       f"{diag['action']} (S&E: {d['next_action']})" if diag else d["next_action"],
                                        "; ".join(d["supporting_or_contradictory_claim_ids"]) or "no evidence",
-                                       "Source-provided evidence missing or conflicting", "OPEN", ""])
+                                       (f"Record class {diag['class']} (DealScreen; describes the record, which can "
+                                        "be wrong). " if diag else "")
+                                       + "Source-provided evidence missing or conflicting", "OPEN", ""])
         counted = (s["commercial"]["us_rights_status"] == "AVAILABLE_ANALYST_CONFIRMED"
                    and (s.get("transaction") or {}).get("rights_position") == "AVAILABILITY_STATED_BY_SOURCE_UNVERIFIED")
         if not counted:  # an analyst availability statement that is undated or stale still needs diligence
@@ -461,6 +467,16 @@ def _effects_text(screen: dict[str, Any]) -> str:
         + f"{e['requirement_id']}: {e['without_assertions']} -> {e['with_assertions']}"
         for e in effects
     )
+
+
+def _open_gate_classes(s: dict[str, Any]) -> str:
+    """The DealScreen class per open gate (cycle U1), with each indication name's own class."""
+    parts = []
+    for requirement_id, d in s.get("unknown_diagnostics", {}).items():
+        names = d.get("names", [])
+        detail = "; ".join(f"'{n['name']}' {n['class']}" for n in names) if len(names) > 1 else ""
+        parts.append(f"{requirement_id}: {d['class']}" + (f" ({detail})" if detail else ""))
+    return " | ".join(parts)
 
 
 def _commercial_row(s: dict[str, Any]) -> list[Any]:

@@ -165,10 +165,16 @@ placements → 0; the reviewer's over-caution costs for Chinese originators ("Ex
 company-retains wording, a city inside a legal name) removed; no CLDN18.2 tier or call changed. The verdict above is
 unchanged: no advantage over general Claude is demonstrated, and revision 6 has not been reviewed.
 
+**Addendum (2026-11-01, cycle U1 revision 3).** Each tool UNKNOWN on a program that is not excluded now carries a
+diagnostic naming what the record holds and the cited fact that would decide the gate (CLDN18.2 38 of 38, held-out
+104 of 104, no science change). Two AI reviews found misleading classes; revision 3 answers the second and has not
+been reviewed. Whether the actions save an analyst time is untested without a human session. The verdict above is
+unchanged.
+
 ### Updated largest obstacles
 
-1. Tool-UNKNOWNs without a concrete next action reduce recall versus an unaided analyst (C1 critic §2). Next cycle:
-   U1 (`research/dealscreen_unknown_actions_v1/ACCEPTANCE.md`).
+1. Tool-UNKNOWNs now carry a concrete next action (U1), but whether that reduces anchoring is unmeasured without a
+   human session, and U1 revision 3 has not been reviewed.
 2. Rights recall is capped by the imported evidence; a licensed vendor deals export has not been tested. Parties
    are matched by name only, so differently named subsidiaries create cautious conflicts.
 3. Valuations a Finance Director cannot rebuild by hand (Lane 1 sign-off needed).

@@ -17,12 +17,14 @@ from typing import Any
 
 from bve.dealscreen.buyer import BuyerSpec
 from bve.dealscreen.commercial import CommercialAssessment, assess
+from bve.dealscreen.diagnostics import diagnose
 from bve.dealscreen.facts import (
     AssetFacts,
     FactBuilder,
     ReviewInputs,
     assertion_claim,
     finding_claim,
+    reviewed_claims,
 )
 from bve.dealscreen.models import IdentityFlag, LandscapeAsset
 from bve.dealscreen.rights import RightsEvent
@@ -100,6 +102,9 @@ class AssetScreen:
     #: Every gate whose status differs from the same screen without analyst assertions.
     #: Empty with active assertions means they changed no decision.
     assertion_effects: list[dict[str, Any]] = field(default_factory=list)
+    #: requirement id -> what the record holds and the cited fact that would decide that UNKNOWN gate
+    #: (cycle U1). Programs that are not excluded only. Never read by a gate, a rank or the transaction view.
+    unknown_diagnostics: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def gate_status(self, requirement_id: str) -> str | None:
         for decision in self.decisions:
@@ -227,13 +232,17 @@ def screen_landscape(
         ]
         if asset.asset_id in flags_by_asset:
             reasons.append("identity: shares a name/code with another source record (review)")
+        decisions = [d.model_dump(mode="json") for d in evaluation.decisions]
+        diagnostics = {} if evaluation.disposition is OverallDisposition.EXCLUDED else diagnose(
+            decisions, claims=reviewed_claims(asset, review), facts=facts.facts, unreadable=facts.unreadable,
+            problem=spec.problem, read_target=builder.read_target, separator=builder.profile.list_separator)
         screens.append(
             AssetScreen(
                 asset_id=asset.asset_id,
                 program_name=asset.program_name,
                 company=asset.company,
                 disposition=evaluation.disposition.value,
-                decisions=[d.model_dump(mode="json") for d in evaluation.decisions],
+                decisions=decisions,
                 review_reasons=reasons,
                 facts=[f.model_dump(mode="json") for f in facts.facts],
                 unreadable_claims=facts.unreadable,
@@ -263,6 +272,7 @@ def screen_landscape(
                                     if a.asset_id == asset.asset_id],
                 overrides=facts.overrides,
                 assertion_effects=effects,
+                unknown_diagnostics=diagnostics,
             )
         )
 

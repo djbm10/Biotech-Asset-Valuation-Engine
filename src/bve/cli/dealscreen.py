@@ -186,6 +186,21 @@ def _provider(spec: str, normalizer: TargetNormalizer):
     raise SystemExit(f"unknown provider {spec!r} (use offline:<library.json> or ctgov)")
 
 
+def _warn_unread_request(ws: Workspace) -> None:
+    """A requested indication that is not one NCIt concept passes no program on indication (cycle U1, review D1)."""
+    from bve.dealscreen import indication_relations as ir
+
+    request = ir.read_request(list(ws.buyer().problem.strategic_gap.indications))
+    for indication, labels in request.unresolved:
+        reads = f"matches {len(labels)} NCIt concepts" if len(labels) > 1 else "matches no NCIt concept"
+        found = ir.restatement(indication)
+        readings = "; ".join(dict.fromkeys(labels))
+        example = (f" (for example {found[0]!r}, read as {found[1]} alone)" if found
+                   else f" (its readings: {readings}; choose one)" if len(labels) > 1 else "")
+        print(f"WARNING: requested indication {indication!r} {reads}, so the indication gate can pass no program "
+              f"through it. Restate it in the buyer file as one NCIt concept{example}.", file=sys.stderr)
+
+
 def _print_queue(ws: Workspace) -> None:
     screening = ws.screening()
     f = screening["funnel"]
@@ -435,6 +450,7 @@ def main(argv: list[str] | None = None) -> int:
             print("Re-run `screen` to apply.")
         elif args.command == "screen":
             ws.screen(_normalizer(args) if args.target_map else None)
+            _warn_unread_request(ws)
             _print_queue(ws)
         elif args.command == "queue":
             _print_queue(ws)

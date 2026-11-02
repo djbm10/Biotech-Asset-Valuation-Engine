@@ -117,7 +117,12 @@ def test_memo_is_bounded_and_labelled(demo):
     _, report = demo
     text = Path(report["deliverables"]["markdown"]).read_text()
     assert "UNVALIDATED" in text and "SYNTHETIC reviewer" in text and "NOT READY FOR VALUATION" in text
-    assert len(text.split()) < 600
+    lines = text.splitlines()
+    start = next((i for i, line in enumerate(lines) if "have one open gate" in line), len(lines))
+    end = next((i for i in range(start + 1, len(lines)) if not lines[i].startswith("  - ")), len(lines))
+    one_gate = " ".join(lines[start:end])  # cycle U1 list: bounded on its own (test_unknown_actions)
+    assert len(text.split()) - len(one_gate.split()) < 600
+    assert len(one_gate.split()) < 200
     assert "we recommend" not in text.casefold()
 
 
