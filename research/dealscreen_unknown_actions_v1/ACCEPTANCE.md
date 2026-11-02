@@ -116,3 +116,9 @@ Two changes were made during implementation. Neither loosens a criterion.
   diagnostic saying nothing is compared (review N12; not reachable through `screen`). (4) A suggested restatement
   of an unresolvable request is given only for the concept whose label is the request; otherwise the readings are
   listed for the buyer to choose (review N2). None of these changes a gate, disposition, rank or transaction field.
+- **After the third U1 review (revision 4), disclosed.** `UNDER_REQUESTED_PARENT` is narrowed to NCIt stage concepts
+  (a label starting "Stage", or a "... by AJCC vN Stage" grouping) that share a by-site ancestor with a requested
+  concept, add no non-site category the request lacks, and whose record name itself names a requested site. Revision
+  3 gave it to lymphomas, sarcomas and other organs' cancers under a shared parent (review D1). Expression levels
+  ("low", "high") name the target; only explicit absence is a negation (review D2). None of these changes a gate,
+  disposition, rank or transaction field.

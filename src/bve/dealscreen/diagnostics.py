@@ -71,18 +71,22 @@ _PLACEHOLDER_WORDS = frozenset({
     "4", "5"})
 #: A required symbol after one of these, or followed by "negative", is not the target ("not X", "X-negative",
 #: "formerly X"; review U1 D5).
-_NEGATED = re.compile(r"\b(?:not|non|no|formerly|former|previously|ex)\b[\s\-]*$", re.IGNORECASE)
-#: Written after the symbol, with a space, hyphen or opening parenthesis (review U1 N7).
-_NEGATION_WORDS = (r"negative|neg|null|low|loss|non[\s\-]?expressing|knock[\s\-]?out|ko|deficient|deleted|"
-                   r"formerly|former|previously")
-_NEGATED_AFTER = re.compile(rf"^[\s\-(]*(?:{_NEGATION_WORDS})\b", re.IGNORECASE)
+_NEGATED = re.compile(r"\b(?:not|non|no|formerly|former|previously|ex|lacking|without)\b[\s\-]*$", re.IGNORECASE)
+#: Explicit absence written after the symbol (review U1 N7). Expression levels ("low", "high") and engineering
+#: words ("null-Fc", "loss-of-function") name the target, not its absence (review U1 D2); "-independent" does not
+#: (D4).
+_NEGATION_WORDS = r"negative|neg|non[\s\-]?expressing|knock[\s\-]?out|independent"
+_NEGATED_AFTER = re.compile(rf"^(?:[\s\-]*(?:{_NEGATION_WORDS})\b|\s*\(\s*(?:{_NEGATION_WORDS}|formerly|former|"
+                            r"previously)\s*\))", re.IGNORECASE)
 #: A parenthesised note that is only a negation stays with its symbol ("X (formerly)"); any other is its own part.
 _PAREN_NOTE = re.compile(r"\(([^()]*)\)")
-_NEGATION_ONLY = re.compile(rf"^\s*(?:{_NEGATION_WORDS})\s*$", re.IGNORECASE)
-#: "/" between two names ("X/Y"), never inside "and/or", "N/A" or "X6/9" (review U1 N9).
-_SLASH = re.compile(r"(?<=[A-Za-z0-9.]{2})/(?=[A-Za-z][A-Za-z0-9.]+)")
+_NEGATION_ONLY = re.compile(rf"^\s*(?:{_NEGATION_WORDS}|formerly|former|previously)\s*$", re.IGNORECASE)
+#: "/" between two names ("X/Y", "X/4-1BB"), never inside "and/or", "N/A" or "X6/9" (review U1 N9, D9).
+_SLASH = re.compile(r"(?<=[A-Za-z0-9.\-]{2})/(?=[A-Za-z0-9][A-Za-z0-9.\-]*[A-Za-z])")
+#: Other list words between two names ("X + Y", "X and Y", "X, Y"), never before "isoform" (review U1 D9).
+_LIST_WORDS = re.compile(r"\s+(?:\+|&|and|plus|with)\s+|\s*,\s+(?!isoform\b)", re.IGNORECASE)
 #: Pair notation between two symbols ("X.2xY", "X.1 x Y"): split before matching (review U1 D5).
-_PAIR = re.compile(r"(?<=\d)\s*[x×]\s*(?=[A-Za-z])")
+_PAIR = re.compile(r"(?<=\d)\s*[x×]\s*(?=[A-Za-z]|\d[\w\-]*[A-Za-z])")
 _SYMBOL_SHAPE = re.compile(r"\d|[A-Z].*[A-Z]")
 
 TargetReader = Callable[[str], "str | None"]
@@ -326,7 +330,7 @@ def _parts(values: list[str], separator: str) -> list[str]:
     out = []
     for value in values:
         joined = re.sub(r"\s+and/or\s+", f"{separator} ", value, flags=re.IGNORECASE)
-        for part in split_list(_SLASH.sub(separator, joined), separator):
+        for part in split_list(_LIST_WORDS.sub(separator, _SLASH.sub(separator, joined)), separator):
             for piece in _paren_parts(part):
                 out += [p.strip() for p in _PAIR.split(piece) if p.strip()]
     return list(dict.fromkeys(out))

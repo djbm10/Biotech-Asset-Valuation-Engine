@@ -579,7 +579,7 @@ def test_n6_a_negated_mention_is_reported_and_the_other_target_still_listed():
     assert "KLX9" in d["record"] and "states it is not ABC1.2" in d["record"]
 
 
-@pytest.mark.parametrize("value", ["ABC1.2 low", "ABC1.2 non-expressing", "ABC1.2 (formerly)", "ABC1.2 knockout"])
+@pytest.mark.parametrize("value", ["ABC1.2-negative", "ABC1.2 non-expressing", "ABC1.2 (formerly)", "ABC1.2 knockout"])
 def test_n6_n7_negations_after_the_symbol_are_not_the_required_target(value):
     d = dg.target_diagnostic([value], False, REQ, READ, ";")
     assert d["class"] == dg.SOURCE_STATES_NOT_REQUIRED_TARGET and d["summary"] == "states it is not the required target"
@@ -643,3 +643,80 @@ def test_n13_no_record_phrase_is_hidden_behind_a_count():
     screens.append(_screen(99, ["gate.0"], "a disease neither requested nor a subtype of one"))
     line = _one_gate_lines(screens)[1]
     assert "a disease neither requested nor a subtype of one: Program 99" in line and not line.endswith(" more.")
+
+
+# -- revision 4: the third adversarial review's findings (REVIEW3.md D1-D9), on held-out inputs -----------------
+@pytest.mark.parametrize(("request_text", "name"), [
+    (GAS, "Gallbladder adenocarcinoma, gastric foveolar type"), (["cutaneous melanoma"], "Mycosis fungoides"),
+    (["cutaneous melanoma"], "Cutaneous T-cell lymphoma"), (["cutaneous melanoma"], "Non-melanoma skin cancer"),
+    (["cholangiocarcinoma"], "Extrahepatic bile duct lymphoma"),
+    (["cholangiocarcinoma"], "Extrahepatic bile duct Kaposi sarcoma"),
+    (["renal cell carcinoma"], "Collecting duct carcinoma"), (["renal cell carcinoma"], "Stage IV renal pelvis cancer"),
+    (["hepatocellular carcinoma"], "Mucoepidermoid intrahepatic cholangiocarcinoma"),
+    (GAS, "Gastric squamous cell carcinoma"), (GAS, "Gastric neuroendocrine carcinoma"),
+    (GAS, "Stage IV pancreatic cancer")])
+def test_d1_only_a_stage_concept_naming_the_requested_site_is_under_the_requests_parent(request_text, name):
+    assert dg.indication_diagnostic([name], list(request_text))["class"] != ir.UNDER_REQUESTED_PARENT
+
+
+@pytest.mark.parametrize(("request_text", "name"), [
+    (GAS, "Stage IV gastric cancer"), (["colorectal adenocarcinoma"], "Stage IV colorectal cancer"),
+    (["pancreatic ductal adenocarcinoma"], "Stage IV pancreatic cancer")])
+def test_d1_stage_concepts_naming_the_site_keep_the_class(request_text, name):
+    d = dg.indication_diagnostic([name], list(request_text))
+    assert d["class"] == ir.UNDER_REQUESTED_PARENT and "names " in d["record"]
+
+
+def test_d1_a_liver_request_gains_no_bile_duct_site():
+    phrases = set().union(*(ir.site_phrases(c) for c in ir.read_request(["hepatocellular carcinoma"]).codes))
+    assert not any("bile duct" in p for p in phrases)
+
+
+@pytest.mark.parametrize("value", ["ABC1.2-low", "ABC1.2 low-expressing", "ABC1.2 null-Fc", "ABC1.2 previously validated",
+                                   "ABC1.2 loss-of-function", "ABC1.2 KO-resistant", "ABC1.2 deficient tumors",
+                                   "low ABC1.2", "ABC1.2 (low expression)"])
+def test_d2_expression_and_engineering_words_name_the_target(value):
+    assert dg.target_diagnostic([value], False, REQ, READ, ";")["class"] == dg.SOURCE_NAMES_REQUIRED_TARGET
+
+
+@pytest.mark.parametrize("name", ["Stage IV Solid Tumours", "STAGE IV SOLID TUMORS", "Stage III/IV solid tumors",
+                                  "Solid Tumors (ALL COMERS)", "Advanced CANCER"])
+def test_d3_roman_numerals_and_words_in_capitals_keep_a_basket(name):
+    assert dg.indication_diagnostic([name], GAS)["class"] == ir.BASKET
+
+
+@pytest.mark.parametrize("value", ["lacking ABC1.2 expression", "ABC1.2-independent"])
+def test_d4_other_negation_wordings(value):
+    assert dg.target_diagnostic([value], False, REQ, READ, ";")["class"] == dg.SOURCE_STATES_NOT_REQUIRED_TARGET
+
+
+@pytest.mark.parametrize(("british", "american"), [("tracheooesophageal", "tracheoesophageal"),
+                                                   ("hypoglycaemia", "hypoglycemia")])
+def test_d5_british_spelling_after_o(british, american):
+    assert ir.us_spelling(british) == american
+
+
+@pytest.mark.parametrize("name", ["Gastro-oesophageal junction cancer",
+                                  "Gastric cancer with gastric outlet obstruction"])
+def test_d5_d6_the_site_is_named(name):
+    assert dg.indication_diagnostic([name], GAS)["class"] == ir.NAMES_REQUESTED_SITE
+
+
+def test_d7_transplant_states_are_not_sites():
+    d = dg.indication_diagnostic(["Post-transplant lymphoproliferative disease, EBV+"],
+                                 ["post-transplant lymphoproliferative disorder"])
+    assert "a requested site" not in d["record"]
+
+
+@pytest.mark.parametrize("request_text", ["lymphoma", "neuroblastoma", "burkitt lymphoma", "medulloblastoma"])
+def test_d8_a_restatement_is_an_acronym_or_nothing(request_text):
+    found = ir.restatement(request_text)
+    assert found is None or (found[0].isupper() and " " not in found[0])
+
+
+@pytest.mark.parametrize(("value", "partner"), [("ABC1.2/4-1BB", "4-1BB"), ("ABC1.2 x 4-1BB", "4-1BB"),
+                                                ("ABC1.2 + CD99", "CD99"), ("ABC1.2 and CD99", "CD99"),
+                                                ("ABC1.2, CD99", "CD99"), ("4-1BB/ABC1.2", "4-1BB")])
+def test_d9_the_partner_target_is_listed(value, partner):
+    d = dg.target_diagnostic([value], False, REQ, READ, ";")
+    assert d["class"] == dg.SOURCE_NAMES_REQUIRED_TARGET and f"'{partner}'" in d["record"]

@@ -2,7 +2,7 @@
 
 INTERNAL DEVELOPMENT. AI-simulated measurement only; no human validation is claimed.
 
-Measured on 2026-11-01 (R1 revision 8 plus U1 revision 3), CLDN18.2 landscape, buyer C3, as-of 2026-10-29.
+Measured on 2026-11-01 (R1 revision 8 plus U1 revision 4; CLDN18.2 outputs identical to revision 3), CLDN18.2 landscape, buyer C3, as-of 2026-10-29.
 Baseline: `research/dealscreen_rights_v1/after_v8/screening_R1v8.json` (R1 revision 8, no U1), copied to
 `baseline/screening_R1.json`. Outputs: `after/`. Criteria: `ACCEPTANCE.md` (frozen before code; the revision note
 lists what changed during implementation and review).
@@ -90,10 +90,10 @@ list.
 
 ## U1-4: held-out tests
 
-`tests/dealscreen/test_unknown_actions.py`: 176 cases, with fictional or other-therapy-area strings. Revision 2
+`tests/dealscreen/test_unknown_actions.py`: 223 cases, with fictional or other-therapy-area strings. Revision 2
 added the first review's probes (D1–D13, J1–J3) as tests; revision 3 adds the second review's (N1–N13) and
-held-out variants of each (another site's stage concept, other non-site words, other placeholders). DealScreen
-suite with U1: 1,052 passed (876 at R1 revision 8).
+held-out variants of each (another site's stage concept, other non-site words, other placeholders); revision 4 adds
+the third review's (D1–D9). DealScreen suite with U1: 1,099 passed (876 at R1 revision 8).
 
 ## U1-5: surfaces
 
@@ -157,8 +157,9 @@ not ELIGIBLE, is EXCLUDED by a modality FAIL and is outside U1's reach).
 `REVIEW.md` (AI, separate context) reviewed U1 revision 1: one critical defect (D1, an unresolvable request made
 every record a "different disease"), two high (D2 non-site "site words", D3 the acronym clean-up), and lower ones.
 `REVIEW_RESPONSE.md` gives the fix and the evidence for each. `REVIEW2.md` re-reviewed revision 2 and found U1-7
-not met (N1–N13, two high). `REVIEW2_RESPONSE.md` gives revision 3's fix for each. U1 revision 3 has not been
-re-reviewed, so U1-7 is not claimed.
+not met (N1–N13, two high). `REVIEW2_RESPONSE.md` gives revision 3's fix for each. `REVIEW3.md` reviewed revision 3: U1-1 to U1-6 met, U1-7
+not met (9 definite defects, the worst medium-high). `REVIEW3_RESPONSE.md` gives revision 4's fix for each. U1
+revision 4 has not been reviewed, so U1-7 is not claimed.
 
 ## Limits
 

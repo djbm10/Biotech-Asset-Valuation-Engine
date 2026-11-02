@@ -358,13 +358,14 @@ requirement; a diagnostic never changes a gate, disposition or rank.
 |---|---|---|---|
 | 1 (`REVIEW.md`) | revision 1 | 1 critical (an unresolvable request made every record "a different disease"), 2 high (non-site "site" words; an acronym clean-up), lower ones | revision 2 (`REVIEW_RESPONSE.md`) |
 | 2 (`REVIEW2.md`) | revision 2 | U1-7 not met: 2 high (an NCIt stage concept for the requested site called a different disease; a restatement that picked a different disease), 6 medium or medium-low (multi-word sites dropped and a spelling bug, acronym as basket, non-site words, negated target mentions, isoform and suffix errors, placeholders), 5 low | revision 3 (`REVIEW2_RESPONSE.md`) |
-| 3 | revision 3 | not yet reviewed | |
+| 3 (`REVIEW3.md`) | revision 3 | U1-1 to U1-6 met, U1-7 not: 9 definite (1 medium-high: the new "under a broader parent" class given to lymphomas, sarcomas and other organs; 2 medium: expression levels read as negation, Roman numerals and capitals switching off BASKET; 6 lower) | revision 4 (`REVIEW3_RESPONSE.md`) |
+| 4 | revision 4 | not yet reviewed | |
 
 **Measured result (revision 3, implementer, AI-simulated).** CLDN18.2: 38 of 38 open gates carry a diagnostic
 (baseline 0). Held-out FcRn v1, FcRn v2, C5 and synthetic: 104 of 104. Science and transaction fields: 0 of 62 and
 0 of 312 programs changed; cycle-4 equivalence byte-identical on 4 of 4. No reference-IN program has a gastric or
 junction name called a different disease; SOT102 (reference IN) still points away, because its record names only
-pancreatic cancer. DealScreen tests 876 → 1,052.
+pancreatic cancer. DealScreen tests 876 → 1,052 (revision 4: 1,099; CLDN18.2 outputs identical to revision 3).
 
 **Self-criticism (U1).** Revision 2 fixed the reviewed inputs and broke two common ones (spelled-out junction names,
 NCIt stage concepts), which a sweep over CLDN18.2's own names would have caught. A describing layer still misleads
