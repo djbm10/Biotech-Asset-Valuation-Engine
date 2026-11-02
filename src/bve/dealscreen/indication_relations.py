@@ -397,7 +397,9 @@ def _role_after(tokens: list[str], at: int) -> bool:
         return False
     if after in _ROLE_AFTER or any(after.startswith(r) for r in _ROLE_AFTER if len(r) >= 6):
         return True
-    return at + 1 < len(tokens) and tokens[at + 1] == "type"
+    # "<site> <word> type" is a role ("foveolar type"), but not when the word is a tumour head ("gastric cancer type
+    # 2"; review U1 R4 D8)
+    return at + 1 < len(tokens) and tokens[at + 1] == "type" and after not in _BASKET_HEADS
 
 
 def sites_named(name: str, phrases: frozenset[str]) -> list[str]:
@@ -417,14 +419,21 @@ def sites_named(name: str, phrases: frozenset[str]) -> list[str]:
 
 def is_basket(name: str) -> bool:
     """Every word is a basket word, and no word written in capitals is a name the authority reads ("ALL" is
-    acute lymphoblastic leukemia, not "all"; review U1 N4)."""
+    acute lymphoblastic leukemia, not "all"; review U1 N4). A basket's own acronym is removed first ("Advanced solid
+    tumors (AST)"; review U1 R4 D4)."""
+    name = _acronyms_removed(name)[0]
     tokens = _variants(name)[0]
-    capitals = re.findall(r"\b[A-Z][A-Z0-9]{1,}\b", name)
-    # In text written in capitals ("ALL COMERS", "STAGE IV SOLID TUMORS") a short word is not an acronym (review U1 D3).
-    shouting = sum(1 for w in capitals if len(w) >= 3 and not re.fullmatch(r"[IVX]+", w)) > 1
-    if not shouting and any(_acronym(w) for w in capitals):
+    if any(_acronym(m.group(0)) and not _before_basket_word(name, m.end())
+           for m in re.finditer(r"\b[A-Z][A-Z0-9]{1,}\b", name)):
         return False
     return bool(tokens) and all(t in _BASKET_WORDS for t in tokens)
+
+
+def _before_basket_word(name: str, end: int) -> bool:
+    """Whether a word in capitals is followed by a basket word, so it reads as an ordinary word: "ALL COMERS",
+    "ALL SOLID TUMORS" (review U1 D3). "RELAPSED ALL" and "ALL, RELAPSED" are the acronym (review U1 R4 D1)."""
+    after = re.match(r"[\s\-]+([A-Za-z]+)", name[end:])
+    return after is not None and after.group(1).casefold() in _BASKET_WORDS - {"all"}
 
 
 def _acronym(token: str) -> bool:
@@ -569,8 +578,11 @@ def _sibling(code: str, requested: frozenset[str]) -> bool:
     """Whether the concept is a stage concept under a by-site ancestor of a requested concept, adds no
     category the request lacks (every ancestor not under a site is an ancestor of the request: no virus-related,
     squamous or other non-site lineage), and names one of that request's sites ("Stage IV <site> Cancer" beside a
-    "<site> adenocarcinoma" request). Other concepts under the same parent, such as a lymphoma, a sarcoma or another
-    organ's cancer, stay different diseases (review U1 D1, J1)."""
+    "<site> adenocarcinoma" request). Every ancestor the request lacks must be a stage grouping, so a stage concept of
+    a neuroendocrine, small-cell or sarcoma lineage filed under the same site is not one (review U1 R4 D2). Other
+    concepts under the same parent, such as a lymphoma, a sarcoma or another organ's cancer, stay different diseases
+    (review U1 D1, J1). Cost: stage concepts NCIt files under a population or staging-system node the request lacks
+    ("Stage … Adult Liver Cancer AJCC v7", "… Endometrial Cancer FIGO 2023") are different diseases too."""
     if not _stage_concept(code):
         return False
     lineage = ancestors(code)
@@ -579,6 +591,10 @@ def _sibling(code: str, requested: frozenset[str]) -> bool:
         if not any(_under_site(a) for a in lineage & ancestors(q)):  # a by-site ancestor they share
             continue
         if not categories <= ancestors(q) | {q}:
+            continue
+        # NCIt files some lineages (neuroendocrine, sarcoma, small-cell) under by-site roots, so the test above does
+        # not see them: every ancestor the request lacks must be a stage grouping (review U1 R4 D2).
+        if not all("stage" in label(a).casefold() for a in lineage - ancestors(q) - {q}):
             continue
         phrases = site_phrases(q)
         if any(sites_named(n, phrases) for n in {label(code), *_names_by_code().get(code, [])}):
@@ -689,7 +705,8 @@ def restatement(indication: str) -> tuple[str, str] | None:
     # Only an acronym is shown: the index's other names are normalised keys and adjectives ("lymphomatous", "neural
     # crest tumor malignant"; review U1 N11, D8).
     acronyms = [n for n in _names_by_code().get(code, [])
-                if re.fullmatch(r"[a-z]{2,6}", n) and disease_code(n) == code and n not in norm(label(code)).split()]
+                if re.fullmatch(r"[a-z]{2,6}", n) and disease_code(n) == code and n not in norm(label(code)).split()
+                and n not in _BASKET_WORDS]  # an English word, not an acronym ("tumor"; review U1 R4 D9)
     return (min(acronyms, key=lambda n: (len(n), n)).upper(), label(code)) if acronyms else None
 
 

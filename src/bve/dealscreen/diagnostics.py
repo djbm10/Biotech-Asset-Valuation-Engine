@@ -78,6 +78,10 @@ _NEGATED = re.compile(r"\b(?:not|non|no|formerly|former|previously|ex|lacking|wi
 _NEGATION_WORDS = r"negative|neg|non[\s\-]?expressing|knock[\s\-]?out|independent"
 _NEGATED_AFTER = re.compile(rf"^(?:[\s\-]*(?:{_NEGATION_WORDS})\b|\s*\(\s*(?:{_NEGATION_WORDS}|formerly|former|"
                             r"previously)\s*\))", re.IGNORECASE)
+#: A symbol stated as both negative and positive ("X negative or positive", "X neg/pos", "X-negative and -positive")
+#: is not stated to be absent (review U1 R4 D3).
+_BOTH_STATES = re.compile(r"\b(?:negative|neg)\s*(?:/|\bor\b|\band\b|,)\s*-?\s*(?:positive|pos)\b|"
+                          r"\b(?:positive|pos)\s*(?:/|\bor\b|\band\b|,)\s*-?\s*(?:negative|neg)\b", re.IGNORECASE)
 #: A parenthesised note that is only a negation stays with its symbol ("X (formerly)"); any other is its own part.
 _PAREN_NOTE = re.compile(r"\(([^()]*)\)")
 _NEGATION_ONLY = re.compile(rf"^\s*(?:{_NEGATION_WORDS}|formerly|former|previously)\s*$", re.IGNORECASE)
@@ -359,7 +363,9 @@ def target_diagnostic(values: list[str], conflicting: bool, targets: list[Any], 
     matches = {p: ("required", "") if readings[p] in required_ids else _match_required(p, patterns) for p in parts}
     named = {p: m[1] for p, m in matches.items() if m and m[0] == "required"}
     isoforms = {p: m[1] for p, m in matches.items() if m and m[0] == "isoform"}
-    negated = {p: m[1] for p, m in matches.items() if m and m[0] == "negated" and readings[p] is None}
+    both = [v for v in values if _BOTH_STATES.search(v)]
+    negated = {p: m[1] for p, m in matches.items()
+               if m and m[0] == "negated" and readings[p] is None and not any(p in v for v in both)}
     placeholders = [p for p in parts if readings[p] is None and _placeholder(p)]
     maybe = [p for p in parts if p not in named and p not in isoforms and p not in negated and readings[p] is None
              and p not in placeholders and any(s.search(p) for s in stems)]

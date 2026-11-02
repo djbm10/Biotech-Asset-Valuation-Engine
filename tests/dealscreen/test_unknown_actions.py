@@ -720,3 +720,56 @@ def test_d8_a_restatement_is_an_acronym_or_nothing(request_text):
 def test_d9_the_partner_target_is_listed(value, partner):
     d = dg.target_diagnostic([value], False, REQ, READ, ";")
     assert d["class"] == dg.SOURCE_NAMES_REQUIRED_TARGET and f"'{partner}'" in d["record"]
+
+
+# -- U1 revision 5: REVIEW4 D1, D2, D4, D8, D9 -------------------------------------------------------------------------
+ALL_ADULT = ["adult acute lymphoblastic leukemia"]
+
+
+@pytest.mark.parametrize("name", ["RELAPSED ALL", "PEDIATRIC ALL", "ALL, RELAPSED", "ADULT ALL", "ADVANCED ALL",
+                                  "RELAPSED/REFRACTORY ALL"])
+def test_r5_d1_an_acronym_in_capitalised_text_is_not_a_basket(name):
+    assert dg.indication_diagnostic([name], ALL_ADULT)["class"] != ir.BASKET
+
+
+@pytest.mark.parametrize("name", ["ALL COMERS", "SOLID TUMORS (ALL COMERS)", "ALL SOLID TUMORS",
+                                  "STAGE IV SOLID TUMORS"])
+def test_r5_d1_all_before_a_basket_word_is_still_a_basket(name):
+    assert ir.is_basket(name)
+
+
+@pytest.mark.parametrize(("request_text", "name"), [
+    (GASTRIC, "Stage IV gastric neuroendocrine tumor"),
+    (GASTRIC, "Stage III Gastric Neuroendocrine Tumor AJCC v8"),
+    (["pancreatic ductal adenocarcinoma"], "Stage IV pancreatic neuroendocrine tumor"),
+    (["colorectal adenocarcinoma"], "Stage IV colorectal neuroendocrine tumor"),
+    (["lung adenocarcinoma"], "Stage IV small cell lung cancer"),
+    (["endometrial endometrioid adenocarcinoma"], "Stage IV uterine corpus leiomyosarcoma")])
+def test_r5_d2_a_stage_concept_of_another_lineage_is_not_under_the_requests_parent(request_text, name):
+    assert dg.indication_diagnostic([name], request_text)["class"] != ir.UNDER_REQUESTED_PARENT
+
+
+@pytest.mark.parametrize("name", ["Advanced solid tumors (AST)", "Advanced Cancer (AC)",
+                                  "Malignant solid tumor (MST)", "Advanced malignancies (AM)"])
+def test_r5_d4_a_basket_with_its_own_acronym_is_a_basket(name):
+    assert dg.indication_diagnostic([name], GASTRIC)["class"] == ir.BASKET
+
+
+@pytest.mark.parametrize("name", ["Gastric cancer type: diffuse", "Gastric carcinoma type 2"])
+def test_r5_d8_a_tumour_head_before_type_is_not_a_role(name):
+    assert dg.indication_diagnostic([name], GASTRIC)["class"] != ir.UNREADABLE
+
+
+def test_r5_d9_a_restatement_is_never_a_basket_word():
+    restated = ir.restatement("Neoplasm")
+    assert restated is None or restated[0].casefold() not in ir._BASKET_WORDS
+
+
+@pytest.mark.parametrize("value", ["ABC1.2 negative or positive", "ABC1.2 neg/pos", "ABC1.2-negative and -positive"])
+def test_r5_d3_a_target_stated_both_negative_and_positive_is_not_stated_absent(value):
+    assert dg.target_diagnostic([value], False, REQ, READ, ";")["class"] != dg.SOURCE_STATES_NOT_REQUIRED_TARGET
+
+
+def test_r5_d3_a_negated_target_beside_another_positive_target_stays_negated():
+    d = dg.target_diagnostic(["ABC1.2 negative; XYZ positive"], False, REQ, READ, ";")
+    assert "'ABC1.2 negative' states it is not ABC1.2" in d["record"]

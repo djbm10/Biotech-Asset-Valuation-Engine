@@ -122,3 +122,8 @@ Two changes were made during implementation. Neither loosens a criterion.
   3 gave it to lymphomas, sarcomas and other organs' cancers under a shared parent (review D1). Expression levels
   ("low", "high") name the target; only explicit absence is a negation (review D2). None of these changes a gate,
   disposition, rank or transaction field.
+- **After the fourth U1 review (revision 5), disclosed.** A stage concept is `UNDER_REQUESTED_PARENT` only when every
+  ancestor the request lacks is a stage grouping, so neuroendocrine, small-cell and sarcoma stage concepts filed
+  under the request's site are different diseases (review D2). Cost: FIGO endometrial, adult liver and anal canal
+  stage concepts are different diseases too. A capitalised acronym is a basket word only before a basket word
+  ("ALL COMERS"; review D1). None of these changes a gate, disposition, rank or transaction field.
