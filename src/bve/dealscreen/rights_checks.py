@@ -87,6 +87,13 @@ def _explain_leftovers(ledger: _Ledger, pos: RightsPosition, used: list[RightsEv
         pos.reasons.append(f"not applied, dated after the as-of date {ledger.as_of.isoformat()}: "
                            + "; ".join(_what(e) for e in ledger.after_as_of))
         used += ledger.after_as_of
+    if ledger.straddling:  # review R1v7 DATE: a year or month that contains the as-of date
+        assert ledger.as_of is not None
+        pos.reasons.append(f"not applied, dated only to a period that contains the as-of date "
+                           f"{ledger.as_of.isoformat()}: " + "; ".join(_what(e) for e in ledger.straddling))
+        pos.questions.append("On what day did " + "; ".join(_what(e) for e in ledger.straddling)
+                             + f" take effect: before or after {ledger.as_of.isoformat()}?")
+        used += ledger.straddling
     used += ledger.unapplied
     pos.reasons += ledger.notes
     pos.questions += ledger.questions

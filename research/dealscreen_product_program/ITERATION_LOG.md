@@ -226,7 +226,8 @@ registry-sponsor name match. Returned rights were invisible.
 | 4 (`REREVIEW3.md`) | revision 4 | 18 definite: 8 High (7 close variants of claimed fixes, 1 new: tier 0 or 1 while a third party may hold U.S. rights, or on contrary, undated or unattached evidence), 2 Medium (false encumbrances), 8 Low (wording); none in the CLDN18.2 output, but six High errors reached tier 0 or 1 end to end on copies of the CLDN18.2 workspace. Cause: the allow-list ran in full only on the "returned" path | fixed in revision 5: one fail-closed gate on every path (`REREVIEW3_RESPONSE.md`); 141 more held-out tests |
 | 5 (`REREVIEW4.md`) | revision 5 | 19 definite: 11 High (paths into tier 0 or 1: dates read as codes, another party's offer, U.S. grants erased as party names, returns to a third party, Partnerships and Geographic Notes unread, notes in party and company names, status-flag endings, undated acquisitions, the field path and the gate ignoring the buyer territory), 4 Medium (false conflict or encumbrance), 4 Low (wording); none in the CLDN18.2 output; 18 flagged top-tier placements end to end on copies of the CLDN18.2 workspace. Cause: the gate passed what its reader marked as understood | fixed in revision 6: the gate's default inverted (plain forms only, `REREVIEW4_RESPONSE.md`); 90 more held-out tests |
 | 6 (`REREVIEW5.md`) | revision 6 | 14 definite: 6 High (the plain forms accepted texts that fit their words and meant the opposite: "U.S." hidden by lower-casing in party spans, pronouns and "the owner" counted as the company, notes inside the text dropped, "other places" fixed as non-U.S. for every buyer; ownership words and rights rows' quotes unread), 2 Medium (a {US, CA} buyer lost the U.S.-rights field; "or" not read), 6 Low; none in the CLDN18.2 output; end to end, test inputs took tier 0 and 1 places (ws_e #1–#7, ws_f #1–#5). Cause: the plain forms overrode the reader and read on lower-cased text in U.S. terms | fixed in revision 7 (`REREVIEW5_RESPONSE.md`); 72 more held-out tests |
-| 7 | revision 7 | not yet reviewed | |
+| 7 (`REREVIEW6.md`) | revision 7 | 7 definite: 5 High (the "other places" party span took any words, so "… and in the Americas to X", "for ROW", "elsewhere" passed; a quote's prefix before a colon was dropped as a speaker; options and "worldwide" in quotes unread; an offer's place not compared with a non-U.S. buyer; ending dates compared by the start of a year or month), 2 Low; none in the CLDN18.2 output; end to end, test inputs took #1–#6 in the top tiers (ws_g) | fixed in revision 8 (`REREVIEW6_RESPONSE.md`); 60 more held-out tests |
+| 8 | revision 8 | not yet reviewed | |
 
 **Measured result (CLDN18.2, against the frozen reference).**
 - False "unobstructed" (third-party U.S. rights shown OPEN or in a top tier): 4 definite plus zanidatamab at
@@ -330,3 +331,17 @@ equivalence byte-identical. Usefulness against general Claude unchanged (10 / 4 
 
 **Self-criticism (revision 7).** Revision 6 wrote down what the gate accepts but checked it in a weaker form than the
 reader it was meant to restrain. An allow-list is only as strict as the reading of each item on it.
+
+**Revision 8 (2026-11-01).** Round 7 found revision 7's "other places" form strict on the place but not on the
+party: anything after "to" counted as a name. Revision 8 reads the party as written and accepts only a name
+(capitalised words and corporate punctuation, no lower-case word, dash or place word); strips a quote's speaker only
+when it is the row's grantor or the company; reads a quote's options and wider territories clause by clause, so a
+quote saying the company kept its U.S. rights now passes while "an option on worldwide rights" blocks; requires an
+offer naming places to cover the buyer territory; and does not apply an ending dated only to a year or month that
+contains the as-of date. Measured by the implementer (`REREVIEW6_RESPONSE.md`): DealScreen tests 816 → 876; the
+reviewer's end-to-end top-tier placements 6 → 0; CLDN18.2 identical to revision 7; 0 of 62 and 0 of 312 science
+changes; equivalence byte-identical; usefulness against general Claude unchanged (10 / 4 / 1 against 14 / 1 / 0).
+
+**Self-criticism (revision 8).** Revision 7 tightened the half of each form that earlier reviews had attacked and left
+the other half open. Each part of an allow-list entry needs the same strictness: what it does not recognise, it
+must refuse.

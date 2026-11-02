@@ -78,13 +78,31 @@ _RETAINED = re.compile(rf"^(?:{_RIGHTS}\s+(?:are\s+|is\s+)?)?retained(?:\s+by\s+
 _OWNED = re.compile(r"^(?:(?:wholly|fully)\s+)?owned(?:\s+by\s+(?P<who>.+))?$")
 #: A grant over named places other than the U.S., to a named party or none: "licensed in China only", "exclusive
 #: China license to ChinaCo", "licensed to ChinaCo for Japan".
+#: Matched on the clause as written (case kept), so the party span can be checked as a name (review R1v7 PLACE).
 _OTHER_PLACES = (
     re.compile(r"^(?:exclusive(?:ly)?\s+)?(?:(?:out-?)?licen[cs]ed|partnered)\s+(?:in|for)\s+(?:the\s+)?(?P<place>.+?)"
-               r"(?:\s+only)?(?:\s+to\s+(?P<party>.+))?$"),
-    re.compile(r"^(?:an?\s+)?(?:exclusive\s+)?(?P<place>.+?)\s+(?:out-?)?licen[cs]e(?:\s+(?:to|with)\s+(?P<party>.+))?$"),
+               r"(?:\s+only)?(?:\s+to\s+(?P<party>.+))?$", re.IGNORECASE),
+    re.compile(r"^(?:an?\s+)?(?:exclusive\s+)?(?P<place>.+?)\s+(?:out-?)?licen[cs]e(?:\s+(?:to|with)\s+(?P<party>.+))?$",
+               re.IGNORECASE),
     re.compile(r"^(?:exclusive(?:ly)?\s+)?(?:out-?)?licen[cs]ed\s+to\s+(?P<party>.+?)\s+(?:in|for)\s+(?:the\s+)?"
-               r"(?P<place>.+?)(?:\s+only)?$"),
+               r"(?P<place>.+?)(?:\s+only)?$", re.IGNORECASE),
 )
+#: A party written as a name and nothing else: capitalised words, digits and corporate punctuation ("Chinaco
+#: Pharma", "Acme Bio Co., Ltd."). A lower-case word, a dash or a second "to"/"in" is more text, which may name
+#: another place or party ("... and in the Americas to X", "... - X has the rest"), so it is not a name.
+_NAME_TOKEN = r"[A-Z0-9][A-Za-z0-9.&'’]*(?:-[A-Za-z0-9.&'’]+)*,?"
+_PARTY_NAME = re.compile(rf"{_NAME_TOKEN}(?:\s+{_NAME_TOKEN})*")
+#: Capitalised words that name a place the territory reader does not know, inside what looks like a name.
+_PLACE_WORD = re.compile(r"\b(?:americas?|american|europe(?:an)?|asian?|africa(?:n)?|pacific|world|worldwide|global|"
+                         r"row|international|latam|apac|emea|nordics?|oceania|australia|states)\b", re.IGNORECASE)
+
+
+def _party_ok(party: str | None) -> bool:
+    name = re.sub(r"\s+only$", "", (party or "").strip(" ,"), flags=re.IGNORECASE)
+    if not name:
+        return True
+    return (bool(_PARTY_NAME.fullmatch(name)) and not regions_named(name) and not _PLACE_WORD.search(name)
+            and not _RIGHTS_TEXT.search(name))
 
 
 def _is_company(who: str | None, company: str | None, alone: bool = True) -> bool:
@@ -162,13 +180,13 @@ def _clause_form(clause: str, company: str | None, as_of: date | None, territory
         if found and _is_company(found.groupdict().get("who"), company, alone):
             return "rights kept by the company"
     for pattern in _OTHER_PLACES:
-        found = pattern.fullmatch(text)
-        party = (found.groupdict().get("party") or "") if found else ""
+        found = pattern.fullmatch(written)
         if found and _is_region(found["place"]) and named and not named & territory and \
-                not regions_named(party) and not _RIGHTS_TEXT.search(party):
+                _party_ok(found.groupdict().get("party")):
             return "a grant over other places only"
     if _offer(text, company, alone):
-        return "an offer"
+        # An offer that names places must cover the buyer territory (review R1v7 QT).
+        return "an offer" if not named or territory <= named else None
     return None
 
 

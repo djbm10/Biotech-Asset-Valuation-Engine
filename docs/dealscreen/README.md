@@ -193,7 +193,8 @@ from the landscape's and analysts' U.S.-rights fields, and anything it cannot re
   within `max_evidence_age_days` of the buyer's `as_of_date`; acquisitions and later reports never refresh it;
   records and statements dated after the as-of date are not applied, nor is a status ("terminated", "expired")
   reported in a source dated after it; a status with no source date blocks, because nothing places it before the
-  as-of date. A company's deal row for another program guards this program only when its territory is unreadable
+  as-of date. An ending or acquisition dated only to a year or month that contains the as-of date is not applied
+  and blocks, with a question asking for the day. A company's deal row for another program guards this program only when its territory is unreadable
   or overlaps the buyer territory. When an availability statement decides the position, every grant that ever
   covered the territory must have ended, by a dated record of its own, before the statement; an ending stated only
   by a status flag does not qualify. An acquisition with no date of its own is not applied;
@@ -210,8 +211,12 @@ from the landscape's and analysts' U.S.-rights fields, and anything it cannot re
   brackets, or (in a text of several clauses) a pronoun as its subject, is not a plain form; nor is a text the
   reader cannot read, unless it says the company keeps its rights. Anything else blocks, quoted, with a question. A
   Partnerships value that only names organisations is not rights evidence; one with ownership words ("owned by",
-  "bought by", "subsidiary of") is. A rights row's own quote is read: an availability row's quote must be a plain
-  form, and any row's quote that names a buyer-territory place the row does not cover blocks. A note in parentheses
+  "bought by", "subsidiary of") is. In a grant over other places the party must be a name and nothing else
+  (capitalised words and corporate punctuation; "… to Acme Pharma and in the Americas to Beta Bio" is not one). An
+  offer that names places must cover the buyer territory. A rights row's own quote is read: a leading "Name:" is
+  dropped only when the name is the row's grantor or the company; an availability row's quote must be a plain form;
+  any other row's quote blocks when a clause names a buyer-territory place the row does not cover, or an option or
+  wider territory ("worldwide", "outside", "rest of the world"), unless the clause says the company kept the rights. A note in parentheses
   or brackets beside the company name, a rights row's grantor or grantee, or a holder blocks, the note is quoted,
   and the noted name is not shown as holder or owner (a place inside a legal name before its corporate form, as in
   "Acme Bio (Basel) Co., Ltd." or "Acme Bio (Hong Kong) Limited", is not a note). An analyst availability statement counts only with a source date within

@@ -110,6 +110,12 @@ and never lets a plain form accept what the reader cannot read. Implementer-meas
 round-6 usefulness costs removed; no CLDN18.2 field changed. The verdict above is unchanged: no advantage over
 general Claude is demonstrated, and revision 7 has not been reviewed.
 
+**Addendum (2026-11-01, revision 8).** Round 7 (`REREVIEW6.md`) found 5 High errors in revision 7: the "other
+places" form took any words as a party; quote prefixes were dropped as speakers; options and "worldwide" in quotes
+were unread; offers were not compared with a non-U.S. buyer territory; year- or month-dated endings were judged by the
+start of the period. Revision 8 closes each. Implementer-measured: the reviewer's 6 end-to-end top-tier placements
+→ 0; no CLDN18.2 field changed. The verdict above is unchanged, and revision 8 has not been reviewed.
+
 ### Updated largest obstacles
 
 1. Rights/availability still depends on evidence the tool does not hold (import vendor deal fields).

@@ -122,3 +122,11 @@ Gates H, B and I are unchanged.
 | 12 | Excel and report quality | Memo says which inputs were read; names-only Partnerships assertions not listed as read; `assert` gives the gate's verdict for the buyer territory | regenerated outputs | PARTIAL (no human reader) |
 
 Gates H, B and I are unchanged.
+
+**After cycle R1 revision 8 (AI-SIMULATED; 2026-11-01):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | The "other places" form accepts only a name as the party; quotes keep conditions before a colon and are read for options and wider territories; offers must cover the buyer territory; year- or month-dated endings that contain the as-of date are not applied | 60 more held-out tests (876 in all); round-7 reviewer's end-to-end top-tier placements 6 → 0 (implementer-measured); CLDN18.2 calls unchanged | PARTIAL (recall capped by the imported file; no real vendor export; revision 8 not reviewed) |
+
+Gates H, B and I are unchanged.

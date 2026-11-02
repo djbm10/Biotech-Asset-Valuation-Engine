@@ -49,6 +49,7 @@ from bve.dealscreen.rights_reader import (
     CONTESTS,
     RIGHTS_STATUS_WORDS,
     UNKNOWN,
+    _clauses,
 )
 from bve.dealscreen.rights_reader import rights_reading as _rights_reading
 from bve.dealscreen.rights_territory import (
@@ -221,27 +222,67 @@ def _read_other(found: _Findings, claims: list[dict[str, Any]], company: str | N
 _SPEAKER = re.compile(r"^\s*[A-Z][^:;()\[\]]{0,60}:\s+")
 
 
+#: Words in a quote that reach beyond the places a row names: an option or a wider territory (review R1v7 QW).
+_WIDER = re.compile(r"\b(?:worldwide|world-wide|global(?:ly)?|rest of (?:the )?world|ROW|all (?:other )?territories|"
+                    r"ex-|outside|excluding|except|options?|right of first|first negotiation|ROF[NR]|north american?|"
+                    r"americas?|international|elsewhere)\b", re.IGNORECASE)
+#: What a quote's clause about the buyer territory may say beside a grant over other places: that no grant was
+#: made there, or that the company kept the rights there.
+_QUOTE_FORMS = frozenset({_KEPT, "no grant stated"})
+
+
+def _speaker_stripped(quote: str, e: dict[str, Any], company: str | None) -> str:
+    """A quote without a leading "Name:" when the name is the row's own grantor or the program's company. Any other
+    prefix stays, so a condition ("Subject to X consent: ...") or a third party speaking is read (review R1v7 SPK)."""
+    found = _SPEAKER.match(quote)
+    if not found:
+        return quote
+    speaker = found.group(0).strip().rstrip(":").strip()
+    own = [x for x in (company, e.get("grantor")) if x]
+    return quote[found.end():] if any(same_company(speaker, str(x)) for x in own) else quote
+
+
+def _quote_problem(quote: str, e: dict[str, Any], company: str | None, as_of: date | None,
+                   territory: frozenset[str]) -> str | None:
+    """Why a cited row's quote blocks, or None. An availability statement's quote must be a plain form in the
+    buyer's terms. Any other row's quote is read clause by clause: a clause that names a buyer-territory place the
+    row's own territory does not cover, or reaches wider (an option, "worldwide", "outside"), passes only when it says
+    that no grant was made there or that the company kept the rights (review R1v7 QW)."""
+    text = _speaker_stripped(quote, e, company)
+    if e.get("type") == AVAILABILITY_STATED:
+        if accepted_form(text, company, as_of, territory, _rights_reading(text).understood):
+            return None
+        return ("is not one of the plain forms DealScreen accepts beside a clear position (it may carry a date, a "
+                "condition, another party or a place)")
+    own = parse_territory(str(e.get("territory") or "")) or frozenset()
+    if territory <= own:
+        return None  # the row itself covers the buyer territory; the ledger reads it as a grant there
+    for clause in _clauses(text) or [text]:
+        extra = (regions_named(clause) & territory) - own
+        wider = _WIDER.search(clause)
+        if not (extra or wider):
+            continue
+        if plain_form(clause, company, as_of, territory) in _QUOTE_FORMS:
+            continue
+        if extra:
+            return f"names {'/'.join(sorted(extra))}, in the buyer territory, which the row's own territory does not"
+        return f"says '{wider.group(0) if wider else ''}', which may reach beyond the row's own territory"
+    return None
+
+
 def _read_quotes(found: _Findings, position: RightsPosition, company: str | None, as_of: date | None,
                  territory: frozenset[str]) -> None:
-    """The quote on each cited rights row (review R1v6 QUOTE). A quote that says nothing about rights or places
-    adds nothing. An availability statement's quote must be a plain form in the buyer's terms; any other row's
-    quote must not name a place in the buyer territory that the row's own territory does not cover."""
+    """The quote on each cited rights row (review R1v6 QUOTE, R1v7 SPK/QW/QT). A quote that says nothing about rights
+    or places adds nothing; otherwise see ``_quote_problem``."""
     for e in position.evidence:
         quote = str(e.get("quote") or "").strip()
-        if e.get("type") == FIELD_STATEMENT or not quote or not (is_rights_text(quote) or regions_named(quote)):
+        if e.get("type") == FIELD_STATEMENT or not quote or not (is_rights_text(quote) or regions_named(quote)
+                                                                  or _WIDER.search(quote)):
+            continue
+        why = _quote_problem(quote, e, company, as_of, territory)
+        if why is None:
             continue
         row = f"rights row {e.get('row')} ({e.get('type_words') or e.get('type')})"
-        if e.get("type") == AVAILABILITY_STATED:
-            if accepted_form(_SPEAKER.sub("", quote), company, as_of, territory, True):
-                continue
-            why = ("is not one of the plain forms DealScreen accepts beside a clear position (it may carry a date, "
-                   "a condition, another party or a place)")
-        else:
-            own = parse_territory(str(e.get("territory") or "")) or frozenset()
-            extra = (regions_named(quote) & territory) - own
-            if not extra:
-                continue
-            why = f"names {'/'.join(sorted(extra))}, in the buyer territory, which the row's own territory does not"
         found.blocks.append(((f"uncontested: the quote on {row} reads '{quote}', which {why}; DealScreen does not "
                              "read the quote further"),
                              (f"What does the quote on {row} ('{quote}') say about rights in the buyer territory, and "

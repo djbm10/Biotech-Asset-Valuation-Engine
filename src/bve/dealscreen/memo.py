@@ -482,9 +482,9 @@ def _rights_summary(n_eligible: int, eligible: list[dict[str, Any]], rights: Cou
                if not (t.get("top_tier_blockers") or t.get("stale") or t.get("rights_rows_not_applied"))]
     if available:
         n_blocked = len(available) - len(checked)
-        found = (f"for {len(checked)} DealScreen found nothing else among the rights texts, names, rows and row "
-                 "quotes it reads that it cannot read or that contradicts the statement (it reads a row's quote "
-                 "only for places and rights words)"
+        found = (f"for {len(checked)} DealScreen's word rules found nothing else in the rights texts, names, rows "
+                 "and row quotes that contradicts the statement or that they cannot read (word rules can miss a "
+                 "condition written in other words)"
                  + (f", and {n_blocked} have a blocker (see the workbook)" if n_blocked else "")
                  if checked else f"all {n_blocked} have a blocker (see the workbook)")
         stated = (f" A source states availability for {len(available)} (read by rule, unverified); {found}. This is "

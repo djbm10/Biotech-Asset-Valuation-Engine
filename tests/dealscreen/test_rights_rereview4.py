@@ -333,6 +333,7 @@ def test_l1_the_summary_keeps_the_holder_sentence_beside_the_availability_count(
 
     text = _rights_summary(2, [screen([]), screen(["current: x"])], Counter())
     assert "A holder or labeler is named in cited evidence for 2" in text
-    assert "for 1 DealScreen found nothing else" in text and "and 1 have a blocker" in text
+    # Revision 8 (review R1v7 L1c): the sentence says these are word rules.
+    assert "for 1 DealScreen's word rules found nothing else" in text and "and 1 have a blocker" in text
     assert "not a check that any statement is true" in text
     assert "all 1 have a blocker" in _rights_summary(1, [screen(["current: x"])], Counter())

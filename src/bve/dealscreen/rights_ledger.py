@@ -22,11 +22,14 @@ from bve.dealscreen.rights import (
     RIGHTS_RETURNED,
     TERMINATION,
     RightsEvent,
+    period_end,
 )
 from bve.dealscreen.rights_territory import party_key
 
 _GRANT_TYPES = frozenset({LICENSE, OPTION, CO_DEVELOPMENT, CO_PROMOTION_OPTION})
 _ENDINGS = frozenset({TERMINATION, RIGHTS_RETURNED})
+#: Records that can clear a grant or change the holder.
+_CLEARS = frozenset({TERMINATION, RIGHTS_RETURNED, OPTION_LAPSED, ACQUISITION})
 _OPTION_OUTCOMES = frozenset({OPTION_EXERCISED, OPTION_LAPSED})
 _OUTCOMES = _ENDINGS | _OPTION_OUTCOMES
 _OPTIONS = frozenset({OPTION, CO_PROMOTION_OPTION})
@@ -111,10 +114,16 @@ class _Ledger:
         self.as_of, self.max_age = as_of, max_age_days
         #: Records dated after the as-of date were not known then; they are not applied (review R1v3 N10).
         self.after_as_of = [e for e in events if as_of and e.window and e.window[0] > as_of]
-        later = {e.event_id for e in self.after_as_of}
+        #: An ending or acquisition dated only to a year or month that contains the as-of date may come after it,
+        #: so it is not applied either, and it blocks (review R1v7 DATE).
+        self.straddling = [e for e in events if as_of and e.event_type in _CLEARS and e.window
+                           and e.window[0] <= as_of < e.window[1]]
+        later = {e.event_id for e in self.after_as_of + self.straddling}
         self.events = [e for e in events if e.event_id not in later]
         #: Why a clear position may not reach the top tiers ("check: detail"), see the module docstring.
-        self.blockers: list[str] = []
+        self.blockers: list[str] = [
+            f"current: the {e.words} ({e.when}) is dated only to a period that contains the as-of date {as_of}, so "
+            "it may come after it; it is not applied" for e in self.straddling]
         #: The records a clear position rests on; the current check is judged on their own dates.
         self.deciding: list[RightsEvent] = []
         self.grants: list[_Grant] = []
@@ -237,7 +246,9 @@ class _Ledger:
         # A record naming only the licensor is a grant to a licensee not named, never to the licensor (R1v3 N1).
         g = _Grant(e, kind, shared, set(e.territory) if e.territory is not None else None,
                    holder=e.grantee or "", grantor=e.grantor)
-        reported_later = bool(self.as_of and e.source_date and e.source_date > self.as_of)
+        # A source dated "2025" may be from after an as-of date in 2025: judge on the end of its period (R1v7 DATE).
+        reported_later = bool(self.as_of and e.source_date
+                              and period_end(e.source_date, e.source_date_precision) > self.as_of)
         if e.status in {"TERMINATED", "EXPIRED"} and reported_later:  # review R1v5 E2: not known on the as-of date
             self.notes.append(f"{e.words} ({e.when}): its status '{e.status.lower()}' is reported in a source dated "
                               f"{e.source_date_text}, after the as-of date {self.as_of}; not applied")
