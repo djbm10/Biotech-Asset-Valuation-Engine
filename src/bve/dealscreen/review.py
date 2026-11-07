@@ -43,6 +43,10 @@ class Action(str, Enum):
     ASSERT_FACT = "ASSERT_FACT"
     #: A reviewer withdraws an earlier assertion (subject: that assertion's decision id).
     RETRACT_FACT = "RETRACT_FACT"
+    #: A human analyst who has read the source states that a rights row's quote says what the row says and nothing
+    #: more (subject: the rights row's event id; new state CONFIRMED or WITHDRAWN). Tied to the row's content hash
+    #: (cycle R1 revision 12).
+    CONFIRM_RIGHTS_ROW = "CONFIRM_RIGHTS_ROW"
 
 
 class ReviewerKind(str, Enum):
@@ -85,6 +89,8 @@ class ReviewState:
     finding_hashes: dict[str, str | None] = field(default_factory=dict)
     #: Latest identity resolution per flag, with who decided it (cycle A2 G2).
     identity_resolutions: dict[str, dict[str, Any]] = field(default_factory=dict)
+    #: Rights rows a human analyst confirmed, by event id, with the row hash and who confirmed (cycle R1 rev. 12).
+    rights_rows: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def subject_state(self, action: Action, subject_id: str) -> str:
         if action in (Action.CONFIRM_CLAIM, Action.REJECT_CLAIM):
@@ -99,6 +105,8 @@ class ReviewState:
             return f"{sum(a['asset_id'] == subject_id for a in self.assertions.values())} active assertions"
         if action is Action.RETRACT_FACT:
             return "ACTIVE" if subject_id in self.assertions else "NOT_ACTIVE"
+        if action is Action.CONFIRM_RIGHTS_ROW:
+            return "CONFIRMED" if subject_id in self.rights_rows else "UNCONFIRMED"
         if action in (Action.APPROVE_FINALIST, Action.WITHDRAW_FINALIST):
             return self.finalists.get(subject_id, {}).get("state", "NOT_A_FINALIST")
         return "SELECTED" if subject_id in self.valuation_selected else "NOT_SELECTED"
@@ -113,6 +121,7 @@ class ReviewState:
             confirmed_claim_ids=frozenset(c for c, s in self.claims.items() if s == "CONFIRMED"),
             confirmed_findings=tuple(f for f in findings if f.finding_id in confirmed),
             assertions=tuple(AnalystAssertion(**a) for a in self.assertions.values()),
+            confirmed_rights_rows={k: dict(v) for k, v in self.rights_rows.items()},
         )
 
 
@@ -162,6 +171,11 @@ def _apply(state: ReviewState, record: dict[str, Any]) -> None:
         }
     elif action is Action.RETRACT_FACT:
         state.assertions.pop(subject, None)
+    elif action is Action.CONFIRM_RIGHTS_ROW:
+        if new == "CONFIRMED" and record["reviewer_kind"] == ReviewerKind.HUMAN.value:
+            state.rights_rows[subject] = {"row_sha256": record["detail"].get("row_sha256"), **_who(record)}
+        else:  # a withdrawal; a fixture's record is kept in the log but never confirms a row
+            state.rights_rows.pop(subject, None)
 
 
 def _who(record: dict[str, Any]) -> dict[str, Any]:
@@ -228,6 +242,13 @@ class DecisionLog:
                     f"an AI-prepared record can only list a candidate ({AI_CANDIDATE_STATE}); "
                     "approval needs a human analyst"
                 )
+        if action is Action.CONFIRM_RIGHTS_ROW:
+            if reviewer_kind is not ReviewerKind.HUMAN:
+                raise DecisionRejected("a rights row is confirmed only by a human analyst who has read the source")
+            if new_state not in ("CONFIRMED", "WITHDRAWN"):
+                raise DecisionRejected("a rights row confirmation has new_state CONFIRMED or WITHDRAWN")
+            if context is None:
+                raise DecisionRejected("a rights row confirmation is checked against the workspace; pass its context")
         if action is Action.RESOLVE_IDENTITY_FLAG and new_state not in IDENTITY_RESOLUTIONS:
             raise DecisionRejected(
                 f"identity resolution {new_state!r} is not recognised; use SAME_MOLECULE, "
@@ -239,6 +260,8 @@ class DecisionLog:
                 raise DecisionRejected("an assertion is checked against the workspace; pass its context")
         if context is not None:
             context.check(action, subject_id, self.state, new_state, reviewer_kind, reviewer_id)
+            if action is Action.CONFIRM_RIGHTS_ROW:
+                detail = {**(detail or {}), "row_sha256": context.rights_row_hashes[subject_id]}
             if action is Action.CONFIRM_FINDING and subject_id in context.finding_hashes:
                 detail = {**(detail or {}), "finding_sha256": context.finding_hashes[subject_id]}
             if action is Action.ASSERT_FACT and context.readable is not None:
@@ -323,6 +346,8 @@ class DecisionContext:
     finding_proposers: dict[str, str] = field(default_factory=dict)
     #: finding_id -> content hash, snapshotted into the confirming record (review A2-3).
     finding_hashes: dict[str, str] = field(default_factory=dict)
+    #: rights row event id -> content hash, snapshotted into a CONFIRM_RIGHTS_ROW record (cycle R1 revision 12).
+    rights_row_hashes: dict[str, str] = field(default_factory=dict)
 
     def check(
         self, action: Action, subject_id: str, state: ReviewState, new_state: str = "",
@@ -336,6 +361,8 @@ class DecisionContext:
                 and self.finding_proposers.get(subject_id) == reviewer_id):
             raise DecisionRejected("the assistant that proposed a fact cannot confirm it; a different "
                                    "human analyst must check the quote")
+        if action is Action.CONFIRM_RIGHTS_ROW and subject_id not in self.rights_row_hashes:
+            raise DecisionRejected(f"unknown rights row {subject_id!r}; the block on the program names its event id")
         if action is Action.RESOLVE_IDENTITY_FLAG and subject_id not in self.flag_ids:
             raise DecisionRejected(f"unknown identity flag {subject_id!r}")
         if action is Action.RETRACT_FACT and subject_id not in state.assertions:

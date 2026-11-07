@@ -131,6 +131,14 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 12 (AI-SIMULATED; 2026-11-02):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | A rights row's quote restates its row only as one of 34 fixed sentences for its type (own parties in their roles, the program, the type's verb with no modal, condition or sale, a place inside the row, a dated period by the as-of date); anything else blocks until a human analyst records a hash-bound `CONFIRM_RIGHTS_ROW`. One legal entity per acquired party; two acquirers are contested | 1,575 tests; round-11 reviewer's probes 67 → 5 of 75 top-tier (all controls) and end-to-end ws_l 7 → 0 (implementer-measured); CLDN18.2 science and positions unchanged; read directly, 16 of 17 real quotes block before confirmation; 8/6/1 vs general Claude 14/1/0 | Not reviewed; usefulness depends on analyst confirmations |
+
+Gates H, B and I are unchanged.
+
 **After cycle R1 revision 11 (AI-SIMULATED; 2026-11-02):**
 
 | # | Dimension | Change | Evidence | Status |

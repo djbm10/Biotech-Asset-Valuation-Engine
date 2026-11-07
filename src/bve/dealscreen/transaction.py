@@ -219,6 +219,9 @@ def _holder_hit(prefs: TransactionPreferences, pos: rp.RightsPosition, company: 
     for declared in prefs.deprioritized_holders:
         for name in names:
             if name_matches(declared, name):
+                if name in pos.field_named:  # review R1v11 LBL-OWNER: a landscape field, not a rights row
+                    return (f"U.S. rights holder or labeler named by the landscape '{name}' matches declared "
+                            f"'{declared}' (not shown by a rights row to hold or own the program; verify)")
                 return f"rights holder or owner per evidence '{name}' matches declared '{declared}'"
     for declared in prefs.deprioritized_holders:
         if name_matches(declared, company):

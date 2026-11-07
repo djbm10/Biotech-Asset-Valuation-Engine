@@ -180,11 +180,19 @@ class _Ledger:
     def _acquisitions(self) -> tuple[dict[str, tuple[str, RightsEvent]], list[RightsEvent]]:
         holders = {party_key(e.grantee) for e in self.events if e.event_type in _GRANT_TYPES and e.grantee}
         holders |= {party_key(e.grantor) for e in self.events if e.event_type == CO_DEVELOPMENT and e.grantor}
-        parties = holders | {party_key(e.grantor) for e in self.events if e.event_type in _GRANT_TYPES and e.grantor}
+        # The names of grant parties as written: an acquired party must be one legal entity with one of them
+        # (``_one_entity``), not merely share a key ("Nerida Bio Holdings" is not "Nerida Bio"; review R1v11
+        # OWNER-KEY2).
+        named = [n for e in self.events if e.event_type in _GRANT_TYPES for n in (e.grantee, e.grantor) if n]
         # a party's acquirer is a party too ("Gamma acquired Alpha; Origin Bio acquired Gamma")
-        while grown := {party_key(e.grantee) for e in self.events if e.event_type == ACQUISITION and e.grantee
-                        and party_key(e.grantor) in parties} - parties:
-            parties |= grown
+        while grown := [e.grantee for e in self.events if e.event_type == ACQUISITION and e.grantee and e.grantor
+                        and any(_one_entity(e.grantor, n) for n in named)
+                        and not any(_one_entity(e.grantee, n) for n in named)]:
+            named += grown
+        acquirers: dict[str, list[RightsEvent]] = {}
+        for e in self.events:
+            if e.event_type == ACQUISITION and e.grantee and e.grantor:
+                acquirers.setdefault(party_key(e.grantor), []).append(e)
         succession: dict[str, tuple[str, RightsEvent]] = {}
         owners: list[RightsEvent] = []
         for e in self.events:
@@ -221,7 +229,19 @@ class _Ledger:
                 self.questions.append(f"When did {e.grantee} acquire {e.grantor}? Cite a dated source.")
                 self.unapplied.append(e)
                 continue
-            if party_key(e.grantor) not in parties and not (self.company and _one_entity(e.grantor, self.company)):
+            rivals = [x for x in acquirers.get(party_key(e.grantor), []) if x is not e
+                      and _one_entity(x.grantor, e.grantor) and not _one_entity(x.grantee, e.grantee)]
+            if rivals:
+                # review R1v11 ACQ-TWO: two acquirers of one party; the later record does not silently win
+                others = "; ".join(f"{x.grantee} ({x.when})" for x in rivals)
+                self.notes.append(f"{_what(e)}: {e.grantor} is also recorded as acquired by {others}; not applied")
+                self.blockers.append(f"uncontested: {e.grantor} is recorded as acquired by {e.grantee} ({e.when}) and "
+                                     f"by {others}, so who owns it is not established")
+                self.questions.append(f"Who acquired {e.grantor}: {e.grantee} or {others}?")
+                self.unapplied.append(e)
+                continue
+            if not any(_one_entity(e.grantor, n) for n in named) and not (
+                    self.company and _one_entity(e.grantor, self.company)):
                 # review R1v9 ACQ-X, R1v10 OWNER-KEY: the acquired party is in no grant and is not the program's
                 # company itself (an affiliate, holding company or regional unit is another entity), so the record
                 # does not show it is about this program's owner; it may hold rights itself. The company buying

@@ -224,12 +224,11 @@ def test_date_av_a_statement_dated_to_an_earlier_period_counts():
 
 # -- Usefulness: ordinary press words and kept rights pass ----------------------------------------------------------
 CLEAN = ["Chinaco Pharma obtains exclusive China rights to NB-7, a potential new treatment option for gastric cancer",
-         "Chinaco Pharma obtains exclusive China rights to NB-7, its third China deal in a row",
-         "Chinaco Pharma will pay royalties on net sales in mainland China",
          "Chinaco Pharma licenses China rights; Origin Bio retains rights in the rest of the world",
          "Chinaco Pharma licenses China rights; Origin Bio retains all rights in the U.S. and the rest of the world",
-         "Chinaco Pharma licenses China rights; Origin Bio retains U.S. rights",
-         "Chinaco Pharma licenses rights in mainland China, Hong Kong and Macau"]
+         "Chinaco Pharma licenses China rights; Origin Bio retains U.S. rights"]
+# revision 12: "its third China deal in a row", "will pay royalties" and a place wider than the row block
+# (test_rights_rereview10.py: REV12_BLOCKED)
 
 
 @pytest.mark.parametrize("quote", CLEAN)
@@ -252,20 +251,22 @@ def test_usefulness_the_narrowed_wider_list_still_blocks_real_reach(quote):
 
 # -- Usefulness on real press wording (fictional parties): bylines, suffixes and subsidiaries are not holders -------
 @pytest.mark.parametrize("quote", [
-    "Alpha Bio terminated its deal with Origin Bio covering NB-7, Wirecast has learned",
-    "Alpha Bio, Inc., and Origin Bio announced the end of the U.S. license"])
+    "Alpha Bio terminated its deal with Origin Bio covering NB-7, Wirecast has learned"])
+# revision 12: "announced the end of the U.S. license" blocks (an announcement may be of a later ending)
 def test_usefulness_a_byline_suffix_or_parent_does_not_block(quote):
     end = _quoted(ev(T, grantee="Alpha Bio", territory="United States", d="2025-01-15", related="D1"), quote)
     assert run([ev(L, **US_LIC), end]).tier == TIER1
 
 
-def test_usefulness_a_parent_named_on_the_license_row_does_not_block():
-    """Revision 11 reads every row beside a return, and an ending row restates the ending only: the parent sentence
-    moved to the license row it describes."""
+def test_a_parent_named_on_the_license_row_now_blocks():
+    """Revision 11 read "<known party>, a subsidiary of <Name>" as describing the party (judgement P20). Revision 12
+    has no slot for a parent: the parent may hold rights, so the quote blocks until an analyst confirms the row."""
     lic = _quoted(ev(L, **US_LIC), ("Alpha Bio entered into a license agreement with Origin Bio Co., Ltd, a subsidiary "
                                     "of Origin Holdings Group Limited, for U.S. rights to NB-7"))
     end = ev(T, grantee="Alpha Bio", territory="United States", d="2025-01-15", related="D1")
-    assert run([lic, end]).tier == TIER1
+    v = run([lic, end])
+    _not_top(v)
+    assert blocked(v, "Holdings")
 
 
 def test_a_byline_with_a_company_word_is_a_news_source():

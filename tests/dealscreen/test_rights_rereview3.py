@@ -85,8 +85,11 @@ def run(events: list[r.RightsEvent], *, company: str = "Origin Bio", landscape: 
     asset = LandscapeAsset(asset_id="A1", source_system="T", external_id="P1", program_name="Prog", company=company,
                            row_numbers=[1], claims=list(landscape))
     commercial = assess(asset, questions=["Q?"], confirmed_findings=analysts)
+    # revision 12: the program's own names are masked as the program; the rest of its text may describe it
+    names = [t for t in program_text if any(c.isdigit() for c in t)]
     return program_transaction(events, commercial, company=company, territory=territory, as_of=AS_OF,
-                               max_age_days=730, prefs=PREFS, guard=guard, program_text=list(program_text))
+                               max_age_days=730, prefs=PREFS, guard=guard, program_names=["Prog", *names],
+                               program_text=[t for t in program_text if t not in names])
 
 
 def blocked(v: TransactionView, words: str) -> bool:

@@ -57,7 +57,7 @@ def _normalizer(args: argparse.Namespace) -> TargetNormalizer:
 
 #: Decisions that change facts, so a re-screen is needed to see them.
 _FACT_ACTIONS = {"CONFIRM_CLAIM", "REJECT_CLAIM", "CONFIRM_FINDING", "REJECT_FINDING", "ASSERT_FACT",
-                 "RETRACT_FACT"}
+                 "RETRACT_FACT", "CONFIRM_RIGHTS_ROW"}
 
 
 def resolve_subject(ws: Workspace, action: Action, subject: str, field: str = "") -> str:
@@ -88,7 +88,7 @@ def resolve_subject(ws: Workspace, action: Action, subject: str, field: str = ""
         if not matches:
             raise DecisionRejected(f"no agent finding for {subject} field {field!r}")
         return min(matches, key=lambda f: f.finding_id).finding_id
-    if action is Action.RETRACT_FACT:
+    if action in (Action.RETRACT_FACT, Action.CONFIRM_RIGHTS_ROW):
         return subject
     if action in (Action.CONFIRM_CLAIM, Action.REJECT_CLAIM):
         if asset is None:

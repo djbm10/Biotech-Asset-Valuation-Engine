@@ -42,7 +42,7 @@ POSITION_WORDS = {
     P_OWNER_ACQUIRED: "owner acquired per evidence",
     P_NOT_ENCUMBERED: "no grant over the buyer territory per evidence",
     P_NONE: "no rights evidence",
-    P_NOT_APPLIED: "rights rows recorded, none applied on the as-of date",
+    P_NOT_APPLIED: "rights rows recorded, none gives a position on the as-of date",
     P_NOT_AVAILABLE: "not available per source",
 }
 #: A cited landscape cell or analyst statement, as opposed to a rights-file row.

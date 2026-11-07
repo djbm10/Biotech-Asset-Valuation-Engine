@@ -220,3 +220,12 @@ Implementer-measured:
 - read directly, 13 of 17 real quotes now block, so clean real wording rarely reaches a top tier.
 
 The verdict above is unchanged, and revision 11 has not been reviewed.
+
+**Addendum (2026-11-02, revision 12).** Round 11 (`REREVIEW10.md`) found 13 High errors in revision 11, all from
+word lists that held words able to carry a holder, a reach or a condition, plus "may" read as a month, undated
+months, notice dates, "Holdings" variants, code-shaped names, deleted exchange notes and headlines, and landscape
+words. Revision 12 replaces the lists with fixed sentence templates per row type and a human-only, hash-bound row
+confirmation. Implementer-measured: the reviewer's attack probes reach no top tier, the end-to-end ws_l goes 7 → 0,
+no CLDN18.2 science or position changes, and 16 of 17 real quotes now need an analyst confirmation.
+
+The verdict above is unchanged, and revision 12 has not been reviewed.

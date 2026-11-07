@@ -11,6 +11,7 @@ from __future__ import annotations
 import dataclasses
 import re
 from collections import Counter
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass, field
 from datetime import date
 from typing import Any
@@ -41,8 +42,8 @@ from bve.dealscreen.rights_position import (
     no_evidence_position,
     rights_position,
 )
+from bve.dealscreen.rights_template import descriptor_words
 from bve.dealscreen.rights_territory import content_note
-from bve.dealscreen.rights_vocab import program_vocabulary
 from bve.dealscreen.transaction import (
     TransactionPreferences,
     TransactionView,
@@ -278,7 +279,8 @@ def screen_landscape(
         )
 
     _rank(screens)
-    issues = _transaction(screens, spec, flags_by_asset, assets, rights_events, rights_rejected)
+    issues = _transaction(screens, spec, flags_by_asset, assets, rights_events, rights_rejected,
+                          confirmed_rows=review.confirmed_rights_rows)
     return ScreeningResult(
         problem_id=spec.problem.problem_id, screens=screens, funnel=funnel(screens, assets),
         rights_import_issues=issues,
@@ -307,15 +309,15 @@ def _drop_noted_names(position: RightsPosition) -> None:
 
 
 #: Landscape fields whose words a rights quote may use to name the program (its disease, target and modality).
-_PROGRAM_FIELDS = frozenset({"program_name", "aliases", "target", "mechanism", "modality", "therapeutic_area",
-                             "indication"})
+#: The landscape fields that may describe a program in a rights quote ("NB-7, an anti-CLDN18.2 ADC"). Names and
+#: aliases are never description words: an alias can name a partner ("Tessaly-501"; review R1v11 VOCAB).
+_DESCRIPTION_FIELDS = frozenset({"target", "mechanism", "modality", "therapeutic_area", "indication"})
 
 
 def _program_text(asset: LandscapeAsset) -> list[str]:
-    """The program's own words from the landscape: never an agent proposal, which is unconfirmed."""
-    return [asset.program_name, *asset.aliases, *(c.value_as_written for c in asset.claims
-                                                   if c.field in _PROGRAM_FIELDS
-                                                   and c.origin != ClaimOrigin.AGENT_PROPOSED)]
+    """The program's own description from the landscape: never an agent proposal, which is unconfirmed."""
+    return [c.value_as_written for c in asset.claims
+            if c.field in _DESCRIPTION_FIELDS and c.origin != ClaimOrigin.AGENT_PROPOSED]
 
 
 def buyer_territory(spec: BuyerSpec) -> frozenset[str]:
@@ -339,6 +341,7 @@ def program_transaction(
     guard: list[str] | None = None,
     program_names: list[str] | None = None,
     program_text: list[str] | None = None,
+    confirmed_rows: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> TransactionView:
     """One program's rights position and transaction view: from its rights rows, or without any from its landscape
     and analyst U.S.-rights statements. Either way the position passes the top-tier gate (``rights_gate.reconcile``).
@@ -369,7 +372,7 @@ def program_transaction(
     names = [n.strip() for x in [*(program_names or []), *(e.external_id for e in events)]
              for n in re.split(r"[()/;]", x or "") if n.strip()]
     reconcile(position, commercial, territory, company=company, as_of=as_of, names=names,
-              vocabulary=program_vocabulary([*(program_text or []), *names]))
+              vocabulary=descriptor_words(program_text or []), confirmed_rows=confirmed_rows)
     if events:
         also_named(position, commercial)
     _drop_noted_names(position)
@@ -380,7 +383,8 @@ def program_transaction(
 
 def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: dict[str, list[str]],
                  assets: list[LandscapeAsset], rights_events: list[RightsEvent] | None,
-                 rights_rejected: list[dict[str, Any]] | None = None) -> dict[str, list[dict[str, Any]]]:
+                 rights_rejected: list[dict[str, Any]] | None = None,
+                 confirmed_rows: Mapping[str, Mapping[str, Any]] | None = None) -> dict[str, list[dict[str, Any]]]:
     """Rights position and buyer-declared transaction view per program (cycle R1). Never reads a gate.
     The registry sponsor is passed only as a suggested first contact, never as an owner. Every position, from the
     rights file or from the landscape fields, passes the top-tier gate (``rights_gate``). Returns the rights rows
@@ -409,7 +413,7 @@ def _transaction(screens: list[AssetScreen], spec: BuyerSpec, flags_by_asset: di
                                    territory=territory, as_of=as_of, max_age_days=max_age, prefs=prefs,
                                    market_status=screen.market_status, identity_twins=twins, guard=guard,
                                    program_names=[screen.program_name],
-                                   program_text=texts.get(screen.asset_id, []))
+                                   program_text=texts.get(screen.asset_id, []), confirmed_rows=confirmed_rows)
         questions = view.questions + [
             f"Correct rights row {r['row']} and re-import the rights file; it may change this position."
             for r in [{"row": x["row_number"]} for x in rejected] + rows.unattributed_rejected_rows] + [

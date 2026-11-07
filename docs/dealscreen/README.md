@@ -133,6 +133,11 @@ They are never read from the landscape's sponsor, labeler or collaborator column
 ```bash
 bve-dealscreen import-rights --workspace $W --rights deals.csv --profile rights_profile.yaml
 bve-dealscreen screen        --workspace $W      # re-screen to apply
+# a quote the template reader does not accept blocks a clear position; its question names the event id.
+# A human who has read the source confirms the row (an AI-prepared decision is rejected); a later change to the
+# row voids the confirmation
+bve-dealscreen decide        --workspace $W --action CONFIRM_RIGHTS_ROW --subject rx:<event id> \
+    --new-state CONFIRMED --reviewer jdoe --rationale "read the release; it restates the license"
 ```
 
 The profile maps the vendor's columns to `deal_id`, `external_id`, `event_type`, `exclusivity`, `grantee`,
@@ -221,31 +226,36 @@ from the landscape's and analysts' U.S.-rights fields, and anything it cannot re
   places must cover the buyer territory. A rights row's own quote is read: a leading "Name:" is dropped only when the
   name is the row's grantor or the company; an availability row's quote must be a plain form. Beside a clear
   position every applied rights row of the program is cited and its quote read, whatever the row's own territory.
-  A leading dateline, a "said <person>, <title> of <known party>" attribution, an adviser of a known party and a
-  closing "<Name> has learned" are removed first. A clause then passes only when all of these hold (`rights_quote`,
-  `rights_vocab`):
-  - every capitalised name in it is placed: a party to the row or the program's company (with legal and business
-    words after it, never a place word: "Acme Pharma U.S." is the U.S.), the program or a lone program code, a
-    place, or an agency, exchange, meeting or currency code in capitals. Any other name blocks, with a question
-    about it. One name with two different business words ("Acme Pharma", "Acme Bio") blocks;
-  - every other word is on a short list: grammar words, amounts and dates, generic drug-development words, the words
-    that restate the row's own type (a license may say "licenses" and "royalties"; an ending "terminated" and
-    "returned" but not "licensed"; an acquisition "acquires" and "per share"), or a word from the program's own
-    landscape record (its name, aliases, target, mechanism, modality, therapeutic area and indication). Words such
-    as "another", "other", "any", "further", "new", "third", "party", "company" and "licensee" are on no list;
-  - no date in it is after the as-of date. On an ending, "notice" and "effective" pass only beside a date on or
-    before the as-of date, and no year is later than the row's own. A grant or an acquisition may use announcement
-    words ("will receive", "subject to closing");
-  - for a row that does not cover the buyer territory, no wider word ("other markets", "worldwide", "outside") and no
-    buyer-territory place the row does not cover, including states and provinces ("Puerto Rico", "Ontario").
-  The lists are DealScreen's own: a word missing from them blocks, so most real press wording holds a clear
-  position back (13 of 17 real CLDN18.2 quotes, read directly).
+  A leading dateline (a city in capitals, a full date and a known wire), an exchange note "(Nasdaq: ACME)", a
+  "said <person>, <title> of <known party>" attribution, an adviser clause of a known party and a closing "<Name>
+  has learned" are removed first. A clause then passes only when it is one of a few fixed sentences for its row's
+  type, read as a whole (`rights_template`, `rights_quote`):
+  - the row's own parties in their own roles (the grantor grants or regains, the grantee receives, returns or lets
+    an option lapse). A party name may carry legal and business words ("Acme Pharma Co., Ltd."), never "Holdings",
+    "Group", "International" or a place word: "Acme Holdings" is another company. Any other name blocks;
+  - the program by one of its own names, optionally with a description made only of drug-development words and
+    lower-case or symbol words from its own target, mechanism, modality, therapeutic area and indication fields
+    ("NB-7, an anti-CLDN18.2 ADC for gastric cancer"). A capitalised word is never a description, and a field cannot
+    add a connective, a place or a rights word;
+  - the row type's verb: a grant in the past or present ("licensed", "grants", "obtained"); an ending or return
+    ("terminated", "returned", "reverted", "regained"); a lapse ("lapsed unexercised", "did not exercise"); an
+    acquisition only when completed ("acquired", "completed its acquisition of"). No modal ("may", "will"), no "has"
+    as a holding verb, no negation, no sale or transfer, no condition ("after", "following", "upon");
+  - an optional place, inside the row's own territory; "all rights" only when the row covers the buyer territory;
+  - an optional date with a year (a capitalised month, so "may" is never a month), whose period ends on or before
+    the as-of date or holds the row's own date; an optional amount.
+  Anything else blocks, quoting the clause, with a question that names the row's event id. A human analyst who has
+  read the source can then record `CONFIRM_RIGHTS_ROW` for that event (`decide`; an AI-prepared or synthetic
+  decision is rejected). The confirmation is tied to a hash of the row's fields and quote and stops applying when
+  the row changes; `WITHDRAWN` removes it. Most real press wording still blocks before confirmation (16 of 17 real
+  CLDN18.2 quotes, read directly).
 
   A clause also passes if it says no grant was made or the company kept the rights. A grant in the buyer territory
   dated after the as-of date, including an option exercise, blocks unless its source date shows it was reported after
-  the as-of date. An acquisition counts for the owner only when the acquired party is a party to a recorded grant,
-  the acquirer of one, or the company itself with only legal forms removed ("Acme Holdings", "Acme Bio US" and the
-  company buying another company do not count); otherwise it blocks. An availability
+  the as-of date. An acquisition counts for the owner only when the acquired party is the same legal entity as a
+  party to a recorded grant, the acquirer of one, or the company itself ("Acme Holdings", "Acme Bio Group", "Acme Bio
+  US" and the company buying another company do not count); otherwise it blocks. Two different acquirers of one
+  party are contested: neither row is applied, and both are cited with a question. An availability
   statement dated only to a year or month that contains the as-of date blocks. When rights rows are recorded but none
   gives a position on the as-of date, the position says so (`RIGHTS_ROWS_NOT_APPLIED`, never "no rights evidence"). A note in parentheses
   or brackets beside the company name, a rights row's grantor or grantee, or a holder blocks, the note is quoted,

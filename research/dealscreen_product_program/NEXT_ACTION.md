@@ -1,7 +1,7 @@
 # Next action (restart checkpoint)
 
 **State at checkpoint (2026-11-02):**
-- Branch `dealscreen-mvp`. Cycles 1-5, analyst-simulation cycles A1-A5, comparison cycle C1, rights cycle R1 revision 11 and unknown-actions cycle U1 revision 6 are committed (see `ITERATION_LOG.md`). R1 revisions 2-4 were never committed separately; they are in the revision 5 commit. Revisions 6 and 7 are one commit.
+- Branch `dealscreen-mvp`. Cycles 1-5, analyst-simulation cycles A1-A5, comparison cycle C1, rights cycle R1 revision 12 and unknown-actions cycle U1 revision 6 are committed (see `ITERATION_LOG.md`). R1 revisions 2-4 were never committed separately; they are in the revision 5 commit. Revisions 6 and 7 are one commit.
 - Uncommitted user files: `AGENTS.md`, `research/universe/biotech_tickers.yaml`, `.claude/`, `.serena/`, `research/dealscreen_product_program/cycle4/equivalence_result.json`. Never stage them.
 - `research/dealscreen_unknown_actions_v1/ACCEPTANCE.md` holds the U1 acceptance criteria, frozen before U1 code on 2026-10-30 and committed on their own, separately from R1.
 - Never pop shared stashes.
@@ -10,7 +10,7 @@
 
 1. Read `PRODUCT_GOAL.md`, `SCORECARD.md` (latest sections at the bottom) and this file.
 2. Confirm the branch and that `git status` shows only the user files above.
-3. Run the DealScreen tests (expect 1436 passed):
+3. Run the DealScreen tests (expect 1575 passed):
    `TMPDIR=$HOME/.cache/dealscreen_suite python -m pytest tests/dealscreen -q -p no:cacheprovider`
    `/tmp` is a small tmpfs; keep test temp files on the home disk.
 4. For any cycle that changes screening, re-run
@@ -28,8 +28,8 @@ is imported through a mapping profile; each program gets a cited rights position
 tier is gone. A program reaches a top tier only when its rights evidence is complete, specific, current and
 uncontested (`top_tier_blockers` names each failed check). Since revision 5 one gate (`rights_gate`) checks this on
 every path; since revision 6 it passes a rights text only as a plain form (`rights_allow`), so anything else blocks.
-Revision 6 answers `REREVIEW4.md`; revision 7 answers `REREVIEW5.md` (`REREVIEW5_RESPONSE.md`): the plain forms read places as written, in the buyer territory, and never accept what the reader cannot read. Revision 8 answers `REREVIEW6.md` (`REREVIEW6_RESPONSE.md`): a grant's party must be a name, quotes are read for conditions, options and wider territories, offers must cover the buyer territory, and year- or month-dated endings containing the as-of date are not applied. Revision 9 answers `REREVIEW7.md` (`REREVIEW7_RESPONSE.md`): every cited quote is read with one party rule, whatever the row's territory; party names are checked in any letter case; announced future grants and availability statements dated only to the as-of period block. Revision 10 answers `REREVIEW8.md` (`REREVIEW8_RESPONSE.md`): the quote reader fails closed, passing a clause only when every name in it is placed and every rights word restates the row; future-dated grants block unless reported after the as-of date; acquisitions of a party in no grant block. Revision 11 answers `REREVIEW9.md` (`REREVIEW9_RESPONSE.md`): every word of every rights row's quote is read against a per-type allow-list, every applied row is read beside a clear position, and an acquisition counts for the owner only when the acquired party is a grant party or the company itself. Revision 11 has not been reviewed. Read directly, 13 of 17 real quotes block. CLDN18.2: third-party-held programs shown as unobstructed 4 (+ zanidatamab) -> 0; 0 of 62 scientific
-fields changed; usefulness against general Claude unchanged (10/4/1 vs 14/1/0 on 15 deal programs, so no advantage).
+Revision 6 answers `REREVIEW4.md`; revision 7 answers `REREVIEW5.md` (`REREVIEW5_RESPONSE.md`): the plain forms read places as written, in the buyer territory, and never accept what the reader cannot read. Revision 8 answers `REREVIEW6.md` (`REREVIEW6_RESPONSE.md`): a grant's party must be a name, quotes are read for conditions, options and wider territories, offers must cover the buyer territory, and year- or month-dated endings containing the as-of date are not applied. Revision 9 answers `REREVIEW7.md` (`REREVIEW7_RESPONSE.md`): every cited quote is read with one party rule, whatever the row's territory; party names are checked in any letter case; announced future grants and availability statements dated only to the as-of period block. Revision 10 answers `REREVIEW8.md` (`REREVIEW8_RESPONSE.md`): the quote reader fails closed, passing a clause only when every name in it is placed and every rights word restates the row; future-dated grants block unless reported after the as-of date; acquisitions of a party in no grant block. Revision 11 answers `REREVIEW9.md` (`REREVIEW9_RESPONSE.md`): every word of every rights row's quote is read against a per-type allow-list, every applied row is read beside a clear position, and an acquisition counts for the owner only when the acquired party is a grant party or the company itself. Revision 12 answers `REREVIEW10.md` (`REREVIEW10_RESPONSE.md`): the word lists are replaced by fixed sentence templates per row type, and anything else blocks until a human analyst records `CONFIRM_RIGHTS_ROW` for the row (hash-bound; an AI cannot record it). Revision 12 has not been reviewed. Read directly, 16 of 17 real quotes block before confirmation. CLDN18.2: third-party-held programs shown as unobstructed 4 (+ zanidatamab) -> 0; 0 of 62 scientific
+fields changed; usefulness against general Claude 8/6/1 vs 14/1/0 on 15 deal programs (REREVIEW10's rescoring), so no advantage.
 Gaps: SKB315's and LM-302's returns are not in the frozen library; a real vendor deals export is untested.
 
 ## Unknown-actions cycle U1 (2026-11-01)
@@ -39,7 +39,7 @@ tool UNKNOWN on a program that is not excluded carries a diagnostic (`diagnostic
 CLDN18.2 38 of 38, held-out 104 of 104, no science change. Revision 4 answers `REVIEW3.md` (`REVIEW3_RESPONSE.md`).
 Revision 5 answers `REVIEW4.md` (`REVIEW4_RESPONSE.md`). Revision 6 answers `REVIEW5.md` (`REVIEW5_RESPONSE.md`) and has not been reviewed, so U1-7 is open.
 
-**Next:** a fresh adversarial review of R1 revision 11 and U1 revision 6; then the highest-value product issue, a
+**Next:** a fresh adversarial review of R1 revision 12 and U1 revision 6 (the U1 revision 6 review stalled and was stopped); then the highest-value product issue, a
 licensed vendor deals export (rights recall is capped by the rights file); X1 isoform reading review; Gate H human
 session.
 

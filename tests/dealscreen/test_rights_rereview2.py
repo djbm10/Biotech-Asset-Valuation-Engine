@@ -539,11 +539,12 @@ def test_ac10_the_memo_summary_line_gives_the_reason_for_the_position_not_a_pref
     assert f"({v.position_reasons[0]})" in line and "matches declared" not in line
 
 
-def test_h7_a_holding_company_suffix_does_not_make_a_second_company():
-    """Judgement kept: "Holdings" is a corporate suffix, so the acquisition merges licensor and licensee."""
+def test_h7_a_holding_company_is_another_entity():
+    """Judgement reversed at revision 12 (review R1v11 OWNER-KEY2): "Alpha Bio Holdings" and "Alpha Bio Inc" are not
+    one legal entity, so the acquisition of "Alpha Bio Inc" does not end the license to "Alpha Bio Holdings"."""
     p = pos([ev(r.LICENSE, grantee="Alpha Bio Holdings", territory="United States", d="2024-01-01"),
              ev(r.ACQUISITION, grantee="Origin Bio", grantor="Alpha Bio Inc")])
-    assert p.position == rp.P_OWNER_ACQUIRED and tier(p) == "NO_THIRD_PARTY_GRANT_IN_EVIDENCE"
+    assert p.position == rp.P_LICENSED and tier(p) not in TOP
 
 
 def test_e2_holder_end_to_end_an_analyst_holder_assertion_contests_a_clear_program(tmp_path, demo_dir, normalizer):

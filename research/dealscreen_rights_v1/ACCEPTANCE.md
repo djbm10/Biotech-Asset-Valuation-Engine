@@ -59,3 +59,8 @@ The word OPEN reads as "pursuable". In fact the tool had no evidence either way.
 - **The held-back cases are unit-test fixtures** written in deal phrasings that do not appear in the CLDN18.2 file:
   "rest of world", "North America", "Japan only", expired options, re-licensing, and so on. They test logic only and
   assert no real-world facts.
+- **Added after revision 12, disclosed (not a change to any criterion).** A rights row's quote that is not one of the
+  fixed sentences for its type blocks the top tiers until a human analyst records `CONFIRM_RIGHTS_ROW` for that
+  event. The decision log refuses the action from an AI-prepared or synthetic reviewer; the record is bound to a hash
+  of the row and stops applying when the row changes. No AI output counts as this confirmation, and none was
+  recorded for any measurement in `REREVIEW10_RESPONSE.md`.

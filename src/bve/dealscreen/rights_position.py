@@ -554,7 +554,8 @@ def _decide(ledger: _Ledger, territory: frozenset[str], used: list[RightsEvent])
     # review R1v9 LBL-NONE, R1v10 LBL-NONE2: rows are recorded (this path is reached only with events), but none
     # applies on the as-of date or gives a position; that is not the absence of rights evidence
     return RightsPosition(P_NOT_APPLIED, reasons=[
-        "rights rows are recorded, but none applies on the as-of date to give a position"], questions=[
+        ("rights rows are recorded, but none gives a position on the as-of date (each row's own reason says why: "
+        "dated after it, not linked to a recorded deal, or naming another party)")], questions=[
         f"Who holds {terr} rights now?" + (f" Recorded without the grant it concerns: {recorded}." if recorded else "")])
 
 

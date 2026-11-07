@@ -78,7 +78,7 @@ def _run_at(events, as_of: date):
                            company="Origin Bio", row_numbers=[1], claims=[])
     commercial = assess(asset, questions=["Q?"], confirmed_findings=())
     return program_transaction(events, commercial, company="Origin Bio", territory=frozenset({"US"}), as_of=as_of,
-                               max_age_days=730, prefs=PREFS)
+                               max_age_days=730, prefs=PREFS, program_names=["Prog", "NB-7"])
 
 
 # -- PARTY2: every capitalised name in a cited quote must be placed --------------------------------------------------
@@ -243,7 +243,7 @@ def test_lbl_none_rows_recorded_but_none_applied_is_its_own_position():
     v = run([ev(L, **TUS, d="2025-07-01", src="2025-05-20")])
     _not_top(v)
     assert v.position == rp.P_NOT_APPLIED
-    assert any("none applies on the as-of date" in x for x in v.reasons)
+    assert any("none gives a position on the as-of date" in x for x in v.reasons)
 
 
 # -- ACQ-X: an acquisition of a party in no grant ---------------------------------------------------------------------
@@ -264,13 +264,9 @@ def test_acq_x_f3_on_the_returned_path():
 # -- Usefulness: clean press wording stays in the top tiers --------------------------------------------------------
 CLEAN_CHINA = ["Origin Bio granted Chinaco Pharma exclusive rights to NB-7 in mainland China",          # G1
                "Origin Bio licensed China rights to NB-7 to Chinaco Pharma",                            # G2
-               ("Origin Bio, Inc. (Nasdaq: ORGN) today announced an exclusive license agreement with Chinaco Pharma "
-                "Co., Ltd. for the development and commercialization of NB-7 in mainland China, Hong Kong, Macau "
-                "and Taiwan"),                                                                           # G3
-               "Under the agreement, Chinaco Pharma will pay Origin Bio an upfront payment of $20 million",  # G4
+               # G3, G4 block at revision 12 (test_rights_rereview10.py: REV12_BLOCKED)
                "Chinaco Pharma obtains exclusive rights to develop and commercialize NB-7 in mainland China",  # G10
-               "Origin Bio transferred China rights to NB-7 to Chinaco Pharma",                         # G11
-               "Chinaco Pharma, a subsidiary of Chinaco Group, licenses NB-7 for mainland China",        # G13
+               # G11, G13 block at revision 12
                "NERIDA BIO LICENSES NB-7 TO CHINACO PHARMA IN MAINLAND CHINA".replace("NERIDA", "ORIGIN")]  # U3
 
 
@@ -280,10 +276,7 @@ def test_usefulness_a_clean_china_licence_quote_stays_tier_1(quote):
     assert v.tier == TIER1, v.top_tier_blockers
 
 
-CLEAN_ENDS = ["Alpha Bio terminated its license; all rights to NB-7 revert to Origin Bio",                # C1
-              "Following a portfolio review, Alpha Bio returned U.S. rights to NB-7 to Origin Bio",       # C2
-              "Alpha Bio returned U.S. rights to Origin Bio after a strategic review",                    # C3
-              "Origin Bio regains full global rights to NB-7 after Alpha Bio exits",                      # C4
+CLEAN_ENDS = [  # C1-C4 block at revision 12 (test_rights_rereview10.py: REV12_BLOCKED)
               ("Alpha Bio terminated the agreement for convenience; U.S. rights reverted to Origin Bio on 15 "
                "January 2025"),                                                                           # C8
               "Alpha Bio Inc. returns U.S. rights to Origin Bio Co., Ltd.",                               # C11
@@ -306,12 +299,8 @@ def test_usefulness_a_clean_lapse_quote_stays_tier_1(quote):
 
 
 @pytest.mark.parametrize("quote", ["Omega Holdings completes acquisition of Origin Bio",                     # C15
-                                   ("Omega Holdings acquires Origin Bio; Harlow Partners LLC is acting as financial "
-                                    "advisor to Origin Bio"),                                                 # C18
-                                   "Omega Holdings completes acquisition of Origin Bio, Inc. (Nasdaq: ORGN)",  # C19
-                                   # real press shape (revision 10 measurement): a currency code, a future-tense deal
-                                   ("Under the agreement, Omega Holdings will pay EUR 422 million to acquire 100% of "
-                                    "the equity in Origin Bio.")])
+                                   # C18 and the future-tense real press shape block at revision 12
+                                   "Omega Holdings completes acquisition of Origin Bio, Inc. (Nasdaq: ORGN)"])  # C19
 def test_usefulness_a_clean_acquisition_quote_stays_tier_1(quote):
     v = run(_acq(quote))
     assert v.tier == TIER1, v.top_tier_blockers

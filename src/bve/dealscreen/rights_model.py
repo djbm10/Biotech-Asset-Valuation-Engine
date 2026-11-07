@@ -6,6 +6,8 @@ interface and re-exports the public names.
 
 from __future__ import annotations
 
+import hashlib
+import json
 from dataclasses import dataclass, field
 
 from bve.dealscreen.rights import CO_DEVELOPMENT, OPTION, RightsEvent
@@ -22,7 +24,7 @@ P_RETURNED = "RIGHTS_RETURNED_PER_EVIDENCE"
 P_OWNER_ACQUIRED = "OWNER_ACQUIRED_PER_EVIDENCE"
 P_NOT_ENCUMBERED = "NOT_ENCUMBERED_IN_TERRITORY_PER_EVIDENCE"
 P_NONE = "NO_RIGHTS_EVIDENCE"
-#: Rights rows exist, but none applies on the as-of date (each is dated across or after it; review R1v9 LBL-NONE).
+#: Rights rows exist, but none gives a position on the as-of date (reviews R1v9 LBL-NONE, R1v11 LBL-DATE).
 P_NOT_APPLIED = "RIGHTS_ROWS_NOT_APPLIED"
 #: A landscape or analyst statement that rights are not available (no rights record; review R1v3 NA-label).
 P_NOT_AVAILABLE = "NOT_AVAILABLE_PER_SOURCE"
@@ -46,6 +48,9 @@ class RightsPosition:
     evidence: list[dict[str, object]] = field(default_factory=list)
     #: Why a clear position may not reach the two top transaction tiers ("check: detail"). Empty otherwise.
     top_tier_blockers: list[str] = field(default_factory=list)
+    #: Holders or labelers added from the landscape's U.S.-rights holder field beside a rights-row position
+    #: (``rights_gate.also_named``): named by the landscape, not shown by a rights row (review R1v11 LBL-OWNER).
+    field_named: list[str] = field(default_factory=list)
 
 
 def no_evidence_position(first_contact: str | None = None) -> RightsPosition:
@@ -76,6 +81,24 @@ def _not_company(ledger: _Ledger, what: str, party: str) -> str:
 def _owner_question(ledger: _Ledger, party: str) -> str:
     return (f"Does {party} own this program, or hold it under a license from {ledger.company}?" if ledger.company
             else f"Does {party} own this program, or hold it under a license?")
+
+
+#: The fields of a cited rights row that a human confirmation of the row is tied to (cycle R1 revision 12). The
+#: row number, dataset version and wording labels are not: a re-import of the same row keeps its confirmation.
+_CONFIRMED_FIELDS = ("event_id", "deal_id", "type", "grantee", "grantor", "territory", "exclusivity", "date",
+                     "source_date", "status", "source", "quote")
+
+
+def row_sha256(cite: dict[str, object]) -> str:
+    """Hash of what an analyst confirms about a rights row: its parties, type, territory, dates, status, source and
+    quote. Any change to these after the confirmation means the confirmation no longer applies."""
+    body = {k: str(cite.get(k)) for k in _CONFIRMED_FIELDS}
+    return hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
+
+
+def cite_event(e: RightsEvent) -> dict[str, object]:
+    """A rights row as it is cited beside a position."""
+    return _cite(e)
 
 
 def _cite(e: RightsEvent) -> dict[str, object]:

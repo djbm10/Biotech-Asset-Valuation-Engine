@@ -16,7 +16,7 @@ The facts feed the existing :class:`bve.se.gates.engine.GateEngine` unchanged. T
 from __future__ import annotations
 
 import re
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -164,6 +164,8 @@ class ReviewInputs:
     confirmed_findings: tuple[AgentFinding, ...] = ()
     #: Active (not retracted) analyst assertions, oldest first.
     assertions: tuple[AnalystAssertion, ...] = ()
+    #: Rights rows a human analyst confirmed: event id -> the row hash and who confirmed it (cycle R1 revision 12).
+    confirmed_rights_rows: Mapping[str, Mapping[str, Any]] = field(default_factory=dict)
 
 
 @dataclass

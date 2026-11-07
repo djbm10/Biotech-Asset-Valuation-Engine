@@ -30,6 +30,7 @@ recorded grant is a conflict.
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import date
 from typing import Any
@@ -39,6 +40,7 @@ from bve.dealscreen.rights import (
     RightsEvent,
 )
 from bve.dealscreen.rights_allow import is_rights_text, plain_form
+from bve.dealscreen.rights_model import row_sha256
 from bve.dealscreen.rights_position import (
     CLEAR_POSITIONS,
     ENCUMBRANCE_POSITIONS,
@@ -267,7 +269,8 @@ def _quote_problem(quote: str, e: dict[str, Any], company: str | None, as_of: da
 
 def _read_quotes(found: _Findings, position: RightsPosition, company: str | None, as_of: date | None,
                  territory: frozenset[str], names: list[str] | None = None,
-                 vocabulary: frozenset[str] = frozenset()) -> None:
+                 vocabulary: frozenset[str] = frozenset(),
+                 confirmed: Mapping[str, Mapping[str, Any]] | None = None) -> None:
     """The quote on each cited rights row (review R1v6 QUOTE, R1v7 SPK/QW/QT). A quote that says nothing about rights
     or places adds nothing; otherwise see ``_quote_problem``."""
     for e in position.evidence:
@@ -277,15 +280,24 @@ def _read_quotes(found: _Findings, position: RightsPosition, company: str | None
         if e.get("type") == AVAILABILITY_STATED and not (is_rights_text(quote) or regions_named(quote)
                                                         or _WIDER.search(quote)):
             continue  # an availability quote that says nothing about rights adds nothing to the row
+        row = f"rights row {e.get('row')} ({e.get('type_words') or e.get('type')})"
+        record = (confirmed or {}).get(str(e.get("event_id")))
+        if record and record.get("row_sha256") == row_sha256(e):
+            # cycle R1 revision 12: a human analyst read the source and recorded that the quote restates the row
+            found.consistent.append(((f"the quote on {row} was confirmed as restating the row by "
+                                      f"{record.get('reviewer_id')} ({record.get('decision_id')}, "
+                                      f"{str(record.get('timestamp'))[:10]}); it is not read again"), []))
+            continue
         # every other cited quote is read, whatever it says (review R1v8 COVER, QW2)
         why = _quote_problem(quote, e, company, as_of, territory, names, vocabulary)
         if why is None:
             continue
-        row = f"rights row {e.get('row')} ({e.get('type_words') or e.get('type')})"
+        changed = " (a confirmation was recorded for an earlier version of this row)" if record else ""
         found.blocks.append(((f"uncontested: the quote on {row} reads '{quote}', which {why}; DealScreen does not "
-                             "read the quote further"),
+                             f"read the quote further{changed}"),
                              (f"What does the quote on {row} ('{quote}') say about rights in the buyer territory, and "
-                             "who holds them?"), []))
+                              "who holds them? If it says only what the row says, a human analyst who has read the "
+                              f"source can record CONFIRM_RIGHTS_ROW for event {e.get('event_id')}."), []))
 
 
 def _read_names(found: _Findings, position: RightsPosition, company: str | None) -> None:
@@ -368,12 +380,13 @@ def _offer_beside_grant(position: RightsPosition, claims: list[dict[str, Any]]) 
 
 def reconcile(position: RightsPosition, commercial: Any, territory: frozenset[str], *, company: str | None = None,
               as_of: date | None = None, names: list[str] | None = None,
-              vocabulary: frozenset[str] = frozenset()) -> None:
+              vocabulary: frozenset[str] = frozenset(),
+              confirmed_rows: Mapping[str, Mapping[str, Any]] | None = None) -> None:
     """Apply the gate to ``position`` in place (``rights_position`` and ``position_from_field`` build it fresh for
     each program). ``commercial`` is the program's ``CommercialAssessment``; ``company`` the landscape company,
     used only to refuse; ``names`` the program's own names and ids, which a rights row's quote may name;
-    ``vocabulary`` the words of the program's own landscape record, which a quote may use
-    (``rights_vocab.program_vocabulary``)."""
+    ``vocabulary`` the words that may describe the program (``rights_template.descriptor_words``);
+    ``confirmed_rows`` the rights rows a human analyst confirmed (``review.Action.CONFIRM_RIGHTS_ROW``)."""
     statements = _statements(commercial)
     on_ledger = any(e.get("type") != FIELD_STATEMENT for e in position.evidence)
     if position.position in ENCUMBRANCE_POSITIONS | SHARED_POSITIONS:
@@ -395,7 +408,7 @@ def reconcile(position: RightsPosition, commercial: Any, territory: frozenset[st
     _read_statements(found, [c for c in statements if c not in later], company, rests_on, territory, as_of)
     _read_holders(found, position, [c for c in holders if c not in later], company, rests_on, covers_us)
     _read_other(found, [c for c in other if c not in later], company, as_of, territory)
-    _read_quotes(found, position, company, as_of, territory, names, vocabulary)
+    _read_quotes(found, position, company, as_of, territory, names, vocabulary, confirmed_rows)
     _read_names(found, position, company)
     for reason, cite in found.consistent:
         position.reasons.append(reason)
@@ -435,6 +448,7 @@ def also_named(position: RightsPosition, commercial: Any) -> None:
                                              for h in position.holders):
             continue
         position.holders.append(value)
+        position.field_named.append(value)
         position.reasons.append(f"{field_source([claim])} also names a U.S. rights holder or labeler: {value}")
 
 

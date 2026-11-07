@@ -118,8 +118,9 @@ def test_qw_an_option_or_wider_territory_in_a_quote_blocks(quote):
 
 
 @pytest.mark.parametrize("quote", ["Chinaco Pharma licenses China rights; Origin Bio retains U.S. rights",
-                                   "Chinaco Pharma licenses China rights; Origin Bio retains all rights outside China",
-                                   "Chinaco Pharma licenses rights in mainland China, Hong Kong and Macau"])
+                                   # revision 12: "all rights outside China" and a place wider than the row block
+                                   # (test_rights_rereview10.py: REV12_BLOCKED)
+                                   ])
 def test_qw_a_quote_confirming_the_company_kept_its_rights_passes(quote):
     assert run([_quoted(ev(L, **CHINA), quote)]).tier == TIER1
 

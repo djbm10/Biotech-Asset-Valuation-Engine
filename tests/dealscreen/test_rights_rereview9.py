@@ -161,9 +161,11 @@ def test_hedge3_a_date_after_the_as_of_date_is_named():
     assert blocked(v, "after the as-of date")
 
 
-def test_dated_notice_before_the_as_of_date_still_clears():
-    """Usefulness (UT1): a notice effective before the as-of date is a completed ending."""
-    v = run(_term("Alpha Bio provided notice of termination of the U.S. license, effective March 1, 2025"))
+def test_a_dated_notice_now_blocks_and_a_dated_termination_clears():
+    """Revision 11 passed a notice whose dates were all past (UT1); REREVIEW10 NOTICE showed the notice date itself
+    satisfied it. Revision 12 has no notice sentence; a termination effective on a past date is one."""
+    _not_top(run(_term("Alpha Bio provided notice of termination of the U.S. license, effective March 1, 2025")))
+    v = run(_term("Alpha Bio terminated the U.S. license effective March 1, 2025"))
     assert v.tier == TIER1, v.top_tier_blockers
 
 
@@ -241,7 +243,8 @@ def test_owner_key_an_affiliate_of_the_company_being_acquired_blocks(acquired):
 
 
 def test_owner_key_the_company_itself_with_a_legal_form_is_still_the_owner():
-    v = run(_acq("Omega Holdings acquires Origin Bio, Inc.", grantor="Origin Bio, Inc."))
+    # revision 12: the present tense "acquires" is how a pending deal is announced; the completed form is read
+    v = run(_acq("Omega Holdings acquired Origin Bio, Inc.", grantor="Origin Bio, Inc."))
     assert v.position == rp.P_OWNER_ACQUIRED and v.tier == TIER1, v.top_tier_blockers
 
 
@@ -259,7 +262,7 @@ def test_share_is_an_acquisition_word_and_shared_is_codevelopment():
 
 
 @pytest.mark.parametrize("quote", [
-    "Omega Holdings will acquire Origin Bio for $25.00 per share in cash",                              # UA1
+    "Omega Holdings acquired Origin Bio for $25.00 per share in cash",          # UA1 (revision 12: "will acquire" blocks)
     "Omega Holdings completes tender offer for all outstanding shares of Origin Bio"])                  # UA2
 def test_share_a_clean_acquisition_quote_reaches_tier_1(quote):
     v = run(_acq(quote))
@@ -273,8 +276,8 @@ def test_share_a_clean_acquisition_quote_reaches_tier_1(quote):
     "BOSTON and SHANGHAI, March 3, 2025 -- Origin Bio licensed China rights to NB-7 to Chinaco Pharma",  # UC2
     ("Origin Bio licensed China rights to NB-7 to Chinaco Pharma, said Jane Doe, Chief Executive Officer of "
      "Origin Bio"),                                                                                     # UC3
-    "Origin Bio licensed China rights to NB-7 for gastric cancer to Chinaco Pharma",                   # program words
-    "Origin Bio licensed China rights to NB-7 to Chinaco Pharma; NB-7 has Breakthrough Therapy Designation"])
+    "Origin Bio licensed China rights to NB-7 for gastric cancer to Chinaco Pharma"])                  # program words
+# revision 12: "NB-7 has Breakthrough Therapy Designation" blocks (no template; test_rights_rereview10.py)
 def test_usefulness_anchored_boilerplate_and_program_words_do_not_block(quote):
     v = run(_china(quote))
     assert v.tier == TIER1, v.top_tier_blockers

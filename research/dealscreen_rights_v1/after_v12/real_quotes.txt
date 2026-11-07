@@ -1,0 +1,53 @@
+1 CL-01 ACQUISITION RIGHTS_ROWS_NOT_APPLIED RIGHTS_UNRESOLVED
+   GATE  : no quote blocker
+   DIRECT: is not one of the sentences DealScreen reads as restating the row
+2 CL-02 ACQUISITION RIGHTS_ROWS_NOT_APPLIED RIGHTS_UNRESOLVED
+   GATE  : no quote blocker
+   DIRECT: is not one of the sentences DealScreen reads as restating the row
+3 CL-03 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: has the clause 'AstraZeneca and KYM Biosciences Inc i have entered into a global exclusive licence agreement for CMG901, a potential first-in-class antibody drug conjugate (ADC) targeting Claudin 18.2, a promising therapeutic target in gastric cancer', which is not one of the sentences DealScreen re
+4 CL-04 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: has the clause 'AstraZeneca and KYM Biosciences Inc i have entered into a global exclusive licence agreement for CMG901, a potential first-in-class antibody drug conjugate (ADC) targeting Claudin 18.2, a promising therapeutic target in gastric cancer', which is not one of the sentences DealScreen re
+5 CL-06 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: names IBI363, which is not a party to the row, the program's company, the program or a place in the row's territory, so it may hold rights the row does not show
+6 CL-07 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: names TPX-4589, On, LaNova, License, Agreement, Product, Company, Territory, which is not a party to the row, the program's company, the program or a place in the row's territory, so it may hold rights the row does not show
+7 CL-07 TERMINATION RIGHTS_RETURNED_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : uncontested: the quote on rights row 7 (termination) reads 'Bristol Myers Squibb terminated its deal with LaNova Medicines covering the Claudin18.2-targeting ADC LM-302/TPX-4589, ApexOnco has learned.', which names TPX-4589, which is not a party to the row, the program's company, the program or a pl
+   DIRECT: names TPX-4589, which is not a party to the row, the program's company, the program or a place in the row's territory, so it may hold rights the row does not show
+8 CL-07 RIGHTS_RETURNED RIGHTS_RETURNED_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : uncontested: the quote on rights row 8 (rights return) reads 'LaNova, meanwhile, previously had a licensing agreement in place with Bristol Myers Squibb for LM-302, an anti-Claudin18.2 ADC in early clinical development, but handed back rights last year, according to an ApexOnco report.', which has t
+   DIRECT: has the clause 'LaNova, meanwhile, previously had a licensing agreement in place with Bristol Myers Squibb for LM-302, an anti-Claudin18.2 ADC in early clinical development', which is not one of the sentences DealScreen reads as restating the row
+9 CL-08 OPTION OPTION_HELD_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: names CN, which the row's own territory (CA/EU/HK/JP/KR/MO/ROW/TW/UK/US) does not cover
+10 CL-08 CO_PROMOTION_OPTION NOT_ENCUMBERED_IN_TERRITORY_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : uncontested: the quote on rights row 10 (co-promotion option) reads 'Merck KGaA, Darmstadt, Germany, will receive exclusive rights to develop, manufacture and commercialize HRS-1167 worldwide, outside of mainland China, an exclusive option to develop, manufacture and commercialize SHR-A1904 worldwid
+   DIRECT: names CA/EU/HK/JP/KR/MO/ROW/TW/UK/US, which the row's own territory (CN) does not cover
+11 CL-11 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: passes
+12 CL-13 CO_DEVELOPMENT RIGHTS_SHARED_IN_TERRITORY_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : no quote blocker
+   DIRECT: names CN/HK/KR/MO/TW, which the row's own territory (CA/EU/JP/ROW/UK/US) does not cover
+13 CL-14 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: has the clause 'a clinical stage biopharmaceutical company focused on the development of precision oncology products for patients with genomically defined cancers, today announced that it has entered into an exclusive license agreement with CSPC Megalith Biopharmaceutical Co, Ltd, a subsidiary of CS
+14 CL-15 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: has the clause 'a clinical stage biopharmaceutical company focused on the development of precision oncology products for patients with genomically defined cancers, today announced that it has entered into an exclusive license agreement with CSPC Megalith Biopharmaceutical Co, Ltd, a subsidiary of CS
+15 CL-26 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: is not one of the sentences DealScreen reads as restating the row
+16 CL-30 LICENSE LICENSED_IN_TERRITORY_PER_EVIDENCE DEPRIORITIZED
+   GATE  : no quote blocker
+   DIRECT: names CN, which the row's own territory (CA/EU/HK/JP/KR/MO/ROW/TW/UK/US) does not cover
+17 CL-30 ACQUISITION OWNER_ACQUIRED_PER_EVIDENCE RIGHTS_UNRESOLVED
+   GATE  : uncontested: the quote on rights row 17 (acquisition) reads '(Nasdaq:LPTX), a biotechnology company focused on developing targeted and immuno-oncology therapeutics , and Flame Biosciences, Inc., a privately-held biotechnology company, today announced that the companies have entered into a definitive
+   DIRECT: has the clause 'a biotechnology company focused on developing targeted and immuno-oncology therapeutics , and Flame Biosciences, Inc, a privately-held biotechnology company, today announced that the companies have entered into a definitive merger agreement pursuant to which Leap has acquired Flame a
+through the gate: 4 of 17 quotes block (4 rows give a clear position alone)
+read directly:    16 of 17 quotes block
