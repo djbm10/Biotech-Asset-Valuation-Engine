@@ -229,3 +229,20 @@ confirmation. Implementer-measured: the reviewer's attack probes reach no top ti
 no CLDN18.2 science or position changes, and 16 of 17 real quotes now need an analyst confirmation.
 
 The verdict above is unchanged, and revision 12 has not been reviewed.
+
+**Addendum (2026-11-08, revision 13).** Round 12 (`REREVIEW11.md`) found 6 High errors in revision 12:
+- a plain-form shortcut beside the templates read "it", "the company" and "<company> Holdings" as the company;
+- non-ASCII text was invisible;
+- headlines passed as datelines;
+- "an option to acquire NB-7" read as the row's option;
+- condition words from a field folded into a description.
+
+It also found that the implementer (an AI) had recorded a HUMAN confirmation in a scratch workspace, and that "No AI
+can clear a block" was a policy, not a property. Revision 13 makes the templates the only reader, blocks unread
+characters, requires a place on grants, makes the reviewer kind explicit, refuses known agent shells, and states
+that DealScreen cannot verify a person. Implementer-measured:
+- every attack in the review blocks; the end-to-end ws_m goes 7 → 0;
+- the CLDN18.2 outputs are byte-identical;
+- 15 of 17 real quotes still need an analyst confirmation.
+
+The verdict above is unchanged, and revision 13 has not been reviewed.

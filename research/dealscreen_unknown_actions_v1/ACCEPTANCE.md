@@ -131,3 +131,10 @@ Two changes were made during implementation. Neither loosens a criterion.
   head, "solid" or "comers", so "ALL relapsed" and "ALL in adults" are the acronym (review N1). A required target's
   negation is cancelled only by a second state in its own part or written directly after it, never by another
   target's "negative or positive" (review N2). None of these changes a gate, disposition, rank or transaction field.
+- **After the sixth U1 review (revision 7), disclosed.** A name whose screen reading came from expanding an "or"
+  list is split by U1 and each piece looked up in the NCIt authority; it is classed by all the readings, or named as
+  partly unread, never by one half (review E1). A second state counts for a negated target only when nothing but
+  punctuation, the cell's end or a cohort word follows it, and only in a part with one target symbol (E2). Every
+  Unicode dash reads as "-"; "absent" and "not expressed" are negations; "ALL" before a singular disease head is not
+  a basket; a state word before a tumour head keeps the site (E3-E7). None of these changes a gate, disposition,
+  rank or transaction field.

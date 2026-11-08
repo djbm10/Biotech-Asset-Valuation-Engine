@@ -133,11 +133,13 @@ They are never read from the landscape's sponsor, labeler or collaborator column
 ```bash
 bve-dealscreen import-rights --workspace $W --rights deals.csv --profile rights_profile.yaml
 bve-dealscreen screen        --workspace $W      # re-screen to apply
-# a quote the template reader does not accept blocks a clear position; its question names the event id.
-# A human who has read the source confirms the row (an AI-prepared decision is rejected); a later change to the
-# row voids the confirmation
+# a quote the template reader does not accept blocks a clear position; the workbook's rights evidence lists the
+# row's event id. A human who has read the source confirms the row and must state --reviewer-kind HUMAN (an
+# AI-prepared decision is rejected, and so is any confirmation from a shell an AI agent runs). DealScreen cannot
+# verify that the reviewer is a person. A re-import of the unchanged row keeps the confirmation; a change voids it
 bve-dealscreen decide        --workspace $W --action CONFIRM_RIGHTS_ROW --subject rx:<event id> \
-    --new-state CONFIRMED --reviewer jdoe --rationale "read the release; it restates the license"
+    --new-state CONFIRMED --reviewer jdoe --reviewer-kind HUMAN \
+    --rationale "read the release; it restates the license"
 ```
 
 The profile maps the vendor's columns to `deal_id`, `external_id`, `event_type`, `exclusivity`, `grantee`,
@@ -226,31 +228,43 @@ from the landscape's and analysts' U.S.-rights fields, and anything it cannot re
   places must cover the buyer territory. A rights row's own quote is read: a leading "Name:" is dropped only when the
   name is the row's grantor or the company; an availability row's quote must be a plain form. Beside a clear
   position every applied rights row of the program is cited and its quote read, whatever the row's own territory.
-  A leading dateline (a city in capitals, a full date and a known wire), an exchange note "(Nasdaq: ACME)", a
-  "said <person>, <title> of <known party>" attribution, an adviser clause of a known party and a closing "<Name>
-  has learned" are removed first. A clause then passes only when it is one of a few fixed sentences for its row's
-  type, read as a whole (`rights_template`, `rights_quote`):
+  Every character of the quote is read: typographic quotes, dashes, spaces and marks are written in ASCII, and any
+  other non-ASCII text (Chinese, full-width letters) blocks, quoted. A leading dateline (a city in capitals on the
+  first line, region parts that are U.S. states, provinces or countries, a full date and a known wire), an exchange
+  note "(Nasdaq: ACME)", a "said <person>, <title> of <known party>" attribution, an adviser clause of a known party
+  and a closing "<Name> has learned" are removed first; a removed name may not contain a rights, template or place
+  word. A clause then passes only when it is one of a few fixed sentences for its row's type, read as a whole
+  (`rights_template`, `rights_quote`); the plain-form reader is not used on quotes:
   - the row's own parties in their own roles (the grantor grants or regains, the grantee receives, returns or lets
     an option lapse). A party name may carry legal and business words ("Acme Pharma Co., Ltd."), never "Holdings",
     "Group", "International" or a place word: "Acme Holdings" is another company. Any other name blocks;
   - the program by one of its own names, optionally with a description made only of drug-development words and
     lower-case or symbol words from its own target, mechanism, modality, therapeutic area and indication fields
     ("NB-7, an anti-CLDN18.2 ADC for gastric cancer"). A capitalised word is never a description, and a field cannot
-    add a connective, a place or a rights word;
+    add a connective, a place, a rights word, a condition ("after", "following", "prior") or a holder word
+    ("co-owned", "licensee"), in any hyphen part;
   - the row type's verb: a grant in the past or present ("licensed", "grants", "obtained"); an ending or return
     ("terminated", "returned", "reverted", "regained"); a lapse ("lapsed unexercised", "did not exercise"); an
     acquisition only when completed ("acquired", "completed its acquisition of"). No modal ("may", "will"), no "has"
     as a holding verb, no negation, no sale or transfer, no condition ("after", "following", "upon");
-  - an optional place, inside the row's own territory; "all rights" only when the row covers the buyer territory;
+  - a place, inside the row's own territory. A grant, an option or an exercise must name one unless the row covers
+    the buyer territory ("the sole rights to NB-7" alone reads as the whole program); "an option to acquire NB-7"
+    is no option sentence. "all rights" only when the row covers the buyer territory. Only a license ends a license:
+    "terminated the option agreement" does not;
+  - the one sentence that keeps rights with a party: "<grantor> retains (all) rights (to NB-7) (outside mainland
+    China)", with the grantor named; never "it", "we" or "the company";
   - an optional date with a year (a capitalised month, so "may" is never a month), whose period ends on or before
     the as-of date or holds the row's own date; an optional amount.
-  Anything else blocks, quoting the clause, with a question that names the row's event id. A human analyst who has
-  read the source can then record `CONFIRM_RIGHTS_ROW` for that event (`decide`; an AI-prepared or synthetic
-  decision is rejected). The confirmation is tied to a hash of the row's fields and quote and stops applying when
-  the row changes; `WITHDRAWN` removes it. Most real press wording still blocks before confirmation (16 of 17 real
-  CLDN18.2 quotes, read directly).
+  Anything else blocks, quoting the clause, with a question. A human analyst who has read the source can then record
+  `CONFIRM_RIGHTS_ROW` for the row's event id (listed in the workbook's rights evidence) with `decide
+  --reviewer-kind HUMAN`. An AI-prepared or synthetic decision is rejected, and the CLI refuses a confirmation in a
+  shell run by a known AI agent (`CLAUDECODE` and similar are set). DealScreen cannot verify that the reviewer is a
+  person; the output says who confirmed and that the kind is as recorded. The confirmation is tied to a hash of the
+  row's program, deal, fields and quote, so a re-import of the unchanged row keeps it and a change voids it;
+  `WITHDRAWN` removes it. Most real press wording still blocks before confirmation (15 of 17 real CLDN18.2 quotes,
+  read directly).
 
-  A clause also passes if it says no grant was made or the company kept the rights. A grant in the buyer territory
+  A grant in the buyer territory
   dated after the as-of date, including an option exercise, blocks unless its source date shows it was reported after
   the as-of date. An acquisition counts for the owner only when the acquired party is the same legal entity as a
   party to a recorded grant, the acquirer of one, or the company itself ("Acme Holdings", "Acme Bio Group", "Acme Bio

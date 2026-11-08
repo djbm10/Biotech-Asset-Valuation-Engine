@@ -106,17 +106,19 @@ _LEGAL_FORMS = frozenset({"inc", "incorporated", "ltd", "limited", "co", "corp",
                           "ag", "sa", "nv", "bv", "kk", "pte", "pty", "spa", "kgaa", "the"})
 
 
+def _entity_key(name: str | None) -> str:
+    """A name's words once legal forms ("Inc", "The") and punctuation are removed: one key per legal entity."""
+    low = re.sub(r"(?<![a-z])u\.\s?s\.\s?a\.?(?![a-z])", " usa ", (name or "").casefold())
+    low = re.sub(r"(?<![a-z])u\.\s?s\.?(?![a-z])", " us ", low)
+    return " ".join(w for w in re.sub(r"[^\w&]+", " ", low.replace("-", " ")).split() if w not in _LEGAL_FORMS)
+
+
 def _one_entity(a: str | None, b: str | None) -> bool:
     """Two names for one legal entity: the same words once legal forms and punctuation are removed. Stricter than
     ``same_company``: "Acme Holdings", "Acme Bio US" and "Acme International" are other entities than "Acme"
     (review R1v10 OWNER-KEY)."""
-    def words(name: str | None) -> list[str]:
-        low = re.sub(r"(?<![a-z])u\.\s?s\.\s?a\.?(?![a-z])", " usa ", (name or "").casefold())
-        low = re.sub(r"(?<![a-z])u\.\s?s\.?(?![a-z])", " us ", low)
-        return [w for w in re.sub(r"[^\w&]+", " ", low.replace("-", " ")).split() if w not in _LEGAL_FORMS]
-
-    wa, wb = words(a), words(b)
-    return bool(wa) and wa == wb
+    ka = _entity_key(a)
+    return bool(ka) and ka == _entity_key(b)
 
 
 class _Ledger:
@@ -254,7 +256,9 @@ class _Ledger:
                 self.questions.append(f"What rights to this program did {e.grantor} hold when {e.grantee} acquired it?")
                 self.unapplied.append(e)
                 continue
-            succession[party_key(e.grantor)] = (e.grantee, e)
+            # keyed as the acquired party was matched, so "The Nerida Bio" acquired is "Nerida Bio" (review R1v12
+            # OWNER-THE)
+            succession[_entity_key(e.grantor)] = (e.grantee, e)
             if party_key(e.grantor) not in holders:
                 owners.append(e)
         return succession, owners
@@ -267,9 +271,9 @@ class _Ledger:
         """The current successor of ``name`` and the acquisition records that lead to it."""
         seen: set[str] = set()
         chain: list[RightsEvent] = []
-        while name and party_key(name) in self.succession and party_key(name) not in seen:
-            seen.add(party_key(name))
-            name, event = self.succession[party_key(name)]
+        while name and _entity_key(name) in self.succession and _entity_key(name) not in seen:
+            seen.add(_entity_key(name))
+            name, event = self.succession[_entity_key(name)]
             chain.append(event)
         return name or "", chain
 

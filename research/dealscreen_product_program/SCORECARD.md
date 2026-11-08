@@ -131,6 +131,14 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 13 (AI-SIMULATED; 2026-11-08):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | The fixed sentences are the only reader of a rights row's quote (no plain-form shortcut; the grantor-retains sentence only); every character is read; a dateline must be a one-line city with region parts that are places; grants, options and exercises name a place unless the row covers the buyer territory; field words carrying a condition or a holder never describe the program; only a license ends a license; `CONFIRM_RIGHTS_ROW` needs an explicit HUMAN kind, is refused in a known AI agent's shell and survives a re-import of the unchanged row | 1,726 tests; every round-12 attack blocks; end-to-end ws_m 7 → 0 (implementer-measured); CLDN18.2 outputs byte-identical; read directly, 15 of 17 real quotes block before confirmation; 8/6/1 vs general Claude 14/1/0 | Not reviewed; usefulness depends on analyst confirmations; DealScreen cannot verify that a HUMAN record was made by a person |
+
+Gates H, B and I are unchanged.
+
 **After cycle R1 revision 12 (AI-SIMULATED; 2026-11-02):**
 
 | # | Dimension | Change | Evidence | Status |

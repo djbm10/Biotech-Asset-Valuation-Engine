@@ -71,21 +71,33 @@ _PLACEHOLDER_WORDS = frozenset({
     "4", "5"})
 #: A required symbol after one of these, or followed by "negative", is not the target ("not X", "X-negative",
 #: "formerly X"; review U1 D5).
-_NEGATED = re.compile(r"\b(?:not|non|no|formerly|former|previously|ex|lacking|without)\b[\s\-]*$", re.IGNORECASE)
+_NEGATED = re.compile(r"\b(?:not|non|no|formerly|former|previously|ex|lacking|without|absent)\b[\s\-]*$",
+                      re.IGNORECASE)
 #: Explicit absence written after the symbol (review U1 N7). Expression levels ("low", "high") and engineering
 #: words ("null-Fc", "loss-of-function") name the target, not its absence (review U1 D2); "-independent" does not
 #: (D4).
-_NEGATION_WORDS = r"negative|neg|non[\s\-]?expressing|knock[\s\-]?out|independent"
+_NEGATION_WORDS = (r"negative|neg|non[\s\-]?expressing|knock[\s\-]?out|independent|not[\s\-]expressed|absent|"
+                   r"expression[\s\-]absent")  # "not expressed", "absent" (review U1 R6 E6)
 _NEGATED_AFTER = re.compile(rf"^(?:[\s\-–—]*(?:{_NEGATION_WORDS})\b|\s*\(\s*(?:{_NEGATION_WORDS}|formerly|former|"
                             r"previously)\s*\))", re.IGNORECASE)
 #: A symbol stated as both negative and positive ("X negative or positive", "X neg/pos", "X-negative and -positive")
 #: is not stated to be absent (review U1 R4 D3).
-_BOTH_STATES = re.compile(r"\b(?:negative|neg)\s*(?:/|\bor\b|\band\b|&|,)\s*-?\s*(?:positive|pos)\b|"
-                          r"\b(?:positive|pos)\s*(?:/|\bor\b|\band\b|&|,)\s*-?\s*(?:negative|neg)\b", re.IGNORECASE)
+#: Joins between the two states: "/", "or", "and", "and/or", "&", "&/or", ",", "+", "plus", "|" or a dash (review U1
+#: R6 E3). A level ("low", "high") is a second state too, so "negative or low" and "low or negative" read alike (E6).
+_STATE_JOIN = r"(?:\band/or\b|&/or|/|\bor\b|\band\b|&|,|\+|\bplus\b|\||-)"
+#: A second state belongs to the negated target only when nothing but punctuation, a cohort word or the end of the
+#: cell follows it: "X negative, positive PD-L1" is another target's state (review U1 R6 E2).
+#: A full stop ends a state only at the end of the cell: in "pos. KLX9" it closes an abbreviation (review U1 R6 E2).
+_STATE_END = r"\.?(?=\s*(?:$|[,;)]|(?:cohorts?|populations?|patients|subgroups?|status|expression|disease)\b))"
+_BOTH_STATES = re.compile(rf"\b(?:negative|neg)\)?\s*{_STATE_JOIN}\s*-?\s*(?:positive|pos|low|high){_STATE_END}|"
+                          rf"\b(?:positive|pos|low|high)\)?\s*{_STATE_JOIN}\s*-?\s*(?:negative|neg){_STATE_END}",
+                          re.IGNORECASE)
 #: The second state written right after a negated part that the list split off ("X neg" + "/pos"), never a positive
 #: that belongs to another target ("X negative, positive for Y"; review U1 R5 N2).
-_SECOND_STATE = re.compile(r"^\s*(?:/|\bor\b|\band\b|&|,)\s*-?\s*(?:positive|pos)\b(?!\s+(?:for|selection|selected)\b)",
-                           re.IGNORECASE)
+_SECOND_STATE = re.compile(rf"^\s*{_STATE_JOIN}\s*-?\s*(?:positive|pos|low|high)\b{_STATE_END}", re.IGNORECASE)
+#: Every Unicode dash and hyphen, read as "-" for matching only (one character each, so positions hold; review U1
+#: R6 E4).
+_DASHES = re.compile("[\u2010\u2011\u2012\u2013\u2014\u2015\u2212\uFE58\uFE63\uFF0D]")
 #: A parenthesised note that is only a negation stays with its symbol ("X (formerly)"); any other is its own part.
 _PAREN_NOTE = re.compile(r"\(([^()]*)\)")
 _NEGATION_ONLY = re.compile(rf"^\s*(?:{_NEGATION_WORDS}|formerly|former|previously)\s*$", re.IGNORECASE)
@@ -179,7 +191,18 @@ def _indication_sentence(reading: ir.NameReading) -> str:
         ir.DIFFERENT_DISEASE: f"{name} reads as {concepts} (NCIt){how}, neither a requested indication nor a subtype "
                               f"of one{site}",
         ir.UNREADABLE: f"{name} is not a name the NCIt authority can read",
-    }[reading.category]
+    }[reading.category] + _partly_read(reading)
+
+
+def _partly_read(reading: ir.NameReading) -> str:
+    """For a list of names joined by "or" that the authority reads only in part: what it reads, by relation, and
+    what it does not (review U1 R6 E1). Empty otherwise."""
+    if not reading.unread:
+        return ""
+    read = "; ".join(dict.fromkeys(f"{lab} ({rel})" for lab, rel in reading.concepts))
+    unread = " or ".join(f"'{p}'" for p in reading.unread)
+    return (f" as a whole; of the names in its 'or' list it reads {read or 'none'} and does not read {unread} "
+            "(a reading the gate does not apply)")
 
 
 #: A short phrase per indication class: what the record holds, never a verdict.
@@ -313,6 +336,7 @@ def _match_required(part: str, patterns: list[tuple[str, re.Pattern[str], str | 
     of a required gene; ("negated", symbol) when its only mention is negated or former; None otherwise. The gene with
     no isoform counts, and says so."""
     other = None
+    part = _DASHES.sub("-", part)
     for display, pattern, wanted in patterns:
         for m in pattern.finditer(part):
             if _NEGATED.search(part[:m.start()]) or _NEGATED_AFTER.match(part[m.end():]):
@@ -355,14 +379,22 @@ def _not_text(negated: dict[str, str]) -> str:
 def _both_states(part: str, values: list[str]) -> bool:
     """The part itself states both negative and positive, or the second state follows it directly in its cell.
     Another target's "negative or positive" elsewhere in the cell does not count (review U1 R5 N2)."""
+    part = _DASHES.sub("-", " ".join(part.split()))
+    symbols = [w for w in re.findall(r"[A-Za-z0-9][\w.]*", part)
+               if (any(c.isupper() for c in w) and any(c.isdigit() for c in w)) or (w.isupper() and len(w) > 1)]
+    if len(set(symbols)) > 1:  # "X negative KLX9 neg/pos": the second state is the other symbol's (review U1 R6 E2)
+        return False
     if _BOTH_STATES.search(part):
         return True
-    for value in values:
-        start = value.find(part)
+    for raw in values:
+        value, seek = _DASHES.sub("-", " ".join(raw.split())), part
+        if seek not in value:  # a part rebuilt around a parenthesis: compare without them
+            value, seek = re.sub(r"\s*[()]\s*", " ", value).strip(), re.sub(r"\s*[()]\s*", " ", seek).strip()
+        start = value.find(seek)
         while start != -1:
-            if _SECOND_STATE.match(value[start + len(part):]):
+            if _SECOND_STATE.match(value[start + len(seek):]):
                 return True
-            start = value.find(part, start + 1)
+            start = value.find(seek, start + 1)
     return False
 
 
@@ -379,6 +411,10 @@ def target_diagnostic(values: list[str], conflicting: bool, targets: list[Any], 
     parts = _parts(values, separator)
     readings = {p: read(p) for p in parts}
     matches = {p: ("required", "") if readings[p] in required_ids else _match_required(p, patterns) for p in parts}
+    # a target stated both negative and another state ("X negative or low", "X neg/pos") is named, whatever the
+    # order of the states (review U1 R6 E6)
+    matches = {p: ("required", "") if m and m[0] == "negated" and readings[p] is None and _both_states(p, values)
+               else m for p, m in matches.items()}
     named = {p: m[1] for p, m in matches.items() if m and m[0] == "required"}
     isoforms = {p: m[1] for p, m in matches.items() if m and m[0] == "isoform"}
     negated = {p: m[1] for p, m in matches.items()

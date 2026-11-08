@@ -309,25 +309,29 @@ def test_a_confirmed_row_is_not_read_again_while_it_is_unchanged():
     _not_top(_named_run(events))
     record = {"row_sha256": row_sha256(cite_event(end)), "reviewer_id": "jdoe", "decision_id": "dec:00001",
               "timestamp": "2025-05-01T00:00:00+00:00"}
-    v = _named_run(events, confirmed={end.event_id: record})
+    # revision 13: confirmations are keyed by the row's content hash (review R1v12 CONFIRM-REIMPORT)
+    v = _named_run(events, confirmed={record["row_sha256"]: record})
     assert v.tier == TIER1, v.top_tier_blockers
-    assert any("confirmed as restating the row by jdoe (dec:00001" in r for r in v.reasons)
+    assert any("confirmed as restating the row by jdoe, recorded as a human analyst" in r for r in v.reasons)
 
 
 def test_a_confirmation_lapses_when_the_row_changes():
     events, end = _ending(QUOTE)
     record = {"row_sha256": row_sha256(cite_event(end)), "reviewer_id": "jdoe", "decision_id": "dec:00001",
-              "timestamp": "2025-05-01"}
+              "timestamp": "2025-05-01", "event_id": end.event_id}
     changed = end.model_copy(update={"evidence_quote": QUOTE + "; Tessaly Pharma holds U.S. rights"})
-    v = _named_run([events[0], changed], confirmed={end.event_id: record})
+    v = _named_run([events[0], changed], confirmed={record["row_sha256"]: record})
     _not_top(v)
     assert blocked(v, "a confirmation was recorded for an earlier version of this row")
 
 
-def test_the_block_question_names_the_event_to_confirm():
+def test_the_block_question_asks_for_a_confirmation():
+    # revision 13: the memo prints the question, so it names no action code or event id (review R1v12 MEMO-CODE);
+    # the workbook's rights evidence lists the event id
     events, end = _ending(QUOTE)
     v = _named_run(events)
-    assert any(f"CONFIRM_RIGHTS_ROW for event {end.event_id}" in q for q in v.questions)
+    assert any("a human analyst who has read the source can confirm the row in DealScreen" in q for q in v.questions)
+    assert not any(end.event_id in q for q in v.questions)
 
 
 def _context(event) -> DecisionContext:
@@ -344,17 +348,19 @@ def test_only_a_human_can_confirm_a_rights_row(tmp_path):
                        reviewer_id="bot", rationale="read it", reviewer_kind=kind, context=_context(end))
     with pytest.raises(DecisionRejected):  # an unknown row
         log.record(action=Action.CONFIRM_RIGHTS_ROW, subject_id="rx:none", new_state="CONFIRMED",
-                   reviewer_id="jdoe", rationale="read it", context=_context(end))
+                   reviewer_id="jdoe", rationale="read it", reviewer_kind=ReviewerKind.HUMAN, context=_context(end))
     with pytest.raises(DecisionRejected):  # no workspace context
         log.record(action=Action.CONFIRM_RIGHTS_ROW, subject_id=end.event_id, new_state="CONFIRMED",
-                   reviewer_id="jdoe", rationale="read it")
+                   reviewer_id="jdoe", rationale="read it", reviewer_kind=ReviewerKind.HUMAN)
     rec = log.record(action=Action.CONFIRM_RIGHTS_ROW, subject_id=end.event_id, new_state="CONFIRMED",
-                     reviewer_id="jdoe", rationale="read the release", context=_context(end))
+                     reviewer_id="jdoe", rationale="read the release", reviewer_kind=ReviewerKind.HUMAN,
+                     context=_context(end))
     assert rec["detail"]["row_sha256"] == row_sha256(cite_event(end))
     confirmed = DecisionLog(tmp_path / "decisions.jsonl").state.review_inputs([]).confirmed_rights_rows
-    assert confirmed[end.event_id]["reviewer_id"] == "jdoe"
+    assert confirmed[row_sha256(cite_event(end))]["reviewer_id"] == "jdoe"
     log.record(action=Action.CONFIRM_RIGHTS_ROW, subject_id=end.event_id, new_state="WITHDRAWN",
-               reviewer_id="jdoe", rationale="source corrected", context=_context(end))
+               reviewer_id="jdoe", rationale="source corrected", reviewer_kind=ReviewerKind.HUMAN,
+               context=_context(end))
     assert not DecisionLog(tmp_path / "decisions.jsonl").state.review_inputs([]).confirmed_rights_rows
 
 

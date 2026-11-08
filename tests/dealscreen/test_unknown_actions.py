@@ -810,3 +810,94 @@ def test_r6_n3_an_en_dash_before_negative_is_a_negation():
 def test_r6_the_may_name_sentence_lists_the_other_parts():
     d = dg.target_diagnostic(["ABC1L2; XYZ"], False, REQ, READ, ";")
     assert d["class"] == dg.SOURCE_MAY_NAME_REQUIRED_TARGET and "also on record: 'XYZ'" in d["record"]
+
+
+# -- U1 revision 7: REVIEW6 E1-E7 --------------------------------------------------------------------------------------
+@pytest.mark.parametrize("name, requested", [
+    ("Ulcerative colitis or Crohn's disease", UC), ("Myasthenia gravis or CIDP", ["myasthenia gravis"]),
+    ("Adult ALL or AML", ["adult acute lymphoblastic leukemia"]),
+    ("Adult acute lymphoblastic leukemia or AML", ["adult acute lymphoblastic leukemia"]),
+    ("HCC or cholangiocarcinoma", HCC), ("Gastric adenocarcinoma or NSCLC", GASTRIC),
+    ("Gastric Adenocarcinoma or Pancreatic Ductal Adenocarcinoma", GASTRIC),
+    ("Pancreatic, gastric or esophageal adenocarcinoma", GASTRIC)])
+def test_r7_e1_each_name_of_an_or_list_is_read_so_a_requested_one_is_never_a_different_disease(name, requested):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == ir.AMBIGUOUS_NAME, d
+    assert "(requested or a subtype)" in d["record"] and "its 'or' list split" in d["record"]
+
+
+def test_r7_e1_an_or_list_read_only_in_part_says_which_part_it_does_not_read():
+    d = dg.indication_diagnostic(["UC or Crohn's disease"], UC)
+    assert d["class"] == ir.UNREADABLE
+    assert "it reads Crohn Disease (not requested) and does not read 'UC'" in d["record"]
+    assert "neither a requested indication" not in d["record"]
+
+
+@pytest.mark.parametrize("name", ["ALL or AML", "AML or ALL"])
+def test_r7_e1_all_or_aml_names_both_readings(name):
+    d = dg.indication_diagnostic([name], ["adult acute lymphoblastic leukemia"])
+    assert d["class"] == ir.AMBIGUOUS_NAME and "Acute Myeloid Leukemia" in d["record"], d
+
+
+@pytest.mark.parametrize("name", ["Locally advanced or metastatic gastric adenocarcinoma",
+                                  "Gastric adenocarcinoma or pancreatic cancer"])
+def test_r7_e1_qualifier_lists_and_unread_lists_keep_their_reading(name):
+    assert dg.indication_diagnostic([name], GASTRIC)["class"] in (ir.READS_AS_REQUESTED, ir.NAMES_REQUESTED_SITE)
+
+
+@pytest.mark.parametrize("value", ["ABC1.2 negative, positive XYZ expression", "ABC1.2 negative and positive XYZ",
+                                   "ABC1.2 negative, positive (XYZ)", "ABC1.2 negative or positive for XYZ",
+                                   "ABC1.2 negative / positive for XYZ", "ABC1.2 negative, pos. XYZ",
+                                   "ABC1.2 negative XYZ9 neg/pos", "ABC1.2 negative XYZ9 positive or negative"])
+def test_r7_e2_a_positive_before_another_target_is_that_targets_state(value):
+    d = dg.target_diagnostic([value], False, REQ, READ, ";")
+    assert d["class"] in (dg.SOURCE_NAMES_OTHER_TARGETS, dg.SOURCE_STATES_NOT_REQUIRED_TARGET), d
+    assert "states it is not ABC1" in d["record"]
+
+
+@pytest.mark.parametrize("value", ["ABC1.2 negative and/or positive", "ABC1.2 negative &/or positive",
+                                   "ABC1.2 neg + pos", "ABC1.2 negative plus positive", "ABC1.2 negative|positive",
+                                   "ABC1.2 negative – positive", "ABC1.2 neg–pos", "ABC1.2  neg/pos",
+                                   "ABC1.2 (neg)/pos"])
+def test_r7_e3_both_states_joined_any_way_are_not_a_negation(value):
+    assert dg.target_diagnostic([value], False, REQ, READ, ";")["class"] != dg.SOURCE_STATES_NOT_REQUIRED_TARGET
+
+
+@pytest.mark.parametrize("value", ["non–ABC1.2", "non—ABC1.2", "non‐ABC1.2", "not–ABC1.2", "ABC1.2‑negative",
+                                   "ABC1.2‐negative", "ABC1.2−negative"])
+def test_r7_e4_any_unicode_dash_reads_as_a_hyphen(value):
+    assert dg.target_diagnostic([value], False, REQ, READ, ";")["class"] == dg.SOURCE_STATES_NOT_REQUIRED_TARGET
+
+
+@pytest.mark.parametrize("name", ["Adult ALL disease", "ALL disease", "ALL Disease", "Relapsed ALL disease",
+                                  "ALL disorder", "ALL malignancy", "ALL carcinoma", "ALL condition", "ALL-disease"])
+def test_r7_e5_all_before_a_singular_head_is_the_acronym(name):
+    assert not ir.is_basket(name)
+
+
+@pytest.mark.parametrize("name", ["ALL cancers", "ALL solid tumors", "ALL COMERS", "ALL tumors"])
+def test_r7_e5_all_before_a_plural_head_is_still_a_basket(name):
+    assert ir.is_basket(name)
+
+
+@pytest.mark.parametrize("value", ["ABC1.2 not expressed", "ABC1.2 expression absent", "absent ABC1.2"])
+def test_r7_e6_absence_words_are_a_negation(value):
+    assert dg.target_diagnostic([value], False, REQ, READ, ";")["class"] == dg.SOURCE_STATES_NOT_REQUIRED_TARGET
+
+
+def test_r7_e6_negative_or_low_and_low_or_negative_read_alike():
+    one = dg.target_diagnostic(["ABC1.2 negative or low"], False, REQ, READ, ";")["class"]
+    two = dg.target_diagnostic(["ABC1.2 low or negative"], False, REQ, READ, ";")["class"]
+    assert one == two != dg.SOURCE_STATES_NOT_REQUIRED_TARGET
+
+
+@pytest.mark.parametrize("name", ["Gastric metastatic adenocarcinoma", "Gastric Metastatic Cancer",
+                                  "Gastric refractory cancer", "Gastric treatment-refractory cancer",
+                                  "Gastric resistant cancer"])
+def test_r7_e7_a_state_word_before_a_tumour_head_keeps_the_site(name):
+    assert dg.indication_diagnostic([name], GASTRIC)["class"] == ir.NAMES_REQUESTED_SITE
+
+
+@pytest.mark.parametrize("name", ["Gastric therapy-resistant", "gastric outlet obstruction"])
+def test_r7_e7_a_role_with_no_tumour_head_stays_a_role(name):
+    assert dg.indication_diagnostic([name], GASTRIC)["class"] != ir.NAMES_REQUESTED_SITE

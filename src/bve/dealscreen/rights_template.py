@@ -146,12 +146,22 @@ _PLACE_SPAN = re.compile(rf"(?:(?:(?:outside(?:\s+of)?|excluding|except(?:\s+for
 _CASE_PLACE = re.compile(r"(?<![A-Za-z])(?:ROW|US|USA|UK|EU|EEA|PRC)(?![A-Za-z])")
 
 
+#: The words after "global" that make it a place ("global rights", "global development and commercialization").
+_GLOBAL_PLACE_NEXT = frozenset({"rights", "right", "license", "licence", "licensing", "development",
+                                "commercial", "commercialization", "commercialisation", "basis", "territory",
+                                "exclusive", "and", "or"})
+
+
 def mark_places(text: str) -> tuple[str, list[frozenset[str] | None]]:
     """The text with each territory phrase replaced by one marker, and the regions of each (None: unreadable)."""
     regions: list[frozenset[str] | None] = []
 
     def take(m: re.Match[str]) -> str:
         span = m.group(0)
+        after = re.match(r"\s*([A-Za-z][\w\-]*)", m.string[m.end():])
+        if (span.strip().casefold() == "global" and after
+                and after.group(1).casefold() not in _GLOBAL_PLACE_NEXT):
+            return span  # "a global partnership", "a global biopharmaceutical company": not a place
         # case-sensitive abbreviations only in capitals ("us" is a pronoun)
         for word in re.findall(r"[A-Za-z]+", span):
             if word.casefold() in {"us", "row", "uk", "eu", "eea", "prc", "usa"} and not word.isupper():
@@ -186,7 +196,13 @@ def descriptor_words(texts: Iterable[str]) -> frozenset[str]:
                     out.add(plain.casefold())
     # A field may not add a connective or a template word: "from", "outside" or "rights" in an indication field
     # would let a description carry a party, a place or a grant.
-    return frozenset(w for w in out if w not in _FUNCTION_WORDS and (w in DESCRIPTOR_WORDS or w not in template_words()))
+    return frozenset(w for w in out if not _function_word(w) and (w in DESCRIPTOR_WORDS or w not in template_words()))
+
+
+def _function_word(word: str) -> bool:
+    """A field word that could carry a holder, a reach, a condition or a time: the word or any of its hyphen or slash
+    parts ("co-owned", "jointly-owned") is a function word (review R1v12 VOCAB2)."""
+    return word in _FUNCTION_WORDS or any(p in _FUNCTION_WORDS for p in re.split(r"[-/]", word) if p)
 
 
 _FUNCTION_WORDS = frozenset(["from", "on", "to", "by", "at", "as", "via", "which", "that", "who", "whose", "is", "are",
@@ -194,7 +210,22 @@ _FUNCTION_WORDS = frozenset(["from", "on", "to", "by", "at", "as", "via", "which
                              "any", "each", "every", "outside", "except", "excluding", "ex", "other", "others", "also",
                              "only", "under", "between", "per", "it", "they", "them", "this", "these", "those", "than",
                              "rights", "right", "license", "licence", "licensed", "partner", "partnered", "owned",
-                             "holds", "held", "holder", "worldwide", "global", "territory", "territories"])
+                             "holds", "held", "holder", "worldwide", "global", "territory", "territories",
+                             # conditions and times (review R1v12 VOCAB2)
+                             "after", "before", "following", "upon", "until", "unless", "pending", "subject", "prior",
+                             "once", "when", "whenever", "if", "whether", "while", "during", "provided", "conditional",
+                             "contingent", "progression", "then", "later", "future", "will", "would", "may", "might",
+                             "can", "could", "should", "shall",
+                             # holders and holding
+                             "co-owned", "owner", "owners", "own", "owns", "jointly", "joint", "shared", "share",
+                             "shares", "co", "licensee", "licensees", "licensor", "licensors", "licensing", "partners",
+                             "partnership", "partnering", "sublicense", "sublicensee", "sublicensed", "sublicensing",
+                             "retained", "retains", "retain", "keeps", "kept", "option", "options", "optioned",
+                             "returned", "terminated", "acquired", "acquirer", "sold", "transferred", "assigned",
+                             "granted", "exclusive", "exclusively", "non-exclusive", "collaboration", "collaborator",
+                             "collaborators", "third", "party", "parties", "company", "companies", "sponsor",
+                             "sponsors", "affiliate", "affiliates", "subsidiary", "we", "us", "our", "its", "their",
+                             "his", "her", "he", "she", "never", "without", "neither", "either"])
 
 
 # -- clause into slots ------------------------------------------------------------------------------------------------
@@ -222,8 +253,10 @@ def template_words() -> frozenset[str]:
     found: set[str] = set()
     for kind in (LICENSE, OPTION, OPTION_EXERCISED, CO_DEVELOPMENT, CO_PROMOTION_OPTION, TERMINATION,
                  RIGHTS_RETURNED, OPTION_LAPSED, ACQUISITION):
-        for rx in _templates(kind, all_ok=True):
+        for rx, _ in _templates(kind, all_ok=True):
             found |= set(re.findall(r"[a-z][a-z\-]+", re.sub(r"\(\?[:!=<]", "", rx.pattern)))
+    for rx in _retention():
+        found |= set(re.findall(r"[a-z][a-z\-]+", re.sub(r"\(\?[:!=<]", "", rx.pattern)))
     return frozenset(found)
 
 
@@ -341,7 +374,7 @@ _MONEY_TAIL = (rf"(?: (?:for|in exchange for) (?:an? )?(?:upfront (?:payment|fee
                rf"{_PAY_KIND})* )?(?:milestones?|milestone payments))?)?(?: (?:and|plus) (?:tiered )?royalties"
                r"(?: on (?:net )?sales)?)?)?")
 _ANNOUNCE = r"(?:(?:{S}) (?:today )?(?:announced|announces|said|says|reported|reports|disclosed|discloses)(?: that)? )?"
-_UNDER = r"(?:under (?:the|this|its|that) (?:license |licence |collaboration |option )?agreement ,? )?"
+_UNDER = r"(?:under (?:the terms of )?(?:the|this|its|that) (?:license |licence |collaboration |option )?agreement ,? )?"
 
 
 def _frame(core: str, subject: str = "G|E|G and E|E and G") -> str:
@@ -356,8 +389,10 @@ def _endings(allp: str) -> list[str]:
     party = r"(?:G|E)"
     agreement = r"(?:agreement|deal|transaction)"
     t: list[str] = []
-    deal = (r"(?:(?:license|licence|licensing|collaboration|option|co-development|partnership|license and "
-            r"collaboration|collaboration and license)(?: {agreement})?|{agreement})").replace("{agreement}", agreement)
+    # only a license ends a license: "the option agreement" or "the co-development agreement" may be another deal
+    # (review R1v12 DEAL-KIND); a bare "the agreement" names no other kind
+    deal = (r"(?:(?:license|licence|licensing|license and collaboration|collaboration and license)"
+            r"(?: {agreement})?|{agreement})").replace("{agreement}", agreement)
     t += [
         (rf"{party}(?: and {party})? {has}(?:terminated|terminates|ended|ends) (?:the|its|their) (?:exclusive )?"
         rf"(?:R )?{deal}(?: (?:with|between) {party}(?: and {party})?)?(?: (?:for|covering|on|to) {_PROGRAM})?"
@@ -379,8 +414,25 @@ def _endings(allp: str) -> list[str]:
     return t
 
 
+@lru_cache(maxsize=1)
+def _retention() -> tuple[re.Pattern[str], ...]:
+    """"G retains all rights to P outside R": the grantor keeps rights (review R1v12 PF-PRONOUN). The subject is the
+    masked grantor only, never a pronoun, "the company" or a name read as the company. Whatever place it names stays
+    with the grantor, so the place is not checked against the row; "all" is allowed."""
+    keep = r"(?:retains|retained|keeps|kept|will retain|will keep|has retained|has kept)"
+    what = (r"(?:all (?:other )?|the |its |all of its )?(?:exclusive |sole )?(?:R )?"
+            r"(?:development and commercial(?:ization)? |commercial(?:ization)? |development )?rights")
+    obj = rf"{what}(?: (?:to|for|of) (?:{_DEV_LIST} )?(?:the )?{_PROGRAM})?"
+    where = r"(?: R| (?:in|for|across|throughout)(?: the)? R(?: territory| territories| region| regions)?)?"
+    return tuple(re.compile(_frame(c, subject="G")) for c in (rf"G {keep} {obj}{where}",
+                                                                 rf"{_PROGRAM}{where} (?:rights )?(?:remain|remains) with G"))
+
+
 @lru_cache(maxsize=32)
-def _templates(kind: str, all_ok: bool) -> tuple[re.Pattern[str], ...]:
+def _templates(kind: str, all_ok: bool) -> tuple[tuple[re.Pattern[str], bool], ...]:
+    """The templates for a row type, each with whether it must name a place when the row does not cover the buyer
+    territory: a grant of rights, an option or an exercise with no place reads, to a BD analyst, as the whole
+    program (review R1v12 UNPLACED, ACQ-OPT)."""
     allp = "(?:all )?" if all_ok else ""
     rights_to = _RIGHTS_TO.replace("{ALL}", allp)
     # rights named without the program ("licenses rights in mainland China") restate a row that is the program's own;
@@ -390,21 +442,28 @@ def _templates(kind: str, all_ok: bool) -> tuple[re.Pattern[str], ...]:
     rights_obj = rf"(?:(?:{rights_to}|{_LICENSE_TO}){_PROGRAM}|{bare})"
     has = r"(?:has |have )?"
     agreement = r"(?:agreement|deal|transaction)"
-    t: list[str] = []
+    t: list[str] = []  # templates that need no place: an agreement was signed, an option ended
+    tp: list[str] = []  # grants: a place is required unless the row covers the buyer territory
     if kind == LICENSE:
-        t += [
+        tp += [
             (rf"G {has}(?:exclusively )?(?:licensed|licenses|out-licensed|out-licenses|licenced|licences) "
-            rf"(?:its )?{obj}{_PLACE} to E{_MONEY_TAIL}"),  # "its": the grantor's own program
+            rf"(?:its )?{obj}{_PLACE} to E{_PLACE}{_MONEY_TAIL}"),  # "its": the grantor's own program
             rf"G {has}(?:granted|grants) E {rights_obj}{_PLACE}{_MONEY_TAIL}",
             rf"(?:the|this) (?:license |licence )?agreement (?:granted|grants) E {rights_obj}{_PLACE}",
             (rf"E {has}(?:exclusively )?(?:in-licensed|in-licenses|licensed|licenses) {obj}{_PLACE}(?: from G)?"
-            rf"{_MONEY_TAIL}"),
+            rf"{_PLACE}{_MONEY_TAIL}"),
             (rf"E {has}(?:obtained|obtains|acquired|acquires|received|receives|secured|secures|gained|gains) "
-            rf"{rights_obj}{_PLACE}(?: from G)?{_MONEY_TAIL}"),
-            (rf"G and E {has}(?:entered into|signed|executed|enter into|sign) an? (?:exclusive )?(?:R )?"
+            rf"{rights_obj}{_PLACE}(?: from G)?{_PLACE}{_MONEY_TAIL}"),
+            # the signing-day sentence, only after "under the terms of the agreement" (review R1v12 UC2)
+            (rf"under the terms of (?:the|this) (?:license |licence )?agreement ,? E will (?:receive|obtain|be granted) "
+             rf"{rights_obj}{_PLACE}{_MONEY_TAIL}"),
+            rf"{_PROGRAM} (?:is|was|has been) (?:exclusively )?licensed(?: by G)? to E{_PLACE}{_MONEY_TAIL}",
+        ]
+        t += [
+            (rf"G and E {has}(?:today )?(?:entered into|signed|executed|enter into|sign|announced|announce) an? "
+            rf"(?:exclusive )?(?:R )?"
             rf"(?:license|licence|licensing|license and collaboration|collaboration and license) {agreement}"
             rf"(?: (?:for|covering|to (?:{_DEV_LIST})) {_PROGRAM})?{_MONEY_TAIL}"),
-            rf"{_PROGRAM} (?:is|was|has been) (?:exclusively )?licensed(?: by G)? to E{_MONEY_TAIL}",
             (rf"G {has}(?:today )?(?:entered into|signed|executed|announced) an? (?:exclusive )?(?:R )?(?:license|licence|licensing) "
              rf"{agreement} with E (?:for|covering|on) (?:the (?:development|commercialization|development and "
              rf"commercialization|research , development and commercialization) of )?{_PROGRAM}{_MONEY_TAIL}"),
@@ -413,23 +472,27 @@ def _templates(kind: str, all_ok: bool) -> tuple[re.Pattern[str], ...]:
              rf"commercialization|research , development and commercialization) of )?{_PROGRAM}{_MONEY_TAIL}"),
         ]
     elif kind in (OPTION, CO_PROMOTION_OPTION):
-        what = (r"(?:an? (?:exclusive )?option to (?:license|in-license|acquire|obtain|co-promote) "
+        # never "an option to acquire NB-7": that is an option over the whole program (review R1v12 ACQ-OPT)
+        what = (r"(?:an? (?:exclusive )?option to (?:license|in-license|obtain|co-promote) "
                 rf"(?:{rights_to})?{_PROGRAM}|an? (?:exclusive )?option (?:on|over|for) {_PROGRAM})")
         if kind == CO_PROMOTION_OPTION:
             what = (rf"(?:an? (?:exclusive )?option to co-promote {_PROGRAM}|an? co-promotion option(?: (?:on|over|"
                     rf"for) {_PROGRAM})?)")
+        tp += [
+            rf"G {has}(?:granted|grants) E {what}{_PLACE}{_MONEY_TAIL}",
+            (rf"E {has}(?:obtained|obtains|received|receives|secured|secures|acquired|acquires) {what}{_PLACE}"
+             rf"(?: from G)?{_PLACE}{_MONEY_TAIL}"),
+        ]
         t += [
-            rf"G {has}(?:granted|grants) E {what}{_MONEY_TAIL}",
-            (rf"E {has}(?:obtained|obtains|received|receives|secured|secures|acquired|acquires) {what}(?: from G)?"
-            rf"{_MONEY_TAIL}"),
             (rf"G and E {has}(?:entered into|signed|executed) an? (?:exclusive )?(?:option|option and license|"
             rf"co-promotion option) {agreement}(?: (?:for|covering) {_PROGRAM})?{_MONEY_TAIL}"),
         ]
     elif kind == OPTION_EXERCISED:
-        t += [
-            (rf"E {has}exercised (?:its|the|an|their) (?:exclusive )?option(?: to (?:license|in-license|"
-            rf"acquire|obtain) (?:{rights_to})?{_PROGRAM}| (?:on|over|for) {_PROGRAM})?(?: from G)?{_MONEY_TAIL}"),
-            (rf"(?:the|E_s) (?:exclusive )?option(?: to (?:license|acquire) (?:{rights_to})?{_PROGRAM}| (?:on|over|for) "
+        tp += [
+            (rf"E {has}exercised (?:its|the|an|their) (?:exclusive )?(?:R )?option(?: to (?:license|in-license|"
+            rf"obtain) (?:{rights_to})?{_PROGRAM}| (?:on|over|for) {_PROGRAM})?{_PLACE}(?: from G)?{_PLACE}"
+            rf"{_MONEY_TAIL}"),
+            (rf"(?:the|E_s) (?:exclusive )?(?:R )?option(?: to (?:license) (?:{rights_to})?{_PROGRAM}| (?:on|over|for) "
             rf"{_PROGRAM})? (?:was|has been) exercised(?: by E)?"),
         ]
     elif kind == CO_DEVELOPMENT:
@@ -442,6 +505,7 @@ def _templates(kind: str, all_ok: bool) -> tuple[re.Pattern[str], ...]:
     if kind in (TERMINATION, RIGHTS_RETURNED):  # a termination and a return are two words for one ending
         t += _endings(allp)
     elif kind == OPTION_LAPSED:
+        # an option to acquire that lapsed leaves nothing held, whatever it covered
         opt = (rf"(?:exclusive )?(?:R )?option(?: to (?:license|acquire|in-license|obtain) (?:{rights_to})?{_PROGRAM}|"
                rf" (?:on|over|for|to) (?:(?:the )?(?:R )?rights (?:to|for|of) )?{_PROGRAM})?")
         t += [
@@ -462,8 +526,18 @@ def _templates(kind: str, all_ok: bool) -> tuple[re.Pattern[str], ...]:
             rf"E (?:today )?(?:announced|announces) (?:the )?(?:completion|closing) of (?:its|the) acquisition of G{price}",
         ]
     # a quote that is only the row's rights ("China rights", "exclusive U.S. rights to NB-7")
-    t.append(rf"(?:the |{allp})?(?:exclusive |sole )?(?:R )?rights(?: (?:to|for|of) {_PROGRAM})?")
-    return tuple(re.compile(_frame(c.replace("G and E", "(?:G and E|E and G)"))) for c in t)
+    tp.append(rf"(?:the |{allp})?(?:exclusive |sole )?(?:R )?rights(?: (?:to|for|of) {_PROGRAM})?")
+    return tuple((re.compile(_frame(c.replace("G and E", "(?:G and E|E and G)"))), place)
+                 for group, place in ((t, False), (tp, True)) for c in group)
+
+
+def _template_text(slots: Slots, descriptors: frozenset[str]) -> str:
+    text = fold_descriptions(slots, descriptors)
+    # "G today announced that it has licensed ..." : the pronoun is the announcing party
+    text = re.sub(r"^((?:D , |on D , )?(G|E|G and E|E and G)(?: today)? (?:announced|announces|said|says)(?: that)?) "
+                  r"(?:it|they)(?= )", lambda m: f"{m.group(1)} {m.group(2)}", text)
+    text = re.sub(r" ,(?= |$)", " ,", text).strip()
+    return re.sub(r"\s+", " ", text)
 
 
 @dataclass(frozen=True)
@@ -475,6 +549,12 @@ class TemplateRead:
 def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[str], as_of: date | None,
                 row_day: date | None, descriptors: frozenset[str]) -> TemplateRead:
     """Whether a clause, already in slots, is one of the templates for ``kind`` and its slots fit the row."""
+    why = date_problem(slots.periods, as_of, row_day)
+    if why:
+        return TemplateRead(False, why)
+    text = _template_text(slots, descriptors)
+    if kind != ACQUISITION and any(rx.match(text) or rx.match(text.replace(" ,", "")) for rx in _retention()):
+        return TemplateRead(True)  # the grantor keeps rights, wherever they are
     for regions in slots.places:
         if regions is None:
             return TemplateRead(False, "names a territory DealScreen cannot read")
@@ -482,17 +562,13 @@ def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[s
             extra = "/".join(sorted(regions - own))
             return TemplateRead(False, f"names {extra}, which the row's own territory ({'/'.join(sorted(own)) or 'unstated'}) "
                                        "does not cover")
-    why = date_problem(slots.periods, as_of, row_day)
-    if why:
-        return TemplateRead(False, why)
-    text = fold_descriptions(slots, descriptors)
-    # "G today announced that it has licensed ..." : the pronoun is the announcing party
-    text = re.sub(r"^((?:D , |on D , )?(G|E|G and E|E and G)(?: today)? (?:announced|announces|said|says)(?: that)?) "
-                  r"(?:it|they)(?= )", lambda m: f"{m.group(1)} {m.group(2)}", text)
-    text = re.sub(r" ,(?= |$)", " ,", text).strip()
-    text = re.sub(r"\s+", " ", text)
-    for rx in _templates(kind, all_ok=bool(own) and buyer <= own):
+    all_ok = bool(own) and buyer <= own
+    placed = "R" in text.split()
+    for rx, needs_place in _templates(kind, all_ok=all_ok):
         if rx.match(text) or rx.match(text.replace(" ,", "")):
+            if needs_place and not all_ok and not placed:
+                return TemplateRead(False, ("grants rights without naming a place, which reads as the whole program; "
+                                            f"the row's own territory is {'/'.join(sorted(own)) or 'unstated'}"))
             return TemplateRead(True)
     if slots.capitalised:
         names = ", ".join(dict.fromkeys(slots.capitalised))

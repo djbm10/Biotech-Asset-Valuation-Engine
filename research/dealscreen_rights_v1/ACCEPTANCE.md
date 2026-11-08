@@ -64,3 +64,11 @@ The word OPEN reads as "pursuable". In fact the tool had no evidence either way.
   event. The decision log refuses the action from an AI-prepared or synthetic reviewer; the record is bound to a hash
   of the row and stops applying when the row changes. No AI output counts as this confirmation, and none was
   recorded for any measurement in `REREVIEW10_RESPONSE.md`.
+- **Added after revision 13, disclosed (not a change to any criterion).** The fixed sentences are the only reader of
+  a rights row's quote; the plain-form reader reads landscape and analyst text only. A quote with text outside plain
+  ASCII (after typographic punctuation is written in ASCII) blocks. A grant, an option or an exercise must name a
+  place unless the row covers the buyer territory. `CONFIRM_RIGHTS_ROW` must state `--reviewer-kind HUMAN`, is
+  refused in a shell run by a known AI agent, and is keyed by the row's content, so a re-import of an unchanged row
+  keeps it. DealScreen cannot verify that a HUMAN record was made by a person. During revision 12 the implementer (an
+  AI) recorded a HUMAN confirmation in a scratch workspace; no committed output used it, and it is disclosed in
+  `REREVIEW11_RESPONSE.md` §0.

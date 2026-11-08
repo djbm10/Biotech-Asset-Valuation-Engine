@@ -83,10 +83,15 @@ def _owner_question(ledger: _Ledger, party: str) -> str:
             else f"Does {party} own this program, or hold it under a license?")
 
 
-#: The fields of a cited rights row that a human confirmation of the row is tied to (cycle R1 revision 12). The
-#: row number, dataset version and wording labels are not: a re-import of the same row keeps its confirmation.
-_CONFIRMED_FIELDS = ("event_id", "deal_id", "type", "grantee", "grantor", "territory", "exclusivity", "date",
-                     "source_date", "status", "source", "quote")
+#: The fields of a cited rights row that a human confirmation of the row is tied to (cycle R1 revisions 12-13). The
+#: event id (which holds the rights file's hash and the row number), the dataset version and wording labels are not:
+#: a re-import of an unchanged row keeps its confirmation, and a row for another program or deal never shares it
+#: (review R1v12 CONFIRM-REIMPORT).
+_CONFIRMED_FIELDS = ("external_id", "deal_id", "related_deal_id", "type", "grantee", "grantor", "territory",
+                     "exclusivity", "date", "source_date", "status", "source", "quote")
+#: The fields that name a row across versions: a confirmation recorded for a row with these values and other content
+#: is "for an earlier version of this row".
+_ROW_KEY_FIELDS = ("external_id", "deal_id", "type")
 
 
 def row_sha256(cite: dict[str, object]) -> str:
@@ -96,13 +101,20 @@ def row_sha256(cite: dict[str, object]) -> str:
     return hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
 
 
+def row_key(cite: dict[str, object]) -> str:
+    """Hash of what names a rights row across versions: its program, deal and type."""
+    body = {k: str(cite.get(k)) for k in _ROW_KEY_FIELDS}
+    return hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()
+
+
 def cite_event(e: RightsEvent) -> dict[str, object]:
     """A rights row as it is cited beside a position."""
     return _cite(e)
 
 
 def _cite(e: RightsEvent) -> dict[str, object]:
-    return {"event_id": e.event_id, "deal_id": e.deal_id, "type": e.event_type, "type_words": e.words,
+    return {"event_id": e.event_id, "external_id": e.external_id, "deal_id": e.deal_id,
+            "related_deal_id": e.related_deal_id, "type": e.event_type, "type_words": e.words,
             "grantee": e.grantee, "grantor": e.grantor, "territory": e.territory_as_written,
             "exclusivity": e.exclusivity, "date": e.event_date_text, "source_date": e.source_date_text,
             "status": e.status, "source_system": e.source_system, "source": e.source_reference,

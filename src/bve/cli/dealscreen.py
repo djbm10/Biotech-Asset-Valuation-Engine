@@ -36,7 +36,7 @@ import yaml
 from bve.dealscreen import VALIDATION_WARNING
 from bve.dealscreen.agent import ClinicalTrialsGovProvider, OfflineEvidenceProvider, Question
 from bve.dealscreen.facts import TargetNormalizer
-from bve.dealscreen.review import Action, DecisionRejected, ReviewerKind
+from bve.dealscreen.review import Action, DecisionRejected, ReviewerKind, agent_shell
 from bve.dealscreen.rights_allow import US_ONLY, is_rights_text
 from bve.dealscreen.rights_gate import accepted_form
 from bve.dealscreen.rights_reader import CONTESTS, RIGHTS_STATUS_WORDS, rights_reading
@@ -132,10 +132,15 @@ def rights_reading_note(value: str, company: str | None = None, field: str = "us
 
 
 def _decide(ws: Workspace, *, action: str, subject: str, new_state: str, reviewer: str, rationale: str,
-            kind: ReviewerKind, field: str = "", question: str = "",
+            kind: ReviewerKind | None, field: str = "", question: str = "",
             assertion: dict[str, str] | None = None,
             normalizer: TargetNormalizer | None = None) -> dict[str, Any]:
     act = Action(action)
+    if act is Action.CONFIRM_RIGHTS_ROW and new_state == "CONFIRMED" and (var := agent_shell()):
+        # review R1v12 CONFIRM-KIND: an AI agent's shell cannot confirm a rights row. This stops only an agent that
+        # runs in a known agent shell; DealScreen cannot verify that a person runs it.
+        raise DecisionRejected(f"this shell is run by an AI agent ({var} is set); a rights row is confirmed only by a "
+                               "human analyst who has read the source")
     subject_id = resolve_subject(ws, act, subject, field)
     detail: dict[str, Any] = {"question": question} if question else {}
     if act is Action.ASSERT_FACT:
@@ -379,8 +384,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--subject", required=True); p.add_argument("--field", default="")
     p.add_argument("--new-state", required=True); p.add_argument("--reviewer", required=True)
     p.add_argument("--rationale", required=True); p.add_argument("--question", default="")
-    p.add_argument("--reviewer-kind", default="HUMAN", choices=[k.value for k in ReviewerKind],
-                   help="HUMAN, or AI_PREPARED for an assistant's unapproved candidate list")
+    p.add_argument("--reviewer-kind", default=None, choices=[k.value for k in ReviewerKind],
+                   help="HUMAN (the default, except for CONFIRM_RIGHTS_ROW, which must state it), or AI_PREPARED "
+                        "for an assistant's unapproved candidate list")
     p = sub.add_parser("assert", help="enter one cited field value for an asset"); ws_arg(p); norm_arg(p)
     p.add_argument("--asset", required=True); p.add_argument("--field", required=True)
     p.add_argument("--value", required=True); p.add_argument("--source-url", required=True)
@@ -464,7 +470,8 @@ def main(argv: list[str] | None = None) -> int:
             print(f"{len(new)} new proposed finding(s); none affect screening until confirmed.")
         elif args.command == "decide":
             rec = _decide(ws, action=args.action, subject=args.subject, new_state=args.new_state,
-                          reviewer=args.reviewer, rationale=args.rationale, kind=ReviewerKind(args.reviewer_kind),
+                          reviewer=args.reviewer, rationale=args.rationale,
+                          kind=ReviewerKind(args.reviewer_kind) if args.reviewer_kind else None,
                           field=args.field, question=args.question)
             print(f"recorded {rec['decision_id']}: {rec['action']} {rec['subject_id']} "
                   f"{rec['old_state']} -> {rec['new_state']}."

@@ -12,8 +12,19 @@
   },
   "U1-3": {
     "programs_with_a_changed_decision_disposition_rank_or_transaction": [
+      "FL-301",
+      "LM-302",
+      "SYSA1801",
+      "Givastomig",
       "Zolbetuximab",
-      "IMAB362"
+      "SHR-A1904",
+      "EO-3021",
+      "IMAB362",
+      "CMG901",
+      "XNW27011",
+      "RC148",
+      "AZD0901",
+      "IBI343"
     ]
   },
   "U1-6": {

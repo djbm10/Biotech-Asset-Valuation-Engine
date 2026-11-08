@@ -10,12 +10,16 @@ and are never written here. A finalist exists only because a record here says so
 
 ``reviewer_kind`` separates a person from the labelled synthetic fixture used by the
 automated demo, so a demo approval can never be presented as a real analyst approval.
+The kind is what the person running DealScreen states: DealScreen cannot verify that a
+record marked HUMAN was made by a person. A rights row confirmation must state the kind
+explicitly, and the CLI refuses it in a shell that a known AI agent runs (``agent_shell``).
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from enum import Enum
@@ -89,7 +93,9 @@ class ReviewState:
     finding_hashes: dict[str, str | None] = field(default_factory=dict)
     #: Latest identity resolution per flag, with who decided it (cycle A2 G2).
     identity_resolutions: dict[str, dict[str, Any]] = field(default_factory=dict)
-    #: Rights rows a human analyst confirmed, by event id, with the row hash and who confirmed (cycle R1 rev. 12).
+    #: Rights rows a human analyst confirmed, by row content hash (``rights_model.row_sha256``), with the event id
+    #: confirmed and who confirmed. Keyed by content so a re-import of an unchanged row keeps the confirmation
+    #: (cycle R1 revisions 12-13, review R1v12 CONFIRM-REIMPORT).
     rights_rows: dict[str, dict[str, Any]] = field(default_factory=dict)
 
     def subject_state(self, action: Action, subject_id: str) -> str:
@@ -106,7 +112,8 @@ class ReviewState:
         if action is Action.RETRACT_FACT:
             return "ACTIVE" if subject_id in self.assertions else "NOT_ACTIVE"
         if action is Action.CONFIRM_RIGHTS_ROW:
-            return "CONFIRMED" if subject_id in self.rights_rows else "UNCONFIRMED"
+            return "CONFIRMED" if any(r.get("event_id") == subject_id for r in self.rights_rows.values()) \
+                else "UNCONFIRMED"
         if action in (Action.APPROVE_FINALIST, Action.WITHDRAW_FINALIST):
             return self.finalists.get(subject_id, {}).get("state", "NOT_A_FINALIST")
         return "SELECTED" if subject_id in self.valuation_selected else "NOT_SELECTED"
@@ -172,10 +179,14 @@ def _apply(state: ReviewState, record: dict[str, Any]) -> None:
     elif action is Action.RETRACT_FACT:
         state.assertions.pop(subject, None)
     elif action is Action.CONFIRM_RIGHTS_ROW:
-        if new == "CONFIRMED" and record["reviewer_kind"] == ReviewerKind.HUMAN.value:
-            state.rights_rows[subject] = {"row_sha256": record["detail"].get("row_sha256"), **_who(record)}
+        digest = record["detail"].get("row_sha256")
+        if new == "CONFIRMED" and record["reviewer_kind"] == ReviewerKind.HUMAN.value and digest:
+            state.rights_rows[digest] = {"row_sha256": digest, "event_id": subject,
+                                         "row_key": record["detail"].get("row_key"), **_who(record)}
         else:  # a withdrawal; a fixture's record is kept in the log but never confirms a row
-            state.rights_rows.pop(subject, None)
+            state.rights_rows.pop(digest or "", None)
+            for key in [k for k, r in state.rights_rows.items() if r.get("event_id") == subject]:
+                state.rights_rows.pop(key)
 
 
 def _who(record: dict[str, Any]) -> dict[str, Any]:
@@ -220,11 +231,16 @@ class DecisionLog:
         new_state: str,
         reviewer_id: str,
         rationale: str,
-        reviewer_kind: ReviewerKind = ReviewerKind.HUMAN,
+        reviewer_kind: ReviewerKind | None = None,
         detail: dict[str, Any] | None = None,
         context: DecisionContext | None = None,
         timestamp: str | None = None,
     ) -> dict[str, Any]:
+        if reviewer_kind is None:
+            if action is Action.CONFIRM_RIGHTS_ROW:  # never by default (review R1v12 CONFIRM-KIND)
+                raise DecisionRejected("a rights row confirmation states its reviewer kind explicitly (HUMAN, for a "
+                                       "human analyst who has read the source)")
+            reviewer_kind = ReviewerKind.HUMAN
         if not reviewer_id.strip():
             raise DecisionRejected("a decision needs a reviewer identifier")
         if not rationale.strip():
@@ -261,7 +277,8 @@ class DecisionLog:
         if context is not None:
             context.check(action, subject_id, self.state, new_state, reviewer_kind, reviewer_id)
             if action is Action.CONFIRM_RIGHTS_ROW:
-                detail = {**(detail or {}), "row_sha256": context.rights_row_hashes[subject_id]}
+                detail = {**(detail or {}), "row_sha256": context.rights_row_hashes[subject_id],
+                          "row_key": context.rights_row_keys.get(subject_id)}
             if action is Action.CONFIRM_FINDING and subject_id in context.finding_hashes:
                 detail = {**(detail or {}), "finding_sha256": context.finding_hashes[subject_id]}
             if action is Action.ASSERT_FACT and context.readable is not None:
@@ -281,7 +298,9 @@ class DecisionLog:
             "reviewer_kind": reviewer_kind.value,
             "action": action.value,
             "subject_id": subject_id,
-            "old_state": self.state.subject_state(action, subject_id),
+            "old_state": (("CONFIRMED" if (detail or {}).get("row_sha256") in self.state.rights_rows
+                           else "UNCONFIRMED") if action is Action.CONFIRM_RIGHTS_ROW
+                          else self.state.subject_state(action, subject_id)),
             "new_state": new_state,
             "rationale": rationale,
             "detail": detail or {},
@@ -348,6 +367,9 @@ class DecisionContext:
     finding_hashes: dict[str, str] = field(default_factory=dict)
     #: rights row event id -> content hash, snapshotted into a CONFIRM_RIGHTS_ROW record (cycle R1 revision 12).
     rights_row_hashes: dict[str, str] = field(default_factory=dict)
+    #: rights row event id -> the hash of its program, deal and type (``rights_model.row_key``), so a confirmation of
+    #: an earlier version of a row can be named.
+    rights_row_keys: dict[str, str] = field(default_factory=dict)
 
     def check(
         self, action: Action, subject_id: str, state: ReviewState, new_state: str = "",
@@ -401,3 +423,15 @@ class DecisionContext:
                 raise DecisionRejected(f"at most {self.max_valuations} assets can be valued")
         if action is Action.DESELECT_FOR_VALUATION and subject_id not in state.valuation_selected:
             raise DecisionRejected("not selected for valuation")
+
+
+#: Environment variables set by AI coding agents in the shells they run. A rights row confirmation is refused when
+#: one is set. This only stops an agent that runs in a known agent shell; it does not prove a person is present.
+AGENT_ENV_VARS = ("CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT", "CODEX_SANDBOX", "CODEX_SANDBOX_NETWORK_DISABLED",
+                  "CURSOR_AGENT", "AIDER_MODEL", "GEMINI_CLI", "DEALSCREEN_AI_AGENT")
+
+
+def agent_shell(environ: Any = None) -> str | None:
+    """The AI-agent environment variable set in this shell, or None."""
+    env = os.environ if environ is None else environ
+    return next((v for v in AGENT_ENV_VARS if env.get(v)), None)

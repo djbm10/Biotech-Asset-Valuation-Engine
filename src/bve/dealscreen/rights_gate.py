@@ -40,7 +40,7 @@ from bve.dealscreen.rights import (
     RightsEvent,
 )
 from bve.dealscreen.rights_allow import is_rights_text, plain_form
-from bve.dealscreen.rights_model import row_sha256
+from bve.dealscreen.rights_model import row_key, row_sha256
 from bve.dealscreen.rights_position import (
     CLEAR_POSITIONS,
     ENCUMBRANCE_POSITIONS,
@@ -281,23 +281,30 @@ def _read_quotes(found: _Findings, position: RightsPosition, company: str | None
                                                         or _WIDER.search(quote)):
             continue  # an availability quote that says nothing about rights adds nothing to the row
         row = f"rights row {e.get('row')} ({e.get('type_words') or e.get('type')})"
-        record = (confirmed or {}).get(str(e.get("event_id")))
-        if record and record.get("row_sha256") == row_sha256(e):
-            # cycle R1 revision 12: a human analyst read the source and recorded that the quote restates the row
+        # cycle R1 revisions 12-13: confirmations are keyed by the row's content, so an unchanged row keeps its
+        # confirmation across re-imports and a changed one loses it (review R1v12 CONFIRM-REIMPORT)
+        record = (confirmed or {}).get(row_sha256(e))
+        if record:
+            kind = "a human analyst" if record.get("reviewer_kind", "HUMAN") == "HUMAN" else record.get("reviewer_kind")
             found.consistent.append(((f"the quote on {row} was confirmed as restating the row by "
-                                      f"{record.get('reviewer_id')} ({record.get('decision_id')}, "
-                                      f"{str(record.get('timestamp'))[:10]}); it is not read again"), []))
+                                      f"{record.get('reviewer_id')}, recorded as {kind} (DealScreen cannot verify "
+                                      f"this; {record.get('decision_id')}, {str(record.get('timestamp'))[:10]}); "
+                                      "it is not read again"), []))
             continue
+        earlier = any(r.get("row_key") == row_key(e) or r.get("event_id") == e.get("event_id")
+                      for r in (confirmed or {}).values())
         # every other cited quote is read, whatever it says (review R1v8 COVER, QW2)
         why = _quote_problem(quote, e, company, as_of, territory, names, vocabulary)
         if why is None:
             continue
-        changed = " (a confirmation was recorded for an earlier version of this row)" if record else ""
+        changed = " (a confirmation was recorded for an earlier version of this row)" if earlier else ""
+        # the question carries no action code or event id: the memo prints it (review R1v12 MEMO-CODE); the
+        # workbook's rights evidence lists the event id to confirm
         found.blocks.append(((f"uncontested: the quote on {row} reads '{quote}', which {why}; DealScreen does not "
                              f"read the quote further{changed}"),
                              (f"What does the quote on {row} ('{quote}') say about rights in the buyer territory, and "
                               "who holds them? If it says only what the row says, a human analyst who has read the "
-                              f"source can record CONFIRM_RIGHTS_ROW for event {e.get('event_id')}."), []))
+                              "source can confirm the row in DealScreen."), []))
 
 
 def _read_names(found: _Findings, position: RightsPosition, company: str | None) -> None:

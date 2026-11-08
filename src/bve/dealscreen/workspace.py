@@ -39,7 +39,7 @@ from bve.dealscreen.mapping import MappingProfile
 from bve.dealscreen.models import AgentFinding, IdentityFlag, ImportResult, LandscapeAsset
 from bve.dealscreen.review import DecisionContext, DecisionLog, finding_hash
 from bve.dealscreen.rights import RightsEvent, RightsImport, RightsProfile, import_rights
-from bve.dealscreen.rights_model import cite_event, row_sha256
+from bve.dealscreen.rights_model import cite_event, row_key, row_sha256
 from bve.dealscreen.screening import ScreeningResult, screen_landscape
 from bve.dealscreen.targets import isoform_base, requested_isoforms
 from bve.dealscreen.valuation_handoff import (
@@ -347,6 +347,7 @@ class Workspace:
                                if f.provider.startswith("ai_proposal:")},
             finding_hashes={f.finding_id: finding_hash(f) for f in findings},
             rights_row_hashes={e.event_id: row_sha256(cite_event(e)) for e in self.rights_events() or []},
+            rights_row_keys={e.event_id: row_key(cite_event(e)) for e in self.rights_events() or []},
             max_finalists=spec.max_finalists,
             max_valuations=spec.max_valuations,
             readable=readable,

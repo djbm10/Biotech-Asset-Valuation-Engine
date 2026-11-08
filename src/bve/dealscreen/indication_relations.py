@@ -85,6 +85,7 @@ _BASKET_HEADS = frozenset({"tumor", "tumors", "tumour", "tumours", "neoplasm", "
                            "neoplastic", "cancer", "cancers", "malignancy", "malignancies", "malignant",
                            "carcinoma", "carcinomas", "disease", "diseases", "disorder", "disorders",
                            "condition", "conditions"})
+_PLURAL_HEADS = frozenset(h for h in _BASKET_HEADS if h.endswith("s"))
 _BASKET_EXTRA = frozenset({"solid", "locally", "stage", "late", "other", "any", "all", "comers", "various",
                            "multiple", "selected", "select", "certain", "i", "ii", "iii", "iv"})
 _QUALIFIER_WORDS = frozenset(w for q in (*EXTENT_QUALIFIERS, *QUALIFIERS) for w in re.split(r"[\s\-]+", q))
@@ -388,15 +389,26 @@ def _record_tokens(name: str) -> list[list[str]]:
     return out
 
 
+_STATE_ROLES = frozenset({"metastatic", "refractory", "resistant"})
+_TUMOUR_HEADS = frozenset({"cancer", "cancers", "tumor", "tumors", "tumour", "tumours", "neoplasm", "neoplasms",
+                           "malignancy"})
+
+
+def _tumour_head(word: str) -> bool:
+    return word in _TUMOUR_HEADS or word.endswith(("carcinoma", "carcinomas", "sarcoma", "sarcomas"))
+
+
 def _role_after(tokens: list[str], at: int) -> bool:
     """Whether the word at ``at`` makes the site before it a role, not the disease site: a role word ("therapy",
     "outlet"), a role word joined across a hyphen ("therapyresistant"), or "<word> type" ("foveolar type";
-    review U1 D1, D6)."""
+    review U1 D1, D6). A state word followed by a tumour head ("Gastric metastatic adenocarcinoma") leaves the site
+    the disease's own; "liver metastatic disease" stays a role (review U1 R6 E7)."""
     after = tokens[at] if at < len(tokens) else None
     if after is None:
         return False
     if after in _ROLE_AFTER or any(after.startswith(r) for r in _ROLE_AFTER if len(r) >= 6):
-        return True
+        state = after in _STATE_ROLES or after.endswith(("refractory", "resistant"))
+        return not (state and at + 1 < len(tokens) and _tumour_head(tokens[at + 1]))
     # "<site> <word> type" is a role ("foveolar type"), but not when the word is a tumour head ("gastric cancer type
     # 2"; review U1 R4 D8)
     return at + 1 < len(tokens) and tokens[at + 1] == "type" and after not in _BASKET_HEADS
@@ -436,7 +448,8 @@ def _before_basket_word(name: str, end: int) -> bool:
     after = re.match(r"[\s\-]+([A-Za-z]+)", name[end:])
     # only a tumour head, "solid" or "comers": a qualifier or population word after "ALL" ("ALL relapsed", "ALL in
     # adults") keeps it the acronym (review U1 R5 N1)
-    return after is not None and after.group(1).casefold() in _BASKET_HEADS | {"solid", "comers"}
+    # and only a plural head: "ALL disease" and "ALL malignancy" are the acronym (review U1 R6 E5)
+    return after is not None and after.group(1).casefold() in _PLURAL_HEADS | {"solid", "comers"}
 
 
 def _acronym(token: str) -> bool:
@@ -457,6 +470,8 @@ class Lookup:
     screen_reads: bool = True
     #: Notes on how a reading was chosen (exact label, population dropped).
     notes: tuple[str, ...] = ()
+    #: Names joined by "or" that the authority does not read on their own (review U1 R6 E1).
+    unread: tuple[str, ...] = ()
 
 
 def _reading_steps(qualifier: str) -> list[str]:
@@ -501,10 +516,45 @@ def _screen_readings(name: str) -> tuple[list[str], list[str]]:
     return list(dict.fromkeys(codes)), list(dict.fromkeys(steps))
 
 
+#: The joins of a list of names: "A or B", "A, B or C", "A and/or B".
+_OR_JOIN = re.compile(r"\s*,\s*(?:(?:and/)?or\s+)?|\s+(?:and/)?or\s+", re.IGNORECASE)
+
+
+def _conjuncts(name: str) -> Lookup | None:
+    """Each name joined by "or", read on its own. The screen's coordination reading keeps one reading of "A or B"
+    when A is a whole disease name ("Ulcerative colitis or Crohn's disease" -> Crohn Disease), so U1 would class the
+    record by half of it (review U1 R6 E1). A bare site ("Pancreatic, gastric or esophageal adenocarcinoma") is read
+    with the last name's head. None when the name is not a list of disease names (a qualifier or a generic word,
+    which the screen's own reading handles)."""
+    pieces = [p.strip() for p in _OR_JOIN.split(name) if p.strip()]
+    qualifiers = {*EXTENT_QUALIFIERS, *QUALIFIERS}
+    if len(pieces) < 2 or any(p.casefold() in qualifiers | GENERIC_REMAINDERS for p in pieces):
+        return None
+    head = pieces[-1].split()
+    codes: list[str] = []
+    steps = [f"its 'or' list split into {len(pieces)} names"]
+    unread = []
+    for piece in pieces:
+        found = _lookup(piece).codes
+        if not found:
+            for k in range(len(head) - 1, 0, -1):
+                candidate = f"{piece} {' '.join(head[-k:])}"
+                if found := _lookup(candidate).codes:
+                    steps.append(f"'{piece}' read as '{candidate}'")
+                    break
+        if found:
+            codes += found
+        else:
+            unread.append(piece)
+    return Lookup(tuple(dict.fromkeys(codes)), tuple(steps), screen_reads=False, unread=tuple(unread))
+
+
 def _raw_lookup(name: str) -> Lookup:
     if codes := _index(name):
         return Lookup(tuple(codes))
     codes, steps = _screen_readings(name)
+    if codes and "coordination expanded" in steps and (each := _conjuncts(name)) is not None:
+        return each
     if codes:
         return Lookup(tuple(codes), tuple(steps))
     cleaned, steps = name, []
@@ -563,7 +613,7 @@ def _lookup(name: str) -> Lookup:
         edition = re.search(r"AJCC v\d+", label(code))
         if edition and edition.group(0).casefold() not in name.casefold():
             notes.append(f"'{edition.group(0)}' is part of NCIt's label; the record states no edition")
-    return Lookup(tuple(dict.fromkeys(codes)), found.steps, found.screen_reads, tuple(notes))
+    return Lookup(tuple(dict.fromkeys(codes)), found.steps, found.screen_reads, tuple(notes), found.unread)
 
 
 def _parents(code: str) -> list[str]:
@@ -628,12 +678,15 @@ class NameReading:
     #: Whether the screen applies the clean-up steps (False: U1 alone does).
     screen_reads: bool = True
     notes: tuple[str, ...] = ()
+    #: Names in an "or" list the authority does not read on their own (review U1 R6 E1).
+    unread: tuple[str, ...] = ()
 
     def to_dict(self) -> dict:
-        return {"name": self.name, "class": self.category,
-                "ncit": [{"label": lab, "relation": rel} for lab, rel in self.concepts],
-                "steps": list(self.steps), "screen_applies_steps": self.screen_reads, "notes": list(self.notes),
-                "site_words": list(self.sites)}
+        out = {"name": self.name, "class": self.category,
+               "ncit": [{"label": lab, "relation": rel} for lab, rel in self.concepts],
+               "steps": list(self.steps), "screen_applies_steps": self.screen_reads, "notes": list(self.notes),
+               "site_words": list(self.sites)}
+        return out | ({"unread_parts": list(self.unread)} if self.unread else {})
 
 
 def _shown_sites(hits: list[str], phrases: frozenset[str]) -> tuple[str, ...]:
@@ -660,6 +713,10 @@ def classify_name(name: str, requested: frozenset[str]) -> NameReading:
         return NameReading(name, NAMES_REQUESTED_SITE if sites else UNREADABLE, sites=sites)
     rel = {c: relation(c, requested) for c in found.codes}
     concepts = tuple((label(c), r) for c, r in rel.items())
+    if found.unread:
+        # part of an "or" list is not read: never a class from the other part alone (review U1 R6 E1)
+        return NameReading(name, NAMES_REQUESTED_SITE if sites else UNREADABLE, concepts, found.steps, sites,
+                           found.screen_reads, found.notes, found.unread)
     kinds = set(rel.values())
     if kinds == {BROADER}:
         category = BROADER_THAN_REQUESTED if len(rel) == 1 else AMBIGUOUS_NAME_ALL_BROADER
