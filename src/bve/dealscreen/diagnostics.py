@@ -71,8 +71,11 @@ _PLACEHOLDER_WORDS = frozenset({
     "4", "5"})
 #: A required symbol after one of these, or followed by "negative", is not the target ("not X", "X-negative",
 #: "formerly X"; review U1 D5).
-_NEGATED = re.compile(r"\b(?:not|non|no|formerly|former|previously|ex|lacking|without|absent)\b[\s\-]*$",
+_NEGATED = re.compile(r"\b(?:not|non|no|formerly|former|previously|ex|lacking|without)\b[\s\-]*$",
                       re.IGNORECASE)
+#: "absent" before a symbol negates it only at the start of the part: in "HER2 absent CLDN18.2 positive" it closes
+#: the other target's phrase (review U1 R7 F4).
+_ABSENT_BEFORE = re.compile(r"^\s*absent[\s\-]*$", re.IGNORECASE)
 #: Explicit absence written after the symbol (review U1 N7). Expression levels ("low", "high") and engineering
 #: words ("null-Fc", "loss-of-function") name the target, not its absence (review U1 D2); "-independent" does not
 #: (D4).
@@ -177,8 +180,9 @@ def _indication_sentence(reading: ir.NameReading) -> str:
         ir.READS_AS_REQUESTED: f"{name} reads as {concepts} (NCIt){how}, a requested indication or a subtype",
         ir.NAMES_REQUESTED_SITE: f"{name} names {' and '.join(_minimal(reading.sites))}, a requested site, but is not "
                                  "a name the NCIt authority reads",
-        ir.AMBIGUOUS_NAME: f"{name} matches several NCIt concepts{how}: "
-                           + "; ".join(dict.fromkeys(f"{lab} ({rel})" for lab, rel in reading.concepts)),
+        ir.AMBIGUOUS_NAME: (f"{name} is not a name the NCIt authority can read" if reading.unread  # review U1 R7 F3
+                            else f"{name} matches several NCIt concepts{how}: "
+                            + "; ".join(dict.fromkeys(f"{lab} ({rel})" for lab, rel in reading.concepts))),
         ir.AMBIGUOUS_NAME_ALL_BROADER: f"{name} matches several NCIt concepts{how}, all broader than requested: "
                                        f"{concepts}",
         ir.OVERLAPS_REQUESTED: f"{name} reads as {concepts} (NCIt){how}, which is neither broader nor narrower than "
@@ -210,14 +214,14 @@ _INDICATION_SUMMARY = {
     ir.REQUEST_NOT_ONE_CONCEPT: "the buyer's requested indication is not one NCIt concept",
     ir.READS_AS_REQUESTED: "a name that reads as requested only after a clean-up the gate does not apply",
     ir.NAMES_REQUESTED_SITE: "names a requested site in a name NCIt cannot read",
-    ir.AMBIGUOUS_NAME: "a name with several NCIt readings",
+    ir.AMBIGUOUS_NAME: "a name with several NCIt readings, or an 'or' list read only in part",
     ir.OVERLAPS_REQUESTED: "a disease that shares subtypes with the request",
     ir.AMBIGUOUS_NAME_ALL_BROADER: "a name whose NCIt readings are all broader than requested",
     ir.BROADER_THAN_REQUESTED: "a disease broader than requested",
     ir.UNDER_REQUESTED_PARENT: "a subtype of a broader parent of the request, naming a requested site",
     ir.BASKET: "a basket naming no disease or site",
     ir.DIFFERENT_DISEASE: "a disease neither requested nor a subtype of one",
-    ir.UNREADABLE: "no name the NCIt authority reads",
+    ir.UNREADABLE: "no name the NCIt authority reads as a whole",
     ir.NO_RECORD: "no indication on record",
 }
 
@@ -339,7 +343,8 @@ def _match_required(part: str, patterns: list[tuple[str, re.Pattern[str], str | 
     part = _DASHES.sub("-", part)
     for display, pattern, wanted in patterns:
         for m in pattern.finditer(part):
-            if _NEGATED.search(part[:m.start()]) or _NEGATED_AFTER.match(part[m.end():]):
+            if (_NEGATED.search(part[:m.start()]) or _ABSENT_BEFORE.match(part[:m.start()])
+                    or _NEGATED_AFTER.match(part[m.end():])):
                 other = other or ("negated", m.group(0).strip())
                 continue
             iso = m.groupdict().get("iso") or m.groupdict().get("iso2")
@@ -376,13 +381,17 @@ def _not_text(negated: dict[str, str]) -> str:
     return "; ".join(f"{_quoted([p])} states it is not {symbol}" for p, symbol in negated.items())
 
 
+def _symbols(part: str) -> set[str]:
+    """Target-like symbols in a part: mixed case with a digit, or in capitals ("KLX9", "HER2", "PD-L1")."""
+    return {w for w in re.findall(r"[A-Za-z0-9][\w.\-]*[\w]|[A-Za-z0-9]", part)
+            if (any(c.isupper() for c in w) and any(c.isdigit() for c in w)) or (w.isupper() and len(w) > 1)}
+
+
 def _both_states(part: str, values: list[str]) -> bool:
     """The part itself states both negative and positive, or the second state follows it directly in its cell.
     Another target's "negative or positive" elsewhere in the cell does not count (review U1 R5 N2)."""
     part = _DASHES.sub("-", " ".join(part.split()))
-    symbols = [w for w in re.findall(r"[A-Za-z0-9][\w.]*", part)
-               if (any(c.isupper() for c in w) and any(c.isdigit() for c in w)) or (w.isupper() and len(w) > 1)]
-    if len(set(symbols)) > 1:  # "X negative KLX9 neg/pos": the second state is the other symbol's (review U1 R6 E2)
+    if len(_symbols(part)) > 1:  # "X negative KLX9 neg/pos": the second state is the other symbol's (review U1 R6 E2)
         return False
     if _BOTH_STATES.search(part):
         return True
@@ -460,8 +469,11 @@ def target_diagnostic(values: list[str], conflicting: bool, targets: list[Any], 
             record = f"{record[:-1]} ({'; '.join(notes)})."
         return _result(SOURCE_NAMES_OTHER_TARGETS, values, record, "names other targets only", fact, "target")
     if negated:
-        return _result(SOURCE_STATES_NOT_REQUIRED_TARGET, values,
-                       f"{_not_text(negated)}; the record names no other target the authority reads.",
+        # a negated part that names a second symbol: say so, never "no other target" (review U1 R7 F5)
+        crowded = [p for p in negated if len(_symbols(_DASHES.sub("-", p))) > 1]
+        tail = (f"; {_quoted(crowded)} also names another target, which DealScreen does not read apart from it"
+                if crowded else "; the record names no other target the authority reads")
+        return _result(SOURCE_STATES_NOT_REQUIRED_TARGET, values, f"{_not_text(negated)}{tail}.",
                        "states it is not the required target", fact, "target")
     what = ("names no target" + (f" ({_quoted(placeholders)} is a placeholder)" if placeholders else "")
             if not unread else "names no target the authority reads")

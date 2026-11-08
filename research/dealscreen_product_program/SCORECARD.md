@@ -131,6 +131,15 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 14 (AI-SIMULATED; 2026-11-08):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | A "retains rights" sentence counts only for the program's company and only where its places include the buyer territory; multi-word dateline cities must be listed; signing sentences need a place; rival acquirers are grouped as succession is; a subsidiary clause is kept unless the parent is the company; payment sentences pass; the agent-shell refusal is in `DecisionLog.record` for every caller, and a withdrawal removes every version of a row's confirmation | 1,803 tests; round-13 probes 27 → 11 of 41 and 11 → 2 of 13 top tier (the rest controls, clean datelines or listed judgement rows); end-to-end ws_n 7 → 0 (implementer-measured); CLDN18.2 outputs byte-identical; read directly, 15 of 17 real quotes block before confirmation; 8/6/1 vs general Claude 14/1/0 | Not reviewed; usefulness depends on analyst confirmations; DealScreen cannot verify that a HUMAN record was made by a person |
+| 5 | Resolving UNKNOWN decisions (U1 revision 8) | The record's own "or" list is read on every path; modifier and stage pieces are never looked up alone; a list naming the request is never unreadable; "absent" after another target no longer negates the required one | CLDN18.2 38/38, held-out 104/104, 0/62 and 0/312 science changes; one CLDN18.2 sentence now names both requested readings | U1-7 open (revision 8 not reviewed) |
+
+Gates H, B and I are unchanged.
+
 **After cycle R1 revision 13 (AI-SIMULATED; 2026-11-08):**
 
 | # | Dimension | Change | Evidence | Status |

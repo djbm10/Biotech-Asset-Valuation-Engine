@@ -121,8 +121,9 @@ _ADVISER = re.compile(rf"^\s*(?P<n>{_CAPS})\s+(?:(?:advised|is\s+advising)\s+{_K
 _APPOSITIVE = re.compile(rf"({_K})\s*,\s*(?:a|an)\s+(?:leading\s+)?(?:(?:global|clinical-stage|commercial-stage|"
                          r"late-stage|privately-held|private|publicly-traded|biopharmaceutical|biotechnology|"
                          r"pharmaceutical|biotech)\s+){1,3}company\b(?:\s*,)?")
-#: '<known>, a wholly owned subsidiary of <known>' -> the first.
-_SUBSIDIARY = re.compile(rf"({_K})\s*,?\s*(?:a|an|the)\s+(?:wholly[\s\-]owned\s+)?(?:subsidiary|affiliate)\s+of\s+{_K}"
+#: '<known>, a wholly owned subsidiary of <known>' -> the first, only when the parent is the program's company
+#: (review R1v13 SUBSID): a licensee or other party that controls the licensor controls its rights.
+_SUBSIDIARY = re.compile(rf"({_K})\s*,?\s*(?:a|an|the)\s+(?:wholly[\s\-]owned\s+)?(?:subsidiary|affiliate)\s+of\s+({_K})"
                          r"(?:\s*,)?")
 #: "..., Biotech Wire has learned" at the end of a clause.
 _BYLINE = re.compile(rf",\s*(?P<n>{_CAPS})\s+(?:has|have)\s+learned\s*\.?\s*$")
@@ -208,9 +209,37 @@ def _strip_dateline(text: str) -> str:
     places = m.group("places") or m.group("places2") or ""
     for group in re.split(r"[ \t]+and[ \t]+", places):
         city, *regions = [x.strip() for x in group.split(",")]
-        if not _name_ok(city) or any(r.casefold() not in _DATELINE_REGIONS for r in regions):
+        if not _city_ok(city) or not all(_region_ok(r) for r in regions):
             return text
     return text[m.end():]
+
+
+#: Dateline cities of more than one word. A city of one word may be any name; a longer one must be on this list, so
+#: a headline ("TESSALY BUYS NERIDA") is never removed as a city (review R1v13 HEADLINE3). An unlisted city leaves
+#: the dateline in the text, where its words block the quote: a usefulness cost, never a pass.
+_MULTI_WORD_CITIES = frozenset(" ".join(c.casefold().split()) for c in (
+    "South San Francisco", "San Francisco", "San Diego", "San Mateo", "San Carlos", "San Jose", "San Rafael",
+    "Santa Clara", "Santa Monica", "Santa Barbara", "Palo Alto", "Menlo Park", "Redwood City", "Foster City",
+    "Mountain View", "La Jolla", "Los Angeles", "Newport Beach", "Thousand Oaks", "Emeryville", "New York",
+    "New Haven", "New Brunswick", "East Hanover", "Basking Ridge", "Jersey City", "Short Hills", "Fort Lee",
+    "King of Prussia", "West Chester", "Blue Bell", "Plymouth Meeting", "Spring House", "Research Triangle Park",
+    "Chapel Hill", "Salt Lake City", "St. Louis", "Saint Louis", "Ann Arbor", "Kansas City", "Lake Forest",
+    "North Chicago", "Deerfield", "Silver Spring", "College Park", "White Plains", "Hong Kong", "Tel Aviv",
+    "Abu Dhabi", "New Delhi", "Mexico City", "Sao Paulo", "Kuala Lumpur", "Rio de Janeiro", "Frankfurt am Main",
+    "The Hague", "Saint-Prex", "Bad Homburg"))
+
+
+def _city_ok(city: str) -> bool:
+    words = city.split()
+    if not words or not _name_ok(city):
+        return False
+    return len(words) == 1 or " ".join(w.casefold() for w in words) in _MULTI_WORD_CITIES
+
+
+def _region_ok(region: str) -> bool:
+    """A region part of a dateline: a listed state, province or country, with "Province" allowed after it."""
+    low = " ".join(region.casefold().split())
+    return low in _DATELINE_REGIONS or (low.endswith(" province") and low[: -len(" province")] in _DATELINE_REGIONS)
 
 
 def _sub_named(rx: re.Pattern[str], text: str, keep: str = "") -> str:
@@ -230,11 +259,12 @@ def _prepare_text(text: str) -> str:
     return ORDINARY_OPTION.sub(" ", _TREATMENT_OPTION.sub(" ", text))
 
 
-def _strip_known(masked: str) -> str:
-    """Remove speaker attributions, advisers, bylines and descriptions anchored to a known party."""
+def _strip_known(masked: str, owner_mark: str | None = None) -> str:
+    """Remove speaker attributions, advisers, bylines and descriptions anchored to a known party. ``owner_mark`` is
+    the marker of the program's company."""
     masked = _sub_named(_ADVISER, masked)
     masked = _sub_named(_ATTRIBUTION, masked)
-    masked = _SUBSIDIARY.sub(r"\1", masked)
+    masked = _SUBSIDIARY.sub(lambda m: m.group(1) if owner_mark and m.group(2) == owner_mark else m.group(0), masked)
     masked = _APPOSITIVE.sub(r"\1", masked)
     return _sub_named(_BYLINE, masked)
 
@@ -270,16 +300,23 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
     text = text.translate(_TYPOGRAPHY)
     if why := _unreadable(text, parties + [n for n in (names or []) if n]):
         return why
+    if "?" in text:  # review R1v13 PUNCT: a question states nothing
+        at = text.index("?")
+        return (f"asks a question ('{text[max(0, at - 50): at + 1].strip()}'), so it does not state who holds "
+                "rights")
     text = _prepare_text(text)
     if why := _variants(_prepare(text), parties):
         return why
-    named = _roles(e, company) + [(n, PROGRAM) for n in (names or []) if n]
+    roles = _roles(e, company)
+    named = roles + [(n, PROGRAM) for n in (names or []) if n]
+    owner_mark = next((m for n, m in roles if company and n == company), None)
+    grantor_owns = bool(company) and _one_entity(company, str(e.get("grantor") or ""))
     for clause in _clauses(text) or [text]:
-        masked = _strip_known(_mask(_prepare(clause), named)).strip(" ,.")
+        masked = _strip_known(_mask(_prepare(clause), named), owner_mark).strip(" ,.")
         if not masked:
             continue
         slots = to_slots(masked, vocabulary)
-        read = read_clause(slots, kind, own, territory, as_of, _row_day(e), vocabulary)
+        read = read_clause(slots, kind, own, territory, as_of, _row_day(e), vocabulary, grantor_owns=grantor_owns)
         if not read.ok:
             whole = clause.strip(" .;") == text.strip(" .;")
             return read.why if whole else f"has the clause '{clause.strip()}', which {read.why}"

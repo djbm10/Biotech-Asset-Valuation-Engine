@@ -72,3 +72,10 @@ The word OPEN reads as "pursuable". In fact the tool had no evidence either way.
   keeps it. DealScreen cannot verify that a HUMAN record was made by a person. During revision 12 the implementer (an
   AI) recorded a HUMAN confirmation in a scratch workspace; no committed output used it, and it is disclosed in
   `REREVIEW11_RESPONSE.md` §0.
+- **Added after revision 14, disclosed (not a change to any criterion).** A "retains rights" sentence counts only
+  when the row's grantor is the program's company and the places it names include the buyer territory; a partial,
+  future or unplaced retention blocks. A dateline city of more than one word must be a listed city. Signing sentences
+  need a place unless the row covers the buyer territory. `DecisionLog.record` refuses a CONFIRMED rights row
+  confirmation in a shell where a known AI agent's variable is set (even to an empty string), for every caller; a
+  withdrawal removes every version of the row's confirmation. DealScreen still cannot verify that a HUMAN record was
+  made by a person.

@@ -232,7 +232,8 @@ registry-sponsor name match. Returned rights were invisible.
 | 10 (`REREVIEW9.md`) | revision 10 | 8 definite High: lower-case third parties and grant words on endings passed (LOWER); names placed by shape or neighbour (PLACE); a known name's corporate words swallowed "U.S." (MASK); wider reach and later endings in unlisted words (WIDER3, HEDGE3); a future option exercise was dropped (FUT3); rows beside a statement, return or lapse were never read (UNCITED); party names without a company word (PN4). Medium: an affiliate or the company's own purchase read as the owner (OWNER-KEY). Usefulness: most real quotes would block when read directly; a "shares" class-order defect | 0 in the CLDN18.2 output |
 | 11 (`REREVIEW10.md`) | revision 11 | 13 definite High: the word lists held words that carry a holder, reach or condition ("has", "own", "all", "after", "not" on lapses, sale words); "may" read as a month; a notice date satisfied the dated-ending rule; dates without a four-digit year were never compared; "Holdings"/"Group" read as the known party; code-shaped names placed; exchange notes and title-case headlines deleted unread; landscape words (a partner, "American") became allowed. Medium: affiliates as owner, two acquirers, pending or minority acquisitions. Low: two labels | 0 in the CLDN18.2 output |
 | 12 (`REREVIEW11.md`) | revision 12 | 6 High: a clause the plain-form reader accepted skipped the templates, so "it", "we", "the company" and "<company> Holdings/International/Global" read as the company (PF-PRONOUN, SUFFIX2); Chinese and full-width text was invisible (NONLATIN); a headline could pass as a dateline (HEADLINE2); "an option to acquire NB-7" read as the row's option (ACQ-OPT); condition and holder words from a field folded into a description (VOCAB2). 5 Medium (UNPLACED, DEAL-KIND, OWNER-THE, STRIP-CAPS, CONFIRM-KIND: an AI could clear a block by omitting a flag, and the implementer's own demo did), 2 Low. None in the CLDN18.2 output; end to end, 7 held-out programs in tier 1 (ws_m) | fixed in revision 13 (`REREVIEW11_RESPONSE.md`); 90 more held-out tests |
-| 13 | revision 13 | not yet reviewed | |
+| 13 (`REREVIEW12.md`) | revision 13 | 10 definite: 3 High (the new retention sentence passed for any grantor and any place, so a sublicensing licensee "retaining U.S. rights" or the company "retaining rights outside the U.S." gave tier 1 (RET-GRANTOR, RET-PLACE); a headline with an unlisted verb passed as a dateline city (HEADLINE3)), 5 Medium (signing sentences with a scope needed no place; "X" and "The X" bought by two acquirers were not rivals; a subsidiary clause hid the licensee's control; the agent-shell refusal was CLI-only and an empty variable passed; a withdrawal after a changed row removed nothing), 2 Low. None in the CLDN18.2 output; end to end, 7 held-out programs in tier 1 (ws_n) | fixed in revision 14 (`REREVIEW12_RESPONSE.md`); 49 more held-out tests |
+| 14 | revision 14 | not yet reviewed | |
 
 **Measured result (CLDN18.2, against the frozen reference).**
 - False "unobstructed" (third-party U.S. rights shown OPEN or in a top tier): 4 definite plus zanidatamab at
@@ -461,6 +462,28 @@ review caught them. Revision 13 makes the kind explicit and refuses known agent 
 plainly that DealScreen cannot verify a person. The plain-form shortcut was a second reader left beside the templates
 for convenience; one reader is easier to reason about.
 
+**Revision 14 (2026-11-08).** Answers `REREVIEW12.md`. A retention ("<company> retains rights …") counts only when the
+row's grantor is the program's company and the places it names include the buyer territory; partial, future and
+unplaced retentions block. A dateline city of more than one word must be a listed city. Signing sentences need a
+place unless the row covers the buyer territory. Rival acquirers are grouped as succession is. A subsidiary clause is
+removed only when the parent is the program's company. A question mark blocks. "Worldwide rights, excluding X" is one
+place. Payment and milestone sentences between the row's parties pass. `DecisionLog.record` itself refuses a rights
+row confirmation in a known AI agent's shell (also with the variable set but empty), and a withdrawal removes every
+version of the row's confirmation.
+
+Measured by the implementer (`REREVIEW12_RESPONSE.md`):
+- DealScreen tests 1,726 → 1,803 (with U1 revision 8).
+- REREVIEW12's probes: p13 27 → 11 of 41 and p13b 11 → 2 of 13 in a top tier, the rest controls, clean datelines or
+  the judgement rows it lists; end-to-end ws_n 7 → 0 top-tier programs; earlier workspaces unchanged.
+- CLDN18.2: transaction CSV and memo byte-identical to revision 13; 0 of 62 science fields changed. Cross-version
+  0 of 312; equivalence byte-identical.
+- Usefulness: REREVIEW12's 8 clean sentences 3 → 6 pass; REREVIEW10's 43 clean cases 6 → 7; REREVIEW11's 24
+  sentences 15 → 16; real quotes read directly still 15 of 17 block.
+
+**Self-criticism (revision 14).** Revision 13 added the retention sentence to recover usefulness and skipped its place
+check with an argument ("whatever place it names stays with the grantor") that ignored what the sentence implies about
+the places it does not name. Every new sentence should get the same checks as the others before it is accepted.
+
 ## Cycle U1: a concrete next action for every tool UNKNOWN (2026-10-30 to 2026-11-01)
 
 Acceptance criteria frozen before code (`research/dealscreen_unknown_actions_v1/ACCEPTANCE.md`, committed 1436d95).
@@ -477,13 +500,14 @@ requirement; a diagnostic never changes a gate, disposition or rank.
 | 4 (`REVIEW4.md`) | revision 4 | U1-1 to U1-6 met, U1-7 not: 2 medium (an all-caps qualifier made an "ALL" record a basket, a regression; stage concepts of neuroendocrine, small-cell and sarcoma lineages kept the "under a broader parent" class), 7 lower | revision 5 (`REVIEW4_RESPONSE.md`) |
 | 5 (`REVIEW5.md`) | revision 5 | U1-1 to U1-6 met, U1-7 not: 2 medium regressions ("ALL" before a qualifier or population word called a basket; another target's "negative or positive" cancelled the required target's negation), 1 low | revision 6 (`REVIEW5_RESPONSE.md`) |
 | 6 (`REVIEW6.md`) | revision 6 | U1-1 to U1-6 met, U1-7 not: 1 high (a two-disease "or" name was classed by the screen's reading of one half, so a record naming the requested indication was called a different disease), 1 medium (another target's "positive" cancelled a negation), 5 low (state joins, Unicode dashes, "ALL disease" as a basket, "absent", role words dropping a site) | revision 7 (`REVIEW6_RESPONSE.md`) |
-| 7 | revision 7 | not yet reviewed | |
+| 7 (`REVIEW7.md`) | revision 7 | U1-1 to U1-6 met, U1-7 not: 1 high (the "or" split ran only on the screen's own coordination reading, so names cleaned up by U1 or starting with a qualifier pair were still classed by one half), 3 medium (a stage piece looked up alone brought other organs' stage concepts; a partly read list naming the request was UNREADABLE; "absent" after another target negated the required one), 2 low | revision 8 (`REVIEW7_RESPONSE.md`) |
+| 8 | revision 8 | not yet reviewed | |
 
 **Measured result (revision 3, implementer, AI-simulated).** CLDN18.2: 38 of 38 open gates carry a diagnostic
 (baseline 0). Held-out FcRn v1, FcRn v2, C5 and synthetic: 104 of 104. Science and transaction fields: 0 of 62 and
 0 of 312 programs changed; cycle-4 equivalence byte-identical on 4 of 4. No reference-IN program has a gastric or
 junction name called a different disease; SOT102 (reference IN) still points away, because its record names only
-pancreatic cancer. DealScreen tests 876 → 1,052 (revision 4: 1,099; CLDN18.2 outputs identical to revision 3; revision 5: 1,327 with R1 revision 10, CLDN18.2 outputs identical to revision 4; revision 6: 1,436 with R1 revision 11, CLDN18.2 actions identical to revision 5; 1,575 with R1 revision 12, CLDN18.2 actions identical; revision 7: 1,726 with R1 revision 13, CLDN18.2 actions identical).
+pancreatic cancer. DealScreen tests 876 → 1,052 (revision 4: 1,099; CLDN18.2 outputs identical to revision 3; revision 5: 1,327 with R1 revision 10, CLDN18.2 outputs identical to revision 4; revision 6: 1,436 with R1 revision 11, CLDN18.2 actions identical to revision 5; 1,575 with R1 revision 12, CLDN18.2 actions identical; revision 7: 1,726 with R1 revision 13, CLDN18.2 actions identical; revision 8: 1,803 with R1 revision 14, one CLDN18.2 action sentence names both requested readings).
 
 **Self-criticism (U1).** Revision 2 fixed the reviewed inputs and broke two common ones (spelled-out junction names,
 NCIt stage concepts), which a sweep over CLDN18.2's own names would have caught. A describing layer still misleads

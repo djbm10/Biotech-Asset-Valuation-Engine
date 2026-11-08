@@ -518,24 +518,83 @@ def _screen_readings(name: str) -> tuple[list[str], list[str]]:
 
 #: The joins of a list of names: "A or B", "A, B or C", "A and/or B".
 _OR_JOIN = re.compile(r"\s*,\s*(?:(?:and/)?or\s+)?|\s+(?:and/)?or\s+", re.IGNORECASE)
+_HAS_OR = re.compile(r"(?<![\w/])(?:and/)?or(?![\w/])", re.IGNORECASE)
+#: Words that modify a disease name and name none: stages, grades, lines, extent, state and population words
+#: (review U1 R7 F1, F2). A piece made only of these is never looked up on its own.
+_MODIFIER_WORDS = (_BASKET_EXTRA | _QUALIFIER_WORDS | _POPULATION | _LABEL_POPULATION | _FUNCTION
+                   | GENERIC_REMAINDERS | frozenset({
+                       "grade", "grades", "stage", "stages", "type", "line", "lines", "phase", "monotherapy",
+                       "combination", "recurrent", "relapsed", "refractory", "resistant", "persistent", "early",
+                       "advanced", "moderate", "moderately", "severe", "severely", "mild", "mildly", "active",
+                       "localized", "localised", "unresectable", "metastatic", "newly", "diagnosed", "previously",
+                       "treated", "untreated", "high", "low", "risk", "intermediate", "chronic", "acute"}))
+_STAGE_TOKEN = re.compile(r"^(?:[0-4][a-c]?|i{1,3}[a-c]?|iv[a-c]?|[1-4]l|\d+(?:st|nd|rd|th)?)$")
+#: A biomarker or a state written as a piece ("HER2+", "PD-L1 positive"): set aside, not a disease name.
+_MARKER_PIECE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.\-]*[+\-−]$|^[A-Z0-9][\w.\-]*\s+(?:positive|negative|high|low)$")
+
+
+def _modifier_only(piece: str) -> bool:
+    """Only modifier words; an acronym in capitals ("ALL") is a name, a Roman stage ("IV") is not."""
+    words = [w for w in re.split(r"[\s\-/]+", piece) if w]
+    return bool(words) and all(_modifier_word(w) for w in words)
+
+
+def _modifier_word(word: str) -> bool:
+    return bool(_STAGE_TOKEN.match(word.casefold())) or word.casefold() == "r" or (
+        word.casefold() in _MODIFIER_WORDS and not (word.isupper() and len(word) > 1))
+
+
+def _state_removed(piece: str) -> str:
+    """The piece without leading state and extent words ("Relapsed/refractory adult ALL" -> "adult ALL"); a
+    population word stays, it is part of the disease name."""
+    words = piece.split()
+    while len(words) > 1 and all(_modifier_word(w) and w.casefold() not in _POPULATION | _LABEL_POPULATION
+                                 for w in re.split(r"[\-/]+", words[0]) if w):
+        words = words[1:]
+    return " ".join(words)
+
+
+def _list_pieces(name: str) -> tuple[list[str], list[str]] | None:
+    """The record's own "or" list as names, and the steps that made it. A modifier piece first in the list belongs to
+    the name after it ("Locally advanced or metastatic X", "Stage III or IV X" are one name); a modifier or a
+    biomarker set apart by commas later in the list is set aside. A parenthesised list is part of the list ("IBD
+    (UC or CD)"). None when fewer than two names remain."""
+    if not _HAS_OR.search(name):
+        return None
+    text = re.sub(r"\(([^()]*)\)", lambda m: f", {m.group(1)}" if _HAS_OR.search(m.group(1)) else m.group(0), name)
+    raw = [p.strip(" ,;") for p in _OR_JOIN.split(text) if p.strip(" ,;")]
+    pieces: list[str] = []
+    steps: list[str] = []
+    carry = ""
+    for i, piece in enumerate(raw):
+        if _modifier_only(piece) or _MARKER_PIECE.match(piece):
+            if not pieces and i + 1 < len(raw):
+                carry = f"{carry}{piece} or "
+            else:
+                steps.append(f"'{piece}' set aside as a modifier, not a name")
+            continue
+        pieces.append(carry + piece)
+        carry = ""
+    if len(pieces) < 2:
+        return None
+    return pieces, [f"its 'or' list split into {len(pieces)} names", *steps]
 
 
 def _conjuncts(name: str) -> Lookup | None:
-    """Each name joined by "or", read on its own. The screen's coordination reading keeps one reading of "A or B"
-    when A is a whole disease name ("Ulcerative colitis or Crohn's disease" -> Crohn Disease), so U1 would class the
-    record by half of it (review U1 R6 E1). A bare site ("Pancreatic, gastric or esophageal adenocarcinoma") is read
-    with the last name's head. None when the name is not a list of disease names (a qualifier or a generic word,
-    which the screen's own reading handles)."""
-    pieces = [p.strip() for p in _OR_JOIN.split(name) if p.strip()]
-    qualifiers = {*EXTENT_QUALIFIERS, *QUALIFIERS}
-    if len(pieces) < 2 or any(p.casefold() in qualifiers | GENERIC_REMAINDERS for p in pieces):
+    """Each name in the record's own "or" list, read on its own, whatever path reads the name (review U1 R6 E1, R7
+    F1). A bare site ("Pancreatic, gastric or esophageal adenocarcinoma") is read with the last name's head. None when
+    the name is not a list of two or more disease names."""
+    listed = _list_pieces(name)
+    if listed is None:
         return None
+    pieces, steps = listed
     head = pieces[-1].split()
     codes: list[str] = []
-    steps = [f"its 'or' list split into {len(pieces)} names"]
     unread = []
     for piece in pieces:
         found = _lookup(piece).codes
+        if not found and (bare := _state_removed(piece)) != piece and (found := _lookup(bare).codes):
+            steps.append(f"'{piece}' read as '{bare}'")
         if not found:
             for k in range(len(head) - 1, 0, -1):
                 candidate = f"{piece} {' '.join(head[-k:])}"
@@ -552,9 +611,9 @@ def _conjuncts(name: str) -> Lookup | None:
 def _raw_lookup(name: str) -> Lookup:
     if codes := _index(name):
         return Lookup(tuple(codes))
-    codes, steps = _screen_readings(name)
-    if codes and "coordination expanded" in steps and (each := _conjuncts(name)) is not None:
+    if (each := _conjuncts(name)) is not None:  # the record's own list, before any clean-up (review U1 R7 F1)
         return each
+    codes, steps = _screen_readings(name)
     if codes:
         return Lookup(tuple(codes), tuple(steps))
     cleaned, steps = name, []
@@ -570,6 +629,8 @@ def _raw_lookup(name: str) -> Lookup:
             break
         cleaned = cleaned[len(hit) + 1:].strip()
         steps.append(f"'{hit}' removed")
+        # "moderate or severe X": the qualifier's own "or" goes with it (review U1 R7 F1)
+        cleaned = re.sub(r"^(?:(?:and/)?or|to)\s+", "", cleaned, flags=re.IGNORECASE)
     joined = _HYPHEN.sub("", cleaned)
     if joined != cleaned and not _index(cleaned) and _index(joined):
         words = re.findall(r"[A-Za-z]+(?:-[A-Za-z]+)+", cleaned)
@@ -613,7 +674,8 @@ def _lookup(name: str) -> Lookup:
         edition = re.search(r"AJCC v\d+", label(code))
         if edition and edition.group(0).casefold() not in name.casefold():
             notes.append(f"'{edition.group(0)}' is part of NCIt's label; the record states no edition")
-    return Lookup(tuple(dict.fromkeys(codes)), found.steps, found.screen_reads, tuple(notes), found.unread)
+    return Lookup(tuple(dict.fromkeys(codes)), found.steps, found.screen_reads, tuple(dict.fromkeys(notes)),
+                  found.unread)
 
 
 def _parents(code: str) -> list[str]:
@@ -702,6 +764,10 @@ def _shown_sites(hits: list[str], phrases: frozenset[str]) -> tuple[str, ...]:
     return tuple(out)
 
 
+def _split(found: Lookup) -> bool:
+    return any(step.startswith("its 'or' list split") for step in found.steps)
+
+
 def classify_name(name: str, requested: frozenset[str]) -> NameReading:
     """One name's class. Order: basket, then the authority, then site words (ACCEPTANCE U1; review J1)."""
     if is_basket(name):
@@ -714,9 +780,11 @@ def classify_name(name: str, requested: frozenset[str]) -> NameReading:
     rel = {c: relation(c, requested) for c in found.codes}
     concepts = tuple((label(c), r) for c, r in rel.items())
     if found.unread:
-        # part of an "or" list is not read: never a class from the other part alone (review U1 R6 E1)
-        return NameReading(name, NAMES_REQUESTED_SITE if sites else UNREADABLE, concepts, found.steps, sites,
-                           found.screen_reads, found.notes, found.unread)
+        # part of an "or" list is not read: never a class from the other part alone (review U1 R6 E1); a list that
+        # reads a requested name is ambiguous, not unreadable (R7 F3)
+        category = (AMBIGUOUS_NAME if REQUESTED in rel.values() else NAMES_REQUESTED_SITE if sites else UNREADABLE)
+        return NameReading(name, category, concepts, found.steps, sites, found.screen_reads, found.notes,
+                           found.unread)
     kinds = set(rel.values())
     if kinds == {BROADER}:
         category = BROADER_THAN_REQUESTED if len(rel) == 1 else AMBIGUOUS_NAME_ALL_BROADER
@@ -727,8 +795,8 @@ def classify_name(name: str, requested: frozenset[str]) -> NameReading:
         category = UNDER_REQUESTED_PARENT
     elif kinds <= {SIBLING, DIFFERENT} or kinds == {DIFFERENT}:
         category = DIFFERENT_DISEASE
-    elif len(rel) == 1:
-        category = READS_AS_REQUESTED
+    elif len(rel) == 1 or (kinds == {REQUESTED} and _split(found)):
+        category = READS_AS_REQUESTED  # every name of the record's own list is requested (review U1 R7 F1)
     else:
         category = AMBIGUOUS_NAME
     return NameReading(name, category, concepts, found.steps, sites, found.screen_reads, found.notes)

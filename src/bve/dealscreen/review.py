@@ -184,9 +184,23 @@ def _apply(state: ReviewState, record: dict[str, Any]) -> None:
             state.rights_rows[digest] = {"row_sha256": digest, "event_id": subject,
                                          "row_key": record["detail"].get("row_key"), **_who(record)}
         else:  # a withdrawal; a fixture's record is kept in the log but never confirms a row
+            # every version of the row: its content, its event id, or its program, deal and type (review R1v13
+            # WITHDRAW-STALE)
+            row_key = record["detail"].get("row_key")
             state.rights_rows.pop(digest or "", None)
-            for key in [k for k, r in state.rights_rows.items() if r.get("event_id") == subject]:
+            for key in [k for k, r in state.rights_rows.items()
+                        if r.get("event_id") == subject or (row_key and r.get("row_key") == row_key)]:
                 state.rights_rows.pop(key)
+
+
+def _rights_row_state(state: ReviewState, subject: str, detail: dict[str, Any]) -> str:
+    """CONFIRMED when this row, or for a withdrawal an earlier version of it, has a confirmation."""
+    if detail.get("row_sha256") in state.rights_rows:
+        return "CONFIRMED"
+    row_key = detail.get("row_key")
+    earlier = any(r.get("event_id") == subject or (row_key and r.get("row_key") == row_key)
+                  for r in state.rights_rows.values())
+    return "CONFIRMED_EARLIER_VERSION" if earlier else "UNCONFIRMED"
 
 
 def _who(record: dict[str, Any]) -> dict[str, Any]:
@@ -261,6 +275,9 @@ class DecisionLog:
         if action is Action.CONFIRM_RIGHTS_ROW:
             if reviewer_kind is not ReviewerKind.HUMAN:
                 raise DecisionRejected("a rights row is confirmed only by a human analyst who has read the source")
+            if new_state == "CONFIRMED" and (var := agent_shell()):  # review R1v13 CONFIRM-API: every caller
+                raise DecisionRejected(f"this shell is run by an AI agent ({var} is set); a rights row is confirmed "
+                                       "only by a human analyst who has read the source")
             if new_state not in ("CONFIRMED", "WITHDRAWN"):
                 raise DecisionRejected("a rights row confirmation has new_state CONFIRMED or WITHDRAWN")
             if context is None:
@@ -279,6 +296,9 @@ class DecisionLog:
             if action is Action.CONFIRM_RIGHTS_ROW:
                 detail = {**(detail or {}), "row_sha256": context.rights_row_hashes[subject_id],
                           "row_key": context.rights_row_keys.get(subject_id)}
+                if new_state == "WITHDRAWN" and _rights_row_state(self.state, subject_id, detail) == "UNCONFIRMED":
+                    raise DecisionRejected("no confirmation of this row or an earlier version of it is recorded, so "
+                                           "there is nothing to withdraw")
             if action is Action.CONFIRM_FINDING and subject_id in context.finding_hashes:
                 detail = {**(detail or {}), "finding_sha256": context.finding_hashes[subject_id]}
             if action is Action.ASSERT_FACT and context.readable is not None:
@@ -298,8 +318,7 @@ class DecisionLog:
             "reviewer_kind": reviewer_kind.value,
             "action": action.value,
             "subject_id": subject_id,
-            "old_state": (("CONFIRMED" if (detail or {}).get("row_sha256") in self.state.rights_rows
-                           else "UNCONFIRMED") if action is Action.CONFIRM_RIGHTS_ROW
+            "old_state": (_rights_row_state(self.state, subject_id, detail or {}) if action is Action.CONFIRM_RIGHTS_ROW
                           else self.state.subject_state(action, subject_id)),
             "new_state": new_state,
             "rationale": rationale,
@@ -434,4 +453,4 @@ AGENT_ENV_VARS = ("CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT", "CODEX_SANDBOX", "CODE
 def agent_shell(environ: Any = None) -> str | None:
     """The AI-agent environment variable set in this shell, or None."""
     env = os.environ if environ is None else environ
-    return next((v for v in AGENT_ENV_VARS if env.get(v)), None)
+    return next((v for v in AGENT_ENV_VARS if v in env), None)  # set, even to "" (review R1v13 CONFIRM-API)

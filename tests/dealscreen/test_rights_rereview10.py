@@ -243,7 +243,7 @@ def test_clean_restatements_pass(row, quote):
 
 # -- Clean cases of earlier reviews that now block (usefulness costs, disclosed in REREVIEW10_RESPONSE.md) ---------
 REV12_BLOCKED = [
-    ("CN", "Under the agreement, Chinaco Pharma will pay Origin Bio an upfront payment of $20 million"),  # modal
+    # revision 14: the payment sentence passes again (review R1v13 UC33), see test_rights_rereview12.py
     ("CN", "Origin Bio transferred China rights to NB-7 to Chinaco Pharma"),                             # SALE
     ("CN", "Chinaco Pharma, a subsidiary of Chinaco Group, licenses NB-7 for mainland China"),           # a parent
     ("CN", "Chinaco Pharma obtains exclusive China rights to NB-7, its third China deal in a row"),

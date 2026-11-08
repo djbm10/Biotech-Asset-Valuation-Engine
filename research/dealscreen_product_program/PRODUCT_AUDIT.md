@@ -246,3 +246,14 @@ that DealScreen cannot verify a person. Implementer-measured:
 - 15 of 17 real quotes still need an analyst confirmation.
 
 The verdict above is unchanged, and revision 13 has not been reviewed.
+
+**Addendum (2026-11-08, revision 14).** Round 13 (`REREVIEW12.md`) found 3 High errors in revision 13. Two came from
+the new "retains rights" sentence, which passed for any grantor and any place. The third: a headline passed as a
+dateline city. Revision 14 checks a retention's grantor and places, requires listed multi-word dateline cities and
+places on signing sentences, and moves the AI-agent refusal into the decision log for every caller.
+Implementer-measured:
+- the review's end-to-end ws_n goes 7 → 0;
+- the CLDN18.2 outputs are byte-identical;
+- 15 of 17 real quotes still need an analyst confirmation.
+
+The verdict above is unchanged, and revision 14 has not been reviewed.

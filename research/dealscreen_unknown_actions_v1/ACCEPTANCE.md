@@ -138,3 +138,9 @@ Two changes were made during implementation. Neither loosens a criterion.
   Unicode dash reads as "-"; "absent" and "not expressed" are negations; "ALL" before a singular disease head is not
   a basket; a state word before a tumour head keeps the site (E3-E7). None of these changes a gate, disposition,
   rank or transaction field.
+- **After the seventh U1 review (revision 8), disclosed.** The record's own "or" list is split on every path that
+  reads a name, before any clean-up. A piece made only of modifier, stage, grade, line or population words is never
+  looked up alone: first in the list it belongs to the next name, later it is set aside and the sentence says so. A
+  list that reads a requested name is AMBIGUOUS_NAME (or READS_AS_REQUESTED when every name is requested), never
+  UNREADABLE. "absent" before a symbol negates it only at the start of a part; a negated part naming a second symbol
+  says so (review F1-F5). None of these changes a gate, disposition, rank or transaction field.

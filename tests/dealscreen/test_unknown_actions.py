@@ -839,10 +839,16 @@ def test_r7_e1_all_or_aml_names_both_readings(name):
     assert d["class"] == ir.AMBIGUOUS_NAME and "Acute Myeloid Leukemia" in d["record"], d
 
 
-@pytest.mark.parametrize("name", ["Locally advanced or metastatic gastric adenocarcinoma",
-                                  "Gastric adenocarcinoma or pancreatic cancer"])
+@pytest.mark.parametrize("name", ["Locally advanced or metastatic gastric adenocarcinoma"])
 def test_r7_e1_qualifier_lists_and_unread_lists_keep_their_reading(name):
     assert dg.indication_diagnostic([name], GASTRIC)["class"] in (ir.READS_AS_REQUESTED, ir.NAMES_REQUESTED_SITE)
+
+
+def test_r8_f1_a_list_of_two_read_diseases_names_both():
+    # revision 8 reads the record's own list on every path: the pancreatic half is named, not only the site
+    d = dg.indication_diagnostic(["Gastric adenocarcinoma or pancreatic cancer"], GASTRIC)
+    assert d["class"] == ir.AMBIGUOUS_NAME, d
+    assert "(requested or a subtype)" in d["record"] and "(not requested)" in d["record"]
 
 
 @pytest.mark.parametrize("value", ["ABC1.2 negative, positive XYZ expression", "ABC1.2 negative and positive XYZ",
@@ -901,3 +907,83 @@ def test_r7_e7_a_state_word_before_a_tumour_head_keeps_the_site(name):
 @pytest.mark.parametrize("name", ["Gastric therapy-resistant", "gastric outlet obstruction"])
 def test_r7_e7_a_role_with_no_tumour_head_stays_a_role(name):
     assert dg.indication_diagnostic([name], GASTRIC)["class"] != ir.NAMES_REQUESTED_SITE
+
+
+# -- revision 8: REVIEW7 F1-F5 ---------------------------------------------------------------------------------------
+@pytest.mark.parametrize(("name", "request_"), [
+    ("Locally advanced or metastatic gastric adenocarcinoma or NSCLC", GASTRIC),
+    ("Gastric adenocarcinoma or oesophageal adenocarcinoma", GASTRIC),
+    ("Gastric adenocarcinoma, metastatic, or NSCLC", GASTRIC),
+    ("Gastric adenocarcinoma, stage IV, or NSCLC", GASTRIC),
+    ("Relapsed or refractory gastric adenocarcinoma or NSCLC", GASTRIC),
+    ("Moderate or severe ulcerative colitis or Crohn's disease", UC),
+    ("Relapsed or refractory ulcerative colitis or Crohn's disease", UC),
+    ("Ulcerative colitis, pouchitis or Crohn's disease", UC),
+    ("IBD (ulcerative colitis or Crohn's disease)", UC),
+    ("Relapsed or refractory myasthenia gravis or CIDP", ["myasthenia gravis"]),
+])
+def test_r8_f1_f3_a_list_naming_the_request_is_ambiguous_on_every_path(name, request_):
+    d = dg.indication_diagnostic([name], request_)
+    assert d["class"] == ir.AMBIGUOUS_NAME, d
+    assert "(requested or a subtype)" in d["record"]
+    assert "neither a requested indication" not in d["record"]
+
+
+@pytest.mark.parametrize("name", ["Stage III or stage IV gastric cancer", "Stage IIIB or stage IV gastric cancer",
+                                  "Stage IV or recurrent gastric cancer", "Stage III or IV gastric adenocarcinoma"])
+def test_r8_f2_a_stage_piece_is_never_looked_up_alone(name):
+    d = dg.indication_diagnostic([name], GASTRIC)
+    assert d["class"] != ir.DIFFERENT_DISEASE, d
+    for organ in ("Pancreatic", "Testicular", "Lung", "Renal", "Masaoka"):
+        assert organ not in d["record"], d["record"]
+
+
+def test_r8_f2_the_edition_note_is_given_once():
+    d = dg.indication_diagnostic(["Stage III or stage IV gastric cancer"], GASTRIC)
+    assert d["record"].count("the record states no edition") == 1
+
+
+def test_r8_f3_a_partly_read_list_says_what_it_reads():
+    d = dg.indication_diagnostic(["Gastric adenocarcinoma, China, or NSCLC"], GASTRIC)
+    assert d["class"] == ir.AMBIGUOUS_NAME
+    assert "is not a name the NCIt authority can read as a whole" in d["record"]
+    assert "does not read 'China'" in d["record"]
+    assert "matches several NCIt concepts" not in d["record"]
+
+
+@pytest.mark.parametrize("piece", ["HER2+", "2L", "adult", "metastatic"])
+def test_r8_f3_a_marker_or_modifier_piece_is_set_aside(piece):
+    d = dg.indication_diagnostic([f"Gastric adenocarcinoma, {piece}, or NSCLC"], GASTRIC)
+    assert d["class"] == ir.AMBIGUOUS_NAME
+    assert f"'{piece}' set aside as a modifier, not a name" in d["record"]
+
+
+def test_r8_f1_a_capital_acronym_is_a_name_not_the_word_all():
+    d = dg.indication_diagnostic(["Relapsed or refractory ALL or AML"], ["acute myeloid leukemia"])
+    assert d["class"] == ir.AMBIGUOUS_NAME, d
+
+
+@pytest.mark.parametrize("value", ["XYZ9 absent ABC1.2 positive", "XYZ9-absent ABC1.2-high", "XYZ9 absent ABC1.2"])
+def test_r8_f4_absent_after_another_target_does_not_negate_the_required_one(value):
+    d = dg.target_diagnostic([value], False, REQ, READ, ";")
+    assert d["class"] == dg.SOURCE_NAMES_REQUIRED_TARGET, d
+
+
+def test_r8_f4_absent_at_the_start_still_negates():
+    d = dg.target_diagnostic(["absent ABC1.2"], False, REQ, READ, ";")
+    assert d["class"] == dg.SOURCE_STATES_NOT_REQUIRED_TARGET, d
+
+
+@pytest.mark.parametrize("value", ["ABC1.2 negative or positive for XYZ9", "ABC1.2 negative / positive for XYZ9"])
+def test_r8_f5_a_negated_part_with_another_symbol_never_says_no_other_target(value):
+    d = dg.target_diagnostic([value], False, REQ, READ, ";")
+    assert d["class"] == dg.SOURCE_STATES_NOT_REQUIRED_TARGET, d
+    assert "names no other target" not in d["record"]
+    assert "also names another target" in d["record"]
+
+
+@pytest.mark.parametrize("name", ["Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma",
+                                  "Gastric adenocarcinoma or gastroesophageal junction adenocarcinoma"])
+def test_r8_f1_a_list_whose_every_name_is_requested_reads_as_requested(name):
+    d = dg.indication_diagnostic([name], GASTRIC)
+    assert d["class"] == ir.READS_AS_REQUESTED, d

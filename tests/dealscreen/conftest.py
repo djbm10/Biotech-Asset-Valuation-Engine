@@ -28,6 +28,16 @@ def _no_ontology(monkeypatch, tmp_path_factory):
     reset_resolver_cache()
 
 
+@pytest.fixture(autouse=True)
+def _no_agent_shell(monkeypatch):
+    """Tests run the same in any shell: an AI agent's environment variables are removed, and a test that checks the
+    agent-shell refusal sets them itself. A confirmation recorded by a test is a fixture, not an analyst's."""
+    from bve.dealscreen.review import AGENT_ENV_VARS
+
+    for var in AGENT_ENV_VARS:
+        monkeypatch.delenv(var, raising=False)
+
+
 @pytest.fixture(scope="session")
 def demo_dir(tmp_path_factory) -> Path:
     out = tmp_path_factory.mktemp("dealscreen_demo")

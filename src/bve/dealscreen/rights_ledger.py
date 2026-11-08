@@ -194,7 +194,7 @@ class _Ledger:
         acquirers: dict[str, list[RightsEvent]] = {}
         for e in self.events:
             if e.event_type == ACQUISITION and e.grantee and e.grantor:
-                acquirers.setdefault(party_key(e.grantor), []).append(e)
+                acquirers.setdefault(_entity_key(e.grantor), []).append(e)  # review R1v13 ACQ-TWO2
         succession: dict[str, tuple[str, RightsEvent]] = {}
         owners: list[RightsEvent] = []
         for e in self.events:
@@ -231,7 +231,7 @@ class _Ledger:
                 self.questions.append(f"When did {e.grantee} acquire {e.grantor}? Cite a dated source.")
                 self.unapplied.append(e)
                 continue
-            rivals = [x for x in acquirers.get(party_key(e.grantor), []) if x is not e
+            rivals = [x for x in acquirers.get(_entity_key(e.grantor), []) if x is not e
                       and _one_entity(x.grantor, e.grantor) and not _one_entity(x.grantee, e.grantee)]
             if rivals:
                 # review R1v11 ACQ-TWO: two acquirers of one party; the later record does not silently win
