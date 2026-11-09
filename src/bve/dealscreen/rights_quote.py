@@ -78,7 +78,7 @@ _WIRES = (r"(?:PRNewswire(?:-[A-Za-z]+)?|PR Newswire|BUSINESS WIRE|Business Wire
           r"ACCESSWIRE|ACCESS Newswire|EINPresswire|Newsfile Corp\.?|CNW)")
 _PLACE_LIST = rf"{_CITY}(?:,[ \t]*{_REGION_PART}){{0,2}}(?:[ \t]+and[ \t]+{_CITY}(?:,[ \t]*{_REGION_PART}){{0,2}})*"
 _DATELINE = re.compile(rf"^[ \t]*(?P<places>{_PLACE_LIST}),[ \t]+"
-                       rf"(?:{_MONTH_RX}[ \t]+\d{{1,2}},?[ \t]+\d{{4}}|\d{{1,2}}[ \t]+{_MONTH_RX}[ \t]+\d{{4}})[ \t]*"
+                       rf"(?P<date>{_MONTH_RX}[ \t]+\d{{1,2}},?[ \t]+\d{{4}}|\d{{1,2}}[ \t]+{_MONTH_RX}[ \t]+\d{{4}})[ \t]*"
                        rf"(?:/[ \t]*{_WIRES}[ \t]*/)?[ \t]*(?:--|-)[ \t]*"
                        rf"|^[ \t]*(?P<places2>{_PLACE_LIST})[ \t]*--[ \t]*\([ \t]*{_WIRES}[ \t]*\)[ \t]*--[ \t]*")
 #: Region parts a dateline may give after its city: U.S. states (names, AP and postal abbreviations), provinces and
@@ -211,7 +211,9 @@ def _strip_dateline(text: str) -> str:
         city, *regions = [x.strip() for x in group.split(",")]
         if not _city_ok(city) or not all(_region_ok(r) for r in regions):
             return text
-    return text[m.end():]
+    # the date stays, so it is read against the as-of date like any other (review R1v14 DATELINE-DATE)
+    day = re.sub(r"\.", "", m.group("date") or "")  # "Jan. 15" -> "Jan 15": a full stop would end the clause
+    return (f"On {day}, " if day else "") + text[m.end():]
 
 
 #: Dateline cities of more than one word. A city of one word may be any name; a longer one must be on this list, so
@@ -229,11 +231,25 @@ _MULTI_WORD_CITIES = frozenset(" ".join(c.casefold().split()) for c in (
     "The Hague", "Saint-Prex", "Bad Homburg"))
 
 
+#: The first word of an unlisted two-word city ("NORTH WALES", "WEST LAFAYETTE"; review R1v14 UC49-UC51).
+_CITY_PREFIXES = frozenset({"north", "south", "east", "west", "new", "fort", "port", "saint", "st.", "san", "santa",
+                            "los", "las", "lake", "mount", "glen", "palm", "bay", "upper", "lower", "great"})
+#: Deal words that are never a dateline city ("TAKEOVER, Mass."; review R1v14 HEADLINE-1WORD).
+_DEAL_WORD = re.compile(r"(?i)^(?:takeovers?|buyouts?|buys?|bought|sells?|sold|selling|divest\w*|acqui\w*|merg(?:e|es|ed|"
+                        r"er|ers|ing)|control\w*|owns?|owned|owners?\w*|(?:sub)?licen[cs]\w*|options?|optioned|returns?|"
+                        r"returned|regain\w*|reacqui\w*|terminat\w*|partner\w*|deals?|transfer\w*|spin\w*|rights?|"
+                        r"exclusiv\w*|agreements?|grants?|granted|holds?|held|retain\w*|keeps?|kept|collaborat\w*)$")
+
+
 def _city_ok(city: str) -> bool:
     words = city.split()
     if not words or not _name_ok(city):
         return False
-    return len(words) == 1 or " ".join(w.casefold() for w in words) in _MULTI_WORD_CITIES
+    if any(_DEAL_WORD.match(w.strip(".'")) for w in re.split(r"[\s\-/]+", city) if w):
+        return False
+    folded = [w.casefold() for w in words]
+    return (len(words) == 1 or " ".join(folded) in _MULTI_WORD_CITIES
+            or (len(words) == 2 and folded[0] in _CITY_PREFIXES))
 
 
 def _region_ok(region: str) -> bool:
@@ -283,6 +299,10 @@ def _unreadable(text: str, names: list[str]) -> str | None:
             "rights, so the quote is not read further")
 
 
+#: "[...]", "(...)", "[the Company]": an omission or an editor's insertion.
+_ELISION = re.compile(r"\[|\]|\(\s*(?:\.\s*){2,}\)|\(\s*\u2026\s*\)")
+
+
 def _row_day(e: dict[str, Any]) -> date | None:
     raw = str(e.get("date") or "")
     found = re.fullmatch(r"(\d{4})-(\d{2})-(\d{2})", raw)
@@ -300,6 +320,9 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
     text = text.translate(_TYPOGRAPHY)
     if why := _unreadable(text, parties + [n for n in (names or []) if n]):
         return why
+    if cut := _ELISION.search(text):  # review R1v14 ELISION: the source says words were left out
+        return (f"marks words as left out or edited ('{text[max(0, cut.start() - 40): cut.end() + 20].strip()}'), so "
+                "the missing words may say who holds rights")
     if "?" in text:  # review R1v13 PUNCT: a question states nothing
         at = text.index("?")
         return (f"asks a question ('{text[max(0, at - 50): at + 1].strip()}'), so it does not state who holds "
@@ -311,6 +334,7 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
     named = roles + [(n, PROGRAM) for n in (names or []) if n]
     owner_mark = next((m for n, m in roles if company and n == company), None)
     grantor_owns = bool(company) and _one_entity(company, str(e.get("grantor") or ""))
+    money_only, read_any = True, False
     for clause in _clauses(text) or [text]:
         masked = _strip_known(_mask(_prepare(clause), named), owner_mark).strip(" ,.")
         if not masked:
@@ -320,6 +344,10 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
         if not read.ok:
             whole = clause.strip(" .;") == text.strip(" .;")
             return read.why if whole else f"has the clause '{clause.strip()}', which {read.why}"
+        money_only, read_any = money_only and read.money_only, True
+    if read_any and money_only and not (own and territory <= own):  # review R1v14 PAYONLY, as UNPLACED2
+        return ("states only payments between the parties, not which rights were granted or where; the row's own "
+                f"territory is {'/'.join(sorted(own)) or 'unstated'}")
     return None
 
 

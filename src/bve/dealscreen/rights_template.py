@@ -271,7 +271,8 @@ class Slots:
 _WORD = re.compile(rf"[{KNOWN_MARKS}{DATE_MARK}{PLACE_MARK}{MONEY_MARK}](?:'s|’s)?|[A-Za-z0-9][\w'’\-/.]*[\w]|"
                    r"[A-Za-z0-9]|,")
 #: Words that may open a sentence in capitals.
-_OPENERS = frozenset({"the", "on", "in", "under", "as", "effective", "today", "its", "pursuant", "a", "an", "all"})
+_OPENERS = frozenset({"the", "on", "in", "under", "as", "effective", "today", "its", "pursuant", "a", "an", "all",
+                      "following", "after", "upon"})
 
 
 @lru_cache(maxsize=1)
@@ -430,6 +431,8 @@ def _endings(allp: str) -> list[str]:
         r"(?: for convenience)?"),
     ]
     back = r"(?:returned|returns|handed back|hands back|relinquished|relinquishes|gave back|gives back)"
+    # "Following the termination , G regains ..." (review R1v14 UC54)
+    after = rf"(?:(?:following|after|upon) (?:the|this|its) (?:termination|expiration|end)(?: of (?:the|its) {deal})? , )?"
     rights = rf"(?:the |its |{allp})?(?:R )?(?:development (?:and commercial(?:ization)? )?|commercial )?rights"
     t += [
         rf"E {has}{back} {rights}(?: (?:to|for|of) {_PROGRAM})?{_PLACE} to G",
@@ -439,7 +442,7 @@ def _endings(allp: str) -> list[str]:
         (rf"G {has}(?:regained|regains|reacquired|reacquires|recovered|recovers|reclaimed) {rights}"
         rf"(?: (?:to|for|of) {_PROGRAM})?{_PLACE}(?: from E)?"),
     ]
-    return t
+    return [after + c for c in t]
 
 
 #: "up to $200 million in development and regulatory milestones", "an upfront payment of $20 million".
@@ -452,13 +455,22 @@ _PAYMENT = (rf"(?:an? (?:upfront |up-front |initial )?(?:payment|fee) of N|N (?:
 def _payments() -> list[str]:
     """Sentences that only state money between the row's parties (review R1v13 UC33, UC34). Money says nothing
     about who holds rights; the row's own territory is read from its field."""
-    pays = (rf"{_PAYMENT}(?:(?: ,)? (?:and|plus) {_PAYMENT})*(?:(?: ,)? (?:and|plus) (?:tiered )?royalties"
+    join = r"(?:(?: ,)? (?:and|plus|as well as))"
+    pays = (rf"{_PAYMENT}(?:{join} {_PAYMENT})*(?:{join} (?:tiered )?royalties"
             r"(?: on (?:net )?sales)?)?")
+    receive = (r"(?:will receive|receives|received|has received|is eligible to receive|will be eligible to receive|"
+               r"is entitled to receive|will be entitled to receive)")
     return [
         rf"E (?:will pay|pays|paid|has paid|agreed to pay|has agreed to pay) G {pays}",
-        (rf"G (?:will receive|receives|received|has received|is eligible to receive|will be eligible to receive|"
-         rf"is entitled to receive|will be entitled to receive) {pays}(?: from E)?"),
+        # "will receive N upfront and is eligible to receive up to N in milestones" (review R1v14 UC41)
+        rf"G {receive} {pays}(?: from E)?(?:{join} {receive} {pays}(?: from E)?)*",
     ]
+
+
+@lru_cache(maxsize=1)
+def _payment_templates() -> tuple[re.Pattern[str], ...]:
+    """The payment sentences alone: a quote made only of them states no rights and no place (review R1v14 PAYONLY)."""
+    return tuple(re.compile(_frame(c)) for c in _payments())
 
 
 @lru_cache(maxsize=1)
@@ -467,9 +479,10 @@ def _retention() -> tuple[re.Pattern[str], ...]:
     masked grantor only, never a pronoun, "the company" or a name read as the company. ``_read_retention`` checks
     that the grantor is the program's company and that the places it names cover the buyer territory."""
     keep = r"(?:retains|retained|keeps|kept|has retained|has kept)"  # never "will retain": not yet (R1v13 RT12)
-    what = (r"(?:all (?:other |remaining )?|the |its |all of its )?(?:exclusive |sole )?(?:R )?"
+    # the object is plain "rights": "rights to develop P" keeps only some rights (review R1v14 RET-PARTIAL2)
+    what = (r"(?:all (?:other |remaining )?|the |its |all of its )?(?:full |exclusive |sole )?(?:R )?"
             r"(?:development and commercial(?:ization)? |commercial(?:ization)? |development )?rights")
-    obj = rf"{what}(?: (?:to|for|of) (?:{_DEV_LIST} )?(?:the )?{_PROGRAM})?"
+    obj = rf"{what}(?: (?:to|for|of) (?:the )?{_PROGRAM})?"
     where = r"(?: R| (?:in|for|across|throughout)(?: the)? R(?: territory| territories| region| regions)?)?"
     return tuple(re.compile(_frame(c, subject="G")) for c in (rf"G {keep} {obj}{where}",
                                                                  rf"{_PROGRAM}{where} (?:rights )?(?:remain|remains) with G"))
@@ -492,7 +505,11 @@ def _templates(kind: str, all_ok: bool) -> tuple[tuple[re.Pattern[str], bool], .
     t: list[str] = []  # templates that need no place: an agreement was signed, an option ended
     tp: list[str] = []  # grants: a place is required unless the row covers the buyer territory
     if kind == LICENSE:
+        work = (r"(?:research|development|manufacturing|manufacture|commercialization|commercialisation|"
+                r"regulatory activities)")
         tp += [
+            # "E will be responsible for the development and commercialization of P in R" (review R1v14 UC47)
+            rf"E (?:will be|is|shall be) (?:solely )?responsible for (?:the |all )?{work}(?:(?: ,)? (?:and )?{work})* of {_PROGRAM}",
             (rf"G {has}(?:exclusively )?(?:licensed|licenses|out-licensed|out-licenses|licenced|licences) "
             rf"(?:its )?{obj}{_PLACE} to E{_PLACE}{_MONEY_TAIL}"),  # "its": the grantor's own program
             rf"G {has}(?:granted|grants) E {rights_obj}{_PLACE}{_MONEY_TAIL}",
@@ -592,8 +609,12 @@ def _template_text(slots: Slots, descriptors: frozenset[str]) -> str:
 class TemplateRead:
     ok: bool
     why: str | None = None
+    #: the clause only states money between the parties
+    money_only: bool = False
 
 
+_KEEPS = re.compile(r"(?:^| )(?:retains|retained|keeps|kept|has retained|has kept|will retain|will keep|"
+                    r"retain|keep)(?= )")
 _REST_OF_WORLD = re.compile(r"(?i)(?:the\s+)?(?:rest\s+of\s+(?:the\s+)?world|ROW)")
 
 
@@ -613,6 +634,14 @@ def _read_retention(slots: Slots, text: str, kind: str, own: frozenset[str], buy
     if not grantor_owns:
         return TemplateRead(False, "says a party other than the program's company keeps rights, so that party may "
                                    "hold rights the row does not show")
+    if len(slots.places) > 1:  # review R1v14 RET-PLACE2: "worldwide rights to P , excluding the U.S." is two places
+        return TemplateRead(False, "names more than one place for the rights the company keeps ("
+                                   + "; ".join(slots.place_texts) + "), so DealScreen cannot tell where it keeps them; "
+                                   "another party may hold rights in the buyer territory")
+    purpose = _PURPOSE.search(re.sub(r"\s+", " ", slots.text))
+    if purpose:  # "retains U.S. rights to P for gastric cancer": only some uses (review R1v14 RET-PARTIAL2)
+        return TemplateRead(False, f"says the company keeps rights only for {purpose.group(2)}, so another party may "
+                                   "hold rights for other uses")
     covered: set[str] = set()
     for regions, written in zip(slots.places, slots.place_texts, strict=False):
         if regions is None and own and _REST_OF_WORLD.search(written):
@@ -645,6 +674,13 @@ def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[s
     text = _template_text(slots, descriptors)
     if kind != ACQUISITION and any(rx.match(text) or rx.match(text.replace(" ,", "")) for rx in _retention()):
         return _read_retention(slots, text, kind, own, buyer, grantor_owns)
+    if _KEEPS.search(text):  # a retention in words DealScreen does not read (review R1v14 RET-REASON)
+        return TemplateRead(False, "says a party keeps rights in words DealScreen does not read (only plain "
+                                   "\"retains rights to the program in one place\"), so another party may hold the "
+                                   "rest")
+    if kind in (LICENSE, OPTION) and any(rx.match(text) or rx.match(text.replace(" ,", ""))
+                                         for rx in _payment_templates()):
+        return TemplateRead(True, money_only=True)
     for regions in slots.places:
         if regions is None:
             return TemplateRead(False, "names a territory DealScreen cannot read")

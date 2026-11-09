@@ -32,9 +32,13 @@ def _no_ontology(monkeypatch, tmp_path_factory):
 def _no_agent_shell(monkeypatch):
     """Tests run the same in any shell: an AI agent's environment variables are removed, and a test that checks the
     agent-shell refusal sets them itself. A confirmation recorded by a test is a fixture, not an analyst's."""
-    from bve.dealscreen.review import AGENT_ENV_VARS
+    import os
+
+    from bve.dealscreen.review import AGENT_ENV_PREFIXES, AGENT_ENV_VARS
 
     for var in AGENT_ENV_VARS:
+        monkeypatch.delenv(var, raising=False)
+    for var in [v for v in os.environ if v.startswith(AGENT_ENV_PREFIXES)]:
         monkeypatch.delenv(var, raising=False)
 
 

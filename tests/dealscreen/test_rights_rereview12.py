@@ -142,10 +142,11 @@ CLEAN = [
     ("CN", C + "; Origin Bio retains all rights in the U.S."),
     ("CN", C + "; Origin Bio retains all other rights"),
     ("CN", C + "; Origin Bio retains development and commercialization rights in the U.S."),
-    ("CN", "Chinaco Pharma will pay Origin Bio an upfront payment of $20 million"),                          # UC33
-    ("CN", "Origin Bio is eligible to receive up to $200 million in milestones"),                            # UC34
-    ("CN", ("Origin Bio will receive $20 million upfront and up to $180 million in development and commercial "
-           "milestones, plus tiered royalties")),
+    # revision 15 (R1v14 PAYONLY): a payment passes beside a grant; a quote of payments alone blocks
+    ("CN", C + "; Chinaco Pharma will pay Origin Bio an upfront payment of $20 million"),                    # UC33
+    ("CN", C + "; Origin Bio is eligible to receive up to $200 million in milestones"),                      # UC34
+    ("CN", (C + "; Origin Bio will receive $20 million upfront and up to $180 million in development and "
+           "commercial milestones, plus tiered royalties")),
     ("CN", "HANGZHOU, Zhejiang Province, China, March 3, 2025 /PRNewswire/ -- " + C),                       # UC35
     ("CN", "SOUTH SAN FRANCISCO, Calif., March 3, 2025 /PRNewswire/ -- " + C),
     ("CN", "BOSTON, March 3, 2025 /PRNewswire/ -- " + C),

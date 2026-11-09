@@ -79,3 +79,9 @@ The word OPEN reads as "pursuable". In fact the tool had no evidence either way.
   confirmation in a shell where a known AI agent's variable is set (even to an empty string), for every caller; a
   withdrawal removes every version of the row's confirmation. DealScreen still cannot verify that a HUMAN record was
   made by a person.
+- **Added after revision 15, disclosed (not a change to any criterion).** A "retains rights" sentence names one place
+  at most, and its object is plain "rights": a scope with an exclusion, "rights to develop" and rights "for" one use
+  block. A quote with a mark of left-out or edited words blocks. A dateline's date is read against the as-of date, and
+  a dateline city is never a deal word. A quote of payment sentences alone blocks unless the row covers the buyer
+  territory, as a signing sentence with no place does. Any `CLAUDE_CODE_*` or `CODEX_*` variable also marks an AI
+  agent's shell. DealScreen still cannot verify that a HUMAN record was made by a person.

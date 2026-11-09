@@ -951,7 +951,7 @@ def test_r8_f3_a_partly_read_list_says_what_it_reads():
     assert "matches several NCIt concepts" not in d["record"]
 
 
-@pytest.mark.parametrize("piece", ["HER2+", "2L", "adult", "metastatic"])
+@pytest.mark.parametrize("piece", ["HER2+", "2L", "metastatic"])
 def test_r8_f3_a_marker_or_modifier_piece_is_set_aside(piece):
     d = dg.indication_diagnostic([f"Gastric adenocarcinoma, {piece}, or NSCLC"], GASTRIC)
     assert d["class"] == ir.AMBIGUOUS_NAME
@@ -987,3 +987,117 @@ def test_r8_f5_a_negated_part_with_another_symbol_never_says_no_other_target(val
 def test_r8_f1_a_list_whose_every_name_is_requested_reads_as_requested(name):
     d = dg.indication_diagnostic([name], GASTRIC)
     assert d["class"] == ir.READS_AS_REQUESTED, d
+
+
+# -- revision 9 (REVIEW8) -------------------------------------------------------------------------------------------
+@pytest.mark.parametrize(("name", "requested", "wanted"), [
+    ("Chronic or acute myeloid leukemia", ["chronic myeloid leukemia"], "Chronic Myeloid Leukemia"),          # D1
+    ("Chronic or acute GVHD", ["chronic graft versus host disease"], "Chronic Graft Versus Host Disease"),
+    ("Severe or non-severe aplastic anemia", ["severe aplastic anemia"], "Severe Aplastic Anemia"),
+    ("Chronic or acute lymphocytic leukemia", ["chronic lymphocytic leukemia"], "Chronic Lymphocytic Leukemia"),
+    ("Chronic or acute pancreatitis", ["chronic pancreatitis"], "Chronic Pancreatitis"),
+    ("Chronic or acute hepatitis B", ["chronic hepatitis b"], "Chronic Hepatitis B"),
+])
+def test_r9_d1_a_leading_defining_word_is_its_own_disease(name, requested, wanted):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == ir.AMBIGUOUS_NAME, d
+    assert f"{wanted}" in d["record"] and "(requested or a subtype)" in d["record"]
+    assert d["class"] != ir.DIFFERENT_DISEASE
+
+
+@pytest.mark.parametrize("name", ["Chronic or acute GVHD", "Acute or chronic GVHD",
+                                  "Acute or chronic graft versus host disease"])
+def test_r9_d1_both_subtypes_of_the_request_read_as_requested(name):
+    d = dg.indication_diagnostic([name], ["graft versus host disease"])
+    assert d["class"] == ir.READS_AS_REQUESTED, d
+    assert "Acute Graft Versus Host Disease" in d["record"] and "Chronic Graft Versus Host Disease" in d["record"]
+
+
+@pytest.mark.parametrize("basket", ["other solid tumors", "all comers", "other cancers", "any solid tumour"])
+def test_r9_d2_a_basket_piece_is_a_basket_not_a_modifier(basket):
+    d = dg.indication_diagnostic([f"Gastric adenocarcinoma, gastroesophageal junction adenocarcinoma, or {basket}"],
+                                 GASTRIC)
+    assert d["class"] == ir.AMBIGUOUS_NAME, d
+    assert f"reads '{basket}' as a basket of diseases" in d["record"]
+    assert "set aside" not in d["record"]
+
+
+def test_r9_d2_a_symptom_is_a_name():
+    d = dg.indication_diagnostic(["Gastric adenocarcinoma or pain"], GASTRIC)
+    assert d["class"] == ir.AMBIGUOUS_NAME and "set aside" not in d["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "wanted"), [
+    ("Myeloid leukemia, chronic, or ALL, or AML", ["chronic myeloid leukemia"], "Chronic Myeloid Leukemia"),   # D3
+    ("Diabetes mellitus, type 2, or obesity", ["type 2 diabetes mellitus"], "Type 2 Diabetes Mellitus"),
+    ("Hepatitis B, chronic, or hepatitis D", ["chronic hepatitis b"], "Chronic Hepatitis B"),
+    ("Myeloid leukemia, acute, or MDS, or CMML", ["acute myeloid leukemia"], "Acute Myeloid Leukemia"),
+])
+def test_r9_d3_an_inverted_modifier_reads_with_its_name(name, requested, wanted):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == ir.AMBIGUOUS_NAME, d
+    assert f"{wanted}" in d["record"] and "broader than requested" not in d["record"]
+
+
+def test_r9_d3_an_unread_defining_modifier_is_named_not_set_aside():
+    d = dg.indication_diagnostic(["Gastric adenocarcinoma, adult, or NSCLC"], GASTRIC)
+    assert "does not read 'adult'" in d["record"] and "set aside" not in d["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "cls"), [
+    ("STAGE III OR STAGE IV GASTRIC CANCER", GASTRIC, ir.UNDER_REQUESTED_PARENT),                              # D4
+    ("MODERATE OR SEVERE ULCERATIVE COLITIS OR CROHN'S DISEASE", ["ulcerative colitis"], ir.AMBIGUOUS_NAME),
+])
+def test_r9_d4_modifier_words_in_capitals_are_words(name, requested, cls):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == cls, d
+    assert "COVID" not in d["record"] and "Head and Neck" not in d["record"] and "Masaoka" not in d["record"]
+
+
+@pytest.mark.parametrize("lead", ["Patients with", "Adult", "Pediatric"])
+def test_r9_d5_a_population_before_the_request_is_read(lead):
+    d = dg.indication_diagnostic([f"{lead} ulcerative colitis or Crohn's disease"], ["ulcerative colitis"])
+    assert d["class"] == ir.AMBIGUOUS_NAME, d
+    assert "Ulcerative Colitis (requested or a subtype)" in d["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "cls"), [
+    ("Advanced high grade B-cell lymphoma with MYC and BCL2 or BCL6 rearrangements",                          # D6
+     ["high grade b-cell lymphoma with myc and bcl2 or bcl6 rearrangements"], ir.READS_AS_REQUESTED),
+    ("Advanced ampullary pancreaticobiliary or gastric type adenocarcinoma",
+     ["ampulla of vater pancreaticobiliary or gastric type adenocarcinoma"], ir.READS_AS_REQUESTED),
+    ("Advanced ampullary pancreaticobiliary or gastric type adenocarcinoma", GASTRIC, ir.DIFFERENT_DISEASE),
+])
+def test_r9_d6_or_inside_an_ncit_name_is_read_whole(name, requested, cls):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == cls, d
+    assert "split" not in d["record"]
+
+
+def test_r9_d8_the_partly_read_sentence_shows_its_steps():
+    d = dg.indication_diagnostic(["Gastric adenocarcinoma, metastatic, China, or NSCLC"], GASTRIC)
+    assert "does not read 'China'" in d["record"] and "'metastatic' set aside as a modifier" in d["record"]
+
+
+def test_r9_d9_a_line_list_is_one_name_and_either_is_dropped():
+    d = dg.indication_diagnostic(["Gastric adenocarcinoma (first or second line)"], GASTRIC)
+    assert d["class"] == ir.READS_AS_REQUESTED, d
+    d = dg.indication_diagnostic(["Either gastric adenocarcinoma or NSCLC"], GASTRIC)
+    assert "Either" not in d["record"].split("'", 2)[2]
+
+
+def test_r9_controls_unchanged():
+    assert dg.indication_diagnostic(["Locally advanced or metastatic gastric adenocarcinoma"],
+                                    GASTRIC)["class"] == ir.READS_AS_REQUESTED
+    assert dg.indication_diagnostic(["Stage III or stage IV gastric cancer"],
+                                    GASTRIC)["class"] == ir.UNDER_REQUESTED_PARENT
+    assert dg.indication_diagnostic(["Gastric adenocarcinoma, metastatic, or NSCLC"],
+                                    GASTRIC)["class"] == ir.AMBIGUOUS_NAME
+
+
+@pytest.mark.parametrize("value", ["ABC1.2 NEGATIVE", "NOT ABC1.2", "ABC1.2-negative by IHC", "ABC1.2 negative in GC"])
+def test_r9_d7_a_state_word_assay_or_disease_acronym_is_not_another_target(value):
+    d = dg.target_diagnostic([value], False, REQ, READ, ";")
+    assert d["class"] == dg.SOURCE_STATES_NOT_REQUIRED_TARGET, d
+    assert "also names another target" not in d["record"]
+    assert "names no other target" in d["record"]

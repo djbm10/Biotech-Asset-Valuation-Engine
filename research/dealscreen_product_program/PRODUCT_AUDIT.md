@@ -257,3 +257,14 @@ Implementer-measured:
 - 15 of 17 real quotes still need an analyst confirmation.
 
 The verdict above is unchanged, and revision 14 has not been reviewed.
+
+**Addendum (2026-11-08, revision 15).** Round 14 (`REREVIEW13.md`) found 1 High error in revision 14: a retention
+with a scope and an exclusion ("worldwide rights to NB-7, excluding the United States") was read as the union of
+its places and reached tier 1. It also found 2 Medium errors (partial retentions by verb or indication; "[...]" not
+read). Revision 15 reads one place per retention, plain rights only, and blocks edited quotes. Implementer-measured:
+- the review's end-to-end ws_o goes 5 → 0;
+- the CLDN18.2 outputs are byte-identical;
+- payment-only quotes now block, a usefulness cost of 5 clean sentences;
+- 15 of 17 real quotes still need an analyst confirmation.
+
+The verdict above is unchanged, and revision 15 has not been reviewed.

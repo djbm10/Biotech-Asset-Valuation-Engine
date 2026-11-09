@@ -144,3 +144,11 @@ Two changes were made during implementation. Neither loosens a criterion.
   list that reads a requested name is AMBIGUOUS_NAME (or READS_AS_REQUESTED when every name is requested), never
   UNREADABLE. "absent" before a symbol negates it only at the start of a part; a negated part naming a second symbol
   says so (review F1-F5). None of these changes a gate, disposition, rank or transaction field.
+- **After the eighth U1 review (revision 9), disclosed.** A modifier that, with the name's head, is its own NCIt
+  concept ("Chronic or acute myeloid leukemia", "Myeloid leukemia, chronic") is read as that concept, never folded or
+  set aside; one that is not is folded as before, or named as unread when it may define a disease. A basket piece of
+  an "or" list is a basket member, never a modifier, so a list with one is never READS_AS_REQUESTED. Modifier words in
+  an all-capitals cell are read as words; a leading population is removed before an unread piece is tried again; a
+  name with "or" inside an NCIt label is read whole first; a state word, an assay or a disease acronym is never a
+  second target; the partly-read sentence shows its steps (review D1-D9). None of these changes a gate, disposition,
+  rank or transaction field.

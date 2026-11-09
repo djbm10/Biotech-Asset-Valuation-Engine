@@ -34,7 +34,7 @@ No program, company, disease or target word from any landscape is written here.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from functools import lru_cache
 
 from bve.dealscreen.indications import (
@@ -472,6 +472,8 @@ class Lookup:
     notes: tuple[str, ...] = ()
     #: Names joined by "or" that the authority does not read on their own (review U1 R6 E1).
     unread: tuple[str, ...] = ()
+    #: Pieces of an "or" list that name no disease ("other solid tumors"; review U1 R8 D2).
+    baskets: tuple[str, ...] = ()
 
 
 def _reading_steps(qualifier: str) -> list[str]:
@@ -527,57 +529,143 @@ _MODIFIER_WORDS = (_BASKET_EXTRA | _QUALIFIER_WORDS | _POPULATION | _LABEL_POPUL
                        "combination", "recurrent", "relapsed", "refractory", "resistant", "persistent", "early",
                        "advanced", "moderate", "moderately", "severe", "severely", "mild", "mildly", "active",
                        "localized", "localised", "unresectable", "metastatic", "newly", "diagnosed", "previously",
-                       "treated", "untreated", "high", "low", "risk", "intermediate", "chronic", "acute"}))
+                       "treated", "untreated", "high", "low", "risk", "intermediate", "chronic", "acute", "first",
+                       "second", "third"})) - frozenset({  # a symptom or a finding is a name (review U1 R8 D2)
+                       "pain", "infection", "infections", "inflammation", "syndrome", "syndromes", "illness"})
+#: Modifier words that can make another NCIt concept ("chronic" myeloid leukemia, "type 2" diabetes; review U1 R8
+#: D1, D3). Such a piece is tried with the name's head before it is folded or set aside.
+_DEFINING = frozenset({"acute", "chronic", "severe", "mild", "moderate", "juvenile", "adult", "adults", "pediatric",
+                       "paediatric", "childhood", "infantile", "adolescent", "neonatal", "early", "late", "high", "low",
+                       "type", "grade", "non"})
 _STAGE_TOKEN = re.compile(r"^(?:[0-4][a-c]?|i{1,3}[a-c]?|iv[a-c]?|[1-4]l|\d+(?:st|nd|rd|th)?)$")
 #: A biomarker or a state written as a piece ("HER2+", "PD-L1 positive"): set aside, not a disease name.
 _MARKER_PIECE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9.\-]*[+\-−]$|^[A-Z0-9][\w.\-]*\s+(?:positive|negative|high|low)$")
 
 
-def _modifier_only(piece: str) -> bool:
+def _modifier_only(piece: str, caps: bool = False) -> bool:
     """Only modifier words; an acronym in capitals ("ALL") is a name, a Roman stage ("IV") is not."""
     words = [w for w in re.split(r"[\s\-/]+", piece) if w]
-    return bool(words) and all(_modifier_word(w) for w in words)
+    return bool(words) and all(_modifier_word(w, caps) for w in words)
 
 
-def _modifier_word(word: str) -> bool:
-    return bool(_STAGE_TOKEN.match(word.casefold())) or word.casefold() == "r" or (
-        word.casefold() in _MODIFIER_WORDS and not (word.isupper() and len(word) > 1))
+def _modifier_word(word: str, caps: bool = False) -> bool:
+    """``caps``: the whole cell is in capitals, so a word in capitals is not an acronym by its shape; only "ALL"
+    stays a name (review U1 R8 D4)."""
+    folded = word.casefold()
+    if bool(_STAGE_TOKEN.match(folded)) or folded == "r":
+        return True
+    if folded not in _MODIFIER_WORDS:
+        return False
+    return folded != "all" if caps else not (word.isupper() and len(word) > 1)
 
 
-def _state_removed(piece: str) -> str:
+def _caps(name: str) -> bool:
+    return any(c.isalpha() for c in name) and name == name.upper()
+
+
+def _defining(piece: str) -> bool:
+    return any(w.casefold() in _DEFINING for w in re.split(r"[\s\-/]+", piece) if w)
+
+
+def _state_removed(piece: str, caps: bool = False) -> str:
     """The piece without leading state and extent words ("Relapsed/refractory adult ALL" -> "adult ALL"); a
     population word stays, it is part of the disease name."""
     words = piece.split()
-    while len(words) > 1 and all(_modifier_word(w) and w.casefold() not in _POPULATION | _LABEL_POPULATION
+    while len(words) > 1 and all(_modifier_word(w, caps) and w.casefold() not in _POPULATION | _LABEL_POPULATION
                                  for w in re.split(r"[\-/]+", words[0]) if w):
         words = words[1:]
     return " ".join(words)
 
 
-def _list_pieces(name: str) -> tuple[list[str], list[str]] | None:
+_PEOPLE_WITH = re.compile(r"^(?:(?:adult|adults|pediatric|paediatric|juvenile|childhood|elderly)\s+)?(?:patients|"
+                          r"adults|children|subjects|participants|people|persons|individuals)\s+(?:with|having)\s+|"
+                          r"^(?:adult|adults|pediatric|paediatric|juvenile|childhood)\s+", re.IGNORECASE)
+
+
+def _population_removed(piece: str) -> str:
+    """The piece without a leading population ("Patients with UC", "Adult UC" -> "UC"; review U1 R8 D5)."""
+    return _PEOPLE_WITH.sub("", piece, count=1).strip()
+
+
+def _head(piece: str, caps: bool) -> str:
+    """The name without its leading modifier words ("acute myeloid leukemia" -> "myeloid leukemia")."""
+    words = piece.split()
+    while len(words) > 1 and all(_modifier_word(w, caps) or w.casefold() == "non"
+                                 for w in re.split(r"[\-/]+", words[0]) if w):
+        words = words[1:]
+    return " ".join(words)
+
+
+def _named(text: str) -> bool:
+    return bool(_index(text) or _index(us_spelling(text)))
+
+
+def _basket_piece(piece: str) -> bool:
+    """A piece of an "or" list that names a group of diseases ("other solid tumors", "all comers")."""
+    tokens = _variants(piece)[0]
+    return is_basket(piece) and any(t in _BASKET_HEADS | {"comers"} for t in tokens)
+
+
+@dataclass(frozen=True)
+class _Pieces:
+    names: list[str]
+    steps: list[str]
+    #: modifier pieces that may make another concept but that the authority does not read with the name
+    unread: list[str]
+    baskets: list[str]
+
+
+def _list_pieces(name: str) -> _Pieces | None:
     """The record's own "or" list as names, and the steps that made it. A modifier piece first in the list belongs to
-    the name after it ("Locally advanced or metastatic X", "Stage III or IV X" are one name); a modifier or a
-    biomarker set apart by commas later in the list is set aside. A parenthesised list is part of the list ("IBD
-    (UC or CD)"). None when fewer than two names remain."""
+    the name after it ("Locally advanced or metastatic X", "Stage III or IV X" are one name), unless with the name's
+    head it is another NCIt concept ("Chronic or acute myeloid leukemia": chronic and acute myeloid leukemia; review
+    U1 R8 D1). A modifier set apart by commas later in the list is the inverted modifier of the name before it when
+    the two make an NCIt concept ("Myeloid leukemia, chronic"; R8 D3), otherwise it is set aside; one that may make
+    another concept is named as unread, never set aside in silence. A basket piece ("other solid tumors") is kept as
+    a basket (R8 D2). A parenthesised list is part of the list ("IBD (UC or CD)"). None when fewer than two parts
+    remain."""
     if not _HAS_OR.search(name):
         return None
+    caps = _caps(name)
     text = re.sub(r"\(([^()]*)\)", lambda m: f", {m.group(1)}" if _HAS_OR.search(m.group(1)) else m.group(0), name)
+    text = re.sub(r"^\s*either\s+", "", text, flags=re.IGNORECASE)  # review U1 R8 D9
     raw = [p.strip(" ,;") for p in _OR_JOIN.split(text) if p.strip(" ,;")]
-    pieces: list[str] = []
-    steps: list[str] = []
-    carry = ""
+    out = _Pieces([], [], [], [])
+    carry, set_aside = "", False
     for i, piece in enumerate(raw):
-        if _modifier_only(piece) or _MARKER_PIECE.match(piece):
-            if not pieces and i + 1 < len(raw):
-                carry = f"{carry}{piece} or "
-            else:
-                steps.append(f"'{piece}' set aside as a modifier, not a name")
+        if _basket_piece(piece) and not carry:
+            out.baskets.append(piece)
             continue
-        pieces.append(carry + piece)
+        if _modifier_only(piece, caps) or _MARKER_PIECE.match(piece):
+            if not out.names and i + 1 < len(raw):
+                head = _head(raw[i + 1], caps)
+                if not carry and _defining(piece) and head != raw[i + 1] and _named(f"{piece} {head}"):
+                    out.names.append(f"{piece} {head}")
+                    out.steps.append(f"'{piece}' read as '{piece} {head}'")
+                else:
+                    carry = f"{carry}{piece} or "
+            elif out.names and _defining(piece) and not _MARKER_PIECE.match(piece):
+                inverted = f"{piece} {out.names[-1]}"
+                if _named(inverted):
+                    out.steps.append(f"'{out.names[-1]}, {piece}' read as '{inverted}'")
+                    out.names[-1] = inverted
+                else:
+                    out.unread.append(piece)
+            else:
+                out.steps.append(f"'{piece}' set aside as a modifier, not a name")
+                # a grade or stage alternative ("grade 1, 2 or 3a") is not a modifier of one name
+                set_aside = set_aside or not all(_STAGE_TOKEN.match(w.casefold())
+                                                 for w in re.split(r"[\s\-/]+", piece) if w)
+            continue
+        out.names.append(carry + piece)
         carry = ""
-    if len(pieces) < 2:
+    # "X (first or second line)": one name once its modifiers are set aside (review U1 R8 D9)
+    if not out.names or (len(out.names) + len(out.baskets) < 2 and not set_aside):
         return None
-    return pieces, [f"its 'or' list split into {len(pieces)} names", *steps]
+    count = len(out.names) + len(out.baskets)
+    split = f"its 'or' list split into {count} names" if count > 1 else "its 'or' list read as one name"
+    return _Pieces(out.names, [split, *out.steps],
+                   out.unread, out.baskets)
 
 
 def _conjuncts(name: str) -> Lookup | None:
@@ -587,13 +675,16 @@ def _conjuncts(name: str) -> Lookup | None:
     listed = _list_pieces(name)
     if listed is None:
         return None
-    pieces, steps = listed
+    pieces, steps, caps = listed.names, listed.steps, _caps(name)
     head = pieces[-1].split()
     codes: list[str] = []
-    unread = []
+    unread = list(listed.unread)
     for piece in pieces:
         found = _lookup(piece).codes
-        if not found and (bare := _state_removed(piece)) != piece and (found := _lookup(bare).codes):
+        if not found and (bare := _state_removed(piece, caps)) != piece and (found := _lookup(bare).codes):
+            steps.append(f"'{piece}' read as '{bare}'")
+        if not found and (bare := _population_removed(_state_removed(piece, caps))) not in {piece, ""} and (
+                found := _lookup(bare).codes):
             steps.append(f"'{piece}' read as '{bare}'")
         if not found:
             for k in range(len(head) - 1, 0, -1):
@@ -605,12 +696,41 @@ def _conjuncts(name: str) -> Lookup | None:
             codes += found
         else:
             unread.append(piece)
-    return Lookup(tuple(dict.fromkeys(codes)), tuple(steps), screen_reads=False, unread=tuple(unread))
+    return Lookup(tuple(dict.fromkeys(codes)), tuple(steps), screen_reads=False, unread=tuple(unread),
+                  baskets=tuple(listed.baskets))
+
+
+def _whole(name: str) -> Lookup | None:
+    """A name with "or" inside an NCIt label ("… with MYC and BCL2 or BCL6 rearrangements"), read whole once its
+    leading qualifiers are removed, before the list is split (review U1 R8 D6)."""
+    cleaned, steps = us_spelling(name), []
+    while True:
+        hit = next((q for q in (*EXTENT_QUALIFIERS, *QUALIFIERS) if cleaned.casefold().startswith(q + " ")), None)
+        if hit is None or re.match(r"(?:and/)?or\s", cleaned[len(hit) + 1:].strip(), re.IGNORECASE):
+            break
+        cleaned = cleaned[len(hit) + 1:].strip()
+        steps.append(f"'{hit}' removed")
+    codes = _index(cleaned)
+    return Lookup(tuple(codes), tuple(steps), screen_reads=False) if codes and steps else None
+
+
+def _softened(name: str) -> str:
+    """A cell in capitals with its modifier words in lower case, so they read as words, not acronyms ("MODERATE OR
+    SEVERE UC" -> "moderate OR severe UC"; review U1 R8 D4). "ALL" stays a name."""
+    return re.sub(r"[A-Za-z]+", lambda m: m.group(0).lower() if _modifier_word(m.group(0), caps=True)
+                  and not _STAGE_TOKEN.match(m.group(0).casefold()) else m.group(0), name)
 
 
 def _raw_lookup(name: str) -> Lookup:
     if codes := _index(name):
         return Lookup(tuple(codes))
+    if _caps(name) and (soft := _softened(name)) != name:
+        found = _raw_lookup(soft)
+        if found.codes:
+            return replace(found, steps=("modifier words in capitals read as ordinary words", *found.steps),
+                           screen_reads=False)
+    if _HAS_OR.search(name) and (whole := _whole(name)) is not None:
+        return whole
     if (each := _conjuncts(name)) is not None:  # the record's own list, before any clean-up (review U1 R7 F1)
         return each
     codes, steps = _screen_readings(name)
@@ -675,7 +795,7 @@ def _lookup(name: str) -> Lookup:
         if edition and edition.group(0).casefold() not in name.casefold():
             notes.append(f"'{edition.group(0)}' is part of NCIt's label; the record states no edition")
     return Lookup(tuple(dict.fromkeys(codes)), found.steps, found.screen_reads, tuple(dict.fromkeys(notes)),
-                  found.unread)
+                  found.unread, found.baskets)
 
 
 def _parents(code: str) -> list[str]:
@@ -742,13 +862,16 @@ class NameReading:
     notes: tuple[str, ...] = ()
     #: Names in an "or" list the authority does not read on their own (review U1 R6 E1).
     unread: tuple[str, ...] = ()
+    #: Pieces of an "or" list that name a group of diseases (review U1 R8 D2).
+    baskets: tuple[str, ...] = ()
 
     def to_dict(self) -> dict:
         out = {"name": self.name, "class": self.category,
                "ncit": [{"label": lab, "relation": rel} for lab, rel in self.concepts],
                "steps": list(self.steps), "screen_applies_steps": self.screen_reads, "notes": list(self.notes),
                "site_words": list(self.sites)}
-        return out | ({"unread_parts": list(self.unread)} if self.unread else {})
+        return (out | ({"unread_parts": list(self.unread)} if self.unread else {})
+                | ({"basket_parts": list(self.baskets)} if self.baskets else {}))
 
 
 def _shown_sites(hits: list[str], phrases: frozenset[str]) -> tuple[str, ...]:
@@ -779,12 +902,12 @@ def classify_name(name: str, requested: frozenset[str]) -> NameReading:
         return NameReading(name, NAMES_REQUESTED_SITE if sites else UNREADABLE, sites=sites)
     rel = {c: relation(c, requested) for c in found.codes}
     concepts = tuple((label(c), r) for c, r in rel.items())
-    if found.unread:
-        # part of an "or" list is not read: never a class from the other part alone (review U1 R6 E1); a list that
-        # reads a requested name is ambiguous, not unreadable (R7 F3)
+    if found.unread or found.baskets:
+        # part of an "or" list is not read, or names a basket: never a class from the other part alone (review U1
+        # R6 E1, R8 D2); a list that reads a requested name is ambiguous, not unreadable (R7 F3)
         category = (AMBIGUOUS_NAME if REQUESTED in rel.values() else NAMES_REQUESTED_SITE if sites else UNREADABLE)
         return NameReading(name, category, concepts, found.steps, sites, found.screen_reads, found.notes,
-                           found.unread)
+                           found.unread, found.baskets)
     kinds = set(rel.values())
     if kinds == {BROADER}:
         category = BROADER_THAN_REQUESTED if len(rel) == 1 else AMBIGUOUS_NAME_ALL_BROADER

@@ -450,7 +450,13 @@ AGENT_ENV_VARS = ("CLAUDECODE", "CLAUDE_CODE_ENTRYPOINT", "CODEX_SANDBOX", "CODE
                   "CURSOR_AGENT", "AIDER_MODEL", "GEMINI_CLI", "DEALSCREEN_AI_AGENT")
 
 
+#: Any variable with one of these prefixes marks an agent's shell too, so removing the listed names is not enough
+#: (review R1v14 C4).
+AGENT_ENV_PREFIXES = ("CLAUDE_CODE_", "CODEX_", "CURSOR_AGENT", "GEMINI_CLI")
+
+
 def agent_shell(environ: Any = None) -> str | None:
     """The AI-agent environment variable set in this shell, or None."""
     env = os.environ if environ is None else environ
-    return next((v for v in AGENT_ENV_VARS if v in env), None)  # set, even to "" (review R1v13 CONFIRM-API)
+    listed = next((v for v in AGENT_ENV_VARS if v in env), None)  # set, even to "" (review R1v13 CONFIRM-API)
+    return listed or next((v for v in sorted(env) if v.startswith(AGENT_ENV_PREFIXES)), None)

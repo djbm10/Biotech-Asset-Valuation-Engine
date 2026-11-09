@@ -180,7 +180,8 @@ def _indication_sentence(reading: ir.NameReading) -> str:
         ir.READS_AS_REQUESTED: f"{name} reads as {concepts} (NCIt){how}, a requested indication or a subtype",
         ir.NAMES_REQUESTED_SITE: f"{name} names {' and '.join(_minimal(reading.sites))}, a requested site, but is not "
                                  "a name the NCIt authority reads",
-        ir.AMBIGUOUS_NAME: (f"{name} is not a name the NCIt authority can read" if reading.unread  # review U1 R7 F3
+        ir.AMBIGUOUS_NAME: (f"{name} is not a name the NCIt authority can read"  # review U1 R7 F3
+                            if reading.unread or reading.baskets
                             else f"{name} matches several NCIt concepts{how}: "
                             + "; ".join(dict.fromkeys(f"{lab} ({rel})" for lab, rel in reading.concepts))),
         ir.AMBIGUOUS_NAME_ALL_BROADER: f"{name} matches several NCIt concepts{how}, all broader than requested: "
@@ -201,12 +202,19 @@ def _indication_sentence(reading: ir.NameReading) -> str:
 def _partly_read(reading: ir.NameReading) -> str:
     """For a list of names joined by "or" that the authority reads only in part: what it reads, by relation, and
     what it does not (review U1 R6 E1). Empty otherwise."""
-    if not reading.unread:
+    if not reading.unread and not reading.baskets:
         return ""
     read = "; ".join(dict.fromkeys(f"{lab} ({rel})" for lab, rel in reading.concepts))
-    unread = " or ".join(f"'{p}'" for p in reading.unread)
-    return (f" as a whole; of the names in its 'or' list it reads {read or 'none'} and does not read {unread} "
-            "(a reading the gate does not apply)")
+    parts = []
+    if reading.unread:
+        parts.append("does not read " + " or ".join(f"'{p}'" for p in reading.unread))
+    if reading.baskets:  # review U1 R8 D2
+        parts.append("reads " + " and ".join(f"'{p}'" for p in reading.baskets)
+                     + " as a basket of diseases, not one name")
+    # the steps are shown, so a piece set aside is never silent (review U1 R8 D8)
+    how = _how_read(reading) or ", a reading the gate does not apply"
+    return (f" as a whole; of the names in its 'or' list it reads {read or 'none'} and {' and '.join(parts)} "
+            f"(read{how})")
 
 
 #: A short phrase per indication class: what the record holds, never a verdict.
@@ -381,10 +389,24 @@ def _not_text(negated: dict[str, str]) -> str:
     return "; ".join(f"{_quoted([p])} states it is not {symbol}" for p, symbol in negated.items())
 
 
+#: Words in capitals that are a state or a negation, never a target ("CLDN18.2 NEGATIVE"; review U1 R8 D7).
+_STATE_SYMBOLS = frozenset({"NEGATIVE", "NEG", "NOT", "NON", "POSITIVE", "POS", "LOW", "HIGH", "ABSENT", "NULL",
+                            "EXPRESSION", "EXPRESSING", "AND", "OR"})
+
+
 def _symbols(part: str) -> set[str]:
-    """Target-like symbols in a part: mixed case with a digit, or in capitals ("KLX9", "HER2", "PD-L1")."""
+    """Target-like symbols in a part: mixed case with a digit, or in capitals ("KLX9", "HER2", "PD-L1"); never a
+    state word written in capitals."""
     return {w for w in re.findall(r"[A-Za-z0-9][\w.\-]*[\w]|[A-Za-z0-9]", part)
-            if (any(c.isupper() for c in w) and any(c.isdigit() for c in w)) or (w.isupper() and len(w) > 1)}
+            if ((any(c.isupper() for c in w) and any(c.isdigit() for c in w)) or (w.isupper() and len(w) > 1))
+            and w.upper() not in _STATE_SYMBOLS}
+
+
+def _other_target(part: str, symbol: str, read: TargetReader) -> bool:
+    """A second symbol in a negated part that reads as a target, or has a target's shape (letters and a digit): an
+    assay ("IHC") or a disease acronym ("GC") is not one (review U1 R8 D7)."""
+    return any(symbol.casefold() not in w.casefold() and (any(c.isdigit() for c in w) or read(w))
+               for w in _symbols(part))
 
 
 def _both_states(part: str, values: list[str]) -> bool:
@@ -470,7 +492,7 @@ def target_diagnostic(values: list[str], conflicting: bool, targets: list[Any], 
         return _result(SOURCE_NAMES_OTHER_TARGETS, values, record, "names other targets only", fact, "target")
     if negated:
         # a negated part that names a second symbol: say so, never "no other target" (review U1 R7 F5)
-        crowded = [p for p in negated if len(_symbols(_DASHES.sub("-", p))) > 1]
+        crowded = [p for p in negated if _other_target(_DASHES.sub("-", p), negated[p], read)]
         tail = (f"; {_quoted(crowded)} also names another target, which DealScreen does not read apart from it"
                 if crowded else "; the record names no other target the authority reads")
         return _result(SOURCE_STATES_NOT_REQUIRED_TARGET, values, f"{_not_text(negated)}{tail}.",

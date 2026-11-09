@@ -131,6 +131,15 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 15 (AI-SIMULATED; 2026-11-08):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | A retention names one place and keeps plain rights; a quote with "[...]" blocks; a dateline's date is read; a quote of payments alone blocks | REREVIEW13's ws_o 5 → 0 top-tier programs; CLDN18.2 outputs byte-identical; 15 of 17 real quotes still need an analyst confirmation | not reviewed |
+| 5 | Resolving UNKNOWN decisions (U1 revision 9) | "Chronic or acute X" reads both concepts; basket pieces are baskets; capitals, populations and inverted names are read | REVIEW8's D1-D5 rows give the expected class end to end; CLDN18.2 screening byte-identical | not reviewed |
+
+Gates H, B and I are unchanged.
+
 **After cycle R1 revision 14 (AI-SIMULATED; 2026-11-08):**
 
 | # | Dimension | Change | Evidence | Status |
