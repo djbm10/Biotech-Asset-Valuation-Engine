@@ -172,7 +172,7 @@ CLEAN = [
     ("TERM", "Alpha Bio terminated the U.S. license with Origin Bio"),
     ("TERM", "Alpha Bio terminated the agreement with Origin Bio"),
     ("CN", C + ", said Jane Doe, Chief Executive Officer of Origin Bio"),
-    ("CN", "Jane Doe Partners advised Origin Bio"),
+    ("CN", C + "; Jane Doe Partners advised Origin Bio"),  # alone it states nothing (review R1v15 NOTHING-READ)
 ]
 
 

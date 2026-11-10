@@ -268,3 +268,18 @@ read). Revision 15 reads one place per retention, plain rights only, and blocks 
 - 15 of 17 real quotes still need an analyst confirmation.
 
 The verdict above is unchanged, and revision 15 has not been reviewed.
+
+**Addendum (2026-11-10, revision 16).** Round 15 (`REREVIEW14.md`) found no High error in revision 15 and 4 Medium
+ones:
+- "Upon the termination" was read as an ending;
+- a retention limited to a use after a comma passed;
+- unbracketed ellipses passed;
+- a quote that stated nothing passed.
+
+End to end, 7 held-out programs reached a top tier. Revision 16 closes the four paths. Implementer-measured:
+- the review's ws_p goes 7 → 0;
+- the CLDN18.2 transaction output is byte-identical;
+- 3 more of the review's 16 realistic sentences pass;
+- 15 of 17 real quotes still need an analyst confirmation.
+
+The verdict above is unchanged, and revision 16 has not been reviewed.

@@ -97,10 +97,12 @@ def test_payonly_says_what_is_missing():
     assert "only payments" in read("CN", "Chinaco Pharma paid Origin Bio $20 million")
 
 
-def test_payonly_passes_when_the_row_covers_the_buyer_territory():
+def test_payonly_blocks_whatever_the_row_covers():
+    # revision 15 let a payment alone pass on a row that covers the buyer territory; since revision 16 a quote must
+    # state the row on every row type (review R1v15 NOTHING-READ)
     row = dict(ROWS["CN"], territory="worldwide")
-    assert quote_problem("Chinaco Pharma paid Origin Bio $20 million", row, "Origin Bio", AS_OF, US, names=["NB-7"],
-                         vocabulary=DESCRIPTION) is None
+    assert "only payments" in quote_problem("Chinaco Pharma paid Origin Bio $20 million", row, "Origin Bio", AS_OF, US,
+                                            names=["NB-7"], vocabulary=DESCRIPTION)
 
 
 CLEAN = [

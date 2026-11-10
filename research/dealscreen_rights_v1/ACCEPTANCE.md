@@ -85,3 +85,9 @@ The word OPEN reads as "pursuable". In fact the tool had no evidence either way.
   a dateline city is never a deal word. A quote of payment sentences alone blocks unless the row covers the buyer
   territory, as a signing sentence with no place does. Any `CLAUDE_CODE_*` or `CODEX_*` variable also marks an AI
   agent's shell. DealScreen still cannot verify that a HUMAN record was made by a person.
+- **Added after revision 16, disclosed (not a change to any criterion).** A quote with an omission mark ("...",
+  ". . .", "…", a bracket, brace or angle bracket) or a reference mark ("*", "#", "|", "~", "^", "\\") blocks. A
+  quote must state the row: a grant, a retention with a place, an ending or the event. A quote made only of payments,
+  "all other rights" or press text blocks on every row type and whatever the row's territory. A retention "for" or
+  "in" one use blocks, with or without a comma. "Upon the termination" and "After its termination" open no ending
+  sentence; "Following/After the termination" does.

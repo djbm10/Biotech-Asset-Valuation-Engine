@@ -299,8 +299,12 @@ def _unreadable(text: str, names: list[str]) -> str | None:
             "rights, so the quote is not read further")
 
 
-#: "[...]", "(...)", "[the Company]": an omission or an editor's insertion.
-_ELISION = re.compile(r"\[|\]|\(\s*(?:\.\s*){2,}\)|\(\s*\u2026\s*\)")
+#: "[...]", "(...)", "...", ". . .", "{...}", "<...>", "[the Company]": an omission or an editor's insertion (review
+#: R1v14 ELISION, R1v15 ELISION2). "\u2026" is written "..." by ``_TYPOGRAPHY`` first.
+_ELISION = re.compile(r"[\[\]{}<>]|\.\s*\.\s*\.")
+#: "*", "#", "|", "~", "^", "\\": a reference to a note the quote does not hold, or a mark DealScreen does not read
+#: (review R1v15 FOOTNOTE). Every other ASCII character is a letter, a digit or punctuation the reader reads.
+_REFERENCE = re.compile(r"[*#|~^\\]")
 
 
 def _row_day(e: dict[str, Any]) -> date | None:
@@ -323,6 +327,9 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
     if cut := _ELISION.search(text):  # review R1v14 ELISION: the source says words were left out
         return (f"marks words as left out or edited ('{text[max(0, cut.start() - 40): cut.end() + 20].strip()}'), so "
                 "the missing words may say who holds rights")
+    if cut := _REFERENCE.search(text):  # review R1v15 FOOTNOTE: "C*" points to a note that may limit the grant
+        return (f"has the mark '{cut.group(0)}' ('{text[max(0, cut.start() - 40): cut.end() + 20].strip()}'), which "
+                "may point to a note the quote does not hold, so the missing words may say who holds rights")
     if "?" in text:  # review R1v13 PUNCT: a question states nothing
         at = text.index("?")
         return (f"asks a question ('{text[max(0, at - 50): at + 1].strip()}'), so it does not state who holds "
@@ -334,7 +341,7 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
     named = roles + [(n, PROGRAM) for n in (names or []) if n]
     owner_mark = next((m for n, m in roles if company and n == company), None)
     grantor_owns = bool(company) and _one_entity(company, str(e.get("grantor") or ""))
-    money_only, read_any = True, False
+    states_rights = False
     for clause in _clauses(text) or [text]:
         masked = _strip_known(_mask(_prepare(clause), named), owner_mark).strip(" ,.")
         if not masked:
@@ -344,10 +351,14 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
         if not read.ok:
             whole = clause.strip(" .;") == text.strip(" .;")
             return read.why if whole else f"has the clause '{clause.strip()}', which {read.why}"
-        money_only, read_any = money_only and read.money_only, True
-    if read_any and money_only and not (own and territory <= own):  # review R1v14 PAYONLY, as UNPLACED2
-        return ("states only payments between the parties, not which rights were granted or where; the row's own "
-                f"territory is {'/'.join(sorted(own)) or 'unstated'}")
+        states_rights = states_rights or read.states_rights
+    # a quote must state the row: a grant, a retention with a place, an ending or the event itself. Payments, "all
+    # other rights" and lines removed as press furniture do not (review R1v14 PAYONLY, R1v15 NOTHING-READ), on every
+    # row type and whatever the row's territory
+    if not states_rights:
+        return ("states no grant, no retention with a place and no ending (only payments, \"all other rights\" or "
+                "press text), so it does not show which rights the row covers or where; the row's own territory is "
+                f"{'/'.join(sorted(own)) or 'unstated'}")
     return None
 
 

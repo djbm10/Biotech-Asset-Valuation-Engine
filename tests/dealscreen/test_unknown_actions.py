@@ -1101,3 +1101,79 @@ def test_r9_d7_a_state_word_assay_or_disease_acronym_is_not_another_target(value
     assert d["class"] == dg.SOURCE_STATES_NOT_REQUIRED_TARGET, d
     assert "also names another target" not in d["record"]
     assert "names no other target" in d["record"]
+
+
+# -- revision 10 (REVIEW9) ------------------------------------------------------------------------------------------
+@pytest.mark.parametrize(("name", "requested", "wanted"), [
+    ("Relapsing or progressive multiple sclerosis", ["relapsing multiple sclerosis"],
+     "Relapsing Multiple Sclerosis (requested"),                                                          # N1
+    ("Type 1 or 2 diabetes mellitus", ["type 2 diabetes mellitus"], "Type 2 Diabetes Mellitus (requested"),  # N3
+    ("Grade 1 or 2 follicular lymphoma", ["grade 2 follicular lymphoma"], "Grade 2 Follicular Lymphoma (requested"),
+    ("GVHD, acute or chronic, or AML", ["chronic graft versus host disease"],
+     "Chronic Graft Versus Host Disease (requested"),                                                     # N5
+    ("Diabetes mellitus, type 1 or type 2", ["type 2 diabetes mellitus"], "Type 2 Diabetes Mellitus (requested"),
+])
+def test_r10_the_record_names_the_requested_concept(name, requested, wanted):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == ir.AMBIGUOUS_NAME, d
+    assert wanted in d["record"], d["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "never"), [
+    ("Diffuse or follicular lymphoma", GASTRIC, "Gastric"),                                               # N2
+    ("Intestinal or extraintestinal Behçet's disease", GASTRIC, "Gastric"),
+    ("Mixed or pure germ cell tumor", GASTRIC, "Gastric"),
+    ("Diffuse, follicular, or mantle cell lymphoma", GASTRIC, "Gastric"),
+    ("Symptomatic or asymptomatic multiple myeloma", ["covid-19"], "COVID"),
+])
+def test_r10_n2_an_adjective_is_never_read_alone_as_another_concept(name, requested, never):
+    d = dg.indication_diagnostic([name], requested)
+    assert never not in d["record"].split("'", 2)[2], d["record"]
+
+
+def test_r10_n2_a_one_word_disease_is_still_read():
+    d = dg.indication_diagnostic(["Myeloma or lymphoma"], ["multiple myeloma"])
+    assert "Multiple Myeloma (requested" in d["record"], d["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "wanted"), [
+    ("Children with ALL or AML", ["adult acute lymphoblastic leukemia"], "Childhood Acute Lymphoblastic Leukemia"),
+    ("Adults with ALL or AML", ["childhood acute lymphoblastic leukemia"], "Adult Acute Lymphoblastic Leukemia"),
+])
+def test_r10_n4_a_stated_population_keeps_its_concept(name, requested, wanted):
+    d = dg.indication_diagnostic([name], requested)
+    assert wanted in d["record"] and "broader than requested" not in d["record"], d["record"]
+
+
+def test_r10_n5_each_inverted_modifier_reads_with_the_same_name():
+    d = dg.indication_diagnostic(["Leukemia, acute or chronic, or lymphoma"], ["acute lymphoblastic leukemia"])
+    assert "Chronic Leukemia" in d["record"] and "does not read 'chronic'" not in d["record"], d["record"]
+
+
+@pytest.mark.parametrize("name", ["ADVANCED NSCLC", "RELAPSED AML"])
+def test_r10_n6_a_capitals_cell_the_gate_reads_is_the_gate_reading(name):
+    d = dg.indication_diagnostic([name], GASTRIC)
+    assert "gate does not apply" not in d["record"] and "capitals" not in d["record"], d["record"]
+
+
+def test_r10_n7_a_capitals_cell_is_quoted_as_written():
+    d = dg.indication_diagnostic(["HCC (CHILD-PUGH A OR B)"], GASTRIC)
+    assert "'CHILD-PUGH A'" in d["record"] and "child-PUGH" not in d["record"], d["record"]
+
+
+@pytest.mark.parametrize("value", ["ABC1.2 negative in G1/G2 tumours", "ABC1.2 NEGATIVE IN 2L"])
+def test_r10_n8_a_grade_or_line_token_is_not_another_target(value):
+    d = dg.target_diagnostic([value], False, REQ, READ, ";")
+    assert "names no other target" in d["record"], d["record"]
+
+
+def test_r10_n9_a_set_apart_modifier_is_not_called_a_name():
+    d = dg.indication_diagnostic(["Crohn's disease or ulcerative colitis, severe"], ["ulcerative colitis"])
+    assert "does not read 'severe' with the name before it" in d["record"], d["record"]
+
+
+def test_r10_controls_unchanged():
+    assert dg.indication_diagnostic(["Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma"],
+                                    GASTRIC)["class"] == ir.READS_AS_REQUESTED
+    assert dg.indication_diagnostic(["Progressive or relapsing multiple sclerosis"],
+                                    ["progressive multiple sclerosis"])["class"] == ir.AMBIGUOUS_NAME

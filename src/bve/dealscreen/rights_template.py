@@ -15,7 +15,8 @@ few fixed sentences for the row's own type, with these slots:
 
 There is no slot for a modal ("may", "will"), a hold verb ("has the rights"), a negation (except the fixed lapse
 phrase "did not exercise"), a quantifier ("all", "full") outside a row that covers the buyer territory, or a
-condition ("after", "following", "upon", "subject to"). Every other clause blocks, with the clause quoted, until a
+condition ("upon", "subject to", "after its"; the one exception is an ending sentence opened by "Following/After
+the termination (of the license)", which states that the termination happened). Every other clause blocks, with the clause quoted, until a
 human analyst records a confirmation of the row (``review.Action.CONFIRM_RIGHTS_ROW``).
 """
 
@@ -318,8 +319,11 @@ def to_slots(clause: str, descriptors: frozenset[str]) -> Slots:
     long = [w for w in words if len(w) > 3]
     headline = (len(long) >= 2 and all(w[0].isupper() for w in long)) or (  # title case, or all capitals
         bool(words) and not any(c.islower() for w in words for c in w))
-    for i, m in enumerate(_WORD.finditer(clause)):
-        token = m.group(0)
+    tokens = [m.group(0) for m in _WORD.finditer(clause)]
+    # the dateline's date is kept as "On <date> ," before the text (review R1v14 DATELINE-DATE): the word after it
+    # opens the sentence too (review R1v15 UQ1, UQ7)
+    starts = {0, 3} if tokens[:3] == ["On", DATE_MARK, ","] else {0}
+    for i, token in enumerate(tokens):
         if token == ",":
             out.append(",")
             continue
@@ -330,7 +334,7 @@ def to_slots(clause: str, descriptors: frozenset[str]) -> Slots:
         if headline and word in template_words():
             out.append(word)  # a headline ("Alpha Bio Returns U.S. Rights to NB-7") capitalises template words
             continue
-        if token[0].isupper() and not (i == 0 and word in _OPENERS):
+        if token[0].isupper() and not (i in starts and word in _OPENERS):
             if _symbol_word(token, descriptors):
                 out.append(word)  # a target symbol or a modality acronym, checked as a description below
             else:
@@ -344,6 +348,10 @@ def to_slots(clause: str, descriptors: frozenset[str]) -> Slots:
 #: "P for gastric cancer": what the program treats, made only of description words, before the next slot word.
 _PURPOSE = re.compile(r"(?<![^ ])([PR]) for (?:the treatment of )?((?:[^ ,^A-Z]+ ){0,5}?[^ ,^A-Z]+)(?= (?:to|in|from|for|with) "
                       r"| ,|$)")
+#: A use a retention is limited to: "P for solid tumors", "P , in solid tumors", "P for Gastric Cancer" (review R1v14
+#: RET-PARTIAL2, R1v15 RET-PARTIAL3). Read on the clause before descriptions are folded; a place is a slot, never a use.
+_RETAINED_USE = re.compile(r"(?<![^ ])([PR])(?: ,)? (for|in) (?:the treatment of )?((?:\^?[^ ,^A-Z]+ ){0,5}?"
+                           r"\^?[^ ,^A-Z]+)(?= (?:to|in|from|for|with) | ,|$)")
 #: "the claudin18.2-targeting adc P": up to four description words directly before the program.
 _BEFORE = re.compile(r"((?:^| )(?:the|its|an?) )((?:[^ ,^A-Z]+ ){1,4})P(?= |$)")
 _DESCRIPTION = re.compile(r"(?:(?<=^)|(?<= ))P(?:_s)? , ((?:[^ ,^]+ ){0,11}[^ ,^]+)(?: ,(?= )|$)")
@@ -431,8 +439,9 @@ def _endings(allp: str) -> list[str]:
         r"(?: for convenience)?"),
     ]
     back = r"(?:returned|returns|handed back|hands back|relinquished|relinquishes|gave back|gives back)"
-    # "Following the termination , G regains ..." (review R1v14 UC54)
-    after = rf"(?:(?:following|after|upon) (?:the|this|its) (?:termination|expiration|end)(?: of (?:the|its) {deal})? , )?"
+    # "Following the termination , G regains ..." (review R1v14 UC54). Never "upon the termination", a contract term
+    # that says what happens if it ends, nor "its termination", which names no deal (review R1v15 UPON-COND)
+    after = rf"(?:(?:following|after) (?:the|this) (?:termination|expiration|end)(?: of the {deal})? , )?"
     rights = rf"(?:the |its |{allp})?(?:R )?(?:development (?:and commercial(?:ization)? )?|commercial )?rights"
     t += [
         rf"E {has}{back} {rights}(?: (?:to|for|of) {_PROGRAM})?{_PLACE} to G",
@@ -611,6 +620,9 @@ class TemplateRead:
     why: str | None = None
     #: the clause only states money between the parties
     money_only: bool = False
+    #: the clause states a grant, a placed retention, an ending or another event of the row, not only money or "all
+    #: other rights" (review R1v15 NOTHING-READ)
+    states_rights: bool = True
 
 
 _KEEPS = re.compile(r"(?:^| )(?:retains|retained|keeps|kept|has retained|has kept|will retain|will keep|"
@@ -638,9 +650,12 @@ def _read_retention(slots: Slots, text: str, kind: str, own: frozenset[str], buy
         return TemplateRead(False, "names more than one place for the rights the company keeps ("
                                    + "; ".join(slots.place_texts) + "), so DealScreen cannot tell where it keeps them; "
                                    "another party may hold rights in the buyer territory")
-    purpose = _PURPOSE.search(re.sub(r"\s+", " ", slots.text))
-    if purpose:  # "retains U.S. rights to P for gastric cancer": only some uses (review R1v14 RET-PARTIAL2)
-        return TemplateRead(False, f"says the company keeps rights only for {purpose.group(2)}, so another party may "
+    # "retains U.S. rights to P for gastric cancer" or "..., for solid tumors": only some uses (review R1v14
+    # RET-PARTIAL2, R1v15 RET-PARTIAL3). Read on the clause before descriptions are folded, in any case.
+    purpose = _RETAINED_USE.search(re.sub(r"\s+", " ", slots.text))
+    if purpose and not _REST_OF_WORLD.fullmatch(purpose.group(3).replace("^", "")):
+        use = purpose.group(3).replace("^", "")
+        return TemplateRead(False, f"says the company keeps rights only {purpose.group(2)} {use}, so another party may "
                                    "hold rights for other uses")
     covered: set[str] = set()
     for regions, written in zip(slots.places, slots.place_texts, strict=False):
@@ -657,11 +672,12 @@ def _read_retention(slots: Slots, text: str, kind: str, own: frozenset[str], buy
     elif not re.search(r"\ball (?:other|remaining) ", text):
         return TemplateRead(False, "says the company keeps rights without naming where, so it cannot be placed against "
                                    "the buyer territory")
+    placed = bool(slots.places)
     part = re.search(r"(?<!development and )\b(development|commercial(?:ization)?) rights", text)
     if part:
         return TemplateRead(False, f"says the company keeps only {part.group(1)} rights, so another party may hold the "
                                    "other rights")
-    return TemplateRead(True)
+    return TemplateRead(True, states_rights=placed)
 
 
 def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[str], as_of: date | None,
@@ -678,9 +694,9 @@ def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[s
         return TemplateRead(False, "says a party keeps rights in words DealScreen does not read (only plain "
                                    "\"retains rights to the program in one place\"), so another party may hold the "
                                    "rest")
-    if kind in (LICENSE, OPTION) and any(rx.match(text) or rx.match(text.replace(" ,", ""))
-                                         for rx in _payment_templates()):
-        return TemplateRead(True, money_only=True)
+    if kind in (LICENSE, OPTION, CO_PROMOTION_OPTION) and any(  # review R1v15 PAYONLY-CPO
+            rx.match(text) or rx.match(text.replace(" ,", "")) for rx in _payment_templates()):
+        return TemplateRead(True, money_only=True, states_rights=False)
     for regions in slots.places:
         if regions is None:
             return TemplateRead(False, "names a territory DealScreen cannot read")

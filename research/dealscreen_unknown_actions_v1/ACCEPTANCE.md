@@ -152,3 +152,18 @@ Two changes were made during implementation. Neither loosens a criterion.
   name with "or" inside an NCIt label is read whole first; a state word, an assay or a disease acronym is never a
   second target; the partly-read sentence shows its steps (review D1-D9). None of these changes a gate, disposition,
   rank or transaction field.
+- **After the ninth U1 review (revision 10), disclosed.**
+  - Any leading modifier piece is tried with the next name's head, or with its longest ending of two words or more
+    that NCIt reads. The list is split when NCIt reads the result; a word list no longer decides whether to try.
+  - A one-word piece read alone keeps only a reading that is that word's own disease (the label's head, the first
+    word of a two-word label, or a label made of the record's own words). Otherwise it is tried with the last name's
+    head, or named as unread.
+  - A number after "Type 1", "Grade 2" or "Stage III" keeps that word.
+  - A piece read without its population is read as NCIt's population child when one exists.
+  - Each later modifier inverts with the same base name.
+  - A capitals cell that reads like the gate's own reading uses the gate's reading and steps, and pieces from
+    capitals cells are quoted in capitals.
+  - Grade, line and stage tokens and function words in capitals are not target symbols.
+  - A modifier not read with the name before it is named that way (review N1-N9).
+
+  None of these changes a gate, disposition, rank or transaction field.

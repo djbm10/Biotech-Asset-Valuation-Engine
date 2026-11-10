@@ -596,6 +596,18 @@ def _head(piece: str, caps: bool) -> str:
     return " ".join(words)
 
 
+def _heads(piece: str, caps: bool) -> list[str]:
+    """The heads a leading modifier may borrow from the next name: the name without its modifier words, or else its
+    longest ending that is itself a disease name, of two words at least ("progressive multiple sclerosis" -> "multiple
+    sclerosis"). A one-word ending ("adenocarcinoma") would drop the site."""
+    first = _head(piece, caps)
+    if first != piece:
+        return [first]
+    words = piece.split()
+    tail = next((t for k in range(1, len(words) - 1) if _named(t := " ".join(words[k:]))), None)
+    return [tail] if tail else []
+
+
 def _named(text: str) -> bool:
     return bool(_index(text) or _index(us_spelling(text)))
 
@@ -604,6 +616,27 @@ def _basket_piece(piece: str) -> bool:
     """A piece of an "or" list that names a group of diseases ("other solid tumors", "all comers")."""
     tokens = _variants(piece)[0]
     return is_basket(piece) and any(t in _BASKET_HEADS | {"comers"} for t in tokens)
+
+
+#: Words a number defines in an "or" list: "Type 1 or 2 diabetes", "Grade 1 or 2 follicular lymphoma".
+_NUMBERED = frozenset({"type", "grade", "stage", "class"})
+
+
+def _numbered(piece: str, before: str, steps: list[str]) -> str:
+    """"2 diabetes mellitus" after "Type 1" is "Type 2 diabetes mellitus": the number keeps the word it numbers, and
+    is never removed as a stage token (review U1 R9 N3)."""
+    first = piece.split()[0] if piece.split() else ""
+    prior = before.split()
+    if (len(prior) == 2 and prior[0].casefold() in _NUMBERED and _STAGE_TOKEN.match(prior[1].casefold())
+            and _STAGE_TOKEN.match(first.casefold())):
+        steps.append(f"'{piece}' read as '{prior[0]} {piece}'")
+        return f"{prior[0]} {piece}"
+    return piece
+
+
+def is_modifier_piece(piece: str) -> bool:
+    """A piece of an "or" list made only of modifier words ("severe", "moderate to severe")."""
+    return _modifier_only(piece, _caps(piece))
 
 
 @dataclass(frozen=True)
@@ -632,23 +665,32 @@ def _list_pieces(name: str) -> _Pieces | None:
     raw = [p.strip(" ,;") for p in _OR_JOIN.split(text) if p.strip(" ,;")]
     out = _Pieces([], [], [], [])
     carry, set_aside = "", False
+    base: str | None = None  # the name before its first inverted modifier ("GVHD" in "GVHD, acute or chronic")
     for i, piece in enumerate(raw):
         if _basket_piece(piece) and not carry:
             out.baskets.append(piece)
             continue
         if _modifier_only(piece, caps) or _MARKER_PIECE.match(piece):
             if not out.names and i + 1 < len(raw):
-                head = _head(raw[i + 1], caps)
-                if not carry and _defining(piece) and head != raw[i + 1] and _named(f"{piece} {head}"):
+                # any leading modifier, not only a listed one, with the next name's head or its last words: NCIt
+                # decides whether it makes a concept ("Relapsing or progressive multiple sclerosis"; review U1 R9 N1)
+                head = next((h for h in _heads(raw[i + 1], caps) if _named(f"{piece} {h}")), None)
+                if not carry and not _MARKER_PIECE.match(piece) and head is not None:
                     out.names.append(f"{piece} {head}")
                     out.steps.append(f"'{piece}' read as '{piece} {head}'")
                 else:
                     carry = f"{carry}{piece} or "
             elif out.names and _defining(piece) and not _MARKER_PIECE.match(piece):
-                inverted = f"{piece} {out.names[-1]}"
+                # "GVHD, acute or chronic": each modifier with the same name, never with the last result (R9 N5)
+                inverted = f"{piece} {base if base is not None else out.names[-1]}"
                 if _named(inverted):
-                    out.steps.append(f"'{out.names[-1]}, {piece}' read as '{inverted}'")
-                    out.names[-1] = inverted
+                    shown = base if base is not None else out.names[-1]
+                    out.steps.append(f"'{shown}, {piece}' read as '{inverted}'")
+                    if base is None:
+                        base = out.names[-1]
+                        out.names[-1] = inverted
+                    else:
+                        out.names.append(inverted)
                 else:
                     out.unread.append(piece)
             else:
@@ -657,8 +699,9 @@ def _list_pieces(name: str) -> _Pieces | None:
                 set_aside = set_aside or not all(_STAGE_TOKEN.match(w.casefold())
                                                  for w in re.split(r"[\s\-/]+", piece) if w)
             continue
+        piece = _numbered(piece, raw[i - 1] if i else "", out.steps)
         out.names.append(carry + piece)
-        carry = ""
+        carry, base = "", None
     # "X (first or second line)": one name once its modifiers are set aside (review U1 R8 D9)
     if not out.names or (len(out.names) + len(out.baskets) < 2 and not set_aside):
         return None
@@ -680,11 +723,12 @@ def _conjuncts(name: str) -> Lookup | None:
     codes: list[str] = []
     unread = list(listed.unread)
     for piece in pieces:
-        found = _lookup(piece).codes
+        found = _alone(piece, _lookup(piece).codes, name, caps)
         if not found and (bare := _state_removed(piece, caps)) != piece and (found := _lookup(bare).codes):
             steps.append(f"'{piece}' read as '{bare}'")
         if not found and (bare := _population_removed(_state_removed(piece, caps))) not in {piece, ""} and (
                 found := _lookup(bare).codes):
+            found, bare = _with_population(piece, found, bare)
             steps.append(f"'{piece}' read as '{bare}'")
         if not found:
             for k in range(len(head) - 1, 0, -1):
@@ -698,6 +742,40 @@ def _conjuncts(name: str) -> Lookup | None:
             unread.append(piece)
     return Lookup(tuple(dict.fromkeys(codes)), tuple(steps), screen_reads=False, unread=tuple(unread),
                   baskets=tuple(listed.baskets))
+
+
+def _alone(piece: str, codes: tuple[str, ...], name: str, caps: bool) -> tuple[str, ...]:
+    """The readings of a one-word piece that are that word's own disease. The index holds adjectives as synonyms of
+    specific concepts ("diffuse" -> Gastric Diffuse Adenocarcinoma, "symptomatic" -> a COVID-19 concept); a reading
+    is kept only when the word is its label's head ("myeloma" -> Multiple Myeloma), the first of a two-word label
+    ("diabetes" -> Diabetes Mellitus), or every word of the label is in the record (review U1 R9 N2). An acronym
+    ("ALL") is a name and is kept."""
+    words = norm(piece).split()
+    if len(words) != 1 or (piece.isupper() and (not caps or _acronym(piece))):
+        return codes
+    word, record = words[0], set(norm(us_spelling(name)).split())
+    kept = []
+    for code in codes:
+        lab = [w for w in norm(label(code)).split() if w not in _FUNCTION]
+        if lab and (lab[-1] == word or (len(lab) == 2 and lab[0] == word) or set(lab) <= record):
+            kept.append(code)
+    return tuple(kept)
+
+
+#: The population word NCIt puts in a label, for a population the record states (review U1 R9 N4).
+_POPULATION_LABEL = {"children": "childhood", "child": "childhood", "childhood": "childhood", "pediatric": "childhood",
+                     "paediatric": "childhood", "juvenile": "childhood", "adult": "adult", "adults": "adult"}
+
+
+def _with_population(piece: str, codes: tuple[str, ...], bare: str) -> tuple[tuple[str, ...], str]:
+    """A piece read without its population ("Children with ALL" -> "ALL") is read as the concept's own population
+    child when NCIt has one ("Childhood Acute Lymphoblastic Leukemia"), so a pediatric record is never shown as the
+    parent of an adult request (review U1 R9 N4)."""
+    pop = next((_POPULATION_LABEL[w] for w in norm(piece).split()[:3] if w in _POPULATION_LABEL), None)
+    if pop is None:
+        return codes, bare
+    kids = [k for c in codes if (k := _code_by_label().get(norm(f"{pop} {label(c)}"))) and k in descendants(c)]
+    return (tuple(dict.fromkeys(kids)), f"{pop} {bare}") if kids else (codes, bare)
 
 
 def _whole(name: str) -> Lookup | None:
@@ -721,14 +799,27 @@ def _softened(name: str) -> str:
                   and not _STAGE_TOKEN.match(m.group(0).casefold()) else m.group(0), name)
 
 
+def _as_written(found: Lookup, name: str) -> Lookup:
+    """Pieces quoted from a softened cell in the record's own letters, which are all capitals ("CHILD-PUGH A", not
+    "child-PUGH a"; review U1 R9 N7). The step "its 'or' list" keeps its own word."""
+    def own(m: re.Match[str]) -> str:
+        return m.group(0) if m.group(1).casefold() == "or" else f"'{m.group(1).upper()}'"
+
+    return replace(found, steps=tuple(re.sub(r"'([^']+)'", own, s) for s in found.steps),
+                   unread=tuple(u.upper() for u in found.unread), baskets=tuple(b.upper() for b in found.baskets))
+
+
 def _raw_lookup(name: str) -> Lookup:
     if codes := _index(name):
         return Lookup(tuple(codes))
     if _caps(name) and (soft := _softened(name)) != name:
         found = _raw_lookup(soft)
         if found.codes:
-            return replace(found, steps=("modifier words in capitals read as ordinary words", *found.steps),
-                           screen_reads=False)
+            codes, steps = _screen_readings(name)
+            if set(codes) == set(found.codes):  # the gate reads the cell the same way (review U1 R9 N6)
+                return Lookup(tuple(codes), tuple(steps))
+            return _as_written(replace(found, steps=("modifier words in capitals read as ordinary words",
+                                                     *found.steps), screen_reads=False), name)
     if _HAS_OR.search(name) and (whole := _whole(name)) is not None:
         return whole
     if (each := _conjuncts(name)) is not None:  # the record's own list, before any clean-up (review U1 R7 F1)

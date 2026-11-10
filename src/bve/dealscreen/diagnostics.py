@@ -206,8 +206,12 @@ def _partly_read(reading: ir.NameReading) -> str:
         return ""
     read = "; ".join(dict.fromkeys(f"{lab} ({rel})" for lab, rel in reading.concepts))
     parts = []
-    if reading.unread:
-        parts.append("does not read " + " or ".join(f"'{p}'" for p in reading.unread))
+    names = [p for p in reading.unread if not ir.is_modifier_piece(p)]
+    loose = [p for p in reading.unread if ir.is_modifier_piece(p)]
+    if names:
+        parts.append("does not read " + " or ".join(f"'{p}'" for p in names))
+    if loose:  # "severe" set apart by commas is a modifier, not a name of the list (review U1 R9 N9)
+        parts.append("does not read " + " or ".join(f"'{p}'" for p in loose) + " with the name before it")
     if reading.baskets:  # review U1 R8 D2
         parts.append("reads " + " and ".join(f"'{p}'" for p in reading.baskets)
                      + " as a basket of diseases, not one name")
@@ -391,7 +395,9 @@ def _not_text(negated: dict[str, str]) -> str:
 
 #: Words in capitals that are a state or a negation, never a target ("CLDN18.2 NEGATIVE"; review U1 R8 D7).
 _STATE_SYMBOLS = frozenset({"NEGATIVE", "NEG", "NOT", "NON", "POSITIVE", "POS", "LOW", "HIGH", "ABSENT", "NULL",
-                            "EXPRESSION", "EXPRESSING", "AND", "OR"})
+                            "EXPRESSION", "EXPRESSING", "AND", "OR",
+                            # function words of a cell in capitals ("CLDN18.2 NEGATIVE IN 2L"; review U1 R9 N8)
+                            "IN", "OF", "ON", "AT", "BY", "TO", "FOR", "WITH", "THE", "AS", "VS"})
 
 
 def _symbols(part: str) -> set[str]:
@@ -402,10 +408,17 @@ def _symbols(part: str) -> set[str]:
             and w.upper() not in _STATE_SYMBOLS}
 
 
+#: A grade, line, stage or cycle token is not a target, though it has a digit ("G1/G2", "2L", "IV"; review U1 R9 N8).
+_NOT_TARGET_TOKEN = re.compile(r"(?i)^(?:g[1-4x]|[1-4]l|l[1-4]|grade[1-4]|stage[1-4ivx]+[a-c]?|ecog\d?|q\d+w|"
+                               r"[ivx]+[a-c]?|\d+[a-c]?)$")
+
+
 def _other_target(part: str, symbol: str, read: TargetReader) -> bool:
     """A second symbol in a negated part that reads as a target, or has a target's shape (letters and a digit): an
-    assay ("IHC") or a disease acronym ("GC") is not one (review U1 R8 D7)."""
-    return any(symbol.casefold() not in w.casefold() and (any(c.isdigit() for c in w) or read(w))
+    assay ("IHC") or a disease acronym ("GC") is not one (review U1 R8 D7), nor a grade or line token (R9 N8)."""
+    return any(symbol.casefold() not in w.casefold()
+               and not all(_NOT_TARGET_TOKEN.match(t) for t in re.split(r"[/,]+", w) if t)
+               and (any(c.isdigit() for c in w) or read(w))
                for w in _symbols(part))
 
 

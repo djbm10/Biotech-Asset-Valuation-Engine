@@ -131,6 +131,15 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 16 (AI-SIMULATED; 2026-11-10):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | A quote with an omission or reference mark blocks; a quote must state a grant, a placed retention or an ending; a retention for one use blocks with or without a comma; "Upon the termination" is no ending; the word after a dateline date opens the sentence | REREVIEW14's ws_p 7 → 0 top-tier programs; CLDN18.2 transaction CSV byte-identical; realistic sentences 9 → 12 of 16; 15 of 17 real quotes still need an analyst confirmation | not reviewed |
+| 5 | Resolving UNKNOWN decisions (U1 revision 10) | Any leading modifier is tried with the next name's head; an adjective is never read alone as another concept; a number keeps its word; a population keeps its concept; capitals cells the gate reads use the gate's reading | REVIEW9's N1-N5 rows give the expected reading end to end; CLDN18.2 class counts unchanged | not reviewed |
+
+Gates H, B and I are unchanged.
+
 **After cycle R1 revision 15 (AI-SIMULATED; 2026-11-08):**
 
 | # | Dimension | Change | Evidence | Status |
