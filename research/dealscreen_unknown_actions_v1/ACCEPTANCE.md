@@ -167,3 +167,15 @@ Two changes were made during implementation. Neither loosens a criterion.
   - A modifier not read with the name before it is named that way (review N1-N9).
 
   None of these changes a gate, disposition, rank or transaction field.
+- **After the tenth U1 review (revision 11), disclosed.**
+  - A capitals cell takes the gate's reading only when U1 read every piece of it; otherwise U1's reading, with its
+    unread pieces named, is kept.
+  - A one-word piece's reading is refused only when the word is a non-head word of the label (the N2 shape), in any
+    letter case; acronyms and synonyms are read in any case.
+  - A borrowed ending is refused when the words it drops hold an NCIt site.
+  - A bare number after an inverted "type/grade/stage/class N" keeps that word; a line token ("2L") is never such a
+    number; a carried prefix is quoted as written.
+  - An inverted modifier after a basket piece is named as unread.
+  - A nested list U1 split shows its own steps (review P1-P8).
+
+  None of these changes a gate, disposition, rank or transaction field.

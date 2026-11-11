@@ -208,7 +208,6 @@ CLEAN = [
     ("CN", ("Origin Bio licensed NB-7, an investigational anti-CLDN18.2 antibody-drug conjugate for gastric cancer, to "
            "Chinaco Pharma in Greater China excluding Hong Kong, Macau and Taiwan")),
     ("CN", "ORIGIN BIO LICENSES NB-7 TO CHINACO PHARMA IN MAINLAND CHINA"),
-    ("CN", "China rights"),
     ("CN", "Chinaco Pharma licenses China rights; Origin Bio retains all rights outside China"),  # a plain form
     ("RET", "Alpha Bio returned U.S. rights to NB-7 to Origin Bio"),
     ("RET", "Alpha Bio returns U.S. rights to Origin Bio"),

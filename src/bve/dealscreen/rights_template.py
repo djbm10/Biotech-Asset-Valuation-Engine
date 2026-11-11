@@ -350,8 +350,26 @@ _PURPOSE = re.compile(r"(?<![^ ])([PR]) for (?:the treatment of )?((?:[^ ,^A-Z]+
                       r"| ,|$)")
 #: A use a retention is limited to: "P for solid tumors", "P , in solid tumors", "P for Gastric Cancer" (review R1v14
 #: RET-PARTIAL2, R1v15 RET-PARTIAL3). Read on the clause before descriptions are folded; a place is a slot, never a use.
-_RETAINED_USE = re.compile(r"(?<![^ ])([PR])(?: ,)? (for|in) (?:the treatment of )?((?:\^?[^ ,^A-Z]+ ){0,5}?"
+_RETAINED_USE = re.compile(r"(?<![^ ])([PR])(?: ,)? (for|in) (?:the treatment of )?((?:\^?[^ ,^A-Z]+ )*?"
                            r"\^?[^ ,^A-Z]+)(?= (?:to|in|from|for|with) | ,|$)")
+#: A use that is every use: "for all indications" keeps the whole program (review R1v16 RU9, RU10).
+_EVERY_USE = re.compile(r"^(?:all|any|every) (?:other )?(?:indications?|uses?|fields?(?: of use)?|therapeutic areas?)$")
+
+
+def use_limit(slots: Slots) -> str | None:
+    """The one use a retention or a return is limited to ("for solid tumors", "..., in first-line locally advanced
+    or metastatic gastric cancer"), read before descriptions are folded and with no word limit (review R1v14
+    RET-PARTIAL2, R1v15 RET-PARTIAL3, R1v16 RET-PARTIAL4, PARTIAL-RETURN). None for no use, the rest of the world, or
+    every use."""
+    found = _RETAINED_USE.search(re.sub(r"\s+", " ", slots.text))
+    if not found:
+        return None
+    use = found.group(3).replace("^", "")
+    if _REST_OF_WORLD.fullmatch(use) or _EVERY_USE.match(use):
+        return None
+    return f"{found.group(2)} {use}"
+
+
 #: "the claudin18.2-targeting adc P": up to four description words directly before the program.
 _BEFORE = re.compile(r"((?:^| )(?:the|its|an?) )((?:[^ ,^A-Z]+ ){1,4})P(?= |$)")
 _DESCRIPTION = re.compile(r"(?:(?<=^)|(?<= ))P(?:_s)? , ((?:[^ ,^]+ ){0,11}[^ ,^]+)(?: ,(?= )|$)")
@@ -599,10 +617,19 @@ def _templates(kind: str, all_ok: bool) -> tuple[tuple[re.Pattern[str], bool], .
             rf"E {has}(?:completed|completes|closed|closes) (?:its |the )?tender offer for {whole}G{price}",
             rf"E (?:today )?(?:announced|announces) (?:the )?(?:completion|closing) of (?:its|the) acquisition of G{price}",
         ]
-    # a quote that is only the row's rights ("China rights", "exclusive U.S. rights to NB-7")
-    tp.append(rf"(?:the |{allp})?(?:exclusive |sole )?(?:R )?rights(?: (?:to|for|of) {_PROGRAM})?")
+    # a quote that is only the row's rights ("China rights", "exclusive U.S. rights to NB-7"); it restates the
+    # row's place but states no grant, so alone it does not state the row (review R1v16 BARE-RIGHTS)
+    tp.append(_BARE_RIGHTS.format(allp=allp))
     return tuple((re.compile(_frame(c.replace("G and E", "(?:G and E|E and G)"))), place)
                  for group, place in ((t, False), (tp, True)) for c in group)
+
+
+_BARE_RIGHTS = rf"(?:the |{{allp}})?(?:exclusive |sole )?(?:R )?rights(?: (?:to|for|of) {_PROGRAM})?"
+
+
+@lru_cache(maxsize=1)
+def _bare_rights() -> re.Pattern[str]:
+    return re.compile(_frame(_BARE_RIGHTS.format(allp=r"(?:all (?:of )?(?:the )?)")))
 
 
 def _template_text(slots: Slots, descriptors: frozenset[str]) -> str:
@@ -652,11 +679,9 @@ def _read_retention(slots: Slots, text: str, kind: str, own: frozenset[str], buy
                                    "another party may hold rights in the buyer territory")
     # "retains U.S. rights to P for gastric cancer" or "..., for solid tumors": only some uses (review R1v14
     # RET-PARTIAL2, R1v15 RET-PARTIAL3). Read on the clause before descriptions are folded, in any case.
-    purpose = _RETAINED_USE.search(re.sub(r"\s+", " ", slots.text))
-    if purpose and not _REST_OF_WORLD.fullmatch(purpose.group(3).replace("^", "")):
-        use = purpose.group(3).replace("^", "")
-        return TemplateRead(False, f"says the company keeps rights only {purpose.group(2)} {use}, so another party may "
-                                   "hold rights for other uses")
+    if use := use_limit(slots):
+        return TemplateRead(False, f"says the company keeps rights only {use}, so another party may hold rights for "
+                                   "other uses")
     covered: set[str] = set()
     for regions, written in zip(slots.places, slots.place_texts, strict=False):
         if regions is None and own and _REST_OF_WORLD.search(written):
@@ -694,6 +719,9 @@ def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[s
         return TemplateRead(False, "says a party keeps rights in words DealScreen does not read (only plain "
                                    "\"retains rights to the program in one place\"), so another party may hold the "
                                    "rest")
+    if kind in (TERMINATION, RIGHTS_RETURNED) and (use := use_limit(slots)):  # review R1v16 PARTIAL-RETURN
+        return TemplateRead(False, f"says the rights ended or returned only {use}, so another party may still hold "
+                                   "rights for other uses")
     if kind in (LICENSE, OPTION, CO_PROMOTION_OPTION) and any(  # review R1v15 PAYONLY-CPO
             rx.match(text) or rx.match(text.replace(" ,", "")) for rx in _payment_templates()):
         return TemplateRead(True, money_only=True, states_rights=False)
@@ -712,7 +740,8 @@ def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[s
                 return TemplateRead(False, ("grants rights or states an agreement without naming a place, which reads "
                                             "as the whole program; the row's own territory is "
                                             f"{'/'.join(sorted(own)) or 'unstated'}"))
-            return TemplateRead(True)
+            bare = bool(_bare_rights().match(text) or _bare_rights().match(text.replace(" ,", "")))
+            return TemplateRead(True, states_rights=not bare)
     if slots.capitalised:
         names = ", ".join(dict.fromkeys(slots.capitalised))
         return TemplateRead(False, f"names {names}, which is not a party to the row, the program's company, the program "

@@ -91,3 +91,8 @@ The word OPEN reads as "pursuable". In fact the tool had no evidence either way.
   "all other rights" or press text blocks on every row type and whatever the row's territory. A retention "for" or
   "in" one use blocks, with or without a comma. "Upon the termination" and "After its termination" open no ending
   sentence; "Following/After the termination" does.
+- **Added after revision 17, disclosed (not a change to any criterion).** A retention, termination or return
+  limited to a use ("for solid tumors", however long, with or without a comma) blocks; "all indications" is not a
+  limit. A quote that ends in ",", ":", ";" or "-", or holds a dash between words, blocks as cut. "+", "=", "@", "!",
+  "_", "&" outside a known name and "%" not after a number block; "~" before an amount is read. A bare "<place>
+  rights" does not state the row.

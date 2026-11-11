@@ -16401,7 +16401,7 @@
           "summary": "a modality the authority cannot type"
         },
         "strategy.indication": {
-          "action": "'Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma' reads as Gastric Adenocarcinoma; Gastroesophageal Junction Adenocarcinoma (NCIt) once its 'or' list split into 2 names and 'Unresectable or Metastatic Gastric' read as 'Unresectable or Metastatic Gastric Adenocarcinoma', a clean-up the gate does not apply, a requested indication or a subtype (and 5 other name(s) on record). What would pass the gate: a cited source naming gastric adenocarcinoma or gastroesophageal junction adenocarcinoma (or a subtype) for this program; enter it with `assert --field indication`, the source URL and a verbatim quote. The gate never fails on this evidence, so a program for another indication stays open.",
+          "action": "'Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma' reads as Unresectable Gastric Adenocarcinoma; Metastatic Gastric Adenocarcinoma; Gastroesophageal Junction Adenocarcinoma (NCIt) once its 'or' list split into 2 names and 'Unresectable or Metastatic Gastric' read as 'Unresectable or Metastatic Gastric Adenocarcinoma' and in 'Unresectable or Metastatic Gastric Adenocarcinoma', its 'or' list split into 2 names and 'Unresectable' read as 'Unresectable Gastric Adenocarcinoma', a clean-up the gate does not apply, a requested indication or a subtype (and 5 other name(s) on record). What would pass the gate: a cited source naming gastric adenocarcinoma or gastroesophageal junction adenocarcinoma (or a subtype) for this program; enter it with `assert --field indication`, the source URL and a verbatim quote. The gate never fails on this evidence, so a program for another indication stays open.",
           "class": "READS_AS_REQUESTED",
           "closes": "pass",
           "fact": "a cited source naming gastric adenocarcinoma or gastroesophageal junction adenocarcinoma (or a subtype)",
@@ -16412,7 +16412,11 @@
               "name": "Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma",
               "ncit": [
                 {
-                  "label": "Gastric Adenocarcinoma",
+                  "label": "Unresectable Gastric Adenocarcinoma",
+                  "relation": "requested or a subtype"
+                },
+                {
+                  "label": "Metastatic Gastric Adenocarcinoma",
                   "relation": "requested or a subtype"
                 },
                 {
@@ -16428,7 +16432,8 @@
               ],
               "steps": [
                 "its 'or' list split into 2 names",
-                "'Unresectable or Metastatic Gastric' read as 'Unresectable or Metastatic Gastric Adenocarcinoma'"
+                "'Unresectable or Metastatic Gastric' read as 'Unresectable or Metastatic Gastric Adenocarcinoma'",
+                "in 'Unresectable or Metastatic Gastric Adenocarcinoma', its 'or' list split into 2 names and 'Unresectable' read as 'Unresectable Gastric Adenocarcinoma'"
               ]
             },
             {
@@ -16514,7 +16519,7 @@
             "Borderline Resectable Pancreatic Adenocarcinoma"
           ],
           "policy": "DealScreen unknown-gate diagnostic v2",
-          "record": "'Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma' reads as Gastric Adenocarcinoma; Gastroesophageal Junction Adenocarcinoma (NCIt) once its 'or' list split into 2 names and 'Unresectable or Metastatic Gastric' read as 'Unresectable or Metastatic Gastric Adenocarcinoma', a clean-up the gate does not apply, a requested indication or a subtype (and 5 other name(s) on record).",
+          "record": "'Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma' reads as Unresectable Gastric Adenocarcinoma; Metastatic Gastric Adenocarcinoma; Gastroesophageal Junction Adenocarcinoma (NCIt) once its 'or' list split into 2 names and 'Unresectable or Metastatic Gastric' read as 'Unresectable or Metastatic Gastric Adenocarcinoma' and in 'Unresectable or Metastatic Gastric Adenocarcinoma', its 'or' list split into 2 names and 'Unresectable' read as 'Unresectable Gastric Adenocarcinoma', a clean-up the gate does not apply, a requested indication or a subtype (and 5 other name(s) on record).",
           "summary": "a name that reads as requested only after a clean-up the gate does not apply"
         }
       },

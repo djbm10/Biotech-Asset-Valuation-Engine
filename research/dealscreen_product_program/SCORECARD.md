@@ -131,6 +131,15 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 17 (AI-SIMULATED; 2026-11-11):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | One use check on retentions, terminations and returns; a cut quote or an unread mark blocks; a bare "<place> rights" states nothing; "~" before an amount is read | REREVIEW15's ws_q 5 → 0 top-tier programs; p16 31 → 16 of 67 (controls, by-design and judgement rows remain); CLDN18.2 transaction CSV byte-identical; 15 of 17 real quotes still need an analyst confirmation | not reviewed |
+| 5 | Resolving UNKNOWN decisions (U1 revision 11) | Letter case no longer decides what U1 reads: a capitals list keeps its unread pieces, acronyms and synonyms are read in any case, adjectives are refused in any case; a borrowed ending keeps its site; inverted numbered lists keep their word | REVIEW10's P1-P8 rows give the expected reading in lower, mixed and upper case; CLDN18.2 class counts unchanged | not reviewed |
+
+Gates H, B and I are unchanged.
+
 **After cycle R1 revision 16 (AI-SIMULATED; 2026-11-10):**
 
 | # | Dimension | Change | Evidence | Status |

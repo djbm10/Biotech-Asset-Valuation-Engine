@@ -230,8 +230,9 @@ from the landscape's and analysts' U.S.-rights fields, and anything it cannot re
   position every applied rights row of the program is cited and its quote read, whatever the row's own territory.
   Every character of the quote is read: typographic quotes, dashes, spaces and marks are written in ASCII, and any
   other non-ASCII text (Chinese, full-width letters) blocks, quoted, and so does a question mark, a mark of left-out
-  or edited words ("...", "…", ". . .", "[...]", "{...}", "<...>", "[the Company]") or a reference mark ("*", "#",
-  "|", "~", "^", "\\"). A leading dateline (a city on the first line, of one word, from
+  or edited words ("...", "…", ". . .", "[...]", "{...}", "<...>", "[the Company]"), a reference mark ("*", "#",
+  "|", "^", "\\", "+", "=", "@", "!", "_", "&" outside a known name, "%" not after a number, "~" not before an
+  amount), or a cut: a quote that ends in ",", ":", ";" or "-", or holds a dash between words. A leading dateline (a city on the first line, of one word, from
   a list of multi-word cities or a prefix such as "North" or "West" and one word, never a deal word such as
   "TAKEOVER"; region parts that are U.S. states, provinces or countries; a full date and a known wire), an exchange
   note "(Nasdaq: ACME)", a "said <person>, <title> of <known party>" attribution, an adviser clause of a known party
@@ -259,13 +260,15 @@ from the landscape's and analysts' U.S.-rights fields, and anything it cannot re
     program's company and its one place includes the buyer territory ("outside the United States" blocks, and so does
     a scope with an exclusion, "worldwide rights to NB-7, excluding the United States"); with no place only as "all
     other rights"; the object is plain "rights", never "rights to develop" or rights "for" one use; never "will
-    retain" or only development or commercial rights, and never "for" or "in" one use, with or without a comma;
+    retain" or only development or commercial rights, and never "for" or "in" one use, however long, with or
+    without a comma;
   - payment sentences between the row's parties ("will pay … an upfront payment of $20 million", "is eligible to
     receive up to $200 million in milestones"), beside a sentence that states the rights;
   - an optional date with a year (a capitalised month, so "may" is never a month), whose period ends on or before
     the as-of date or holds the row's own date; an optional amount.
   A quote must state the row: a grant, a retention with a place, an ending or the event. A quote made only of
-  payments, "all other rights" or press text blocks on every row type. An ending may open with "Following (or After)
+  payments, "all other rights", a bare "<place> rights" or press text blocks on every row type. A termination or
+  return limited to one use blocks, as a retention does. An ending may open with "Following (or After)
   the termination (of the license agreement)," which states that it happened, never with "Upon the termination",
   which is a contract term. Anything else blocks, quoting the clause, with a question. A human analyst who has read the source can then record
   `CONFIRM_RIGHTS_ROW` for the row's event id (listed in the workbook's rights evidence) with `decide

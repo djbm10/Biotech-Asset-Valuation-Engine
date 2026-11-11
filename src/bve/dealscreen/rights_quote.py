@@ -8,8 +8,11 @@ place inside the row's territory, a date not after the as-of date and an amount,
 rights ...". The plain-form reader (``rights_allow``) no longer reads quotes: it read "it", "we" and "the company" as
 the program's company (review R1v12 PF-PRONOUN, SUFFIX2).
 
-Every character is read. Typographic punctuation is written in ASCII first; any other character outside ASCII
-(Chinese text, full-width letters) blocks with the clause quoted (review R1v12 NONLATIN).
+No character is dropped unread. Typographic punctuation is written in ASCII first; any other character outside ASCII
+(Chinese text, full-width letters) blocks with the clause quoted (review R1v12 NONLATIN). Of ASCII, the reader reads
+letters, digits, spaces and . , ; : ' " ( ) / - $, plus "%" right after a number, "~" before an amount and "&" inside a
+known name. Every other ASCII mark blocks: an omission mark, a note mark, a question mark, or a quote that ends in
+",", ":", ";" or "-" or holds a dash between words (review R1v14 ELISION, R1v15 FOOTNOTE, R1v16 CUT, FOOTNOTE2).
 
 Before reading, press furniture is removed, each only when anchored: a dateline on the first line of the quote whose
 city is in capitals and whose region parts are places ("BOSTON, Mass., March 3, 2025 /PRNewswire/ --"), a stock
@@ -285,16 +288,20 @@ def _strip_known(masked: str, owner_mark: str | None = None) -> str:
     return _sub_named(_BYLINE, masked)
 
 
-def _unreadable(text: str, names: list[str]) -> str | None:
-    """Text outside ASCII that is not part of a known name: DealScreen cannot read it, so it may say anything
-    (review R1v12 NONLATIN). The text around it is quoted."""
-    rest = text
+def _blank_names(text: str, names: list[str]) -> str:
+    """``text`` with each known name replaced by spaces of the same length, so positions still hold in ``text``."""
     for name in sorted({n.translate(_TYPOGRAPHY).strip() for n in names if n.strip()}, key=len, reverse=True):
-        rest = re.sub(re.escape(name), " ", rest, flags=re.IGNORECASE)
+        text = re.sub(re.escape(name), lambda m: " " * len(m.group(0)), text, flags=re.IGNORECASE)
+    return text
+
+
+def _unreadable(text: str, rest: str) -> str | None:
+    """Text outside ASCII that is not part of a known name (``rest`` is ``text`` with the names blanked): DealScreen
+    cannot read it, so it may say anything (review R1v12 NONLATIN). The text around it is quoted."""
     if _READABLE.fullmatch(rest):
         return None
     bad = next(i for i, c in enumerate(rest) if not _READABLE.fullmatch(c))
-    piece = rest[max(0, bad - 20): bad + 40].strip()
+    piece = text[max(0, bad - 20): bad + 40].strip()
     return (f"has text DealScreen cannot read ('{piece}'): characters outside plain English text may say who holds "
             "rights, so the quote is not read further")
 
@@ -302,9 +309,17 @@ def _unreadable(text: str, names: list[str]) -> str | None:
 #: "[...]", "(...)", "...", ". . .", "{...}", "<...>", "[the Company]": an omission or an editor's insertion (review
 #: R1v14 ELISION, R1v15 ELISION2). "\u2026" is written "..." by ``_TYPOGRAPHY`` first.
 _ELISION = re.compile(r"[\[\]{}<>]|\.\s*\.\s*\.")
-#: "*", "#", "|", "~", "^", "\\": a reference to a note the quote does not hold, or a mark DealScreen does not read
-#: (review R1v15 FOOTNOTE). Every other ASCII character is a letter, a digit or punctuation the reader reads.
-_REFERENCE = re.compile(r"[*#|~^\\]")
+#: "*", "#", "|", "^", "\\", "+", "=", "@", "!", "_": a reference to a note the quote does not hold, or a mark
+#: DealScreen does not read (review R1v15 FOOTNOTE, R1v16 FOOTNOTE2); "~" except before an amount ("~$20 million",
+#: R1v16 RM1); "%" except right after a number ("100%"); "&" outside a known name. Brackets, braces and "..." block
+#: before this as omission marks (``_ELISION``), and "?" after it as a question. The reader reads letters, digits,
+#: spaces and . , ; : ' " ( ) / - $; every other ASCII character blocks in one of these checks.
+_REFERENCE = re.compile(r"[*#|^\\+=@!_]|~(?!\s*[$\d])|(?<!\d)%|&")
+#: A quote that ends mid-sentence (",", ":", ";", "-"): words may have been cut (review R1v16 CUT).
+_CUT = re.compile(r"[,:;\-]\s*$")
+#: A dash between words ("granted Tessaly -- exclusive rights"): words may have been cut. Checked last, so a dateline
+#: that is not stripped is blocked with its own reason first.
+_DASH = re.compile(r"\s-{1,2}\s|(?<=\w)--(?=\w)")
 
 
 def _row_day(e: dict[str, Any]) -> date | None:
@@ -322,19 +337,25 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
     kind = str(e.get("type") or "")
     parties = [str(x) for x in (e.get("grantor"), e.get("grantee"), company) if x]
     text = text.translate(_TYPOGRAPHY)
-    if why := _unreadable(text, parties + [n for n in (names or []) if n]):
+    unnamed = _blank_names(text, parties + [n for n in (names or []) if n])
+    if why := _unreadable(text, unnamed):
         return why
     if cut := _ELISION.search(text):  # review R1v14 ELISION: the source says words were left out
         return (f"marks words as left out or edited ('{text[max(0, cut.start() - 40): cut.end() + 20].strip()}'), so "
                 "the missing words may say who holds rights")
-    if cut := _REFERENCE.search(text):  # review R1v15 FOOTNOTE: "C*" points to a note that may limit the grant
-        return (f"has the mark '{cut.group(0)}' ('{text[max(0, cut.start() - 40): cut.end() + 20].strip()}'), which "
-                "may point to a note the quote does not hold, so the missing words may say who holds rights")
+    if cut := _REFERENCE.search(unnamed):  # review R1v15 FOOTNOTE: "C*" points to a note that may limit the grant
+        mark = cut.group(0)
+        return (f"has the mark '{mark}' ('{text[max(0, cut.start() - 40): cut.end() + 20].strip()}'), which "
+                "may point to a note the quote does not hold, or which DealScreen does not read, so the missing words "
+                "may say who holds rights")
     if "?" in text:  # review R1v13 PUNCT: a question states nothing
         at = text.index("?")
         return (f"asks a question ('{text[max(0, at - 50): at + 1].strip()}'), so it does not state who holds "
                 "rights")
     text = _prepare_text(text)
+    if cut := _CUT.search(text.rstrip()):  # review R1v16 CUT: a trailing ",", ":", ";" or "-"
+        return (f"looks cut off ('{text[max(0, cut.start() - 40): cut.end() + 10].strip()}'), so the missing words may "
+                "say who holds rights")
     if why := _variants(_prepare(text), parties):
         return why
     roles = _roles(e, company)
@@ -355,9 +376,13 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
     # a quote must state the row: a grant, a retention with a place, an ending or the event itself. Payments, "all
     # other rights" and lines removed as press furniture do not (review R1v14 PAYONLY, R1v15 NOTHING-READ), on every
     # row type and whatever the row's territory
+    if cut := _DASH.search(text):  # review R1v16 CUT: a dash between words
+        return (f"looks cut off ('{text[max(0, cut.start() - 40): cut.end() + 10].strip()}'), so the missing words may "
+                "say who holds rights")
     if not states_rights:
-        return ("states no grant, no retention with a place and no ending (only payments, \"all other rights\" or "
-                "press text), so it does not show which rights the row covers or where; the row's own territory is "
+        return ("states no grant, no retention with a place and no ending (only payments, \"all other rights\", a "
+                "bare \"<place> rights\" or press text), so it does not show which rights the row covers or where; "
+                "the row's own territory is "
                 f"{'/'.join(sorted(own)) or 'unstated'}")
     return None
 

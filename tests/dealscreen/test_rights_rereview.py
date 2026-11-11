@@ -422,7 +422,7 @@ def test_e2_an_analyst_rights_assertion_against_the_rights_file_is_a_conflict(tm
     ws.import_landscape(demo_dir / "landscape_200.csv", demo_dir / "profile_synthetic_vendor.yaml", buyer)
     rows = [  # both programs have an empty U.S.-rights cell; each licensor is the program's landscape originator
         ["R1", "SYN-0051", "Licensing", "Chinaco", "Corvane Bio", "mainland China", "2026-03-01", "Active",
-         "https://x.test/1", "China rights"],
+         "https://x.test/1", "Corvane Bio granted Chinaco exclusive rights in mainland China"],
         ["R2", "SYN-0154", "Licensing", "Bigco", "Pellucid Pharma", "United States", "2026-03-01", "Active",
          "https://x.test/2", "U.S. rights"],
     ]

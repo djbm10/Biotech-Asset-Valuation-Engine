@@ -283,3 +283,15 @@ End to end, 7 held-out programs reached a top tier. Revision 16 closes the four 
 - 15 of 17 real quotes still need an analyst confirmation.
 
 The verdict above is unchanged, and revision 16 has not been reviewed.
+
+**Addendum (2026-11-11, revision 17).** Round 16 (`REREVIEW15.md`) found no High error in revision 16, 1 Medium (a
+retention limited to a long use after a comma passed) and 4 Low (cut quotes, unread marks, a bare "<place> rights",
+an overstated docstring). It asked that partial returns be revisited. End to end, 5 held-out programs reached a top
+tier. Revision 17 runs one use check on retentions and endings and blocks cut quotes, unread marks and bare rights.
+Implementer-measured:
+- the review's ws_q goes 5 → 0;
+- the CLDN18.2 transaction output is byte-identical;
+- "~$20 million" passes again;
+- 15 of 17 real quotes still need an analyst confirmation.
+
+The verdict above is unchanged, and revision 17 has not been reviewed.

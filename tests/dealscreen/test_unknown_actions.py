@@ -1177,3 +1177,123 @@ def test_r10_controls_unchanged():
                                     GASTRIC)["class"] == ir.READS_AS_REQUESTED
     assert dg.indication_diagnostic(["Progressive or relapsing multiple sclerosis"],
                                     ["progressive multiple sclerosis"])["class"] == ir.AMBIGUOUS_NAME
+
+
+# -- revision 11 (REVIEW10) ------------------------------------------------------------------------------------------
+
+
+def _cases(name: str) -> list[str]:
+    """The record name as written, in lower case and in capitals: letter case never decides what U1 reads (P1-P3)."""
+    return list(dict.fromkeys([name, name.lower(), name.upper()]))
+
+
+N2_ROWS = [
+    ("Diffuse or follicular lymphoma", GASTRIC, "Gastric"),
+    ("Intestinal or extraintestinal Behçet's disease", GASTRIC, "Gastric"),
+    ("Mixed or pure germ cell tumor", GASTRIC, "Gastric"),
+    ("Diffuse, follicular, or mantle cell lymphoma", GASTRIC, "Gastric"),
+    ("Diffuse or follicular lymphoma or pain", GASTRIC, "Gastric"),
+    ("Diffuse or follicular lymphoma", ["diffuse large b-cell lymphoma, not otherwise specified"], "Gastric"),
+    ("Symptomatic or asymptomatic multiple myeloma", ["covid-19"], "COVID"),
+]
+
+
+@pytest.mark.parametrize(("name", "requested", "never"),
+                         [(c, r, n) for name, r, n in N2_ROWS for c in _cases(name)])
+def test_r11_p3_an_adjective_is_never_read_alone_in_any_case(name, requested, never):
+    d = dg.indication_diagnostic([name], requested)
+    assert never not in d["record"].split("'", 2)[2], d["record"]
+
+
+ACRONYM_ROWS = [
+    ("mCRPC or mHSPC", ["metastatic castration-resistant prostate carcinoma"],
+     "Metastatic Castration-Resistant Prostate Carcinoma (requested"),
+    ("mCRPC or nmCRPC", ["metastatic castration-resistant prostate carcinoma"],
+     "Metastatic Castration-Resistant Prostate Carcinoma (requested"),
+    ("HCC or iCCA", ["intrahepatic cholangiocarcinoma"], "Intrahepatic Cholangiocarcinoma (requested"),
+    ("iCCA or eCCA", ["intrahepatic cholangiocarcinoma"], "Intrahepatic Cholangiocarcinoma (requested"),
+    ("ccRCC or pRCC", ["clear cell renal cell carcinoma"], "Clear Cell Renal Cell Carcinoma (requested"),
+    ("NSCLC or SCLC", ["lung non-small cell carcinoma"], "Lung Non-Small Cell Carcinoma (requested"),
+    ("Hives or angioedema", ["urticaria"], "Urticaria (requested"),
+    ("Myeloma or lymphoma", ["multiple myeloma"], "Multiple Myeloma (requested"),
+]
+
+
+@pytest.mark.parametrize(("name", "requested", "wanted"),
+                         [(c, r, w) for name, r, w in ACRONYM_ROWS for c in _cases(name)])
+def test_r11_p2_an_acronym_or_synonym_the_authority_reads_is_read_in_any_case(name, requested, wanted):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == ir.AMBIGUOUS_NAME and wanted in d["record"], d["record"]
+
+
+@pytest.mark.parametrize(("name", "unread"), [
+    ("GASTRIC/GEJ ADENOCARCINOMA OR NSCLC", "GASTRIC/GEJ ADENOCARCINOMA"),
+    ("GEJ OR NSCLC", "GEJ"),
+    ("NSCLC OR PAIN", "PAIN"),
+])
+def test_r11_p1_a_capitals_list_never_drops_what_it_does_not_read(name, unread):
+    d = dg.indication_diagnostic([name], GASTRIC)
+    assert d["class"] != ir.DIFFERENT_DISEASE and f"does not read '{unread}'" in d["record"], d["record"]
+
+
+@pytest.mark.parametrize(("name", "requested"), [
+    ("CASTRATION-SENSITIVE OR CASTRATION-RESISTANT PROSTATE CANCER", ["castration-sensitive prostate carcinoma"]),
+    ("CGVHD OR BRONCHIOLITIS OBLITERANS", ["chronic graft versus host disease"]),
+    ("LIMITED OR EXTENSIVE STAGE SCLC", ["limited stage lung small cell carcinoma"]),
+    ("ADOLESCENTS WITH ALL OR AML", ["childhood acute lymphoblastic leukemia"]),
+])
+def test_r11_p1_a_capitals_list_read_in_part_is_not_a_different_disease(name, requested):
+    assert dg.indication_diagnostic([name], requested)["class"] != ir.DIFFERENT_DISEASE
+
+
+@pytest.mark.parametrize("name", _cases("ADVANCED NSCLC") + _cases("RELAPSED AML"))
+def test_r11_p1_a_whole_capitals_cell_still_takes_the_gate_reading(name):
+    assert "capitals" not in dg.indication_diagnostic([name], GASTRIC)["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "never"), [
+    ("Metastatic or pancreatic neuroendocrine carcinoma", ["lung neuroendocrine carcinoma"], "shares subtypes"),
+    ("Recurrent or pharyngeal squamous cell carcinoma", ["lung squamous cell carcinoma"], "shares subtypes"),
+    ("Metastatic or pharyngeal squamous cell carcinoma", GASTRIC, "Metastatic Squamous Cell Carcinoma"),
+])
+def test_r11_p4_a_borrowed_ending_never_drops_a_site(name, requested, never):
+    assert never not in dg.indication_diagnostic([name], requested)["record"]
+
+
+def test_r11_p4_a_borrowed_ending_without_a_site_is_still_read():
+    d = dg.indication_diagnostic(["Relapsing or progressive multiple sclerosis"], ["relapsing multiple sclerosis"])
+    assert "Relapsing Multiple Sclerosis (requested" in d["record"], d["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "wanted"), [
+    (c, r, w) for name, r, w in [
+        ("Diabetes mellitus, type 1 or 2", ["type 2 diabetes mellitus"], "Type 2 Diabetes Mellitus (requested"),
+        ("Diabetes (type 1 or 2)", ["type 2 diabetes mellitus"], "Type 2 Diabetes Mellitus (requested"),
+        ("Follicular lymphoma, grade 1 or 2", ["grade 2 follicular lymphoma"], "Grade 2 Follicular Lymphoma (requested"),
+        ("Follicular lymphoma (grade 1 or 2)", ["grade 2 follicular lymphoma"],
+         "Grade 2 Follicular Lymphoma (requested"),
+    ] for c in _cases(name)])
+def test_r11_p5_a_number_in_an_inverted_list_keeps_its_word(name, requested, wanted):
+    assert wanted in dg.indication_diagnostic([name], requested)["record"]
+
+
+def test_r11_p6_a_line_token_is_not_numbered():
+    assert "Stage 2L" not in dg.indication_diagnostic(["Stage III or 2L gastric cancer"], GASTRIC)["record"]
+
+
+def test_r11_p6_a_carried_prefix_is_quoted_as_written():
+    d = dg.indication_diagnostic(["Grade 1 or 2 obesity or type 1 diabetes"], ["type 1 diabetes mellitus"])
+    assert "'Grade 1 or 2 obesity'" in d["record"] and "Grade 1 or Grade 2" not in d["record"], d["record"]
+
+
+def test_r11_p7_an_inverted_modifier_after_a_basket_has_no_name():
+    d = dg.indication_diagnostic(["GVHD, acute, or other solid tumors, chronic"], ["chronic graft versus host disease"])
+    assert "Chronic Graft Versus Host Disease (requested" not in d["record"], d["record"]
+    assert "does not read 'chronic'" in d["record"], d["record"]
+
+
+def test_r11_p8_a_nested_list_shows_its_own_steps():
+    d = dg.indication_diagnostic(["Unresectable or Metastatic Gastric or Gastroesophageal Junction Adenocarcinoma"],
+                                 GASTRIC)
+    assert d["class"] == ir.READS_AS_REQUESTED
+    assert "'Unresectable' read as 'Unresectable Gastric Adenocarcinoma'" in d["record"], d["record"]

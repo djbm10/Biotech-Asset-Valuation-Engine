@@ -599,13 +599,23 @@ def _head(piece: str, caps: bool) -> str:
 def _heads(piece: str, caps: bool) -> list[str]:
     """The heads a leading modifier may borrow from the next name: the name without its modifier words, or else its
     longest ending that is itself a disease name, of two words at least ("progressive multiple sclerosis" -> "multiple
-    sclerosis"). A one-word ending ("adenocarcinoma") would drop the site."""
+    sclerosis"). A one-word ending ("adenocarcinoma") would drop the site, and so does an ending that leaves out a
+    site word ("Metastatic or pancreatic neuroendocrine carcinoma"; review U1 R10 P4)."""
     first = _head(piece, caps)
     if first != piece:
         return [first]
     words = piece.split()
-    tail = next((t for k in range(1, len(words) - 1) if _named(t := " ".join(words[k:]))), None)
+    tail = next((t for k in range(1, len(words) - 1)
+                 if not _names_site(" ".join(words[:k])) and _named(t := " ".join(words[k:]))), None)
     return [tail] if tail else []
+
+
+def _names_site(words: str) -> bool:
+    """Whether words dropped from a name hold a site ("pancreatic" in "pancreatic neuroendocrine carcinoma"): the
+    borrowed ending would then name no site the record names (review U1 R10 P4)."""
+    folded = norm(us_spelling(words)).split()
+    sites = _neoplasm_sites()  # NCIt's own "<site> Neoplasm" phrases, adjectives included ("Pancreatic Neoplasm")
+    return any(" ".join(folded[i:j]) in sites for i in range(len(folded)) for j in range(i + 1, len(folded) + 1))
 
 
 def _named(text: str) -> bool:
@@ -627,11 +637,22 @@ def _numbered(piece: str, before: str, steps: list[str]) -> str:
     is never removed as a stage token (review U1 R9 N3)."""
     first = piece.split()[0] if piece.split() else ""
     prior = before.split()
-    if (len(prior) == 2 and prior[0].casefold() in _NUMBERED and _STAGE_TOKEN.match(prior[1].casefold())
-            and _STAGE_TOKEN.match(first.casefold())):
+    if (len(prior) == 2 and prior[0].casefold() in _NUMBERED and _number(prior[1]) and _number(first)):
         steps.append(f"'{piece}' read as '{prior[0]} {piece}'")
         return f"{prior[0]} {piece}"
     return piece
+
+
+def _number(token: str) -> bool:
+    """A stage, type or grade number ("2", "III", "3a"), not a line of therapy ("2L"; review U1 R10 P6)."""
+    folded = token.casefold()
+    return bool(_STAGE_TOKEN.match(folded)) and not re.fullmatch(r"[1-4]l", folded)
+
+
+def _numbered_piece(piece: str) -> bool:
+    """"type 1", "grade 2", "stage III": a numbered word, which may make another concept with a name."""
+    words = piece.split()
+    return len(words) == 2 and words[0].casefold() in _NUMBERED and _number(words[1])
 
 
 def is_modifier_piece(piece: str) -> bool:
@@ -664,12 +685,17 @@ def _list_pieces(name: str) -> _Pieces | None:
     text = re.sub(r"^\s*either\s+", "", text, flags=re.IGNORECASE)  # review U1 R8 D9
     raw = [p.strip(" ,;") for p in _OR_JOIN.split(text) if p.strip(" ,;")]
     out = _Pieces([], [], [], [])
-    carry, set_aside = "", False
+    carry, set_aside, after_basket = "", False, False
     base: str | None = None  # the name before its first inverted modifier ("GVHD" in "GVHD, acute or chronic")
     for i, piece in enumerate(raw):
         if _basket_piece(piece) and not carry:
             out.baskets.append(piece)
+            after_basket = True  # an inverted modifier after a basket has no name before it (review U1 R10 P7)
             continue
+        if out.names and i and _numbered_piece(raw[i - 1]) and _number(piece):
+            # "Diabetes mellitus, type 1 or 2": the number keeps the word it numbers (review U1 R10 P5)
+            out.steps.append(f"'{piece}' read as '{raw[i - 1].split()[0]} {piece}'")
+            piece = f"{raw[i - 1].split()[0]} {piece}"
         if _modifier_only(piece, caps) or _MARKER_PIECE.match(piece):
             if not out.names and i + 1 < len(raw):
                 # any leading modifier, not only a listed one, with the next name's head or its last words: NCIt
@@ -680,7 +706,9 @@ def _list_pieces(name: str) -> _Pieces | None:
                     out.steps.append(f"'{piece}' read as '{piece} {head}'")
                 else:
                     carry = f"{carry}{piece} or "
-            elif out.names and _defining(piece) and not _MARKER_PIECE.match(piece):
+            elif out.names and after_basket and (_defining(piece) or _numbered_piece(piece)):
+                out.unread.append(piece)
+            elif out.names and (_defining(piece) or _numbered_piece(piece)) and not _MARKER_PIECE.match(piece):
                 # "GVHD, acute or chronic": each modifier with the same name, never with the last result (R9 N5)
                 inverted = f"{piece} {base if base is not None else out.names[-1]}"
                 if _named(inverted):
@@ -699,9 +727,10 @@ def _list_pieces(name: str) -> _Pieces | None:
                 set_aside = set_aside or not all(_STAGE_TOKEN.match(w.casefold())
                                                  for w in re.split(r"[\s\-/]+", piece) if w)
             continue
-        piece = _numbered(piece, raw[i - 1] if i else "", out.steps)
+        if not carry:  # "Grade 1 or 2 obesity" keeps the record's words when it is read whole (review U1 R10 P6)
+            piece = _numbered(piece, raw[i - 1] if i else "", out.steps)
         out.names.append(carry + piece)
-        carry, base = "", None
+        carry, base, after_basket = "", None, False
     # "X (first or second line)": one name once its modifiers are set aside (review U1 R8 D9)
     if not out.names or (len(out.names) + len(out.baskets) < 2 and not set_aside):
         return None
@@ -723,7 +752,10 @@ def _conjuncts(name: str) -> Lookup | None:
     codes: list[str] = []
     unread = list(listed.unread)
     for piece in pieces:
-        found = _alone(piece, _lookup(piece).codes, name, caps)
+        inner = _lookup(piece)
+        found = _alone(piece, inner.codes, name)
+        if found and not inner.screen_reads and _HAS_OR.search(piece):  # a nested list U1 split (R10 P8)
+            steps += [f"in '{piece}', {' and '.join(inner.steps)}"] if inner.steps else []
         if not found and (bare := _state_removed(piece, caps)) != piece and (found := _lookup(bare).codes):
             steps.append(f"'{piece}' read as '{bare}'")
         if not found and (bare := _population_removed(_state_removed(piece, caps))) not in {piece, ""} and (
@@ -733,8 +765,11 @@ def _conjuncts(name: str) -> Lookup | None:
         if not found:
             for k in range(len(head) - 1, 0, -1):
                 candidate = f"{piece} {' '.join(head[-k:])}"
-                if found := _lookup(candidate).codes:
+                borrowed = _lookup(candidate)
+                if found := borrowed.codes:
                     steps.append(f"'{piece}' read as '{candidate}'")
+                    if not borrowed.screen_reads:  # a nested list U1 split shows its own steps (review U1 R10 P8)
+                        steps += [f"in '{candidate}', {' and '.join(borrowed.steps)}"] if borrowed.steps else []
                     break
         if found:
             codes += found
@@ -744,20 +779,21 @@ def _conjuncts(name: str) -> Lookup | None:
                   baskets=tuple(listed.baskets))
 
 
-def _alone(piece: str, codes: tuple[str, ...], name: str, caps: bool) -> tuple[str, ...]:
+def _alone(piece: str, codes: tuple[str, ...], name: str) -> tuple[str, ...]:
     """The readings of a one-word piece that are that word's own disease. The index holds adjectives as synonyms of
-    specific concepts ("diffuse" -> Gastric Diffuse Adenocarcinoma, "symptomatic" -> a COVID-19 concept); a reading
-    is kept only when the word is its label's head ("myeloma" -> Multiple Myeloma), the first of a two-word label
-    ("diabetes" -> Diabetes Mellitus), or every word of the label is in the record (review U1 R9 N2). An acronym
-    ("ALL") is a name and is kept."""
+    specific concepts ("diffuse" -> Gastric Diffuse Adenocarcinoma, "symptomatic" -> a COVID-19 concept): the word
+    is a word of the label, but not its head. Such a reading is refused unless the word is the first of a two-word
+    label ("diabetes" -> Diabetes Mellitus) or every word of the label is in the record (review U1 R9 N2). Every other
+    reading is kept, in any letter case: the label's head ("myeloma" -> Multiple Myeloma), an acronym ("mCRPC",
+    "iCCA", "aml") and a synonym ("hives" -> Urticaria) hold no non-head word of the label (R10 P2, P3)."""
     words = norm(piece).split()
-    if len(words) != 1 or (piece.isupper() and (not caps or _acronym(piece))):
+    if len(words) != 1:
         return codes
     word, record = words[0], set(norm(us_spelling(name)).split())
     kept = []
     for code in codes:
         lab = [w for w in norm(label(code)).split() if w not in _FUNCTION]
-        if lab and (lab[-1] == word or (len(lab) == 2 and lab[0] == word) or set(lab) <= record):
+        if not lab or word not in lab[:-1] or (len(lab) == 2 and lab[0] == word) or set(lab) <= record:
             kept.append(code)
     return tuple(kept)
 
@@ -816,7 +852,9 @@ def _raw_lookup(name: str) -> Lookup:
         found = _raw_lookup(soft)
         if found.codes:
             codes, steps = _screen_readings(name)
-            if set(codes) == set(found.codes):  # the gate reads the cell the same way (review U1 R9 N6)
+            # the gate reads the cell the same way (review U1 R9 N6), and U1 read all of it: an unread or basket
+            # piece is never dropped for the gate's smaller reading (R10 P1)
+            if set(codes) == set(found.codes) and not found.unread and not found.baskets:
                 return Lookup(tuple(codes), tuple(steps))
             return _as_written(replace(found, steps=("modifier words in capitals read as ordinary words",
                                                      *found.steps), screen_reads=False), name)

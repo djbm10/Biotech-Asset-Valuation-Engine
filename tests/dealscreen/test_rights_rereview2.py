@@ -444,7 +444,7 @@ _ORIGINATOR = {"SYN-0051": "Corvane Bio", "SYN-0154": "Pellucid Pharma"}
 def _row(n: int, program: str, licensee: str, territory: str, licensor: str | None = None) -> list[str]:
     grantor = licensor or _ORIGINATOR.get(program.strip().upper(), "Originco")
     return [f"R{n}", program, "Licensing", licensee, grantor, territory, "2026-03-01", "Active",
-            f"https://x.test/{n}", f"{territory} rights"]
+            f"https://x.test/{n}", f"{grantor} granted {licensee} exclusive rights in {territory}"]  # R1v17: not bare
 
 
 def test_e3_ids_rows_match_ids_without_case_and_unattached_rows_are_reported(tmp_path, demo_dir, normalizer):
