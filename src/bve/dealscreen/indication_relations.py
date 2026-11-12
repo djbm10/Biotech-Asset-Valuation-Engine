@@ -33,6 +33,7 @@ No program, company, disease or target word from any landscape is written here.
 
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass, replace
 from functools import lru_cache
@@ -261,6 +262,23 @@ def _neoplasm_sites() -> frozenset[str]:
             if found:
                 out.add(found["site"])
     return frozenset(out)
+
+
+#: Tissues NCIt names as "<tissue> Neoplasm" under its by-site nodes; a tissue runs through every organ, so it is
+#: not the site a borrowed ending would drop (review U1 R11 Q3). Generic biology, no landscape word.
+_TISSUES = frozenset({"vascular", "neural", "fibrous", "endocrine", "connective tissue", "soft tissue", "nervous system"})
+
+
+@lru_cache(maxsize=1)
+def _place_sites() -> frozenset[str]:
+    """Site phrases a dropped modifier may hold (review U1 R11 Q3, Q4): "<site> Neoplasm" phrases of by-site concepts
+    that are not also morphology concepts, and "<histology> of (the) <site>" phrases, both cleaned as ``_site_names``
+    cleans them, so a lineage or a histology word ("neuroendocrine", "neural", "vascular") is not a site."""
+    out = {s for code in _authority()["nodes"] for s in _site_names(code)}
+    for code, names in _names_by_code().items():
+        if any(" of " in n for n in names):
+            out |= _of_sites(code)
+    return frozenset(out - _TISSUES)
 
 
 def _initials(short: str, words: list[str]) -> bool:
@@ -606,16 +624,19 @@ def _heads(piece: str, caps: bool) -> list[str]:
         return [first]
     words = piece.split()
     tail = next((t for k in range(1, len(words) - 1)
-                 if not _names_site(" ".join(words[:k])) and _named(t := " ".join(words[k:]))), None)
+                 if not _names_site(piece, k) and _named(t := " ".join(words[k:]))), None)
     return [tail] if tail else []
 
 
-def _names_site(words: str) -> bool:
-    """Whether words dropped from a name hold a site ("pancreatic" in "pancreatic neuroendocrine carcinoma"): the
-    borrowed ending would then name no site the record names (review U1 R10 P4)."""
-    folded = norm(us_spelling(words)).split()
-    sites = _neoplasm_sites()  # NCIt's own "<site> Neoplasm" phrases, adjectives included ("Pancreatic Neoplasm")
-    return any(" ".join(folded[i:j]) in sites for i in range(len(folded)) for j in range(i + 1, len(folded) + 1))
+def _names_site(piece: str, k: int) -> bool:
+    """Whether a site phrase starts in the first ``k`` words of ``piece``, the words a borrowed ending drops
+    ("pancreatic" in "pancreatic neuroendocrine carcinoma", "extrahepatic bile duct" in "extrahepatic bile duct
+    carcinoma"): the ending would then name no site the record names (review U1 R10 P4, R11 Q4). The sites are
+    ``_place_sites``, so a lineage word is not one (R11 Q3)."""
+    folded = norm(us_spelling(piece)).split()
+    cut = len(norm(us_spelling(" ".join(piece.split()[:k]))).split())
+    sites = _place_sites()
+    return any(" ".join(folded[i:j]) in sites for i in range(cut) for j in range(i + 1, len(folded) + 1))
 
 
 def _named(text: str) -> bool:
@@ -644,9 +665,10 @@ def _numbered(piece: str, before: str, steps: list[str]) -> str:
 
 
 def _number(token: str) -> bool:
-    """A stage, type or grade number ("2", "III", "3a"), not a line of therapy ("2L"; review U1 R10 P6)."""
+    """A stage, type or grade number ("2", "III", "3a"), not a line of therapy ("2L", "1st"; review U1 R10 P6, R11
+    Q6)."""
     folded = token.casefold()
-    return bool(_STAGE_TOKEN.match(folded)) and not re.fullmatch(r"[1-4]l", folded)
+    return bool(_STAGE_TOKEN.match(folded)) and not re.fullmatch(r"[1-4]l|\d+(?:st|nd|rd|th)", folded)
 
 
 def _numbered_piece(piece: str) -> bool:
@@ -710,15 +732,22 @@ def _list_pieces(name: str) -> _Pieces | None:
                 out.unread.append(piece)
             elif out.names and (_defining(piece) or _numbered_piece(piece)) and not _MARKER_PIECE.match(piece):
                 # "GVHD, acute or chronic": each modifier with the same name, never with the last result (R9 N5)
-                inverted = f"{piece} {base if base is not None else out.names[-1]}"
+                shown = base if base is not None else out.names[-1]
+                # "type 2 <base>", or "<base> type 2" where NCIt puts the number after the name (review U1 R11 Q5)
+                tries = [f"{piece} {shown}", *([f"{shown} {piece}"] if _numbered_piece(piece) else [])]
+                inverted = next((t for t in tries if _named(t)), tries[0])
                 if _named(inverted):
-                    shown = base if base is not None else out.names[-1]
                     out.steps.append(f"'{shown}, {piece}' read as '{inverted}'")
                     if base is None:
                         base = out.names[-1]
                         out.names[-1] = inverted
                     else:
                         out.names.append(inverted)
+                elif _numbered_piece(piece) and piece.split()[0].casefold() == "stage":
+                    # a stage the authority does not read with the name qualifies it and is set aside, as before
+                    # revision 11 (review U1 R11 Q2)
+                    out.steps.append(f"'{piece}' set aside as a modifier, not a name")
+                    set_aside = True
                 else:
                     out.unread.append(piece)
             else:
@@ -732,7 +761,8 @@ def _list_pieces(name: str) -> _Pieces | None:
         out.names.append(carry + piece)
         carry, base, after_basket = "", None, False
     # "X (first or second line)": one name once its modifiers are set aside (review U1 R8 D9)
-    if not out.names or (len(out.names) + len(out.baskets) < 2 and not set_aside):
+    # one name beside an unread piece is still a list: the name is read and the piece named (review U1 R11 Q2)
+    if not out.names or (len(out.names) + len(out.baskets) < 2 and not set_aside and not out.unread):
         return None
     count = len(out.names) + len(out.baskets)
     split = f"its 'or' list split into {count} names" if count > 1 else "its 'or' list read as one name"
@@ -754,6 +784,10 @@ def _conjuncts(name: str) -> Lookup | None:
     for piece in pieces:
         inner = _lookup(piece)
         found = _alone(piece, inner.codes, name)
+        if found and _synonyms_only(piece, found) and (borrowed_codes := _borrow(piece, head, steps)):
+            found = borrowed_codes  # the record's own coordination outranks an index synonym (review U1 R11 Q1)
+            codes += found
+            continue
         if found and not inner.screen_reads and _HAS_OR.search(piece):  # a nested list U1 split (R10 P8)
             steps += [f"in '{piece}', {' and '.join(inner.steps)}"] if inner.steps else []
         if not found and (bare := _state_removed(piece, caps)) != piece and (found := _lookup(bare).codes):
@@ -763,20 +797,69 @@ def _conjuncts(name: str) -> Lookup | None:
             found, bare = _with_population(piece, found, bare)
             steps.append(f"'{piece}' read as '{bare}'")
         if not found:
-            for k in range(len(head) - 1, 0, -1):
-                candidate = f"{piece} {' '.join(head[-k:])}"
-                borrowed = _lookup(candidate)
-                if found := borrowed.codes:
-                    steps.append(f"'{piece}' read as '{candidate}'")
-                    if not borrowed.screen_reads:  # a nested list U1 split shows its own steps (review U1 R10 P8)
-                        steps += [f"in '{candidate}', {' and '.join(borrowed.steps)}"] if borrowed.steps else []
-                    break
+            found = _borrow(piece, head, steps)
         if found:
             codes += found
         else:
             unread.append(piece)
     return Lookup(tuple(dict.fromkeys(codes)), tuple(steps), screen_reads=False, unread=tuple(unread),
                   baskets=tuple(listed.baskets))
+
+
+def _borrow(piece: str, head: list[str], steps: list[str]) -> tuple[str, ...]:
+    """The piece read with the last name's head ("Central" with "diabetes insipidus"), longest first."""
+    for k in range(len(head) - 1, 0, -1):
+        candidate = f"{piece} {' '.join(head[-k:])}"
+        borrowed = _lookup(candidate)
+        if borrowed.codes:
+            steps.append(f"'{piece}' read as '{candidate}'")
+            if not borrowed.screen_reads:  # a nested list U1 split shows its own steps (review U1 R10 P8)
+                steps += [f"in '{candidate}', {' and '.join(borrowed.steps)}"] if borrowed.steps else []
+            return borrowed.codes
+    return ()
+
+
+def _label_words(code: str) -> list[str]:
+    return [w for w in norm(label(code)).split() if w not in _FUNCTION]
+
+
+def _synonym(word: str, code: str) -> bool:
+    """A reading of a one-word piece whose label holds neither the word nor its initials ("hives" -> Urticaria)."""
+    lab = _label_words(code)
+    return bool(lab) and word not in lab and not _initials(word, lab)
+
+
+def _synonyms_only(piece: str, codes: tuple[str, ...]) -> bool:
+    words = norm(piece).split()
+    return len(words) == 1 and all(_synonym(words[0], c) for c in codes)
+
+
+@lru_cache(maxsize=1)
+def _word_uses() -> tuple[dict[str, int], dict[str, int]]:
+    """How often NCIt uses each word as the head (last word) of a label, and as another word of a label."""
+    heads: dict[str, int] = {}
+    others: dict[str, int] = {}
+    for node in _authority()["nodes"].values():
+        lab = [w for w in norm(node["label"]).split() if w not in _FUNCTION]
+        if lab:
+            heads[lab[-1]] = heads.get(lab[-1], 0) + 1
+        for w in set(lab[:-1]):
+            others[w] = others.get(w, 0) + 1
+    return heads, others
+
+
+def _modifier_synonym(word: str, code: str) -> bool:
+    """An index reading of a one-word piece that is an ordinary modifier word, not the word's own disease (review U1
+    R11 Q1). NCIt uses the word more often inside labels than as their head ("central", "sensitive"; for a reading
+    that the word abbreviates, "cold" for Chronic Obstructive Pulmonary Disease, in three labels at least, so "aml"
+    stays), or never as a head while the label holds a modifier of the same stem ("recurrence" -> Recurrent
+    Neoplasm). "sepsis", "epilepsy", "infection" and "hives" are kept: NCIt uses them as heads as often."""
+    heads, others = _word_uses()
+    lab = _label_words(code)
+    initials = _initials(word, lab)
+    if others.get(word, 0) > heads.get(word, 0) and (others.get(word, 0) >= 3 or not initials):
+        return True
+    return not initials and not heads.get(word) and any(len(os.path.commonprefix([word, w])) >= 6 for w in lab[:-1])
 
 
 def _alone(piece: str, codes: tuple[str, ...], name: str) -> tuple[str, ...]:
@@ -793,6 +876,8 @@ def _alone(piece: str, codes: tuple[str, ...], name: str) -> tuple[str, ...]:
     kept = []
     for code in codes:
         lab = [w for w in norm(label(code)).split() if w not in _FUNCTION]
+        if word not in lab and _modifier_synonym(word, code) and not set(lab) <= record:
+            continue
         if not lab or word not in lab[:-1] or (len(lab) == 2 and lab[0] == word) or set(lab) <= record:
             kept.append(code)
     return tuple(kept)
@@ -1030,7 +1115,10 @@ def classify_name(name: str, requested: frozenset[str]) -> NameReading:
     if not found.codes:
         return NameReading(name, NAMES_REQUESTED_SITE if sites else UNREADABLE, sites=sites)
     rel = {c: relation(c, requested) for c in found.codes}
-    concepts = tuple((label(c), r) for c, r in rel.items())
+    shared = {label(c) for c in rel if sum(label(d) == label(c) for d in rel) > 1}
+    # two NCIt codes with one label are shown with their codes, so the sentence does not contradict itself (review
+    # U1 R11 Q7)
+    concepts = tuple((f"{label(c)} ({c})" if label(c) in shared else label(c), r) for c, r in rel.items())
     if found.unread or found.baskets:
         # part of an "or" list is not read, or names a basket: never a class from the other part alone (review U1
         # R6 E1, R8 D2); a list that reads a requested name is ambiguous, not unreadable (R7 F3)

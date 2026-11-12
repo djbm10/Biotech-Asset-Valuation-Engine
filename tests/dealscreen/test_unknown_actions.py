@@ -1297,3 +1297,164 @@ def test_r11_p8_a_nested_list_shows_its_own_steps():
                                  GASTRIC)
     assert d["class"] == ir.READS_AS_REQUESTED
     assert "'Unresectable' read as 'Unresectable Gastric Adenocarcinoma'" in d["record"], d["record"]
+
+
+# -- revision 12 (REVIEW11) ------------------------------------------------------------------------------------------
+CDI = ["central diabetes insipidus"]
+Q1_ROWS = [
+    # an ordinary word's index synonym is never read alone; the record's own coordination is tried first (Q1)
+    ("Central, nephrogenic or gestational diabetes insipidus", CDI, "Osteosarcoma"),
+    ("Central or nephrogenic DI", CDI, "Osteosarcoma"),
+    ("Diabetes insipidus, central or nephrogenic", CDI, "Osteosarcoma"),
+    ("Central or nephrogenic diabetes insipidus, or polyuria", CDI, "Osteosarcoma"),
+    ("Cold or warm autoimmune hemolytic anemia", ["cold agglutinin disease"], "Pulmonary"),
+    ("Cold or warm autoimmune hemolytic anemia", ["chronic obstructive pulmonary disease"], "Pulmonary"),
+    ("Sensitive or resistant gastric cancer", GASTRIC, "Hypersensitivity"),
+    ("Sensitive or refractory small cell lung cancer", ["refractory lung small cell carcinoma"], "Hypersensitivity"),
+    ("Sensitive or resistant nephrotic syndrome", ["nephrotic syndrome"], "Hypersensitivity"),
+    ("Sensitive or resistant high grade serous ovarian cancer", ["ovarian high grade serous adenocarcinoma"],
+     "Hypersensitivity"),
+    ("Diagnosis or treatment of gastric adenocarcinoma", GASTRIC, "Disease or Disorder"),
+    ("Recurrence or metastasis of gastric cancer", GASTRIC, "Recurrent"),
+    ("Cold or hot tumors of the stomach", GASTRIC, "Pulmonary"),
+    ("Central or peripheral nervous system metastases of gastric cancer", GASTRIC, "Osteosarcoma"),
+]
+
+
+@pytest.mark.parametrize(("name", "requested", "never"),
+                         [(c, r, n) for name, r, n in Q1_ROWS for c in _cases(name)])
+def test_r12_q1_an_ordinary_word_never_reads_an_unrelated_disease(name, requested, never):
+    d = dg.indication_diagnostic([name], requested)
+    assert never not in d["record"].split("'", 2)[2], d["record"]
+
+
+@pytest.mark.parametrize("name", _cases("Central, nephrogenic or gestational diabetes insipidus"))
+def test_r12_q1_the_record_coordination_reads_the_request(name):
+    d = dg.indication_diagnostic([name], CDI)
+    assert d["class"] == ir.AMBIGUOUS_NAME and "Neurogenic Diabetes Insipidus (requested" in d["record"], d["record"]
+
+
+@pytest.mark.parametrize("name", _cases("Sensitive or resistant gastric cancer"))
+def test_r12_q1_an_unread_word_is_named_and_the_site_kept(name):
+    d = dg.indication_diagnostic([name], GASTRIC)
+    assert d["class"] == ir.NAMES_REQUESTED_SITE and "does not read 'sensitive'" in d["record"].casefold(), d["record"]
+
+
+SYNONYM_ROWS = [
+    # words NCIt uses as heads as often as inside labels keep their synonym (the revision 10 cost stays gone)
+    ("Sepsis, infection, or pneumonia", ["sepsis"], "Septicemia (requested"),
+    ("Infection or sepsis", ["sepsis"], "Infectious Disorder"),
+    ("Sepsis or septic shock", ["sepsis"], "Septicemia (requested"),
+    ("Epilepsy or migraine", ["epilepsy"], "Seizure Disorder (requested"),
+    ("Hives or angioedema", ["urticaria"], "Urticaria (requested"),
+    ("AML or MDS", ["acute myeloid leukemia"], "Acute Myeloid Leukemia (requested"),
+]
+
+
+@pytest.mark.parametrize(("name", "requested", "wanted"),
+                         [(c, r, w) for name, r, w in SYNONYM_ROWS for c in _cases(name)])
+def test_r12_q1_a_disease_word_keeps_its_synonym(name, requested, wanted):
+    assert wanted in dg.indication_diagnostic([name], requested)["record"]
+
+
+STAGE_ROWS = [
+    # a stage the authority does not read with the name is set aside; the name is still read (Q2)
+    ("Gastric adenocarcinoma, stage III or IV", GASTRIC),
+    ("Gastric adenocarcinoma (stage 3 or 4)", GASTRIC),
+    ("Gastric adenocarcinoma (Stage III or IV)", GASTRIC),
+    ("Gastric adenocarcinoma, stage 3 or 4", GASTRIC),
+    ("Melanoma, stage 3 or 4", ["melanoma"]),
+    ("Chronic kidney disease, stage 3 or 4", ["chronic kidney disease"]),
+]
+
+
+@pytest.mark.parametrize(("name", "requested"), [(c, r) for name, r in STAGE_ROWS for c in _cases(name)])
+def test_r12_q2_a_trailing_stage_pair_keeps_the_name(name, requested):
+    assert dg.indication_diagnostic([name], requested)["class"] == ir.READS_AS_REQUESTED
+
+
+@pytest.mark.parametrize(("name", "requested"), [
+    (c, r) for name, r in [("Breast cancer, stage 2 or 3", ["breast carcinoma"]),
+                           ("Breast cancer (stage 2 or 3)", ["breast carcinoma"]),
+                           ("Colorectal cancer, stage 3 or 4", ["colorectal carcinoma"])] for c in _cases(name)])
+def test_r12_q2_a_staged_name_with_several_readings_names_the_request(name, requested):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == ir.AMBIGUOUS_NAME and "(requested" in d["record"], d["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "unread"), [
+    (c, r, u) for name, r, u in [("Melanoma, grade 1 or 2", ["melanoma"], "grade 1"),
+                                 ("Melanoma, type 1 or 2", ["melanoma"], "type 1")] for c in _cases(name)])
+def test_r12_q2_a_grade_or_type_pair_that_does_not_invert_is_named_unread(name, requested, unread):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == ir.AMBIGUOUS_NAME and "Melanoma (requested" in d["record"], d["record"]
+    assert f"does not read '{unread}" in d["record"].casefold(), d["record"]
+
+
+def test_r12_q2_a_stage_between_names_is_set_aside():
+    d = dg.indication_diagnostic(["Gastric adenocarcinoma, stage IV, or NSCLC"], GASTRIC)
+    assert "'stage IV' set aside" in d["record"], d["record"]
+
+
+Q3_ROWS = [
+    # a lineage or tissue word is not a site, so the borrowed ending is read (Q3)
+    ("Metastatic or neuroendocrine prostate carcinoma", ["metastatic prostate carcinoma"],
+     "Metastatic Prostate Carcinoma (requested"),
+    ("Metastatic or neuroendocrine lung adenocarcinoma", ["metastatic lung adenocarcinoma"],
+     "Metastatic Lung Adenocarcinoma (requested"),
+    ("Metastatic or vascular colorectal carcinoma", ["metastatic colorectal carcinoma"],
+     "Metastatic Colorectal Carcinoma (requested"),
+    ("Relapsing or neural multiple sclerosis", ["relapsing multiple sclerosis"], "Relapsing Multiple Sclerosis (requested"),
+]
+
+
+@pytest.mark.parametrize(("name", "requested", "wanted"), [(c, r, w) for name, r, w in Q3_ROWS for c in _cases(name)])
+def test_r12_q3_a_lineage_word_does_not_block_the_borrowed_ending(name, requested, wanted):
+    d = dg.indication_diagnostic([name], requested)
+    assert d["class"] == ir.AMBIGUOUS_NAME and wanted in d["record"], d["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "never"), [
+    (c, r, n) for name, r, n in [
+        ("Metastatic or gastroesophageal junction signet ring cell carcinoma", GASTRIC,
+         "Metastatic Signet Ring Cell Adenocarcinoma"),
+        ("Metastatic or esophagogastric junction signet ring cell carcinoma", GASTRIC,
+         "Metastatic Signet Ring Cell Adenocarcinoma"),
+        ("Metastatic or extrahepatic bile duct carcinoma", ["intrahepatic cholangiocarcinoma"],
+         "Metastatic Bile Duct Carcinoma"),
+        ("Metastatic or pancreatic neuroendocrine carcinoma", ["lung neuroendocrine carcinoma"], "shares subtypes"),
+    ] for c in _cases(name)])
+def test_r12_q4_a_borrowed_ending_never_drops_a_junction_or_a_duct(name, requested, never):
+    assert never not in dg.indication_diagnostic([name], requested)["record"]
+
+
+@pytest.mark.parametrize(("name", "requested", "wanted"), [
+    (c, r, w) for name, r, w in [
+        ("Spinal muscular atrophy, type 1 or 2", ["spinal muscular atrophy type 2"], "Type 2 (requested"),
+        ("Spinal muscular atrophy (type 1 or 2)", ["spinal muscular atrophy type 2"], "Type 2 (requested"),
+        ("Neurofibromatosis, type 1 or 2", ["neurofibromatosis type 2"], "Type 2 (requested"),
+        ("Glycogen storage disease, type I or III", ["glycogen storage disease type iii"], "Type III (requested"),
+    ] for c in _cases(name)])
+def test_r12_q5_a_number_after_the_name_is_read(name, requested, wanted):
+    d = dg.indication_diagnostic([name], requested)
+    assert wanted.casefold() in d["record"].casefold(), d["record"]
+
+
+@pytest.mark.parametrize("name", _cases("Stage III or 1st line gastric cancer"))
+def test_r12_q6_an_ordinal_is_not_numbered(name):
+    assert "stage 1st" not in dg.indication_diagnostic([name], GASTRIC)["record"].casefold()
+
+
+def test_r12_q7_a_label_two_codes_share_is_shown_with_its_codes():
+    d = dg.indication_diagnostic(["ITP or TTP"], ["immune thrombocytopenic purpura"])
+    record = d["record"]
+    assert record.count("Primary Immune Thrombocytopenia (C") == 2, record
+
+
+@pytest.mark.parametrize("name", _cases("Locally advanced or metastatic gastric adenocarcinoma")
+                         + _cases("Diffuse or follicular lymphoma"))
+def test_r12_controls_are_unchanged(name):
+    d = dg.indication_diagnostic([name], GASTRIC)
+    assert "Gastric Diffuse" not in d["record"]
+    if "locally" in name.casefold():
+        assert d["class"] == ir.READS_AS_REQUESTED

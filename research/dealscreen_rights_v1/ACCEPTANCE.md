@@ -96,3 +96,9 @@ The word OPEN reads as "pursuable". In fact the tool had no evidence either way.
   limit. A quote that ends in ",", ":", ";" or "-", or holds a dash between words, blocks as cut. "+", "=", "@", "!",
   "_", "&" outside a known name and "%" not after a number block; "~" before an amount is read. A bare "<place>
   rights" does not state the row.
+- **Added after revision 18, disclosed (not a change to any criterion).** A termination, return or lapse quote that
+  gives a date before the date of the deal it ends (the cited row whose deal id is the row's related deal) blocks.
+  The use check runs after a description set apart by two commas is folded, and on lapses. A quote that starts with
+  a mark, or ends in a cut closed by a quote mark or bracket, blocks. Em dashes, and en dashes not between two digits,
+  are dashes. "~" is read only before an amount. A mark inside a known name is read. Unpaired brackets or quote
+  marks, a "$" before no amount and a "/" at a word's edge block. "R&D" is read as "research and development".

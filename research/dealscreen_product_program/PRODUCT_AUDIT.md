@@ -295,3 +295,15 @@ Implementer-measured:
 - 15 of 17 real quotes still need an analyst confirmation.
 
 The verdict above is unchanged, and revision 17 has not been reviewed.
+
+**Addendum (2026-11-11, revision 18).** Round 17 (`REREVIEW16.md`) found 1 High error, older than revision 17: an
+ending or lapse quote dated before the deal it ends gave RETURNED or a cleared option, although it may describe an
+earlier deal. It also found 2 Medium (a use hidden after a description set apart by commas; a lapse for one use)
+and 6 Low (cuts, dashes and marks). End to end, 7 held-out programs reached a top tier. Revision 18 reads each
+ending against the deal it ends and runs the use check on lapses and after descriptions. Implementer-measured:
+- the review's ws_r goes 7 → 0;
+- the CLDN18.2 transaction output, memo and screening are byte-identical;
+- "R&D" in a grant passes;
+- 15 of 17 real quotes still need an analyst confirmation.
+
+The verdict above is unchanged, and revision 18 has not been reviewed.

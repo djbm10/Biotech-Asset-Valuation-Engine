@@ -57,6 +57,7 @@ from bve.dealscreen.rights_reader import (
     UNKNOWN,
 )
 from bve.dealscreen.rights_reader import rights_reading as _rights_reading
+from bve.dealscreen.rights_template import ENDING_KINDS
 from bve.dealscreen.rights_territory import (
     content_note,
     regions_named,
@@ -254,7 +255,7 @@ def _speaker_stripped(quote: str, e: dict[str, Any], company: str | None) -> str
 
 def _quote_problem(quote: str, e: dict[str, Any], company: str | None, as_of: date | None,
                    territory: frozenset[str], names: list[str] | None = None,
-                   vocabulary: frozenset[str] = frozenset()) -> str | None:
+                   vocabulary: frozenset[str] = frozenset(), ended: date | None = None) -> str | None:
     """Why a cited row's quote blocks, or None. An availability statement's quote must be a plain form in the
     buyer's terms. Any other row's quote is read fail closed, whatever the row's own territory: each clause must be
     a plain form, a restatement of its own row, or say nothing about rights (``rights_quote``, review R1v9)."""
@@ -264,7 +265,24 @@ def _quote_problem(quote: str, e: dict[str, Any], company: str | None, as_of: da
             return None
         return ("is not one of the plain forms DealScreen accepts beside a clear position (it may carry a date, a "
                 "condition, another party or a place)")
-    return quote_problem(text, e, company, as_of, territory, names, vocabulary)
+    return quote_problem(text, e, company, as_of, territory, names, vocabulary, ended)
+
+
+def _ended_day(e: dict[str, Any], evidence: list[dict[str, Any]]) -> date | None:
+    """The date of the deal an ending or a lapse row ends, from the cited rows (review R1v17 DATE-BEFORE). When
+    several cited rows carry that deal id, the latest date is used, so no quote passes on the earliest."""
+    related = e.get("related_deal_id")
+    if not related or e.get("type") not in ENDING_KINDS:
+        return None
+    days = [d for r in evidence if r is not e and r.get("deal_id") == related and (d := _iso_day(r.get("date")))]
+    return max(days, default=None)
+
+
+def _iso_day(raw: Any) -> date | None:
+    try:
+        return date.fromisoformat(str(raw or "")[:10])
+    except ValueError:
+        return None
 
 
 def _read_quotes(found: _Findings, position: RightsPosition, company: str | None, as_of: date | None,
@@ -294,7 +312,8 @@ def _read_quotes(found: _Findings, position: RightsPosition, company: str | None
         earlier = any(r.get("row_key") == row_key(e) or r.get("event_id") == e.get("event_id")
                       for r in (confirmed or {}).values())
         # every other cited quote is read, whatever it says (review R1v8 COVER, QW2)
-        why = _quote_problem(quote, e, company, as_of, territory, names, vocabulary)
+        why = _quote_problem(quote, e, company, as_of, territory, names, vocabulary,
+                             _ended_day(e, position.evidence))
         if why is None:
             continue
         changed = " (a confirmation was recorded for an earlier version of this row)" if earlier else ""

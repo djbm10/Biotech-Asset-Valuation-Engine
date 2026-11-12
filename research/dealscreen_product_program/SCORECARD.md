@@ -131,6 +131,15 @@ Gates H, B and I are unchanged.
 
 Gates H, B and I are unchanged.
 
+**After cycle R1 revision 18 (AI-SIMULATED; 2026-11-11):**
+
+| # | Dimension | Change | Evidence | Status |
+|---|---|---|---|---|
+| 7 | Ownership, rights, licensing | An ending or lapse quote dated before the deal it ends blocks; the use check runs after a closed description and on lapses; cuts closed by a mark or at the start, unpaired marks, unspaced dashes and "~" before a date block; "R&D" is read | REREVIEW16's ws_r 7 → 0 top-tier programs; p17 50 → 10 of 76 and p17b 21 → 6 of 32 (controls, by-design, judgement and two usefulness rows remain); CLDN18.2 transaction CSV, memo and screening byte-identical; 15 of 17 real quotes still need an analyst confirmation | not reviewed |
+| 5 | Resolving UNKNOWN decisions (U1 revision 12) | An ordinary modifier no longer reads an unrelated disease (counted from NCIt's own labels); a trailing stage pair keeps the name; lineage words are not sites; a label two codes share shows both codes | REVIEW11's Q1-Q7 rows give the expected reading in three letter cases; a 250-label sweep reads "L, stage III or IV" as requested for 250 of 250; CLDN18.2 screening byte-identical | not reviewed |
+
+Gates H, B and I are unchanged.
+
 **After cycle R1 revision 17 (AI-SIMULATED; 2026-11-11):**
 
 | # | Dimension | Change | Evidence | Status |

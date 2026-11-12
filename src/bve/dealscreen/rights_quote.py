@@ -8,11 +8,22 @@ place inside the row's territory, a date not after the as-of date and an amount,
 rights ...". The plain-form reader (``rights_allow``) no longer reads quotes: it read "it", "we" and "the company" as
 the program's company (review R1v12 PF-PRONOUN, SUFFIX2).
 
-No character is dropped unread. Typographic punctuation is written in ASCII first; any other character outside ASCII
-(Chinese text, full-width letters) blocks with the clause quoted (review R1v12 NONLATIN). Of ASCII, the reader reads
-letters, digits, spaces and . , ; : ' " ( ) / - $, plus "%" right after a number, "~" before an amount and "&" inside a
-known name. Every other ASCII mark blocks: an omission mark, a note mark, a question mark, or a quote that ends in
-",", ":", ";" or "-" or holds a dash between words (review R1v14 ELISION, R1v15 FOOTNOTE, R1v16 CUT, FOOTNOTE2).
+Typographic punctuation is written in ASCII first (an em dash, and an en dash between words, as " -- "); any other
+character outside ASCII (Chinese text, full-width letters) blocks with the clause quoted (review R1v12 NONLATIN). Of
+ASCII, the reader reads letters, digits, spaces and . , ; : - in place. These marks are read only where they stand
+in pairs or beside what they mark, and block otherwise (review R1v17 RESP-ASCII2):
+- '"' and "'" in pairs (an apostrophe inside or at the end of a word is not counted);
+- "(" and ")" in pairs;
+- "/" between two characters;
+- "$" before an amount;
+- "%" right after a number;
+- "~" before an amount ("~$20 million", "~20%"; not "~2024");
+- "&" inside a known name, and "R&D", which is read as "research and development".
+Every other ASCII mark blocks: an omission mark, a note mark or a question mark. So does a quote that starts with
+",", ":", ";", "." or "-", that ends in ",", ":", ";" or "-" (also behind a closing mark: ',"'), or that holds a dash
+between words (review R1v14 ELISION, R1v15 FOOTNOTE, R1v16 CUT, FOOTNOTE2, R1v17 CUT2, START-CUT, DASH-UNICODE). A party name holding a mark other than
+"&" is not blanked, so its mark is read (R1v17 NAME-MARK). The quotation marks themselves are not words, and are
+dropped once they are paired.
 
 Before reading, press furniture is removed, each only when anchored: a dateline on the first line of the quote whose
 city is in capitals and whose region parts are places ("BOSTON, Mass., March 3, 2025 /PRNewswire/ --"), a stock
@@ -48,7 +59,9 @@ from bve.dealscreen.rights_territory import GENERIC_NAME_WORDS, parse_territory
 _TYPOGRAPHY = str.maketrans({
     **dict.fromkeys("\u2018\u2019\u201a\u201b\u2032\u00b4\u0060", "'"),
     **dict.fromkeys("\u201c\u201d\u201e\u201f\u2033\u00ab\u00bb", '"'),
-    **dict.fromkeys("\u2010\u2011\u2012\u2013\u2014\u2015\u2212\ufe58\ufe63", "-"),
+    **dict.fromkeys("\u2010\u2011\u2012\u2013\u2212\ufe58\ufe63", "-"),
+    # an em dash is punctuation between words, never a hyphen (review R1v17 DASH-UNICODE)
+    **dict.fromkeys("\u2014\u2015", " -- "),
     **dict.fromkeys("\u00a0\u2002\u2003\u2007\u2009\u200a\u202f", " "),
     **dict.fromkeys("\u00ae\u2122\u00a9\u2120\u200b\u200c\u200d\ufeff", ""),
     "\u2026": "...",
@@ -288,9 +301,27 @@ def _strip_known(masked: str, owner_mark: str | None = None) -> str:
     return _sub_named(_BYLINE, masked)
 
 
+#: An en dash between two words ("Pharma\u2013exclusive") is punctuation; between two digits ("2024\u20132025") it is
+#: a range and is read as a hyphen (review R1v17 DASH-UNICODE).
+_EN_DASH = re.compile(r"\s*\u2013\s*")
+
+
+def _en_dash(m: re.Match[str]) -> str:
+    before, after = m.string[m.start() - 1: m.start()], m.string[m.end(): m.end() + 1]
+    return "-" if before.isdigit() and after.isdigit() and m.group(0) == "\u2013" else " -- "
+
+
+#: A mark other than "&" inside a party's name ("Chinaco Pharma*"): the name is not blanked, so the mark is read
+#: (review R1v17 NAME-MARK). "&" inside a name ("Chen & Wu Pharma") is part of the name.
+_NAME_MARK = re.compile(r"[*#|^\\+=@!_~%?\[\]{}<>]")
+
+
 def _blank_names(text: str, names: list[str]) -> str:
-    """``text`` with each known name replaced by spaces of the same length, so positions still hold in ``text``."""
+    """``text`` with each known name replaced by spaces of the same length, so positions still hold in ``text``. A
+    name that holds a mark other than "&" is not blanked."""
     for name in sorted({n.translate(_TYPOGRAPHY).strip() for n in names if n.strip()}, key=len, reverse=True):
+        if _NAME_MARK.search(name):
+            continue
         text = re.sub(re.escape(name), lambda m: " " * len(m.group(0)), text, flags=re.IGNORECASE)
     return text
 
@@ -314,12 +345,52 @@ _ELISION = re.compile(r"[\[\]{}<>]|\.\s*\.\s*\.")
 #: R1v16 RM1); "%" except right after a number ("100%"); "&" outside a known name. Brackets, braces and "..." block
 #: before this as omission marks (``_ELISION``), and "?" after it as a question. The reader reads letters, digits,
 #: spaces and . , ; : ' " ( ) / - $; every other ASCII character blocks in one of these checks.
-_REFERENCE = re.compile(r"[*#|^\\+=@!_]|~(?!\s*[$\d])|(?<!\d)%|&")
+_REFERENCE = re.compile(r"[*#|^\\+=@!_]|~(?!\s*(?:\$|\d[\d,.]*\s*(?:%|million\b|billion\b)))|(?<!\d)%|&")
+#: "R&D" is read as "research and development" (review R1v17 usefulness, UQ24); any other "&" outside a known name
+#: blocks.
+_R_AND_D = re.compile(r"(?<![A-Za-z&])R&D(?![A-Za-z&])")
 #: A quote that ends mid-sentence (",", ":", ";", "-"): words may have been cut (review R1v16 CUT).
 _CUT = re.compile(r"[,:;\-]\s*$")
-#: A dash between words ("granted Tessaly -- exclusive rights"): words may have been cut. Checked last, so a dateline
-#: that is not stripped is blocked with its own reason first.
-_DASH = re.compile(r"\s-{1,2}\s|(?<=\w)--(?=\w)")
+#: Closing marks a cut may hide behind (",\"", ", .", ",)"): stripped before ``_CUT`` (review R1v17 CUT2).
+_CLOSING = re.compile(r"(?:\s*[\"').\/$])+\s*$")
+#: A quote that starts mid-sentence (", G", "-- G", "; G", ". G"): words may have been cut (review R1v17 START-CUT).
+_START_CUT = re.compile(r"^[\s\"'(]*[,:;.\-]")
+#: Marks that are dropped unread when they stand alone: an unpaired bracket, a "$" before no amount, a "/" set apart
+#: by a space (review R1v17 RESP-ASCII2).
+#: A single quote mark that is not an apostrophe ("Alpha Bio's", "the companies' rights"): quotation marks pair.
+_SINGLE = re.compile(r"(?<![A-Za-z])'|'(?![A-Za-z])(?<!s')")
+_STRAY = re.compile(r"\$(?!\s?\d)|(?<!\S)/|/(?=\s|$)")
+#: A dash between words ("granted Tessaly -- exclusive rights", "Pharma -exclusive", "Pharma- exclusive", but not
+#: "first- and second-line"), or a comma or colon closed by a stop (", ." inside the quote): words may have been cut
+#: (review R1v16 CUT, R1v17 DU9, DU10, CU6). Checked last, so a dateline that is not stripped is blocked with its own
+#: reason first.
+_DASH = re.compile(r"\s-{1,2}\s|(?<=\w)--(?=\w)|(?<=\w)\s+-(?=\w)|(?<=\w)-\s+(?!(?:and|or|to)\b)(?=\w)|"
+                   r"[,:;]\s*[.;:](?=\s|$)")
+
+
+def _stray(text: str) -> str | None:
+    """An unpaired parenthesis or quotation mark, a "$" before no amount, or a "/" set apart by a space: a mark
+    DealScreen does not read where it stands (review R1v17 RESP-ASCII2)."""
+    depth = 0
+    for i, c in enumerate(text):
+        depth += {"(": 1, ")": -1}.get(c, 0)
+        if depth < 0:
+            return _mark_reason(")", text, i)
+    if depth:
+        return _mark_reason("(", text, text.rindex("("))
+    if found := _STRAY.search(text):
+        return _mark_reason(found.group(0), text, found.start())
+    if text.count('"') % 2:
+        return _mark_reason('"', text, text.rindex('"'))
+    singles = [m.start() for m in _SINGLE.finditer(text)]
+    if len(singles) % 2:
+        return _mark_reason("'", text, singles[-1])
+    return None
+
+
+def _mark_reason(mark: str, text: str, at: int) -> str:
+    return (f"has the mark '{mark}' ('{text[max(0, at - 40): at + 20].strip()}'), which DealScreen does not read where "
+            "it stands, so the missing words may say who holds rights")
 
 
 def _row_day(e: dict[str, Any]) -> date | None:
@@ -329,14 +400,18 @@ def _row_day(e: dict[str, Any]) -> date | None:
 
 
 def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date | None, territory: frozenset[str],
-                  names: list[str] | None = None, vocabulary: frozenset[str] = frozenset()) -> str | None:
+                  names: list[str] | None = None, vocabulary: frozenset[str] = frozenset(),
+                  ended: date | None = None) -> str | None:
     """Why the quote of a rights row (not an availability statement) blocks a clear position, or None.
     ``text`` is the quote with any speaker prefix already handled; ``names`` are the program's own names and ids;
-    ``vocabulary`` the words that may describe the program (``rights_template.descriptor_words``)."""
+    ``vocabulary`` the words that may describe the program (``rights_template.descriptor_words``); ``ended`` the
+    date of the deal an ending or a lapse ends, when the rights evidence holds it (review R1v17 DATE-BEFORE)."""
     own = parse_territory(str(e.get("territory") or "")) or frozenset()
     kind = str(e.get("type") or "")
     parties = [str(x) for x in (e.get("grantor"), e.get("grantee"), company) if x]
-    text = text.translate(_TYPOGRAPHY)
+    text = _EN_DASH.sub(_en_dash, text).translate(_TYPOGRAPHY)
+    if not any("&" in p for p in parties):
+        text = _R_AND_D.sub("research and development", text)
     unnamed = _blank_names(text, parties + [n for n in (names or []) if n])
     if why := _unreadable(text, unnamed):
         return why
@@ -353,7 +428,10 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
         return (f"asks a question ('{text[max(0, at - 50): at + 1].strip()}'), so it does not state who holds "
                 "rights")
     text = _prepare_text(text)
-    if cut := _CUT.search(text.rstrip()):  # review R1v16 CUT: a trailing ",", ":", ";" or "-"
+    if cut := _START_CUT.search(text):  # review R1v17 START-CUT: a leading ",", ":", ";" or "-"
+        return (f"looks cut off at the start ('{text[: cut.end() + 40].strip()}'), so the missing words may say who "
+                "holds rights")
+    if cut := _CUT.search(_CLOSING.sub("", text)):  # review R1v16 CUT, R1v17 CUT2: a trailing ",", ":", ";" or "-"
         return (f"looks cut off ('{text[max(0, cut.start() - 40): cut.end() + 10].strip()}'), so the missing words may "
                 "say who holds rights")
     if why := _variants(_prepare(text), parties):
@@ -368,7 +446,8 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
         if not masked:
             continue
         slots = to_slots(masked, vocabulary)
-        read = read_clause(slots, kind, own, territory, as_of, _row_day(e), vocabulary, grantor_owns=grantor_owns)
+        read = read_clause(slots, kind, own, territory, as_of, _row_day(e), vocabulary, grantor_owns=grantor_owns,
+                           ended_day=ended)
         if not read.ok:
             whole = clause.strip(" .;") == text.strip(" .;")
             return read.why if whole else f"has the clause '{clause.strip()}', which {read.why}"
@@ -379,6 +458,8 @@ def quote_problem(text: str, e: dict[str, Any], company: str | None, as_of: date
     if cut := _DASH.search(text):  # review R1v16 CUT: a dash between words
         return (f"looks cut off ('{text[max(0, cut.start() - 40): cut.end() + 10].strip()}'), so the missing words may "
                 "say who holds rights")
+    if why := _stray(text):
+        return why
     if not states_rights:
         return ("states no grant, no retention with a place and no ending (only payments, \"all other rights\", a "
                 "bare \"<place> rights\" or press text), so it does not show which rights the row covers or where; "

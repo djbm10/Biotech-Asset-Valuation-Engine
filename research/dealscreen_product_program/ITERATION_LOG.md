@@ -236,7 +236,8 @@ registry-sponsor name match. Returned rights were invisible.
 | 14 (`REREVIEW13.md`) | revision 14 | 6 definite: 1 High (a retention with a scope and an exclusion was read as the union of its places, so "retains worldwide rights to NB-7, excluding the United States" gave tier 1, also on termination rows as RETURNED; RET-PLACE2), 2 Medium (a partial retention by verb or indication; an omission mark "[...]" was never read), 3 Low (a dateline date after the as-of date; a deal word as a one-word dateline city; a retention's reason called it a grant). None in the CLDN18.2 output; end to end, 5 held-out programs in tier 1 (ws_o) | fixed in revision 15 (`REREVIEW13_RESPONSE.md`) |
 | 15 (`REREVIEW14.md`) | revision 15 | 7 definite: 0 High, 4 Medium ("Upon the termination, …" read a contract term as an ending, so RETURNED reached tier 1, UPON-COND; a retention limited to a use after a comma passed, RET-PARTIAL3; omission marks other than brackets ("…", "...", "{...}") were not read, ELISION2; a quote that stated nothing (an adviser line, "all other rights" alone) passed, NOTHING-READ), 3 Low (payment-only on co-promotion options; "*" and "#" dropped unread; a stale response row). None in the CLDN18.2 output; end to end, 7 held-out programs in tier 1 (ws_p). Usefulness: the kept dateline date made the body's first word a name | fixed in revision 16 (`REREVIEW14_RESPONSE.md`) |
 | 16 (`REREVIEW15.md`) | revision 16 | 5 definite: 0 High, 1 Medium (a retention limited to a use of seven words or more after a comma passed, RET-PARTIAL4), 4 Low (a quote cut after a comma, colon, semicolon or dash passed, CUT; "+", "=", "@", "&" and "%" were dropped unread, FOOTNOTE2; a bare "mainland China rights" counted as stating the row, BARE-RIGHTS; the "every ASCII character" claim was false, RESP-ASCII). Judgement call to revisit: a return or ending limited to a use passed (PARTIAL-RETURN). None in the CLDN18.2 output; end to end, 5 held-out programs in tier 1 (ws_q). Usefulness: "~$20 million" newly blocked | fixed in revision 17 (`REREVIEW15_RESPONSE.md`) |
-| 17 | revision 17 | not yet reviewed | |
+| 17 (`REREVIEW16.md`) | revision 17 | 9 definite: 1 High (an ending or lapse quote dated before the deal it ends gave RETURNED or a cleared option, although it may describe an earlier deal, DATE-BEFORE), 2 Medium (a use after a description set apart by two commas was not read, USE-AFTER-DESC; a lapse "for" one use cleared a whole-program option, PARTIAL-LAPSE), 6 Low (cuts closed by a quote mark or at the start, CUT2 and START-CUT; an unspaced em or en dash, DASH-UNICODE; "~2024", TILDE-DATE; a mark inside a known name, NAME-MARK; unpaired brackets and quote marks, a lone "$" or "/", RESP-ASCII2). None in the CLDN18.2 output; end to end, 7 held-out programs in a top tier (ws_r). Usefulness: "R&D" in a grant blocked | fixed in revision 18 (`REREVIEW16_RESPONSE.md`); 94 more held-out tests |
+| 18 | revision 18 | not yet reviewed | |
 
 **Measured result (CLDN18.2, against the frozen reference).**
 - False "unobstructed" (third-party U.S. rights shown OPEN or in a top tier): 4 definite plus zanidatamab at
@@ -558,6 +559,32 @@ named the marks a review had found, not every mark the reader drops, and the doc
 checked. Revision 17's first dash check also fired on datelines it does not strip and replaced their clearer reason;
 the earlier probes' reasons, not their outcomes, showed it.
 
+**Revision 18 (2026-11-11).** Answers `REREVIEW16.md`.
+- An ending or lapse quote is read against the deal it ends: a date in the quote before that deal's date blocks,
+  because the quote may describe an earlier deal.
+- The use check runs after a description set apart by two commas is folded, and on lapses too.
+- Cuts closed by a quote mark or bracket, and cuts at the start, block. Em dashes, and en dashes not between digits,
+  are dashes. "~" is read only before an amount. A mark inside a known name is read. Unpaired brackets and quote
+  marks, a lone "$" and a lone "/" block; the docstring was checked against every printable ASCII mark.
+- "R&D" is read as "research and development".
+
+Measured by the implementer (`REREVIEW16_RESPONSE.md`):
+- DealScreen tests 2,076 → 2,316 (with U1 revision 12).
+- REREVIEW16's probes: p17 50 → 10 of 76 in a top tier and p17b 21 → 6 of 32; what remains is controls, by-design
+  rows, judgement rows the review lists and two usefulness rows that should pass. End-to-end ws_r 7 → 0.
+- Every earlier probe and end-to-end tier file byte-identical to revision 17. Three real CLDN18.2 quotes that already
+  blocked now say "cut off at the start"; real quotes read directly still 15 of 17 block.
+- CLDN18.2: transaction CSV, memo and `screening.json` byte-identical to revision 17; 0 of 62 science fields changed.
+  Cross-version 0 of 312; equivalence byte-identical.
+
+**Self-criticism (revision 18).** The ending checks compared dates with the as-of date and the row's own date, never
+with the deal the row says it ends, although that link is the row's meaning; DATE-BEFORE is older than revision
+17 and was first reported in REREVIEW16. Revision 17 put the use check on endings and not on lapses, the same miss revision 16 made
+with retentions and endings: a check for one meaning still was not run wherever that meaning is read. Its
+exemptions ("~", names) were written from the passing cases and not tested against the blocking ones. Revision 18's
+first description fold also took ", for solid tumors ," as a description and broke an earlier attack; the earlier
+tests caught it.
+
 ## Cycle U1: a concrete next action for every tool UNKNOWN (2026-10-30 to 2026-11-01)
 
 Acceptance criteria frozen before code (`research/dealscreen_unknown_actions_v1/ACCEPTANCE.md`, committed 1436d95).
@@ -578,17 +605,22 @@ requirement; a diagnostic never changes a gate, disposition or rank.
 | 8 (`REVIEW8.md`) | revision 8 | U1-1 to U1-6 met, U1-7 not: 1 high (a disease-defining word first in an "or" list was folded as a modifier, so "Chronic or acute myeloid leukemia" was a different disease for a CML request), 4 medium (a basket piece set aside so a basket list read as requested; an inverted name lost its defining word; modifier words in capitals looked up as acronyms; a leading population left the requested name unread), 2 low-medium, 2 low | revision 9 (`REVIEW8_RESPONSE.md`) |
 | 9 (`REVIEW9.md`) | revision 9 | U1-1 to U1-6 met, U1-7 not: 2 high (only listed words got the head-borrowing check, so "Relapsing or progressive multiple sclerosis" was a different disease for a relapsing-MS request; a one-word piece was looked up alone, so "Diffuse or follicular lymphoma" read as Gastric Diffuse Adenocarcinoma, requested), 2 medium (a numbered pair lost its defining word; a population retry read a pediatric record as the parent), 2 medium-low/low-medium, 3 low | revision 10 (`REVIEW9_RESPONSE.md`) |
 | 10 (`REVIEW10.md`) | revision 10 | U1-1 to U1-6 met, U1-7 not: 3 high (the capitals shortcut dropped unread pieces, so "GASTRIC/GEJ ADENOCARCINOMA OR NSCLC" was a different disease for the CLDN18.2 request; `_alone` rejected mixed- and lower-case acronyms, so "mCRPC or mHSPC" was unreadable; N2 was not fixed in capitals, so "DIFFUSE OR FOLLICULAR LYMPHOMA" still read gastric), 2 medium-low (a borrowed ending dropped a site; an inverted numbered list was unread), 4 low | revision 11 (`REVIEW10_RESPONSE.md`) |
-| 11 | revision 11 | not yet reviewed | |
+| 11 (`REVIEW11.md`) | revision 11 | U1-1 to U1-6 met, U1-7 not: 2 high (`_alone` kept any synonym whose label did not hold the word, so ordinary words in a list named unrelated diseases: "Cold or warm autoimmune hemolytic anemia" read COPD, "Sensitive or …" read Hypersensitivity; a trailing stage pair that did not invert threw away the whole list, so "Gastric adenocarcinoma, stage III or IV" lost the requested name), 1 medium (histology and lineage words counted as sites, so needed endings were refused), 1 low-medium (sites that start in the dropped words were missed), 1 medium-low (the numbered inversion worked only with the number first), 3 low (ordinals as numbers; one label shared by two codes shown with opposite statuses; an incomplete list of changed probe rows) | revision 12 (`REVIEW11_RESPONSE.md`) |
+| 12 | revision 12 | not yet reviewed | |
 
 **Measured result (revision 3, implementer, AI-simulated).** CLDN18.2: 38 of 38 open gates carry a diagnostic
 (baseline 0). Held-out FcRn v1, FcRn v2, C5 and synthetic: 104 of 104. Science and transaction fields: 0 of 62 and
 0 of 312 programs changed; cycle-4 equivalence byte-identical on 4 of 4. No reference-IN program has a gastric or
 junction name called a different disease; SOT102 (reference IN) still points away, because its record names only
-pancreatic cancer. DealScreen tests 876 → 1,052 (revision 4: 1,099; CLDN18.2 outputs identical to revision 3; revision 5: 1,327 with R1 revision 10, CLDN18.2 outputs identical to revision 4; revision 6: 1,436 with R1 revision 11, CLDN18.2 actions identical to revision 5; 1,575 with R1 revision 12, CLDN18.2 actions identical; revision 7: 1,726 with R1 revision 13, CLDN18.2 actions identical; revision 8: 1,803 with R1 revision 14, one CLDN18.2 action sentence names both requested readings; revision 9: 1,886 with R1 revision 15, CLDN18.2 screening byte-identical; revision 10: 1,956 with R1 revision 16, one CLDN18.2 sentence names IBI343's more specific readings; revision 11: 2,076 with R1 revision 17, IBI343's sentence shows its nested split).
+pancreatic cancer. DealScreen tests 876 → 1,052 (revision 4: 1,099; CLDN18.2 outputs identical to revision 3; revision 5: 1,327 with R1 revision 10, CLDN18.2 outputs identical to revision 4; revision 6: 1,436 with R1 revision 11, CLDN18.2 actions identical to revision 5; 1,575 with R1 revision 12, CLDN18.2 actions identical; revision 7: 1,726 with R1 revision 13, CLDN18.2 actions identical; revision 8: 1,803 with R1 revision 14, one CLDN18.2 action sentence names both requested readings; revision 9: 1,886 with R1 revision 15, CLDN18.2 screening byte-identical; revision 10: 1,956 with R1 revision 16, one CLDN18.2 sentence names IBI343's more specific readings; revision 11: 2,076 with R1 revision 17, IBI343's sentence shows its nested split; revision 12: 2,316 with R1 revision 18, CLDN18.2 screening byte-identical).
 
 **Self-criticism (U1).** Revision 2 fixed the reviewed inputs and broke two common ones (spelled-out junction names,
 NCIt stage concepts), which a sweep over CLDN18.2's own names would have caught. A describing layer still misleads
 when its class name is stronger than the authority's relation: "different disease" needs the authority to say so.
 Revision 10 let letter case stand in for the authority twice (an acronym was "a word in capitals", a capitals cell
 "read like the gate"), and its tests used one case per row; revision 11 tests every such row in three cases.
+Revision 11 then kept every synonym whose label does not hold the word, which was a reviewer's suggestion taken
+without a sweep, and ordinary words read unrelated diseases; revision 12 counts how NCIt's own labels use the word.
+Its P5 change sent every stage piece to one branch and lost names the earlier branch had read; a sweep over 250
+labels in each form now checks that rule.
 

@@ -179,3 +179,15 @@ Two changes were made during implementation. Neither loosens a criterion.
   - A nested list U1 split shows its own steps (review P1-P8).
 
   None of these changes a gate, disposition, rank or transaction field.
+- **After the eleventh U1 review (revision 12), disclosed.**
+  - A one-word piece's index reading is refused when NCIt's own labels use the word more as a modifier than as a
+    head (for a reading the word abbreviates, inside at least three labels), or when the word is never a head and the
+    label holds a modifier of its stem. The record's own coordination is tried first when only synonyms read.
+  - A "stage N" piece that does not invert is set aside; a "grade N" or "type N" piece that does not invert is named
+    as unread, and the name beside it is still read.
+  - Tissues that run through every organ are not sites; a site that starts in the words a borrowed ending drops
+    counts.
+  - The numbered inversion is tried with the number before and after the name; ordinals are not numbers.
+  - A label that two NCIt codes share is shown with its code (review Q1-Q7).
+
+  None of these changes a gate, disposition, rank or transaction field.

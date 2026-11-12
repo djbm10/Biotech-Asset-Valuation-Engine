@@ -356,12 +356,23 @@ _RETAINED_USE = re.compile(r"(?<![^ ])([PR])(?: ,)? (for|in) (?:the treatment of
 _EVERY_USE = re.compile(r"^(?:all|any|every) (?:other )?(?:indications?|uses?|fields?(?: of use)?|therapeutic areas?)$")
 
 
+#: "P , an antibody ," or "P , its lead ADC ,": a description set apart by two commas.
+_CLOSED_DESCRIPTION = re.compile(r"(?<![^ ])(P(?:_s)?) , (?!(?:for|in) )(?:[^ ,]+ ){0,11}[^ ,]+ ,(?= )")
+#: Row types that end an earlier deal: an ending or a lapse is read against that deal's date (review R1v17
+#: DATE-BEFORE) and limited to no use (R1v16 PARTIAL-RETURN, R1v17 PARTIAL-LAPSE).
+ENDING_KINDS = frozenset({TERMINATION, RIGHTS_RETURNED, OPTION_LAPSED})
+
+
 def use_limit(slots: Slots) -> str | None:
     """The one use a retention or a return is limited to ("for solid tumors", "..., in first-line locally advanced
     or metastatic gastric cancer"), read before descriptions are folded and with no word limit (review R1v14
     RET-PARTIAL2, R1v15 RET-PARTIAL3, R1v16 RET-PARTIAL4, PARTIAL-RETURN). None for no use, the rest of the world, or
     every use."""
-    found = _RETAINED_USE.search(re.sub(r"\s+", " ", slots.text))
+    text = re.sub(r"\s+", " ", slots.text)
+    # "P , an antibody , for solid tumors": a closed description of the program does not hide the use after it
+    # (review R1v17 USE-AFTER-DESC)
+    text = _CLOSED_DESCRIPTION.sub(lambda m: m.group(1) + " ,", text)
+    found = _RETAINED_USE.search(text)
     if not found:
         return None
     use = found.group(3).replace("^", "")
@@ -416,8 +427,8 @@ _R = r"R(?: rights)?"
 _PLACE = r"(?: (?:in|for|across|covering|throughout)(?: the)? R(?: territory| territories| region| regions)?| R)?"
 _DEV = r"(?:research|develop|manufacture|commercialize|commercialise|market|sell)"
 _DEV_LIST = rf"{_DEV}(?:(?: ,)? (?:and )?{_DEV})*"
-_RIGHT_KIND = r"(?:(?:exclusive |sole )?(?:R )?(?:development(?: and commercial(?:ization)?)? |commercial(?:ization)? |" \
-              r"development and commercialization )?)"
+_RIGHT_KIND = r"(?:(?:exclusive |sole )?(?:R )?(?:(?:research and )?development(?: and commercial(?:ization)?)? |" \
+              r"commercial(?:ization)? |(?:research and )?development and commercialization )?)"
 #: "rights to NB-7", "the exclusive rights to develop and commercialize NB-7", "an exclusive license to NB-7".
 _RIGHTS_TO = (rf"(?:(?:the |its |{{ALL}})?{_RIGHT_KIND}rights? (?:to |for |of )(?:{_DEV_LIST} )?(?:the )?)")
 _LICENSE_TO = (r"(?:an? (?:(?:exclusive |sole )?(?:R )?|R (?:exclusive |sole )?)licen[cs]e (?:to |for |under )"
@@ -706,12 +717,20 @@ def _read_retention(slots: Slots, text: str, kind: str, own: frozenset[str], buy
 
 
 def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[str], as_of: date | None,
-                row_day: date | None, descriptors: frozenset[str], grantor_owns: bool = False) -> TemplateRead:
+                row_day: date | None, descriptors: frozenset[str], grantor_owns: bool = False,
+                ended_day: date | None = None) -> TemplateRead:
     """Whether a clause, already in slots, is one of the templates for ``kind`` and its slots fit the row.
-    ``grantor_owns``: the row's grantor is one legal entity with the program's company."""
+    ``grantor_owns``: the row's grantor is one legal entity with the program's company. ``ended_day``: for an
+    ending or a lapse, the date of the deal it ends, when the rights evidence holds it."""
     why = date_problem(slots.periods, as_of, row_day)
     if why:
         return TemplateRead(False, why)
+    if kind in ENDING_KINDS and ended_day:  # review R1v17 DATE-BEFORE: an ending before the deal is another event
+        early = next((p for p in slots.periods if p.end < ended_day), None)
+        if early:
+            return TemplateRead(False, f"dates the ending ({early.text()}) before the deal it ends ({ended_day}), so it "
+                                       "may describe an earlier deal, and the party to the later deal may still hold "
+                                       "rights")
     text = _template_text(slots, descriptors)
     if kind != ACQUISITION and any(rx.match(text) or rx.match(text.replace(" ,", "")) for rx in _retention()):
         return _read_retention(slots, text, kind, own, buyer, grantor_owns)
@@ -722,6 +741,9 @@ def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[s
     if kind in (TERMINATION, RIGHTS_RETURNED) and (use := use_limit(slots)):  # review R1v16 PARTIAL-RETURN
         return TemplateRead(False, f"says the rights ended or returned only {use}, so another party may still hold "
                                    "rights for other uses")
+    if kind == OPTION_LAPSED and (use := use_limit(slots)):  # review R1v17 PARTIAL-LAPSE
+        return TemplateRead(False, f"says the option lapsed only {use}, so the option holder may still hold an option "
+                                   "for other uses")
     if kind in (LICENSE, OPTION, CO_PROMOTION_OPTION) and any(  # review R1v15 PAYONLY-CPO
             rx.match(text) or rx.match(text.replace(" ,", "")) for rx in _payment_templates()):
         return TemplateRead(True, money_only=True, states_rights=False)
@@ -749,4 +771,4 @@ def read_clause(slots: Slots, kind: str, own: frozenset[str], buyer: frozenset[s
     return TemplateRead(False, "is not one of the sentences DealScreen reads as restating the row")
 
 
-__all__ = ["KNOWN_MARKS", "PARTY_MARKS", "Slots", "TemplateRead", "descriptor_words", "read_clause", "to_slots"]
+__all__ = ["ENDING_KINDS", "KNOWN_MARKS", "PARTY_MARKS", "Slots", "TemplateRead", "descriptor_words", "read_clause", "to_slots"]
