@@ -31,6 +31,35 @@ connectors
 
 ---
 
+## Future Opportunity Backlog — Vertex BD/Strategic Finance and Investment Intelligence
+
+**Status:** Proposed / not approved for implementation. **Priority:** Preserve as options; do not supersede the existing ROADMAP_LOCK, validation gates, or Phase 1 company-truth work. A documentation-only idea capture; no production model changes authorized by this entry.
+
+**Dual use-cases:**
+1. **Vertex-style BD / strategic-finance decision support (career portfolio):** Build a public-data, single-asset or multi-asset analyst workspace that produces rigorous, Excel-reconcilable, human-reviewed outside-in valuation cases. The goal is to demonstrate expertise relevant to BD & Strategic Finance, R&D/Disease Strategy Finance, New Product Planning, Forecasting & Analytics, Transactions and Portfolio Strategy—not to claim access to Vertex's internal tools, deal targets or assumptions.
+2. **Public-market research / investing (separate product):** After rigorous independent validation, evaluate trial-outcome probabilities, acquisition likelihood, market-implied expectations and event-driven returns. Test financial predictive value using proper point-in-time, delisted-company-aware, transaction-cost and options-priced benchmarks. Do not equate clinical prediction accuracy with tradable alpha.
+
+### Candidate improvements (capture only; priority and implementation subject to review)
+
+| Candidate | Intended analyst decision or output | Lane(s) | Current status / distinction |
+|---|---|---|---|
+| **Finance-first live valuation impact / human-reviewed rNPV updates** | On CT.gov/FDA/SEC/PubMed/press-release evidence changes, propose **specific** assumption diffs (PoS, readout timing, launch curve, patients, net price, market share, costs, exclusivity, deal terms); show old/new rNPV, NAV and sensitivities, dated evidence citations, materiality and reviewer accept/reject; export to Excel/finance-style investment memo. Support one selected asset first, then multi-asset portfolio comparisons. | 1 + 3 + 4 | Existing ingestion, triggers, and valuation components are not proof of a fully reconciled, automatically refreshed, analyst-approved model; integration/validation is **proposed**. |
+| **Gap-first / reverse scientific discovery** | Start from a portfolio/disease need or constrained product profile, not a named protein target; discover external mechanisms, drug assets, partners and technologies; rank fit and cite falsifying evidence. | 2 + 3 | Strategic-match capability to be researched/tested; do not infer broad gap discovery from existing dossiers. |
+| **Automated thesis falsification** | Each asset's causal thesis, kill criteria, required evidence, adversarial counterarguments, rival hypotheses and confidence changes; monitor data for evidence that invalidates, not just supports, the thesis. | 3 + 4 | Basic variant/thesis/falsifier structures exist; robust continuous evidence-grounded falsification remains **proposed**. |
+| **Cross-asset scientific readthrough** | When a relevant trial reads out, infer which programs share target, mechanism, disease biology, subpopulation, endpoint or safety exposure; show directional readthrough, strength and whether it should change the **human-reviewed** PoS. | 1 + 3 | A deterministic competition graph/readthrough module already exists; validated scientific causal readthrough and calibrated valuation propagation remain **proposed**. |
+| **Historical decision intelligence** | Persist dated analyst hypotheses, evidence, model versions, decisions and future outcomes; evaluate missed signals, false positives, assumption drift, business cases, time saved and whether recommendations would have changed decisions. | 3 + 4 | Existing prediction logs and postmortems are a partial foundation, not a proven institutional decision-feedback system. |
+| **Historical clinical-trial PoS weight learning / calibration** | Broad, normalized drug-indication-phase dataset with point-in-time-valid features, separately labeled phase transitions/readouts/approvals, missingness and censoring; fit interpretable phase/TA/modal-specific weights and compare against original heuristic and base-rate baselines on independent chronological holdouts. | 1 + 4 | Empirical overlay and tests exist. Major additional work is trustworthy historical cohorts, labels, temporal leakage prevention and independent validation. |
+| **Target-company acquisition / mispricing research** | Separate strategic-buyer fit, deal structure, company cash/EV and portfolio risk; calibrate M&A likelihood with non-deal controls and acquirer behavior; assess implied market probabilities and tradability without assuming alpha. | 1 + 2 + 3 + 4 | Existing M&A scoring is not established as a calibrated buyout forecaster; retain screening-grade restriction. |
+
+### Working principles for these ideas
+
+- **Two outputs, one evidence substrate:** (a) deal-team-style *outside-in* valuation and decision memo; (b) public-market point-in-time investment analysis. Keep confidential Vertex data **out** of external tools/GitHub; never use material nonpublic information or imply official Vertex endorsement.
+- **Workflow first, unlimited universe second:** model one drug/indication/program, then a company/portfolio; record which specific question or review time was improved. Broader crawlers only after entity reconciliation, evidence provenance and financial integrity.
+- **Human approval for economic assumptions:** autonomous ingestion and alerts are okay; material rNPV / PoS changes should produce a proposed diff with links and reviewer signoff, not silent financial truth.
+- **Finance artifacts must be auditable:** direct Excel reconciliation, simple revenue/PoS/cost bridges, sensitivity tables, dated inputs, multiple scenarios, and explicit unknowns; separate public-data proxy from internal transaction diligence.
+- **Do not promote forecasts without validation:** respect `ROADMAP_LOCK.md`, `VALIDATION_STANDARD.md`, `DATA_SOURCE_POLICY.md`, and `CHANGE_REQUEST_TEMPLATE.md`. A cross-lane implementation needs owner review; this backlog entry **does not** grant signoff.
+- **Career pathways deliberately kept open:** BD Transactions/Corporate Development; BD & Strategic Finance; genuine Portfolio Strategy/Capital Allocation; Investor Relations; External Innovation/Search & Evaluation. Nearer bridges: R&D/Disease Strategy FP&A, Forecasting & Analytics, New Product Planning, investment-oriented Portfolio & Business Ops.
+
 ## Platform Build Plan (Active)
 
 > Full-stack biotech market + acquisition intelligence platform.
